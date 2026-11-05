@@ -89,21 +89,75 @@ map.on("load", async () => {
   catch (e) { document.getElementById("count").textContent = "Errore nel caricamento dei dati"; return; }
   const ALL = fc.features;
   map.addSource("trees", { type: "geojson", data: fc });
-  map.addLayer({ id: "crown", type: "circle", source: "trees", minzoom: 9, paint: {
-    "circle-radius": radius("cr", 3),
-    "circle-color": "#2e9e45",
-    "circle-opacity": ["case", ["get", "cr_est"], 0.3, 0.55],
-    "circle-stroke-color": ["case",
-      ["!=", ["get", "issues"], "|"], "#d00020",                 // errore: precedenza massima
-      ["==", ["get", "denotation"], "natural_monument"], "#e6a800", // monumentale: oro
-      ["==", ["get", "denotation"], "landmark"], "#7b3fc4",         // landmark: viola
-      "#1b6b2c"],
-    "circle-stroke-width": ["case",
-      ["!=", ["get", "issues"], "|"], 2,
-      ["==", ["get", "denotation"], "natural_monument"], 3,
-      ["==", ["get", "denotation"], "landmark"], 2,
-      1],
-    "circle-pitch-alignment": "map", "circle-pitch-scale": "map" } });
+  const STROKE_COLOR = ["case",
+    ["!=", ["get", "issues"], "|"], "#d00020",                 // errore: precedenza massima
+    ["==", ["get", "denotation"], "natural_monument"], "#e6a800", // monumentale: oro
+    ["==", ["get", "denotation"], "landmark"], "#7b3fc4",         // landmark: viola
+    "#1b6b2c"];
+  const STROKE_W = ["case",
+    ["!=", ["get", "issues"], "|"], 2,
+    ["==", ["get", "denotation"], "natural_monument"], 3,
+    ["==", ["get", "denotation"], "landmark"], 2,
+    1];
+  const FILL_OPACITY = ["case", ["get", "cr_est"], 0.3, 0.55];
+  const circlePaint = () => ({
+    "circle-radius": radius("cr", 3), "circle-color": "#2e9e45", "circle-opacity": FILL_OPACITY,
+    "circle-stroke-color": STROKE_COLOR, "circle-stroke-width": STROKE_W,
+    "circle-pitch-alignment": "map", "circle-pitch-scale": "map" });
+
+  // Forme: da SHAPE_Z in poi le chiome con leaf_type diventano poligoni (a dimensione reale)
+  const SHAPE_Z = 15, SHAPE_CAP = 30000;
+  const BLOB = new Set(["broadleaved", "palm"]), SPIKY = new Set(["needleleaved"]);
+  const NOSHAPE = ["!", ["in", ["coalesce", ["get", "leaf_type"], ""], ["literal", ["broadleaved", "palm", "needleleaved"]]]];
+  const SHAPED = ALL.filter(ft => BLOB.has(ft.properties.leaf_type) || SPIKY.has(ft.properties.leaf_type));
+  const EMPTY = { type: "FeatureCollection", features: [] };
+
+  const shapeRing = ft => {
+    const [lon, lat] = ft.geometry.coordinates, p = ft.properties, r = p.cr;
+    const kx = 1 / (111320 * Math.cos(lat * Math.PI / 180)), ky = 1 / 111320;
+    const pts = [];
+    if (SPIKY.has(p.leaf_type)) {                 // ottagono con punte a nord e sud
+      for (let k = 0; k < 8; k++) {
+        const a = k * Math.PI / 4, R = r * 1.04;
+        pts.push([lon + R * Math.cos(a) * kx, lat + R * Math.sin(a) * ky]);
+      }
+    } else {                                      // sagoma a lobi arrotondati, leggermente diversa per ogni albero
+      const lobes = 6 + (p.id % 3), ph = (p.id % 97) * 0.37, N = 56;
+      for (let k = 0; k < N; k++) {
+        const a = k / N * 2 * Math.PI;
+        const R = r * 1.05 * (0.84 + 0.16 * Math.abs(Math.sin(lobes / 2 * a + ph)));
+        pts.push([lon + R * Math.cos(a) * kx, lat + R * Math.sin(a) * ky]);
+      }
+    }
+    pts.push(pts[0]);
+    return [pts];
+  };
+
+  map.addSource("shapes", { type: "geojson", data: EMPTY });
+  let shapesEmpty = true;
+  const updateShapes = () => {
+    const src = map.getSource("shapes");
+    if (map.getZoom() < SHAPE_Z) { if (!shapesEmpty) { src.setData(EMPTY); shapesEmpty = true; } return; }
+    const b = map.getBounds();
+    const px = (b.getEast() - b.getWest()) * 0.25, py = (b.getNorth() - b.getSouth()) * 0.25;
+    const w = b.getWest() - px, e = b.getEast() + px, s = b.getSouth() - py, n = b.getNorth() + py;
+    let list = SHAPED.filter(ft => { const [x, y] = ft.geometry.coordinates; return x >= w && x <= e && y >= s && y <= n; });
+    if (list.length > SHAPE_CAP) {                // molti alberi in vista: tiene i più vicini al centro
+      const c = map.getCenter();
+      const d = ft => (ft.geometry.coordinates[0] - c.lng) ** 2 + (ft.geometry.coordinates[1] - c.lat) ** 2;
+      list = list.sort((u, v) => d(u) - d(v)).slice(0, SHAPE_CAP);
+    }
+    src.setData({ type: "FeatureCollection", features: list.map(ft =>
+      ({ type: "Feature", properties: ft.properties, geometry: { type: "Polygon", coordinates: shapeRing(ft) } })) });
+    shapesEmpty = false;
+  };
+
+  map.addLayer({ id: "crown", type: "circle", source: "trees", minzoom: 9, maxzoom: SHAPE_Z, paint: circlePaint() });
+  map.addLayer({ id: "crown-plain", type: "circle", source: "trees", minzoom: SHAPE_Z, filter: NOSHAPE, paint: circlePaint() });
+  map.addLayer({ id: "crown-poly", type: "fill", source: "shapes", paint: {
+    "fill-color": "#2e9e45", "fill-opacity": FILL_OPACITY } });
+  map.addLayer({ id: "crown-poly-line", type: "line", source: "shapes", layout: { "line-join": "round" }, paint: {
+    "line-color": STROKE_COLOR, "line-width": STROKE_W } });
   map.addLayer({ id: "trunk", type: "circle", source: "trees", minzoom: 16, filter: ["has", "tr"], paint: {
     "circle-radius": radius("tr", 1.5),
     "circle-color": "#7b4a1e", "circle-pitch-alignment": "map" } });
@@ -123,13 +177,17 @@ map.on("load", async () => {
     const is = document.getElementById("issue").value;
     if (is) f.push(["in", `|${is}|`, ["get", "issues"]]);
     const flt = f.length > 1 ? f : null;
-    map.setFilter("crown", flt); map.setFilter("trunk", ["all", ["has", "tr"], ...f.slice(1)]);
+    map.setFilter("crown", flt);
+    map.setFilter("crown-plain", ["all", NOSHAPE, ...f.slice(1)]);
+    map.setFilter("crown-poly", flt); map.setFilter("crown-poly-line", flt);
+    map.setFilter("trunk", ["all", ["has", "tr"], ...f.slice(1)]);
     map.setFilter("crown-issues", ["all", ISSUE, ...f.slice(1)]);
     update();
   };
   const update = () => {
     const low = map.getZoom() < 9;
-    const n = map.queryRenderedFeatures({ layers: [low ? "crown-issues" : "crown"] }).length;
+    const layers = low ? ["crown-issues"] : ["crown", "crown-plain", "crown-poly"];
+    const n = new Set(map.queryRenderedFeatures({ layers }).map(f => f.properties.id)).size;
     document.getElementById("count").textContent = low
       ? `Alberi problematici in vista: ${n} (ingrandisci per vedere tutti)` : `Alberi in vista: ${n}`;
   };
@@ -185,13 +243,19 @@ map.on("load", async () => {
   updateTaxa();
   taxSel.onchange = apply;
 
+  let shapeTimer;
+  map.on("moveend", () => { clearTimeout(shapeTimer); shapeTimer = setTimeout(updateShapes, 100); });
+  map.on("zoom", () => { if ((map.getZoom() >= SHAPE_Z) === shapesEmpty) updateShapes(); });
+  updateShapes();
+
   document.getElementById("den").onchange = apply;
   document.getElementById("issue").onchange = apply;
   map.on("moveend", update); map.on("idle", update); update();
 
-  for (const id of ["crown", "crown-issues"]) {
+  for (const id of ["crown", "crown-plain", "crown-poly", "crown-issues"]) {
     map.on("click", id, e => {
-      new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(e.features[0].geometry.coordinates)
+      const g = e.features[0].geometry;
+      new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(g.type === "Point" ? g.coordinates : e.lngLat)
         .setHTML(card(e.features[0].properties)).addTo(map);
     });
     map.on("mouseenter", id, () => map.getCanvas().style.cursor = "pointer");
