@@ -38,6 +38,11 @@
     <label><input type="checkbox" value="leaf_type"> leaf_type non valido</label>
     <label><input type="checkbox" value="leaf_cycle"> leaf_cycle non valido</label>
   </fieldset>
+  <div id="legend" style="font-size:12px;margin-top:6px">
+    <span style="color:#e6a800">●</span> monumentale
+    <span style="color:#7b3fc4">●</span> landmark
+    <span style="color:#d00020">●</span> con problemi
+  </div>
   <div id="count"></div>
 </div>
 <div id="map"></div>
@@ -64,8 +69,16 @@ map.on("load", () => {
     "circle-radius": radius("cr", 3),
     "circle-color": "#2e9e45",
     "circle-opacity": ["case", ["get", "cr_est"], 0.3, 0.55],
-    "circle-stroke-color": ["case", ["!=", ["get", "issues"], "|"], "#d00020", "#1b6b2c"],
-    "circle-stroke-width": ["case", ["!=", ["get", "issues"], "|"], 2, 1],
+    "circle-stroke-color": ["case",
+      ["!=", ["get", "issues"], "|"], "#d00020",                 // errore: precedenza massima
+      ["==", ["get", "denotation"], "natural_monument"], "#e6a800", // monumentale: oro
+      ["==", ["get", "denotation"], "landmark"], "#7b3fc4",         // landmark: viola
+      "#1b6b2c"],
+    "circle-stroke-width": ["case",
+      ["!=", ["get", "issues"], "|"], 2,
+      ["==", ["get", "denotation"], "natural_monument"], 3,
+      ["==", ["get", "denotation"], "landmark"], 2,
+      1],
     "circle-pitch-alignment": "map", "circle-pitch-scale": "map" } });
   map.addLayer({ id: "trunk", type: "circle", source: "trees", minzoom: 9, paint: {
     "circle-radius": radius("tr", 1.5),
