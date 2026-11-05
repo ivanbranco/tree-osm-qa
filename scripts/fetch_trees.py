@@ -87,7 +87,7 @@ def fetch():
 # Soglie e valori ammessi
 MAX_CIRCUMFERENCE = 43.0   # m
 MAX_HEIGHT = 115.92        # m
-LEAF_TYPE = {"broadleaved", "needleleaved", "leafless"}
+LEAF_TYPE = {"broadleaved", "needleleaved", "leafless", "palm"}
 LEAF_CYCLE = {"deciduous", "semi_deciduous", "evergreen", "semi_evergreen"}
 
 DEFAULT_CROWN_R = 3.0   # m, se manca crown_diameter

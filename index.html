@@ -71,6 +71,11 @@ map.on("load", () => {
     "circle-radius": radius("tr", 1.5),
     "circle-color": "#7b4a1e", "circle-pitch-alignment": "map" } });
 
+  const ISSUE = ["!=", ["get", "issues"], "|"];
+  map.addLayer({ id: "crown-issues", type: "circle", source: "trees", maxzoom: 9, filter: ISSUE, paint: {
+    "circle-radius": radius("cr", 4), "circle-color": "#d00020", "circle-opacity": 0.7,
+    "circle-stroke-color": "#fff", "circle-stroke-width": 1 } });
+
   const apply = () => {
     const f = ["all"];
     const d = document.getElementById("den").value;
@@ -80,22 +85,27 @@ map.on("load", () => {
     if (sel.length) f.push(["any", ...sel.map(s => ["in", `|${s}|`, ["get", "issues"]])]);
     const flt = f.length > 1 ? f : null;
     map.setFilter("crown", flt); map.setFilter("trunk", flt);
+    map.setFilter("crown-issues", ["all", ISSUE, ...f.slice(1)]);
     update();
   };
   const update = () => {
-    const n = map.getZoom() < 9 ? null : map.queryRenderedFeatures({ layers: ["crown"] }).length;
-    document.getElementById("count").textContent = n === null ? "Ingrandisci per vedere gli alberi" : `Alberi in vista: ${n}`;
+    const low = map.getZoom() < 9;
+    const n = map.queryRenderedFeatures({ layers: [low ? "crown-issues" : "crown"] }).length;
+    document.getElementById("count").textContent = low
+      ? `Alberi problematici in vista: ${n} (ingrandisci per vedere tutti)` : `Alberi in vista: ${n}`;
   };
   document.getElementById("den").onchange = apply;
   document.querySelectorAll("fieldset input").forEach(i => i.onchange = apply);
   map.on("moveend", update); map.on("idle", update); update();
 
-  map.on("click", "crown", e => {
-    new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(e.features[0].geometry.coordinates)
-      .setHTML(card(e.features[0].properties)).addTo(map);
-  });
-  map.on("mouseenter", "crown", () => map.getCanvas().style.cursor = "pointer");
-  map.on("mouseleave", "crown", () => map.getCanvas().style.cursor = "");
+  for (const id of ["crown", "crown-issues"]) {
+    map.on("click", id, e => {
+      new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(e.features[0].geometry.coordinates)
+        .setHTML(card(e.features[0].properties)).addTo(map);
+    });
+    map.on("mouseenter", id, () => map.getCanvas().style.cursor = "pointer");
+    map.on("mouseleave", id, () => map.getCanvas().style.cursor = "");
+  }
 });
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
