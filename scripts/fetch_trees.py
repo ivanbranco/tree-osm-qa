@@ -102,7 +102,7 @@ def species_limit(t):
 LEAF_TYPE = {"broadleaved", "needleleaved", "leafless", "palm"}
 LEAF_CYCLE = {"deciduous", "semi_deciduous", "evergreen", "semi_evergreen"}
 
-DEFAULT_CROWN_R = 3.0   # m, se manca crown_diameter
+DEFAULT_CROWN_R = 3.0   # m, se manca diameter_crown
 
 
 def num(v):
@@ -149,13 +149,13 @@ def checks(t):
 
 KEEP = ["name", "species", "species:wikidata", "genus", "genus:wikidata", "taxon",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
-        "crown_diameter", "image", "wikimedia_commons", "wikidata", "start_date",
+        "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
         "ref:masaf", "ref:rami", "website", "url"]
 
 
 def to_feature(el):
     t = el.get("tags", {})
-    cd, c = num(t.get("crown_diameter")), num(t.get("circumference"))
+    cd, c = num(t.get("diameter_crown")), num(t.get("circumference"))
     p = {k: t[k] for k in KEEP if k in t}
     p["id"] = el["id"]
     pano = panoramax_ids(t)
