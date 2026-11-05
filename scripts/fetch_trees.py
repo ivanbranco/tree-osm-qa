@@ -152,5 +152,6 @@ if __name__ == "__main__":
             sys.exit(0)
         sys.exit("Download Overpass fallito e nessuna cache disponibile")
     fc = build(data)
+    OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(fc, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
     print(f"{len(fc['features'])} alberi -> {OUT}")
