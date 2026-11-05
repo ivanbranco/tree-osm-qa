@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alberi OSM – Piemonte</title>
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+  html,body{margin:0;height:100%;font:14px system-ui,sans-serif}
+  #map{position:absolute;inset:0}
+  #panel{position:absolute;top:10px;left:10px;z-index:2;background:#fff;padding:10px 12px;border-radius:6px;box-shadow:0 1px 6px #0004;max-width:230px}
+  #panel h1{font-size:15px;margin:0 0 6px}
+  #panel label{display:block;margin:2px 0}
+  #panel select{width:100%;margin-bottom:6px}
+  #panel fieldset{border:0;border-top:1px solid #ddd;margin:6px 0 0;padding:6px 0 0}
+  #count{color:#555;margin-top:6px;font-size:12px}
+  .card{max-width:260px}
+  .card h3{margin:0 0 4px;font-size:15px}
+  .card img{width:100%;border-radius:4px;margin:4px 0}
+  .card dl{margin:4px 0;display:grid;grid-template-columns:auto 1fr;gap:1px 8px}
+  .card dt{color:#666}.card dd{margin:0}
+  .bad{color:#b00020;font-weight:600}
+</style>
+</head>
+<body>
+<div id="panel">
+  <h1>Alberi OSM – Piemonte</h1>
+  <select id="den">
+    <option value="">Tutti gli alberi</option>
+    <option value="natural_monument">Monumentali</option>
+    <option value="landmark">Landmark</option>
+    <option value="both">Monumentali + landmark</option>
+  </select>
+  <fieldset><legend>Problemi</legend>
+    <label><input type="checkbox" value="circumference"> Circonferenza &gt; 43 m</label>
+    <label><input type="checkbox" value="height"> Altezza &gt; 115,92 m</label>
+    <label><input type="checkbox" value="genus"> Genus non valido</label>
+    <label><input type="checkbox" value="leaf_type"> leaf_type non valido</label>
+    <label><input type="checkbox" value="leaf_cycle"> leaf_cycle non valido</label>
+  </fieldset>
+  <div id="count"></div>
+</div>
+<div id="map"></div>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+const LAT = 45;                                   // latitudine di riferimento per metri→pixel
+const M0 = 78271.517 * Math.cos(LAT * Math.PI / 180); // m/px a zoom 0 (tile 512)
+const px = (prop, minPx, z) => ["max", minPx, ["/", ["get", prop], M0 / Math.pow(2, z)]];
+const radius = (prop, minPx) => ["interpolate", ["exponential", 2], ["zoom"],
+  0, px(prop, minPx, 0), 22, px(prop, minPx, 22)];
+
+const map = new maplibregl.Map({
+  container: "map", center: [7.9, 45.0], zoom: 8, maxZoom: 21,
+  style: { version: 8, sources: { osm: { type: "raster", tileSize: 256, maxzoom: 19,
+      tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+      attribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>" } },
+    layers: [{ id: "osm", type: "raster", source: "osm" }] }
+});
+map.addControl(new maplibregl.NavigationControl());
+
+map.on("load", () => {
+  map.addSource("trees", { type: "geojson", data: "data/trees.geojson" });
+  map.addLayer({ id: "crown", type: "circle", source: "trees", minzoom: 9, paint: {
+    "circle-radius": radius("cr", 3),
+    "circle-color": "#2e9e45",
+    "circle-opacity": ["case", ["get", "cr_est"], 0.3, 0.55],
+    "circle-stroke-color": ["case", ["!=", ["get", "issues"], "|"], "#d00020", "#1b6b2c"],
+    "circle-stroke-width": ["case", ["!=", ["get", "issues"], "|"], 2, 1],
+    "circle-pitch-alignment": "map", "circle-pitch-scale": "map" } });
+  map.addLayer({ id: "trunk", type: "circle", source: "trees", minzoom: 9, paint: {
+    "circle-radius": radius("tr", 1.5),
+    "circle-color": "#7b4a1e", "circle-pitch-alignment": "map" } });
+
+  const apply = () => {
+    const f = ["all"];
+    const d = document.getElementById("den").value;
+    if (d === "both") f.push(["in", ["get", "denotation"], ["literal", ["natural_monument", "landmark"]]]);
+    else if (d) f.push(["==", ["get", "denotation"], d]);
+    const sel = [...document.querySelectorAll("fieldset input:checked")].map(i => i.value);
+    if (sel.length) f.push(["any", ...sel.map(s => ["in", `|${s}|`, ["get", "issues"]])]);
+    const flt = f.length > 1 ? f : null;
+    map.setFilter("crown", flt); map.setFilter("trunk", flt);
+    update();
+  };
+  const update = () => {
+    const n = map.getZoom() < 9 ? null : map.queryRenderedFeatures({ layers: ["crown"] }).length;
+    document.getElementById("count").textContent = n === null ? "Ingrandisci per vedere gli alberi" : `Alberi in vista: ${n}`;
+  };
+  document.getElementById("den").onchange = apply;
+  document.querySelectorAll("fieldset input").forEach(i => i.onchange = apply);
+  map.on("moveend", update); map.on("idle", update); update();
+
+  map.on("click", "crown", e => {
+    new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(e.features[0].geometry.coordinates)
+      .setHTML(card(e.features[0].properties)).addTo(map);
+  });
+  map.on("mouseenter", "crown", () => map.getCanvas().style.cursor = "pointer");
+  map.on("mouseleave", "crown", () => map.getCanvas().style.cursor = "");
+});
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const LABELS = { species: "Specie", genus: "Genus", taxon: "Taxon", denotation: "Denotation", leaf_type: "leaf_type",
+  leaf_cycle: "leaf_cycle", circumference: "Circonferenza (m)", height: "Altezza (m)", crown_diameter: "Chioma (m)", start_date: "Piantato" };
+const ISSUE_TXT = { circumference: "circonferenza > 43 m", height: "altezza > 115,92 m", genus: "genus con più parole",
+  leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" };
+
+function imageUrl(p) {
+  if (p.image && /^https?:\/\//.test(p.image)) {
+    const m = p.image.match(/commons\.wikimedia\.org\/wiki\/(File:.+)$/);
+    return m ? "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(decodeURIComponent(m[1]).replace(/^File:/, "")) + "?width=400" : p.image;
+  }
+  const c = p.wikimedia_commons;
+  if (c && /^File:/.test(c)) return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(c.slice(5)) + "?width=400";
+  return null;
+}
+
+function card(p) {
+  const img = imageUrl(p);
+  const rows = Object.keys(LABELS).filter(k => p[k]).map(k => `<dt>${LABELS[k]}</dt><dd>${esc(p[k])}</dd>`).join("");
+  const issues = p.issues.split("|").filter(Boolean).map(i => ISSUE_TXT[i]);
+  const links = [`<a href="https://www.openstreetmap.org/node/${p.id}" target="_blank" rel="noopener">OSM</a>`];
+  if (p.wikidata) links.push(`<a href="https://www.wikidata.org/wiki/${esc(p.wikidata)}" target="_blank" rel="noopener">Wikidata</a>`);
+  if (p.wikimedia_commons) links.push(`<a href="https://commons.wikimedia.org/wiki/${encodeURIComponent(p.wikimedia_commons)}" target="_blank" rel="noopener">Commons</a>`);
+  return `<div class="card"><h3>${esc(p.name || p.species || "Albero")}</h3>
+    ${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : ""}
+    <dl>${rows}</dl>
+    ${issues.length ? `<div class="bad">⚠ ${esc(issues.join("; "))}</div>` : ""}
+    <div>${links.join(" · ")}</div></div>`;
+}
+</script>
+</body>
+</html>
