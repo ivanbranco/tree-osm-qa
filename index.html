@@ -12,7 +12,6 @@
   #panel h1{font-size:15px;margin:0 0 6px}
   #panel label{display:block;margin:2px 0}
   #panel select{width:100%;margin-bottom:6px}
-  #panel fieldset{border:0;border-top:1px solid #ddd;margin:6px 0 0;padding:6px 0 0}
   #count{color:#555;margin-top:6px;font-size:12px}
   .card{max-width:260px}
   .card h3{margin:0 0 4px;font-size:15px}
@@ -34,14 +33,15 @@
     <option value="both">Monumentali + landmark</option>
   </select>
   <select id="taxon"><option value="">Tutti i genus e le specie</option></select>
-  <fieldset><legend>Problemi</legend>
-    <label><input type="checkbox" value="circumference"> Circonferenza &gt; 43 m</label>
-    <label><input type="checkbox" value="height"> Altezza &gt; 115,92 m</label>
-    <label><input type="checkbox" value="species"> Species di una sola parola</label>
-    <label><input type="checkbox" value="genus"> Genus non valido</label>
-    <label><input type="checkbox" value="leaf_type"> leaf_type non valido</label>
-    <label><input type="checkbox" value="leaf_cycle"> leaf_cycle non valido</label>
-  </fieldset>
+  <select id="issue">
+    <option value="">Tutti gli errori</option>
+    <option value="circumference">Circonferenza &gt; 43 m</option>
+    <option value="height">Altezza &gt; 115,92 m</option>
+    <option value="species">Species di una sola parola</option>
+    <option value="genus">Genus non valido</option>
+    <option value="leaf_type">leaf_type non valido</option>
+    <option value="leaf_cycle">leaf_cycle non valido</option>
+  </select>
   <div id="legend" style="font-size:12px;margin-top:6px">
     <span style="color:#e6a800">●</span> monumentale
     <span style="color:#7b3fc4">●</span> landmark
@@ -120,8 +120,8 @@ map.on("load", async () => {
     else if (d) f.push(["==", ["get", "denotation"], d]);
     const tx = document.getElementById("taxon").value;
     if (tx) f.push(taxonFilter(tx));
-    const sel = [...document.querySelectorAll("fieldset input:checked")].map(i => i.value);
-    if (sel.length) f.push(["any", ...sel.map(s => ["in", `|${s}|`, ["get", "issues"]])]);
+    const is = document.getElementById("issue").value;
+    if (is) f.push(["in", `|${is}|`, ["get", "issues"]]);
     const flt = f.length > 1 ? f : null;
     map.setFilter("crown", flt); map.setFilter("trunk", ["all", ["has", "tr"], ...f.slice(1)]);
     map.setFilter("crown-issues", ["all", ISSUE, ...f.slice(1)]);
@@ -186,7 +186,7 @@ map.on("load", async () => {
   taxSel.onchange = apply;
 
   document.getElementById("den").onchange = apply;
-  document.querySelectorAll("fieldset input").forEach(i => i.onchange = apply);
+  document.getElementById("issue").onchange = apply;
   map.on("moveend", update); map.on("idle", update); update();
 
   for (const id of ["crown", "crown-issues"]) {
