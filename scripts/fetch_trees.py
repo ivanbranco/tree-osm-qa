@@ -87,7 +87,7 @@ def fetch():
 # Soglie e valori ammessi
 MAX_CIRCUMFERENCE = 43.0   # m
 MAX_HEIGHT = 115.92        # m
-LEAF_TYPE = {"broadleaved", "needleleaved", "leafless", "palm"}
+LEAF_TYPE = {"broadleaved", "needleleaved", "leafless"}
 LEAF_CYCLE = {"deciduous", "semi_deciduous", "evergreen", "semi_evergreen"}
 
 DEFAULT_CROWN_R = 3.0   # m, se manca crown_diameter
@@ -120,7 +120,8 @@ def checks(t):
 
 KEEP = ["name", "species", "species:wikidata", "genus", "genus:wikidata", "taxon",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
-        "crown_diameter", "image", "wikimedia_commons", "wikidata", "start_date"]
+        "crown_diameter", "image", "wikimedia_commons", "wikidata", "start_date",
+        "ref:masaf", "ref:rami", "website", "url"]
 
 
 def to_feature(el):
@@ -152,6 +153,5 @@ if __name__ == "__main__":
             sys.exit(0)
         sys.exit("Download Overpass fallito e nessuna cache disponibile")
     fc = build(data)
-    OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(fc, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
     print(f"{len(fc['features'])} alberi -> {OUT}")
