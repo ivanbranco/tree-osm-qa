@@ -91,7 +91,6 @@ LEAF_TYPE = {"broadleaved", "needleleaved", "leafless"}
 LEAF_CYCLE = {"deciduous", "semi_deciduous", "evergreen", "semi_evergreen"}
 
 DEFAULT_CROWN_R = 3.0   # m, se manca crown_diameter
-DEFAULT_TRUNK_R = 0.25  # m, se manca circumference
 
 
 def num(v):
@@ -101,6 +100,15 @@ def num(v):
     return float(m.group(1).replace(",", ".")) if m else None
 
 
+UUID = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+
+
+def panoramax_ids(t):
+    """UUID da panoramax=* (anche separati da ';'; ignora parametri tipo &xyz=)."""
+    ids = [x.lower() for x in UUID.findall(t.get("panoramax", ""))]
+    return list(dict.fromkeys(ids))
+
+
 def checks(t):
     issues = []
     c, h = num(t.get("circumference")), num(t.get("height"))
@@ -108,6 +116,9 @@ def checks(t):
         issues.append("circumference")
     if h is not None and h > MAX_HEIGHT:
         issues.append("height")
+    sp = t.get("species")
+    if sp is not None and len(sp.split()) == 1:
+        issues.append("species")
     g = t.get("genus")
     if g is not None and len(g.split()) > 1:
         issues.append("genus")
@@ -129,9 +140,13 @@ def to_feature(el):
     cd, c = num(t.get("crown_diameter")), num(t.get("circumference"))
     p = {k: t[k] for k in KEEP if k in t}
     p["id"] = el["id"]
+    pano = panoramax_ids(t)
+    if pano:
+        p["panoramax"] = ";".join(pano)
     p["cr"] = round(cd / 2, 2) if cd and cd > 0 else DEFAULT_CROWN_R
     p["cr_est"] = not (cd and cd > 0)
-    p["tr"] = round(c / (2 * math.pi), 3) if c and 0 < c <= MAX_CIRCUMFERENCE else DEFAULT_TRUNK_R
+    if c and c > 0:  # il tronco si disegna solo se c'è circumference
+        p["tr"] = round(c / (2 * math.pi), 3)
     iss = checks(t)
     p["issues"] = "|" + "|".join(iss) + "|" if iss else "|"
     return {"type": "Feature", "properties": p,

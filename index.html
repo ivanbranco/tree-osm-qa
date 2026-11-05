@@ -36,6 +36,7 @@
   <fieldset><legend>Problemi</legend>
     <label><input type="checkbox" value="circumference"> Circonferenza &gt; 43 m</label>
     <label><input type="checkbox" value="height"> Altezza &gt; 115,92 m</label>
+    <label><input type="checkbox" value="species"> Species di una sola parola</label>
     <label><input type="checkbox" value="genus"> Genus non valido</label>
     <label><input type="checkbox" value="leaf_type"> leaf_type non valido</label>
     <label><input type="checkbox" value="leaf_cycle"> leaf_cycle non valido</label>
@@ -95,7 +96,7 @@ map.on("load", () => {
       ["==", ["get", "denotation"], "landmark"], 2,
       1],
     "circle-pitch-alignment": "map", "circle-pitch-scale": "map" } });
-  map.addLayer({ id: "trunk", type: "circle", source: "trees", minzoom: 9, paint: {
+  map.addLayer({ id: "trunk", type: "circle", source: "trees", minzoom: 16, filter: ["has", "tr"], paint: {
     "circle-radius": radius("tr", 1.5),
     "circle-color": "#7b4a1e", "circle-pitch-alignment": "map" } });
 
@@ -112,7 +113,7 @@ map.on("load", () => {
     const sel = [...document.querySelectorAll("fieldset input:checked")].map(i => i.value);
     if (sel.length) f.push(["any", ...sel.map(s => ["in", `|${s}|`, ["get", "issues"]])]);
     const flt = f.length > 1 ? f : null;
-    map.setFilter("crown", flt); map.setFilter("trunk", flt);
+    map.setFilter("crown", flt); map.setFilter("trunk", ["all", ["has", "tr"], ...f.slice(1)]);
     map.setFilter("crown-issues", ["all", ISSUE, ...f.slice(1)]);
     update();
   };
@@ -154,7 +155,7 @@ const ROWS = [
   ["circumference", "Circonferenza", fmtM], ["height", "Altezza", fmtM], ["crown_diameter", "Diametro chioma", fmtM],
   ["start_date", "Data di impianto"]
 ];
-const ISSUE_TXT = { circumference: "circonferenza > 43 m", height: "altezza > 115,92 m", genus: "genus con più parole",
+const ISSUE_TXT = { species: "species di una sola parola", circumference: "circonferenza > 43 m", height: "altezza > 115,92 m", genus: "genus con più parole",
   leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" };
 
 const MASAF_URL = "https://www.masaf.gov.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/11260";
@@ -185,13 +186,17 @@ function recognitions(p) {
   return r;
 }
 
+const panoramaxIds = p => String(p.panoramax || "").split(";").filter(x => /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/.test(x));
+
 function imageUrl(p) {
+  const c = p.wikimedia_commons;
+  if (c && /^File:/.test(c)) return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(c.slice(5)) + "?width=400";
+  const pid = panoramaxIds(p)[0];
+  if (pid) return `https://api.panoramax.xyz/api/pictures/${pid}/sd.jpg`;
   if (p.image && /^https?:\/\//.test(p.image)) {
     const m = p.image.match(/commons\.wikimedia\.org\/wiki\/(File:.+)$/);
     return m ? "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(decodeURIComponent(m[1]).replace(/^File:/, "")) + "?width=400" : p.image;
   }
-  const c = p.wikimedia_commons;
-  if (c && /^File:/.test(c)) return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(c.slice(5)) + "?width=400";
   return null;
 }
 
@@ -203,6 +208,8 @@ function card(p) {
   const links = [link(`https://www.openstreetmap.org/node/${p.id}`, "OSM")];
   if (p.wikidata) links.push(link(`https://www.wikidata.org/wiki/${p.wikidata}`, "Wikidata"));
   if (p.wikimedia_commons) links.push(link(`https://commons.wikimedia.org/wiki/${p.wikimedia_commons}`, "Commons"));
+  const pano = panoramaxIds(p);
+  pano.forEach((id, i) => links.push(link(`https://api.panoramax.xyz/#focus=pic&pic=${id}`, pano.length > 1 ? `Panoramax ${i + 1}` : "Panoramax")));
   return `<div class="card"><h3>${esc(p.name || p.species || "Albero")}</h3>
     ${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : ""}
     <dl>${rows}</dl>
