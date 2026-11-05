@@ -3,15 +3,86 @@
 import json, math, re, sys, time, urllib.parse, urllib.request
 from pathlib import Path
 
-ISO = "IT-21"  # Piemonte
+import os
+import requests
+
+# Piemonte: bbox (sud, ovest, nord, est) + filtro sull'area amministrativa (relation 44874)
+BBOX = (44.0, 6.6, 46.5, 9.3)
+AREA_ID = 3600000000 + 44874
+MAX_DEPTH = 2  # 1 -> 4 -> 16 tile
+
 ENDPOINTS = [
     "https://overpass-api.de/api/interpreter",
+    "https://overpass.private.coffee/api/interpreter",
+    "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
     "https://overpass.kumi.systems/api/interpreter",
 ]
-QUERY = f"""[out:json][timeout:900];
-area["ISO3166-2"="{ISO}"]->.a;
-node["natural"="tree"](area.a);
-out body;"""
+HEADERS = {
+    "User-Agent": "AlberiOSMBot/1.0 (https://github.com/ivanbranco/alberi-osm)",
+    "Accept-Encoding": "gzip",
+}
+OUT = Path(__file__).resolve().parent.parent / "data" / "trees.geojson"
+
+
+def warn(msg):
+    print(msg)
+    if os.environ.get("GITHUB_ACTIONS"):
+        print(f"::warning::{msg}")
+
+
+def query(bbox):
+    s, w, n, e = bbox
+    return f"""[out:json][timeout:360];
+area({AREA_ID})->.a;
+node["natural"="tree"](area.a)({s},{w},{n},{e});
+out body qt;"""
+
+
+def run_overpass(q, label):
+    """Prova tutti gli endpoint; restituisce il JSON solo se completo."""
+    for url in ENDPOINTS:
+        for attempt in range(2):
+            try:
+                r = requests.post(url, data={"data": q}, headers=HEADERS, timeout=420)
+                if r.status_code in (429, 504):
+                    print(f" [!] {url} -> HTTP {r.status_code} ({label}), attendo 60s")
+                    time.sleep(60)
+                    continue
+                r.raise_for_status()
+                data = r.json()
+                remark = data.get("remark", "")
+                if "elements" not in data or "error" in remark.lower():
+                    print(f" [!] {url} -> incompleto ({label}): {remark[:150]}")
+                    break
+                return data
+            except Exception as e:
+                print(f" [!] {url} fallito ({label}, tentativo {attempt + 1}/2): {str(e)[:200]}")
+                time.sleep(15)
+    return None
+
+
+def fetch_bbox(bbox, depth=0):
+    """Scarica una bbox; se fallisce la divide in 4 tile (max MAX_DEPTH livelli)."""
+    data = run_overpass(query(bbox), f"bbox livello {depth}")
+    if data or depth >= MAX_DEPTH:
+        return data
+    print(f" -> divido la bbox in 4 tile (livello {depth + 1})")
+    s, w, n, e = bbox
+    mlat, mlon = (s + n) / 2, (w + e) / 2
+    merged = {}
+    for tile in [(s, w, mlat, mlon), (s, mlon, mlat, e), (mlat, w, n, mlon), (mlat, mlon, n, e)]:
+        part = fetch_bbox(tile, depth + 1)
+        if part is None:
+            return None  # meglio la cache che dati incompleti
+        for el in part["elements"]:
+            merged[el["id"]] = el
+        time.sleep(5)
+    return {"elements": list(merged.values())}
+
+
+def fetch():
+    return fetch_bbox(BBOX)
+
 
 # Soglie e valori ammessi
 MAX_CIRCUMFERENCE = 43.0   # m
@@ -66,20 +137,6 @@ def to_feature(el):
             "geometry": {"type": "Point", "coordinates": [round(el["lon"], 7), round(el["lat"], 7)]}}
 
 
-def fetch():
-    body = urllib.parse.urlencode({"data": QUERY}).encode()
-    for attempt in range(6):
-        url = ENDPOINTS[attempt % len(ENDPOINTS)]
-        try:
-            req = urllib.request.Request(url, body, {"User-Agent": "alberi-osm/1.0"})
-            with urllib.request.urlopen(req, timeout=1000) as r:
-                return json.load(r)
-        except Exception as e:
-            print(f"Overpass {url}: {e}", file=sys.stderr)
-            time.sleep(30)
-    sys.exit("Overpass non raggiungibile")
-
-
 def build(data):
     feats = [to_feature(e) for e in data["elements"] if e.get("type") == "node"]
     return {"type": "FeatureCollection",
@@ -88,7 +145,12 @@ def build(data):
 
 
 if __name__ == "__main__":
-    out = Path(__file__).resolve().parent.parent / "data" / "trees.geojson"
-    fc = build(fetch())
-    out.write_text(json.dumps(fc, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
-    print(f"{len(fc['features'])} alberi -> {out}")
+    data = fetch()
+    if not data:
+        if OUT.exists():
+            warn("Download Overpass fallito: mantengo i dati precedenti")
+            sys.exit(0)
+        sys.exit("Download Overpass fallito e nessuna cache disponibile")
+    fc = build(data)
+    OUT.write_text(json.dumps(fc, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
+    print(f"{len(fc['features'])} alberi -> {OUT}")
