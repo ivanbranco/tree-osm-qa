@@ -25,8 +25,7 @@
   .card dl{margin:4px 0;display:grid;grid-template-columns:auto 1fr;gap:1px 8px}
   .card dt{color:#666}.card dd{margin:0}
   .bad{color:#b00020;font-weight:600}
-  .card ul{margin:4px 0;padding-left:18px}
-  .card h4{margin:6px 0 0;font-size:13px}
+  .card .rec{margin:4px 0}
 </style>
 </head>
 <body>
@@ -358,7 +357,7 @@ function card(p) {
   return `<div class="card"><h3>${esc(p.name || p.species || "Specie sconosciuta")}</h3>
     ${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : ""}
     <dl>${rows}</dl>
-    ${rec.length ? `<h4>Riconoscimenti</h4><ul>${rec.map(x => `<li>${x}</li>`).join("")}</ul>` : ""}
+    ${rec.map(x => `<div class="rec">${x}</div>`).join("")}
     ${issues.length ? `<div class="bad">⚠ ${esc(issues.join("; "))}</div>` : ""}
     <div>${links.join(" · ")}</div></div>`;
 }
