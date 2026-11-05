@@ -8,7 +8,13 @@
 <style>
   html,body{margin:0;height:100%;font:14px system-ui,sans-serif}
   #map{position:absolute;inset:0}
-  #panel{position:absolute;top:10px;left:10px;z-index:2;background:#fff;padding:10px 12px;border-radius:6px;box-shadow:0 1px 6px #0004;max-width:230px}
+  #side{position:absolute;top:10px;left:10px;z-index:2;display:flex;flex-direction:column;gap:8px;width:230px}
+  .box{background:#fff;padding:10px 12px;border-radius:6px;box-shadow:0 1px 6px #0004}
+  #legend-box summary{font-weight:600;cursor:pointer}
+  .leg{list-style:none;margin:8px 0 0;padding:0;font-size:13px}
+  .leg li{display:flex;align-items:center;gap:8px;margin:2px 0}
+  .leg svg{flex:none}
+  .note{font-size:11px;color:#777;margin-top:6px}
   #panel h1{font-size:15px;margin:0 0 6px}
   #panel label{display:block;margin:2px 0}
   #panel select{width:100%;margin-bottom:6px}
@@ -24,7 +30,8 @@
 </style>
 </head>
 <body>
-<div id="panel">
+<div id="side">
+<div id="panel" class="box">
   <h1>Alberi OSM – Piemonte</h1>
   <select id="den">
     <option value="">Tutti gli alberi</option>
@@ -42,12 +49,21 @@
     <option value="leaf_type">leaf_type non valido</option>
     <option value="leaf_cycle">leaf_cycle non valido</option>
   </select>
-  <div id="legend" style="font-size:12px;margin-top:6px">
-    <span style="color:#e6a800">●</span> monumentale
-    <span style="color:#7b3fc4">●</span> landmark
-    <span style="color:#d00020">●</span> con problemi
-  </div>
   <div id="count"></div>
+</div>
+  <details id="legend-box" class="box">
+    <summary>Legenda</summary>
+    <ul class="leg">
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#e6a800" stroke-width="3"/></svg> Albero monumentale</li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#7b3fc4" stroke-width="2"/></svg> Landmark</li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#d00020" stroke-width="2"/></svg> Con problemi</li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e"/></svg> Tronco (circonferenza)</li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.0,11.0 19.3,10.1 19.4,9.1 19.1,8.2 18.5,7.4 17.8,6.8 16.9,6.3 16.3,5.7 16.0,4.7 15.5,3.9 14.7,3.3 13.8,2.9 12.9,2.8 11.9,3.1 11.0,3.5 10.2,3.5 9.2,3.2 8.2,3.1 7.3,3.3 6.4,3.7 5.8,4.5 5.4,5.4 5.1,6.3 4.6,7.0 3.8,7.5 3.1,8.2 2.6,9.1 2.5,10.0 2.6,11.0 3.1,11.9 3.7,12.7 3.9,13.5 3.8,14.5 3.9,15.5 4.3,16.4 4.9,17.1 5.8,17.5 6.8,17.8 7.8,17.7 8.5,18.1 9.2,18.8 10.1,19.3 11.0,19.6 12.0,19.5 12.9,19.2 13.6,18.5 14.2,17.7 15.0,17.4 16.0,17.3 16.9,16.9 17.7,16.4 18.3,15.6 18.5,14.6 18.5,13.6 18.3,12.7 18.5,11.8" stroke-linejoin="round" fill="#2e9e45" fill-opacity=".55" stroke="#1b6b2c" stroke-width="1"/></svg> Latifoglia o palma</li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.2,9.3 15.6,4.0 9.3,2.8 4.0,6.4 2.8,12.7 6.4,18.0 12.7,19.2 18.0,15.6" stroke-linejoin="round" fill="#2e9e45" fill-opacity=".55" stroke="#1b6b2c" stroke-width="1"/></svg> Aghifoglia</li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#2e9e45" fill-opacity=".55" stroke="#1b6b2c" stroke-width="1"/></svg> Tipo di foglia non specificato</li>
+    </ul>
+    <div class="note">Tronco e forme da zoom 16</div>
+  </details>
 </div>
 <div id="map"></div>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
@@ -106,7 +122,7 @@ map.on("load", async () => {
     "circle-pitch-alignment": "map", "circle-pitch-scale": "map" });
 
   // Forme: da SHAPE_Z in poi le chiome con leaf_type diventano poligoni (a dimensione reale)
-  const SHAPE_Z = 15, SHAPE_CAP = 30000;
+  const SHAPE_Z = 16, SHAPE_CAP = 30000;
   const BLOB = new Set(["broadleaved", "palm"]), SPIKY = new Set(["needleleaved"]);
   const NOSHAPE = ["!", ["in", ["coalesce", ["get", "leaf_type"], ""], ["literal", ["broadleaved", "palm", "needleleaved"]]]];
   const SHAPED = ALL.filter(ft => BLOB.has(ft.properties.leaf_type) || SPIKY.has(ft.properties.leaf_type));
@@ -116,9 +132,10 @@ map.on("load", async () => {
     const [lon, lat] = ft.geometry.coordinates, p = ft.properties, r = p.cr;
     const kx = 1 / (111320 * Math.cos(lat * Math.PI / 180)), ky = 1 / 111320;
     const pts = [];
-    if (SPIKY.has(p.leaf_type)) {                 // ottagono con punte a nord e sud
-      for (let k = 0; k < 8; k++) {
-        const a = k * Math.PI / 4, R = r * 1.04;
+    if (SPIKY.has(p.leaf_type)) {                 // esagono o ottagono, ruotato in modo diverso per ogni albero
+      const sides = 6 + 2 * (p.id % 2), rot = (p.id % 11) / 11 * (2 * Math.PI / sides), R = r * 1.04;
+      for (let k = 0; k < sides; k++) {
+        const a = rot + k * 2 * Math.PI / sides;
         pts.push([lon + R * Math.cos(a) * kx, lat + R * Math.sin(a) * ky]);
       }
     } else {                                      // sagoma a lobi arrotondati, leggermente diversa per ogni albero
@@ -158,7 +175,7 @@ map.on("load", async () => {
     "fill-color": "#2e9e45", "fill-opacity": FILL_OPACITY } });
   map.addLayer({ id: "crown-poly-line", type: "line", source: "shapes", layout: { "line-join": "round" }, paint: {
     "line-color": STROKE_COLOR, "line-width": STROKE_W } });
-  map.addLayer({ id: "trunk", type: "circle", source: "trees", minzoom: 16, filter: ["has", "tr"], paint: {
+  map.addLayer({ id: "trunk", type: "circle", source: "trees", minzoom: SHAPE_Z, filter: ["has", "tr"], paint: {
     "circle-radius": radius("tr", 1.5),
     "circle-color": "#7b4a1e", "circle-pitch-alignment": "map" } });
 
