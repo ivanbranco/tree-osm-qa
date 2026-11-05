@@ -87,6 +87,18 @@ def fetch():
 # Soglie e valori ammessi
 MAX_CIRCUMFERENCE = 43.0   # m
 MAX_HEIGHT = 115.92        # m
+# Limiti massimi per specie (altezza e circonferenza, in m), modificabili in species_limits.json
+SPECIES_LIMITS = {
+    " ".join(k.split()).lower(): v
+    for k, v in json.loads((Path(__file__).resolve().parent / "species_limits.json").read_text(encoding="utf-8")).items()
+}
+
+
+def species_limit(t):
+    sp = t.get("species")
+    return SPECIES_LIMITS.get(" ".join(sp.split()).lower()) if sp else None
+
+
 LEAF_TYPE = {"broadleaved", "needleleaved", "leafless", "palm"}
 LEAF_CYCLE = {"deciduous", "semi_deciduous", "evergreen", "semi_evergreen"}
 
@@ -116,6 +128,12 @@ def checks(t):
         issues.append("circumference")
     if h is not None and h > MAX_HEIGHT:
         issues.append("height")
+    lim = species_limit(t)
+    if lim:  # limite per specie: solo se non è già scattato quello generico
+        if c is not None and "circumference" not in issues and c > lim["circumference"]:
+            issues.append("circumference_species")
+        if h is not None and "height" not in issues and h > lim["height"]:
+            issues.append("height_species")
     sp = t.get("species")
     if sp is not None and len(sp.split()) == 1:
         issues.append("species")
@@ -149,6 +167,11 @@ def to_feature(el):
         p["tr"] = round(c / (2 * math.pi), 3)
     iss = checks(t)
     p["issues"] = "|" + "|".join(iss) + "|" if iss else "|"
+    lim = species_limit(t)
+    if "height_species" in iss:
+        p["lim_h"] = lim["height"]
+    if "circumference_species" in iss:
+        p["lim_c"] = lim["circumference"]
     return {"type": "Feature", "properties": p,
             "geometry": {"type": "Point", "coordinates": [round(el["lon"], 7), round(el["lat"], 7)]}}
 

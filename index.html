@@ -43,6 +43,8 @@
     <option value="">Tutti gli errori</option>
     <option value="circumference">Circonferenza &gt; 43 m</option>
     <option value="height">Altezza &gt; 115,92 m</option>
+    <option value="circumference_species">Circonferenza &gt; limite della specie</option>
+    <option value="height_species">Altezza &gt; limite della specie</option>
     <option value="species">Species di una sola parola</option>
     <option value="genus">Genus non valido</option>
     <option value="leaf_type">leaf_type non valido</option>
@@ -299,6 +301,10 @@ const ROWS = [
   ["circumference", "Circonferenza", fmtM], ["height", "Altezza", fmtM], ["crown_diameter", "Diametro chioma", fmtM],
   ["start_date", "Data di impianto"]
 ];
+const issueText = (i, p) =>
+  i === "circumference_species" ? `circonferenza > ${fmtM(p.lim_c)} (limite per ${p.species})`
+  : i === "height_species" ? `altezza > ${fmtM(p.lim_h)} (limite per ${p.species})`
+  : ISSUE_TXT[i];
 const ISSUE_TXT = { species: "species di una sola parola", circumference: "circonferenza > 43 m", height: "altezza > 115,92 m", genus: "genus con più parole",
   leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" };
 
@@ -347,7 +353,7 @@ function imageUrl(p) {
 function card(p) {
   const img = imageUrl(p);
   const rows = ROWS.filter(([k]) => p[k]).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
-  const issues = p.issues.split("|").filter(Boolean).map(i => ISSUE_TXT[i]);
+  const issues = p.issues.split("|").filter(Boolean).map(i => issueText(i, p));
   const rec = recognitions(p);
   const links = [link(`https://www.openstreetmap.org/node/${p.id}`, "OSM")];
   if (p.wikidata) links.push(link(`https://www.wikidata.org/wiki/${p.wikidata}`, "Wikidata"));
