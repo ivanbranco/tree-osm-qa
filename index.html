@@ -71,8 +71,9 @@
 const LAT = 45;                                   // latitudine di riferimento per metri→pixel
 const M0 = 78271.517 * Math.cos(LAT * Math.PI / 180); // m/px a zoom 0 (tile 512)
 const px = (prop, minPx, z) => ["max", minPx, ["/", ["get", prop], M0 / Math.pow(2, z)]];
+// raggio in pixel = max(minimo, metri / (m per pixel)); uno stop per ogni zoom intero, così il minimo è un vero max
 const radius = (prop, minPx) => ["interpolate", ["exponential", 2], ["zoom"],
-  0, px(prop, minPx, 0), 22, px(prop, minPx, 22)];
+  ...Array.from({ length: 23 }, (_, z) => [z, px(prop, minPx, z)]).flat()];
 
 const dataP = fetch("data/trees.geojson").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
 dataP.catch(() => {});
@@ -133,7 +134,8 @@ map.on("load", async () => {
     const kx = 1 / (111320 * Math.cos(lat * Math.PI / 180)), ky = 1 / 111320;
     const pts = [];
     if (SPIKY.has(p.leaf_type)) {                 // esagono o ottagono, ruotato in modo diverso per ogni albero
-      const sides = 6 + 2 * (p.id % 2), rot = (p.id % 11) / 11 * (2 * Math.PI / sides), R = r * 1.04;
+      const sides = 6 + 2 * (p.id % 2), rot = (p.id % 11) / 11 * (2 * Math.PI / sides);
+      const R = r * Math.sqrt(2 * Math.PI / (sides * Math.sin(2 * Math.PI / sides)));  // stessa area del cerchio
       for (let k = 0; k < sides; k++) {
         const a = rot + k * 2 * Math.PI / sides;
         pts.push([lon + R * Math.cos(a) * kx, lat + R * Math.sin(a) * ky]);
@@ -142,7 +144,7 @@ map.on("load", async () => {
       const lobes = 6 + (p.id % 3), ph = (p.id % 97) * 0.37, N = 56;
       for (let k = 0; k < N; k++) {
         const a = k / N * 2 * Math.PI;
-        const R = r * 1.05 * (0.84 + 0.16 * Math.abs(Math.sin(lobes / 2 * a + ph)));
+        const R = r * 1.06 * (0.84 + 0.16 * Math.abs(Math.sin(lobes / 2 * a + ph)));  // area ≈ cerchio
         pts.push([lon + R * Math.cos(a) * kx, lat + R * Math.sin(a) * ky]);
       }
     }
