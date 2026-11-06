@@ -7,6 +7,7 @@ Le regioni (nome, codice ISO, bbox) sono in scripts/regions.json.
 """
 import gzip, hashlib, json, math, os, re, sys, time
 from pathlib import Path
+from urllib.parse import urlparse
 
 import requests
 
@@ -148,6 +149,76 @@ def comma_tags(t):
     return [k for k in NUMERIC_TAGS if "," in str(t.get(k, ""))]
 
 
+# --- check su numeri, collegamenti e fonti monumentali ---
+UNIT = r"(?:m|metres?|meters?|cm|mm|km|ft|feet|foot|in|inch|inches|'|\")"
+NUM_UNIT = re.compile(rf"^\s*([+-]?\d+(?:[.,]\d+)?)\s*{UNIT}?\s*$", re.I)
+FEET_INCH = re.compile(r"^\s*(\d+)\s*(?:'|ft)\s*(?:(\d+)\s*(?:\"|in)?)?\s*$", re.I)
+WIKIDATA = re.compile(r"^Q[1-9]\d*$")
+UUID_START = re.compile(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}(?:&.*)?$")
+URL = re.compile(r"^https?://\S+$", re.I)
+
+
+def bad_number(v):
+    """Vero se il valore non è un numero (con o senza unità: le unità non sono un errore) oppure è <= 0.
+    Segnala quindi testo, intervalli, elenchi e valori nulli o negativi."""
+    m = NUM_UNIT.match(str(v))
+    if m:
+        return float(m.group(1).replace(",", ".")) <= 0
+    m = FEET_INCH.match(str(v))
+    if m:
+        return int(m.group(1)) + int(m.group(2) or 0) / 12 <= 0
+    return True
+
+
+def bad_numeric_tags(t):
+    return [k for k in NUMERIC_TAGS if k in t and bad_number(t[k])]
+
+
+def bad_link_tags(t):
+    """Tag di collegamento con formato non valido."""
+    bad = []
+    if "wikidata" in t and not WIKIDATA.match(t["wikidata"]):
+        bad.append("wikidata")
+    if "wikimedia_commons" in t:
+        parts = [x.strip() for x in t["wikimedia_commons"].split(";")]
+        if not all(x.startswith(("File:", "Category:")) for x in parts):
+            bad.append("wikimedia_commons")
+    if "panoramax" in t:
+        parts = [x.strip() for x in t["panoramax"].split(";")]
+        if not all(UUID_START.match(x) for x in parts):
+            bad.append("panoramax")
+    if "image" in t and not URL.match(t["image"].strip()):
+        bad.append("image")
+    return bad
+
+
+def is_monumentaltrees(v):
+    for part in str(v or "").split(";"):
+        part = part.strip()
+        if not part:
+            continue
+        host = urlparse(part if "://" in part else "https://" + part.lstrip("/")).hostname or ""
+        if host == "monumentaltrees.com" or host.endswith(".monumentaltrees.com"):
+            return True
+    return False
+
+
+def monument_sources(t):
+    """Fonti che indicano un albero monumentale: ref:masaf, ref:rami, link a monumentaltrees.com."""
+    src = [k for k in ("ref:masaf", "ref:rami") if t.get(k)]
+    if is_monumentaltrees(t.get("website")) or is_monumentaltrees(t.get("url")):
+        src.append("monumentaltrees.com")
+    return src
+
+
+def genus_of_species(sp):
+    """Prima parola di species, saltando il segno di ibrido (× o x iniziale)."""
+    words = sp.split(";")[0].split()
+    while words and words[0] in ("×", "x", "X"):
+        words = words[1:]
+    return words[0] if words else ""
+
+
 def checks(t):
     issues = []
     c, h = num(t.get("circumference")), num(t.get("height"))
@@ -176,6 +247,16 @@ def checks(t):
         issues.append("leaf_type")
     if "leaf_cycle" in t and t["leaf_cycle"] not in LEAF_CYCLE:
         issues.append("leaf_cycle")
+    if g is not None and sp is not None and len(g.split()) == 1:
+        sg = genus_of_species(sp)
+        if sg and g.casefold() != sg.casefold():
+            issues.append("genus_mismatch")
+    if bad_numeric_tags(t):
+        issues.append("number_invalid")
+    if bad_link_tags(t):
+        issues.append("link_format")
+    if monument_sources(t) and "natural_monument" not in t.get("denotation", "").split(";"):
+        issues.append("monument_denotation")
     return issues
 
 
@@ -225,6 +306,12 @@ def to_feature(el):
     p["issues"] = "|" + "|".join(iss) + "|" if iss else "|"
     if "comma" in iss:
         p["comma"] = ";".join(comma_tags(t))
+    if "number_invalid" in iss:
+        p["bad_num"] = ";".join(bad_numeric_tags(t))
+    if "link_format" in iss:
+        p["bad_links"] = ";".join(bad_link_tags(t))
+    if "monument_denotation" in iss:
+        p["mon_src"] = ";".join(monument_sources(t))
     lim = species_limit(t)
     if "height_species" in iss:
         p["lim_h"] = lim["height"]

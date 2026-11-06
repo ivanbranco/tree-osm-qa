@@ -47,6 +47,10 @@
     <option value="circumference">Circonferenza &gt; 43 m</option>
     <option value="height">Altezza &gt; 115,92 m</option>
     <option value="comma">Virgola decimale (circumference, height, diameter_crown)</option>
+    <option value="number_invalid">Valore numerico non valido (testo, intervallo, zero)</option>
+    <option value="genus_mismatch">Genus diverso dalla species</option>
+    <option value="link_format">Link con formato non valido</option>
+    <option value="monument_denotation">Fonte monumentale senza natural_monument</option>
     <option value="circumference_species">Circonferenza &gt; limite della specie</option>
     <option value="height_species">Altezza &gt; limite della specie</option>
     <option value="species">Species di una sola parola</option>
@@ -365,10 +369,15 @@ const ROWS = [
   ["circumference", "Circonferenza", fmtM], ["height", "Altezza", fmtM], ["diameter_crown", "Diametro chioma", fmtM],
   ["start_date", "Data di impianto"]
 ];
+const list = v => String(v || "").split(";").join(", ");
 const issueText = (i, p) =>
   i === "circumference_species" ? `circonferenza > ${fmtM(p.lim_c)} (limite per ${p.species})`
   : i === "height_species" ? `altezza > ${fmtM(p.lim_h)} (limite per ${p.species})`
   : i === "comma" ? `virgola decimale in ${String(p.comma || "").split(";").join(", ")}`
+  : i === "number_invalid" ? `valore non numerico, intervallo o zero in ${list(p.bad_num)}`
+  : i === "link_format" ? `formato non valido in ${list(p.bad_links)}`
+  : i === "monument_denotation" ? `${list(p.mon_src)} senza denotation=natural_monument`
+  : i === "genus_mismatch" ? `genus (${p.genus}) diverso dal genere della species (${p.species})`
   : ISSUE_TXT[i];
 const ISSUE_TXT = { species: "species di una sola parola", species_lowercase: "species con iniziale minuscola", genus_lowercase: "genus con iniziale minuscola", circumference: "circonferenza > 43 m", height: "altezza > 115,92 m", genus: "genus con più parole",
   leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" };

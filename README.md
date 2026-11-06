@@ -15,6 +15,10 @@ Gli alberi con almeno un problema hanno il contorno rosso. I check sono:
 * `genus=*` composto da più di una parola
 * `species=*` o `genus=*` che iniziano con una lettera minuscola
 * `circumference=*`, `height=*` o `diameter_crown=*` con la virgola come separatore decimale (`2,9` invece di `2.9`)
+* `circumference=*`, `height=*` o `diameter_crown=*` con testo, intervalli, elenchi o valori a 0 (o negativi); i valori con unità (`150 cm`, `12 ft`) non sono segnalati
+* `genus=*` diverso dalla prima parola di `species=*` (il segno di ibrido `×` iniziale è ignorato)
+* Collegamenti con formato non valido: `wikidata` diverso da `Q…`, `wikimedia_commons` senza `File:` o `Category:`, `panoramax` che non è un UUID, `image` che non inizia con `http`
+* `ref:masaf`, `ref:rami` o `website`/`url` verso monumentaltrees.com senza `denotation=natural_monument` (un albero monumentale senza fonte non è segnalato)
 * `leaf_type=*` diverso da `broadleaved`, `needleleaved`, `leafless`, `palm`
 * `leaf_cycle=*` diverso da `deciduous`, `semi_deciduous`, `evergreen`, `semi_evergreen`
 
