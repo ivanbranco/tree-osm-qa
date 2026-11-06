@@ -43,10 +43,13 @@
     <option value="">Tutti gli errori</option>
     <option value="circumference">Circonferenza &gt; 43 m</option>
     <option value="height">Altezza &gt; 115,92 m</option>
+    <option value="comma">Virgola decimale (circumference, height, diameter_crown)</option>
     <option value="circumference_species">Circonferenza &gt; limite della specie</option>
     <option value="height_species">Altezza &gt; limite della specie</option>
     <option value="species">Species di una sola parola</option>
     <option value="genus">Genus non valido</option>
+    <option value="species_lowercase">Species con iniziale minuscola</option>
+    <option value="genus_lowercase">Genus con iniziale minuscola</option>
     <option value="leaf_type">leaf_type non valido</option>
     <option value="leaf_cycle">leaf_cycle non valido</option>
   </select>
@@ -304,8 +307,9 @@ const ROWS = [
 const issueText = (i, p) =>
   i === "circumference_species" ? `circonferenza > ${fmtM(p.lim_c)} (limite per ${p.species})`
   : i === "height_species" ? `altezza > ${fmtM(p.lim_h)} (limite per ${p.species})`
+  : i === "comma" ? `virgola decimale in ${String(p.comma || "").split(";").join(", ")}`
   : ISSUE_TXT[i];
-const ISSUE_TXT = { species: "species di una sola parola", circumference: "circonferenza > 43 m", height: "altezza > 115,92 m", genus: "genus con più parole",
+const ISSUE_TXT = { species: "species di una sola parola", species_lowercase: "species con iniziale minuscola", genus_lowercase: "genus con iniziale minuscola", circumference: "circonferenza > 43 m", height: "altezza > 115,92 m", genus: "genus con più parole",
   leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" };
 
 const MASAF_URL = "https://www.masaf.gov.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/11260";

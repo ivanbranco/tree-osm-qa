@@ -18,7 +18,7 @@ ENDPOINTS = [
     "https://overpass.kumi.systems/api/interpreter",
 ]
 HEADERS = {
-    "User-Agent": "AlberiOSMBot/1.0 (https://github.com/ivanbranco/alberi-osm)",
+    "User-Agent": "tree-osm-qa/1.0 (https://github.com/ivanbranco/tree-osm-qa)",
     "Accept-Encoding": "gzip",
 }
 OUT = Path(__file__).resolve().parent.parent / "data" / "trees.geojson"
@@ -121,6 +121,14 @@ def panoramax_ids(t):
     return list(dict.fromkeys(ids))
 
 
+NUMERIC_TAGS = ("circumference", "height", "diameter_crown")
+
+
+def comma_tags(t):
+    """Tag numerici scritti con la virgola decimale (2,9 invece di 2.9)."""
+    return [k for k in NUMERIC_TAGS if "," in str(t.get(k, ""))]
+
+
 def checks(t):
     issues = []
     c, h = num(t.get("circumference")), num(t.get("height"))
@@ -128,6 +136,8 @@ def checks(t):
         issues.append("circumference")
     if h is not None and h > MAX_HEIGHT:
         issues.append("height")
+    if comma_tags(t):
+        issues.append("comma")
     lim = species_limit(t)
     if lim:  # limite per specie: solo se non è già scattato quello generico
         if c is not None and "circumference" not in issues and c > lim["circumference"]:
@@ -137,9 +147,13 @@ def checks(t):
     sp = t.get("species")
     if sp is not None and len(sp.split()) == 1:
         issues.append("species")
+    if sp is not None and sp.strip()[:1].islower():
+        issues.append("species_lowercase")
     g = t.get("genus")
     if g is not None and len(g.split()) > 1:
         issues.append("genus")
+    if g is not None and g.strip()[:1].islower():
+        issues.append("genus_lowercase")
     if "leaf_type" in t and t["leaf_type"] not in LEAF_TYPE:
         issues.append("leaf_type")
     if "leaf_cycle" in t and t["leaf_cycle"] not in LEAF_CYCLE:
@@ -167,6 +181,8 @@ def to_feature(el):
         p["tr"] = round(c / (2 * math.pi), 3)
     iss = checks(t)
     p["issues"] = "|" + "|".join(iss) + "|" if iss else "|"
+    if "comma" in iss:
+        p["comma"] = ";".join(comma_tags(t))
     lim = species_limit(t)
     if "height_species" in iss:
         p["lim_h"] = lim["height"]

@@ -13,6 +13,8 @@ Gli alberi con almeno un problema hanno il contorno rosso. I check sono:
 * Circonferenza e altezza maggiori del record della singola specie. I limiti sono in `scripts/species_limits.json`; il confronto con `species=*` è esatto (nessuna variante o cultivar) e scatta solo se non è già scattato il check generico
 * `species=*` composto da una sola parola
 * `genus=*` composto da più di una parola
+* `species=*` o `genus=*` che iniziano con una lettera minuscola
+* `circumference=*`, `height=*` o `diameter_crown=*` con la virgola come separatore decimale (`2,9` invece di `2.9`)
 * `leaf_type=*` diverso da `broadleaved`, `needleleaved`, `leafless`, `palm`
 * `leaf_cycle=*` diverso da `deciduous`, `semi_deciduous`, `evergreen`, `semi_evergreen`
 
