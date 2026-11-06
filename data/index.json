@@ -6,6 +6,12 @@
    "sha1": "f77976f390813a5a6c0d30ddd22fdc366ed701f1",
    "updated": "2026-11-06T12:15:27Z"
   },
+  "piemonte": {
+   "count": 45456,
+   "name": "Piemonte",
+   "sha1": "fec271d661ef3229fb321d7e4c1a0c8ef818ac9f",
+   "updated": "2026-11-06T15:38:08Z"
+  },
   "sardegna": {
    "count": 5426,
    "name": "Sardegna",
