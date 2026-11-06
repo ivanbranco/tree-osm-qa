@@ -35,12 +35,6 @@
 <div id="panel" class="box">
   <h1>Alberi OSM</h1>
   <select id="region"></select>
-  <select id="den">
-    <option value="">Tutti gli alberi</option>
-    <option value="natural_monument">Monumentali</option>
-    <option value="landmark">Landmark</option>
-    <option value="both">Monumentali + landmark</option>
-  </select>
   <select id="taxon"><option value="">Tutti i genus e le specie</option></select>
   <select id="issue">
     <option value="">Tutti gli errori</option>
@@ -149,6 +143,8 @@ map.on("load", async () => {
 
   // Forme: da SHAPE_Z in poi le chiome con leaf_type diventano poligoni (a dimensione reale)
   const SHAPE_Z = 16, SHAPE_CAP = 30000;
+  // Visibilità per zoom: problematici sempre; da MON_Z (9) anche i monumentali; da ALL_Z (10) tutti gli alberi
+  const MON_Z = 9, ALL_Z = 10;
   const BLOB = new Set(["broadleaved", "palm"]), SPIKY = new Set(["needleleaved"]);
   const NOSHAPE = ["!", ["in", ["coalesce", ["get", "leaf_type"], ""], ["literal", ["broadleaved", "palm", "needleleaved"]]]];
   const isShaped = ft => BLOB.has(ft.properties.leaf_type) || SPIKY.has(ft.properties.leaf_type);
@@ -197,9 +193,9 @@ map.on("load", async () => {
 
   // Due livelli di layer: prima tutti gli alberi, poi i monumentali, che restano sopra agli altri
   const MON = ["==", ["coalesce", ["get", "denotation"], ""], "natural_monument"];
-  const TIERS = [{ suf: "", cond: ["!", MON] }, { suf: "-top", cond: MON }];
+  const TIERS = [{ suf: "", cond: ["!", MON], minZ: ALL_Z }, { suf: "-top", cond: MON, minZ: MON_Z }];
   const DEFS = [
-    { id: "crown", spec: () => ({ type: "circle", source: "trees", minzoom: 9, maxzoom: SHAPE_Z, paint: circlePaint() }) },
+    { id: "crown", spec: tier => ({ type: "circle", source: "trees", minzoom: tier.minZ, maxzoom: SHAPE_Z, paint: circlePaint() }) },
     { id: "crown-plain", base: NOSHAPE, spec: () => ({ type: "circle", source: "trees", minzoom: SHAPE_Z, paint: circlePaint() }) },
     { id: "crown-poly", spec: () => ({ type: "fill", source: "shapes", paint: {
       "fill-color": "#2e9e45", "fill-opacity": FILL_OPACITY } }) },
@@ -212,19 +208,19 @@ map.on("load", async () => {
   ];
   const filterFor = (def, tier, rest) => ["all", ...(def.base ? [def.base] : []), tier.cond, ...rest];
   for (const tier of TIERS) for (const def of DEFS)
-    map.addLayer({ id: def.id + tier.suf, ...def.spec(), filter: filterFor(def, tier, []) });
+    map.addLayer({ id: def.id + tier.suf, ...def.spec(tier), filter: filterFor(def, tier, []) });
   const CROWN_IDS = TIERS.flatMap(t => ["crown", "crown-plain", "crown-poly"].map(i => i + t.suf));
 
   const ISSUE = ["!=", ["get", "issues"], "|"];
-  map.addLayer({ id: "crown-issues", type: "circle", source: "trees", maxzoom: 9, filter: ISSUE, paint: {
+  const issuePaint = () => ({
     "circle-radius": radius("cr", 4), "circle-color": "#d00020", "circle-opacity": 0.7,
-    "circle-stroke-color": "#fff", "circle-stroke-width": 1 } });
+    "circle-stroke-color": "#fff", "circle-stroke-width": 1 });
+  const ISSUE_MID = ["all", ISSUE, ["!", MON]];
+  map.addLayer({ id: "crown-issues", type: "circle", source: "trees", maxzoom: MON_Z, filter: ISSUE, paint: issuePaint() });
+  map.addLayer({ id: "crown-issues-mid", type: "circle", source: "trees", minzoom: MON_Z, maxzoom: ALL_Z, filter: ISSUE_MID, paint: issuePaint() });
 
   const apply = () => {
     const f = ["all"];
-    const d = document.getElementById("den").value;
-    if (d === "both") f.push(["in", ["get", "denotation"], ["literal", ["natural_monument", "landmark"]]]);
-    else if (d) f.push(["==", ["get", "denotation"], d]);
     const tx = document.getElementById("taxon").value;
     if (tx) f.push(taxonFilter(tx));
     const is = document.getElementById("issue").value;
@@ -232,14 +228,17 @@ map.on("load", async () => {
     const rest = f.slice(1);
     for (const tier of TIERS) for (const def of DEFS) map.setFilter(def.id + tier.suf, filterFor(def, tier, rest));
     map.setFilter("crown-issues", ["all", ISSUE, ...rest]);
+    map.setFilter("crown-issues-mid", ["all", ISSUE_MID, ...rest]);
     update();
   };
   const update = () => {
-    const low = map.getZoom() < 9;
-    const layers = low ? ["crown-issues"] : CROWN_IDS;
+    const z = map.getZoom();
+    const layers = z < MON_Z ? ["crown-issues"] : z < ALL_Z ? ["crown-issues-mid", "crown-top"] : CROWN_IDS;
     const n = new Set(map.queryRenderedFeatures({ layers }).map(f => f.properties.id)).size;
-    document.getElementById("count").textContent = low
-      ? `Alberi problematici in vista: ${n} (ingrandisci per vedere tutti)` : `Alberi in vista: ${n}`;
+    document.getElementById("count").textContent = z < MON_Z
+      ? `Alberi problematici in vista: ${n} (ingrandisci per vedere i monumentali)`
+      : z < ALL_Z ? `Problematici e monumentali in vista: ${n} (ingrandisci per vedere tutti)`
+      : `Alberi in vista: ${n}`;
   };
   const taxonFilter = v => {
     if (v === "unknown") return ["all", ["!", ["has", "genus"]], ["!", ["has", "species"]]];
@@ -252,14 +251,15 @@ map.on("load", async () => {
   const taxSel = document.getElementById("taxon");
   let taxSig = "";
   const updateTaxa = () => {
-    const b = map.getBounds(), low = map.getZoom() < 9;
+    const b = map.getBounds(), z = map.getZoom();
     const G = new Map(), S = new Map();
     let U = 0;
     for (const ft of ALL) {
       const [x, y] = ft.geometry.coordinates;
       if (x < b.getWest() || x > b.getEast() || y < b.getSouth() || y > b.getNorth()) continue;
       const p = ft.properties;
-      if (low && p.issues === "|") continue;   // sotto zoom 9 si vedono solo i problematici
+      // fuori da zoom 10 si vedono solo i problematici e, da zoom 9, i monumentali
+      if (z < ALL_Z && p.issues === "|" && !(z >= MON_Z && p.denotation === "natural_monument")) continue;
       if (!p.genus && !p.species) { U++; continue; }
       const gs = new Set();
       if (p.genus) gs.add(p.genus);
@@ -298,11 +298,10 @@ map.on("load", async () => {
   map.on("zoom", () => { if ((map.getZoom() >= SHAPE_Z) === shapesEmpty) updateShapes(); });
   updateShapes();
 
-  document.getElementById("den").onchange = apply;
   document.getElementById("issue").onchange = apply;
   map.on("moveend", update); map.on("idle", update); update();
 
-  for (const id of [...CROWN_IDS, "crown-issues"]) {
+  for (const id of [...CROWN_IDS, "crown-issues", "crown-issues-mid"]) {
     map.on("click", id, e => {
       const g = e.features[0].geometry;
       new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(g.type === "Point" ? g.coordinates : e.lngLat)
@@ -426,7 +425,8 @@ function imageUrl(p) {
 
 function card(p) {
   const img = imageUrl(p);
-  const rows = ROWS.filter(([k]) => p[k]).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
+  const genusIssue = ["genus", "genus_lowercase", "genus_mismatch"].some(i => p.issues.includes(`|${i}|`));
+  const rows = ROWS.filter(([k]) => p[k] && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => issueText(i, p));
   const rec = recognitions(p);
   const links = [link(`https://www.openstreetmap.org/node/${p.id}`, "OSM")];

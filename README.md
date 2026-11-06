@@ -32,11 +32,11 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
   * poligonale (esagono o ottagono, ruotato in modo diverso per ogni albero) se `needleleaved`
 * **Tronco**: cerchio marrone con raggio ricavato da `circumference=*`. Se il tag manca, la circonferenza è stimata (tronco disegnato più chiaro) da `height=*` oppure da `diameter_crown=*`, usando i rapporti della specie in `scripts/species_limits.json` (`height_circ_ratio`, `crown_circ_ratio`) o, per le specie senza rapporto, le mediane generali di `_default` (altezza/circonferenza 12, chioma/circonferenza 7,03). Allo stesso modo la chioma è stimata da `circumference=*` se manca `diameter_crown`. Le stime servono solo al rendering e non entrano nei check QA.
 * **Contorno della chioma**: giallo per `denotation=natural_monument` (gli alberi monumentali sono disegnati sopra agli altri), viola per `denotation=landmark`, rosso per gli alberi con problemi (il rosso ha la precedenza).
-* **Zoom**: da zoom 16 compaiono le forme e il tronco; tra zoom 9 e 16 gli alberi sono cerchi; sotto zoom 9 si vedono solo gli alberi con problemi.
+* **Zoom**: gli alberi con problemi si vedono a ogni zoom; da zoom 9 si aggiungono i monumentali; da zoom 10 tutti gli alberi (come cerchi); da zoom 16 compaiono le forme e il tronco.
 
 ## Filtri e scheda
 
-* Filtri per `denotation`, per genus/specie (l'elenco è costruito dagli alberi in vista) e per tipo di errore.
+* Filtri per genus/specie (l'elenco è costruito dagli alberi in vista) e per tipo di errore. Per vedere solo i monumentali basta restare tra zoom 9 e 10.
 * Cliccando un albero si apre la scheda con i dati principali, i problemi rilevati e i link a OSM, Wikidata, Commons e Panoramax.
 * L'immagine viene da `wikimedia_commons`, poi da `panoramax`, poi da `image`.
 * Se presenti, la scheda indica `ref:masaf` (elenco degli alberi monumentali d'Italia del MASAF), `ref:rami` (registro RAMI) e `website`/`url` verso monumentaltrees.com.
