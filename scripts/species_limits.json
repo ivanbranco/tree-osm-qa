@@ -1,10 +1,10 @@
 {
-  "Acer platanoides":       {"height": 39.4,  "circumference": 6.72},
-  "Quercus robur":          {"height": 44.30, "circumference": 14.45},
-  "Tilia cordata":          {"height": 41.60, "circumference": 12.81},
-  "Aesculus hippocastanum": {"height": 36,    "circumference": 7.33},
-  "Fraxinus excelsior":     {"height": 50.60, "circumference": 9.82},
-  "Acer pseudoplatanus":    {"height": 40.70, "circumference": 9.19},
-  "Castanea sativa":        {"height": 36.60, "circumference": 14.80},
-  "Juglans regia":          {"height": 29.20, "circumference": 9.05}
+  "Acer platanoides": {"height": 39.4, "circumference": 6.72, "height_circ_ratio": 13.51},
+  "Quercus robur": {"height": 44.3, "circumference": 14.45, "height_circ_ratio": 13.17},
+  "Tilia cordata": {"height": 41.6, "circumference": 12.81, "height_circ_ratio": 13.17},
+  "Aesculus hippocastanum": {"height": 36, "circumference": 7.33, "height_circ_ratio": 10.88},
+  "Fraxinus excelsior": {"height": 50.6, "circumference": 9.82, "height_circ_ratio": 14.73},
+  "Acer pseudoplatanus": {"height": 40.7, "circumference": 9.19, "height_circ_ratio": 13.21},
+  "Castanea sativa": {"height": 36.6, "circumference": 14.8},
+  "Juglans regia": {"height": 29.2, "circumference": 9.05}
 }

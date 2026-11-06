@@ -138,12 +138,11 @@ def checks(t):
         issues.append("height")
     if comma_tags(t):
         issues.append("comma")
-    lim = species_limit(t)
-    if lim:  # limite per specie: solo se non è già scattato quello generico
-        if c is not None and "circumference" not in issues and c > lim["circumference"]:
-            issues.append("circumference_species")
-        if h is not None and "height" not in issues and h > lim["height"]:
-            issues.append("height_species")
+    lim = species_limit(t) or {}  # limite per specie: solo se non è già scattato quello generico
+    if "circumference" in lim and c is not None and "circumference" not in issues and c > lim["circumference"]:
+        issues.append("circumference_species")
+    if "height" in lim and h is not None and "height" not in issues and h > lim["height"]:
+        issues.append("height_species")
     sp = t.get("species")
     if sp is not None and len(sp.split()) == 1:
         issues.append("species")
@@ -167,18 +166,42 @@ KEEP = ["name", "species", "genus", "taxon",
         "ref:masaf", "ref:rami", "website", "url"]
 
 
+def sizes(t):
+    """Diametro chioma e circonferenza per il rendering. Se ne manca uno, lo stima dall'altro tag
+    usando i rapporti della specie (height_circ_ratio = altezza/circonferenza, crown_circ_ratio =
+    diametro chioma/circonferenza) in species_limits.json. Le stime servono solo al rendering, non ai check."""
+    lim = species_limit(t) or {}
+    h, c, cd = num(t.get("height")), num(t.get("circumference")), num(t.get("diameter_crown"))
+    max_c, max_h = lim.get("circumference", MAX_CIRCUMFERENCE), lim.get("height", MAX_HEIGHT)
+    rh, rc = lim.get("height_circ_ratio"), lim.get("crown_circ_ratio")
+
+    circ, circ_est = (c, False) if c and c > 0 else (None, False)
+    if circ is None:
+        if rh and h and 0 < h <= max_h and h / rh <= max_c:
+            circ, circ_est = h / rh, True
+        elif rc and cd and cd > 0 and cd / rc <= max_c:
+            circ, circ_est = cd / rc, True
+
+    crown, crown_est = (cd, False) if cd and cd > 0 else (None, False)
+    if crown is None and rc and c and 0 < c <= max_c:
+        crown, crown_est = rc * c, True
+    return crown, crown_est, circ, circ_est
+
+
 def to_feature(el):
     t = el.get("tags", {})
-    cd, c = num(t.get("diameter_crown")), num(t.get("circumference"))
     p = {k: t[k] for k in KEEP if k in t}
     p["id"] = el["id"]
     pano = panoramax_ids(t)
     if pano:
         p["panoramax"] = ";".join(pano)
-    p["cr"] = round(cd / 2, 2) if cd and cd > 0 else DEFAULT_CROWN_R
-    p["cr_est"] = not (cd and cd > 0)
-    if c and c > 0:  # il tronco si disegna solo se c'è circumference
-        p["tr"] = round(c / (2 * math.pi), 3)
+    crown, crown_est, circ, circ_est = sizes(t)
+    p["cr"] = round(crown / 2, 2) if crown else DEFAULT_CROWN_R
+    p["cr_est"] = crown is None or crown_est
+    if circ:  # il tronco si disegna solo se c'è una circonferenza (reale o stimata)
+        p["tr"] = round(circ / (2 * math.pi), 3)
+        if circ_est:
+            p["tr_est"] = True
     iss = checks(t)
     p["issues"] = "|" + "|".join(iss) + "|" if iss else "|"
     if "comma" in iss:
