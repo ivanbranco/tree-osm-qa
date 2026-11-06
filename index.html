@@ -365,11 +365,13 @@ const ROWS = [
   ["denotation", "Categoria", v => tr(DENOTATION, v)],
   ["leaf_type", "Tipo di foglie", v => tr(LEAF_TYPE, v)],
   ["leaf_cycle", "Ciclo fogliare", v => tr(LEAF_CYCLE, v)],
-  ["circumference", "Circonferenza", fmtM], ["height", "Altezza", fmtM], ["diameter_crown", "Diametro chioma", fmtM],
+  ["circumference", "Circonferenza", fmtM], ["diameter", "Diametro tronco", fmtM], ["height", "Altezza", fmtM], ["diameter_crown", "Diametro chioma", fmtM],
   ["start_date", "Data di impianto"]
 ];
 const list = v => String(v || "").split(";").join(", ");
-const issueText = (i, p) =>
+const fromD = (i, p) => p.diam_used && i.startsWith("circumference") ? " (da diameter)" : "";
+const issueText = (i, p) => issueBase(i, p) + fromD(i, p);
+const issueBase = (i, p) =>
   i === "circumference_species" ? `circonferenza > ${fmtM(p.lim_c)} (limite per ${p.species})`
   : i === "height_species" ? `altezza > ${fmtM(p.lim_h)} (limite per ${p.species})`
   : i === "comma" ? `virgola decimale in ${String(p.comma || "").split(";").join(", ")}`

@@ -122,7 +122,18 @@ def species_limit(t):
 LEAF_TYPE = {"broadleaved", "needleleaved", "leafless", "palm"}
 LEAF_CYCLE = {"deciduous", "semi_deciduous", "evergreen", "semi_evergreen"}
 
-DEFAULT_CROWN_R = 3.0   # m, se manca diameter_crown
+# Raggio di default della chioma (m) quando manca diameter_crown; più grande per gli alberi monumentali
+# e i landmark, più piccolo per i parcheggi (di solito alberelli). In caso di più valori vince il primo della lista.
+DEFAULT_CROWN_R = 3.0
+DEFAULT_CROWN_R_BY_DENOTATION = (("natural_monument", 6.0), ("landmark", 6.0), ("parking", 2.0))
+
+
+def default_crown_r(t):
+    den = [x.strip() for x in str(t.get("denotation", "")).split(";")]
+    for name, r in DEFAULT_CROWN_R_BY_DENOTATION:
+        if name in den:
+            return r
+    return DEFAULT_CROWN_R
 
 
 def num(v):
@@ -144,9 +155,25 @@ def panoramax_ids(t):
 NUMERIC_TAGS = ("circumference", "height", "diameter_crown")
 
 
+def circ_value(t):
+    """Circonferenza in m, e se deriva da diameter. Se manca circumference ma c'è diameter (in m)
+    si usa π × diametro; se ci sono entrambi i tag, diameter è ignorato."""
+    if "circumference" in t:
+        return num(t["circumference"]), False
+    d = num(t.get("diameter"))
+    return (d * math.pi, True) if d is not None else (None, False)
+
+
+def numeric_keys(t):
+    keys = list(NUMERIC_TAGS)
+    if "circumference" not in t and "diameter" in t:
+        keys.append("diameter")
+    return keys
+
+
 def comma_tags(t):
     """Tag numerici scritti con la virgola decimale (2,9 invece di 2.9)."""
-    return [k for k in NUMERIC_TAGS if "," in str(t.get(k, ""))]
+    return [k for k in numeric_keys(t) if "," in str(t.get(k, ""))]
 
 
 # --- check su numeri, collegamenti e fonti monumentali ---
@@ -171,7 +198,7 @@ def bad_number(v):
 
 
 def bad_numeric_tags(t):
-    return [k for k in NUMERIC_TAGS if k in t and bad_number(t[k])]
+    return [k for k in numeric_keys(t) if k in t and bad_number(t[k])]
 
 
 def bad_link_tags(t):
@@ -221,7 +248,7 @@ def genus_of_species(sp):
 
 def checks(t):
     issues = []
-    c, h = num(t.get("circumference")), num(t.get("height"))
+    c, h = circ_value(t)[0], num(t.get("height"))
     if c is not None and c > MAX_CIRCUMFERENCE:
         issues.append("circumference")
     if h is not None and h > MAX_HEIGHT:
@@ -263,17 +290,18 @@ def checks(t):
 KEEP = ["name", "species", "genus", "taxon",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
-        "ref:masaf", "ref:rami", "website", "url"]
+        "ref:masaf", "ref:rami", "website", "url", "diameter"]
 
 
 def sizes(t):
-    """Diametro chioma e circonferenza per il rendering. Se ne manca uno, lo stima dall'altro tag
-    con i rapporti della specie (height_circ_ratio = altezza/circonferenza, crown_circ_ratio =
-    diametro chioma/circonferenza) o, se la specie non ne ha, con quelli di "_default" in
-    species_limits.json. Se il rapporto della specie dà una circonferenza impossibile, si usa quello
-    di default. Le stime servono solo al rendering, non ai check."""
+    """Diametro chioma (solo se il tag c'è) e circonferenza per il rendering. Se manca la circonferenza
+    (anche da diameter), la stima da height o da diameter_crown con i rapporti della specie
+    (height_circ_ratio = altezza/circonferenza, crown_circ_ratio = diametro chioma/circonferenza) o,
+    se la specie non ne ha, con quelli di "_default" in species_limits.json. Se il rapporto della specie
+    dà una circonferenza impossibile si usa quello di default. Le stime servono solo al rendering.
+    """
     lim = species_limit(t) or {}
-    h, c, cd = num(t.get("height")), num(t.get("circumference")), num(t.get("diameter_crown"))
+    h, c, cd = num(t.get("height")), circ_value(t)[0], num(t.get("diameter_crown"))
     max_c, max_h = lim.get("circumference", MAX_CIRCUMFERENCE), lim.get("height", MAX_HEIGHT)
     rh = [r for r in (lim.get("height_circ_ratio"), DEFAULT_RATIOS.get("height_circ_ratio")) if r]
     rc = [r for r in (lim.get("crown_circ_ratio"), DEFAULT_RATIOS.get("crown_circ_ratio")) if r]
@@ -288,10 +316,8 @@ def sizes(t):
         if est:
             circ, circ_est = est, True
 
-    crown, crown_est = (cd, False) if cd and cd > 0 else (None, False)
-    if crown is None and rc and c and 0 < c <= max_c:
-        crown, crown_est = rc[0] * c, True
-    return crown, crown_est, circ, circ_est
+    crown = cd if cd and cd > 0 else None   # la chioma non si stima dalla circonferenza
+    return crown, circ, circ_est
 
 
 def to_feature(el):
@@ -301,9 +327,11 @@ def to_feature(el):
     pano = panoramax_ids(t)
     if pano:
         p["panoramax"] = ";".join(pano)
-    crown, crown_est, circ, circ_est = sizes(t)
-    p["cr"] = round(crown / 2, 2) if crown else DEFAULT_CROWN_R
-    p["cr_est"] = crown is None or crown_est
+    crown, circ, circ_est = sizes(t)
+    p["cr"] = round(crown / 2, 2) if crown else default_crown_r(t)
+    p["cr_est"] = crown is None
+    if circ_value(t)[1] and circ_value(t)[0]:
+        p["diam_used"] = True
     if circ:  # il tronco si disegna solo se c'è una circonferenza (reale o stimata)
         p["tr"] = round(circ / (2 * math.pi), 3)
         if circ_est:

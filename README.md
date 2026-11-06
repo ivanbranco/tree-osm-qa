@@ -22,15 +22,17 @@ Gli alberi con almeno un problema hanno il contorno rosso. I check sono:
 * `leaf_type=*` diverso da `broadleaved`, `needleleaved`, `leafless`, `palm`
 * `leaf_cycle=*` diverso da `deciduous`, `semi_deciduous`, `evergreen`, `semi_evergreen`
 
+Se `circumference=*` manca ma c'è `diameter=*` (in metri), la circonferenza è ricavata come π × diametro e sottoposta agli stessi check e alle stesse stime; se ci sono entrambi i tag, `diameter` è ignorato.
+
 I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` di `data/trees.geojson`.
 
 ## Rendering
 
-* **Chioma**: cerchio con dimensione reale da `diameter_crown=*`; se manca, raggio di 3 m e riempimento più trasparente. La forma dipende da `leaf_type=*`:
+* **Chioma**: cerchio con dimensione reale da `diameter_crown=*`; se manca, raggio di ripiego (3 m; 6 m per `denotation=natural_monument` e `landmark`, 2 m per `parking`) e riempimento più trasparente. La chioma non viene stimata dalla circonferenza. La forma dipende da `leaf_type=*`:
   * rotonda se `leaf_type` è mancante (o ha un altro valore, come `leafless`)
   * bombata, a lobi, se `broadleaved` o `palm`
   * poligonale (esagono o ottagono, ruotato in modo diverso per ogni albero) se `needleleaved`
-* **Tronco**: cerchio marrone con raggio ricavato da `circumference=*`. Se il tag manca, la circonferenza è stimata (tronco disegnato più chiaro) da `height=*` oppure da `diameter_crown=*`, usando i rapporti della specie in `scripts/species_limits.json` (`height_circ_ratio`, `crown_circ_ratio`) o, per le specie senza rapporto, le mediane generali di `_default` (altezza/circonferenza 12, chioma/circonferenza 7,03). Allo stesso modo la chioma è stimata da `circumference=*` se manca `diameter_crown`. Le stime servono solo al rendering e non entrano nei check QA.
+* **Tronco**: cerchio marrone con raggio ricavato da `circumference=*` (o da `diameter=*`). Se il tag manca, la circonferenza è stimata (tronco disegnato più chiaro) da `height=*` oppure da `diameter_crown=*`, usando i rapporti della specie in `scripts/species_limits.json` (`height_circ_ratio`, `crown_circ_ratio`) o, per le specie senza rapporto, le mediane generali di `_default` (altezza/circonferenza 12, chioma/circonferenza 7,03). Le stime servono solo al rendering e non entrano nei check QA.
 * **Contorno della chioma**: giallo per `denotation=natural_monument` (gli alberi monumentali sono disegnati sopra agli altri), viola per `denotation=landmark`, rosso per gli alberi con problemi (il rosso ha la precedenza).
 * **Zoom**: gli alberi con problemi si vedono a ogni zoom; da zoom 9 si aggiungono i monumentali; da zoom 10 tutti gli alberi (come cerchi); da zoom 16 compaiono le forme e il tronco.
 
