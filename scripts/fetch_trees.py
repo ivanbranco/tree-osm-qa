@@ -147,7 +147,7 @@ def checks(t):
     return issues
 
 
-KEEP = ["name", "species", "species:wikidata", "genus", "genus:wikidata", "taxon",
+KEEP = ["name", "species", "genus", "taxon",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
         "ref:masaf", "ref:rami", "website", "url"]
