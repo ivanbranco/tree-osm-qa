@@ -30,7 +30,7 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
   * rotonda se `leaf_type` è mancante (o ha un altro valore, come `leafless`)
   * bombata, a lobi, se `broadleaved` o `palm`
   * poligonale (esagono o ottagono, ruotato in modo diverso per ogni albero) se `needleleaved`
-* **Tronco**: cerchio marrone con raggio ricavato da `circumference=*`. Se il tag manca ma c'è `height=*` e la specie ha un rapporto altezza/circonferenza (`height_circ_ratio`) in `scripts/species_limits.json`, la circonferenza è stimata e il tronco è disegnato più chiaro. Lo stesso vale per il rapporto diametro chioma/circonferenza (`crown_circ_ratio`), in entrambe le direzioni. Le stime servono solo al rendering e non entrano nei check QA.
+* **Tronco**: cerchio marrone con raggio ricavato da `circumference=*`. Se il tag manca, la circonferenza è stimata (tronco disegnato più chiaro) da `height=*` oppure da `diameter_crown=*`, usando i rapporti della specie in `scripts/species_limits.json` (`height_circ_ratio`, `crown_circ_ratio`) o, per le specie senza rapporto, le mediane generali di `_default` (altezza/circonferenza 12, chioma/circonferenza 7,03). Allo stesso modo la chioma è stimata da `circumference=*` se manca `diameter_crown`. Le stime servono solo al rendering e non entrano nei check QA.
 * **Contorno della chioma**: giallo per `denotation=natural_monument` (gli alberi monumentali sono disegnati sopra agli altri), viola per `denotation=landmark`, rosso per gli alberi con problemi (il rosso ha la precedenza).
 * **Zoom**: da zoom 16 compaiono le forme e il tronco; tra zoom 9 e 16 gli alberi sono cerchi; sotto zoom 9 si vedono solo gli alberi con problemi.
 

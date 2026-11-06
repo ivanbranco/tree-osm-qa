@@ -108,10 +108,10 @@ def fetch_bbox(region, bbox, depth=0, min_depth=0):
 MAX_CIRCUMFERENCE = 43.0   # m
 MAX_HEIGHT = 115.92        # m
 # Limiti massimi per specie (altezza e circonferenza, in m), modificabili in species_limits.json
-SPECIES_LIMITS = {
-    " ".join(k.split()).lower(): v
-    for k, v in json.loads((Path(__file__).resolve().parent / "species_limits.json").read_text(encoding="utf-8")).items()
-}
+_RAW_LIMITS = json.loads((Path(__file__).resolve().parent / "species_limits.json").read_text(encoding="utf-8"))
+# rapporti medi (mediane) usati quando la specie non ne ha uno proprio
+DEFAULT_RATIOS = _RAW_LIMITS.pop("_default", {})
+SPECIES_LIMITS = {" ".join(k.split()).lower(): v for k, v in _RAW_LIMITS.items()}
 
 
 def species_limit(t):
@@ -268,23 +268,29 @@ KEEP = ["name", "species", "genus", "taxon",
 
 def sizes(t):
     """Diametro chioma e circonferenza per il rendering. Se ne manca uno, lo stima dall'altro tag
-    usando i rapporti della specie (height_circ_ratio = altezza/circonferenza, crown_circ_ratio =
-    diametro chioma/circonferenza) in species_limits.json. Le stime servono solo al rendering, non ai check."""
+    con i rapporti della specie (height_circ_ratio = altezza/circonferenza, crown_circ_ratio =
+    diametro chioma/circonferenza) o, se la specie non ne ha, con quelli di "_default" in
+    species_limits.json. Se il rapporto della specie dà una circonferenza impossibile, si usa quello
+    di default. Le stime servono solo al rendering, non ai check."""
     lim = species_limit(t) or {}
     h, c, cd = num(t.get("height")), num(t.get("circumference")), num(t.get("diameter_crown"))
     max_c, max_h = lim.get("circumference", MAX_CIRCUMFERENCE), lim.get("height", MAX_HEIGHT)
-    rh, rc = lim.get("height_circ_ratio"), lim.get("crown_circ_ratio")
+    rh = [r for r in (lim.get("height_circ_ratio"), DEFAULT_RATIOS.get("height_circ_ratio")) if r]
+    rc = [r for r in (lim.get("crown_circ_ratio"), DEFAULT_RATIOS.get("crown_circ_ratio")) if r]
 
     circ, circ_est = (c, False) if c and c > 0 else (None, False)
     if circ is None:
-        if rh and h and 0 < h <= max_h and h / rh <= max_c:
-            circ, circ_est = h / rh, True
-        elif rc and cd and cd > 0 and cd / rc <= max_c:
-            circ, circ_est = cd / rc, True
+        est = None
+        if h and 0 < h <= max_h:
+            est = next((h / r for r in rh if h / r <= max_c), None)
+        if est is None and cd and cd > 0:
+            est = next((cd / r for r in rc if cd / r <= max_c), None)
+        if est:
+            circ, circ_est = est, True
 
     crown, crown_est = (cd, False) if cd and cd > 0 else (None, False)
     if crown is None and rc and c and 0 < c <= max_c:
-        crown, crown_est = rc * c, True
+        crown, crown_est = rc[0] * c, True
     return crown, crown_est, circ, circ_est
 
 
