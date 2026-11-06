@@ -1,6 +1,6 @@
 # tree-osm-qa
 
-Mappa degli alberi di OpenStreetMap (`natural=tree`) per il Piemonte, pensata per il controllo di qualità dei dati. Il sito è statico (GitHub Pages, MapLibre GL JS) e i dati si aggiornano con una GitHub Action.
+Mappa degli alberi di OpenStreetMap (`natural=tree`) delle regioni italiane, pensata per il controllo di qualità dei dati. Il sito è statico (GitHub Pages, MapLibre GL JS) e i dati si aggiornano con una GitHub Action.
 
 Sito: https://ivanbranco.github.io/tree-osm-qa/
 
@@ -27,7 +27,7 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
   * bombata, a lobi, se `broadleaved` o `palm`
   * poligonale (esagono o ottagono, ruotato in modo diverso per ogni albero) se `needleleaved`
 * **Tronco**: cerchio marrone con raggio ricavato da `circumference=*`. Se il tag manca ma c'è `height=*` e la specie ha un rapporto altezza/circonferenza (`height_circ_ratio`) in `scripts/species_limits.json`, la circonferenza è stimata e il tronco è disegnato più chiaro. Lo stesso vale per il rapporto diametro chioma/circonferenza (`crown_circ_ratio`), in entrambe le direzioni. Le stime servono solo al rendering e non entrano nei check QA.
-* **Contorno della chioma**: giallo per `denotation=natural_monument`, viola per `denotation=landmark`, rosso per gli alberi con problemi (il rosso ha la precedenza).
+* **Contorno della chioma**: giallo per `denotation=natural_monument` (gli alberi monumentali sono disegnati sopra agli altri), viola per `denotation=landmark`, rosso per gli alberi con problemi (il rosso ha la precedenza).
 * **Zoom**: da zoom 16 compaiono le forme e il tronco; tra zoom 9 e 16 gli alberi sono cerchi; sotto zoom 9 si vedono solo gli alberi con problemi.
 
 ## Filtri e scheda
@@ -37,18 +37,29 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 * L'immagine viene da `wikimedia_commons`, poi da `panoramax`, poi da `image`.
 * Se presenti, la scheda indica `ref:masaf` (elenco degli alberi monumentali d'Italia del MASAF), `ref:rami` (registro RAMI) e `website`/`url` verso monumentaltrees.com.
 
-## Dati e aggiornamento
+## Regioni e dati
 
-I dati arrivano da Overpass (`natural=tree` nell'area del Piemonte) e vengono salvati in `data/trees.geojson`. L'aggiornamento è periodico e si può avviare a mano da Actions → "Aggiorna dati alberi" → Run workflow. Se il download fallisce restano i dati precedenti.
+I dati arrivano da Overpass (`natural=tree`) e sono divisi per regione. Il sito ha un selettore di regione (indirizzo diretto: `#region=lombardia`).
+
+* `data/regions/<regione>.geojson.gz` – gli alberi di una regione, con i check già calcolati (compressi: il browser li decomprime)
+* `data/index.json` – elenco delle regioni disponibili, numero di alberi e data dell'ultimo cambiamento dei dati
+* `scripts/regions.json` – regioni: nome, codice ISO 3166-2, id della relation OSM (`rel`) e bbox approssimativa
+
+**Aggiornamento**: da GitHub, Actions → "Aggiorna dati alberi" → Run workflow, scegliendo `all` oppure una singola regione. Non ci sono esecuzioni automatiche: l'aggiornamento parte solo a mano. Se il download di una regione fallisce restano i suoi dati precedenti; se i dati non cambiano, i file non vengono modificati.
+
+In locale: `python scripts/fetch_trees.py lombardia` (o `all`).
+
+Le regioni grandi vengono scaricate a pezzi (tile) e unite. Il confine esatto lo decide l'area amministrativa OSM; la bbox serve solo a dividere il lavoro, quindi se mancano alberi ai margini di una regione basta allargarla in `regions.json`.
 
 ## Struttura
 
-* `scripts/fetch_trees.py` – scarica da Overpass, calcola i check, scrive `data/trees.geojson`
+* `scripts/fetch_trees.py` – scarica da Overpass, calcola i check, scrive i dati
+* `scripts/regions.json` – elenco delle regioni
 * `scripts/species_limits.json` – per specie: limiti di altezza e circonferenza, rapporti usati per stimare le dimensioni mancanti
 * `.github/workflows/update.yml` – aggiornamento dei dati
 * `index.html` – il sito
 
-Per cambiare area modifica `BBOX` e `AREA_ID` in `scripts/fetch_trees.py`. Per pubblicare, attiva GitHub Pages dal branch `main`, cartella root.
+Per pubblicare, attiva GitHub Pages dal branch `main`, cartella root.
 
 ## Licenza e attribuzione
 

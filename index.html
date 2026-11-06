@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Alberi OSM – Piemonte</title>
+<title>Alberi OSM</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
 <style>
   html,body{margin:0;height:100%;font:14px system-ui,sans-serif}
@@ -31,7 +33,8 @@
 <body>
 <div id="side">
 <div id="panel" class="box">
-  <h1>Alberi OSM – Piemonte</h1>
+  <h1>Alberi OSM</h1>
+  <select id="region"></select>
   <select id="den">
     <option value="">Tutti gli alberi</option>
     <option value="natural_monument">Monumentali</option>
@@ -54,6 +57,7 @@
     <option value="leaf_cycle">leaf_cycle non valido</option>
   </select>
   <div id="count"></div>
+  <div id="updated" class="note"></div>
 </div>
   <details id="legend-box" class="box">
     <summary>Legenda</summary>
@@ -80,11 +84,23 @@ const px = (prop, minPx, z) => ["max", minPx, ["/", ["get", prop], M0 / Math.pow
 const radius = (prop, minPx) => ["interpolate", ["exponential", 2], ["zoom"],
   ...Array.from({ length: 23 }, (_, z) => [z, px(prop, minPx, z)]).flat()];
 
-const dataP = fetch("data/trees.geojson").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
-dataP.catch(() => {});
+const EMPTY = { type: "FeatureCollection", features: [] };
+const getJSON = u => fetch(u).then(r => { if (!r.ok) throw new Error(u + " " + r.status); return r.json(); });
+async function getGz(u) {   // file .geojson.gz: se il server non lo ha già decompresso, lo fa il browser
+  const r = await fetch(u);
+  if (!r.ok) throw new Error(u + " " + r.status);
+  const buf = await r.arrayBuffer(), u8 = new Uint8Array(buf);
+  if (u8[0] === 0x1f && u8[1] === 0x8b) {
+    if (typeof DecompressionStream === "undefined") throw new Error("browser non supportato");
+    return JSON.parse(await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"))).text());
+  }
+  return JSON.parse(new TextDecoder().decode(buf));
+}
+const indexP = getJSON("data/index.json");
+indexP.catch(() => {});
 
 const map = new maplibregl.Map({
-  container: "map", center: [7.9, 45.0], zoom: 8, maxZoom: 21,
+  container: "map", center: [12.5, 42.0], zoom: 5, maxZoom: 21,
   style: { version: 8, sources: { osm: { type: "raster", tileSize: 256, maxzoom: 19,
       tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
       attribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>" } },
@@ -106,11 +122,11 @@ class ZoomInfo {
 map.addControl(new ZoomInfo());
 
 map.on("load", async () => {
-  let fc;
-  try { fc = await dataP; }
+  let idx;
+  try { idx = (await indexP).regions; }
   catch (e) { document.getElementById("count").textContent = "Errore nel caricamento dei dati"; return; }
-  const ALL = fc.features;
-  map.addSource("trees", { type: "geojson", data: fc });
+  let ALL = [], SHAPED = [];
+  map.addSource("trees", { type: "geojson", data: EMPTY });
   const STROKE_COLOR = ["case",
     ["!=", ["get", "issues"], "|"], "#d00020",                 // errore: precedenza massima
     ["==", ["get", "denotation"], "natural_monument"], "#e6a800", // monumentale: oro
@@ -131,8 +147,7 @@ map.on("load", async () => {
   const SHAPE_Z = 16, SHAPE_CAP = 30000;
   const BLOB = new Set(["broadleaved", "palm"]), SPIKY = new Set(["needleleaved"]);
   const NOSHAPE = ["!", ["in", ["coalesce", ["get", "leaf_type"], ""], ["literal", ["broadleaved", "palm", "needleleaved"]]]];
-  const SHAPED = ALL.filter(ft => BLOB.has(ft.properties.leaf_type) || SPIKY.has(ft.properties.leaf_type));
-  const EMPTY = { type: "FeatureCollection", features: [] };
+  const isShaped = ft => BLOB.has(ft.properties.leaf_type) || SPIKY.has(ft.properties.leaf_type);
 
   const shapeRing = ft => {
     const [lon, lat] = ft.geometry.coordinates, p = ft.properties, r = p.cr;
@@ -176,16 +191,25 @@ map.on("load", async () => {
     shapesEmpty = false;
   };
 
-  map.addLayer({ id: "crown", type: "circle", source: "trees", minzoom: 9, maxzoom: SHAPE_Z, paint: circlePaint() });
-  map.addLayer({ id: "crown-plain", type: "circle", source: "trees", minzoom: SHAPE_Z, filter: NOSHAPE, paint: circlePaint() });
-  map.addLayer({ id: "crown-poly", type: "fill", source: "shapes", paint: {
-    "fill-color": "#2e9e45", "fill-opacity": FILL_OPACITY } });
-  map.addLayer({ id: "crown-poly-line", type: "line", source: "shapes", layout: { "line-join": "round" }, paint: {
-    "line-color": STROKE_COLOR, "line-width": STROKE_W } });
-  map.addLayer({ id: "trunk", type: "circle", source: "trees", minzoom: SHAPE_Z, filter: ["has", "tr"], paint: {
-    "circle-radius": radius("tr", 1.5),
-    "circle-color": "#7b4a1e", "circle-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1],
-    "circle-pitch-alignment": "map" } });
+  // Due livelli di layer: prima tutti gli alberi, poi i monumentali, che restano sopra agli altri
+  const MON = ["==", ["coalesce", ["get", "denotation"], ""], "natural_monument"];
+  const TIERS = [{ suf: "", cond: ["!", MON] }, { suf: "-top", cond: MON }];
+  const DEFS = [
+    { id: "crown", spec: () => ({ type: "circle", source: "trees", minzoom: 9, maxzoom: SHAPE_Z, paint: circlePaint() }) },
+    { id: "crown-plain", base: NOSHAPE, spec: () => ({ type: "circle", source: "trees", minzoom: SHAPE_Z, paint: circlePaint() }) },
+    { id: "crown-poly", spec: () => ({ type: "fill", source: "shapes", paint: {
+      "fill-color": "#2e9e45", "fill-opacity": FILL_OPACITY } }) },
+    { id: "crown-poly-line", spec: () => ({ type: "line", source: "shapes", layout: { "line-join": "round" }, paint: {
+      "line-color": STROKE_COLOR, "line-width": STROKE_W } }) },
+    { id: "trunk", base: ["has", "tr"], spec: () => ({ type: "circle", source: "trees", minzoom: SHAPE_Z, paint: {
+      "circle-radius": radius("tr", 1.5), "circle-color": "#7b4a1e",
+      "circle-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1],
+      "circle-pitch-alignment": "map" } }) },
+  ];
+  const filterFor = (def, tier, rest) => ["all", ...(def.base ? [def.base] : []), tier.cond, ...rest];
+  for (const tier of TIERS) for (const def of DEFS)
+    map.addLayer({ id: def.id + tier.suf, ...def.spec(), filter: filterFor(def, tier, []) });
+  const CROWN_IDS = TIERS.flatMap(t => ["crown", "crown-plain", "crown-poly"].map(i => i + t.suf));
 
   const ISSUE = ["!=", ["get", "issues"], "|"];
   map.addLayer({ id: "crown-issues", type: "circle", source: "trees", maxzoom: 9, filter: ISSUE, paint: {
@@ -201,17 +225,14 @@ map.on("load", async () => {
     if (tx) f.push(taxonFilter(tx));
     const is = document.getElementById("issue").value;
     if (is) f.push(["in", `|${is}|`, ["get", "issues"]]);
-    const flt = f.length > 1 ? f : null;
-    map.setFilter("crown", flt);
-    map.setFilter("crown-plain", ["all", NOSHAPE, ...f.slice(1)]);
-    map.setFilter("crown-poly", flt); map.setFilter("crown-poly-line", flt);
-    map.setFilter("trunk", ["all", ["has", "tr"], ...f.slice(1)]);
-    map.setFilter("crown-issues", ["all", ISSUE, ...f.slice(1)]);
+    const rest = f.slice(1);
+    for (const tier of TIERS) for (const def of DEFS) map.setFilter(def.id + tier.suf, filterFor(def, tier, rest));
+    map.setFilter("crown-issues", ["all", ISSUE, ...rest]);
     update();
   };
   const update = () => {
     const low = map.getZoom() < 9;
-    const layers = low ? ["crown-issues"] : ["crown", "crown-plain", "crown-poly"];
+    const layers = low ? ["crown-issues"] : CROWN_IDS;
     const n = new Set(map.queryRenderedFeatures({ layers }).map(f => f.properties.id)).size;
     document.getElementById("count").textContent = low
       ? `Alberi problematici in vista: ${n} (ingrandisci per vedere tutti)` : `Alberi in vista: ${n}`;
@@ -277,7 +298,7 @@ map.on("load", async () => {
   document.getElementById("issue").onchange = apply;
   map.on("moveend", update); map.on("idle", update); update();
 
-  for (const id of ["crown", "crown-plain", "crown-poly", "crown-issues"]) {
+  for (const id of [...CROWN_IDS, "crown-issues"]) {
     map.on("click", id, e => {
       const g = e.features[0].geometry;
       new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(g.type === "Point" ? g.coordinates : e.lngLat)
@@ -286,6 +307,44 @@ map.on("load", async () => {
     map.on("mouseenter", id, () => map.getCanvas().style.cursor = "pointer");
     map.on("mouseleave", id, () => map.getCanvas().style.cursor = "");
   }
+
+  // Regioni: ogni regione è un file data/regions/<slug>.geojson.gz elencato in data/index.json
+  const regSel = document.getElementById("region"), info = document.getElementById("updated");
+  const regions = Object.entries(idx).sort((a, b) => a[1].name.localeCompare(b[1].name, "it"));
+  if (!regions.length) { document.getElementById("count").textContent = "Nessun dato: lancia l'Action di aggiornamento"; return; }
+  regSel.replaceChildren(...regions.map(([slug, r]) => {
+    const o = document.createElement("option");
+    o.value = slug; o.textContent = `${r.name} (${r.count.toLocaleString("it-IT")} alberi)`;
+    return o;
+  }));
+  let loadSeq = 0;
+  const loadRegion = async (slug, fit) => {
+    const seq = ++loadSeq, r = idx[slug];
+    document.getElementById("count").textContent = `Caricamento di ${r.name}…`;
+    let fc;
+    try { fc = await getGz(`data/regions/${slug}.geojson.gz`); }
+    catch (e) { if (seq === loadSeq) document.getElementById("count").textContent = "Errore nel caricamento dei dati"; return; }
+    if (seq !== loadSeq) return;                      // nel frattempo è stata scelta un'altra regione
+    ALL = fc.features;
+    SHAPED = ALL.filter(isShaped);
+    map.getSource("trees").setData(fc);
+    info.textContent = r.updated ? `Dati aggiornati al ${new Date(r.updated).toLocaleDateString("it-IT")}` : "";
+    if (fit && ALL.length) {
+      let w = 180, s = 90, e = -180, n = -90;
+      for (const ft of ALL) {
+        const [x, y] = ft.geometry.coordinates;
+        if (x < w) w = x; if (x > e) e = x; if (y < s) s = y; if (y > n) n = y;
+      }
+      map.fitBounds([[w, s], [e, n]], { padding: 30, duration: 0 });
+    }
+    taxSel.value = ""; taxSig = "";                   // l'elenco genus/specie dipende dalla regione
+    apply(); updateTaxa(); updateShapes();
+  };
+  const fromHash = new URLSearchParams(location.hash.slice(1)).get("region");
+  const first = idx[fromHash] ? fromHash : idx.piemonte ? "piemonte" : regions[0][0];
+  regSel.value = first;
+  regSel.onchange = () => { history.replaceState(null, "", "#region=" + regSel.value); loadRegion(regSel.value, true); };
+  await loadRegion(first, true);
 });
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));

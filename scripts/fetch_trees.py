@@ -1,15 +1,23 @@
 #!/usr/bin/env python3
-"""Scarica gli alberi OSM di una regione via Overpass e produce data/trees.geojson con i check di qualità."""
-import json, math, re, sys, time, urllib.parse, urllib.request
+"""Scarica gli alberi OSM (natural=tree) delle regioni italiane via Overpass, calcola i check QA
+e scrive data/regions/<regione>.geojson.gz e data/index.json.
+
+Uso: python scripts/fetch_trees.py [all | regione [regione ...]]
+Le regioni (nome, codice ISO, bbox) sono in scripts/regions.json.
+"""
+import gzip, hashlib, json, math, os, re, sys, time
 from pathlib import Path
 
-import os
 import requests
 
-# Piemonte: bbox (sud, ovest, nord, est) + filtro sull'area amministrativa (relation 44874)
-BBOX = (44.0, 6.6, 46.5, 9.3)
-AREA_ID = 3600000000 + 44874
-MAX_DEPTH = 2  # 1 -> 4 -> 16 tile
+HERE = Path(__file__).resolve().parent
+DATA = HERE.parent / "data"
+OUT_DIR = DATA / "regions"
+INDEX = DATA / "index.json"
+REGIONS = json.loads((HERE / "regions.json").read_text(encoding="utf-8"))
+
+MAX_DEPTH = 3    # livelli massimi di suddivisione in 4 tile (1 -> 4 -> 16 -> 64)
+BBOX_PAD = 0.1   # gradi aggiunti alla bbox di ogni regione (il confine esatto lo decide l'area OSM)
 
 ENDPOINTS = [
     "https://overpass-api.de/api/interpreter",
@@ -21,7 +29,6 @@ HEADERS = {
     "User-Agent": "tree-osm-qa/1.0 (https://github.com/ivanbranco/tree-osm-qa)",
     "Accept-Encoding": "gzip",
 }
-OUT = Path(__file__).resolve().parent.parent / "data" / "trees.geojson"
 
 
 def warn(msg):
@@ -30,20 +37,28 @@ def warn(msg):
         print(f"::warning::{msg}")
 
 
-def query(bbox):
+def query(region, bbox):
     s, w, n, e = bbox
+    if region.get("rel"):
+        area = f"area({3600000000 + region['rel']})->.a;"
+    else:
+        area = f'area["ISO3166-2"="{region["iso"]}"]["admin_level"="4"]->.a;'
     return f"""[out:json][timeout:360];
-area({AREA_ID})->.a;
+{area}
 node["natural"="tree"](area.a)({s},{w},{n},{e});
 out body qt;"""
 
 
-def run_overpass(q, label):
-    """Prova tutti gli endpoint; restituisce il JSON solo se completo."""
+def run_overpass(q, label, can_split):
+    """Prova gli endpoint; restituisce il JSON solo se completo. Se la query è troppo pesante
+    (timeout, errore di memoria, 504) e si può dividere, restituisce subito None."""
     for url in ENDPOINTS:
         for attempt in range(2):
             try:
                 r = requests.post(url, data={"data": q}, headers=HEADERS, timeout=420)
+                if r.status_code == 504 and can_split:
+                    print(f" [!] {url} -> HTTP 504 ({label}): provo a dividere")
+                    return None
                 if r.status_code in (429, 504):
                     print(f" [!] {url} -> HTTP {r.status_code} ({label}), attendo 60s")
                     time.sleep(60)
@@ -53,35 +68,39 @@ def run_overpass(q, label):
                 remark = data.get("remark", "")
                 if "elements" not in data or "error" in remark.lower():
                     print(f" [!] {url} -> incompleto ({label}): {remark[:150]}")
+                    if can_split and "runtime error" in remark.lower():
+                        return None
                     break
                 return data
+            except requests.exceptions.ReadTimeout:
+                print(f" [!] {url} timeout ({label})")
+                if can_split:
+                    return None
             except Exception as e:
                 print(f" [!] {url} fallito ({label}, tentativo {attempt + 1}/2): {str(e)[:200]}")
                 time.sleep(15)
     return None
 
 
-def fetch_bbox(bbox, depth=0):
-    """Scarica una bbox; se fallisce la divide in 4 tile (max MAX_DEPTH livelli)."""
-    data = run_overpass(query(bbox), f"bbox livello {depth}")
-    if data or depth >= MAX_DEPTH:
-        return data
+def fetch_bbox(region, bbox, depth=0, min_depth=0):
+    """Scarica una bbox; se fallisce (o se depth < min_depth) la divide in 4 tile."""
+    label = f"{region['slug']} livello {depth}"
+    if depth >= min_depth:
+        data = run_overpass(query(region, bbox), label, depth < MAX_DEPTH)
+        if data or depth >= MAX_DEPTH:
+            return data
     print(f" -> divido la bbox in 4 tile (livello {depth + 1})")
     s, w, n, e = bbox
     mlat, mlon = (s + n) / 2, (w + e) / 2
     merged = {}
     for tile in [(s, w, mlat, mlon), (s, mlon, mlat, e), (mlat, w, n, mlon), (mlat, mlon, n, e)]:
-        part = fetch_bbox(tile, depth + 1)
+        part = fetch_bbox(region, tile, depth + 1, min_depth)
         if part is None:
             return None  # meglio la cache che dati incompleti
         for el in part["elements"]:
             merged[el["id"]] = el
         time.sleep(5)
     return {"elements": list(merged.values())}
-
-
-def fetch():
-    return fetch_bbox(BBOX)
 
 
 # Soglie e valori ammessi
@@ -217,18 +236,65 @@ def to_feature(el):
 
 def build(data):
     feats = [to_feature(e) for e in data["elements"] if e.get("type") == "node"]
-    return {"type": "FeatureCollection",
-            "generated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "features": feats}
+    feats.sort(key=lambda f: f["properties"]["id"])  # ordine stabile: se i dati non cambiano, il file resta identico
+    return {"type": "FeatureCollection", "features": feats}
+
+
+def update_region(region, regions_index):
+    slug = region["slug"]
+    s, w, n, e = region["bbox"]
+    bbox = (s - BBOX_PAD, w - BBOX_PAD, n + BBOX_PAD, e + BBOX_PAD)
+    area = (n - s) * (e - w)
+    data = fetch_bbox(region, bbox, 0, region.get("split", 1 if area > 3 else 0))
+    path = OUT_DIR / f"{slug}.geojson.gz"
+    if not data:
+        if path.exists():
+            warn(f"{slug}: download fallito, mantengo i dati precedenti")
+            return True
+        print(f"{slug}: download fallito e nessuna cache disponibile")
+        return False
+    fc = build(data)
+    raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    digest = hashlib.sha1(raw).hexdigest()
+    if regions_index.get(slug, {}).get("sha1") == digest and path.exists():
+        print(f"{slug}: nessuna modifica ({len(fc['features'])} alberi)")
+        return True
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    with open(path, "wb") as fh:  # mtime=0 e filename vuoto: file identico se i dati sono identici
+        with gzip.GzipFile(filename="", mode="wb", fileobj=fh, compresslevel=9, mtime=0) as gz:
+            gz.write(raw)
+    regions_index[slug] = {"name": region["name"], "count": len(fc["features"]),
+                           "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "sha1": digest}
+    print(f"{slug}: {len(fc['features'])} alberi -> {path} ({path.stat().st_size / 1e6:.1f} MB)")
+    return True
+
+
+def save_index(regions_index):
+    DATA.mkdir(parents=True, exist_ok=True)
+    INDEX.write_text(json.dumps({"regions": regions_index}, ensure_ascii=False, indent=1, sort_keys=True) + "\n",
+                     encoding="utf-8")
+
+
+def main(argv):
+    names = argv or ["all"]
+    by_slug = {r["slug"]: r for r in REGIONS}
+    if "all" in names:
+        todo = REGIONS
+    else:
+        unknown = [x for x in names if x not in by_slug]
+        if unknown:
+            sys.exit(f"Regione sconosciuta: {', '.join(unknown)}. Disponibili: all, {', '.join(by_slug)}")
+        todo = [by_slug[x] for x in names]
+    regions_index = json.loads(INDEX.read_text(encoding="utf-8")).get("regions", {}) if INDEX.exists() else {}
+    ok = True
+    for i, region in enumerate(todo, 1):
+        print(f"== {region['name']} ({i}/{len(todo)})", flush=True)
+        ok &= update_region(region, regions_index)
+        save_index(regions_index)
+        time.sleep(5)
+    if not ok:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
-    data = fetch()
-    if not data:
-        if OUT.exists():
-            warn("Download Overpass fallito: mantengo i dati precedenti")
-            sys.exit(0)
-        sys.exit("Download Overpass fallito e nessuna cache disponibile")
-    fc = build(data)
-    OUT.write_text(json.dumps(fc, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
-    print(f"{len(fc['features'])} alberi -> {OUT}")
+    main(sys.argv[1:])
