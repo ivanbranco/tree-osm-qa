@@ -43,10 +43,11 @@
    "updated": "2026-11-07T00:13:59Z"
   },
   "valle-d-aosta": {
-   "count": 18244,
+   "count": 18245,
+   "errors": 0,
    "name": "Valle d'Aosta",
-   "sha1": "039bb1e781f344a4de633f9ae5db0a15e1cfbe06",
-   "updated": "2026-11-06T11:56:12Z"
+   "sha1": "9e9dd7c52efc43700f8b72a54c6ad4f31c6716a8",
+   "updated": "2026-11-07T22:59:19Z"
   }
  }
 }
