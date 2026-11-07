@@ -16,6 +16,8 @@
   .leg{list-style:none;margin:8px 0 0;padding:0;font-size:13px}
   .leg li{display:flex;align-items:center;gap:8px;margin:2px 0}
   .leg svg{flex:none}
+  #tip{position:absolute;z-index:3;display:none;pointer-events:none;background:#fff;padding:4px 8px;border-radius:4px;box-shadow:0 1px 6px #0004;font-size:12px}
+  #overview{margin:0 0 6px;width:100%;padding:3px 6px;cursor:pointer}
   .note{font-size:11px;color:#777;margin-top:6px}
   #panel h1{font-size:15px;margin:0 0 6px}
   #panel label{display:block;margin:2px 0}
@@ -35,6 +37,7 @@
 <div id="panel" class="box">
   <h1>Alberi OSM</h1>
   <select id="region"></select>
+  <button id="overview" type="button" hidden>← Tutte le regioni</button>
   <select id="taxon"><option value="">Tutti i genus e le specie</option></select>
   <select id="issue">
     <option value="">Tutti gli errori</option>
@@ -77,6 +80,7 @@
   </details>
 </div>
 <div id="map"></div>
+<div id="tip"></div>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
 const LAT = 45;                                   // latitudine di riferimento per metri→pixel
@@ -101,6 +105,9 @@ async function getGz(u) {   // file .geojson.gz: se il server non lo ha già dec
 }
 const indexP = getJSON("data/index.json");
 indexP.catch(() => {});
+const regionsP = getJSON("scripts/regions.json");   // nome e gruppo (es. "Italia") di ogni regione
+regionsP.catch(() => {});
+const boundsP = getJSON("data/regions_boundaries.geojson").catch(() => null);
 
 const map = new maplibregl.Map({
   container: "map", center: [12.5, 42.0], zoom: 5, maxZoom: 21,
@@ -128,7 +135,10 @@ map.on("load", async () => {
   let idx;
   try { idx = (await indexP).regions; }
   catch (e) { document.getElementById("count").textContent = "Errore nel caricamento dei dati"; return; }
-  let ALL = [], SHAPED = [];
+  const meta = await regionsP.catch(() => []);
+  const boundaries = await boundsP;
+  const metaBy = Object.fromEntries(meta.map(m => [m.slug, m]));
+  let ALL = [], SHAPED = [], current = null;       // current = regione caricata (nessuna all'avvio)
   map.addSource("trees", { type: "geojson", data: EMPTY });
   const STROKE_COLOR = ["case",
     ["!=", ["get", "issues"], "|"], "#d00020",                 // errore: precedenza massima
@@ -217,6 +227,33 @@ map.on("load", async () => {
     map.addLayer({ id: def.id + tier.suf, ...def.spec(tier), filter: filterFor(def, tier, []) });
   const CROWN_IDS = TIERS.flatMap(t => ["crown", "crown-plain", "crown-poly"].map(i => i + t.suf));
 
+  // Confini delle regioni: si sceglie la regione toccandola (l'area della regione caricata non è cliccabile)
+  const coordsOf = c => typeof c[0] === "number" ? [c] : c.flatMap(coordsOf);
+  let allBounds = null;
+  if (boundaries) {
+    let w = 180, s = 90, e = -180, n = -90;
+    for (const f of boundaries.features) {
+      const r = idx[f.properties.slug];
+      f.properties.has_data = !!r;
+      f.properties.count = r ? r.count : 0;
+      for (const [x, y] of coordsOf(f.geometry.coordinates)) {
+        if (x < w) w = x; if (x > e) e = x; if (y < s) s = y; if (y > n) n = y;
+      }
+    }
+    allBounds = [[w, s], [e, n]];
+    map.addSource("regions", { type: "geojson", data: boundaries, promoteId: "slug" });
+    map.addLayer({ id: "regions-fill", type: "fill", source: "regions", maxzoom: ALL_Z, paint: {
+      "fill-color": ["case", ["get", "has_data"], "#2e9e45", "#999999"],
+      "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.4, 0.15] } }, "crown");
+    map.addLayer({ id: "regions-line", type: "line", source: "regions", paint: {
+      "line-color": ["case", ["get", "has_data"], "#1b6b2c", "#888888"], "line-width": 1.5 } }, "crown");
+  }
+  const fitAll = () => { if (allBounds) map.fitBounds(allBounds, { padding: 30, duration: 0 }); };
+  const setCurrent = slug => {
+    current = slug;
+    if (boundaries) map.setFilter("regions-fill", slug ? ["!=", ["get", "slug"], slug] : null);
+  };
+
   // Ceppi: una X (immagine disegnata al volo), grande quanto la circonferenza ma mai sotto i 5 px di raggio
   const xImage = color => {
     const c = document.createElement("canvas"); c.width = c.height = 64;
@@ -256,6 +293,7 @@ map.on("load", async () => {
     update();
   };
   const update = () => {
+    if (!current) { document.getElementById("count").textContent = "Scegli una regione sulla mappa o dal menu"; return; }
     const z = map.getZoom();
     const layers = z < MON_Z ? ["crown-issues"] : z < ALL_Z ? ["crown-issues-mid", "crown-top"] : CROWN_IDS;
     const n = new Set(map.queryRenderedFeatures({ layers }).map(f => f.properties.id)).size;
@@ -335,18 +373,39 @@ map.on("load", async () => {
     map.on("mouseleave", id, () => map.getCanvas().style.cursor = "");
   }
 
-  // Regioni: ogni regione è un file data/regions/<slug>.geojson.gz elencato in data/index.json
+  // Regioni: ogni regione è un file data/regions/<slug>.geojson.gz elencato in data/index.json.
+  // Si sceglie toccando i confini sulla mappa o dal menu; all'avvio nessuna regione è caricata.
   const regSel = document.getElementById("region"), info = document.getElementById("updated");
-  const regions = Object.entries(idx).sort((a, b) => a[1].name.localeCompare(b[1].name, "it"));
-  if (!regions.length) { document.getElementById("count").textContent = "Nessun dato: lancia l'Action di aggiornamento"; return; }
-  regSel.replaceChildren(...regions.map(([slug, r]) => {
+  const overviewBtn = document.getElementById("overview"), tip = document.getElementById("tip");
+  const entries = Object.keys(idx).map(slug => ({ slug, name: (metaBy[slug] || idx[slug]).name, group: (metaBy[slug] || {}).group }));
+  if (!entries.length) { document.getElementById("count").textContent = "Nessun dato: lancia l'Action di aggiornamento"; return; }
+  const byName = (a, b) => a.name.localeCompare(b.name, "it");
+  const mkOpt = e => {
     const o = document.createElement("option");
-    o.value = slug; o.textContent = `${r.name} (${r.count.toLocaleString("it-IT")} alberi)`;
+    o.value = e.slug; o.textContent = `${e.name} (${idx[e.slug].count.toLocaleString("it-IT")} alberi)`;
     return o;
-  }));
+  };
+  // menu: le voci senza gruppo (es. Bulgaria) e i gruppi (es. Italia, non selezionabile) con le loro regioni
+  const items = [], groups = {};
+  for (const e of entries) {
+    if (e.group) (groups[e.group] = groups[e.group] || []).push(e);
+    else items.push({ label: e.name, node: mkOpt(e) });
+  }
+  for (const [g, list] of Object.entries(groups)) {
+    const og = document.createElement("optgroup");
+    og.label = g;
+    list.sort(byName).forEach(e => og.appendChild(mkOpt(e)));
+    items.push({ label: g, node: og });
+  }
+  items.sort((a, b) => a.label.localeCompare(b.label, "it"));
+  const placeholder = document.createElement("option");
+  placeholder.value = ""; placeholder.textContent = "Scegli una regione…";
+  regSel.replaceChildren(placeholder, ...items.map(i => i.node));
+
   let loadSeq = 0;
   const loadRegion = async (slug, fit) => {
     const seq = ++loadSeq, r = idx[slug];
+    setCurrent(slug); regSel.value = slug; overviewBtn.hidden = false;
     document.getElementById("count").textContent = `Caricamento di ${r.name}…`;
     let fc;
     try { fc = await getGz(`data/regions/${slug}.geojson.gz`); }
@@ -367,11 +426,49 @@ map.on("load", async () => {
     taxSel.value = ""; taxSig = "";                   // l'elenco genus/specie dipende dalla regione
     apply(); updateTaxa(); updateShapes();
   };
+  const selectRegion = slug => {
+    history.replaceState(null, "", "#region=" + slug);
+    return loadRegion(slug, true);
+  };
+  const unloadRegion = () => {                        // torna alla vista d'insieme, senza regione
+    loadSeq++;
+    ALL = []; SHAPED = [];
+    map.getSource("trees").setData(EMPTY);
+    setCurrent(null); regSel.value = ""; overviewBtn.hidden = true; info.textContent = "";
+    history.replaceState(null, "", location.pathname + location.search);
+    taxSel.value = ""; taxSig = "";
+    apply(); updateTaxa(); updateShapes();
+    fitAll();
+  };
+  regSel.onchange = () => regSel.value ? selectRegion(regSel.value) : unloadRegion();
+  overviewBtn.onclick = unloadRegion;
+
+  if (boundaries) {
+    let hovered = null;
+    const hover = id => {
+      if (hovered) map.setFeatureState({ source: "regions", id: hovered }, { hover: false });
+      hovered = id;
+      if (id) map.setFeatureState({ source: "regions", id }, { hover: true });
+    };
+    map.on("mousemove", "regions-fill", e => {
+      const p = e.features[0].properties;
+      hover(p.slug);
+      tip.textContent = p.has_data ? `${p.name} · ${Number(p.count).toLocaleString("it-IT")} alberi` : `${p.name} · dati non ancora disponibili`;
+      tip.style.left = (e.point.x + 12) + "px"; tip.style.top = (e.point.y + 12) + "px"; tip.style.display = "block";
+      map.getCanvas().style.cursor = p.has_data ? "pointer" : "";
+    });
+    map.on("mouseleave", "regions-fill", () => { hover(null); tip.style.display = "none"; map.getCanvas().style.cursor = ""; });
+    map.on("click", "regions-fill", e => {
+      // se il clic cade su un albero (la chioma può sconfinare in una regione vicina) vale la scheda dell'albero
+      if (map.queryRenderedFeatures(e.point, { layers: [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid"] }).length) return;
+      const p = e.features[0].properties;
+      if (p.has_data) selectRegion(p.slug);
+    });
+  }
+
   const fromHash = new URLSearchParams(location.hash.slice(1)).get("region");
-  const first = idx[fromHash] ? fromHash : idx.piemonte ? "piemonte" : regions[0][0];
-  regSel.value = first;
-  regSel.onchange = () => { history.replaceState(null, "", "#region=" + regSel.value); loadRegion(regSel.value, true); };
-  await loadRegion(first, true);
+  if (idx[fromHash]) await selectRegion(fromHash);
+  else { fitAll(); update(); }
 });
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));

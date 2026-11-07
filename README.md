@@ -1,6 +1,6 @@
 # tree-osm-qa
 
-Mappa degli alberi di OpenStreetMap (`natural=tree`, e i ceppi `natural=tree_stump`) delle regioni italiane, pensata per il controllo di qualità dei dati. Il sito è statico (GitHub Pages, MapLibre GL JS) e i dati si aggiornano con una GitHub Action.
+Mappa degli alberi di OpenStreetMap (`natural=tree`, e i ceppi `natural=tree_stump`) dell'Italia (per regione) e della Bulgaria, pensata per il controllo di qualità dei dati. Il sito è statico (GitHub Pages, MapLibre GL JS) e i dati si aggiornano con una GitHub Action.
 
 Sito: https://ivanbranco.github.io/tree-osm-qa/
 
@@ -50,11 +50,12 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 
 ## Regioni e dati
 
-I dati arrivano da Overpass (`natural=tree` e `natural=tree_stump`) e sono divisi per regione. Il sito ha un selettore di regione (indirizzo diretto: `#region=lombardia`).
+I dati arrivano da Overpass (`natural=tree` e `natural=tree_stump`) e sono divisi per regione. All'apertura non è caricata nessuna regione: si sceglie toccando i confini sulla mappa (le regioni senza dati sono grigie) o dal menu, dove le regioni italiane sono raggruppate sotto "Italia". "← Tutte le regioni" riporta alla vista d'insieme. Indirizzo diretto: `#region=lombardia`.
 
 * `data/regions/<regione>.geojson.gz` – gli alberi di una regione, con i check già calcolati (compressi: il browser li decomprime)
 * `data/index.json` – elenco delle regioni disponibili, numero di alberi e data dell'ultimo cambiamento dei dati
-* `scripts/regions.json` – regioni: nome, codice ISO 3166-2, id della relation OSM (`rel`) e bbox approssimativa
+* `scripts/regions.json` – regioni: nome, `group` (es. "Italia": le regioni con lo stesso gruppo compaiono insieme nel menu), codice ISO 3166-2, id della relation OSM (`rel`), bbox approssimativa e, se serve, `split` (livelli iniziali di suddivisione in tile: 0 per i paesi con pochi alberi)
+* `data/regions_boundaries.geojson` – confini semplificati delle regioni, per sceglierle sulla mappa; si genera dall'Action "Aggiorna confini regioni" (da Nominatim)
 
 **Aggiornamento**: da GitHub, Actions → "Aggiorna dati alberi" → Run workflow, scegliendo `all` oppure una singola regione. Non ci sono esecuzioni automatiche: l'aggiornamento parte solo a mano. Se il download di una regione fallisce restano i suoi dati precedenti; se i dati non cambiano, i file non vengono modificati.
 
@@ -66,9 +67,11 @@ Le regioni grandi vengono scaricate a pezzi (tile) e unite. Il confine esatto lo
 
 * `scripts/fetch_trees.py` – scarica da Overpass, calcola i check, scrive i dati
 * `scripts/regions.json` – elenco delle regioni
+* `scripts/update_boundaries.py` – scarica i confini delle regioni in `data/regions_boundaries.geojson`
 * `scripts/update_species_list.py` – scarica le liste di specie e generi dalla wiki OSM in `scripts/species_list.json` e `scripts/genus_list.json`
 * `scripts/species_limits.json` – per specie: limiti di altezza e circonferenza, rapporti usati per stimare le dimensioni mancanti
 * `.github/workflows/update.yml` – aggiornamento dei dati
+* `.github/workflows/update-boundaries.yml` – aggiornamento dei confini (solo a mano)
 * `.github/workflows/update-species-list.yml` – aggiornamento delle liste di specie e generi (solo a mano)
 * `index.html` – il sito
 
@@ -76,6 +79,6 @@ Per pubblicare, attiva GitHub Pages dal branch `main`, cartella root.
 
 ## Licenza e attribuzione
 
-Dati © contributori di [OpenStreetMap](https://www.openstreetmap.org/copyright), disponibili con licenza ODbL.
+Dati e confini © contributori di [OpenStreetMap](https://www.openstreetmap.org/copyright), disponibili con licenza ODbL.
 
 Le liste di riferimento (`scripts/species_list.json` e `scripts/genus_list.json`) derivano dalle pagine [List of Species](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species) e [List of Genus, Leaf cycle, Leaf type](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Genus,_Leaf_cycle,_Leaf_type) dell'OpenStreetMap Wiki, sotto licenza [CC BY-SA 2.0](https://wiki.openstreetmap.org/wiki/Wiki_content_license).
