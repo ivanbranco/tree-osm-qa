@@ -1,0 +1,23 @@
+[
+  {"slug": "bulgaria", "name": "Bulgaria", "iso": "BG", "rel": 186382, "bbox": [41.2, 22.3, 44.2, 28.6]},
+  {"slug": "piemonte", "name": "Piemonte", "iso": "IT-21", "rel": 44874, "bbox": [44.0, 6.6, 46.5, 9.3]},
+  {"slug": "valle-d-aosta", "name": "Valle d'Aosta", "iso": "IT-23", "rel": 45155, "bbox": [45.4, 6.7, 46.1, 8.0]},
+  {"slug": "lombardia", "name": "Lombardia", "iso": "IT-25", "rel": 44879, "bbox": [44.6, 8.4, 46.7, 11.5]},
+  {"slug": "trentino-alto-adige", "name": "Trentino-Alto Adige", "iso": "IT-32", "rel": 45757, "bbox": [45.6, 10.4, 47.2, 12.6]},
+  {"slug": "veneto", "name": "Veneto", "iso": "IT-34", "rel": 43648, "bbox": [44.7, 10.6, 46.7, 13.2]},
+  {"slug": "friuli-venezia-giulia", "name": "Friuli-Venezia Giulia", "iso": "IT-36", "rel": 179296, "bbox": [45.5, 12.3, 46.7, 14.0]},
+  {"slug": "liguria", "name": "Liguria", "iso": "IT-42", "rel": 301482, "bbox": [43.7, 7.4, 44.7, 10.1]},
+  {"slug": "emilia-romagna", "name": "Emilia-Romagna", "iso": "IT-45", "rel": 42611, "bbox": [43.7, 9.2, 45.2, 12.8]},
+  {"slug": "toscana", "name": "Toscana", "iso": "IT-52", "rel": 41977, "bbox": [42.2, 9.6, 44.6, 12.4]},
+  {"slug": "umbria", "name": "Umbria", "iso": "IT-55", "rel": 42004, "bbox": [42.3, 11.8, 43.7, 13.3]},
+  {"slug": "marche", "name": "Marche", "iso": "IT-57", "rel": 53060, "bbox": [42.6, 12.2, 44.0, 14.0]},
+  {"slug": "lazio", "name": "Lazio", "iso": "IT-62", "rel": 40784, "bbox": [40.7, 11.4, 42.9, 14.1]},
+  {"slug": "abruzzo", "name": "Abruzzo", "iso": "IT-65", "rel": 53937, "bbox": [41.7, 13.0, 43.0, 14.8]},
+  {"slug": "molise", "name": "Molise", "iso": "IT-67", "rel": 41256, "bbox": [41.3, 13.9, 42.1, 15.2]},
+  {"slug": "campania", "name": "Campania", "iso": "IT-72", "rel": 40218, "bbox": [39.9, 13.7, 41.6, 15.9]},
+  {"slug": "puglia", "name": "Puglia", "iso": "IT-75", "rel": 40095, "bbox": [39.7, 14.9, 42.2, 18.6]},
+  {"slug": "basilicata", "name": "Basilicata", "iso": "IT-77", "rel": 40137, "bbox": [39.8, 15.3, 41.2, 16.9]},
+  {"slug": "calabria", "name": "Calabria", "iso": "IT-78", "rel": 1783980, "bbox": [37.8, 15.6, 40.2, 17.3]},
+  {"slug": "sicilia", "name": "Sicilia", "iso": "IT-82", "rel": 39152, "bbox": [35.4, 11.9, 38.9, 15.7]},
+  {"slug": "sardegna", "name": "Sardegna", "iso": "IT-88", "rel": 6847723, "bbox": [38.7, 8.0, 41.4, 9.9]}
+]
