@@ -311,10 +311,13 @@ map.on("load", async () => {
   };
 
   const taxSel = document.getElementById("taxon");
-  let taxSig = "";
+  const issSel = document.getElementById("issue");
+  // etichette e ordine degli errori, presi dal menu scritto nell'HTML
+  const ISSUE_OPTS = [...issSel.options].filter(o => o.value).map(o => [o.value, o.textContent]);
+  let taxSig = "", issSig = "";
   const updateTaxa = () => {
     const b = map.getBounds(), z = map.getZoom();
-    const G = new Map(), S = new Map();
+    const G = new Map(), S = new Map(), I = new Map();
     let U = 0;
     for (const ft of ALL) {
       const [x, y] = ft.geometry.coordinates;
@@ -322,6 +325,7 @@ map.on("load", async () => {
       const p = ft.properties;
       // fuori da zoom 10 si vedono solo i problematici e, da zoom 9, i monumentali
       if (z < ALL_Z && (p.stump || (p.issues === "|" && !(z >= MON_Z && p.denotation === "natural_monument")))) continue;
+      p.issues.split("|").forEach(i => { if (i) I.set(i, (I.get(i) || 0) + 1); });
       if (!p.genus && !p.species) { U++; continue; }
       const gs = new Set();
       if (p.genus) gs.add(p.genus);
@@ -331,6 +335,17 @@ map.on("load", async () => {
       }
       gs.forEach(g => G.set(g, (G.get(g) || 0) + 1));
     }
+    const opt = (v, t) => { const o = document.createElement("option"); o.value = v; o.textContent = t; return o; };
+    // errori: solo quelli presenti in vista, nell'ordine del menu; il selezionato resta anche se fuori vista
+    const curI = issSel.value;
+    if (curI && !I.has(curI)) I.set(curI, 0);
+    const iList = ISSUE_OPTS.filter(([k]) => I.has(k));
+    const iSig = JSON.stringify(iList.map(([k]) => [k, I.get(k)]));
+    if (iSig !== issSig) {
+      issSig = iSig;
+      issSel.replaceChildren(opt("", "Tutti gli errori"), ...iList.map(([k, t]) => opt(k, `${t} (${I.get(k)})`)));
+      issSel.value = curI;
+    }
     const cur = taxSel.value;   // la voce selezionata resta in elenco anche se fuori vista
     if (cur.startsWith("g:") && !G.has(cur.slice(2))) G.set(cur.slice(2), 0);
     if (cur.startsWith("s:") && !S.has(cur.slice(2))) S.set(cur.slice(2), 0);
@@ -338,7 +353,6 @@ map.on("load", async () => {
     const sig = JSON.stringify([sorted(G), sorted(S), U]);
     if (sig === taxSig) return;
     taxSig = sig;
-    const opt = (v, t) => { const o = document.createElement("option"); o.value = v; o.textContent = t; return o; };
     const grp = (label, m, pre) => {
       const g = document.createElement("optgroup"); g.label = label;
       sorted(m).forEach(([k, n]) => g.appendChild(opt(pre + k, `${k} (${n})`)));
@@ -353,14 +367,14 @@ map.on("load", async () => {
   let taxTimer;
   map.on("moveend", () => { clearTimeout(taxTimer); taxTimer = setTimeout(updateTaxa, 200); });
   updateTaxa();
-  taxSel.onchange = apply;
+  taxSel.onchange = () => { apply(); updateTaxa(); };
 
   let shapeTimer;
   map.on("moveend", () => { clearTimeout(shapeTimer); shapeTimer = setTimeout(updateShapes, 100); });
   map.on("zoom", () => { if ((map.getZoom() >= SHAPE_Z) === shapesEmpty) updateShapes(); });
   updateShapes();
 
-  document.getElementById("issue").onchange = apply;
+  issSel.onchange = () => { apply(); updateTaxa(); };   // toglie dall'elenco la voce deselezionata se fuori vista
   map.on("moveend", update); map.on("idle", update); update();
 
   for (const id of [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid"]) {
