@@ -132,36 +132,52 @@ for _name, _v in _LIST.items():
         QID_TO_SPECIES.setdefault(_v["wikidata"], _name)
 
 
-_GENUS_TYPES = {}
-for _name, _v in _LIST.items():
-    if _v.get("leaf_type"):
-        _g = (_v.get("genus") or _name.split()[0]).casefold()
-        _GENUS_TYPES.setdefault(_g, set()).add(_v["leaf_type"])
-GENUS_LEAF_TYPE = {g: next(iter(v)) for g, v in _GENUS_TYPES.items() if len(v) == 1}
+# Lista dei generi della wiki OSM (scripts/update_species_list.py): leaf_cycle (uno o entrambi) e leaf_type
+_GENUS_FILE = Path(__file__).resolve().parent / "genus_list.json"
+_GENERA = json.loads(_GENUS_FILE.read_text(encoding="utf-8")).get("genera", {}) if _GENUS_FILE.exists() else {}
+GENUS_REF = {k.lstrip("× ").casefold(): (k, v) for k, v in _GENERA.items()}
+
+CYCLE_GROUP = {"deciduous": "d", "semi_deciduous": "d", "evergreen": "e", "semi_evergreen": "e"}
+
+
+def cycle_ok(tag, expected):
+    """leaf_cycle compatibile con quelli attesi: deciduous e semi_deciduous (come evergreen e semi_evergreen) sono equivalenti."""
+    return CYCLE_GROUP[tag] in {CYCLE_GROUP[e] for e in expected}
+
+
+def type_ok(tag, expected):
+    """leaf_type compatibile: leafless non si confronta con la lista; palm vale come broadleaved."""
+    return tag == expected or tag == "leafless" or {tag, expected} == {"palm", "broadleaved"}
+
+
+def genus_ref(t):
+    """(nome, voce) del genere nella lista: dal tag genus se è di una sola parola, altrimenti dalla species."""
+    g = t.get("genus")
+    g = g.strip() if g and len(g.split()) == 1 else (genus_of_species(t["species"]) if t.get("species") else "")
+    return GENUS_REF.get(g.lstrip("× ").casefold()) if g else None
 
 
 def leaf_type_estimate(t):
-    """leaf_type ricavato dalla lista: dalla specie; se non c'è, dal genere (solo se tutte le specie
-    di quel genere nella lista hanno lo stesso leaf_type)."""
+    """leaf_type ricavato dalle liste della wiki: dalla specie; se non è nella lista, dal genere."""
     sp = t.get("species")
     if sp and ";" not in sp:
         ref = SPECIES_REF.get(norm_species(sp))
         if ref and ref.get("leaf_type"):
             return ref["leaf_type"]
-    g = t.get("genus")
-    g = g if g and len(g.split()) == 1 else (genus_of_species(sp) if sp else "")
-    return GENUS_LEAF_TYPE.get(g.casefold()) if g else None
+    g = genus_ref(t)
+    return g[1].get("leaf_type") if g else None
 
 
 def species_list_mismatches(t):
-    """Incoerenze tra species e la lista della wiki: (codici, proprietà per i messaggi)."""
+    """Incoerenze con le liste della wiki OSM: (codici, proprietà per i messaggi). species:wikidata si
+    confronta con la lista delle specie; leaf_type e leaf_cycle con la specie e, se non è in lista, con il genere."""
     issues, props = [], {}
     sp = t.get("species")
-    if not SPECIES_REF or not sp or ";" in sp:
+    if sp and ";" in sp:
         return issues, props
-    ref = SPECIES_REF.get(norm_species(sp))
+    ref = SPECIES_REF.get(norm_species(sp)) if sp and SPECIES_REF else None
     wd = (t.get("species:wikidata") or "").strip()
-    if wd and ";" not in wd:
+    if sp and SPECIES_REF and wd and ";" not in wd:
         if ref and ref.get("wikidata") and wd != ref["wikidata"]:
             issues.append("wikidata_mismatch")
             props.update(sp_wd=wd, exp_wd=ref["wikidata"])
@@ -169,13 +185,18 @@ def species_list_mismatches(t):
             issues.append("wikidata_mismatch")
             props.update(sp_wd=wd, exp_sp=QID_TO_SPECIES[wd])
     if ref:
-        lt, lc = t.get("leaf_type"), t.get("leaf_cycle")
-        if lt in LEAF_TYPE and ref.get("leaf_type") and lt != ref["leaf_type"]:
-            issues.append("leaf_type_mismatch")
-            props["exp_lt"] = ref["leaf_type"]
-        if lc in LEAF_CYCLE and ref.get("leaf_cycle") and lc != ref["leaf_cycle"]:
-            issues.append("leaf_cycle_mismatch")
-            props["exp_lc"] = ref["leaf_cycle"]
+        exp_for, exp_lt = sp.strip(), ref.get("leaf_type")
+        exp_lc = [ref["leaf_cycle"]] if ref.get("leaf_cycle") else []
+    else:
+        g = genus_ref(t)
+        exp_for, exp_lt, exp_lc = (f"il genere {g[0]}", g[1].get("leaf_type"), g[1].get("leaf_cycle") or []) if g else (None, None, [])
+    lt, lc = t.get("leaf_type"), t.get("leaf_cycle")
+    if exp_for and lt in LEAF_TYPE and exp_lt and not type_ok(lt, exp_lt):
+        issues.append("leaf_type_mismatch")
+        props.update(exp_lt=exp_lt, exp_for=exp_for)
+    if exp_for and lc in LEAF_CYCLE and exp_lc and not cycle_ok(lc, exp_lc):
+        issues.append("leaf_cycle_mismatch")
+        props.update(exp_lc=" o ".join(exp_lc), exp_for=exp_for)
     return issues, props
 
 

@@ -20,9 +20,9 @@ Gli alberi con almeno un problema hanno il contorno rosso. I check sono:
 * Collegamenti con formato non valido: `wikidata` diverso da `Q…`, `wikimedia_commons` senza `File:` o `Category:`, `panoramax` che non è un UUID, `image` che non inizia con `http`
 * `ref:masaf`, `ref:rami` o `website`/`url` verso monumentaltrees.com senza `denotation=natural_monument` (un albero monumentale senza fonte non è segnalato)
 * `species:wikidata=*` incoerente con `species=*` secondo la [lista di specie della wiki OSM](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species): QID diverso da quello atteso per la specie, oppure QID che appartiene a un'altra specie
-* `leaf_type=*` o `leaf_cycle=*` (validi) diversi da quelli indicati per la specie nella stessa lista
+* `leaf_type=*` o `leaf_cycle=*` (validi) diversi da quelli della specie nella lista delle specie o, se la specie non c'è, del genere nella [lista dei generi](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Genus,_Leaf_cycle,_Leaf_type). `deciduous` e `semi_deciduous` sono considerati equivalenti, come `evergreen` e `semi_evergreen`; `palm` vale come `broadleaved` e `leafless` non viene confrontato.
 
-I due check basati sulla lista richiedono `scripts/species_list.json`, che si genera dall'Action "Aggiorna lista specie"; se il file manca, non vengono eseguiti.
+I check basati sulle liste richiedono `scripts/species_list.json` e `scripts/genus_list.json`, che si generano dall'Action "Aggiorna lista specie e generi"; se i file mancano, non vengono eseguiti.
 * `leaf_type=*` diverso da `broadleaved`, `needleleaved`, `leafless`, `palm`
 * `leaf_cycle=*` diverso da `deciduous`, `semi_deciduous`, `evergreen`, `semi_evergreen`
 
@@ -32,7 +32,7 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 
 ## Rendering
 
-* **Chioma**: cerchio con dimensione reale da `diameter_crown=*`; se manca, raggio di ripiego (3 m; 6 m per `denotation=natural_monument` e `landmark`, 2 m per `parking`) e riempimento più trasparente. La chioma non viene stimata dalla circonferenza: usando il rapporto mediano chioma/circonferenza risultava sovrastimata. La forma dipende da `leaf_type=*` (se manca o non è valido, viene stimato dalla lista di specie della wiki OSM: dalla specie o, se non c'è, dal genere quando tutte le sue specie nella lista hanno lo stesso valore):
+* **Chioma**: cerchio con dimensione reale da `diameter_crown=*`; se manca, raggio di ripiego (3 m; 6 m per `denotation=natural_monument` e `landmark`, 2 m per `parking`) e riempimento più trasparente. La chioma non viene stimata dalla circonferenza: usando il rapporto mediano chioma/circonferenza risultava sovrastimata. La forma dipende da `leaf_type=*` (se manca o non è valido, viene stimato dalle liste della wiki OSM: dalla specie o, se non c'è, dal genere):
   * rotonda se `leaf_type` è mancante (o ha un altro valore, come `leafless`)
   * bombata, a lobi, se `broadleaved` o `palm`
   * poligonale (esagono o ottagono, ruotato in modo diverso per ogni albero) se `needleleaved`
@@ -66,10 +66,10 @@ Le regioni grandi vengono scaricate a pezzi (tile) e unite. Il confine esatto lo
 
 * `scripts/fetch_trees.py` – scarica da Overpass, calcola i check, scrive i dati
 * `scripts/regions.json` – elenco delle regioni
-* `scripts/update_species_list.py` – scarica la lista di specie dalla wiki OSM in `scripts/species_list.json`
+* `scripts/update_species_list.py` – scarica le liste di specie e generi dalla wiki OSM in `scripts/species_list.json` e `scripts/genus_list.json`
 * `scripts/species_limits.json` – per specie: limiti di altezza e circonferenza, rapporti usati per stimare le dimensioni mancanti
 * `.github/workflows/update.yml` – aggiornamento dei dati
-* `.github/workflows/update-species-list.yml` – aggiornamento della lista di specie (solo a mano)
+* `.github/workflows/update-species-list.yml` – aggiornamento delle liste di specie e generi (solo a mano)
 * `index.html` – il sito
 
 Per pubblicare, attiva GitHub Pages dal branch `main`, cartella root.
@@ -78,4 +78,4 @@ Per pubblicare, attiva GitHub Pages dal branch `main`, cartella root.
 
 Dati © contributori di [OpenStreetMap](https://www.openstreetmap.org/copyright), disponibili con licenza ODbL.
 
-La lista di specie di riferimento (`scripts/species_list.json`) deriva dalla pagina [Tag:natural=tree/List of Species](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species) dell'OpenStreetMap Wiki, sotto licenza [CC BY-SA 2.0](https://wiki.openstreetmap.org/wiki/Wiki_content_license).
+Le liste di riferimento (`scripts/species_list.json` e `scripts/genus_list.json`) derivano dalle pagine [List of Species](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species) e [List of Genus, Leaf cycle, Leaf type](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Genus,_Leaf_cycle,_Leaf_type) dell'OpenStreetMap Wiki, sotto licenza [CC BY-SA 2.0](https://wiki.openstreetmap.org/wiki/Wiki_content_license).

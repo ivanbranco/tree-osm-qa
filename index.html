@@ -406,8 +406,8 @@ const issueBase = (i, p) =>
   : i === "wikidata_mismatch" ? (p.exp_sp
       ? `species:wikidata=${p.sp_wd} corrisponde a ${p.exp_sp}, non a ${p.species}`
       : `species:wikidata=${p.sp_wd} non corrisponde a ${p.species} (atteso ${p.exp_wd})`)
-  : i === "leaf_type_mismatch" ? `leaf_type=${p.leaf_type}, ma per ${p.species} la lista wiki indica ${p.exp_lt}`
-  : i === "leaf_cycle_mismatch" ? `leaf_cycle=${p.leaf_cycle}, ma per ${p.species} la lista wiki indica ${p.exp_lc}`
+  : i === "leaf_type_mismatch" ? `leaf_type=${p.leaf_type}, ma per ${p.exp_for || p.species} la lista wiki indica ${p.exp_lt}`
+  : i === "leaf_cycle_mismatch" ? `leaf_cycle=${p.leaf_cycle}, ma per ${p.exp_for || p.species} la lista wiki indica ${p.exp_lc}`
   : i === "genus_mismatch" ? `genus (${p.genus}) diverso dal genere della species (${p.species})`
   : ISSUE_TXT[i];
 const ISSUE_TXT = { species: "species di una sola parola", species_lowercase: "species con iniziale minuscola", genus_lowercase: "genus con iniziale minuscola", circumference: "circonferenza > 43 m", height: "altezza > 115,92 m", genus: "genus con più parole",

@@ -1,4 +1,4 @@
-name: Aggiorna lista specie
+name: Aggiorna lista specie e generi
 
 on:
   workflow_dispatch:
@@ -15,11 +15,11 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install requests
-      - name: Scarica la lista dalla wiki OSM
+      - name: Scarica le liste dalla wiki OSM
         run: python scripts/update_species_list.py
       - name: Commit
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add scripts/species_list.json
-          git diff --cached --quiet || (git commit -m "Aggiornamento lista specie" && git pull --rebase && git push)
+          git add scripts/species_list.json scripts/genus_list.json
+          git diff --cached --quiet || (git commit -m "Aggiornamento liste specie e generi" && git pull --rebase && git push)
