@@ -8,9 +8,10 @@
   },
   "liguria": {
    "count": 8905,
+   "errors": 145,
    "name": "Liguria",
-   "sha1": "2fd5f4246a8b591990dca09c14277bd1d61ddac6",
-   "updated": "2026-11-07T21:05:21Z"
+   "sha1": "c301cc7c3a6391e19f93ba3961f707f39948df71",
+   "updated": "2026-11-07T23:51:17Z"
   },
   "lombardia": {
    "count": 387030,
