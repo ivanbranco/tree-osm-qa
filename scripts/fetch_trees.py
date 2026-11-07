@@ -46,7 +46,10 @@ def query(region, bbox):
         area = f'area["ISO3166-2"="{region["iso"]}"]["admin_level"="4"]->.a;'
     return f"""[out:json][timeout:360];
 {area}
-node["natural"="tree"](area.a)({s},{w},{n},{e});
+(
+  node["natural"="tree"](area.a)({s},{w},{n},{e});
+  node["natural"="tree_stump"](area.a)({s},{w},{n},{e});
+);
 out body qt;"""
 
 
@@ -114,6 +117,68 @@ DEFAULT_RATIOS = _RAW_LIMITS.pop("_default", {})
 SPECIES_LIMITS = {" ".join(k.split()).lower(): v for k, v in _RAW_LIMITS.items()}
 
 
+def norm_species(s):
+    """Nome normalizzato per il confronto con la lista: spazi singoli, 'x' tra i nomi come '×', minuscolo."""
+    return " ".join("×" if w in ("x", "X") else w for w in s.split()).casefold()
+
+
+# Lista di specie della wiki OSM (scripts/update_species_list.py): species:wikidata, leaf_type, leaf_cycle
+_LIST_FILE = Path(__file__).resolve().parent / "species_list.json"
+_LIST = json.loads(_LIST_FILE.read_text(encoding="utf-8")).get("species", {}) if _LIST_FILE.exists() else {}
+SPECIES_REF = {norm_species(k): v for k, v in _LIST.items()}
+QID_TO_SPECIES = {}
+for _name, _v in _LIST.items():
+    if _v.get("wikidata"):
+        QID_TO_SPECIES.setdefault(_v["wikidata"], _name)
+
+
+_GENUS_TYPES = {}
+for _name, _v in _LIST.items():
+    if _v.get("leaf_type"):
+        _g = (_v.get("genus") or _name.split()[0]).casefold()
+        _GENUS_TYPES.setdefault(_g, set()).add(_v["leaf_type"])
+GENUS_LEAF_TYPE = {g: next(iter(v)) for g, v in _GENUS_TYPES.items() if len(v) == 1}
+
+
+def leaf_type_estimate(t):
+    """leaf_type ricavato dalla lista: dalla specie; se non c'è, dal genere (solo se tutte le specie
+    di quel genere nella lista hanno lo stesso leaf_type)."""
+    sp = t.get("species")
+    if sp and ";" not in sp:
+        ref = SPECIES_REF.get(norm_species(sp))
+        if ref and ref.get("leaf_type"):
+            return ref["leaf_type"]
+    g = t.get("genus")
+    g = g if g and len(g.split()) == 1 else (genus_of_species(sp) if sp else "")
+    return GENUS_LEAF_TYPE.get(g.casefold()) if g else None
+
+
+def species_list_mismatches(t):
+    """Incoerenze tra species e la lista della wiki: (codici, proprietà per i messaggi)."""
+    issues, props = [], {}
+    sp = t.get("species")
+    if not SPECIES_REF or not sp or ";" in sp:
+        return issues, props
+    ref = SPECIES_REF.get(norm_species(sp))
+    wd = (t.get("species:wikidata") or "").strip()
+    if wd and ";" not in wd:
+        if ref and ref.get("wikidata") and wd != ref["wikidata"]:
+            issues.append("wikidata_mismatch")
+            props.update(sp_wd=wd, exp_wd=ref["wikidata"])
+        elif not ref and wd in QID_TO_SPECIES:  # QID noto, ma assegnato a un'altra specie
+            issues.append("wikidata_mismatch")
+            props.update(sp_wd=wd, exp_sp=QID_TO_SPECIES[wd])
+    if ref:
+        lt, lc = t.get("leaf_type"), t.get("leaf_cycle")
+        if lt in LEAF_TYPE and ref.get("leaf_type") and lt != ref["leaf_type"]:
+            issues.append("leaf_type_mismatch")
+            props["exp_lt"] = ref["leaf_type"]
+        if lc in LEAF_CYCLE and ref.get("leaf_cycle") and lc != ref["leaf_cycle"]:
+            issues.append("leaf_cycle_mismatch")
+            props["exp_lc"] = ref["leaf_cycle"]
+    return issues, props
+
+
 def species_limit(t):
     sp = t.get("species")
     return SPECIES_LIMITS.get(" ".join(sp.split()).lower()) if sp else None
@@ -125,6 +190,7 @@ LEAF_CYCLE = {"deciduous", "semi_deciduous", "evergreen", "semi_evergreen"}
 # Raggio di default della chioma (m) quando manca diameter_crown; più grande per gli alberi monumentali
 # e i landmark, più piccolo per i parcheggi (di solito alberelli). In caso di più valori vince il primo della lista.
 DEFAULT_CROWN_R = 3.0
+DEFAULT_STUMP_R = 0.25  # m, raggio della X di un ceppo senza circumference
 DEFAULT_CROWN_R_BY_DENOTATION = (("natural_monument", 6.0), ("landmark", 6.0), ("parking", 2.0))
 
 
@@ -152,7 +218,7 @@ def panoramax_ids(t):
     return list(dict.fromkeys(ids))
 
 
-NUMERIC_TAGS = ("circumference", "height", "diameter_crown")
+NUMERIC_TAGS = ("circumference", "height", "diameter_crown", "diameter")
 
 
 def circ_value(t):
@@ -165,10 +231,7 @@ def circ_value(t):
 
 
 def numeric_keys(t):
-    keys = list(NUMERIC_TAGS)
-    if "circumference" not in t and "diameter" in t:
-        keys.append("diameter")
-    return keys
+    return list(NUMERIC_TAGS)  # diameter incluso: il formato viene controllato anche quando è ignorato
 
 
 def comma_tags(t):
@@ -278,6 +341,7 @@ def checks(t):
         sg = genus_of_species(sp)
         if sg and g.casefold() != sg.casefold():
             issues.append("genus_mismatch")
+    issues.extend(species_list_mismatches(t)[0])
     if bad_numeric_tags(t):
         issues.append("number_invalid")
     if bad_link_tags(t):
@@ -327,19 +391,36 @@ def to_feature(el):
     pano = panoramax_ids(t)
     if pano:
         p["panoramax"] = ";".join(pano)
-    crown, circ, circ_est = sizes(t)
-    p["cr"] = round(crown / 2, 2) if crown else default_crown_r(t)
-    p["cr_est"] = crown is None
-    if circ_value(t)[1] and circ_value(t)[0]:
-        p["diam_used"] = True
-    if circ:  # il tronco si disegna solo se c'è una circonferenza (reale o stimata)
-        p["tr"] = round(circ / (2 * math.pi), 3)
-        if circ_est:
-            p["tr_est"] = True
+    if t.get("natural") == "tree_stump":
+        # ceppo: una X grande quanto la circonferenza (se manca, raggio di default e X più chiara)
+        c, from_d = circ_value(t)
+        p["stump"] = 1
+        if c and c > 0:
+            p["sr"] = round(c / (2 * math.pi), 3)
+            if from_d:
+                p["diam_used"] = True
+        else:
+            p["sr"], p["sr_est"] = DEFAULT_STUMP_R, True
+    else:
+        crown, circ, circ_est = sizes(t)
+        p["cr"] = round(crown / 2, 2) if crown else default_crown_r(t)
+        p["cr_est"] = crown is None
+        if circ_value(t)[1] and circ_value(t)[0]:
+            p["diam_used"] = True
+        if circ:  # il tronco si disegna solo se c'è una circonferenza (reale o stimata)
+            p["tr"] = round(circ / (2 * math.pi), 3)
+            if circ_est:
+                p["tr_est"] = True
+        lt = t.get("leaf_type")
+        if lt not in LEAF_TYPE:  # leaf_type mancante o non valido: forma della chioma stimata dalla lista
+            est = leaf_type_estimate(t)
+            if est:
+                p["lt"] = est
     iss = checks(t)
     p["issues"] = "|" + "|".join(iss) + "|" if iss else "|"
     if "comma" in iss:
         p["comma"] = ";".join(comma_tags(t))
+    p.update(species_list_mismatches(t)[1])
     if "number_invalid" in iss:
         p["bad_num"] = ";".join(bad_numeric_tags(t))
     if "link_format" in iss:

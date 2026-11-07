@@ -44,6 +44,9 @@
     <option value="number_invalid">Valore numerico non valido (testo, intervallo, zero)</option>
     <option value="genus_mismatch">Genus diverso dalla species</option>
     <option value="link_format">Link con formato non valido</option>
+    <option value="wikidata_mismatch">species:wikidata incoerente con la species</option>
+    <option value="leaf_type_mismatch">leaf_type diverso da quello della specie</option>
+    <option value="leaf_cycle_mismatch">leaf_cycle diverso da quello della specie</option>
     <option value="monument_denotation">Fonte monumentale senza natural_monument</option>
     <option value="circumference_species">Circonferenza &gt; limite della specie</option>
     <option value="height_species">Altezza &gt; limite della specie</option>
@@ -65,6 +68,7 @@
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#d00020" stroke-width="2"/></svg> Con problemi</li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e"/></svg> Tronco (circonferenza)</li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e" fill-opacity=".45"/></svg> Tronco stimato</li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><path d="M5 5L17 17M17 5L5 17" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/></svg> Ceppo</li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.0,11.0 19.3,10.1 19.4,9.1 19.1,8.2 18.5,7.4 17.8,6.8 16.9,6.3 16.3,5.7 16.0,4.7 15.5,3.9 14.7,3.3 13.8,2.9 12.9,2.8 11.9,3.1 11.0,3.5 10.2,3.5 9.2,3.2 8.2,3.1 7.3,3.3 6.4,3.7 5.8,4.5 5.4,5.4 5.1,6.3 4.6,7.0 3.8,7.5 3.1,8.2 2.6,9.1 2.5,10.0 2.6,11.0 3.1,11.9 3.7,12.7 3.9,13.5 3.8,14.5 3.9,15.5 4.3,16.4 4.9,17.1 5.8,17.5 6.8,17.8 7.8,17.7 8.5,18.1 9.2,18.8 10.1,19.3 11.0,19.6 12.0,19.5 12.9,19.2 13.6,18.5 14.2,17.7 15.0,17.4 16.0,17.3 16.9,16.9 17.7,16.4 18.3,15.6 18.5,14.6 18.5,13.6 18.3,12.7 18.5,11.8" stroke-linejoin="round" fill="#2e9e45" fill-opacity=".55" stroke="#1b6b2c" stroke-width="1"/></svg> Latifoglia o palma</li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.3,8.8 13.2,2.7 4.9,4.9 2.7,13.2 8.8,19.3 17.1,17.1" stroke-linejoin="round" fill="#2e9e45" fill-opacity=".55" stroke="#1b6b2c" stroke-width="1"/></svg> Aghifoglia</li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#2e9e45" fill-opacity=".55" stroke="#1b6b2c" stroke-width="1"/></svg> Tipo di foglia non specificato</li>
@@ -79,8 +83,9 @@ const LAT = 45;                                   // latitudine di riferimento p
 const M0 = 78271.517 * Math.cos(LAT * Math.PI / 180); // m/px a zoom 0 (tile 512)
 const px = (prop, minPx, z) => ["max", minPx, ["/", ["get", prop], M0 / Math.pow(2, z)]];
 // raggio in pixel = max(minimo, metri / (m per pixel)); uno stop per ogni zoom intero, così il minimo è un vero max
-const radius = (prop, minPx) => ["interpolate", ["exponential", 2], ["zoom"],
-  ...Array.from({ length: 23 }, (_, z) => [z, px(prop, minPx, z)]).flat()];
+const radius = (prop, minPx, div = 1) => ["interpolate", ["exponential", 2], ["zoom"],
+  ...Array.from({ length: 23 }, (_, z) => [z, div === 1 ? px(prop, minPx, z) : ["/", px(prop, minPx, z), div]]).flat()];
+const leafOf = p => p.lt || p.leaf_type;   // lt = leaf_type stimato dalla lista di specie quando il tag manca
 
 const EMPTY = { type: "FeatureCollection", features: [] };
 const getJSON = u => fetch(u).then(r => { if (!r.ok) throw new Error(u + " " + r.status); return r.json(); });
@@ -146,14 +151,14 @@ map.on("load", async () => {
   // Visibilità per zoom: problematici sempre; da MON_Z (9) anche i monumentali; da ALL_Z (10) tutti gli alberi
   const MON_Z = 9, ALL_Z = 10;
   const BLOB = new Set(["broadleaved", "palm"]), SPIKY = new Set(["needleleaved"]);
-  const NOSHAPE = ["!", ["in", ["coalesce", ["get", "leaf_type"], ""], ["literal", ["broadleaved", "palm", "needleleaved"]]]];
-  const isShaped = ft => BLOB.has(ft.properties.leaf_type) || SPIKY.has(ft.properties.leaf_type);
+  const NOSHAPE = ["!", ["in", ["coalesce", ["get", "lt"], ["get", "leaf_type"], ""], ["literal", ["broadleaved", "palm", "needleleaved"]]]];
+  const isShaped = ft => !ft.properties.stump && (BLOB.has(leafOf(ft.properties)) || SPIKY.has(leafOf(ft.properties)));
 
   const shapeRing = ft => {
     const [lon, lat] = ft.geometry.coordinates, p = ft.properties, r = p.cr;
     const kx = 1 / (111320 * Math.cos(lat * Math.PI / 180)), ky = 1 / 111320;
     const pts = [];
-    if (SPIKY.has(p.leaf_type)) {                 // esagono o ottagono, ruotato in modo diverso per ogni albero
+    if (SPIKY.has(leafOf(p))) {                 // esagono o ottagono, ruotato in modo diverso per ogni albero
       const sides = 6 + 2 * (p.id % 2), rot = (p.id % 11) / 11 * (2 * Math.PI / sides);
       const R = r * Math.sqrt(2 * Math.PI / (sides * Math.sin(2 * Math.PI / sides)));  // stessa area del cerchio
       for (let k = 0; k < sides; k++) {
@@ -192,8 +197,9 @@ map.on("load", async () => {
   };
 
   // Due livelli di layer: prima tutti gli alberi, poi i monumentali, che restano sopra agli altri
+  const TREE = ["!", ["has", "stump"]];   // i ceppi (natural=tree_stump) hanno un layer a parte
   const MON = ["==", ["coalesce", ["get", "denotation"], ""], "natural_monument"];
-  const TIERS = [{ suf: "", cond: ["!", MON], minZ: ALL_Z }, { suf: "-top", cond: MON, minZ: MON_Z }];
+  const TIERS = [{ suf: "", cond: ["all", TREE, ["!", MON]], minZ: ALL_Z }, { suf: "-top", cond: ["all", TREE, MON], minZ: MON_Z }];
   const DEFS = [
     { id: "crown", spec: tier => ({ type: "circle", source: "trees", minzoom: tier.minZ, maxzoom: SHAPE_Z, paint: circlePaint() }) },
     { id: "crown-plain", base: NOSHAPE, spec: () => ({ type: "circle", source: "trees", minzoom: SHAPE_Z, paint: circlePaint() }) },
@@ -211,7 +217,24 @@ map.on("load", async () => {
     map.addLayer({ id: def.id + tier.suf, ...def.spec(tier), filter: filterFor(def, tier, []) });
   const CROWN_IDS = TIERS.flatMap(t => ["crown", "crown-plain", "crown-poly"].map(i => i + t.suf));
 
-  const ISSUE = ["!=", ["get", "issues"], "|"];
+  // Ceppi: una X (immagine disegnata al volo), grande quanto la circonferenza ma mai sotto i 5 px di raggio
+  const xImage = color => {
+    const c = document.createElement("canvas"); c.width = c.height = 64;
+    const g = c.getContext("2d");
+    g.strokeStyle = color; g.lineWidth = 9; g.lineCap = "round";
+    g.beginPath(); g.moveTo(10, 10); g.lineTo(54, 54); g.moveTo(54, 10); g.lineTo(10, 54); g.stroke();
+    return g.getImageData(0, 0, 64, 64);
+  };
+  map.addImage("x-brown", xImage("#5a3a1a"));
+  map.addImage("x-red", xImage("#d00020"));
+  const STUMP = ["has", "stump"];
+  map.addLayer({ id: "stumps", type: "symbol", source: "trees", minzoom: ALL_Z, filter: STUMP,
+    layout: { "icon-image": ["case", ["!=", ["get", "issues"], "|"], "x-red", "x-brown"],
+      "icon-size": radius("sr", 5, 26), "icon-allow-overlap": true, "icon-ignore-placement": true,
+      "icon-pitch-alignment": "map", "icon-rotation-alignment": "map" },
+    paint: { "icon-opacity": ["case", ["to-boolean", ["get", "sr_est"]], 0.6, 1] } });
+
+  const ISSUE = ["all", TREE, ["!=", ["get", "issues"], "|"]];
   const issuePaint = () => ({
     "circle-radius": radius("cr", 4), "circle-color": "#d00020", "circle-opacity": 0.7,
     "circle-stroke-color": "#fff", "circle-stroke-width": 1 });
@@ -227,6 +250,7 @@ map.on("load", async () => {
     if (is) f.push(["in", `|${is}|`, ["get", "issues"]]);
     const rest = f.slice(1);
     for (const tier of TIERS) for (const def of DEFS) map.setFilter(def.id + tier.suf, filterFor(def, tier, rest));
+    map.setFilter("stumps", ["all", STUMP, ...rest]);
     map.setFilter("crown-issues", ["all", ISSUE, ...rest]);
     map.setFilter("crown-issues-mid", ["all", ISSUE_MID, ...rest]);
     update();
@@ -259,7 +283,7 @@ map.on("load", async () => {
       if (x < b.getWest() || x > b.getEast() || y < b.getSouth() || y > b.getNorth()) continue;
       const p = ft.properties;
       // fuori da zoom 10 si vedono solo i problematici e, da zoom 9, i monumentali
-      if (z < ALL_Z && p.issues === "|" && !(z >= MON_Z && p.denotation === "natural_monument")) continue;
+      if (z < ALL_Z && (p.stump || (p.issues === "|" && !(z >= MON_Z && p.denotation === "natural_monument")))) continue;
       if (!p.genus && !p.species) { U++; continue; }
       const gs = new Set();
       if (p.genus) gs.add(p.genus);
@@ -301,7 +325,7 @@ map.on("load", async () => {
   document.getElementById("issue").onchange = apply;
   map.on("moveend", update); map.on("idle", update); update();
 
-  for (const id of [...CROWN_IDS, "crown-issues", "crown-issues-mid"]) {
+  for (const id of [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid"]) {
     map.on("click", id, e => {
       const g = e.features[0].geometry;
       new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(g.type === "Point" ? g.coordinates : e.lngLat)
@@ -364,6 +388,7 @@ const ROWS = [
   ["species", "Specie"], ["genus", "Genere"], ["taxon", "Taxon"],
   ["denotation", "Categoria", v => tr(DENOTATION, v)],
   ["leaf_type", "Tipo di foglie", v => tr(LEAF_TYPE, v)],
+  ["lt", "Tipo di foglie (stimato)", v => tr(LEAF_TYPE, v)],
   ["leaf_cycle", "Ciclo fogliare", v => tr(LEAF_CYCLE, v)],
   ["circumference", "Circonferenza", fmtM], ["diameter", "Diametro tronco", fmtM], ["height", "Altezza", fmtM], ["diameter_crown", "Diametro chioma", fmtM],
   ["start_date", "Data di impianto"]
@@ -378,6 +403,11 @@ const issueBase = (i, p) =>
   : i === "number_invalid" ? `valore non numerico, intervallo o zero in ${list(p.bad_num)}`
   : i === "link_format" ? `formato non valido in ${list(p.bad_links)}`
   : i === "monument_denotation" ? `${list(p.mon_src)} senza denotation=natural_monument`
+  : i === "wikidata_mismatch" ? (p.exp_sp
+      ? `species:wikidata=${p.sp_wd} corrisponde a ${p.exp_sp}, non a ${p.species}`
+      : `species:wikidata=${p.sp_wd} non corrisponde a ${p.species} (atteso ${p.exp_wd})`)
+  : i === "leaf_type_mismatch" ? `leaf_type=${p.leaf_type}, ma per ${p.species} la lista wiki indica ${p.exp_lt}`
+  : i === "leaf_cycle_mismatch" ? `leaf_cycle=${p.leaf_cycle}, ma per ${p.species} la lista wiki indica ${p.exp_lc}`
   : i === "genus_mismatch" ? `genus (${p.genus}) diverso dal genere della species (${p.species})`
   : ISSUE_TXT[i];
 const ISSUE_TXT = { species: "species di una sola parola", species_lowercase: "species con iniziale minuscola", genus_lowercase: "genus con iniziale minuscola", circumference: "circonferenza > 43 m", height: "altezza > 115,92 m", genus: "genus con più parole",
@@ -425,6 +455,11 @@ function imageUrl(p) {
   return null;
 }
 
+function title(p) {
+  const b = p.name || p.species;
+  return p.stump ? (b ? `${b} (ceppo)` : "Ceppo") : (b || "Specie sconosciuta");
+}
+
 function card(p) {
   const img = imageUrl(p);
   const genusIssue = ["genus", "genus_lowercase", "genus_mismatch"].some(i => p.issues.includes(`|${i}|`));
@@ -436,7 +471,7 @@ function card(p) {
   if (p.wikimedia_commons) links.push(link(`https://commons.wikimedia.org/wiki/${p.wikimedia_commons}`, "Commons"));
   const pano = panoramaxIds(p);
   pano.forEach((id, i) => links.push(link(`https://api.panoramax.xyz/#focus=pic&pic=${id}`, pano.length > 1 ? `Panoramax ${i + 1}` : "Panoramax")));
-  return `<div class="card"><h3>${esc(p.name || p.species || "Specie sconosciuta")}</h3>
+  return `<div class="card"><h3>${esc(title(p))}</h3>
     ${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : ""}
     <dl>${rows}</dl>
     ${rec.map(x => `<div class="rec">${x}</div>`).join("")}
