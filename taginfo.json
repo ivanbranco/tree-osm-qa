@@ -3,7 +3,7 @@
   "data_url": "https://raw.githubusercontent.com/ivanbranco/tree-osm-qa/main/taginfo.json",
   "data_updated": "20261107T000000Z",
   "project": {
-    "name": "tree-osm-qa",
+    "name": "DendrOSM",
     "description": "Quality assurance map of OSM trees and tree stumps, by region.",
     "project_url": "https://ivanbranco.github.io/tree-osm-qa/",
     "doc_url": "https://github.com/ivanbranco/tree-osm-qa#readme",

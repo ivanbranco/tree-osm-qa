@@ -1,6 +1,6 @@
-# tree-osm-qa
+# DendrOSM
 
-Mappa degli alberi di OpenStreetMap (`natural=tree`, e i ceppi `natural=tree_stump`) dell'Italia (per regione) e della Bulgaria, pensata per il controllo di qualità dei dati. Il sito è statico (GitHub Pages, MapLibre GL JS) e i dati si aggiornano con una GitHub Action.
+Mappa degli alberi di OpenStreetMap (`natural=tree`, e i ceppi `natural=tree_stump`), divisa per regioni e pensata per il controllo di qualità dei dati. Per ora le regioni attive sono quelle italiane e la Bulgaria. Il sito è statico (GitHub Pages, MapLibre GL JS) e i dati si aggiornano con una GitHub Action.
 
 Sito: https://ivanbranco.github.io/tree-osm-qa/
 

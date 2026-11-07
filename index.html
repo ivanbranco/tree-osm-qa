@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Alberi OSM</title>
+<title>DendrOSM</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
@@ -49,7 +49,7 @@
 <body>
 <div id="side">
 <div id="panel" class="box">
-  <h1><span data-i18n="title">Alberi OSM</span><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a></span></h1>
+  <h1><span data-i18n="title">DendrOSM</span><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a></span></h1>
   <select id="region"></select>
   <button id="overview" type="button" hidden data-i18n="allRegions">← Tutte le regioni</button>
   <select id="taxon"><option value="" data-i18n="allTaxa">Tutti i genus e le specie</option></select>
@@ -103,7 +103,7 @@ const setHash = slug => {
 // I valori possono essere funzioni (testi con parti variabili).
 const I18N = {
   it: {
-    pageTitle: "Alberi OSM", title: "Alberi OSM", allRegions: "← Tutte le regioni", chooseRegion: "Scegli una regione…",
+    pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", allRegions: "← Tutte le regioni", chooseRegion: "Scegli una regione…",
     regionOpt: (name, n) => `${name} (${fmtN(n)} alberi)`,
     allTaxa: "Tutti i genus e le specie", unknown: "Sconosciuto", withSpecies: "Con species", genusGroup: "Genus", speciesGroup: "Specie",
     allIssues: "Tutti gli errori",
@@ -159,7 +159,7 @@ const I18N = {
     stump: "Ceppo", stumpOf: b => `${b} (ceppo)`, unknownSpecies: "Specie sconosciuta",
   },
   en: {
-    pageTitle: "OSM Trees", title: "OSM Trees", allRegions: "← All regions", chooseRegion: "Choose a region…",
+    pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", allRegions: "← All regions", chooseRegion: "Choose a region…",
     regionOpt: (name, n) => `${name} (${fmtN(n)} trees)`,
     allTaxa: "All genera and species", unknown: "Unknown", withSpecies: "With species", genusGroup: "Genus", speciesGroup: "Species",
     allIssues: "All errors",
