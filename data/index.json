@@ -1,5 +1,11 @@
 {
  "regions": {
+  "bulgaria": {
+   "count": 29051,
+   "name": "Bulgaria",
+   "sha1": "41d3e4a3af99acb997b2d3fc3b468c76d21be3fb",
+   "updated": "2026-11-07T01:33:00Z"
+  },
   "lombardia": {
    "count": 387030,
    "name": "Lombardia",
