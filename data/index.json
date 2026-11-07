@@ -1,10 +1,10 @@
 {
  "regions": {
   "bulgaria": {
-   "count": 29051,
+   "count": 28403,
    "name": "Bulgaria",
-   "sha1": "41d3e4a3af99acb997b2d3fc3b468c76d21be3fb",
-   "updated": "2026-11-07T01:33:00Z"
+   "sha1": "495a380e1827b718b25e5967cae46e2a90bdc9c5",
+   "updated": "2026-11-07T13:18:09Z"
   },
   "lombardia": {
    "count": 387030,
@@ -13,10 +13,10 @@
    "updated": "2026-11-06T12:15:27Z"
   },
   "piemonte": {
-   "count": 72856,
+   "count": 72956,
    "name": "Piemonte",
-   "sha1": "7cc46287edb9f0030e2f2216bfb3f9f40e4e8405",
-   "updated": "2026-11-06T23:51:11Z"
+   "sha1": "cd43383f8d1dc9a2912bc32ffc6f6b5cd4340dfd",
+   "updated": "2026-11-07T12:57:45Z"
   },
   "sardegna": {
    "count": 5426,

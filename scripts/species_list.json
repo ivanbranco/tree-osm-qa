@@ -1,0 +1,3655 @@
+{
+"count": 608,
+"license": "CC BY-SA 2.0 (OpenStreetMap Wiki)",
+"source": "https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species",
+"species": {
+"Abies alba": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q146992"
+},
+"Abies balsamea": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q428023"
+},
+"Abies bracteata": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1070125"
+},
+"Abies cephalonica": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q854892"
+},
+"Abies cilicica": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q974954"
+},
+"Abies concolor": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q145939"
+},
+"Abies fraseri": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1451343"
+},
+"Abies grandis": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q147434"
+},
+"Abies kawakamii": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q716580"
+},
+"Abies koreana": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q390100"
+},
+"Abies lasiocarpa": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q978755"
+},
+"Abies nordmanniana": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q148920"
+},
+"Abies pindrow": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1036491"
+},
+"Abies pinsapo": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q849381"
+},
+"Abies recurvata": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1936162"
+},
+"Abies sachalinensis": {
+"genus": "Abies",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1520125"
+},
+"Acacia baileyana": {
+"genus": "Acacia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q9562555"
+},
+"Acacia dealbata": {
+"genus": "Acacia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q757123"
+},
+"Acacia floribunda": {
+"genus": "Acacia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q3296747"
+},
+"Acacia implexa": {
+"genus": "Acacia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q2705505"
+},
+"Acacia iteaphylla": {
+"genus": "Acacia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q15287407"
+},
+"Acacia mearnsii": {
+"genus": "Acacia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q311430"
+},
+"Acacia melanoxylon": {
+"genus": "Acacia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q386585"
+},
+"Acacia pycnantha": {
+"genus": "Acacia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q516233"
+},
+"Acer buergerianum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q941891"
+},
+"Acer campestre": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q158785"
+},
+"Acer capillipes": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1089472"
+},
+"Acer cappadocicum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q766133"
+},
+"Acer circinatum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q568923"
+},
+"Acer davidii": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q657935"
+},
+"Acer diabolicum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q722781"
+},
+"Acer fabri": {
+"genus": "Acer",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q7213185"
+},
+"Acer floridanum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15287442"
+},
+"Acer glabrum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q540650"
+},
+"Acer grandidentatum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2702054"
+},
+"Acer griseum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q203985"
+},
+"Acer griseum × pseudoplatanus": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q19607254"
+},
+"Acer henryi": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q608412"
+},
+"Acer japonicum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q149269"
+},
+"Acer leucoderme": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4224593"
+},
+"Acer lobelii": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15287726"
+},
+"Acer macrophyllum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q599523"
+},
+"Acer miyabei": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q660569"
+},
+"Acer monspessulanum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161388"
+},
+"Acer negundo": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161166"
+},
+"Acer nigrum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q9578380"
+},
+"Acer opalus": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q163822"
+},
+"Acer palmatum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q269224"
+},
+"Acer pensylvanicum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1190312"
+},
+"Acer platanoides": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q26745"
+},
+"Acer pseudoplatanus": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q156944"
+},
+"Acer pseudosieboldianum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1043238"
+},
+"Acer rubrum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161364"
+},
+"Acer saccharinum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q158301"
+},
+"Acer saccharum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q214733"
+},
+"Acer spicatum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q762435"
+},
+"Acer tataricum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q162728"
+},
+"Acer triflorum": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1257409"
+},
+"Acer × freemanii": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q9577378"
+},
+"Acer × zoeschense": {
+"genus": "Acer",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4673185"
+},
+"Adansonia digitata": {
+"genus": "Adansonia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q158742"
+},
+"Aesculus californica": {
+"genus": "Aesculus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q540646"
+},
+"Aesculus chinensis": {
+"genus": "Aesculus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1074027"
+},
+"Aesculus flava": {
+"genus": "Aesculus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q159620"
+},
+"Aesculus glabra": {
+"genus": "Aesculus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1813339"
+},
+"Aesculus hippocastanum": {
+"genus": "Aesculus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q26899"
+},
+"Aesculus indica": {
+"genus": "Aesculus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q573132"
+},
+"Aesculus parviflora": {
+"genus": "Aesculus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q162440"
+},
+"Aesculus pavia": {
+"genus": "Aesculus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q159049"
+},
+"Aesculus sylvatica": {
+"genus": "Aesculus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q150691"
+},
+"Aesculus × carnea": {
+"genus": "Aesculus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q163779"
+},
+"Aesculus × mutabilis": {
+"genus": "Aesculus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15545165"
+},
+"Aesculus × neglecta": {
+"genus": "Aesculus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q508718"
+},
+"Aesculus × woerlitzensis": {
+"genus": "Aesculus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q110875652"
+},
+"Ailanthus altissima": {
+"genus": "Ailanthus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q159570"
+},
+"Albizia julibrissin": {
+"genus": "Albizia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q750307"
+},
+"Allocasuarina verticillata": {
+"genus": "Allocasuarina",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4732995"
+},
+"Alnus alnobetula": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q20720096"
+},
+"Alnus cordata": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1543689"
+},
+"Alnus formosana": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3926595"
+},
+"Alnus glutinosa": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q156904"
+},
+"Alnus hirsuta": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4334198"
+},
+"Alnus incana": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157641"
+},
+"Alnus japonica": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1196169"
+},
+"Alnus maritima": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2589489"
+},
+"Alnus nitida": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15376140"
+},
+"Alnus oblongifolia": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2839181"
+},
+"Alnus pendula": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4334196"
+},
+"Alnus rhombifolia": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2666303"
+},
+"Alnus rubra": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1818806"
+},
+"Alnus serrulata": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3926580"
+},
+"Alnus subcordata": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2666298"
+},
+"Alnus × spaethii": {
+"genus": "Alnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q19850899"
+},
+"Amelanchier alnifolia": {
+"genus": "Amelanchier",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q164158"
+},
+"Amelanchier arborea": {
+"genus": "Amelanchier",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2842647"
+},
+"Amelanchier canadensis": {
+"genus": "Amelanchier",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q159030"
+},
+"Amelanchier laevis": {
+"genus": "Amelanchier",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q163825"
+},
+"Amelanchier ovalis": {
+"genus": "Amelanchier",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q159560"
+},
+"Amelanchier × lamarckii": {
+"genus": "Amelanchier",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161702"
+},
+"Araucaria araucana": {
+"genus": "Araucaria",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q158780"
+},
+"Araucaria heterophylla": {
+"genus": "Araucaria",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q161070"
+},
+"Arbutus unedo": {
+"genus": "Arbutus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q329046"
+},
+"Aria edulis": {
+"genus": "Aria",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q41068995"
+},
+"Aria torminalis": {
+"genus": "Aria",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q139936561"
+},
+"Artocarpus altilis": {
+"genus": "Artocarpus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q14677"
+},
+"Barringtonia racemosa": {
+"genus": "Barringtonia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q2718437"
+},
+"Betula alleghaniensis": {
+"genus": "Betula",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1499241"
+},
+"Betula delavayi": {
+"genus": "Betula",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4085296"
+},
+"Betula ermanii": {
+"genus": "Betula",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q163544"
+},
+"Betula lenta": {
+"genus": "Betula",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q227763"
+},
+"Betula nana": {
+"genus": "Betula",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157628"
+},
+"Betula nigra": {
+"genus": "Betula",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1510231"
+},
+"Betula papyrifera": {
+"genus": "Betula",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q76971"
+},
+"Betula pendula": {
+"genus": "Betula",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q156895"
+},
+"Betula populifolia": {
+"genus": "Betula",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1543680"
+},
+"Betula pubescens": {
+"genus": "Betula",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157624"
+},
+"Betula utilis": {
+"genus": "Betula",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q930814"
+},
+"Brachychiton populneus": {
+"genus": "Brachychiton",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q947016"
+},
+"Buxus sempervirens": {
+"genus": "Buxus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q27344"
+},
+"Callitris preissii": {
+"genus": "Callitris",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q2715203"
+},
+"Callitropsis nootkatensis": {
+"genus": "Callitropsis",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q23707222"
+},
+"Carpinus betulus": {
+"genus": "Carpinus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q158776"
+},
+"Carpinus caroliniana": {
+"genus": "Carpinus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q468664"
+},
+"Carpinus japonica": {
+"genus": "Carpinus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161435"
+},
+"Carpinus orientalis": {
+"genus": "Carpinus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1088271"
+},
+"Carpinus turczaninovii": {
+"genus": "Carpinus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q936355"
+},
+"Carya cordiformis": {
+"genus": "Carya",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q879016"
+},
+"Carya illinoinensis": {
+"genus": "Carya",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q333877"
+},
+"Carya laciniosa": {
+"genus": "Carya",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4215101"
+},
+"Carya ovata": {
+"genus": "Carya",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2601238"
+},
+"Castanea crenata": {
+"genus": "Castanea",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q717827"
+},
+"Castanea dentata": {
+"genus": "Castanea",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q468698"
+},
+"Castanea mollissima": {
+"genus": "Castanea",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q699584"
+},
+"Castanea ozarkensis": {
+"genus": "Castanea",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5756707"
+},
+"Castanea pumila": {
+"genus": "Castanea",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3662068"
+},
+"Castanea sativa": {
+"genus": "Castanea",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q22699"
+},
+"Casuarina cunninghamiana": {
+"genus": "Casuarina",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q662316"
+},
+"Catalpa bignonioides": {
+"genus": "Catalpa",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q163831"
+},
+"Catalpa ovata": {
+"genus": "Catalpa",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1144805"
+},
+"Catalpa speciosa": {
+"genus": "Catalpa",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q159204"
+},
+"Catalpa × erubescens": {
+"genus": "Catalpa",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1052793"
+},
+"Cedrus atlantica": {
+"genus": "Cedrus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q623489"
+},
+"Cedrus deodara": {
+"genus": "Cedrus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q146935"
+},
+"Cedrus libani": {
+"genus": "Cedrus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q61105"
+},
+"Ceiba speciosa": {
+"genus": "Ceiba",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1031120"
+},
+"Celtis australis": {
+"genus": "Celtis",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q255375"
+},
+"Celtis occidentalis": {
+"genus": "Celtis",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q470006"
+},
+"Ceratonia siliqua": {
+"genus": "Ceratonia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q68763"
+},
+"Cercidiphyllum japonicum": {
+"genus": "Cercidiphyllum",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q526549"
+},
+"Cercis canadensis": {
+"genus": "Cercis",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2452407"
+},
+"Cercis siliquastrum": {
+"genus": "Cercis",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q29488"
+},
+"Chamaecyparis lawsoniana": {
+"genus": "Chamaecyparis",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q161360"
+},
+"Chamaecyparis obtusa": {
+"genus": "Chamaecyparis",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q917187"
+},
+"Chamaecyparis pisifera": {
+"genus": "Chamaecyparis",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q74068"
+},
+"Chamaecyparis thyoides": {
+"genus": "Chamaecyparis",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1744650"
+},
+"Chamaerops humilis": {
+"genus": "Chamaerops",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q161747"
+},
+"Chionanthus retusus": {
+"genus": "Chionanthus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1073191"
+},
+"Cinnamomum camphora": {
+"genus": "Cinnamomum",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q158722"
+},
+"Citrus × aurantium": {
+"genus": "Citrus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q147096"
+},
+"Citrus × limon": {
+"genus": "Citrus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q500"
+},
+"Cladrastis kentukea": {
+"genus": "Cladrastis",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q470025"
+},
+"Cocos nucifera": {
+"genus": "Cocos",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q13187"
+},
+"Cormus domestica": {
+"genus": "Cormus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q18593737"
+},
+"Cornus alba": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q158228"
+},
+"Cornus alternifolia": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q639615"
+},
+"Cornus amomum": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2266551"
+},
+"Cornus asperifolia": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5788662"
+},
+"Cornus drummondii": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q187040"
+},
+"Cornus florida": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q887221"
+},
+"Cornus foemina": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5171926"
+},
+"Cornus glabrata": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q970978"
+},
+"Cornus kousa": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q728441"
+},
+"Cornus mas": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q158642"
+},
+"Cornus nuttallii": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q220777"
+},
+"Cornus rugosa": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15605468"
+},
+"Cornus sanguinea": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161416"
+},
+"Cornus sericea": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q164130"
+},
+"Cornus sessilis": {
+"genus": "Cornus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q289855"
+},
+"Corylus avellana": {
+"genus": "Corylus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q124969"
+},
+"Corylus colurna": {
+"genus": "Corylus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q148939"
+},
+"Corylus cornuta": {
+"genus": "Corylus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q972950"
+},
+"Corymbia maculata": {
+"genus": "Corymbia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q3337015"
+},
+"Cotinus coggygria": {
+"genus": "Cotinus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161406"
+},
+"Cotinus obovatus": {
+"genus": "Cotinus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5175390"
+},
+"Cotoneaster coriaceus": {
+"genus": "Cotoneaster",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q15536460"
+},
+"Cotoneaster frigidus": {
+"genus": "Cotoneaster",
+"leaf_cycle": "semi_evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q811476"
+},
+"Crataegus aestivalis": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q631650"
+},
+"Crataegus aprica": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182543"
+},
+"Crataegus azarolus": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q793606"
+},
+"Crataegus berberifolia": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182550"
+},
+"Crataegus brachyacantha": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182553"
+},
+"Crataegus brainerdii": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182552"
+},
+"Crataegus calpodendron": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2083452"
+},
+"Crataegus castlegarensis": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17249342"
+},
+"Crataegus chrysocarpa": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2714887"
+},
+"Crataegus coccinea": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3002196"
+},
+"Crataegus coccinioides": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182556"
+},
+"Crataegus collina": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182557"
+},
+"Crataegus crus-galli": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q916961"
+},
+"Crataegus dodgei": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17249460"
+},
+"Crataegus douglasii": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q918920"
+},
+"Crataegus enderbyensis": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17270645"
+},
+"Crataegus erythropoda": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182561"
+},
+"Crataegus flabellata": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2081304"
+},
+"Crataegus germanica": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q146186"
+},
+"Crataegus greggiana": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15537456"
+},
+"Crataegus harbisonii": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182562"
+},
+"Crataegus holmesiana": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182566"
+},
+"Crataegus intricata": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4992235"
+},
+"Crataegus iracunda": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182568"
+},
+"Crataegus lacrimata": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17246209"
+},
+"Crataegus laevigata": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q159553"
+},
+"Crataegus macrosperma": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182572"
+},
+"Crataegus margaretta": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q137643271"
+},
+"Crataegus marshallii": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182573"
+},
+"Crataegus media": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1940705"
+},
+"Crataegus mollis": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2671022"
+},
+"Crataegus monogyna": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161511"
+},
+"Crataegus okennonii": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17247913"
+},
+"Crataegus opaca": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q18555704"
+},
+"Crataegus pentagyna": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2081123"
+},
+"Crataegus persimilis": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17270668"
+},
+"Crataegus phaenopyrum": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3002191"
+},
+"Crataegus phippsii": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182576"
+},
+"Crataegus pruinosa": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182579"
+},
+"Crataegus pulcherrima": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182580"
+},
+"Crataegus punctata": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4095586"
+},
+"Crataegus reverchonii": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17250112"
+},
+"Crataegus rhipidophylla": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q159086"
+},
+"Crataegus rivularis": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4095580"
+},
+"Crataegus saligna": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182583"
+},
+"Crataegus schuettei": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17250369"
+},
+"Crataegus sheila-phippsiae": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17245540"
+},
+"Crataegus spathulata": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182587"
+},
+"Crataegus succulenta": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4095584"
+},
+"Crataegus suksdorfii": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15537660"
+},
+"Crataegus tracyi": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182589"
+},
+"Crataegus triflora": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182590"
+},
+"Crataegus turnerorum": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17270662"
+},
+"Crataegus uniflora": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4095578"
+},
+"Crataegus viridis": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2084514"
+},
+"Crataegus wootoniana": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17249438"
+},
+"Crataegus × grignonensis": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5182597"
+},
+"Crataegus × lavalleei": {
+"genus": "Crataegus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1693676"
+},
+"Cryptomeria japonica": {
+"genus": "Cryptomeria",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q147388"
+},
+"Cunninghamia lanceolata": {
+"genus": "Cunninghamia",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q149115"
+},
+"Cupressus cashmeriana": {
+"genus": "Cupressus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q917216"
+},
+"Cupressus sempervirens": {
+"genus": "Cupressus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q147513"
+},
+"Cydonia oblonga": {
+"genus": "Cydonia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q43300"
+},
+"Davidia involucrata": {
+"genus": "Davidia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q334697"
+},
+"Delonix regia": {
+"genus": "Delonix",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q238486"
+},
+"Diospyros kaki": {
+"genus": "Diospyros",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q158482"
+},
+"Diospyros lotus": {
+"genus": "Diospyros",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q771101"
+},
+"Ehretia dicksonii": {
+"genus": "Ehretia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3049295"
+},
+"Elaeagnus angustifolia": {
+"genus": "Elaeagnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157969"
+},
+"Eriobotrya japonica": {
+"genus": "Eriobotrya",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q41505"
+},
+"Eriolobus trilobatus": {
+"genus": "Eriolobus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15539916"
+},
+"Eucalyptus camaldulensis": {
+"genus": "Eucalyptus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q162822"
+},
+"Eucalyptus cladocalyx": {
+"genus": "Eucalyptus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q5405566"
+},
+"Eucalyptus globulus": {
+"genus": "Eucalyptus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q159528"
+},
+"Eucalyptus gunnii": {
+"genus": "Eucalyptus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q163788"
+},
+"Eucalyptus leucoxylon": {
+"genus": "Eucalyptus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q161468"
+},
+"Eucalyptus ovata": {
+"genus": "Eucalyptus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q955858"
+},
+"Eucalyptus sideroxylon": {
+"genus": "Eucalyptus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q2667019"
+},
+"Euonymus europaeus": {
+"genus": "Euonymus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161379"
+},
+"Euonymus japonicus": {
+"genus": "Euonymus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q161383"
+},
+"Euonymus latifolius": {
+"genus": "Euonymus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q164379"
+},
+"Fagus grandifolia": {
+"genus": "Fagus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q149219"
+},
+"Fagus orientalis": {
+"genus": "Fagus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1543749"
+},
+"Fagus sylvatica": {
+"genus": "Fagus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q146149"
+},
+"Ficus carica": {
+"genus": "Ficus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q36146"
+},
+"Ficus macrophylla": {
+"genus": "Ficus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q1439079"
+},
+"Frangula alnus": {
+"genus": "Frangula",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q146136"
+},
+"Fraxinus americana": {
+"genus": "Fraxinus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1193369"
+},
+"Fraxinus angustifolia": {
+"genus": "Fraxinus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q518949"
+},
+"Fraxinus excelsior": {
+"genus": "Fraxinus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q156907"
+},
+"Fraxinus ornus": {
+"genus": "Fraxinus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161421"
+},
+"Fraxinus pennsylvanica": {
+"genus": "Fraxinus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161164"
+},
+"Garrya elliptica": {
+"genus": "Garrya",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q5524257"
+},
+"Ginkgo biloba": {
+"genus": "Ginkgo",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q43284"
+},
+"Gleditsia aquatica": {
+"genus": "Gleditsia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q603036"
+},
+"Gleditsia caspica": {
+"genus": "Gleditsia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q164418"
+},
+"Gleditsia japonica": {
+"genus": "Gleditsia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q855963"
+},
+"Gleditsia sinensis": {
+"genus": "Gleditsia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1021983"
+},
+"Gleditsia triacanthos": {
+"genus": "Gleditsia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157650"
+},
+"Gleditsia × texana": {
+"genus": "Gleditsia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3108643"
+},
+"Gymnocladus dioicus": {
+"genus": "Gymnocladus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q105034954"
+},
+"Halesia carolina": {
+"genus": "Halesia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3125935"
+},
+"Halesia diptera": {
+"genus": "Halesia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q9001859"
+},
+"Hamamelis virginiana": {
+"genus": "Hamamelis",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q913129"
+},
+"Hedlundia intermedia": {
+"genus": "Hedlundia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q139936592"
+},
+"Hedlundia thuringiaca": {
+"genus": "Hedlundia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q41297396"
+},
+"Hesperocyparis abramsiana": {
+"genus": "Hesperocyparis",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q32856048"
+},
+"Hesperocyparis arizonica": {
+"genus": "Hesperocyparis",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q670040"
+},
+"Hesperocyparis bakeri": {
+"genus": "Hesperocyparis",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q32856049"
+},
+"Hesperocyparis guadalupensis": {
+"genus": "Hesperocyparis",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q67192921"
+},
+"Hesperocyparis lusitanica": {
+"genus": "Hesperocyparis",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q50843037"
+},
+"Hesperocyparis macrocarpa": {
+"genus": "Hesperocyparis",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q32856056"
+},
+"Hesperocyparis sargentii": {
+"genus": "Hesperocyparis",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q32856061"
+},
+"Hibiscus syriacus": {
+"genus": "Hibiscus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157756"
+},
+"Hoheria × sexangusta": {
+"genus": "Hoheria",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q15375287"
+},
+"Hovenia dulcis": {
+"genus": "Hovenia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1478203"
+},
+"Hovenia tomentella": {
+"genus": "Hovenia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17248463"
+},
+"Ilex ambigua": {
+"genus": "Ilex",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5997640"
+},
+"Ilex amelanchier": {
+"genus": "Ilex",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5997638"
+},
+"Ilex aquifolium": {
+"genus": "Ilex",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q192190"
+},
+"Ilex canariensis": {
+"genus": "Ilex",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q3315524"
+},
+"Ilex cassine": {
+"genus": "Ilex",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q3141413"
+},
+"Ilex coriacea": {
+"genus": "Ilex",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q5997666"
+},
+"Ilex cornuta": {
+"genus": "Ilex",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q10744050"
+},
+"Ilex cuthbertii": {
+"genus": "Ilex",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17270999"
+},
+"Ilex decidua": {
+"genus": "Ilex",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5997670"
+},
+"Ilex krugiana": {
+"genus": "Ilex",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q17248673"
+},
+"Ilex latifolia": {
+"genus": "Ilex",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q2706373"
+},
+"Ilex longipes": {
+"genus": "Ilex",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17247945"
+},
+"Ilex montana": {
+"genus": "Ilex",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q12060682"
+},
+"Ilex mucronata": {
+"genus": "Ilex",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5997691"
+},
+"Ilex myrtifolia": {
+"genus": "Ilex",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q17251993"
+},
+"Ilex opaca": {
+"genus": "Ilex",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q2712730"
+},
+"Ilex rotunda": {
+"genus": "Ilex",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q844306"
+},
+"Ilex verticillata": {
+"genus": "Ilex",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3487324"
+},
+"Ilex vomitoria": {
+"genus": "Ilex",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q1010694"
+},
+"Ilex × altaclerensis": {
+"genus": "Ilex",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q21169985"
+},
+"Jacaranda mimosifolia": {
+"genus": "Jacaranda",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q838818"
+},
+"Jubaea chilensis": {
+"genus": "Jubaea",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q290967"
+},
+"Juglans ailantifolia": {
+"genus": "Juglans",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1655870"
+},
+"Juglans californica": {
+"genus": "Juglans",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q890824"
+},
+"Juglans cinerea": {
+"genus": "Juglans",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q630288"
+},
+"Juglans mandshurica": {
+"genus": "Juglans",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q311361"
+},
+"Juglans nigra": {
+"genus": "Juglans",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q852572"
+},
+"Juglans regia": {
+"genus": "Juglans",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q46871"
+},
+"Juglans sigillata": {
+"genus": "Juglans",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q958336"
+},
+"Juniperus communis": {
+"genus": "Juniperus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q26325"
+},
+"Juniperus scopulorum": {
+"genus": "Juniperus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q533674"
+},
+"Juniperus virginiana": {
+"genus": "Juniperus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q157522"
+},
+"Koelreuteria paniculata": {
+"genus": "Koelreuteria",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q844835"
+},
+"Laburnum alpinum": {
+"genus": "Laburnum",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3497019"
+},
+"Laburnum anagyroides": {
+"genus": "Laburnum",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q147939"
+},
+"Laburnum × watereri": {
+"genus": "Laburnum",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q12317600"
+},
+"Lagerstroemia indica": {
+"genus": "Lagerstroemia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1148692"
+},
+"Lagunaria patersonia": {
+"genus": "Lagunaria",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q1999042"
+},
+"Larix decidua": {
+"genus": "Larix",
+"leaf_cycle": "deciduous",
+"leaf_type": "needleleaved",
+"wikidata": "Q146048"
+},
+"Larix gmelinii": {
+"genus": "Larix",
+"leaf_cycle": "deciduous",
+"leaf_type": "needleleaved",
+"wikidata": "Q756334"
+},
+"Larix kaempferi": {
+"genus": "Larix",
+"leaf_cycle": "deciduous",
+"leaf_type": "needleleaved",
+"wikidata": "Q147439"
+},
+"Larix laricina": {
+"genus": "Larix",
+"leaf_cycle": "deciduous",
+"leaf_type": "needleleaved",
+"wikidata": "Q734085"
+},
+"Laurus nobilis": {
+"genus": "Laurus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q26006"
+},
+"Ligustrum compactum": {
+"genus": "Ligustrum",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15227996"
+},
+"Ligustrum japonicum": {
+"genus": "Ligustrum",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q1209219"
+},
+"Ligustrum lucidum": {
+"genus": "Ligustrum",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q732933"
+},
+"Liquidambar formosana": {
+"genus": "Liquidambar",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q986006"
+},
+"Liquidambar orientalis": {
+"genus": "Liquidambar",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2093169"
+},
+"Liquidambar styraciflua": {
+"genus": "Liquidambar",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q469652"
+},
+"Liriodendron chinense": {
+"genus": "Liriodendron",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1074257"
+},
+"Liriodendron tulipifera": {
+"genus": "Liriodendron",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q158783"
+},
+"Livistona chinensis": {
+"genus": "Livistona",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q709649"
+},
+"Lophostemon confertus": {
+"genus": "Lophostemon",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q1002860"
+},
+"Luma apiculata": {
+"genus": "Luma",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q699330"
+},
+"Maackia amurensis": {
+"genus": "Maackia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1353893"
+},
+"Maclura pomifera": {
+"genus": "Maclura",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1066106"
+},
+"Macromeles tschonoskii": {
+"genus": "Macromeles",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17245524"
+},
+"Magnolia acuminata": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1249099"
+},
+"Magnolia amabilis": {
+"genus": "Magnolia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q55877133"
+},
+"Magnolia amoena": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2249188"
+},
+"Magnolia aromatica": {
+"genus": "Magnolia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q5222974"
+},
+"Magnolia biondii": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q6731965"
+},
+"Magnolia campbellii": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2672193"
+},
+"Magnolia cylindrica": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q137046"
+},
+"Magnolia delavayi": {
+"genus": "Magnolia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q2589444"
+},
+"Magnolia denudata": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q794061"
+},
+"Magnolia grandiflora": {
+"genus": "Magnolia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q161116"
+},
+"Magnolia kobus": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q942409"
+},
+"Magnolia liliiflora": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q942031"
+},
+"Magnolia obovata": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2386378"
+},
+"Magnolia sieboldii": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1378390"
+},
+"Magnolia stellata": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q839507"
+},
+"Magnolia tripetala": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q990982"
+},
+"Magnolia virginiana": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1859063"
+},
+"Magnolia yulan": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q50844810"
+},
+"Magnolia × alba": {
+"genus": "Magnolia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q2221893"
+},
+"Magnolia × brooklynensis": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q11766240"
+},
+"Magnolia × foggii": {
+"genus": "Magnolia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q92731952"
+},
+"Magnolia × gotoburgensis": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q141464089"
+},
+"Magnolia × loebneri": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3206440"
+},
+"Magnolia × proctoriana": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15601274"
+},
+"Magnolia × pruhoniciana": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q92202226"
+},
+"Magnolia × soulangeana": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q731443"
+},
+"Magnolia × thomsoniana": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q141463826"
+},
+"Magnolia × veitchii": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q21370187"
+},
+"Magnolia × wieseneri": {
+"genus": "Magnolia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5989920"
+},
+"Malus baccata": {
+"genus": "Malus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1743596"
+},
+"Malus domestica": {
+"genus": "Malus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q18674606"
+},
+"Malus hupehensis": {
+"genus": "Malus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1712421"
+},
+"Malus spectabilis": {
+"genus": "Malus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1074153"
+},
+"Malus sylvestris": {
+"genus": "Malus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q47161"
+},
+"Mangifera indica": {
+"genus": "Mangifera",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q3919027"
+},
+"Maytenus boaria": {
+"genus": "Maytenus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q1152753"
+},
+"Melaleuca armillaris": {
+"genus": "Melaleuca",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q145525"
+},
+"Melaleuca linariifolia": {
+"genus": "Melaleuca",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2709936"
+},
+"Melaleuca styphelioides": {
+"genus": "Melaleuca",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q6811101"
+},
+"Melaleuca viminalis": {
+"genus": "Melaleuca",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q22113637"
+},
+"Melia azedarach": {
+"genus": "Melia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q162171"
+},
+"Metasequoia glyptostroboides": {
+"genus": "Metasequoia",
+"leaf_cycle": "deciduous",
+"leaf_type": "needleleaved",
+"wikidata": "Q156800"
+},
+"Morus alba": {
+"genus": "Morus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157307"
+},
+"Morus nigra": {
+"genus": "Morus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161040"
+},
+"Morus papyrifera": {
+"genus": "Morus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q21977496"
+},
+"Morus rubra": {
+"genus": "Morus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1520764"
+},
+"Nothofagus antarctica": {
+"genus": "Nothofagus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q571422"
+},
+"Nothofagus obliqua": {
+"genus": "Nothofagus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1486147"
+},
+"Nyssa sylvatica": {
+"genus": "Nyssa",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3179665"
+},
+"Olea europaea": {
+"genus": "Olea",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q37083"
+},
+"Ostrya carpinifolia": {
+"genus": "Ostrya",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1367533"
+},
+"Ostrya knowltonii": {
+"genus": "Ostrya",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4498408"
+},
+"Ostrya virginiana": {
+"genus": "Ostrya",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1489573"
+},
+"Parrotia persica": {
+"genus": "Parrotia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1138533"
+},
+"Paulownia tomentosa": {
+"genus": "Paulownia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157393"
+},
+"Persea americana": {
+"genus": "Persea",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q37153"
+},
+"Phellodendron amurense": {
+"genus": "Phellodendron",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q481711"
+},
+"Phoenix canariensis": {
+"genus": "Phoenix",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q27657"
+},
+"Phoenix dactylifera": {
+"genus": "Phoenix",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q25292"
+},
+"Phoenix sylvestris": {
+"genus": "Phoenix",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q2285767"
+},
+"Photinia serratifolia": {
+"genus": "Photinia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q5220976"
+},
+"Photinia × fraseri": {
+"genus": "Photinia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q3901693"
+},
+"Picea abies": {
+"genus": "Picea",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q145992"
+},
+"Picea asperata": {
+"genus": "Picea",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q3239660"
+},
+"Picea brachytyla": {
+"genus": "Picea",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q39529"
+},
+"Picea glauca": {
+"genus": "Picea",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q128116"
+},
+"Picea glehnii": {
+"genus": "Picea",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1151932"
+},
+"Picea laxa": {
+"genus": "Picea",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q50847339"
+},
+"Picea maximowiczii": {
+"genus": "Picea",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q2411222"
+},
+"Picea omorika": {
+"genus": "Picea",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q147824"
+},
+"Picea pungens": {
+"genus": "Picea",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q146025"
+},
+"Picea sitchensis": {
+"genus": "Picea",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q147426"
+},
+"Picea smithiana": {
+"genus": "Picea",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1548216"
+},
+"Pinus bungeana": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1074872"
+},
+"Pinus cembra": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q147278"
+},
+"Pinus densiflora": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1044186"
+},
+"Pinus flexilis": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q594993"
+},
+"Pinus glabra": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q539249"
+},
+"Pinus heldreichii": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q460531"
+},
+"Pinus mugo": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q147475"
+},
+"Pinus nigra": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q145954"
+},
+"Pinus parviflora": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q178116"
+},
+"Pinus pinaster": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q271582"
+},
+"Pinus pinea": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q106094"
+},
+"Pinus radiata": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q748888"
+},
+"Pinus resinosa": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q2045958"
+},
+"Pinus strobus": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q157230"
+},
+"Pinus sylvestris": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q133128"
+},
+"Pinus wallichiana": {
+"genus": "Pinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q747652"
+},
+"Platanus occidentalis": {
+"genus": "Platanus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157739"
+},
+"Platanus orientalis": {
+"genus": "Platanus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161105"
+},
+"Platanus × hispanica": {
+"genus": "Platanus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161374"
+},
+"Platycladus orientalis": {
+"genus": "Platycladus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q33482"
+},
+"Podocarpus nubigenus": {
+"genus": "Podocarpus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q823016"
+},
+"Populus alba": {
+"genus": "Populus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q146269"
+},
+"Populus balsamifera": {
+"genus": "Populus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q149471"
+},
+"Populus deltoides": {
+"genus": "Populus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q149319"
+},
+"Populus nigra": {
+"genus": "Populus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q147064"
+},
+"Populus simonii": {
+"genus": "Populus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q182756"
+},
+"Populus tremula": {
+"genus": "Populus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q146110"
+},
+"Populus tremuloides": {
+"genus": "Populus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q469576"
+},
+"Populus × berolinensis": {
+"genus": "Populus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4460779"
+},
+"Populus × canadensis": {
+"genus": "Populus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q149622"
+},
+"Populus × canescens": {
+"genus": "Populus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q149553"
+},
+"Prunus amygdalus": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15545507"
+},
+"Prunus armeniaca": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q37453"
+},
+"Prunus avium": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q165137"
+},
+"Prunus brigantina": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3408630"
+},
+"Prunus cerasifera": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q146951"
+},
+"Prunus cerasus": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q131517"
+},
+"Prunus domestica": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q10878191"
+},
+"Prunus incana": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17235052"
+},
+"Prunus incisa": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3269605"
+},
+"Prunus japonica": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1771825"
+},
+"Prunus laurocerasus": {
+"genus": "Prunus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q157508"
+},
+"Prunus lusitanica": {
+"genus": "Prunus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q1969110"
+},
+"Prunus maackii": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q149392"
+},
+"Prunus mahaleb": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161920"
+},
+"Prunus padus": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q165424"
+},
+"Prunus persica": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q13189"
+},
+"Prunus sargentii": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q163039"
+},
+"Prunus serotina": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q158987"
+},
+"Prunus serrula": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q164371"
+},
+"Prunus serrulata": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q165321"
+},
+"Prunus spinosa": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q129018"
+},
+"Prunus umbellata": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17235187"
+},
+"Prunus virginiana": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q162829"
+},
+"Prunus × fruticans": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3408658"
+},
+"Prunus × subhirtella": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q163070"
+},
+"Prunus × yedoensis": {
+"genus": "Prunus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q163078"
+},
+"Pseudolarix amabilis": {
+"genus": "Pseudolarix",
+"leaf_cycle": "deciduous",
+"leaf_type": "needleleaved",
+"wikidata": "Q1458175"
+},
+"Pseudotsuga menziesii": {
+"genus": "Pseudotsuga",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q156687"
+},
+"Pterocarya fraxinifolia": {
+"genus": "Pterocarya",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q121749"
+},
+"Pyrus calleryana": {
+"genus": "Pyrus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3079266"
+},
+"Pyrus communis": {
+"genus": "Pyrus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q146281"
+},
+"Pyrus cordata": {
+"genus": "Pyrus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q7263791"
+},
+"Quercus acuta": {
+"genus": "Quercus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q1075957"
+},
+"Quercus alba": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q469555"
+},
+"Quercus bicolor": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q142792"
+},
+"Quercus cerris": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157277"
+},
+"Quercus coccinea": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q854714"
+},
+"Quercus frainetto": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q857075"
+},
+"Quercus ilex": {
+"genus": "Quercus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q218155"
+},
+"Quercus imbricaria": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q528713"
+},
+"Quercus macrocarpa": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1082365"
+},
+"Quercus michauxii": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1460497"
+},
+"Quercus muehlenbergii": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2611816"
+},
+"Quercus nigra": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112855"
+},
+"Quercus palustris": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161253"
+},
+"Quercus petraea": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q158608"
+},
+"Quercus phellos": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q783224"
+},
+"Quercus pubescens": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161415"
+},
+"Quercus pyrenaica": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q899686"
+},
+"Quercus robur": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q165145"
+},
+"Quercus rubra": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q147525"
+},
+"Quercus suber": {
+"genus": "Quercus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q156137"
+},
+"Quercus variabilis": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q192608"
+},
+"Quercus velutina": {
+"genus": "Quercus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1001011"
+},
+"Quercus virginiana": {
+"genus": "Quercus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q1758722"
+},
+"Quercus × hispanica": {
+"genus": "Quercus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q15337558"
+},
+"Rhamnus cathartica": {
+"genus": "Rhamnus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q147861"
+},
+"Rhus typhina": {
+"genus": "Rhus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q148986"
+},
+"Robinia hispida": {
+"genus": "Robinia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q894236"
+},
+"Robinia neomexicana": {
+"genus": "Robinia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1635788"
+},
+"Robinia pseudoacacia": {
+"genus": "Robinia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157417"
+},
+"Robinia viscosa": {
+"genus": "Robinia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q159627"
+},
+"Robinia × ambigua": {
+"genus": "Robinia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3437174"
+},
+"Robinia × holdtii": {
+"genus": "Robinia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q21370548"
+},
+"Robinia × longiloba": {
+"genus": "Robinia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q21370549"
+},
+"Robinia × margaretta": {
+"genus": "Robinia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q113251931"
+},
+"Roystonea oleracea": {
+"genus": "Roystonea",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q141233"
+},
+"Roystonea regia": {
+"genus": "Roystonea",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q1069046"
+},
+"Sabal palmetto": {
+"genus": "Sabal",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q1088471"
+},
+"Salix alba": {
+"genus": "Salix",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q156918"
+},
+"Salix atrocinerea": {
+"genus": "Salix",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3320649"
+},
+"Salix aurita": {
+"genus": "Salix",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157519"
+},
+"Salix babylonica": {
+"genus": "Salix",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q156307"
+},
+"Salix caprea": {
+"genus": "Salix",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q159565"
+},
+"Salix cinerea": {
+"genus": "Salix",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157540"
+},
+"Salix euxina": {
+"genus": "Salix",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q18119933"
+},
+"Salix fragilis": {
+"genus": "Salix",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q157518"
+},
+"Salix pentandra": {
+"genus": "Salix",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q158912"
+},
+"Salix viminalis": {
+"genus": "Salix",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q158590"
+},
+"Salix × pendulina": {
+"genus": "Salix",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q10497720"
+},
+"Sambucus canadensis": {
+"genus": "Sambucus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q21877280"
+},
+"Sambucus nigra": {
+"genus": "Sambucus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q22701"
+},
+"Schinus molle": {
+"genus": "Schinus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q855896"
+},
+"Sequoia sempervirens": {
+"genus": "Sequoia",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q150129"
+},
+"Sequoiadendron giganteum": {
+"genus": "Sequoiadendron",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q149851"
+},
+"Sophora tomentosa": {
+"genus": "Sophora",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3206158"
+},
+"Sorbus aucuparia": {
+"genus": "Sorbus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q146198"
+},
+"Sorbus scalaris": {
+"genus": "Sorbus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1037204"
+},
+"Sorbus vilmorinii": {
+"genus": "Sorbus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1037212"
+},
+"Stewartia pseudocamellia": {
+"genus": "Stewartia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1041653"
+},
+"Styphnolobium japonicum": {
+"genus": "Styphnolobium",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q288558"
+},
+"Styrax americanus": {
+"genus": "Styrax",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q6134685"
+},
+"Styrax grandifolius": {
+"genus": "Styrax",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15312861"
+},
+"Styrax japonicus": {
+"genus": "Styrax",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q910419"
+},
+"Styrax platanifolius": {
+"genus": "Styrax",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q7629799"
+},
+"Syringa pekinensis": {
+"genus": "Syringa",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17713034"
+},
+"Syringa reticulata": {
+"genus": "Syringa",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1683340"
+},
+"Syringa vulgaris": {
+"genus": "Syringa",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q6565319"
+},
+"Taiwania cryptomerioides": {
+"genus": "Taiwania",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q390313"
+},
+"Taxodium distichum": {
+"genus": "Taxodium",
+"leaf_cycle": "deciduous",
+"leaf_type": "needleleaved",
+"wikidata": "Q148950"
+},
+"Taxus baccata": {
+"genus": "Taxus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q179729"
+},
+"Taxus brevifolia": {
+"genus": "Taxus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q20655540"
+},
+"Taxus canadensis": {
+"genus": "Taxus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1723511"
+},
+"Taxus cuspidata": {
+"genus": "Taxus",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1144815"
+},
+"Terminalia boivinii": {
+"genus": "Terminalia",
+"leaf_cycle": null,
+"leaf_type": "broadleaved",
+"wikidata": "Q15573081"
+},
+"Tetradium daniellii": {
+"genus": "Tetradium",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q837237"
+},
+"Thuja occidentalis": {
+"genus": "Thuja",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q147468"
+},
+"Thuja plicata": {
+"genus": "Thuja",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q147417"
+},
+"Tilia americana": {
+"genus": "Tilia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q163981"
+},
+"Tilia cordata": {
+"genus": "Tilia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q158746"
+},
+"Tilia dasystyla": {
+"genus": "Tilia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1353171"
+},
+"Tilia henryana": {
+"genus": "Tilia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q142912"
+},
+"Tilia mongolica": {
+"genus": "Tilia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1944479"
+},
+"Tilia platyphyllos": {
+"genus": "Tilia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q156831"
+},
+"Tilia tomentosa": {
+"genus": "Tilia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q161382"
+},
+"Tilia × euchlora": {
+"genus": "Tilia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q159657"
+},
+"Tilia × europaea": {
+"genus": "Tilia",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q163760"
+},
+"Tipuana tipu": {
+"genus": "Tipuana",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2716902"
+},
+"Torminalis glaberrima": {
+"genus": "Torminalis",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q41297526"
+},
+"Trachycarpus fortunei": {
+"genus": "Trachycarpus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q158383"
+},
+"Trachycarpus martianus": {
+"genus": "Trachycarpus",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q145672"
+},
+"Tsuga canadensis": {
+"genus": "Tsuga",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1137143"
+},
+"Tsuga heterophylla": {
+"genus": "Tsuga",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q1144409"
+},
+"Ulmus americana": {
+"genus": "Ulmus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q469382"
+},
+"Ulmus carpinifolia": {
+"genus": "Ulmus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3547946"
+},
+"Ulmus crassifolia": {
+"genus": "Ulmus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q7879431"
+},
+"Ulmus davidiana": {
+"genus": "Ulmus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2109921"
+},
+"Ulmus glabra": {
+"genus": "Ulmus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q147498"
+},
+"Ulmus laevis": {
+"genus": "Ulmus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q147492"
+},
+"Ulmus minor": {
+"genus": "Ulmus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q147487"
+},
+"Ulmus parvifolia": {
+"genus": "Ulmus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1074099"
+},
+"Ulmus pumila": {
+"genus": "Ulmus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1079824"
+},
+"Ulmus × hollandica": {
+"genus": "Ulmus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q504004"
+},
+"Umbellularia californica": {
+"genus": "Umbellularia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q692162"
+},
+"Viburnum opulus": {
+"genus": "Viburnum",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q156928"
+},
+"Viburnum rugosum": {
+"genus": "Viburnum",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q130341059"
+},
+"Viburnum tinus": {
+"genus": "Viburnum",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q1321268"
+},
+"Washingtonia filifera": {
+"genus": "Washingtonia",
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q158389"
+},
+"Wollemia nobilis": {
+"genus": "Wollemia",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q190510"
+},
+"Zelkova carpinifolia": {
+"genus": "Zelkova",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1737093"
+},
+"Zelkova serrata": {
+"genus": "Zelkova",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q920344"
+},
+"Zelkova sinica": {
+"genus": "Zelkova",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q10935845"
+},
+"Ziziphus jujuba": {
+"genus": "Ziziphus",
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q11181633"
+},
+"× Hesperotropsis leylandii": {
+"genus": "× Hesperotropsis",
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q42688380"
+}
+}
+}
