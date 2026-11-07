@@ -30,7 +30,10 @@
   #tip{position:absolute;z-index:3;display:none;pointer-events:none;background:#fff;padding:4px 8px;border-radius:4px;box-shadow:0 1px 6px #0004;font-size:12px}
   #overview{margin:0 0 6px;width:100%;padding:3px 6px;cursor:pointer}
   .note{font-size:11px;color:#777;margin-top:6px}
-  #panel h1{font-size:15px;margin:0 0 6px}
+  #panel h1{font-size:15px;margin:0 0 6px;display:flex;justify-content:space-between;align-items:baseline}
+  #lang{font-size:12px;font-weight:400;color:#999}
+  #lang a{color:#1a5fb4;text-decoration:none}
+  #lang a.on{color:#222;font-weight:600;pointer-events:none}
   #panel label{display:block;margin:2px 0}
   #panel select{width:100%;margin-bottom:6px}
   #count{color:#555;margin-top:6px;font-size:12px}
@@ -46,60 +49,188 @@
 <body>
 <div id="side">
 <div id="panel" class="box">
-  <h1>Alberi OSM</h1>
+  <h1><span data-i18n="title">Alberi OSM</span><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a></span></h1>
   <select id="region"></select>
-  <button id="overview" type="button" hidden>← Tutte le regioni</button>
-  <select id="taxon"><option value="">Tutti i genus e le specie</option></select>
-  <select id="issue">
-    <option value="">Tutti gli errori</option>
-    <option value="circumference">Circonferenza &gt; 43 m</option>
-    <option value="height">Altezza &gt; 115,92 m</option>
-    <option value="comma">Virgola decimale (circumference, height, diameter_crown)</option>
-    <option value="number_invalid">Valore numerico non valido (testo, intervallo, zero)</option>
-    <option value="genus_mismatch">Genus diverso dalla species</option>
-    <option value="link_format">Link con formato non valido</option>
-    <option value="wikidata_mismatch">species:wikidata incoerente con la species</option>
-    <option value="leaf_type_mismatch">leaf_type diverso da quello della specie</option>
-    <option value="leaf_cycle_mismatch">leaf_cycle diverso da quello della specie</option>
-    <option value="monument_denotation">Fonte monumentale senza natural_monument</option>
-    <option value="circumference_species">Circonferenza &gt; limite della specie</option>
-    <option value="height_species">Altezza &gt; limite della specie</option>
-    <option value="species">Species di una sola parola</option>
-    <option value="genus">Genus non valido</option>
-    <option value="species_lowercase">Species con iniziale minuscola</option>
-    <option value="genus_lowercase">Genus con iniziale minuscola</option>
-    <option value="leaf_type">leaf_type non valido</option>
-    <option value="leaf_cycle">leaf_cycle non valido</option>
-  </select>
+  <button id="overview" type="button" hidden data-i18n="allRegions">← Tutte le regioni</button>
+  <select id="taxon"><option value="" data-i18n="allTaxa">Tutti i genus e le specie</option></select>
+  <select id="issue"><option value="" data-i18n="allIssues">Tutti gli errori</option></select>
   <div id="count"></div>
   <div id="updated" class="note"></div>
 </div>
   <details id="legend-box" class="box">
-    <summary>Legenda</summary>
+    <summary data-i18n="legend">Legenda</summary>
     <ul class="leg">
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#e6a800" stroke-width="3"/></svg> Albero monumentale</li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#7b3fc4" stroke-width="2"/></svg> Landmark</li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#d00020" stroke-width="2"/></svg> Con problemi</li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e"/></svg> Tronco (circonferenza)</li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e" fill-opacity=".45"/></svg> Tronco stimato</li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><path d="M5 5L17 17M17 5L5 17" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/></svg> Ceppo</li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.0,11.0 19.3,10.1 19.4,9.1 19.1,8.2 18.5,7.4 17.8,6.8 16.9,6.3 16.3,5.7 16.0,4.7 15.5,3.9 14.7,3.3 13.8,2.9 12.9,2.8 11.9,3.1 11.0,3.5 10.2,3.5 9.2,3.2 8.2,3.1 7.3,3.3 6.4,3.7 5.8,4.5 5.4,5.4 5.1,6.3 4.6,7.0 3.8,7.5 3.1,8.2 2.6,9.1 2.5,10.0 2.6,11.0 3.1,11.9 3.7,12.7 3.9,13.5 3.8,14.5 3.9,15.5 4.3,16.4 4.9,17.1 5.8,17.5 6.8,17.8 7.8,17.7 8.5,18.1 9.2,18.8 10.1,19.3 11.0,19.6 12.0,19.5 12.9,19.2 13.6,18.5 14.2,17.7 15.0,17.4 16.0,17.3 16.9,16.9 17.7,16.4 18.3,15.6 18.5,14.6 18.5,13.6 18.3,12.7 18.5,11.8" stroke-linejoin="round" fill="#2e9e45" fill-opacity=".55" stroke="#1b6b2c" stroke-width="1"/></svg> Latifoglia o palma</li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.3,8.8 13.2,2.7 4.9,4.9 2.7,13.2 8.8,19.3 17.1,17.1" stroke-linejoin="round" fill="#2e9e45" fill-opacity=".55" stroke="#1b6b2c" stroke-width="1"/></svg> Aghifoglia</li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#2e9e45" fill-opacity=".55" stroke="#1b6b2c" stroke-width="1"/></svg> Tipo di foglia non specificato</li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#e6a800" stroke-width="3"/></svg> <span data-i18n="legMonument">Albero monumentale</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#7b3fc4" stroke-width="2"/></svg> <span data-i18n="legLandmark">Landmark</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#d00020" stroke-width="2"/></svg> <span data-i18n="legIssues">Con problemi</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e"/></svg> <span data-i18n="legTrunk">Tronco (circonferenza)</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e" fill-opacity=".45"/></svg> <span data-i18n="legTrunkEst">Tronco stimato</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><path d="M5 5L17 17M17 5L5 17" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/></svg> <span data-i18n="legStump">Ceppo</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.0,11.0 19.3,10.1 19.4,9.1 19.1,8.2 18.5,7.4 17.8,6.8 16.9,6.3 16.3,5.7 16.0,4.7 15.5,3.9 14.7,3.3 13.8,2.9 12.9,2.8 11.9,3.1 11.0,3.5 10.2,3.5 9.2,3.2 8.2,3.1 7.3,3.3 6.4,3.7 5.8,4.5 5.4,5.4 5.1,6.3 4.6,7.0 3.8,7.5 3.1,8.2 2.6,9.1 2.5,10.0 2.6,11.0 3.1,11.9 3.7,12.7 3.9,13.5 3.8,14.5 3.9,15.5 4.3,16.4 4.9,17.1 5.8,17.5 6.8,17.8 7.8,17.7 8.5,18.1 9.2,18.8 10.1,19.3 11.0,19.6 12.0,19.5 12.9,19.2 13.6,18.5 14.2,17.7 15.0,17.4 16.0,17.3 16.9,16.9 17.7,16.4 18.3,15.6 18.5,14.6 18.5,13.6 18.3,12.7 18.5,11.8" stroke-linejoin="round" fill="#2e9e45" fill-opacity=".55" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legBroad">Latifoglia o palma</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.3,8.8 13.2,2.7 4.9,4.9 2.7,13.2 8.8,19.3 17.1,17.1" stroke-linejoin="round" fill="#2e9e45" fill-opacity=".55" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legNeedle">Aghifoglia</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#2e9e45" fill-opacity=".55" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legNoLeaf">Tipo di foglia non specificato</span></li>
     </ul>
-    <div class="note">Tronco e forme da zoom 16</div>
+    <div class="note" data-i18n="legNote">Tronco e forme da zoom 16</div>
   </details>
   <details id="rank-box" class="box">
-    <summary>Classifica errori</summary>
+    <summary data-i18n="rank">Classifica errori</summary>
     <div id="rank"></div>
-    <div class="note">Alberi con almeno un errore; tra parentesi la quota sul totale. Tocca una regione per aprirla.</div>
+    <div class="note" data-i18n="rankNote">Alberi con almeno un errore; tra parentesi la quota sul totale. Tocca una regione per aprirla.</div>
   </details>
 </div>
 <div id="map"></div>
 <div id="tip"></div>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
-const LAT = 45;                                   // latitudine di riferimento per metri→pixel
+// ---- Lingua: #lang=it|en nell'indirizzo, poi la scelta salvata, poi la lingua del browser (it → italiano, altro → inglese)
+const LANGS = ["it", "en"];
+const hashParams = () => new URLSearchParams(location.hash.slice(1));
+const storedLang = () => { try { return localStorage.getItem("lang"); } catch (e) { return null; } };
+const LANG = [hashParams().get("lang"), storedLang(), (navigator.language || "").slice(0, 2).toLowerCase() === "it" ? "it" : "en"]
+  .find(l => LANGS.includes(l));
+const LOC = LANG === "it" ? "it-IT" : "en-GB";
+const fmtN = n => Number(n).toLocaleString(LOC);
+// indirizzo con la regione, mantenendo #lang se c'era
+const setHash = slug => {
+  const h = new URLSearchParams();
+  if (slug) h.set("region", slug);
+  if (hashParams().get("lang")) h.set("lang", LANG);
+  const s = h.toString();
+  history.replaceState(null, "", s ? "#" + s : location.pathname + location.search);
+};
+
+// Testi dell'interfaccia. Per una nuova lingua: aggiungerla a LANGS e copiare uno dei due blocchi.
+// I valori possono essere funzioni (testi con parti variabili).
+const I18N = {
+  it: {
+    pageTitle: "Alberi OSM", title: "Alberi OSM", allRegions: "← Tutte le regioni", chooseRegion: "Scegli una regione…",
+    regionOpt: (name, n) => `${name} (${fmtN(n)} alberi)`,
+    allTaxa: "Tutti i genus e le specie", unknown: "Sconosciuto", withSpecies: "Con species", genusGroup: "Genus", speciesGroup: "Specie",
+    allIssues: "Tutti gli errori",
+    legend: "Legenda", legMonument: "Albero monumentale", legLandmark: "Landmark", legIssues: "Con problemi",
+    legTrunk: "Tronco (circonferenza)", legTrunkEst: "Tronco stimato", legStump: "Ceppo", legBroad: "Latifoglia o palma",
+    legNeedle: "Aghifoglia", legNoLeaf: "Tipo di foglia non specificato", legNote: "Tronco e forme da zoom 16",
+    rank: "Classifica errori", rankNote: "Alberi con almeno un errore; tra parentesi la quota sul totale. Tocca una regione per aprirla.",
+    rankEmpty: "Conteggi non ancora disponibili: lancia l'Action \"Aggiorna dati alberi\".",
+    loadError: "Errore nel caricamento dei dati", noData: "Nessun dato: lancia l'Action di aggiornamento",
+    pickRegion: "Scegli una regione sulla mappa o dal menu", loading: name => `Caricamento di ${name}…`,
+    countIssues: n => `Alberi problematici in vista: ${n} (ingrandisci per vedere i monumentali)`,
+    countMid: n => `Problematici e monumentali in vista: ${n} (ingrandisci per vedere tutti)`,
+    countAll: n => `Alberi in vista: ${n}`,
+    updated: d => `Dati aggiornati al ${d}`,
+    tipTrees: (name, n) => `${name} · ${fmtN(n)} alberi`, tipNoData: name => `${name} · dati non ancora disponibili`,
+    issueOpts: {
+      circumference: "Circonferenza > 43 m", height: "Altezza > 115,92 m",
+      comma: "Virgola decimale (circumference, height, diameter_crown, diameter)",
+      number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
+      link_format: "Link con formato non valido", wikidata_mismatch: "species:wikidata incoerente con la species",
+      leaf_type_mismatch: "leaf_type diverso da quello della specie", leaf_cycle_mismatch: "leaf_cycle diverso da quello della specie",
+      monument_denotation: "Fonte monumentale senza natural_monument", circumference_species: "Circonferenza > limite della specie",
+      height_species: "Altezza > limite della specie", species: "Species di una sola parola", genus: "Genus non valido",
+      species_lowercase: "Species con iniziale minuscola", genus_lowercase: "Genus con iniziale minuscola",
+      leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" },
+    denotation: { natural_monument: "Albero monumentale", landmark: "Punto di riferimento", avenue: "Albero di viale",
+      urban: "Albero urbano", cluster: "Gruppo di alberi", agricultural: "Albero agricolo" },
+    leafType: { broadleaved: "Latifoglia", needleleaved: "Aghifoglia", leafless: "Senza foglie", palm: "Palma" },
+    leafCycle: { deciduous: "Caducifoglia", semi_deciduous: "Semi-caducifoglia", evergreen: "Sempreverde", semi_evergreen: "Semi-sempreverde" },
+    rows: { species: "Specie", genus: "Genere", taxon: "Taxon", denotation: "Categoria", leaf_type: "Tipo di foglie",
+      lt: "Tipo di foglie (stimato)", leaf_cycle: "Ciclo fogliare", circumference: "Circonferenza", diameter: "Diametro tronco",
+      height: "Altezza", diameter_crown: "Diametro chioma", start_date: "Data di impianto" },
+    fromDiameter: " (da diameter)",
+    issue: {
+      circumference_species: (v, sp) => `circonferenza > ${v} (limite per ${sp})`,
+      height_species: (v, sp) => `altezza > ${v} (limite per ${sp})`,
+      comma: t => `virgola decimale in ${t}`,
+      number_invalid: t => `valore non numerico, intervallo o zero in ${t}`,
+      link_format: t => `formato non valido in ${t}`,
+      monument_denotation: t => `${t} senza denotation=natural_monument`,
+      wikidata_other: (wd, exp, sp) => `species:wikidata=${wd} corrisponde a ${exp}, non a ${sp}`,
+      wikidata_expected: (wd, sp, exp) => `species:wikidata=${wd} non corrisponde a ${sp} (atteso ${exp})`,
+      leaf_type_mismatch: (v, f, e) => `leaf_type=${v}, ma per ${f} la lista wiki indica ${e}`,
+      leaf_cycle_mismatch: (v, f, e) => `leaf_cycle=${v}, ma per ${f} la lista wiki indica ${e}`,
+      genus_mismatch: (g, sp) => `genus (${g}) diverso dal genere della species (${sp})`,
+      species: "species di una sola parola", species_lowercase: "species con iniziale minuscola",
+      genus_lowercase: "genus con iniziale minuscola", circumference: "circonferenza > 43 m", height: "altezza > 115,92 m",
+      genus: "genus con più parole", leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" },
+    genusOf: g => `il genere ${g}`, or: " o ",
+    recMasaf: (l, ref) => `Albero inserito nell’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${ref})`,
+    recRami: (l, ref) => `Albero inserito nel ${l("registro RAMI")} (${ref})`,
+    recMt: l => `Censito su ${l}`,
+    stump: "Ceppo", stumpOf: b => `${b} (ceppo)`, unknownSpecies: "Specie sconosciuta",
+  },
+  en: {
+    pageTitle: "OSM Trees", title: "OSM Trees", allRegions: "← All regions", chooseRegion: "Choose a region…",
+    regionOpt: (name, n) => `${name} (${fmtN(n)} trees)`,
+    allTaxa: "All genera and species", unknown: "Unknown", withSpecies: "With species", genusGroup: "Genus", speciesGroup: "Species",
+    allIssues: "All errors",
+    legend: "Legend", legMonument: "Monumental tree", legLandmark: "Landmark", legIssues: "With errors",
+    legTrunk: "Trunk (circumference)", legTrunkEst: "Estimated trunk", legStump: "Stump", legBroad: "Broadleaved or palm",
+    legNeedle: "Needleleaved", legNoLeaf: "Leaf type not specified", legNote: "Trunks and shapes from zoom 16",
+    rank: "Error ranking", rankNote: "Trees with at least one error; in brackets the share of the total. Tap a region to open it.",
+    rankEmpty: "Counts not available yet: run the \"Aggiorna dati alberi\" Action.",
+    loadError: "Error loading data", noData: "No data: run the update Action",
+    pickRegion: "Choose a region on the map or from the menu", loading: name => `Loading ${name}…`,
+    countIssues: n => `Trees with errors in view: ${n} (zoom in to see monumental trees)`,
+    countMid: n => `Trees with errors and monumental trees in view: ${n} (zoom in to see all)`,
+    countAll: n => `Trees in view: ${n}`,
+    updated: d => `Data updated on ${d}`,
+    tipTrees: (name, n) => `${name} · ${fmtN(n)} trees`, tipNoData: name => `${name} · no data yet`,
+    issueOpts: {
+      circumference: "Circumference > 43 m", height: "Height > 115.92 m",
+      comma: "Decimal comma (circumference, height, diameter_crown, diameter)",
+      number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
+      link_format: "Link with invalid format", wikidata_mismatch: "species:wikidata inconsistent with species",
+      leaf_type_mismatch: "leaf_type differs from the species", leaf_cycle_mismatch: "leaf_cycle differs from the species",
+      monument_denotation: "Monumental source without natural_monument", circumference_species: "Circumference > species limit",
+      height_species: "Height > species limit", species: "Single-word species", genus: "Invalid genus",
+      species_lowercase: "Species starting lowercase", genus_lowercase: "Genus starting lowercase",
+      leaf_type: "Invalid leaf_type", leaf_cycle: "Invalid leaf_cycle" },
+    denotation: { natural_monument: "Monumental tree", landmark: "Landmark", avenue: "Avenue tree",
+      urban: "Urban tree", cluster: "Tree cluster", agricultural: "Agricultural tree" },
+    leafType: { broadleaved: "Broadleaved", needleleaved: "Needleleaved", leafless: "Leafless", palm: "Palm" },
+    leafCycle: { deciduous: "Deciduous", semi_deciduous: "Semi-deciduous", evergreen: "Evergreen", semi_evergreen: "Semi-evergreen" },
+    rows: { species: "Species", genus: "Genus", taxon: "Taxon", denotation: "Category", leaf_type: "Leaf type",
+      lt: "Leaf type (estimated)", leaf_cycle: "Leaf cycle", circumference: "Circumference", diameter: "Trunk diameter",
+      height: "Height", diameter_crown: "Crown diameter", start_date: "Planting date" },
+    fromDiameter: " (from diameter)",
+    issue: {
+      circumference_species: (v, sp) => `circumference > ${v} (limit for ${sp})`,
+      height_species: (v, sp) => `height > ${v} (limit for ${sp})`,
+      comma: t => `decimal comma in ${t}`,
+      number_invalid: t => `non-numeric value, range or zero in ${t}`,
+      link_format: t => `invalid format in ${t}`,
+      monument_denotation: t => `${t} without denotation=natural_monument`,
+      wikidata_other: (wd, exp, sp) => `species:wikidata=${wd} belongs to ${exp}, not to ${sp}`,
+      wikidata_expected: (wd, sp, exp) => `species:wikidata=${wd} does not match ${sp} (expected ${exp})`,
+      leaf_type_mismatch: (v, f, e) => `leaf_type=${v}, but the wiki list gives ${e} for ${f}`,
+      leaf_cycle_mismatch: (v, f, e) => `leaf_cycle=${v}, but the wiki list gives ${e} for ${f}`,
+      genus_mismatch: (g, sp) => `genus (${g}) differs from the genus of species (${sp})`,
+      species: "single-word species", species_lowercase: "species starting lowercase",
+      genus_lowercase: "genus starting lowercase", circumference: "circumference > 43 m", height: "height > 115.92 m",
+      genus: "genus with more than one word", leaf_type: "invalid leaf_type", leaf_cycle: "invalid leaf_cycle" },
+    genusOf: g => `the genus ${g}`, or: " or ",
+    recMasaf: (l, ref) => `Listed in the MASAF ${l("list of monumental trees of Italy")} (${ref})`,
+    recRami: (l, ref) => `Listed in the ${l("RAMI register")} (${ref})`,
+    recMt: l => `Recorded on ${l}`,
+    stump: "Stump", stumpOf: b => `${b} (stump)`, unknownSpecies: "Unknown species",
+  },
+};
+const L = I18N[LANG];
+document.documentElement.lang = LANG;
+document.title = L.pageTitle;
+document.querySelectorAll("[data-i18n]").forEach(e => { e.textContent = L[e.dataset.i18n]; });
+document.querySelectorAll("#lang a").forEach(a => {
+  a.classList.toggle("on", a.dataset.lang === LANG);
+  a.onclick = ev => {          // cambia lingua: la ricorda e ricarica la pagina (la regione resta nell'indirizzo)
+    ev.preventDefault();
+    try { localStorage.setItem("lang", a.dataset.lang); } catch (e) {}
+    const h = hashParams();
+    if (h.get("lang")) { h.set("lang", a.dataset.lang); location.hash = h.toString(); }
+    location.reload();
+  };
+});
+
+const LAT = 45;                                  // latitudine di riferimento per metri→pixel
 const M0 = 78271.517 * Math.cos(LAT * Math.PI / 180); // m/px a zoom 0 (tile 512)
 const px = (prop, minPx, z) => ["max", minPx, ["/", ["get", prop], M0 / Math.pow(2, z)]];
 // raggio in pixel = max(minimo, metri / (m per pixel)); uno stop per ogni zoom intero, così il minimo è un vero max
@@ -150,7 +281,7 @@ map.addControl(new ZoomInfo());
 map.on("load", async () => {
   let idx;
   try { idx = (await indexP).regions; }
-  catch (e) { document.getElementById("count").textContent = "Errore nel caricamento dei dati"; return; }
+  catch (e) { document.getElementById("count").textContent = L.loadError; return; }
   const meta = await regionsP.catch(() => []);
   const boundaries = await boundsP;
   const metaBy = Object.fromEntries(meta.map(m => [m.slug, m]));
@@ -309,14 +440,11 @@ map.on("load", async () => {
     update();
   };
   const update = () => {
-    if (!current) { document.getElementById("count").textContent = "Scegli una regione sulla mappa o dal menu"; return; }
+    if (!current) { document.getElementById("count").textContent = L.pickRegion; return; }
     const z = map.getZoom();
     const layers = z < MON_Z ? ["crown-issues"] : z < ALL_Z ? ["crown-issues-mid", "crown-top"] : CROWN_IDS;
     const n = new Set(map.queryRenderedFeatures({ layers }).map(f => f.properties.id)).size;
-    document.getElementById("count").textContent = z < MON_Z
-      ? `Alberi problematici in vista: ${n} (ingrandisci per vedere i monumentali)`
-      : z < ALL_Z ? `Problematici e monumentali in vista: ${n} (ingrandisci per vedere tutti)`
-      : `Alberi in vista: ${n}`;
+    document.getElementById("count").textContent = (z < MON_Z ? L.countIssues : z < ALL_Z ? L.countMid : L.countAll)(fmtN(n));
   };
   const taxonFilter = v => {
     if (v === "unknown") return ["all", ["!", ["has", "genus"]], ["!", ["has", "species"]]];
@@ -329,8 +457,8 @@ map.on("load", async () => {
 
   const taxSel = document.getElementById("taxon");
   const issSel = document.getElementById("issue");
-  // etichette e ordine degli errori, presi dal menu scritto nell'HTML
-  const ISSUE_OPTS = [...issSel.options].filter(o => o.value).map(o => [o.value, o.textContent]);
+  // etichette e ordine degli errori nel menu (dai testi della lingua scelta)
+  const ISSUE_OPTS = Object.entries(L.issueOpts);
   let taxSig = "", issSig = "";
   const updateTaxa = () => {
     const b = map.getBounds(), z = map.getZoom();
@@ -361,7 +489,7 @@ map.on("load", async () => {
     const iSig = JSON.stringify(iList.map(([k]) => [k, I.get(k)]));
     if (iSig !== issSig) {
       issSig = iSig;
-      issSel.replaceChildren(opt("", "Tutti gli errori"), ...iList.map(([k, t]) => opt(k, `${t} (${I.get(k)})`)));
+      issSel.replaceChildren(opt("", L.allIssues), ...iList.map(([k, t]) => opt(k, `${t} (${fmtN(I.get(k))})`)));
       issSel.value = curI;
     }
     const cur = taxSel.value;   // la voce selezionata resta in elenco anche se fuori vista
@@ -373,12 +501,12 @@ map.on("load", async () => {
     taxSig = sig;
     const grp = (label, m, pre) => {
       const g = document.createElement("optgroup"); g.label = label;
-      sorted(m).forEach(([k, n]) => g.appendChild(opt(pre + k, `${k} (${n})`)));
+      sorted(m).forEach(([k, n]) => g.appendChild(opt(pre + k, `${k} (${fmtN(n)})`)));
       return g;
     };
-    const items = [opt("", "Tutti i genus e le specie"), opt("unknown", `Sconosciuto (${U})`), opt("with_species", `Con species (${WS})`)];
-    if (G.size) items.push(grp("Genus", G, "g:"));
-    if (S.size) items.push(grp("Specie", S, "s:"));
+    const items = [opt("", L.allTaxa), opt("unknown", `${L.unknown} (${fmtN(U)})`), opt("with_species", `${L.withSpecies} (${fmtN(WS)})`)];
+    if (G.size) items.push(grp(L.genusGroup, G, "g:"));
+    if (S.size) items.push(grp(L.speciesGroup, S, "s:"));
     taxSel.replaceChildren(...items);
     taxSel.value = cur;
   };
@@ -410,11 +538,11 @@ map.on("load", async () => {
   const regSel = document.getElementById("region"), info = document.getElementById("updated");
   const overviewBtn = document.getElementById("overview"), tip = document.getElementById("tip");
   const entries = Object.keys(idx).map(slug => ({ slug, name: (metaBy[slug] || idx[slug]).name, group: (metaBy[slug] || {}).group }));
-  if (!entries.length) { document.getElementById("count").textContent = "Nessun dato: lancia l'Action di aggiornamento"; return; }
+  if (!entries.length) { document.getElementById("count").textContent = L.noData; return; }
   const byName = (a, b) => a.name.localeCompare(b.name, "it");
   const mkOpt = e => {
     const o = document.createElement("option");
-    o.value = e.slug; o.textContent = `${e.name} (${idx[e.slug].count.toLocaleString("it-IT")} alberi)`;
+    o.value = e.slug; o.textContent = L.regionOpt(e.name, idx[e.slug].count);
     return o;
   };
   // menu: le voci senza gruppo (es. Bulgaria) e i gruppi (es. Italia, non selezionabile) con le loro regioni
@@ -431,22 +559,22 @@ map.on("load", async () => {
   }
   items.sort((a, b) => a.label.localeCompare(b.label, "it"));
   const placeholder = document.createElement("option");
-  placeholder.value = ""; placeholder.textContent = "Scegli una regione…";
+  placeholder.value = ""; placeholder.textContent = L.chooseRegion;
   regSel.replaceChildren(placeholder, ...items.map(i => i.node));
 
   let loadSeq = 0;
   const loadRegion = async (slug, fit) => {
     const seq = ++loadSeq, r = idx[slug];
     setCurrent(slug); regSel.value = slug; overviewBtn.hidden = false;
-    document.getElementById("count").textContent = `Caricamento di ${r.name}…`;
+    document.getElementById("count").textContent = L.loading(r.name);
     let fc;
     try { fc = await getGz(`data/regions/${slug}.geojson.gz`); }
-    catch (e) { if (seq === loadSeq) document.getElementById("count").textContent = "Errore nel caricamento dei dati"; return; }
+    catch (e) { if (seq === loadSeq) document.getElementById("count").textContent = L.loadError; return; }
     if (seq !== loadSeq) return;                      // nel frattempo è stata scelta un'altra regione
     ALL = fc.features;
     SHAPED = ALL.filter(isShaped);
     map.getSource("trees").setData(fc);
-    info.textContent = r.updated ? `Dati aggiornati al ${new Date(r.updated).toLocaleDateString("it-IT")}` : "";
+    info.textContent = r.updated ? L.updated(new Date(r.updated).toLocaleDateString(LOC)) : "";
     if (fit && ALL.length) {
       let w = 180, s = 90, e = -180, n = -90;
       for (const ft of ALL) {
@@ -459,7 +587,7 @@ map.on("load", async () => {
     apply(); updateTaxa(); updateShapes();
   };
   const selectRegion = slug => {
-    history.replaceState(null, "", "#region=" + slug);
+    setHash(slug);
     return loadRegion(slug, true);
   };
   const unloadRegion = () => {                        // torna alla vista d'insieme, senza regione
@@ -467,7 +595,7 @@ map.on("load", async () => {
     ALL = []; SHAPED = [];
     map.getSource("trees").setData(EMPTY);
     setCurrent(null); regSel.value = ""; overviewBtn.hidden = true; info.textContent = "";
-    history.replaceState(null, "", location.pathname + location.search);
+    setHash(null);
     taxSel.value = ""; taxSig = "";
     apply(); updateTaxa(); updateShapes();
     fitAll();
@@ -479,9 +607,9 @@ map.on("load", async () => {
   // le regioni, in ordine di alberi con errori (campo "errors" di data/index.json)
   const renderRank = () => {
     const box = document.getElementById("rank");
-    const fmt = n => n.toLocaleString("it-IT");
-    const pct = (e, c) => !c || !e ? "0%" : 100 * e / c < 0.05 ? "<0,1%"
-      : (100 * e / c).toLocaleString("it-IT", { maximumFractionDigits: 1 }) + "%";
+    const fmt = fmtN;
+    const pct = (e, c) => !c || !e ? "0%" : 100 * e / c < 0.05 ? `<${(0.1).toLocaleString(LOC)}%`
+      : (100 * e / c).toLocaleString(LOC, { maximumFractionDigits: 1 }) + "%";
     const row = (name, e, c, strong) => {
       const s = document.createElement("span"); s.className = "rk";
       const a = document.createElement(strong ? "b" : "span"); a.textContent = name;
@@ -500,7 +628,7 @@ map.on("load", async () => {
     }
     const list = Object.values(nations).sort(byErr);
     if (list.every(n => n.errors == null)) {
-      box.textContent = "Conteggi non ancora disponibili: lancia l'Action \"Aggiorna dati alberi\".";
+      box.textContent = L.rankEmpty;
       return;
     }
     box.replaceChildren(...list.map(nat => {
@@ -536,7 +664,7 @@ map.on("load", async () => {
     map.on("mousemove", "regions-fill", e => {
       const p = e.features[0].properties;
       hover(p.slug);
-      tip.textContent = p.has_data ? `${p.name} · ${Number(p.count).toLocaleString("it-IT")} alberi` : `${p.name} · dati non ancora disponibili`;
+      tip.textContent = p.has_data ? L.tipTrees(p.name, p.count) : L.tipNoData(p.name);
       tip.style.left = (e.point.x + 12) + "px"; tip.style.top = (e.point.y + 12) + "px"; tip.style.display = "block";
       map.getCanvas().style.cursor = p.has_data ? "pointer" : "";
     });
@@ -549,49 +677,43 @@ map.on("load", async () => {
     });
   }
 
-  const fromHash = new URLSearchParams(location.hash.slice(1)).get("region");
+  const fromHash = hashParams().get("region");
   if (idx[fromHash]) await selectRegion(fromHash);
   else { fitAll(); update(); }
 });
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const num = v => { const m = String(v).match(/^\s*(-?\d+(?:[.,]\d+)?)\s*(m)?\s*$/); return m ? m[1].replace(",", ".") : null; };
-const fmtM = v => { const n = num(v); return n === null ? v : n.replace(".", ",") + " m"; };
+const fmtM = v => { const n = num(v); return n === null ? v : Number(n).toLocaleString(LOC, { maximumFractionDigits: 3 }) + " m"; };
 const tr = (dict, v) => dict[v] || v;
 
-const DENOTATION = { natural_monument: "Albero monumentale", landmark: "Punto di riferimento", avenue: "Albero di viale",
-  urban: "Albero urbano", cluster: "Gruppo di alberi", agricultural: "Albero agricolo" };
-const LEAF_TYPE = { broadleaved: "Latifoglia", needleleaved: "Aghifoglia", leafless: "Senza foglie", palm: "Palma" };
-const LEAF_CYCLE = { deciduous: "Caducifoglia", semi_deciduous: "Semi-caducifoglia", evergreen: "Sempreverde", semi_evergreen: "Semi-sempreverde" };
-
-const ROWS = [
-  ["species", "Specie"], ["genus", "Genere"], ["taxon", "Taxon"],
-  ["denotation", "Categoria", v => tr(DENOTATION, v)],
-  ["leaf_type", "Tipo di foglie", v => tr(LEAF_TYPE, v)],
-  ["lt", "Tipo di foglie (stimato)", v => tr(LEAF_TYPE, v)],
-  ["leaf_cycle", "Ciclo fogliare", v => tr(LEAF_CYCLE, v)],
-  ["circumference", "Circonferenza", fmtM], ["diameter", "Diametro tronco", fmtM], ["height", "Altezza", fmtM], ["diameter_crown", "Diametro chioma", fmtM],
-  ["start_date", "Data di impianto"]
-];
+const ROW_KEYS = ["species", "genus", "taxon", "denotation", "leaf_type", "lt", "leaf_cycle",
+  "circumference", "diameter", "height", "diameter_crown", "start_date"];
+const ROW_FMT = { denotation: v => tr(L.denotation, v), leaf_type: v => tr(L.leafType, v), lt: v => tr(L.leafType, v),
+  leaf_cycle: v => tr(L.leafCycle, v), circumference: fmtM, diameter: fmtM, height: fmtM, diameter_crown: fmtM };
+const ROWS = ROW_KEYS.map(k => [k, L.rows[k], ROW_FMT[k]]);
 const list = v => String(v || "").split(";").join(", ");
-const fromD = (i, p) => p.diam_used && i.startsWith("circumference") ? " (da diameter)" : "";
+const fromD = (i, p) => p.diam_used && i.startsWith("circumference") ? L.fromDiameter : "";
+// i dati scrivono "il genere X" e "a o b" (fetch_trees.py): qui li si rende nella lingua scelta
+const expFor = p => { const m = /^il genere (.+)$/.exec(p.exp_for || ""); return m ? L.genusOf(m[1]) : (p.exp_for || p.species); };
+const expLc = p => String(p.exp_lc || "").split(" o ").join(L.or);
 const issueText = (i, p) => issueBase(i, p) + fromD(i, p);
-const issueBase = (i, p) =>
-  i === "circumference_species" ? `circonferenza > ${fmtM(p.lim_c)} (limite per ${p.species})`
-  : i === "height_species" ? `altezza > ${fmtM(p.lim_h)} (limite per ${p.species})`
-  : i === "comma" ? `virgola decimale in ${String(p.comma || "").split(";").join(", ")}`
-  : i === "number_invalid" ? `valore non numerico, intervallo o zero in ${list(p.bad_num)}`
-  : i === "link_format" ? `formato non valido in ${list(p.bad_links)}`
-  : i === "monument_denotation" ? `${list(p.mon_src)} senza denotation=natural_monument`
-  : i === "wikidata_mismatch" ? (p.exp_sp
-      ? `species:wikidata=${p.sp_wd} corrisponde a ${p.exp_sp}, non a ${p.species}`
-      : `species:wikidata=${p.sp_wd} non corrisponde a ${p.species} (atteso ${p.exp_wd})`)
-  : i === "leaf_type_mismatch" ? `leaf_type=${p.leaf_type}, ma per ${p.exp_for || p.species} la lista wiki indica ${p.exp_lt}`
-  : i === "leaf_cycle_mismatch" ? `leaf_cycle=${p.leaf_cycle}, ma per ${p.exp_for || p.species} la lista wiki indica ${p.exp_lc}`
-  : i === "genus_mismatch" ? `genus (${p.genus}) diverso dal genere della species (${p.species})`
-  : ISSUE_TXT[i];
-const ISSUE_TXT = { species: "species di una sola parola", species_lowercase: "species con iniziale minuscola", genus_lowercase: "genus con iniziale minuscola", circumference: "circonferenza > 43 m", height: "altezza > 115,92 m", genus: "genus con più parole",
-  leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" };
+const issueBase = (i, p) => {
+  const T = L.issue;
+  switch (i) {
+    case "circumference_species": return T[i](fmtM(p.lim_c), p.species);
+    case "height_species": return T[i](fmtM(p.lim_h), p.species);
+    case "comma": return T[i](list(p.comma));
+    case "number_invalid": return T[i](list(p.bad_num));
+    case "link_format": return T[i](list(p.bad_links));
+    case "monument_denotation": return T[i](list(p.mon_src));
+    case "wikidata_mismatch": return p.exp_sp ? T.wikidata_other(p.sp_wd, p.exp_sp, p.species) : T.wikidata_expected(p.sp_wd, p.species, p.exp_wd);
+    case "leaf_type_mismatch": return T[i](p.leaf_type, expFor(p), p.exp_lt);
+    case "leaf_cycle_mismatch": return T[i](p.leaf_cycle, expFor(p), expLc(p));
+    case "genus_mismatch": return T[i](p.genus, p.species);
+    default: return T[i] || i;
+  }
+};
 
 const MASAF_URL = "https://www.masaf.gov.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/11260";
 const RAMI_URL = "https://ilregistrodeglialberi.it/cerca";
@@ -614,10 +736,10 @@ const link = (href, text) => `<a href="${esc(href)}" target="_blank" rel="noopen
 
 function recognitions(p) {
   const r = [];
-  if (p["ref:masaf"]) r.push(`Albero inserito nell’${link(MASAF_URL, "elenco degli alberi monumentali d’Italia")} del MASAF (${esc(p["ref:masaf"])})`);
-  if (p["ref:rami"]) r.push(`Albero inserito nel ${link(RAMI_URL, "registro RAMI")} (${esc(p["ref:rami"])})`);
+  if (p["ref:masaf"]) r.push(L.recMasaf(t => link(MASAF_URL, t), esc(p["ref:masaf"])));
+  if (p["ref:rami"]) r.push(L.recRami(t => link(RAMI_URL, t), esc(p["ref:rami"])));
   const mt = monumentalTreesUrl(p);
-  if (mt) r.push(`Censito su ${link(mt, "monumentaltrees.com")}`);
+  if (mt) r.push(L.recMt(link(mt, "monumentaltrees.com")));
   return r;
 }
 
@@ -637,7 +759,7 @@ function imageUrl(p) {
 
 function title(p) {
   const b = p.name || p.species;
-  return p.stump ? (b ? `${b} (ceppo)` : "Ceppo") : (b || "Specie sconosciuta");
+  return p.stump ? (b ? L.stumpOf(b) : L.stump) : (b || L.unknownSpecies);
 }
 
 function card(p) {

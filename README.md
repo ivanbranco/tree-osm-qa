@@ -49,6 +49,12 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 * L'immagine viene da `wikimedia_commons`, poi da `panoramax`, poi da `image`.
 * Se presenti, la scheda indica `ref:masaf` (elenco degli alberi monumentali d'Italia del MASAF), `ref:rami` (registro RAMI) e `website`/`url` verso monumentaltrees.com.
 
+## Lingua
+
+Il sito è in italiano se la lingua del browser è l'italiano, altrimenti in inglese. Si cambia con IT · EN in alto nel pannello: la scelta resta salvata nel browser. Si può anche forzare dall'indirizzo, per esempio `#lang=en` oppure `#region=lombardia&lang=en`.
+
+Tutti i testi sono nell'oggetto `I18N` all'inizio dello script in `index.html`: per aggiungere una lingua si copia uno dei due blocchi, lo si traduce e si aggiunge il codice a `LANGS`. Nomi delle regioni, tag e valori OSM non vengono tradotti.
+
 ## Regioni e dati
 
 I dati arrivano da Overpass (`natural=tree` e `natural=tree_stump`) e sono divisi per regione. All'apertura non è caricata nessuna regione: si sceglie toccando i confini sulla mappa (le regioni senza dati sono grigie) o dal menu, dove le regioni italiane sono raggruppate sotto "Italia". "← Tutte le regioni" riporta alla vista d'insieme. Indirizzo diretto: `#region=lombardia`.
@@ -76,6 +82,7 @@ Le regioni grandi vengono scaricate a pezzi (tile) e unite. Il confine esatto lo
 * `.github/workflows/update-boundaries.yml` – aggiornamento dei confini (solo a mano)
 * `.github/workflows/update-species-list.yml` – aggiornamento delle liste di specie e generi (solo a mano)
 * `index.html` – il sito
+* `taginfo.json` – i tag OSM usati dal progetto, nel [formato di Taginfo](https://wiki.openstreetmap.org/wiki/Taginfo/Projects); se si aggiunge o si toglie un tag in `fetch_trees.py`, va aggiornato anche qui
 
 Per pubblicare, attiva GitHub Pages dal branch `main`, cartella root.
 

@@ -1,0 +1,41 @@
+{
+  "data_format": 1,
+  "data_url": "https://raw.githubusercontent.com/ivanbranco/tree-osm-qa/main/taginfo.json",
+  "data_updated": "20261107T000000Z",
+  "project": {
+    "name": "tree-osm-qa",
+    "description": "Quality assurance map of OSM trees and tree stumps, by region.",
+    "project_url": "https://ivanbranco.github.io/tree-osm-qa/",
+    "doc_url": "https://github.com/ivanbranco/tree-osm-qa#readme",
+    "icon_url": "https://ivanbranco.github.io/tree-osm-qa/favicon.png",
+    "contact_name": "ivanbranco",
+    "contact_email": "ivanrugg+taginfo@gmail.com"
+  },
+  "tags": [
+    {"key": "natural", "value": "tree", "object_types": ["node"], "description": "Trees shown on the map and checked for errors."},
+    {"key": "natural", "value": "tree_stump", "object_types": ["node"], "description": "Tree stumps, drawn as an X sized by circumference and checked like trees."},
+    {"key": "species", "object_types": ["node"], "description": "Filter and info card. Flagged if it is a single word, starts lowercase or differs from genus; used to look up limits, leaf type and Wikidata ID in the wiki species list."},
+    {"key": "genus", "object_types": ["node"], "description": "Filter and info card. Flagged if it has more than one word, starts lowercase or differs from the first word of species."},
+    {"key": "taxon", "object_types": ["node"], "description": "Shown in the info card."},
+    {"key": "species:wikidata", "object_types": ["node"], "description": "Flagged if it does not match species according to the wiki species list."},
+    {"key": "leaf_type", "object_types": ["node"], "description": "Crown shape (lobed or polygonal). Flagged if invalid or different from the wiki species or genus list."},
+    {"key": "leaf_cycle", "object_types": ["node"], "description": "Flagged if invalid or different from the wiki species or genus list."},
+    {"key": "circumference", "object_types": ["node"], "description": "Trunk size on the map. Flagged above 43 m, above the species record, with a decimal comma or a non-numeric value."},
+    {"key": "diameter", "object_types": ["node"], "description": "Trunk size (pi x diameter) when circumference is missing. Flagged with a decimal comma or a non-numeric value."},
+    {"key": "height", "object_types": ["node"], "description": "Flagged above 115.92 m, above the species record, with a decimal comma or a non-numeric value; used to estimate a missing trunk size."},
+    {"key": "diameter_crown", "object_types": ["node"], "description": "Crown size on the map. Flagged with a decimal comma or a non-numeric value."},
+    {"key": "denotation", "value": "natural_monument", "object_types": ["node"], "description": "Monumental trees: yellow outline, visible from zoom 9. Expected when ref:masaf, ref:rami or a monumentaltrees.com link is present."},
+    {"key": "denotation", "value": "landmark", "object_types": ["node"], "description": "Purple crown outline and larger default crown."},
+    {"key": "denotation", "value": "parking", "object_types": ["node"], "description": "Smaller default crown when diameter_crown is missing."},
+    {"key": "ref:masaf", "object_types": ["node"], "description": "Italian monumental trees list (MASAF); shown in the info card, requires denotation=natural_monument."},
+    {"key": "ref:rami", "object_types": ["node"], "description": "RAMI register reference; shown in the info card, requires denotation=natural_monument."},
+    {"key": "website", "object_types": ["node"], "description": "A monumentaltrees.com link is shown in the info card and requires denotation=natural_monument."},
+    {"key": "url", "object_types": ["node"], "description": "A monumentaltrees.com link is shown in the info card and requires denotation=natural_monument."},
+    {"key": "wikidata", "object_types": ["node"], "description": "Link in the info card; flagged if not in Q... format."},
+    {"key": "wikimedia_commons", "object_types": ["node"], "description": "Image in the info card; flagged without a File: or Category: prefix."},
+    {"key": "panoramax", "object_types": ["node"], "description": "Image and link in the info card; flagged if not a UUID."},
+    {"key": "image", "object_types": ["node"], "description": "Image in the info card; flagged if it does not start with http."},
+    {"key": "name", "object_types": ["node"], "description": "Title of the info card."},
+    {"key": "start_date", "object_types": ["node"], "description": "Shown in the info card."}
+  ]
+}
