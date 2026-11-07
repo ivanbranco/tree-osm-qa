@@ -30,6 +30,12 @@
    "sha1": "5095113a7904e47da71350b63ab6e25060c66222",
    "updated": "2026-11-07T20:52:54Z"
   },
+  "sicilia": {
+   "count": 49240,
+   "name": "Sicilia",
+   "sha1": "16ea365a9fac779d23746d2b03db1c77f9d32743",
+   "updated": "2026-11-07T22:03:27Z"
+  },
   "trentino-alto-adige": {
    "count": 67740,
    "name": "Trentino-Alto Adige",
