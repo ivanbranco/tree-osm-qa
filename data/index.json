@@ -20,9 +20,10 @@
   },
   "piemonte": {
    "count": 72959,
+   "errors": 34,
    "name": "Piemonte",
-   "sha1": "b3e6021e79a5cd8057e1bcf0ff74713808674cd0",
-   "updated": "2026-11-07T21:49:21Z"
+   "sha1": "24707beb03b2b28f55cbd654a0128db2e901a117",
+   "updated": "2026-11-07T23:19:51Z"
   },
   "sardegna": {
    "count": 5428,
