@@ -21,10 +21,16 @@ Gli alberi con almeno un problema hanno il contorno rosso. I check sono:
 * `ref:masaf`, `ref:rami` o `website`/`url` verso monumentaltrees.com senza `denotation=natural_monument` (un albero monumentale senza fonte non è segnalato)
 * `species:wikidata=*` incoerente con `species=*` secondo la [lista di specie della wiki OSM](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species): QID diverso da quello atteso per la specie, oppure QID che appartiene a un'altra specie. I QID accettati in più (per esempio i sinonimi) si aggiungono, per specie, in `scripts/whitelist.json`
 * `leaf_type=*` o `leaf_cycle=*` (validi) diversi da quelli della specie nella lista delle specie o, se la specie non c'è, del genere nella [lista dei generi](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Genus,_Leaf_cycle,_Leaf_type). `deciduous` e `semi_deciduous` sono considerati equivalenti, come `evergreen` e `semi_evergreen`; `palm` vale come `broadleaved` e `leafless` non viene confrontato.
-
-I check basati sulle liste richiedono `scripts/species_list.json` e `scripts/genus_list.json`, che si generano dall'Action "Aggiorna lista specie e generi"; se i file mancano, non vengono eseguiti.
 * `leaf_type=*` diverso da `broadleaved`, `needleleaved`, `leafless`, `palm`
 * `leaf_cycle=*` diverso da `deciduous`, `semi_deciduous`, `evergreen`, `semi_evergreen`
+* `denotation=*` raro o non valido. Ogni parte di un valore multiplo (`natural_monument;landmark`) è controllata da sola, contro il numero di usi sui nodi secondo [Taginfo](https://taginfo.openstreetmap.org/keys/denotation#values). È segnalata se:
+  * ha un formato non valido: caratteri diversi da minuscole, cifre e `_` (per esempio `=`, `:`, `/`, spazi, maiuscole) o non inizia con una lettera;
+  * è un valore comune (almeno 1000 usi) con altro testo attaccato senza `_`, per esempio `urbanheidialhoranta` o `single1953`;
+  * è usata al massimo 10 volte.
+
+  Le soglie sono in cima a `scripts/fetch_trees.py` (`DEN_RARE_MAX`, `DEN_COMMON_MIN`). Il controllo del formato vale sempre; gli altri due richiedono `scripts/denotation_values.json`.
+
+I check basati sulle liste richiedono `scripts/species_list.json`, `scripts/genus_list.json` e `scripts/denotation_values.json`, che si generano dall'Action "Aggiorna liste di riferimento"; se i file mancano, non vengono eseguiti.
 
 Se `circumference=*` manca ma c'è `diameter=*` (in metri), la circonferenza è ricavata come π × diametro e sottoposta agli stessi check e alle stesse stime; se ci sono entrambi i tag, `diameter` è ignorato (ma i controlli sul formato dei valori numerici valgono comunque anche per `diameter`).
 
@@ -75,12 +81,12 @@ Le regioni grandi vengono scaricate a pezzi (tile) e unite. Il confine esatto lo
 * `scripts/fetch_trees.py` – scarica da Overpass, calcola i check, scrive i dati
 * `scripts/regions.json` – elenco delle regioni
 * `scripts/update_boundaries.py` – scarica i confini delle regioni in `data/regions_boundaries.geojson`
-* `scripts/update_species_list.py` – scarica le liste di specie e generi dalla wiki OSM in `scripts/species_list.json` e `scripts/genus_list.json`
+* `scripts/update_species_list.py` – scarica le liste di specie e generi dalla wiki OSM in `scripts/species_list.json` e `scripts/genus_list.json`, e i valori di `denotation` con il numero di usi da Taginfo in `scripts/denotation_values.json`
 * `scripts/species_limits.json` – per specie: limiti di altezza e circonferenza, rapporti usati per stimare le dimensioni mancanti
 * `scripts/whitelist.json` – eccezioni ai check (per ora: `species:wikidata` accettati per specie)
 * `.github/workflows/update.yml` – aggiornamento dei dati
 * `.github/workflows/update-boundaries.yml` – aggiornamento dei confini (solo a mano)
-* `.github/workflows/update-species-list.yml` – aggiornamento delle liste di specie e generi (solo a mano)
+* `.github/workflows/update-species-list.yml` – Action "Aggiorna liste di riferimento": specie, generi e valori di `denotation` (solo a mano)
 * `index.html` – il sito
 * `taginfo.json` – i tag OSM usati dal progetto, nel [formato di Taginfo](https://wiki.openstreetmap.org/wiki/Taginfo/Projects); se si aggiunge o si toglie un tag in `fetch_trees.py`, va aggiornato anche qui
 

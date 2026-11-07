@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Scarica dalla wiki OSM le due liste di riferimento sugli alberi:
-- List of Species  -> scripts/species_list.json (species:wikidata, leaf_cycle, leaf_type per specie)
-- List of Genus, Leaf cycle, Leaf type -> scripts/genus_list.json (leaf_cycle e leaf_type per genere)
-Contenuto della wiki sotto licenza CC BY-SA 2.0."""
+"""Scarica le liste di riferimento sugli alberi:
+- wiki OSM, List of Species  -> scripts/species_list.json (species:wikidata, leaf_cycle, leaf_type per specie)
+- wiki OSM, List of Genus, Leaf cycle, Leaf type -> scripts/genus_list.json (leaf_cycle e leaf_type per genere)
+- Taginfo, valori di denotation sui nodi -> scripts/denotation_values.json (numero di usi di ogni valore)
+Contenuto della wiki sotto licenza CC BY-SA 2.0; dati di Taginfo © contributori di OpenStreetMap (ODbL)."""
 import json
 import re
 import sys
@@ -112,6 +113,26 @@ def build_genera(html):
     return {"source": GENUS_URL, "license": LICENSE, "count": len(genera), "genera": genera}
 
 
+TAGINFO_URL = "https://taginfo.openstreetmap.org/api/4/key/values"
+
+
+def build_denotation():
+    """Tutti i valori di denotation usati sui nodi, con il numero di usi (da Taginfo, a pagine da 999)."""
+    values, page = {}, 1
+    while True:
+        r = requests.get(TAGINFO_URL, headers=HEADERS, timeout=120, params={
+            "key": "denotation", "filter": "nodes", "sortname": "count", "sortorder": "desc", "rp": 999, "page": page})
+        r.raise_for_status()
+        data = r.json()
+        for row in data["data"]:
+            values[row["value"]] = row["count"]
+        if not data["data"] or len(values) >= data["total"]:
+            break
+        page += 1
+    return {"source": "https://taginfo.openstreetmap.org/keys/denotation#values", "filter": "nodes",
+            "license": "ODbL (© OpenStreetMap contributors)", "count": len(values), "values": values}
+
+
 def save(path, data, minimum, unit):
     if data["count"] < minimum:
         sys.exit(f"{path.name}: solo {data['count']} {unit} trovate, controlla la pagina prima di sovrascrivere il file")
@@ -132,6 +153,7 @@ def fetch(url):
 def main():
     save(HERE / "species_list.json", build_species(fetch(SPECIES_URL)), 100, "specie")
     save(HERE / "genus_list.json", build_genera(fetch(GENUS_URL)), 100, "generi")
+    save(HERE / "denotation_values.json", build_denotation(), 20, "valori di denotation")
 
 
 if __name__ == "__main__":

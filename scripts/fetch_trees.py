@@ -142,6 +142,38 @@ _GENUS_FILE = Path(__file__).resolve().parent / "genus_list.json"
 _GENERA = json.loads(_GENUS_FILE.read_text(encoding="utf-8")).get("genera", {}) if _GENUS_FILE.exists() else {}
 GENUS_REF = {k.lstrip("× ").casefold(): (k, v) for k, v in _GENERA.items()}
 
+# Valori di denotation sui nodi con il numero di usi, da Taginfo (scripts/update_species_list.py)
+_DEN_FILE = Path(__file__).resolve().parent / "denotation_values.json"
+DEN_COUNTS = json.loads(_DEN_FILE.read_text(encoding="utf-8")).get("values", {}) if _DEN_FILE.exists() else {}
+DEN_RARE_MAX = 10      # valore raro: usato al massimo 10 volte
+DEN_COMMON_MIN = 1000  # valore comune: usato almeno 1000 volte (es. urban, avenue, park)
+DEN_FORMAT = re.compile(r"^[a-z][a-z0-9_]*$")   # minuscole, cifre e _, come i valori OSM
+# valori comuni, dal più lungo: "parking" va provato prima di "park"
+DEN_COMMON = sorted((v for v, n in DEN_COUNTS.items() if n >= DEN_COMMON_MIN and DEN_FORMAT.match(v)), key=len, reverse=True)
+
+
+def denotation_problems(t):
+    """Valori di denotation sospetti (ogni parte di un valore multiplo separatamente): (valore, motivo, usi).
+    format: caratteri non ammessi (=, :, /, spazi, maiuscole, …) o non inizia con una lettera;
+    glued:<comune>: un valore comune con altro testo attaccato senza _ (es. urbanheidialhoranta);
+    rare: usato al massimo DEN_RARE_MAX volte. Gli ultimi due richiedono denotation_values.json."""
+    out = []
+    for v in (x.strip() for x in str(t.get("denotation", "")).split(";")):
+        if not v:
+            continue
+        n = DEN_COUNTS.get(v, 0)
+        if not DEN_FORMAT.match(v):
+            out.append((v, "format", n))
+        elif not DEN_COUNTS:
+            continue
+        elif n < DEN_COMMON_MIN and (pre := next((c for c in DEN_COMMON
+                                                  if len(v) > len(c) and v.startswith(c) and v[len(c)] != "_"), None)):
+            out.append((v, "glued:" + pre, n))
+        elif n <= DEN_RARE_MAX:
+            out.append((v, "rare", n))
+    return out
+
+
 CYCLE_GROUP = {"deciduous": "d", "semi_deciduous": "d", "evergreen": "e", "semi_evergreen": "e"}
 
 
@@ -374,6 +406,8 @@ def checks(t):
         issues.append("link_format")
     if monument_sources(t) and "natural_monument" not in t.get("denotation", "").split(";"):
         issues.append("monument_denotation")
+    if denotation_problems(t):
+        issues.append("denotation_value")
     return issues
 
 
@@ -453,6 +487,11 @@ def to_feature(el):
         p["bad_links"] = ";".join(bad_link_tags(t))
     if "monument_denotation" in iss:
         p["mon_src"] = ";".join(monument_sources(t))
+    if "denotation_value" in iss:  # per la scheda: valori, motivi e usi, nello stesso ordine
+        den = denotation_problems(t)
+        p["den_bad"] = ";".join(v for v, _, _ in den)
+        p["den_why"] = ";".join(w for _, w, _ in den)
+        p["den_n"] = ";".join(str(n) for _, _, n in den)
     lim = species_limit(t)
     if "height_species" in iss:
         p["lim_h"] = lim["height"]

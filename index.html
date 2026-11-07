@@ -125,7 +125,8 @@ const I18N = {
       number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
       link_format: "Link con formato non valido", wikidata_mismatch: "species:wikidata incoerente con la species",
       leaf_type_mismatch: "leaf_type diverso da quello della specie", leaf_cycle_mismatch: "leaf_cycle diverso da quello della specie",
-      monument_denotation: "Fonte monumentale senza natural_monument", circumference_species: "Circonferenza > limite della specie",
+      monument_denotation: "Fonte monumentale senza natural_monument",
+      denotation_value: "denotation raro o non valido", circumference_species: "Circonferenza > limite della specie",
       height_species: "Altezza > limite della specie", species: "Species di una sola parola", genus: "Genus non valido",
       species_lowercase: "Species con iniziale minuscola", genus_lowercase: "Genus con iniziale minuscola",
       leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" },
@@ -144,6 +145,10 @@ const I18N = {
       number_invalid: t => `valore non numerico, intervallo o zero in ${t}`,
       link_format: t => `formato non valido in ${t}`,
       monument_denotation: t => `${t} senza denotation=natural_monument`,
+      den_format: v => `denotation=${v}: formato non valido`,
+      den_glued: (v, pre) => `denotation=${v}: sembra "${pre}" con altro testo attaccato`,
+      den_rare: (v, n) => n == 0 ? `denotation=${v} non risulta su Taginfo` : n == 1 ? `denotation=${v} usato una sola volta in OSM`
+        : `denotation=${v} usato solo ${n} volte in OSM`,
       wikidata_other: (wd, exp, sp) => `species:wikidata=${wd} corrisponde a ${exp}, non a ${sp}`,
       wikidata_expected: (wd, sp, exp) => `species:wikidata=${wd} non corrisponde a ${sp} (atteso ${exp})`,
       leaf_type_mismatch: (v, f, e) => `leaf_type=${v}, ma per ${f} la lista wiki indica ${e}`,
@@ -181,7 +186,8 @@ const I18N = {
       number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
       link_format: "Link with invalid format", wikidata_mismatch: "species:wikidata inconsistent with species",
       leaf_type_mismatch: "leaf_type differs from the species", leaf_cycle_mismatch: "leaf_cycle differs from the species",
-      monument_denotation: "Monumental source without natural_monument", circumference_species: "Circumference > species limit",
+      monument_denotation: "Monumental source without natural_monument",
+      denotation_value: "Rare or invalid denotation", circumference_species: "Circumference > species limit",
       height_species: "Height > species limit", species: "Single-word species", genus: "Invalid genus",
       species_lowercase: "Species starting lowercase", genus_lowercase: "Genus starting lowercase",
       leaf_type: "Invalid leaf_type", leaf_cycle: "Invalid leaf_cycle" },
@@ -200,6 +206,10 @@ const I18N = {
       number_invalid: t => `non-numeric value, range or zero in ${t}`,
       link_format: t => `invalid format in ${t}`,
       monument_denotation: t => `${t} without denotation=natural_monument`,
+      den_format: v => `denotation=${v}: invalid format`,
+      den_glued: (v, pre) => `denotation=${v}: looks like "${pre}" with extra text attached`,
+      den_rare: (v, n) => n == 0 ? `denotation=${v} not found on Taginfo` : n == 1 ? `denotation=${v} used only once in OSM`
+        : `denotation=${v} used only ${n} times in OSM`,
       wikidata_other: (wd, exp, sp) => `species:wikidata=${wd} belongs to ${exp}, not to ${sp}`,
       wikidata_expected: (wd, sp, exp) => `species:wikidata=${wd} does not match ${sp} (expected ${exp})`,
       leaf_type_mismatch: (v, f, e) => `leaf_type=${v}, but the wiki list gives ${e} for ${f}`,
@@ -707,6 +717,13 @@ const issueBase = (i, p) => {
     case "number_invalid": return T[i](list(p.bad_num));
     case "link_format": return T[i](list(p.bad_links));
     case "monument_denotation": return T[i](list(p.mon_src));
+    case "denotation_value": {    // den_bad, den_why, den_n: valori, motivi e usi, separati da ";" (fetch_trees.py)
+      const ws = String(p.den_why || "").split(";"), ns = String(p.den_n || "").split(";");
+      return String(p.den_bad || "").split(";").map((v, k) => {
+        const w = ws[k] || "";
+        return w === "format" ? T.den_format(v) : w.startsWith("glued:") ? T.den_glued(v, w.slice(6)) : T.den_rare(v, fmtN(ns[k] || 0));
+      }).join("; ");
+    }
     case "wikidata_mismatch": return p.exp_sp ? T.wikidata_other(p.sp_wd, p.exp_sp, p.species) : T.wikidata_expected(p.sp_wd, p.species, p.exp_wd);
     case "leaf_type_mismatch": return T[i](p.leaf_type, expFor(p), p.exp_lt);
     case "leaf_cycle_mismatch": return T[i](p.leaf_cycle, expFor(p), expLc(p));
