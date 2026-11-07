@@ -1,4 +1,5 @@
 [
+  {"slug": "bulgaria", "name": "Bulgaria", "iso": "BG", "rel": 186382, "bbox": [41.2, 22.3, 44.2, 28.6]},
   {"slug": "piemonte", "name": "Piemonte", "iso": "IT-21", "rel": 44874, "bbox": [44.0, 6.6, 46.5, 9.3]},
   {"slug": "valle-d-aosta", "name": "Valle d'Aosta", "iso": "IT-23", "rel": 45155, "bbox": [45.4, 6.7, 46.1, 8.0]},
   {"slug": "lombardia", "name": "Lombardia", "iso": "IT-25", "rel": 44879, "bbox": [44.6, 8.4, 46.7, 11.5]},
@@ -14,7 +15,6 @@
   {"slug": "abruzzo", "name": "Abruzzo", "iso": "IT-65", "rel": 53937, "bbox": [41.7, 13.0, 43.0, 14.8]},
   {"slug": "molise", "name": "Molise", "iso": "IT-67", "rel": 41256, "bbox": [41.3, 13.9, 42.1, 15.2]},
   {"slug": "campania", "name": "Campania", "iso": "IT-72", "rel": 40218, "bbox": [39.9, 13.7, 41.6, 15.9]},
-  {"slug": "pazardzhik", "name": "Pazardzhik", "iso": "BG-13", "rel": 1739533, "bbox": [41.6, 23.7, 42.6, 24.5]},
   {"slug": "puglia", "name": "Puglia", "iso": "IT-75", "rel": 40095, "bbox": [39.7, 14.9, 42.2, 18.6]},
   {"slug": "basilicata", "name": "Basilicata", "iso": "IT-77", "rel": 40137, "bbox": [39.8, 15.3, 41.2, 16.9]},
   {"slug": "calabria", "name": "Calabria", "iso": "IT-78", "rel": 1783980, "bbox": [37.8, 15.6, 40.2, 17.3]},
