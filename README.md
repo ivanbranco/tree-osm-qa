@@ -19,7 +19,7 @@ Gli alberi con almeno un problema hanno il contorno rosso. I check sono:
 * `genus=*` diverso dalla prima parola di `species=*` (il segno di ibrido `×` iniziale è ignorato)
 * Collegamenti con formato non valido: `wikidata` diverso da `Q…`, `wikimedia_commons` senza `File:` o `Category:`, `panoramax` che non è un UUID, `image` che non inizia con `http`
 * `ref:masaf`, `ref:rami` o `website`/`url` verso monumentaltrees.com senza `denotation=natural_monument` (un albero monumentale senza fonte non è segnalato)
-* `species:wikidata=*` incoerente con `species=*` secondo la [lista di specie della wiki OSM](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species): QID diverso da quello atteso per la specie, oppure QID che appartiene a un'altra specie
+* `species:wikidata=*` incoerente con `species=*` secondo la [lista di specie della wiki OSM](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species): QID diverso da quello atteso per la specie, oppure QID che appartiene a un'altra specie. I QID accettati in più (per esempio i sinonimi) si aggiungono, per specie, in `scripts/whitelist.json`
 * `leaf_type=*` o `leaf_cycle=*` (validi) diversi da quelli della specie nella lista delle specie o, se la specie non c'è, del genere nella [lista dei generi](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Genus,_Leaf_cycle,_Leaf_type). `deciduous` e `semi_deciduous` sono considerati equivalenti, come `evergreen` e `semi_evergreen`; `palm` vale come `broadleaved` e `leafless` non viene confrontato.
 
 I check basati sulle liste richiedono `scripts/species_list.json` e `scripts/genus_list.json`, che si generano dall'Action "Aggiorna lista specie e generi"; se i file mancano, non vengono eseguiti.
@@ -43,7 +43,8 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 
 ## Filtri e scheda
 
-* Filtri per genus/specie (l'elenco è costruito dagli alberi in vista) e per tipo di errore. Per vedere solo i monumentali basta restare tra zoom 9 e 10.
+* Filtri per genus/specie e per tipo di errore: entrambi gli elenchi sono costruiti dagli alberi in vista, con il conteggio. Nel filtro genus/specie, "Sconosciuto" mostra gli alberi senza `genus` né `species`, "Con species" quelli con `species=*` (qualsiasi valore). Per vedere solo i monumentali basta restare tra zoom 9 e 10.
+* Riquadro "Classifica errori" (chiudibile): le nazioni in ordine di alberi con almeno un errore e, dentro ogni nazione, le regioni; toccando una regione la si apre. I conteggi sono nel campo `errors` di `data/index.json` e si riempiono all'aggiornamento dei dati.
 * Cliccando un albero si apre la scheda con i dati principali, i problemi rilevati e i link a OSM, Wikidata, Commons e Panoramax.
 * L'immagine viene da `wikimedia_commons`, poi da `panoramax`, poi da `image`.
 * Se presenti, la scheda indica `ref:masaf` (elenco degli alberi monumentali d'Italia del MASAF), `ref:rami` (registro RAMI) e `website`/`url` verso monumentaltrees.com.
@@ -53,7 +54,7 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 I dati arrivano da Overpass (`natural=tree` e `natural=tree_stump`) e sono divisi per regione. All'apertura non è caricata nessuna regione: si sceglie toccando i confini sulla mappa (le regioni senza dati sono grigie) o dal menu, dove le regioni italiane sono raggruppate sotto "Italia". "← Tutte le regioni" riporta alla vista d'insieme. Indirizzo diretto: `#region=lombardia`.
 
 * `data/regions/<regione>.geojson.gz` – gli alberi di una regione, con i check già calcolati (compressi: il browser li decomprime)
-* `data/index.json` – elenco delle regioni disponibili, numero di alberi e data dell'ultimo cambiamento dei dati
+* `data/index.json` – elenco delle regioni disponibili, numero di alberi, numero di alberi con errori (`errors`) e data dell'ultimo cambiamento dei dati
 * `scripts/regions.json` – regioni: nome, `group` (es. "Italia": le regioni con lo stesso gruppo compaiono insieme nel menu), codice ISO 3166-2, id della relation OSM (`rel`), bbox approssimativa e, se serve, `split` (livelli iniziali di suddivisione in tile: 0 per i paesi con pochi alberi)
 * `data/regions_boundaries.geojson` – confini semplificati delle regioni, per sceglierle sulla mappa; si genera dall'Action "Aggiorna confini regioni" (da Nominatim)
 
@@ -70,6 +71,7 @@ Le regioni grandi vengono scaricate a pezzi (tile) e unite. Il confine esatto lo
 * `scripts/update_boundaries.py` – scarica i confini delle regioni in `data/regions_boundaries.geojson`
 * `scripts/update_species_list.py` – scarica le liste di specie e generi dalla wiki OSM in `scripts/species_list.json` e `scripts/genus_list.json`
 * `scripts/species_limits.json` – per specie: limiti di altezza e circonferenza, rapporti usati per stimare le dimensioni mancanti
+* `scripts/whitelist.json` – eccezioni ai check (per ora: `species:wikidata` accettati per specie)
 * `.github/workflows/update.yml` – aggiornamento dei dati
 * `.github/workflows/update-boundaries.yml` – aggiornamento dei confini (solo a mano)
 * `.github/workflows/update-species-list.yml` – aggiornamento delle liste di specie e generi (solo a mano)

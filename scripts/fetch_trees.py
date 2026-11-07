@@ -131,6 +131,11 @@ for _name, _v in _LIST.items():
     if _v.get("wikidata"):
         QID_TO_SPECIES.setdefault(_v["wikidata"], _name)
 
+# Eccezioni ai check (scripts/whitelist.json): species:wikidata accettati per specie (es. sinonimi)
+_WL_FILE = Path(__file__).resolve().parent / "whitelist.json"
+_WL = json.loads(_WL_FILE.read_text(encoding="utf-8")) if _WL_FILE.exists() else {}
+WD_WHITELIST = {norm_species(k): set(v) for k, v in _WL.get("wikidata_mismatch", {}).items()}
+
 
 # Lista dei generi della wiki OSM (scripts/update_species_list.py): leaf_cycle (uno o entrambi) e leaf_type
 _GENUS_FILE = Path(__file__).resolve().parent / "genus_list.json"
@@ -177,7 +182,7 @@ def species_list_mismatches(t):
         return issues, props
     ref = SPECIES_REF.get(norm_species(sp)) if sp and SPECIES_REF else None
     wd = (t.get("species:wikidata") or "").strip()
-    if sp and SPECIES_REF and wd and ";" not in wd:
+    if sp and SPECIES_REF and wd and ";" not in wd and wd not in WD_WHITELIST.get(norm_species(sp), ()):
         if ref and ref.get("wikidata") and wd != ref["wikidata"]:
             issues.append("wikidata_mismatch")
             props.update(sp_wd=wd, exp_wd=ref["wikidata"])
@@ -479,14 +484,16 @@ def update_region(region, regions_index):
     fc = build(data)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     digest = hashlib.sha1(raw).hexdigest()
+    errors = sum(1 for f in fc["features"] if f["properties"]["issues"] != "|")  # alberi con almeno un errore
     if regions_index.get(slug, {}).get("sha1") == digest and path.exists():
+        regions_index[slug]["errors"] = errors  # per gli indici scritti prima che esistesse il conteggio
         print(f"{slug}: nessuna modifica ({len(fc['features'])} alberi)")
         return True
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     with open(path, "wb") as fh:  # mtime=0 e filename vuoto: file identico se i dati sono identici
         with gzip.GzipFile(filename="", mode="wb", fileobj=fh, compresslevel=9, mtime=0) as gz:
             gz.write(raw)
-    regions_index[slug] = {"name": region["name"], "count": len(fc["features"]),
+    regions_index[slug] = {"name": region["name"], "count": len(fc["features"]), "errors": errors,
                            "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "sha1": digest}
     print(f"{slug}: {len(fc['features'])} alberi -> {path} ({path.stat().st_size / 1e6:.1f} MB)")
     return True
