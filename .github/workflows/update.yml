@@ -9,6 +9,7 @@ on:
         default: all
         options:
           - all
+	  - bulgaria
           - piemonte
           - valle-d-aosta
           - lombardia
