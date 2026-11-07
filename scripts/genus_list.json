@@ -1,0 +1,2015 @@
+{
+"count": 330,
+"genera": {
+"Abies": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Acacia": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Acanthophoenix": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Acer": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Acoelorrhaphe": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Acrocomia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Actinokentia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Actinorhytis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Adonidia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Aesculus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Ailanthus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Aiphanes": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Allagoptera": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Alnus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Amelanchier": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Ammandra": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Aphandra": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Araucaria": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Arbutus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Archontophoenix": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Areca": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Arenga": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Armeniaca": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved",
+"synonym": "Prunus"
+},
+"Asterogyne": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Astrocaryum": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Attalea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Bactris": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Balaka": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Barcella": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Basselinia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Beccariophoenix": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Bentinckia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Betula": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Bismarckia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Borassodendron": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Borassus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Brahea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Brassiophoenix": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Broussonetia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Buddleja": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Burretiokentia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Butia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Buxus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Calamus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Calocedrus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Calyptrocalyx": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Calyptrogyne": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Calyptronoma": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Carpentaria": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Carpinus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Carpoxylon": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Carya": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Caryota": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Castanea": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Catalpa": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Cathaya": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Cedrela": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Cedrus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Celtis": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Cephalotaxus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Cerasus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved",
+"synonym": "Prunus"
+},
+"Ceratolobus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Ceratonia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Ceratozamia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Cercidiphyllum": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Cercis": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Ceroxylon": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Chamaecyparis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Chamaedorea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Chamaerops": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Chambeyronia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Chelyocarpus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Chigua": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Chitalpa": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Chuniophoenix": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Cinnamomum": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Cistus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Citrus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Clerodendrum": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Clinosperma": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Clinostigma": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Coccothrinax": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Cocos": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Colpothrinax": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Copernicia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Cornus": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Cortaderia": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Corylus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Corypha": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Cotinus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Crataegus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Cryosophila": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Cryptomeria": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Cunninghamia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Cupressocyparis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Cupressus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Cycas": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Cydonia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Cyphokentia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Cyphophoenix": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Cyphosperma": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Cyrtostachys": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Daemonorops": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Davidia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Deckenia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Desmoncus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Dictyocaryum": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Dictyosperma": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Dioon": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Diospyros": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Dransfieldia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Drymophloeus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Dypsis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Ehretia": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Elaeagnus": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Elaeis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Eleiodoxa": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Encephalartos": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Ephedra": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Eremospatha": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Eucalyptus": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Eucommia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Eugeissona": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Euodia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Euterpe": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Fagus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Ficus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Fraxinus": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Gaussia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Geonoma": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Ginkgo": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Gleditsia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Gnetum": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Guihaia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Gymnocladus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Hamamelis": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Hedyscepe": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Hemithrinax": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Heterospathe": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Hippophae": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Howea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Humulus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Hydriastele": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Hyophorbe": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Hyospathe": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Hyphaene": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Iguanura": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Ilex": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Iriartea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Iriartella": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Itaya": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Johannesteijsmannia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Juania": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Jubaea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Jubaeopsis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Juglans": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Juniperus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Kentiopsis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Kerriodoxa": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Keteleeria": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Koelreuteria": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Korthalsia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Laburnum": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Laccospadix": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Laccosperma": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Lagerstroemia": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Larix": {
+"leaf_cycle": [
+"evergreen",
+"deciduous"
+],
+"leaf_type": "needleleaved"
+},
+"Latania": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Lavandula": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Lemurophoenix": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Leopoldinia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Lepidocaryum": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Lepidorrhachis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Lepidozamia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Leucothrinax": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Libocedrus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Licuala": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Ligustrum": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Linospadix": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Liquidambar": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Liriodendron": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Livistona": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Lodoicea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Loxococcus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Lytocaryum": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Maclura": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Macrozamia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Magnolia": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Malus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Manicaria": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Marojejya": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Masoala": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Mauritia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Mauritiella": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Maxburretia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Medemia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Melia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Mespilus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Metasequoia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Metroxylon": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Microbiota": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Microcycas": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Morus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Myrialepis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Nannorrhops": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Nenga": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Neonicholsonia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Neoveitchia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Nephrosperma": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Nerium": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Normanbya": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Nothofagus": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Nothotsuga": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Nypa": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Oenocarpus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Olea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Oncocalamus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Oncosperma": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Orania": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Oraniopsis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Ostrya": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Parajubaea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Parrotia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Paulownia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Pelagodoxa": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Phillyrea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Phoenicophorium": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Phoenix": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Pholidocarpus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Pholidostachys": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Photinia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Phyllostachys": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Physokentia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Phytelephas": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Picea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Pigafetta": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Pinanga": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Pinus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Pistacia": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Platanus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Plectocomia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Plectocomiopsis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Podocarpus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Podococcus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Pogonotium": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Ponapea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Poncirus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved",
+"synonym": "Citrus"
+},
+"Populus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Prestoea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Pritchardia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Pritchardiopsis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Prunus": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Pseudolarix": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Pseudophoenix": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Pseudotsuga": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Pterocarya": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Pteroceltis": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Ptychococcus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Ptychosperma": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Pyrus": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Quercus": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Raphia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Ravenea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Reinhardtia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Retispatha": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Rhapidophyllum": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Rhapis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Rhododendron": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Rhopaloblaste": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Rhopalostylis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Rhus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Robinia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Roscheria": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Roystonea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Sabal": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Sabinaria": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Salacca": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Salix": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Sambucus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Saribus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Sassafras": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Satakentia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Satranala": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Schinus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Schippia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Sciadopitus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Sclerosperma": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Semiarundinaria": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Sequoia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Sequoiadendron": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Serenoa": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Socratea": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Solfia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Sommieria": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Sophora": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Sorbus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Sterculia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Styphnolobium": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Syagrus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Synechanthus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Syringa": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Tahina": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Tamarix": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Taxodium": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Taxus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Tectiphiala": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Thrinax": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Thuja": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Thujopsis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Tilia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Torreya": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Trachycarpus": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Trithrinax": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Tsuga": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Ulmus": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Veitchia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Verschaffeltia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Viburnum": {
+"leaf_cycle": [
+"deciduous",
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Voanioala": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Wallichia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Washingtonia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Welfia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Welwitschia": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Wendlandiella": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Wettinia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Wodyetia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+},
+"Xanthocyparis": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Zamia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "needleleaved"
+},
+"Zelkova": {
+"leaf_cycle": [
+"deciduous"
+],
+"leaf_type": "broadleaved"
+},
+"Zombia": {
+"leaf_cycle": [
+"evergreen"
+],
+"leaf_type": "broadleaved"
+}
+},
+"license": "CC BY-SA 2.0 (OpenStreetMap Wiki)",
+"source": "https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Genus,_Leaf_cycle,_Leaf_type"
+}

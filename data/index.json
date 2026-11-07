@@ -6,6 +6,12 @@
    "sha1": "495a380e1827b718b25e5967cae46e2a90bdc9c5",
    "updated": "2026-11-07T13:18:09Z"
   },
+  "liguria": {
+   "count": 8905,
+   "name": "Liguria",
+   "sha1": "2fd5f4246a8b591990dca09c14277bd1d61ddac6",
+   "updated": "2026-11-07T21:05:21Z"
+  },
   "lombardia": {
    "count": 387030,
    "name": "Lombardia",
@@ -13,16 +19,22 @@
    "updated": "2026-11-06T12:15:27Z"
   },
   "piemonte": {
-   "count": 72956,
+   "count": 72959,
    "name": "Piemonte",
-   "sha1": "cd43383f8d1dc9a2912bc32ffc6f6b5cd4340dfd",
-   "updated": "2026-11-07T12:57:45Z"
+   "sha1": "b3e6021e79a5cd8057e1bcf0ff74713808674cd0",
+   "updated": "2026-11-07T21:49:21Z"
   },
   "sardegna": {
-   "count": 5426,
+   "count": 5428,
    "name": "Sardegna",
-   "sha1": "998d2be712ea65a306d982c7e778a7e3188fc198",
-   "updated": "2026-11-06T12:34:16Z"
+   "sha1": "5095113a7904e47da71350b63ab6e25060c66222",
+   "updated": "2026-11-07T20:52:54Z"
+  },
+  "sicilia": {
+   "count": 49240,
+   "name": "Sicilia",
+   "sha1": "16ea365a9fac779d23746d2b03db1c77f9d32743",
+   "updated": "2026-11-07T22:03:27Z"
   },
   "trentino-alto-adige": {
    "count": 67740,
