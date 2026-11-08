@@ -138,9 +138,14 @@ DEFAULT_RATIOS = _RAW_LIMITS.pop("_default", {})
 SPECIES_LIMITS = {" ".join(k.split()).lower(): v for k, v in _RAW_LIMITS.items()}
 
 
+# apici e virgolette (dritti, tipografici, accento grave/acuto) non contano nei nomi: Ulmus 'New Horizon' è
+# uguale a Ulmus ‘New Horizon’ e a Ulmus `New Horizon`
+QUOTES = str.maketrans("", "", "'‘’`´\"“”")
+
+
 def norm_species(s):
-    """Nome normalizzato per il confronto con la lista: spazi singoli, 'x' tra i nomi come '×', minuscolo."""
-    return " ".join("×" if w in ("x", "X") else w for w in s.split()).casefold()
+    """Nome normalizzato per i confronti: senza virgolette, spazi singoli, 'x' tra i nomi come '×', minuscolo."""
+    return " ".join("×" if w in ("x", "X") else w for w in s.translate(QUOTES).split()).casefold()
 
 
 # Lista di specie della wiki OSM (scripts/update_reference_lists.py): species:wikidata, leaf_type, leaf_cycle
