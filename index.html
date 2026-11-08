@@ -599,6 +599,7 @@ map.on("load", async () => {
   const fitAll = () => { if (allBounds) map.fitBounds(allBounds, { padding: 30, duration: 0 }); };
   const setCurrent = slug => {
     current = slug;
+    document.getElementById("dl").hidden = !slug;   // il download serve solo con una regione caricata
     // regione di una nazione divisa: si vedono le regioni vicine; regione-nazione (Bulgaria): si richiude
     // la nazione aperta prima. Senza regione (slug null) la nazione aperta resta com'è.
     if (slug) openGroup = hasCountry.has(groupOf(slug)) ? groupOf(slug) : null;
@@ -762,6 +763,7 @@ map.on("load", async () => {
   dlBtn.title = L.download;
   const matchIssue = (v, p) => {
     const codes = p.issues.split("|").filter(Boolean);
+    if (!v) return codes.length > 0;                 // "Tutti gli errori": ogni albero con almeno un errore
     return v.startsWith("g:") ? codes.some(c => issueGroupOf(c) === v.slice(2)) : codes.includes(v);
   };
   const matchTaxon = (v, p) => {
@@ -774,7 +776,7 @@ map.on("load", async () => {
   const plain = html => { const d = document.createElement("div"); d.innerHTML = html; return d.textContent; };
   dlBtn.onclick = () => {
     const is = issSel.value, tx = taxSel.value;
-    if (!is || !current) return;
+    if (!current) return;
     const feats = ALL.filter(f => matchIssue(is, f.properties) && matchTaxon(tx, f.properties)).map(f => {
       const p = f.properties, codes = p.issues.split("|").filter(Boolean);
       const out = { osm: `https://www.openstreetmap.org/node/${p.id}`, id: p.id,
@@ -787,11 +789,11 @@ map.on("load", async () => {
     const blob = new Blob([JSON.stringify({ type: "FeatureCollection", features: feats }, null, 1)], { type: "application/geo+json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `dendrosm-${current}-${is.replace(/^g:/, "")}${tx ? "-" + tx.replace(/^[gs]:/, "").replace(/\W+/g, "_") : ""}.geojson`;
+    a.download = `dendrosm-${current}-${is ? is.replace(/^g:/, "") : "all"}${tx ? "-" + tx.replace(/^[gs]:/, "").replace(/\W+/g, "_") : ""}.geojson`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
-  issSel.onchange = () => { dlBtn.hidden = !issSel.value; apply(); updateTaxa(); };   // toglie dall'elenco la voce deselezionata se fuori vista
+  issSel.onchange = () => { apply(); updateTaxa(); };   // toglie dall'elenco la voce deselezionata se fuori vista
   // il conteggio si aggiorna anche poco dopo l'ultimo ridisegno, senza aspettare "idle" (che per le regioni grandi
   // attende la sorgente completa)
   let countTimer;
