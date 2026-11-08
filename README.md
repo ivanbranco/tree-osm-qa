@@ -19,6 +19,7 @@ Gli alberi con almeno un problema hanno il contorno rosso. I check sono:
 * `genus=*` diverso dalla prima parola di `species=*` (il segno di ibrido `×` iniziale è ignorato)
 * Collegamenti con formato non valido: `wikidata` diverso da `Q…`, `wikimedia_commons` senza `File:` o `Category:`, `panoramax` che non è un UUID, `image` che non inizia con `http`
 * `ref:masaf`, `ref:rami` o `website`/`url` verso monumentaltrees.com senza `denotation=natural_monument` (un albero monumentale senza fonte non è segnalato)
+* `masaf:criteria=*` con codici non validi: sono ammessi solo `a`–`g`, `a1`, `a2`, `a2.1`, `a2.2`, `a2.3`, separati da virgole senza spazi (vedi la [wiki](https://wiki.openstreetmap.org/wiki/IT:Key:ref:masaf#Criteri_di_monumentalit%C3%A0)); sono segnalati anche spazi, maiuscole, `;` e parti vuote
 * `species:wikidata=*` incoerente con `species=*` secondo la [lista di specie della wiki OSM](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species): QID diverso da quello atteso per la specie, oppure QID che appartiene a un'altra specie. I QID accettati in più (per esempio i sinonimi) si aggiungono, per specie, in `scripts/whitelist.json`
 * `leaf_type=*` o `leaf_cycle=*` (validi) diversi da quelli della specie nella lista delle specie o, se la specie non c'è, del genere nella [lista dei generi](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Genus,_Leaf_cycle,_Leaf_type). `deciduous` e `semi_deciduous` sono considerati equivalenti, come `evergreen` e `semi_evergreen`; `palm` vale come `broadleaved` e `leafless` non viene confrontato.
 * `leaf_type=*` diverso da `broadleaved`, `needleleaved`, `leafless`, `palm`
@@ -53,7 +54,7 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 * Riquadro "Classifica errori" (chiudibile): le nazioni in ordine di alberi con almeno un errore e, dentro ogni nazione, le regioni; toccando una regione la si apre. I conteggi sono nel campo `errors` di `data/index.json` e si riempiono all'aggiornamento dei dati.
 * Cliccando un albero si apre la scheda con i dati principali, i problemi rilevati e i link a OSM, Wikidata, Commons e Panoramax.
 * L'immagine viene da `wikimedia_commons`, poi da `panoramax`, poi da `image`.
-* Se presenti, la scheda indica `ref:masaf` (elenco degli alberi monumentali d'Italia del MASAF), `ref:rami` (registro RAMI) e `website`/`url` verso monumentaltrees.com.
+* Se presenti, la scheda indica `ref:masaf` (elenco degli alberi monumentali d'Italia del MASAF) con i criteri di monumentalità da `masaf:criteria` (per esempio `a,b,g` diventa "a) età e/o dimensioni; b) forma o portamento particolari; g) valore storico, culturale, religioso", vedi la [wiki](https://wiki.openstreetmap.org/wiki/IT:Key:ref:masaf#Criteri_di_monumentalit%C3%A0)), `ref:rami` (registro RAMI) e `website`/`url` verso monumentaltrees.com.
 
 ## Lingua
 

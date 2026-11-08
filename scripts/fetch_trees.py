@@ -359,6 +359,17 @@ def monument_sources(t):
     return src
 
 
+# Criteri di monumentalità MASAF (https://wiki.openstreetmap.org/wiki/IT:Key:ref:masaf): codici separati da virgole, senza spazi
+MASAF_CRITERIA = {"a", "a1", "a2", "a2.1", "a2.2", "a2.3", "b", "c", "d", "e", "f", "g"}
+
+
+def masaf_criteria_bad(t):
+    """Parti di masaf:criteria che non sono codici validi (anche vuote, con spazi, maiuscole o separate da ';')."""
+    if "masaf:criteria" not in t:
+        return []
+    return [x for x in t["masaf:criteria"].split(",") if x not in MASAF_CRITERIA]
+
+
 def genus_of_species(sp):
     """Prima parola di species, saltando il segno di ibrido (× o x iniziale)."""
     words = sp.split(";")[0].split()
@@ -408,13 +419,15 @@ def checks(t):
         issues.append("monument_denotation")
     if denotation_problems(t):
         issues.append("denotation_value")
+    if masaf_criteria_bad(t):
+        issues.append("masaf_criteria")
     return issues
 
 
 KEEP = ["name", "species", "genus", "taxon",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
-        "ref:masaf", "ref:rami", "website", "url", "diameter"]
+        "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter"]
 
 
 def sizes(t):
@@ -492,6 +505,8 @@ def to_feature(el):
         p["den_bad"] = ";".join(v for v, _, _ in den)
         p["den_why"] = ";".join(w for _, w, _ in den)
         p["den_n"] = ";".join(str(n) for _, _, n in den)
+    if "masaf_criteria" in iss:  # parti non valide, separate da "," come nel tag (non possono contenerne)
+        p["masaf_bad"] = ",".join(masaf_criteria_bad(t))
     lim = species_limit(t)
     if "height_species" in iss:
         p["lim_h"] = lim["height"]

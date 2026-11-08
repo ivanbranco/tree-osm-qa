@@ -126,7 +126,7 @@ const I18N = {
       link_format: "Link con formato non valido", wikidata_mismatch: "species:wikidata incoerente con la species",
       leaf_type_mismatch: "leaf_type diverso da quello della specie", leaf_cycle_mismatch: "leaf_cycle diverso da quello della specie",
       monument_denotation: "Fonte monumentale senza natural_monument",
-      denotation_value: "denotation raro o non valido", circumference_species: "Circonferenza > limite della specie",
+      denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido", circumference_species: "Circonferenza > limite della specie",
       height_species: "Altezza > limite della specie", species: "Species di una sola parola", genus: "Genus non valido",
       species_lowercase: "Species con iniziale minuscola", genus_lowercase: "Genus con iniziale minuscola",
       leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" },
@@ -145,6 +145,8 @@ const I18N = {
       number_invalid: t => `valore non numerico, intervallo o zero in ${t}`,
       link_format: t => `formato non valido in ${t}`,
       monument_denotation: t => `${t} senza denotation=natural_monument`,
+      masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "codici non validi" : "codice non valido"} ${bad.join(", ")} (ammessi a–g, a1, a2, a2.1–a2.3, separati da virgole senza spazi)`,
+      empty: "(vuoto)",
       den_format: v => `denotation=${v}: formato non valido`,
       den_glued: (v, pre) => `denotation=${v}: sembra "${pre}" con altro testo attaccato`,
       den_rare: (v, n) => n == 0 ? `denotation=${v} non risulta su Taginfo` : n == 1 ? `denotation=${v} usato una sola volta in OSM`
@@ -160,6 +162,10 @@ const I18N = {
     genusOf: g => `il genere ${g}`, or: " o ",
     recMasaf: (l, ref) => `Albero inserito nell’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${ref})`,
     recRami: (l, ref) => `Albero inserito nel ${l("registro RAMI")} (${ref})`,
+    recCriteria: list => `Criteri di monumentalità MASAF: ${list}`,
+    masafCriteria: { a: "età e/o dimensioni", a1: "età", a2: "dimensioni", "a2.1": "circonferenza", "a2.2": "altezza",
+      "a2.3": "ampiezza chioma", b: "forma o portamento particolari", c: "valore ecologico", d: "rarità botanica",
+      e: "architettura vegetale", f: "pregio/valore paesaggistico", g: "valore storico, culturale, religioso" },
     recMt: l => `Censito su ${l}`,
     stump: "Ceppo", stumpOf: b => `${b} (ceppo)`, unknownSpecies: "Specie sconosciuta",
   },
@@ -187,7 +193,7 @@ const I18N = {
       link_format: "Link with invalid format", wikidata_mismatch: "species:wikidata inconsistent with species",
       leaf_type_mismatch: "leaf_type differs from the species", leaf_cycle_mismatch: "leaf_cycle differs from the species",
       monument_denotation: "Monumental source without natural_monument",
-      denotation_value: "Rare or invalid denotation", circumference_species: "Circumference > species limit",
+      denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria", circumference_species: "Circumference > species limit",
       height_species: "Height > species limit", species: "Single-word species", genus: "Invalid genus",
       species_lowercase: "Species starting lowercase", genus_lowercase: "Genus starting lowercase",
       leaf_type: "Invalid leaf_type", leaf_cycle: "Invalid leaf_cycle" },
@@ -206,6 +212,8 @@ const I18N = {
       number_invalid: t => `non-numeric value, range or zero in ${t}`,
       link_format: t => `invalid format in ${t}`,
       monument_denotation: t => `${t} without denotation=natural_monument`,
+      masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "invalid codes" : "invalid code"} ${bad.join(", ")} (allowed a–g, a1, a2, a2.1–a2.3, comma-separated without spaces)`,
+      empty: "(empty)",
       den_format: v => `denotation=${v}: invalid format`,
       den_glued: (v, pre) => `denotation=${v}: looks like "${pre}" with extra text attached`,
       den_rare: (v, n) => n == 0 ? `denotation=${v} not found on Taginfo` : n == 1 ? `denotation=${v} used only once in OSM`
@@ -221,6 +229,10 @@ const I18N = {
     genusOf: g => `the genus ${g}`, or: " or ",
     recMasaf: (l, ref) => `Listed in the MASAF ${l("list of monumental trees of Italy")} (${ref})`,
     recRami: (l, ref) => `Listed in the ${l("RAMI register")} (${ref})`,
+    recCriteria: list => `MASAF monumentality criteria: ${list}`,
+    masafCriteria: { a: "age and/or size", a1: "age", a2: "size", "a2.1": "circumference", "a2.2": "height",
+      "a2.3": "crown width", b: "particular shape or habit", c: "ecological value", d: "botanical rarity",
+      e: "plant architecture", f: "landscape value", g: "historical, cultural or religious value" },
     recMt: l => `Recorded on ${l}`,
     stump: "Stump", stumpOf: b => `${b} (stump)`, unknownSpecies: "Unknown species",
   },
@@ -717,6 +729,8 @@ const issueBase = (i, p) => {
     case "number_invalid": return T[i](list(p.bad_num));
     case "link_format": return T[i](list(p.bad_links));
     case "monument_denotation": return T[i](list(p.mon_src));
+    case "masaf_criteria":       // masaf_bad: parti non valide separate da "," (fetch_trees.py)
+      return T[i](p["masaf:criteria"] ?? "", String(p.masaf_bad ?? "").split(",").map(x => x === "" ? T.empty : `"${x}"`));
     case "denotation_value": {    // den_bad, den_why, den_n: valori, motivi e usi, separati da ";" (fetch_trees.py)
       const ws = String(p.den_why || "").split(";"), ns = String(p.den_n || "").split(";");
       return String(p.den_bad || "").split(";").map((v, k) => {
@@ -754,6 +768,10 @@ const link = (href, text) => `<a href="${esc(href)}" target="_blank" rel="noopen
 function recognitions(p) {
   const r = [];
   if (p["ref:masaf"]) r.push(L.recMasaf(t => link(MASAF_URL, t), esc(p["ref:masaf"])));
+  if (p["masaf:criteria"]) {   // es. "a,b,g" -> "a) età e/o dimensioni; b) …"; i codici sconosciuti restano come sono
+    const codes = String(p["masaf:criteria"]).split(/[,;]/).map(c => c.trim().toLowerCase().replace(/\)$/, "")).filter(Boolean);
+    r.push(esc(L.recCriteria(codes.map(c => L.masafCriteria[c] ? `${c}) ${L.masafCriteria[c]}` : c).join("; "))));
+  }
   if (p["ref:rami"]) r.push(L.recRami(t => link(RAMI_URL, t), esc(p["ref:rami"])));
   const mt = monumentalTreesUrl(p);
   if (mt) r.push(L.recMt(link(mt, "monumentaltrees.com")));
