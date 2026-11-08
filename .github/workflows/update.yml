@@ -16,11 +16,21 @@ on:
           - bulgaria
           - croazia
           - estonia
-          - galles
-          - irlanda-del-nord
           - lettonia
           - lituania
           - slovenia
+          - est-inghilterra
+          - galles
+          - irlanda-del-nord
+          - londra
+          - midlands-occidentali
+          - midlands-orientali
+          - nord-est-inghilterra
+          - nord-ovest-inghilterra
+          - scozia
+          - sud-est-inghilterra
+          - sud-ovest-inghilterra
+          - yorkshire-e-humber
           - alta-francia
           - alvernia-rodano-alpi
           - borgogna-franca-contea
