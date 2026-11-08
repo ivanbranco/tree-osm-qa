@@ -1,0 +1,1950 @@
+{
+"Q115057813": {
+"coords": [
+[
+8.2537249,
+45.2210868
+]
+],
+"heritage": [],
+"image": "Rul d' la Costa 6 (cropped).jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q123120261": {
+"coords": [
+[
+8.558675,
+46.064519444
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q146149"
+],
+"taxon": false,
+"wp": {}
+},
+"Q125461792": {
+"coords": [
+[
+8.1686792,
+45.3507216
+]
+],
+"heritage": [],
+"image": "Pioppo Nero di Tronzano Vercellese 2.jpg",
+"taxa": [
+"Q147064"
+],
+"taxon": false,
+"wp": {}
+},
+"Q125532108": {
+"coords": [
+[
+8.31842,
+45.15295
+]
+],
+"heritage": [],
+"image": "Farnia di Pontestura.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q125548451": {
+"coords": [
+[
+8.2200479,
+45.1730622
+]
+],
+"heritage": [],
+"image": "Pioppo ibrido di Palazzolo Vercellese 02.jpg",
+"taxa": [
+"Q149622"
+],
+"taxon": false,
+"wp": {}
+},
+"Q126902383": {
+"coords": [
+[
+8.572441666,
+45.737144444
+]
+],
+"heritage": [],
+"image": "Pioppo nero di Dormelletto 2.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q136523693": {
+"coords": [
+[
+8.527766666,
+45.894144444
+]
+],
+"heritage": [],
+"image": "Sughera monumentale (Isola Bella) 04.jpg",
+"taxa": [
+"Q156137"
+],
+"taxon": false,
+"wp": {}
+},
+"Q136701911": {
+"coords": [
+[
+8.84068,
+44.9288
+]
+],
+"heritage": [],
+"image": "Platano di frazione Ova.jpg",
+"taxa": [
+"Q161374"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Platano_di_frazione_Ova"
+}
+},
+"Q136718917": {
+"coords": [
+[
+8.1419,
+45.61554
+]
+],
+"heritage": [],
+"image": "Castagno di Bioglio.jpg",
+"taxa": [
+"Q22699"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Castagno_di_Bioglio"
+}
+},
+"Q136720789": {
+"coords": [
+[
+7.8375,
+45.338611
+]
+],
+"heritage": [],
+"image": "Credo di Montalenghe.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q136758281": {
+"coords": [
+[
+8.994013888,
+44.858883333
+]
+],
+"heritage": [],
+"image": "Olmo di Montemarzino.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Olmo_di_Montemarzino"
+}
+},
+"Q140160143": {
+"coords": [
+[
+8.38757,
+45.03216
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q161040"
+],
+"taxon": false,
+"wp": {}
+},
+"Q140814896": {
+"coords": [
+[
+8.27503,
+45.65478
+]
+],
+"heritage": [],
+"image": "Castagno monumentale di Sostegno.jpg",
+"taxa": [
+"Q22699"
+],
+"taxon": false,
+"wp": {}
+},
+"Q141048273": {
+"coords": [
+[
+8.3213526,
+45.6756169
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q179729"
+],
+"taxon": false,
+"wp": {}
+},
+"Q141048805": {
+"coords": [
+[
+8.276976818,
+45.716409037
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q146935"
+],
+"taxon": false,
+"wp": {}
+},
+"Q33040885": {
+"coords": [
+[
+7.964247,
+45.970689
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Macugnaga ChiesaVecchia.jpg",
+"taxa": [
+"Q127849"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Tiglio_di_Macugnaga"
+}
+},
+"Q55742254": {
+"coords": [
+[
+8.640114,
+44.907872
+],
+[
+8.640069,
+44.907894
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+],
+[
+"Luoghi del Cuore",
+"Luoghi del Cuore"
+]
+],
+"image": "Platano Napoleone.jpg",
+"taxa": [
+"Q161374"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Platano_di_Napoleone"
+}
+},
+"Q55742255": {
+"coords": [
+[
+8.911989,
+44.661439
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Leccio di Rigoroso 2.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Leccio_di_Rigoroso"
+}
+},
+"Q55742257": {
+"coords": [
+[
+8.986111,
+44.798264
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Roverella di Avolasca.jpg",
+"taxa": [
+"Q161415"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Roverella_di_Avolasca"
+}
+},
+"Q55742258": {
+"coords": [
+[
+8.850861,
+45.003031
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742259": {
+"coords": [
+[
+8.369722,
+45.158889
+]
+],
+"heritage": [],
+"image": "Arbra dal Porti (65101).jpg",
+"taxa": [
+"Q147064"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55742261": {
+"coords": [
+[
+8.515667,
+45.041786
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742263": {
+"coords": [
+[
+8.821525,
+44.738433
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Quercia castagnara centenaria a Novi Ligure vista da sotto.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Quercia_castagnara_di_Novi_Ligure"
+}
+},
+"Q55742265": {
+"coords": [
+[
+8.779053,
+44.72985
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Rovere verde di Tassarolo.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Rovere_verde_di_Tassarolo"
+}
+},
+"Q55742266": {
+"coords": [
+[
+8.604564,
+45.119689
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742267": {
+"coords": [
+[
+8.396314,
+45.010381
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Cedro dell'Atlante (Vignale Monferrato).jpg",
+"taxa": [
+"Q623489"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55742268": {
+"coords": [
+[
+9.0077,
+44.884583
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742272": {
+"coords": [
+[
+8.333797,
+45.023608
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Ippocastano di Casorzo (15398) (cropped).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/La_Castagna"
+}
+},
+"Q55742274": {
+"coords": [
+[
+8.421678,
+44.758139
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742277": {
+"coords": [
+[
+8.3249,
+44.869075
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742289": {
+"coords": [
+[
+8.082536,
+44.273036
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742290": {
+"coords": [
+[
+7.840378,
+44.712581
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742292": {
+"coords": [
+[
+7.078228,
+44.613075
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742293": {
+"coords": [
+[
+7.705328,
+44.699939
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Ippocastano_di_Cavallermaggiore"
+}
+},
+"Q55742296": {
+"coords": [
+[
+7.685811,
+44.708594
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Cipresso calvo di Cavallermaggiore.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Cipresso_calvo_di_Cavallermaggiore"
+}
+},
+"Q55742298": {
+"coords": [
+[
+7.66305,
+44.240675
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Pino strobo Chiusa di Pesio.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Pino_strobo_di_Chiusa_di_Pesio"
+}
+},
+"Q55742299": {
+"coords": [
+[
+7.285419,
+44.295469
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Olmo montano di Bergemolo.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Olmo_montano_di_Bergemolo"
+}
+},
+"Q55742300": {
+"coords": [
+[
+7.947853,
+44.52925
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Ippocastano di Dogliani - panorama.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Ippocastano_di_Dogliani"
+}
+},
+"Q55742302": {
+"coords": [
+[
+7.389414,
+44.176192
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Faggi di Entracque.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Faggi_di_San_Giacomo_d%27Entracque"
+}
+},
+"Q55742303": {
+"coords": [
+[
+7.910022,
+44.502353
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742304": {
+"coords": [
+[
+7.906742,
+44.236242
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742305": {
+"coords": [
+[
+7.297222,
+44.5625
+],
+[
+7.297445622,
+44.562637721
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Castagno monumentale di Melle.jpg",
+"taxa": [
+"Q756"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Castagno_di_Melle"
+}
+},
+"Q55742306": {
+"coords": [
+[
+7.362017,
+44.326736
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742313": {
+"coords": [
+[
+7.206694,
+44.681483
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742316": {
+"coords": [
+[
+6.999019,
+44.307944
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Larice di Pietraporzio.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Lou_merze_gros"
+}
+},
+"Q55742317": {
+"coords": [
+[
+7.998067,
+44.725125
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742321": {
+"coords": [
+[
+8.057317,
+44.560347
+]
+],
+"heritage": [],
+"image": "Serravalle Langhe - Ippocastano - 2026-09-22 21-14-43 001.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742322": {
+"coords": [
+[
+7.27,
+44.206111
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742323": {
+"coords": [
+[
+7.531111,
+44.228889
+]
+],
+"heritage": [],
+"image": "L'olmo monumentale di Tetto Giona (Vernante - Cuneo).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742324": {
+"coords": [
+[
+7.491944,
+44.194722
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742326": {
+"coords": [
+[
+8.466872,
+45.437408
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Casalbeltrame Ginkgo biloba.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Ginkgo_di_Casalbeltrame"
+}
+},
+"Q55742329": {
+"coords": [
+[
+8.632792,
+45.438242
+]
+],
+"heritage": [],
+"image": "Cedro Novara.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742330": {
+"coords": [
+[
+8.658981,
+45.415283
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q852572"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55742332": {
+"coords": [
+[
+7.768897,
+45.360672
+]
+],
+"heritage": [],
+"image": "Platano monumentale di Agliè.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742333": {
+"coords": [
+[
+7.184669,
+44.862128
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742334": {
+"coords": [
+[
+7.770678,
+45.082183
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742336": {
+"coords": [
+[
+7.286122,
+44.800825
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742338": {
+"coords": [
+[
+7.324044,
+44.800417
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Liriodendo di Campignole Fenile spoglio.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Liriodendro_di_Campiglione-Fenile"
+}
+},
+"Q55742340": {
+"coords": [
+[
+7.328686,
+44.801783
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Imbronciati"
+}
+},
+"Q55742342": {
+"coords": [
+[
+7.3263,
+44.80136
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Noce_di_Campiglione-Fenile"
+}
+},
+"Q55742343": {
+"coords": [
+[
+7.904111,
+45.136633
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742345": {
+"coords": [
+[
+7.893564,
+45.175281
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742346": {
+"coords": [
+[
+7.891967,
+45.175944
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742348": {
+"coords": [
+[
+7.896869,
+45.171444
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742350": {
+"coords": [
+[
+7.374686,
+44.941064
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Cumiana - Cappella di San Giacomo - 2023-09-07 23-18-22 001.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Ippocastano_di_San_Giacomo"
+}
+},
+"Q55742352": {
+"coords": [
+[
+7.368375,
+44.971958
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742353": {
+"coords": [
+[
+7.568803,
+45.160969
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742354": {
+"coords": [
+[
+7.558333,
+45.16
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742360": {
+"coords": [
+[
+7.093289,
+45.143689
+]
+],
+"heritage": [],
+"image": "Ginepro coccolone.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742363": {
+"coords": [
+[
+6.979167,
+45.205681
+]
+],
+"heritage": [],
+"image": "Frassino di Moncenisio.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742364": {
+"coords": [
+[
+6.982311,
+45.205278
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Frassino di Moncenisio.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Frassino_di_Moncenisio"
+}
+},
+"Q55742387": {
+"coords": [
+[
+7.638161,
+45.075878
+]
+],
+"heritage": [],
+"image": "Platano Tesoriera 1.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Platano_della_Tesoriera"
+}
+},
+"Q55742388": {
+"coords": [
+[
+7.679497,
+45.063681
+]
+],
+"heritage": [],
+"image": "Noce del Caucaso giardino Sambuy 2.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742392": {
+"coords": [
+[
+7.689158,
+45.0726
+]
+],
+"heritage": [],
+"image": "Olmo del Caucaso.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742394": {
+"coords": [
+[
+7.719564,
+45.064267
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742395": {
+"coords": [
+[
+7.686317,
+45.052975
+]
+],
+"heritage": [],
+"image": "Farnia monumentale Valentino 2.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742396": {
+"coords": [
+[
+7.687889,
+45.057872
+]
+],
+"heritage": [],
+"image": "Bagolaro Parco del Valentino.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Bagolaro_del_Valentino"
+}
+},
+"Q55742397": {
+"coords": [
+[
+7.704094,
+45.075789
+]
+],
+"heritage": [],
+"image": "Torino - platano comune - 202109191510.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742407": {
+"coords": [
+[
+7.68635,
+45.051172
+]
+],
+"heritage": [],
+"image": "Platano comune Virgilio.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742409": {
+"coords": [
+[
+7.684064,
+45.048147
+]
+],
+"heritage": [],
+"image": "Platano Viale Matteo Maria Boiardo 2.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742412": {
+"coords": [
+[
+7.213628,
+44.822161
+]
+],
+"heritage": [],
+"image": "Torre Pellice - Sequoia gigante - 2023-09-30 12-29-58 001.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742423": {
+"coords": [
+[
+8.338294,
+46.230572
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Castagno Maglioggio.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Pianta_Maria_Bona"
+}
+},
+"Q55742426": {
+"coords": [
+[
+8.356053,
+45.781139
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742427": {
+"coords": [
+[
+8.448931,
+45.960375
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Olmo di Mergozzo in autunno.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Olmo_di_Mergozzo"
+}
+},
+"Q55742428": {
+"coords": [
+[
+8.248156,
+46.021864
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Cimamulera Aesculus hippocastanum.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Ippocastano_di_Cimamulera"
+}
+},
+"Q55742429": {
+"coords": [
+[
+8.363514,
+45.995036
+]
+],
+"heritage": [],
+"image": "Cuzzago (Premosello Chiovenda) Tasso monumentale.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742431": {
+"coords": [
+[
+8.527222,
+45.895475
+]
+],
+"heritage": [],
+"image": "Stresa - Albero della Canfora - 2023-09-16 10-56-05 001.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742432": {
+"coords": [
+[
+8.538497,
+45.912497
+]
+],
+"heritage": [],
+"image": "Cipresso calvo monumentale (Stresa) 02.jpg",
+"taxa": [
+"Q148950"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55742433": {
+"coords": [
+[
+8.537803,
+45.911122
+]
+],
+"heritage": [],
+"image": "Cipresso del Kashmir 1.jpg",
+"taxa": [
+"Q917216"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55742434": {
+"coords": [
+[
+8.539014,
+45.911075
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742435": {
+"coords": [
+[
+8.539097,
+45.910864
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742436": {
+"coords": [
+[
+8.21745,
+46.216508
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742437": {
+"coords": [
+[
+8.164067,
+46.281242
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742438": {
+"coords": [
+[
+8.146439,
+46.270697
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742439": {
+"coords": [
+[
+8.516389,
+45.944722
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Tasso - Albero monumentale di Cavandone (Verbania).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Tasso_di_Cavandone"
+}
+},
+"Q55742440": {
+"coords": [
+[
+8.220136,
+45.733389
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742441": {
+"coords": [
+[
+8.049314,
+45.910728
+]
+],
+"heritage": [],
+"image": "Frassino di Carcoforo vista d'insieme.png",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742442": {
+"coords": [
+[
+8.049194,
+45.914094
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742443": {
+"coords": [
+[
+8.122369,
+45.192931
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742444": {
+"coords": [
+[
+8.3252,
+45.619378
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742445": {
+"coords": [
+[
+8.000347,
+45.884406
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Larice di Rima San Giuseppe.jpg",
+"taxa": [
+"Q146048"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Larice_di_Rima_San_Giuseppe"
+}
+},
+"Q55742446": {
+"coords": [
+[
+8.421917,
+45.330553
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Insieme omogeneo di Liquidambar styracyflua L..jpg",
+"taxa": [
+"Q469652"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Liquidambar_di_piazza_Sant%27Eusebio"
+}
+},
+"Q56629510": {
+"coords": [
+[
+7.917475,
+44.793011
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Boschi e Rocche del Roero la Castagna Granda b.png",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Castagna_Granda"
+}
+},
+"Q56629511": {
+"coords": [
+[
+8.055574,
+45.563144
+]
+],
+"heritage": [],
+"image": "Ippocastano monumentale di Biella.jpg",
+"taxa": [
+"Q26899"
+],
+"taxon": false,
+"wp": {}
+},
+"Q56629512": {
+"coords": [
+[
+8.684,
+44.7835
+]
+],
+"heritage": [
+[
+"bene culturale italiano",
+"Italian national heritage"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629523": {
+"coords": [
+[
+8.055515,
+45.562762
+]
+],
+"heritage": [],
+"image": "Biella - cedro dell'Himalaya - 202211010925.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629534": {
+"coords": [
+[
+8.032431,
+44.697189
+]
+],
+"heritage": [],
+"image": "Alba - Faggio a foglie di asplenio - 2023-09-01 13-41-48 002.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Faggio_a_foglie_di_asplenio_di_Alba"
+}
+},
+"Q56629535": {
+"coords": [
+[
+8.055953,
+45.562706
+]
+],
+"heritage": [],
+"image": "Biella - cedro dell'Atlante - 202211010934.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629554": {
+"coords": [
+[
+6.699156,
+45.079292
+]
+],
+"heritage": [],
+"image": "Pero selvatico.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Pero_di_Piazza_Suspize"
+}
+},
+"Q56629579": {
+"coords": [
+[
+7.376489,
+44.979269
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629580": {
+"coords": [
+[
+8.463433,
+44.668719
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629582": {
+"coords": [
+[
+8.548178,
+45.749161
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Mercurago (Arona) Chiesa di San Giorgio.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629583": {
+"coords": [
+[
+7.683475,
+45.046508
+]
+],
+"heritage": [],
+"image": "Platano comune Sclopis 2.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629584": {
+"coords": [
+[
+7.855242,
+44.695767
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629589": {
+"coords": [
+[
+8.473656,
+44.673481
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629591": {
+"coords": [
+[
+7.891686,
+45.307286
+]
+],
+"heritage": [],
+"image": "Sequoia sempreverde di Caluso.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629592": {
+"coords": [
+[
+7.731022,
+44.711561
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629599": {
+"coords": [
+[
+8.007292,
+44.683036
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629601": {
+"coords": [
+[
+8.977431,
+44.821058
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629602": {
+"coords": [
+[
+7.685833,
+44.712222
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629607": {
+"coords": [
+[
+8.567539,
+45.745342
+]
+],
+"heritage": [],
+"image": "Salix alba (Dormelletto).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629608": {
+"coords": [
+[
+7.366164,
+44.466744
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629609": {
+"coords": [
+[
+7.878889,
+45.465278
+]
+],
+"heritage": [],
+"image": "Carpino monumentale Ivrea 3.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Carpino_di_Ivrea"
+}
+},
+"Q56629665": {
+"coords": [
+[
+7.689486,
+45.063231
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Platano piazza Cavour 1.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629667": {
+"coords": [
+[
+7.690289,
+45.063289
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Gingko piazza Cavour 2.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q855274": {
+"coords": [
+[
+8.3230394,
+45.0048877
+]
+],
+"heritage": [],
+"image": "Bialbero di Casorzo.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Bialbero_di_Casorzo",
+"it": "https://it.wikipedia.org/wiki/Bialbero_di_Casorzo"
+}
+}
+}
