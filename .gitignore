@@ -1,0 +1,4 @@
+# Configurazione locale di Claude Code (server di prova del sito, percorsi del PC): non va pubblicata
+.claude/
+# File generati da Python in locale
+__pycache__/
