@@ -209,25 +209,83 @@ def qids(t, key):
     return [x.strip() for x in str(t.get(key, "")).split(";") if WIKIDATA.match(x.strip())]
 
 
-def update_taxon_cache(elements):
-    """Chiede a Wikidata quali dei QID usati (e non ancora in cache) sono taxon; aggiorna e salva la cache."""
-    todo = sorted({q for el in elements for k in TAXON_KEYS for q in qids(el.get("tags", {}), k)} - TAXON.keys())
+# Coordinate (P625) degli elementi di wikidata=*, per il check sulla distanza: data/wikidata_coords.json
+# ({"Q…": [[lon, lat], …]}, lista vuota se l'elemento non ha coordinate). Come per i taxon, solo i QID nuovi.
+COORDS_FILE = DATA / "wikidata_coords.json"
+COORDS = load_json(COORDS_FILE)
+WD_MAX_DIST = 1000   # m: oltre, l'albero è "lontano" dall'elemento Wikidata collegato (nei dati il massimo è ~0,7 km)
+POINT = re.compile(r"Point\(([-\d.eE]+) ([-\d.eE]+)\)")
+
+
+def wdqs(sparql):
+    """Righe del risultato di una query a Wikidata; solleva un'eccezione se non risponde."""
+    r = requests.post(WDQS_URL, data={"query": sparql}, timeout=120,
+                      headers={**HEADERS, "Accept": "application/sparql-results+json"})
+    r.raise_for_status()
+    return r.json()["results"]["bindings"]
+
+
+def ask_wikidata(todo, query, store, label):
+    """Interroga Wikidata a blocchi di TAXON_BATCH QID: query(batch) dà lo SPARQL, store(batch, righe) salva.
+    Se Wikidata non risponde si ferma: i QID rimasti si verificano al prossimo aggiornamento."""
     for i in range(0, len(todo), TAXON_BATCH):
         batch = todo[i:i + TAXON_BATCH]
-        sparql = ("SELECT DISTINCT ?item WHERE { VALUES ?item { " + " ".join("wd:" + q for q in batch) + " } "
-                  "{ ?item wdt:P225 [] } UNION { ?item owl:sameAs/wdt:P225 [] } }")   # owl:sameAs: QID reindirizzati
         try:
-            r = requests.post(WDQS_URL, data={"query": sparql}, timeout=120,
-                              headers={**HEADERS, "Accept": "application/sparql-results+json"})
-            r.raise_for_status()
-            taxa = {b["item"]["value"].rsplit("/", 1)[-1] for b in r.json()["results"]["bindings"]}
+            store(batch, wdqs(query(" ".join("wd:" + q for q in batch))))
         except Exception as e:
-            warn(f"Wikidata non risponde ({str(e)[:150]}): {len(todo) - i} QID restano da verificare")
-            break
-        TAXON.update({q: q in taxa for q in batch})
+            warn(f"Wikidata non risponde ({str(e)[:150]}): {len(todo) - i} QID restano da verificare ({label})")
+            return
         time.sleep(1)
-    if todo:
-        TAXON_FILE.write_text(json.dumps(TAXON, indent=0, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def store_taxa(batch, rows):
+    taxa = {b["item"]["value"].rsplit("/", 1)[-1] for b in rows}
+    TAXON.update({q: q in taxa for q in batch})
+
+
+def store_coords(batch, rows):
+    found = {}
+    for b in rows:
+        m = POINT.search(b["coord"]["value"])
+        if m:
+            found.setdefault(b["item"]["value"].rsplit("/", 1)[-1], []).append([float(m.group(1)), float(m.group(2))])
+    COORDS.update({q: found.get(q, []) for q in batch})
+
+
+def update_wikidata_cache(elements):
+    """Chiede a Wikidata, per i QID usati e non ancora in cache, se sono taxon (species:wikidata, genus:wikidata,
+    wikidata) e le coordinate (solo wikidata); aggiorna e salva le due cache."""
+    tags = [el.get("tags", {}) for el in elements]
+    todo_taxa = sorted({q for t in tags for k in TAXON_KEYS for q in qids(t, k)} - TAXON.keys())
+    todo_coords = sorted({q for t in tags for q in qids(t, "wikidata")} - COORDS.keys())
+    # owl:sameAs: QID reindirizzati a un altro elemento
+    ask_wikidata(todo_taxa, lambda v: "SELECT DISTINCT ?item WHERE { VALUES ?item { " + v + " } "
+                 "{ ?item wdt:P225 [] } UNION { ?item owl:sameAs/wdt:P225 [] } }", store_taxa, "taxon")
+    ask_wikidata(todo_coords, lambda v: "SELECT ?item ?coord WHERE { VALUES ?item { " + v + " } "
+                 "{ ?item wdt:P625 ?coord } UNION { ?item owl:sameAs/wdt:P625 ?coord } }", store_coords, "coordinate")
+    for todo, path, cache in ((todo_taxa, TAXON_FILE, TAXON), (todo_coords, COORDS_FILE, COORDS)):
+        if todo:
+            path.write_text(json.dumps(cache, indent=0, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def distance_m(a, b):
+    """Distanza in metri tra due punti [lon, lat] (formula dell'emisenoverso)."""
+    (x1, y1), (x2, y2) = [(math.radians(p[0]), math.radians(p[1])) for p in (a, b)]
+    h = math.sin((y2 - y1) / 2) ** 2 + math.cos(y1) * math.cos(y2) * math.sin((x2 - x1) / 2) ** 2
+    return 2 * 6371000 * math.asin(math.sqrt(h))
+
+
+def wikidata_far(t, pos):
+    """[(QID, distanza in km)] degli elementi di wikidata=* (non taxon, con coordinate) a più di WD_MAX_DIST
+    dall'albero; se l'elemento ha più coordinate conta la più vicina."""
+    out = []
+    for q in qids(t, "wikidata"):
+        if TAXON.get(q) is True or not COORDS.get(q):
+            continue
+        d = min(distance_m(pos, c) for c in COORDS[q])
+        if d > WD_MAX_DIST:
+            out.append((q, round(d / 1000, 2)))
+    return out
 
 
 def not_taxon_tags(t):
@@ -517,8 +575,9 @@ def slenderness(t):
     return h / c if c and h and c > 0 and h > 0 else None
 
 
-def checks(t):
-    """Check QA di un albero: (codici degli errori, proprietà per i messaggi della scheda), in un solo passaggio.
+def checks(t, pos):
+    """Check QA di un albero con tag t in posizione pos ([lon, lat]): (codici degli errori, proprietà per i
+    messaggi della scheda), in un solo passaggio.
     Per aggiungere un check: una riga qui con flag(codice, proprietà), e il messaggio in index.html."""
     issues, props = [], {}
 
@@ -577,6 +636,8 @@ def checks(t):
         flag("wikidata_not_taxon", nt_tags=";".join(f"{k}={q}" for k, q in nt))
     if tx := taxon_wikidata(t):
         flag("wikidata_is_taxon", tx_wd=";".join(tx))
+    if far := wikidata_far(t, pos):     # "QID:km;…"
+        flag("wikidata_far", wd_far=";".join(f"{q}:{km}" for q, km in far))
     if bad := bad_numeric_tags(t):
         flag("number_invalid", bad_num=";".join(bad))
     if bad := bad_link_tags(t):
@@ -674,7 +735,7 @@ def to_feature(el):
             p["lt"] = est
         if t.get("leaf_cycle") not in LEAF_CYCLE and (est := leaf_cycle_estimate(t)):
             p["lc"] = est
-    iss, props = checks(t)
+    iss, props = checks(t, [el["lon"], el["lat"]])
     p["issues"] = "|" + "|".join(iss) + "|" if iss else "|"
     p.update(props)
     return {"type": "Feature", "properties": p,
@@ -700,7 +761,7 @@ def update_region(region, regions_index):
             return True
         print(f"{slug}: download fallito e nessuna cache disponibile")
         return False
-    update_taxon_cache(data["elements"])   # prima dei check: servono a wikidata_not_taxon e wikidata_is_taxon
+    update_wikidata_cache(data["elements"])   # prima dei check: servono ai check su Wikidata (taxon e distanza)
     fc = build(data)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     digest = hashlib.sha1(raw).hexdigest()

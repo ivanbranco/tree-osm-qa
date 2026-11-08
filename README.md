@@ -27,6 +27,7 @@ Gli alberi con almeno un problema hanno il contorno rosso. I check sono:
 * `species:wikidata=*` incoerente con `species=*` secondo la [lista di specie della wiki OSM](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species): QID diverso da quello atteso per la specie, oppure QID che appartiene a un'altra specie. I QID accettati in più (per esempio i sinonimi) si aggiungono, per specie, in `scripts/whitelist.json`
 * `species:wikidata=*` o `genus:wikidata=*` che su Wikidata non sono un taxon, cioè non hanno un nome scientifico ([P225](https://www.wikidata.org/wiki/Property:P225)), per esempio un'illustrazione, un frutto o un singolo albero monumentale, oppure elementi inesistenti. Se scatta su `species:wikidata`, il check precedente sulla stessa chiave non viene ripetuto
 * `wikidata=*` che è un taxon: `wikidata` indica il singolo albero, la specie va in `species:wikidata`
+* `wikidata=*` il cui elemento su Wikidata ha coordinate (P625) a più di 1 km dall'albero (se ne ha più di una conta la più vicina; gli elementi senza coordinate o che sono un taxon non si controllano). La soglia è `WD_MAX_DIST` in `scripts/fetch_trees.py`
 * `leaf_type=*` o `leaf_cycle=*` (validi) diversi da quelli della specie nella lista delle specie o, se la specie non c'è, del genere nella [lista dei generi](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Genus,_Leaf_cycle,_Leaf_type). `deciduous` e `semi_deciduous` sono considerati equivalenti, come `evergreen` e `semi_evergreen`; `palm` vale come `broadleaved` e `leafless` non viene confrontato.
 * `leaf_type=*` diverso da `broadleaved`, `needleleaved`, `leafless`, `palm`
 * `leaf_cycle=*` diverso da `deciduous`, `semi_deciduous`, `evergreen`, `semi_evergreen`
@@ -51,7 +52,7 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
   * poligonale (esagono o ottagono, ruotato in modo diverso per ogni albero) se `needleleaved`
 * **Tronco**: cerchio marrone con raggio ricavato da `circumference=*` (o da `diameter=*`). Se il tag manca, la circonferenza è stimata (tronco disegnato più chiaro) da `height=*` oppure da `diameter_crown=*`, usando i rapporti della specie in `scripts/species_limits.json` (`height_circ_ratio`, `crown_circ_ratio`) o, per le specie senza rapporto, le mediane generali di `_default` (altezza/circonferenza 12, chioma/circonferenza 7,03). Le stime servono solo al rendering e non entrano nei check QA.
 * **Ceppi** (`natural=tree_stump`): una X marrone, grande quanto la circonferenza (`circumference=*` o `diameter=*`); se manca, raggio di 0,25 m e X più chiara. Compaiono da zoom 10, con la X rossa se il ceppo ha errori; seguono gli stessi check degli alberi.
-* **Colore della chioma**: da `leaf_cycle=*` (o, se manca, stimato dalle liste della wiki come `leaf_type`): verde-giallo chiaro per le caducifoglie, verde scuro per le sempreverdi, verde grigio se non si sa.
+* **Colore della chioma**: da `leaf_cycle=*` (o, se manca, stimato dalle liste della wiki come `leaf_type`): verde-giallo chiaro per le caducifoglie, verde scuro per le sempreverdi, verde medio se non si sa.
 * **Contorno della chioma**: giallo per `denotation=natural_monument` (gli alberi monumentali sono disegnati sopra agli altri), viola per `denotation=landmark`, rosso per gli alberi con problemi (il rosso ha la precedenza).
 * **Zoom**: gli alberi con problemi si vedono a ogni zoom; da zoom 9 si aggiungono i monumentali; da zoom 10 tutti gli alberi (come cerchi); da zoom 16 compaiono le forme e il tronco.
 
@@ -76,6 +77,7 @@ I dati arrivano da Overpass (`natural=tree` e `natural=tree_stump`) e sono divis
 
 * `data/regions/<regione>.geojson.gz` – gli alberi di una regione, con i check già calcolati (compressi: il browser li decomprime)
 * `data/wikidata_taxon.json` – cache dei QID già verificati su Wikidata (`true` se sono un taxon, cioè hanno P225): a ogni aggiornamento lo script interroga solo i QID nuovi; se Wikidata non risponde, i check su Wikidata non scattano per i QID non ancora verificati. Cancellando il file si riverificano tutti
+* `data/wikidata_coords.json` – cache delle coordinate (P625) degli elementi di `wikidata=*`, aggiornata allo stesso modo
 * `data/index.json` – elenco delle regioni disponibili, numero di alberi, numero di alberi con errori (`errors`) e data dell'ultimo cambiamento dei dati
 * `scripts/regions.json` – regioni: nome, nome inglese (`name_en`, usato quando il sito è in inglese), `group` (con `group_en`) (es. "Italia": le regioni con lo stesso gruppo compaiono insieme nel menu), codice ISO 3166-2, id della relation OSM (`rel`), bbox approssimativa e, se serve, `split` (livelli iniziali di suddivisione in tile: 0 per i paesi con pochi alberi)
 * `data/regions_boundaries.geojson` – confini semplificati delle regioni, per sceglierle sulla mappa; si genera dall'Action "Aggiorna confini regioni" (da Nominatim)

@@ -65,7 +65,7 @@
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#d00020" stroke-width="2"/></svg> <span data-i18n="legIssues">Con problemi</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#a5d64c" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legDeciduous">Caducifoglia</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#1f6b35" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legEvergreen">Sempreverde</span></li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#8a9a8d" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legNoCycle">Ciclo fogliare non specificato</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#5fa36f" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legNoCycle">Ciclo fogliare non specificato</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e"/></svg> <span data-i18n="legTrunk">Tronco (circonferenza)</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e" fill-opacity=".45"/></svg> <span data-i18n="legTrunkEst">Tronco stimato</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><path d="M5 5L17 17M17 5L5 17" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/></svg> <span data-i18n="legStump">Ceppo</span></li>
@@ -140,6 +140,7 @@ const I18N = {
       number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
       link_format: "Link con formato non valido", wikidata_mismatch: "species:wikidata incoerente con la species",
       wikidata_not_taxon: "species/genus:wikidata non è un taxon", wikidata_is_taxon: "wikidata è un taxon",
+      wikidata_far: "Elemento wikidata a più di 1 km",
       leaf_type_mismatch: "leaf_type diverso da quello della specie", leaf_cycle_mismatch: "leaf_cycle diverso da quello della specie",
       monument_denotation: "Fonte monumentale senza natural_monument",
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
@@ -168,6 +169,7 @@ const I18N = {
       species_typo: (sp, s) => `species=${sp} non è nella lista delle specie: forse ${s}?`,
       wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
       wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
+      wikidata_far: (q, km) => `wikidata=${q}: le coordinate dell'elemento su Wikidata sono a ${km} km da questo albero`,
       undocumented_tag: kv => `tag non documentato ${kv}: verificare se può essere sostituito con un altro tag`,
       too_slender: (h, c, r) => `albero troppo slanciato: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
       too_stocky: (h, c, r) => `albero troppo tozzo: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
@@ -219,6 +221,7 @@ const I18N = {
       number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
       link_format: "Link with invalid format", wikidata_mismatch: "species:wikidata inconsistent with species",
       wikidata_not_taxon: "species/genus:wikidata is not a taxon", wikidata_is_taxon: "wikidata is a taxon",
+      wikidata_far: "wikidata item more than 1 km away",
       leaf_type_mismatch: "leaf_type differs from the species", leaf_cycle_mismatch: "leaf_cycle differs from the species",
       monument_denotation: "Monumental source without natural_monument",
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
@@ -247,6 +250,7 @@ const I18N = {
       species_typo: (sp, s) => `species=${sp} is not in the species list: did you mean ${s}?`,
       wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
       wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
+      wikidata_far: (q, km) => `wikidata=${q}: the coordinates of the Wikidata item are ${km} km from this tree`,
       undocumented_tag: kv => `undocumented tag ${kv}: check whether it can be replaced with another tag`,
       too_slender: (h, c, r) => `tree too slender: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
       too_stocky: (h, c, r) => `tree too stocky: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
@@ -364,8 +368,8 @@ map.on("load", async () => {
   // colore della chioma da leaf_cycle (o dalla stima lc delle liste wiki): caducifoglie più chiare, sempreverdi più scure
   const CYCLE = ["case", ["in", ["coalesce", ["get", "leaf_cycle"], ""], ["literal", ["deciduous", "semi_deciduous", "evergreen", "semi_evergreen"]]],
     ["get", "leaf_cycle"], ["coalesce", ["get", "lc"], ""]];
-  // caducifoglie verde-giallo chiaro, sempreverdi verde scuro, ciclo ignoto verde grigio (poco saturo)
-  const CROWN_COLOR = ["match", CYCLE, ["deciduous", "semi_deciduous"], "#a5d64c", ["evergreen", "semi_evergreen"], "#1f6b35", "#8a9a8d"];
+  // caducifoglie verde-giallo chiaro, sempreverdi verde scuro, ciclo ignoto verde medio un po' smorzato
+  const CROWN_COLOR = ["match", CYCLE, ["deciduous", "semi_deciduous"], "#a5d64c", ["evergreen", "semi_evergreen"], "#1f6b35", "#5fa36f"];
   const circlePaint = () => ({
     "circle-radius": radius("cr", 3), "circle-color": CROWN_COLOR, "circle-opacity": FILL_OPACITY,
     "circle-stroke-color": STROKE_COLOR, "circle-stroke-width": STROKE_W,
@@ -785,6 +789,8 @@ const issueBase = (i, p) => {
     case "species_typo": return T[i](p.species, p.sp_sugg);   // sp_sugg: fetch_trees.py
     case "wikidata_not_taxon": return String(p.nt_tags || "").split(";").map(kv => T[i](kv)).join("; ");   // nt_tags, tx_wd: fetch_trees.py
     case "wikidata_is_taxon": return String(p.tx_wd || "").split(";").map(q => T[i](q)).join("; ");
+    case "wikidata_far":         // wd_far: "QID:km;…" (fetch_trees.py)
+      return String(p.wd_far || "").split(";").map(x => { const [q, km] = x.split(":"); return T[i](q, Number(km).toLocaleString(LOC)); }).join("; ");
     case "undocumented_tag":     // tag_tree, tag_type: valori dei tag segnalati (fetch_trees.py)
       return ["tree", "type"].filter(k => p["tag_" + k] != null).map(k => T[i](`${k}=${p["tag_" + k]}`)).join("; ");
     case "too_slender": case "too_stocky":   // hc_ratio, hc_circ: rapporto e circonferenza usata (fetch_trees.py)
