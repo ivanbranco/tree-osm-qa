@@ -11,6 +11,13 @@
 ],
 "wp": {}
 },
+"Q115057813": {
+"heritage": [],
+"taxa": [
+"Q165145"
+],
+"wp": {}
+},
 "Q116854604": {
 "heritage": [],
 "taxa": [
@@ -25,9 +32,107 @@
 ],
 "wp": {}
 },
+"Q123120261": {
+"heritage": [],
+"taxa": [
+"Q146149"
+],
+"wp": {}
+},
+"Q125461792": {
+"heritage": [],
+"taxa": [
+"Q147064"
+],
+"wp": {}
+},
+"Q125532108": {
+"heritage": [],
+"taxa": [
+"Q165145"
+],
+"wp": {}
+},
+"Q125548451": {
+"heritage": [],
+"taxa": [
+"Q149622"
+],
+"wp": {}
+},
+"Q126902383": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
 "Q130643670": {
 "heritage": [],
 "taxa": [],
+"wp": {}
+},
+"Q136523693": {
+"heritage": [],
+"taxa": [
+"Q156137"
+],
+"wp": {}
+},
+"Q136701911": {
+"heritage": [],
+"taxa": [
+"Q161374"
+],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Platano_di_frazione_Ova"
+}
+},
+"Q136718917": {
+"heritage": [],
+"taxa": [
+"Q22699"
+],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Castagno_di_Bioglio"
+}
+},
+"Q136720789": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q136758281": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Olmo_di_Montemarzino"
+}
+},
+"Q140160143": {
+"heritage": [],
+"taxa": [
+"Q161040"
+],
+"wp": {}
+},
+"Q140814896": {
+"heritage": [],
+"taxa": [
+"Q22699"
+],
+"wp": {}
+},
+"Q141048273": {
+"heritage": [],
+"taxa": [
+"Q179729"
+],
+"wp": {}
+},
+"Q141048805": {
+"heritage": [],
+"taxa": [
+"Q146935"
+],
 "wp": {}
 },
 "Q149553": {
@@ -76,6 +181,20 @@
 ],
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Florence_Court_Yew"
+}
+},
+"Q33040885": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [
+"Q127849"
+],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Tiglio_di_Macugnaga"
 }
 },
 "Q393278": {
@@ -135,6 +254,811 @@
 "en": "https://en.wikipedia.org/wiki/Brimmon_Oak"
 }
 },
+"Q55742254": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+],
+[
+"Luoghi del Cuore",
+"Luoghi del Cuore"
+]
+],
+"taxa": [
+"Q161374"
+],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Platano_di_Napoleone"
+}
+},
+"Q55742255": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Leccio_di_Rigoroso"
+}
+},
+"Q55742257": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [
+"Q161415"
+],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Roverella_di_Avolasca"
+}
+},
+"Q55742258": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742259": {
+"heritage": [],
+"taxa": [
+"Q147064"
+],
+"wp": {}
+},
+"Q55742261": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742263": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Quercia_castagnara_di_Novi_Ligure"
+}
+},
+"Q55742265": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Rovere_verde_di_Tassarolo"
+}
+},
+"Q55742266": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742267": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [
+"Q623489"
+],
+"wp": {}
+},
+"Q55742268": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742272": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/La_Castagna"
+}
+},
+"Q55742274": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742277": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {}
+},
+"Q55742289": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742290": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742292": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742293": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Ippocastano_di_Cavallermaggiore"
+}
+},
+"Q55742296": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Cipresso_calvo_di_Cavallermaggiore"
+}
+},
+"Q55742298": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Pino_strobo_di_Chiusa_di_Pesio"
+}
+},
+"Q55742299": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Olmo_montano_di_Bergemolo"
+}
+},
+"Q55742300": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Ippocastano_di_Dogliani"
+}
+},
+"Q55742302": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Faggi_di_San_Giacomo_d%27Entracque"
+}
+},
+"Q55742303": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742304": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {}
+},
+"Q55742305": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [
+"Q756"
+],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Castagno_di_Melle"
+}
+},
+"Q55742306": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742313": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742316": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Lou_merze_gros"
+}
+},
+"Q55742317": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742321": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742322": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742323": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742324": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742326": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Ginkgo_di_Casalbeltrame"
+}
+},
+"Q55742329": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742330": {
+"heritage": [],
+"taxa": [
+"Q852572"
+],
+"wp": {}
+},
+"Q55742332": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742333": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742334": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742336": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742338": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Liriodendro_di_Campiglione-Fenile"
+}
+},
+"Q55742340": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Imbronciati"
+}
+},
+"Q55742342": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Noce_di_Campiglione-Fenile"
+}
+},
+"Q55742343": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742345": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742346": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {}
+},
+"Q55742348": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742350": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Ippocastano_di_San_Giacomo"
+}
+},
+"Q55742352": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742353": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742354": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742360": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742363": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742364": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Frassino_di_Moncenisio"
+}
+},
+"Q55742387": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Platano_della_Tesoriera"
+}
+},
+"Q55742388": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742392": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742394": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {}
+},
+"Q55742395": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742396": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Bagolaro_del_Valentino"
+}
+},
+"Q55742397": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742407": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742409": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742412": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742423": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Pianta_Maria_Bona"
+}
+},
+"Q55742426": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742427": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Olmo_di_Mergozzo"
+}
+},
+"Q55742428": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Ippocastano_di_Cimamulera"
+}
+},
+"Q55742429": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742431": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742432": {
+"heritage": [],
+"taxa": [
+"Q148950"
+],
+"wp": {}
+},
+"Q55742433": {
+"heritage": [],
+"taxa": [
+"Q917216"
+],
+"wp": {}
+},
+"Q55742434": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742435": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742436": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742437": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742438": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742439": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Tasso_di_Cavandone"
+}
+},
+"Q55742440": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742441": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742442": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742443": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742444": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q55742445": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [
+"Q146048"
+],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Larice_di_Rima_San_Giuseppe"
+}
+},
+"Q55742446": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [
+"Q469652"
+],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Liquidambar_di_piazza_Sant%27Eusebio"
+}
+},
+"Q56629510": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Castagna_Granda"
+}
+},
+"Q56629511": {
+"heritage": [],
+"taxa": [
+"Q26899"
+],
+"wp": {}
+},
+"Q56629512": {
+"heritage": [
+[
+"bene culturale italiano",
+"Italian national heritage"
+]
+],
+"taxa": [],
+"wp": {}
+},
+"Q56629523": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629534": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Faggio_a_foglie_di_asplenio_di_Alba"
+}
+},
+"Q56629535": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629554": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Pero_di_Piazza_Suspize"
+}
+},
+"Q56629579": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629580": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629582": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {}
+},
+"Q56629583": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629584": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629589": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629591": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629592": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629599": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629601": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629602": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629607": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629608": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q56629609": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Carpino_di_Ivrea"
+}
+},
+"Q56629665": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {}
+},
+"Q56629667": {
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"taxa": [],
+"wp": {}
+},
 "Q58210870": {
 "heritage": [
 [
@@ -146,5 +1070,13 @@
 "Q165145"
 ],
 "wp": {}
+},
+"Q855274": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Bialbero_di_Casorzo",
+"it": "https://it.wikipedia.org/wiki/Bialbero_di_Casorzo"
+}
 }
 }
