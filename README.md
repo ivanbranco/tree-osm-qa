@@ -40,7 +40,7 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 
 ## Rendering
 
-* **Chioma**: cerchio con dimensione reale da `diameter_crown=*`. Se manca, è stimata con il metodo di [UrbanEye3D](https://github.com/Zkir/UrbanEye3D) (di Zkir): l'altezza viene da `height=*` o, se manca, dalla circonferenza come (log₂(C) × 0,33 + 3)²; la chioma è l'altezza per un rapporto che dipende da `leaf_type` (1 per `broadleaved`, 0,69 per `needleleaved`, 0,87 per `palm`, 0,9 se il tipo di foglia è ignoto). Se mancano sia l'altezza sia la circonferenza si usa un raggio di ripiego (3 m; 6 m per `denotation=natural_monument` e `landmark`, 2 m per `parking`), variato del ±25% in modo casuale ma sempre uguale per lo stesso albero, perché la mappa non sia uniforme. Le chiome stimate o di ripiego hanno il riempimento più trasparente. La forma dipende da `leaf_type=*` (se manca o non è valido, viene stimato dalle liste della wiki OSM: dalla specie o, se non c'è, dal genere):
+* **Chioma**: cerchio con dimensione reale da `diameter_crown=*`; se manca, raggio di ripiego (3 m; 6 m per `denotation=natural_monument` e `landmark`, 2 m per `parking`), variato del ±15% in modo casuale ma sempre uguale per lo stesso albero, perché la mappa non sia uniforme, e riempimento più trasparente. La chioma non viene stimata da circonferenza o altezza: le stime provate (rapporto mediano chioma/circonferenza, metodo di UrbanEye3D) risultavano troppo grandi. La forma dipende da `leaf_type=*` (se manca o non è valido, viene stimato dalle liste della wiki OSM: dalla specie o, se non c'è, dal genere):
   * rotonda se `leaf_type` è mancante (o ha un altro valore, come `leafless`)
   * bombata, a lobi, se `broadleaved` o `palm`
   * poligonale (esagono o ottagono, ruotato in modo diverso per ogni albero) se `needleleaved`
@@ -97,7 +97,5 @@ Per pubblicare, attiva GitHub Pages dal branch `main`, cartella root.
 ## Licenza e attribuzione
 
 Dati e confini © contributori di [OpenStreetMap](https://www.openstreetmap.org/copyright), disponibili con licenza ODbL.
-
-La stima della chioma quando manca `diameter_crown` riprende il metodo di [UrbanEye3D](https://github.com/Zkir/UrbanEye3D) di Zkir.
 
 Le liste di riferimento (`scripts/species_list.json` e `scripts/genus_list.json`) derivano dalle pagine [List of Species](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species) e [List of Genus, Leaf cycle, Leaf type](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Genus,_Leaf_cycle,_Leaf_type) dell'OpenStreetMap Wiki, sotto licenza [CC BY-SA 2.0](https://wiki.openstreetmap.org/wiki/Wiki_content_license).

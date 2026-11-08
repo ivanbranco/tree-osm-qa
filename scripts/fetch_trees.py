@@ -448,8 +448,7 @@ KEEP = ["name", "species", "genus", "taxon",
 
 
 def sizes(t):
-    """Diametro chioma, se è stimato, circonferenza e se è stimata, per il rendering. La chioma viene da
-    diameter_crown o, se manca, da crown_estimate (metodo di UrbanEye3D). Se manca la circonferenza
+    """Diametro chioma (solo se il tag c'è) e circonferenza per il rendering. Se manca la circonferenza
     (anche da diameter), la stima da height o da diameter_crown con i rapporti della specie
     (height_circ_ratio = altezza/circonferenza, crown_circ_ratio = diametro chioma/circonferenza) o,
     se la specie non ne ha, con quelli di "_default" in species_limits.json. Se il rapporto della specie
@@ -471,35 +470,17 @@ def sizes(t):
         if est:
             circ, circ_est = est, True
 
-    if cd and cd > 0:
-        return cd, False, circ, circ_est
-    crown = crown_estimate(t, h if h and 0 < h <= max_h else None, c if c and 0 < c <= max_c else None)
-    return crown, crown is not None, circ, circ_est
+    crown = cd if cd and cd > 0 else None   # la chioma non si stima: le stime provate risultavano troppo grandi
+    return crown, circ, circ_est
 
 
-# Stima della chioma quando manca diameter_crown: metodo di UrbanEye3D di Zkir
-# (https://github.com/Zkir/UrbanEye3D, TreeSpeciesDatabase.enrichTags e Scene.calculateUpdate).
-# Altezza: height, oppure dalla circonferenza (in m) come (log2(C) * 0.33 + 3)^2; chioma = altezza * rapporto
-# larghezza/altezza del modello di albero per leaf_type (assets.mapcss di UrbanEye3D); 0,9 se leaf_type è ignoto.
-CROWN_ASPECT = {"broadleaved": 1.0, "needleleaved": 0.69, "palm": 0.87}
-CROWN_ASPECT_DEFAULT = 0.9
-
-
-def crown_estimate(t, h, c):
-    """Diametro della chioma stimato (m) da height (h) o, se manca, dalla circonferenza (c); None se mancano entrambi.
-    h e c arrivano già filtrati (valori positivi ed entro i limiti della specie)."""
-    if h is None and c is not None:
-        h = max(0.0, math.log2(c) * 0.33 + 3) ** 2   # base >= 0: per tronchi minuscoli la parabola risalirebbe
-    if not h:
-        return None
-    lt = t.get("leaf_type") if t.get("leaf_type") in LEAF_TYPE else leaf_type_estimate(t)
-    return h * CROWN_ASPECT.get(lt, CROWN_ASPECT_DEFAULT)
+JITTER = 0.15   # variazione massima (±15%) del raggio di ripiego della chioma
 
 
 def jitter(osm_id):
-    """Fattore tra 0,75 e 1,25, casuale ma sempre uguale per lo stesso albero (dall'id OSM): varia il raggio
-    di ripiego della chioma, solo per l'aspetto della mappa."""
-    return 0.75 + 0.5 * ((osm_id * 2654435761) % 2**32) / 2**32
+    """Fattore tra 1 - JITTER e 1 + JITTER, casuale ma sempre uguale per lo stesso albero (dall'id OSM):
+    varia il raggio di ripiego della chioma, solo per l'aspetto della mappa."""
+    return 1 - JITTER + 2 * JITTER * ((osm_id * 2654435761) % 2**32) / 2**32
 
 
 def to_feature(el):
@@ -520,10 +501,10 @@ def to_feature(el):
         else:
             p["sr"], p["sr_est"] = DEFAULT_STUMP_R, True
     else:
-        crown, crown_est, circ, circ_est = sizes(t)
-        # chioma: diameter_crown, altrimenti stimata (UrbanEye3D), altrimenti raggio di ripiego con variazione casuale
+        crown, circ, circ_est = sizes(t)
+        # chioma: diameter_crown, altrimenti raggio di ripiego con variazione casuale
         p["cr"] = round(crown / 2, 2) if crown else round(default_crown_r(t) * jitter(el["id"]), 2)
-        p["cr_est"] = crown is None or crown_est
+        p["cr_est"] = crown is None
         if circ_value(t)[1] and circ_value(t)[0]:
             p["diam_used"] = True
         if circ:  # il tronco si disegna solo se c'è una circonferenza (reale o stimata)
