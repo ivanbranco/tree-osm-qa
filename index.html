@@ -514,7 +514,9 @@ map.on("load", async () => {
   const fitAll = () => { if (allBounds) map.fitBounds(allBounds, { padding: 30, duration: 0 }); };
   const setCurrent = slug => {
     current = slug;
-    if (slug && hasCountry.has(groupOf(slug))) openGroup = groupOf(slug);   // si vedono le regioni vicine
+    // regione di una nazione divisa: si vedono le regioni vicine; regione-nazione (Bulgaria): si richiude
+    // la nazione aperta prima. Senza regione (slug null) la nazione aperta resta com'è.
+    if (slug) openGroup = hasCountry.has(groupOf(slug)) ? groupOf(slug) : null;
     refreshBoundaries();
   };
   refreshBoundaries();
@@ -708,22 +710,29 @@ map.on("load", async () => {
     setHash(slug);
     return loadRegion(slug, true);
   };
-  // apre una nazione divisa in regioni: si vedono le sue regioni, colorate in classifica tra loro
+  // toglie gli alberi della regione caricata (senza cambiare la vista della mappa)
+  const clearRegion = () => {
+    loadSeq++;
+    ALL = []; SHAPED = [];
+    map.getSource("trees").setData(EMPTY);
+    setCurrent(null); regSel.value = ""; info.textContent = "";
+    setHash(null);
+    taxSel.value = ""; taxSig = "";
+    apply(); updateTaxa(); updateShapes();
+  };
+  // apre una nazione divisa in regioni: si vedono le sue regioni, colorate in classifica tra loro; gli alberi
+  // di una regione caricata altrove (es. Bulgaria) si tolgono
   const openCountry = g => {
+    if (current && groupOf(current) !== g) clearRegion();
     openGroup = g;
     overviewBtn.hidden = false;
     refreshBoundaries();
     if (unitBox["g:" + g]) map.fitBounds(unitBox["g:" + g], { padding: 30, duration: 0 });
   };
   const unloadRegion = () => {                        // torna alla vista d'insieme delle nazioni, senza regione
-    loadSeq++;
-    ALL = []; SHAPED = [];
-    map.getSource("trees").setData(EMPTY);
     openGroup = null;
-    setCurrent(null); regSel.value = ""; overviewBtn.hidden = true; info.textContent = "";
-    setHash(null);
-    taxSel.value = ""; taxSig = "";
-    apply(); updateTaxa(); updateShapes();
+    clearRegion();
+    overviewBtn.hidden = true;
     fitAll();
   };
   regSel.onchange = () => regSel.value ? selectRegion(regSel.value) : unloadRegion();
