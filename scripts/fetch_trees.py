@@ -7,7 +7,7 @@ Le regioni (nome, codice ISO, bbox) sono in scripts/regions.json.
 """
 import functools, gzip, hashlib, json, math, os, re, sys, time
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 import requests
 
@@ -27,6 +27,7 @@ def load_json(path, key=None):
 
 MAX_DEPTH = 3    # livelli massimi di suddivisione in 4 tile (1 -> 4 -> 16 -> 64)
 BBOX_PAD = 0.1   # gradi aggiunti alla bbox di ogni regione (il confine esatto lo decide l'area OSM)
+MIN_KEEP_RATIO = 0.5   # se un download dà meno della metà degli alberi dell'ultima volta, si tengono i dati vecchi
 
 ENDPOINTS = [
     "https://overpass-api.de/api/interpreter",
@@ -252,20 +253,47 @@ def store_coords(batch, rows):
     COORDS.update({q: found.get(q, []) for q in batch})
 
 
+# Immagine (P18, un file di Commons) degli elementi di wikidata=*: data/wikidata_images.json ({"Q…": "Nome.jpg"},
+# stringa vuota se l'elemento non ha immagine). Serve alla scheda quando l'albero non ha altre immagini.
+IMAGES_FILE = DATA / "wikidata_images.json"
+IMAGES = load_json(IMAGES_FILE)
+
+
+def store_images(batch, rows):
+    found = {}
+    for b in rows:   # il valore è un indirizzo .../Special:FilePath/<nome file codificato>
+        found.setdefault(b["item"]["value"].rsplit("/", 1)[-1], unquote(b["img"]["value"].rsplit("/", 1)[-1]))
+    IMAGES.update({q: found.get(q, "") for q in batch})
+
+
 def update_wikidata_cache(elements):
     """Chiede a Wikidata, per i QID usati e non ancora in cache, se sono taxon (species:wikidata, genus:wikidata,
-    wikidata) e le coordinate (solo wikidata); aggiorna e salva le due cache."""
+    wikidata), le coordinate e l'immagine (solo wikidata); aggiorna e salva le cache."""
     tags = [el.get("tags", {}) for el in elements]
+    wd = {q for t in tags for q in qids(t, "wikidata")}
     todo_taxa = sorted({q for t in tags for k in TAXON_KEYS for q in qids(t, k)} - TAXON.keys())
-    todo_coords = sorted({q for t in tags for q in qids(t, "wikidata")} - COORDS.keys())
+    todo_coords = sorted(wd - COORDS.keys())
+    todo_images = sorted(wd - IMAGES.keys())
     # owl:sameAs: QID reindirizzati a un altro elemento
     ask_wikidata(todo_taxa, lambda v: "SELECT DISTINCT ?item WHERE { VALUES ?item { " + v + " } "
                  "{ ?item wdt:P225 [] } UNION { ?item owl:sameAs/wdt:P225 [] } }", store_taxa, "taxon")
     ask_wikidata(todo_coords, lambda v: "SELECT ?item ?coord WHERE { VALUES ?item { " + v + " } "
                  "{ ?item wdt:P625 ?coord } UNION { ?item owl:sameAs/wdt:P625 ?coord } }", store_coords, "coordinate")
-    for todo, path, cache in ((todo_taxa, TAXON_FILE, TAXON), (todo_coords, COORDS_FILE, COORDS)):
+    ask_wikidata(todo_images, lambda v: "SELECT ?item ?img WHERE { VALUES ?item { " + v + " } "
+                 "{ ?item wdt:P18 ?img } UNION { ?item owl:sameAs/wdt:P18 ?img } }", store_images, "immagini")
+    for todo, path, cache in ((todo_taxa, TAXON_FILE, TAXON), (todo_coords, COORDS_FILE, COORDS),
+                              (todo_images, IMAGES_FILE, IMAGES)):
         if todo:
-            path.write_text(json.dumps(cache, indent=0, sort_keys=True) + "\n", encoding="utf-8")
+            path.write_text(json.dumps(cache, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def wikidata_image(t):
+    """File di Commons dell'immagine (P18) dell'elemento di wikidata=*, se non è un taxon (sarebbe la foto della
+    specie, non dell'albero); None se manca."""
+    for q in qids(t, "wikidata"):
+        if TAXON.get(q) is not True and IMAGES.get(q):
+            return IMAGES[q]
+    return None
 
 
 def distance_m(a, b):
@@ -673,7 +701,7 @@ def checks(t, pos):
 KEEP = ["name", "species", "genus", "taxon",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
-        "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter"]
+        "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi"]
 
 
 def sizes(t):
@@ -751,6 +779,8 @@ def to_feature(el):
             p["lt"] = est
         if t.get("leaf_cycle") not in LEAF_CYCLE and (est := leaf_cycle_estimate(t)):
             p["lc"] = est
+    if wd_img := wikidata_image(t):   # per la scheda, se l'albero non ha altre immagini
+        p["wd_img"] = wd_img
     iss, props = checks(t, [el["lon"], el["lat"]])
     p["issues"] = "|" + "|".join(iss) + "|" if iss else "|"
     p.update(props)
@@ -777,6 +807,15 @@ def update_region(region, regions_index):
             return True
         print(f"{slug}: download fallito e nessuna cache disponibile")
         return False
+    # Un server Overpass può rispondere "senza errori" ma con dati mancanti (è successo: 0 alberi in Valle d'Aosta
+    # mentre overpass-api.de dava 502). Se gli alberi sono meno di MIN_KEEP_RATIO rispetto all'ultimo aggiornamento,
+    # i dati precedenti non si toccano.
+    nodes = sum(1 for el in data["elements"] if el.get("type") == "node")
+    prev = regions_index.get(slug, {}).get("count")
+    if path.exists() and prev and nodes < prev * MIN_KEEP_RATIO:
+        warn(f"{slug}: solo {nodes} alberi contro {prev} dell'ultimo aggiornamento: risposta di Overpass probabilmente "
+             f"incompleta, mantengo i dati precedenti")
+        return True
     update_wikidata_cache(data["elements"])   # prima dei check: servono ai check su Wikidata (taxon e distanza)
     fc = build(data)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")

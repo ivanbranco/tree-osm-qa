@@ -658,8 +658,9 @@ map.on("load", async () => {
   for (const id of [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid"]) {
     map.on("click", id, e => {
       const g = e.features[0].geometry, pos = g.type === "Point" ? g.coordinates : [e.lngLat.lng, e.lngLat.lat];
-      new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(pos)
+      const popup = new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(pos)
         .setHTML(card(e.features[0].properties, pos)).addTo(map);
+      categoryImage(popup.getElement());   // immagine da una categoria di Commons, se serve
     });
     map.on("mouseenter", id, () => map.getCanvas().style.cursor = "pointer");
     map.on("mouseleave", id, () => map.getCanvas().style.cursor = "");
@@ -924,16 +925,39 @@ function recognitions(p) {
 
 const panoramaxIds = p => String(p.panoramax || "").split(";").filter(x => /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/.test(x));
 
+const commonsFile = name => "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(name) + "?width=400";
+const fotoshiId = p => /^[A-Za-z0-9_-]{10,}$/.test(String(p["image:fotoshi"] || "").trim()) ? p["image:fotoshi"].trim() : null;
+
+// Immagine della scheda, in ordine: wikimedia_commons=File:…, panoramax, image:fotoshi, image (anche link a Commons),
+// immagine dell'elemento Wikidata (wd_img, P18, da fetch_trees.py). Una categoria di Commons si cerca a parte
+// (categoryImage), quando la scheda è aperta.
 function imageUrl(p) {
   const c = p.wikimedia_commons;
-  if (c && /^File:/.test(c)) return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(c.slice(5)) + "?width=400";
+  if (c && /^File:/.test(c)) return commonsFile(c.slice(5));
   const pid = panoramaxIds(p)[0];
   if (pid) return `https://api.panoramax.xyz/api/pictures/${pid}/sd.jpg`;
+  const fid = fotoshiId(p);
+  if (fid) return `https://cdn.fotoshi.com/thumbnails/${fid}.jpeg`;
   if (p.image && /^https?:\/\//.test(p.image)) {
     const m = p.image.match(/commons\.wikimedia\.org\/wiki\/(File:.+)$/);
-    return m ? "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(decodeURIComponent(m[1]).replace(/^File:/, "")) + "?width=400" : p.image;
+    return m ? commonsFile(decodeURIComponent(m[1]).replace(/^File:/, "")) : p.image;
   }
+  if (p.wd_img) return commonsFile(p.wd_img);
   return null;
+}
+
+// wikimedia_commons=Category:…: chiede a Commons il primo file della categoria e lo mostra nella scheda già aperta
+async function categoryImage(root) {
+  const el = root && root.querySelector("img[data-cat]");
+  if (!el) return;
+  try {
+    const u = "https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers&cmtype=file&cmlimit=1&format=json&origin=*&cmtitle="
+      + encodeURIComponent(el.dataset.cat);
+    const file = (await fetch(u).then(r => r.json())).query.categorymembers[0];
+    if (!file) { el.remove(); return; }
+    el.src = commonsFile(file.title.replace(/^File:/, ""));
+    el.hidden = false;
+  } catch (e) { el.remove(); }
 }
 
 function title(p) {
@@ -964,8 +988,10 @@ function card(p, pos) {
   if (p.wikimedia_commons) links.push(link(`https://commons.wikimedia.org/wiki/${p.wikimedia_commons}`, "Commons"));
   const pano = panoramaxIds(p);
   pano.forEach((id, i) => links.push(link(`https://api.panoramax.xyz/#focus=pic&pic=${id}`, pano.length > 1 ? `Panoramax ${i + 1}` : "Panoramax")));
+  if (fotoshiId(p)) links.push(link(`https://www.fotoshi.com/photo/${fotoshiId(p)}`, "Fotoshi"));
   return `<div class="card"><h3>${esc(title(p))}</h3>
-    ${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : ""}
+    ${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.remove()">`
+      : /^Category:/.test(p.wikimedia_commons || "") ? `<img data-cat="${esc(p.wikimedia_commons)}" alt="" hidden onerror="this.remove()">` : ""}
     <dl>${rows}</dl>
     ${rec.map(x => `<div class="rec">${x}</div>`).join("")}
     ${issues.length ? `<div class="bad">⚠ ${esc(issues.join("; "))}</div>` : ""}
