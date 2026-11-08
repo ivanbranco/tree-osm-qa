@@ -1,4 +1,21 @@
 {
+"Q1003148": {
+"coords": [
+[
+-4.05068,
+56.59798
+]
+],
+"heritage": [],
+"image": "2011 Schotland venijnboom Fortingall ommuurd 6-06-2011 18-43-30.jpg",
+"taxa": [
+"Q179729"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Fortingall_Yew"
+}
+},
 "Q105661162": {
 "coords": [
 [
@@ -205,6 +222,23 @@
 "it": "https://it.wikipedia.org/wiki/Monumento_ai_caduti_in_Russia_della_seconda_guerra_mondiale"
 }
 },
+"Q107137308": {
+"coords": [
+[
+-2.95965,
+58.98254
+]
+],
+"heritage": [],
+"image": "The Big Tree, Kirkwall (geograph 4469966).jpg",
+"taxa": [
+"Q156944"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/The_Big_Tree,_Kirkwall"
+}
+},
 "Q1071485": {
 "coords": [
 [
@@ -222,6 +256,19 @@
 "taxa": [
 "Q165145"
 ],
+"taxon": false,
+"wp": {}
+},
+"Q107306282": {
+"coords": [
+[
+-2.79443,
+56.33891
+]
+],
+"heritage": [],
+"image": "Queen Mary's Thorn.jpg",
+"taxa": [],
 "taxon": false,
 "wp": {}
 },
@@ -478,6 +525,24 @@
 "taxon": false,
 "wp": {}
 },
+"Q1124292": {
+"coords": [
+[
+-2.24179,
+52.67
+]
+],
+"heritage": [],
+"image": "Boscobel - Royal Oak 2011.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Royal_Oak",
+"it": "https://it.wikipedia.org/wiki/Royal_Oak_(albero)"
+}
+},
 "Q112678905": {
 "coords": [
 [
@@ -589,6 +654,21 @@
 "image": "Młodszy Platan klonolistny, jižní část Plac Wolności, Opole 01.jpg",
 "taxa": [
 "Q161374"
+],
+"taxon": false,
+"wp": {}
+},
+"Q115933929": {
+"coords": [
+[
+-0.12975,
+51.535111111
+]
+],
+"heritage": [],
+"image": "2780theHardyTreeOldStPancrasChurchyard.jpg",
+"taxa": [
+"Q156907"
 ],
 "taxon": false,
 "wp": {}
@@ -837,6 +917,19 @@
 "taxon": true,
 "wp": {}
 },
+"Q122819180": {
+"coords": [
+[
+-0.1253269,
+51.5112404
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q123120261": {
 "coords": [
 [
@@ -851,6 +944,21 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q123127824": {
+"coords": [
+[
+-1.695,
+51.3905
+]
+],
+"heritage": [],
+"image": "Big Belly Oak, Savernake Forest - geograph.org.uk - 6395730.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Big_Belly_Oak"
+}
 },
 "Q123147073": {
 "coords": [
@@ -1068,6 +1176,21 @@
 "image": "Stellanello-P1010564.JPG",
 "taxa": [
 "Q161415"
+],
+"taxon": false,
+"wp": {}
+},
+"Q124670591": {
+"coords": [
+[
+-1.6523894,
+51.3926128
+]
+],
+"heritage": [],
+"image": "The King Of Limbs Tree.jpg",
+"taxa": [
+"Q165145"
 ],
 "taxon": false,
 "wp": {}
@@ -1585,6 +1708,31 @@
 "it": "https://it.wikipedia.org/wiki/Erquinvillers"
 }
 },
+"Q133894730": {
+"coords": [],
+"heritage": [],
+"image": "Bexley, the Charter Oak - geograph.org.uk - 972257.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q134376041": {
+"coords": [
+[
+-0.1863602,
+51.564844
+]
+],
+"heritage": [],
+"image": "Fuck tree May 2025.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Fuck_tree"
+}
+},
 "Q135496834": {
 "coords": [],
 "heritage": [],
@@ -1592,6 +1740,23 @@
 "taxa": [],
 "taxon": false,
 "wp": {}
+},
+"Q136379755": {
+"coords": [
+[
+-4.287583333,
+55.865666666
+]
+],
+"heritage": [],
+"image": "The oldest tree on Argyle Street (geograph 6000586).jpg",
+"taxa": [
+"Q156907"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Argyle_Street_ash_tree"
+}
 },
 "Q136523693": {
 "coords": [
@@ -1763,6 +1928,21 @@
 "image": "",
 "taxa": [
 "Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q138661317": {
+"coords": [
+[
+-0.0948418,
+51.5144001
+]
+],
+"heritage": [],
+"image": "Cheapside plane tree.jpg",
+"taxa": [
+"Q161374"
 ],
 "taxon": false,
 "wp": {}
@@ -3141,6 +3321,21 @@
 "it": "https://it.wikipedia.org/wiki/Liquidambar"
 }
 },
+"Q18388116": {
+"coords": [
+[
+-4.43382,
+50.53396
+]
+],
+"heritage": [],
+"image": "Darley Oak 2020.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Darley_Oak"
+}
+},
 "Q18423853": {
 "coords": [],
 "heritage": [],
@@ -3867,6 +4062,21 @@
 "taxon": false,
 "wp": {}
 },
+"Q21061506": {
+"coords": [
+[
+1.155879,
+52.58769
+]
+],
+"heritage": [],
+"image": "KettsOak20141031.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Kett%27s_Oak"
+}
+},
 "Q21426944": {
 "coords": [],
 "heritage": [],
@@ -4291,6 +4501,23 @@
 "taxa": [],
 "taxon": false,
 "wp": {}
+},
+"Q2702029": {
+"coords": [
+[
+-0.70065,
+50.99611
+]
+],
+"heritage": [],
+"image": "Queen Elizabeth oak, Cowdray Park, near Lodsworth - geograph.org.uk - 970020.jpg",
+"taxa": [
+"Q158608"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Queen_Elizabeth_Oak"
+}
 },
 "Q27868535": {
 "coords": [
@@ -4768,6 +4995,24 @@
 "en": "https://en.wikipedia.org/wiki/Quercia"
 }
 },
+"Q388443": {
+"coords": [
+[
+-1.0725,
+53.204611111
+]
+],
+"heritage": [],
+"image": "The Major Oak c. 1890.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Major_Oak",
+"it": "https://it.wikipedia.org/wiki/Major_Oak"
+}
+},
 "Q3895596": {
 "coords": [
 [
@@ -4920,6 +5165,55 @@
 "it": "https://it.wikipedia.org/wiki/Juglans_regia"
 }
 },
+"Q47533854": {
+"coords": [
+[
+-4.526277777,
+55.862413888
+]
+],
+"heritage": [],
+"image": "Craigends Yew grove, Houston, Renfrewshire - western section.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Craigends_Yew"
+}
+},
+"Q4766037": {
+"coords": [
+[
+-0.55651,
+51.4448
+]
+],
+"heritage": [],
+"image": "Ankerwycke-Yew-east-view.jpg",
+"taxa": [
+"Q179729"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Ankerwycke_Yew"
+}
+},
+"Q48743441": {
+"coords": [
+[
+-4.2854,
+55.8716
+]
+],
+"heritage": [],
+"image": "Suffragette Oak full length.jpg",
+"taxa": [
+"Q857075"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/The_Suffrage_Oak"
+}
+},
 "Q48755299": {
 "coords": [
 [
@@ -4937,6 +5231,23 @@
 "en": "https://en.wikipedia.org/wiki/Locust_of_Square_Ren%C3%A9-Viviani"
 }
 },
+"Q48816893": {
+"coords": [
+[
+0.001161111,
+51.65025
+]
+],
+"heritage": [],
+"image": "Gilwell Oak (5948293396).jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Gilwell_Oak"
+}
+},
 "Q48847385": {
 "coords": [
 [
@@ -4951,6 +5262,55 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q4916880": {
+"coords": [
+[
+-3.5766,
+56.5609
+]
+],
+"heritage": [],
+"image": "The Birnam Oak - geograph.org.uk - 1242507.jpg",
+"taxa": [
+"Q158608"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Birnam_Oak"
+}
+},
+"Q4951448": {
+"coords": [
+[
+-0.421247,
+52.7252
+]
+],
+"heritage": [],
+"image": "The Bowthorpe Oak - geograph.org.uk - 717661.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Bowthorpe_Oak"
+}
+},
+"Q5036084": {
+"coords": [
+[
+-2.55463,
+55.4622
+]
+],
+"heritage": [],
+"image": "Capon Tree - geograph.org.uk - 905367.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Capon_Tree"
+}
 },
 "Q51755216": {
 "coords": [
@@ -5128,6 +5488,23 @@
 "it": "https://it.wikipedia.org/wiki/Albero_della_libert%C3%A0"
 }
 },
+"Q55605400": {
+"coords": [
+[
+-4.3655,
+56.2307
+]
+],
+"heritage": [],
+"image": "Bicycle tree, brig oturk.jpg",
+"taxa": [
+"Q156944"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Bicycle_Tree"
+}
+},
 "Q55605947": {
 "coords": [
 [
@@ -5143,6 +5520,16 @@
 "taxon": false,
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Brimmon_Oak"
+}
+},
+"Q55612956": {
+"coords": [],
+"heritage": [],
+"image": "Riverside Plane, Richmond.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Great_Trees_of_London"
 }
 },
 "Q55741080": {
@@ -8268,6 +8655,24 @@
 "taxon": false,
 "wp": {}
 },
+"Q55885851": {
+"coords": [
+[
+-2.37387,
+55.00356
+]
+],
+"heritage": [],
+"image": "Sycamore Gap Tree arbre.jpg",
+"taxa": [
+"Q156944"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Sycamore_Gap_tree",
+"it": "https://it.wikipedia.org/wiki/Albero_di_Robin_Hood"
+}
+},
 "Q56258312": {
 "coords": [
 [
@@ -8282,6 +8687,23 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q56289907": {
+"coords": [
+[
+-3.6072,
+56.5632
+]
+],
+"heritage": [],
+"image": "Niel Gows Oak (geograph 1790306).jpg",
+"taxa": [
+"Q158608"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Niel_Gow%27s_Oak"
+}
 },
 "Q56490178": {
 "coords": [
@@ -8681,6 +9103,23 @@
 "taxon": false,
 "wp": {}
 },
+"Q57082074": {
+"coords": [
+[
+-2.309385,
+51.063153
+]
+],
+"heritage": [],
+"image": "Wyndham's Oak, Silton, Dorset 01.jpg",
+"taxa": [
+"Q147525"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Wyndham%27s_Oak"
+}
+},
 "Q57728666": {
 "coords": [
 [
@@ -8742,6 +9181,16 @@
 "taxon": false,
 "wp": {}
 },
+"Q59835134": {
+"coords": [],
+"heritage": [],
+"image": "Cedar Tree P3628.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Cedar_tree"
+}
+},
 "Q60357261": {
 "coords": [
 [
@@ -8776,6 +9225,53 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q60752627": {
+"coords": [
+[
+-1.357194444,
+53.819305555
+]
+],
+"heritage": [],
+"image": "Nellies tree. (geograph 5953131).jpg",
+"taxa": [
+"Q146149"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Nellie%27s_Tree"
+}
+},
+"Q60793167": {
+"coords": [
+[
+-0.049555555,
+51.532716666
+]
+],
+"heritage": [],
+"image": "Detail of black mulberry tree (Morus nigra) in the grounds of the former London Chest Hospital 02.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Bethnal_Green_mulberry_tree"
+}
+},
+"Q6084376": {
+"coords": [
+[
+-0.102778,
+51.5358
+]
+],
+"heritage": [],
+"image": "Islington green 1.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Islington_Green"
+}
 },
 "Q61380003": {
 "coords": [
@@ -8935,6 +9431,51 @@
 "taxon": false,
 "wp": {}
 },
+"Q64220923": {
+"coords": [
+[
+-2.296944444,
+50.748888888
+]
+],
+"heritage": [],
+"image": "The Martyrs tree - geograph.org.uk - 1277399.jpg",
+"taxa": [
+"Q156944"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Tolpuddle_Martyrs_Tree"
+}
+},
+"Q64220933": {
+"coords": [
+[
+-2.985,
+54.186944444
+]
+],
+"heritage": [],
+"image": "The Great Holker Lime at Holker Hall - geograph.org.uk - 271197.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q6422585": {
+"coords": [
+[
+-1.62278,
+50.8572
+]
+],
+"heritage": [],
+"image": "Knightwood Oak.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Knightwood_Oak"
+}
+},
 "Q65260618": {
 "coords": [
 [
@@ -9037,6 +9578,21 @@
 "taxon": false,
 "wp": {}
 },
+"Q6842378": {
+"coords": [
+[
+-1.52975,
+52.3001
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Midland_Oak"
+}
+},
 "Q69542453": {
 "coords": [
 [
@@ -9111,6 +9667,16 @@
 "it": "https://it.wikipedia.org/wiki/Ligustrum"
 }
 },
+"Q7879358": {
+"coords": [],
+"heritage": [],
+"image": "Ulmus 'Wentworthii', Holyrood.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Ulmus_%C3%97_hollandica_%27Wentworthii_Pendula%27"
+}
+},
 "Q790880": {
 "coords": [
 [
@@ -9174,6 +9740,23 @@
 "taxon": false,
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Ba%C5%BCy%C5%84ski_Oak"
+}
+},
+"Q81464073": {
+"coords": [
+[
+-2.941916,
+55.897952
+]
+],
+"heritage": [],
+"image": "Ormiston Yew panorama.jpg",
+"taxa": [
+"Q179729"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Ormiston_Yew"
 }
 },
 "Q838818": {
@@ -9418,6 +10001,51 @@
 "taxa": [],
 "taxon": false,
 "wp": {}
+},
+"Q96400689": {
+"coords": [
+[
+0.001805555,
+51.478083333
+]
+],
+"heritage": [],
+"image": "Queen Elizabeths Oak in Greenwich Park (geograph 2337949).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Queen_Elizabeth%27s_Oak,_Greenwich_Park"
+}
+},
+"Q96400693": {
+"coords": [
+[
+-0.20223,
+51.76523
+]
+],
+"heritage": [],
+"image": "Cook elizabeth oak.png",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Queen_Elizabeth%27s_Oak,_Hatfield_House"
+}
+},
+"Q96406593": {
+"coords": [
+[
+-2.745055555,
+51.414527777
+]
+],
+"heritage": [],
+"image": "Strawberries and Cream Tree.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Strawberries_and_Cream_Tree"
+}
 },
 "Q97163777": {
 "coords": [
