@@ -172,6 +172,8 @@ const I18N = {
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
       undocumented_tag: "Tag non documentato (tree, type)", circumference_species: "Circonferenza > limite della specie",
       height_species: "Altezza > limite della specie", species_typo: "Species forse scritta male",
+      species_unidentified: "Species non identificata (sp., spp.)", species_author: "Species con l'autore del nome",
+      underscore: "Trattino basso (_) in species o genus",
       species_lang_only: "species:xx senza species",
       too_slender: "Albero troppo slanciato (altezza > 100 × circonferenza)", too_stocky: "Albero troppo tozzo (circonferenza > 3 × altezza)",
       species: "Species di una sola parola", genus: "Genus non valido",
@@ -194,6 +196,9 @@ const I18N = {
       monument_denotation: t => `${t} senza denotation=natural_monument`,
       crown: v => `diametro chioma ${v} > 60,4 m (record per un albero vivo a tronco singolo)`,
       species_typo: (sp, s) => `species=${sp} non è nella lista delle specie: forse ${s}?`,
+      species_unidentified: (sp, g) => `species=${sp} indica una specie non identificata: usare genus=${g} senza species`,
+      species_author: (sp, c) => `species=${sp} contiene l'autore del nome: species=${c}`,
+      underscore: kv => `${kv} contiene un trattino basso (_) al posto dello spazio`,
       species_lang_only: kv => `c'è ${kv} ma manca species=* (il nome scientifico)`,
       wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
       wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
@@ -271,6 +276,8 @@ const I18N = {
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
       undocumented_tag: "Undocumented tag (tree, type)", circumference_species: "Circumference > species limit",
       height_species: "Height > species limit", species_typo: "Possibly misspelled species",
+      species_unidentified: "Unidentified species (sp., spp.)", species_author: "Species with the author name",
+      underscore: "Underscore (_) in species or genus",
       species_lang_only: "species:xx without species",
       too_slender: "Tree too slender (height > 100 × circumference)", too_stocky: "Tree too stocky (circumference > 3 × height)",
       species: "Single-word species", genus: "Invalid genus",
@@ -293,6 +300,9 @@ const I18N = {
       monument_denotation: t => `${t} without denotation=natural_monument`,
       crown: v => `crown diameter ${v} > 60.4 m (record for a living single-trunk tree)`,
       species_typo: (sp, s) => `species=${sp} is not in the species list: did you mean ${s}?`,
+      species_unidentified: (sp, g) => `species=${sp} means an unidentified species: use genus=${g} without species`,
+      species_author: (sp, c) => `species=${sp} contains the author name: species=${c}`,
+      underscore: kv => `${kv} contains an underscore (_) instead of a space`,
       species_lang_only: kv => `${kv} is present but species=* (the scientific name) is missing`,
       wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
       wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
@@ -900,6 +910,9 @@ const issueBase = (i, p) => {
     case "monument_denotation": return T[i](list(p.mon_src));
     case "crown": return T[i](fmtM(p.diameter_crown));
     case "species_typo": return T[i](p.species, p.sp_sugg);   // sp_sugg: fetch_trees.py
+    case "species_unidentified": return T[i](p.species, p.sp_genus);   // sp_genus, sp_clean, und_keys: fetch_trees.py
+    case "species_author": return T[i](p.species, p.sp_clean);
+    case "underscore": return String(p.und_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");
     case "species_lang_only": return T[i](String(p.sp_lang || "").split("\n").join(", "));   // sp_lang: righe "species:xx=valore"
     case "wikidata_not_taxon": return String(p.nt_tags || "").split(";").map(kv => T[i](kv)).join("\n");   // nt_tags, tx_wd: fetch_trees.py
     case "wikidata_is_taxon": return String(p.tx_wd || "").split(";").map(q => T[i](q)).join("\n");

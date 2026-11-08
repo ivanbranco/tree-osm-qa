@@ -831,6 +831,50 @@ def masaf_criteria_bad(t):
     return [x for x in t["masaf:criteria"].split(",") if x not in MASAF_CRITERIA]
 
 
+# --- Forma di species: specie non identificata (sp., spp.) e autore del nome (L., (L.) Kuntze, Merr.…) ---
+UNIDENTIFIED = re.compile(r"^\s*(×\s*)?(\S+)\s+(sp|spp)\.?\s*$", re.I)
+INFRA = {"subsp.", "ssp.", "var.", "subvar.", "f.", "forma", "cv.", "nothosubsp.", "nothovar."}
+# autore: iniziale maiuscola e punto (L., Mill., J.), oppure tra parentesi ((L.), (Lindl.))
+AUTHOR = re.compile(r"^\(?[A-ZÀ-Ý][\w'’.-]*\.\)?$|^\([^)]*[A-ZÀ-Ý][^)]*\)$|^\([A-ZÀ-Ý]")
+AUTHOR_LINK = {"ex", "&", "et", "in"}   # parole che uniscono due autori: "Kuntze ex Bureau"
+
+
+def species_unidentified(sp):
+    """Il genere, se species è "Genere sp." o "Genere spp." (specie non identificata); altrimenti None."""
+    m = UNIDENTIFIED.match(sp or "")
+    return m.group(2) if m else None
+
+
+def species_without_author(sp):
+    """species senza l'autore del nome, se c'è (es. "Camellia sinensis (L.) Kuntze" -> "Camellia sinensis");
+    restano genere, epiteto, i ranghi infraspecifici (var., subsp. …) e le cultivar tra virgolette. None se non c'è
+    autore."""
+    if not sp or ";" in sp or species_unidentified(sp):
+        return None
+    words = sp.split()
+    base = 3 if "×" in words[:2] else 2          # genere ed epiteto (con il segno di ibrido)
+    if len(words) <= base or not words[base - 1][:1].islower():
+        return None                               # epiteto maiuscolo: non è un nome scientifico (es. "Black Matipo (…)")
+    kept, found, in_author, quoted, i = words[:base], False, False, False, base
+    while i < len(words):
+        w = words[i]
+        if quoted or w[:1] in "'‘`\"“":             # cultivar tra virgolette: si tiene tutta
+            kept.append(w)
+            quoted = not (w[-1:] in "'’`\"”" and (len(w) > 1 or quoted))
+            in_author = False
+        elif w.lower() in INFRA and i + 1 < len(words):
+            kept += [w, words[i + 1]]
+            i += 1
+            in_author = False
+        elif AUTHOR.match(w) or (in_author and (w[:1].isupper() or w in AUTHOR_LINK)):
+            found = in_author = True
+        else:
+            kept.append(w)
+            in_author = False
+        i += 1
+    return " ".join(kept) if found else None
+
+
 def genus_of_species(sp):
     """Prima parola di species, saltando il segno di ibrido (× o x iniziale)."""
     words = sp.split(";")[0].split()
@@ -898,6 +942,12 @@ def checks(t, pos):
         flag("species")
     if sp is not None and sp.strip()[:1].islower():
         flag("species_lowercase")
+    if sp and (g_un := species_unidentified(sp)):
+        flag("species_unidentified", sp_genus=g_un)
+    if sp and (no_auth := species_without_author(sp)):
+        flag("species_author", sp_clean=no_auth)
+    if und := [k for k in ("species", "genus") if "_" in str(t.get(k, ""))]:
+        flag("underscore", und_keys=";".join(und))
     if sp and SPECIES_BIN and (typo := species_typo(sp)):
         flag("species_typo", sp_sugg=typo)
     if lang := species_lang_only(t):    # "species:it=Leccio" separati da "\n" (i valori possono contenere ";")
