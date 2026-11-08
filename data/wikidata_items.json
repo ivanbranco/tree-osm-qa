@@ -1820,6 +1820,21 @@
 "it": "https://it.wikipedia.org/wiki/Liquidambar_di_piazza_Sant%27Eusebio"
 }
 },
+"Q56490178": {
+"coords": [
+[
+20.44075,
+49.4175
+]
+],
+"heritage": [],
+"image": "Reliktowa sosna na Sokolicy.jpg",
+"taxa": [
+"Q133128"
+],
+"taxon": false,
+"wp": {}
+},
 "Q56629510": {
 "coords": [
 [
@@ -2184,5 +2199,18 @@
 "en": "https://en.wikipedia.org/wiki/Bialbero_di_Casorzo",
 "it": "https://it.wikipedia.org/wiki/Bialbero_di_Casorzo"
 }
+},
+"Q9249137": {
+"coords": [
+[
+19.9573,
+50.0629
+]
+],
+"heritage": [],
+"image": "Dąb Jagielloński OB10.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
 }
 }

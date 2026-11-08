@@ -32,6 +32,17 @@
 ],
 "taxon": true
 },
+"Q104819": {
+"en": "Malus",
+"it": "Malus",
+"names": [
+"Malus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q106094": {
 "en": "Pinus pinea",
 "it": "Pinus pinea",
@@ -209,6 +220,17 @@
 "Q129324": {
 "names": [
 "Castanea"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q131113": {
+"en": "Ulmus",
+"it": "Ulmus",
+"names": [
+"Ulmus"
 ],
 "ranks": [
 "Q34740"
@@ -429,6 +451,17 @@
 ],
 "taxon": true
 },
+"Q147492": {
+"en": "Ulmus laevis",
+"it": "Ulmus laevis",
+"names": [
+"Ulmus laevis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q147513": {
 "en": "Cupressus sempervirens",
 "it": "Cupressus sempervirens",
@@ -455,6 +488,17 @@
 "it": "Laburnum anagyroides",
 "names": [
 "Laburnum anagyroides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q148939": {
+"en": "Corylus colurna",
+"it": "Corylus colurna",
+"names": [
+"Corylus colurna"
 ],
 "ranks": [
 "Q7432"
@@ -567,6 +611,17 @@
 ],
 "taxon": true
 },
+"Q156687": {
+"en": "Pseudotsuga menziesii",
+"it": "Pseudotsuga menziesii",
+"names": [
+"Pseudotsuga menziesii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q156800": {
 "en": "Metasequoia glyptostroboides",
 "it": "Metasequoia glyptostroboides",
@@ -590,6 +645,17 @@
 "Q156895": {
 "names": [
 "Betula pendula"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q156904": {
+"en": "Alnus glutinosa",
+"it": "Alnus glutinosa",
+"names": [
+"Alnus glutinosa"
 ],
 "ranks": [
 "Q7432"
@@ -749,6 +815,27 @@
 "it": "Diospyros kaki",
 "names": [
 "Diospyros kaki"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q158513": {
+"en": "Carpinus",
+"it": "Carpinus",
+"names": [
+"Carpinus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q158642": {
+"it": "Cornus mas",
+"names": [
+"Cornus mas"
 ],
 "ranks": [
 "Q7432"
@@ -1295,6 +1382,17 @@
 ],
 "taxon": true
 },
+"Q25618": {
+"en": "Larix",
+"it": "Larix",
+"names": [
+"Larix"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q2566375": {
 "en": "Chimonanthus praecox",
 "it": "Chimonanthus praecox",
@@ -1416,6 +1514,17 @@
 "it": "Pinus pinaster",
 "names": [
 "Pinus pinaster"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q27657": {
+"en": "Phoenix canariensis",
+"it": "Phoenix canariensis",
+"names": [
+"Phoenix canariensis"
 ],
 "ranks": [
 "Q7432"
@@ -1870,6 +1979,17 @@
 ],
 "ranks": [
 "Q1306176"
+],
+"taxon": true
+},
+"Q74068": {
+"en": "Chamaecyparis pisifera",
+"it": "Chamaecyparis pisifera",
+"names": [
+"Chamaecyparis pisifera"
+],
+"ranks": [
+"Q7432"
 ],
 "taxon": true
 },

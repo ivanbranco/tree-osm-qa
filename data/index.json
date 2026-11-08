@@ -70,6 +70,13 @@
    "sha1": "6e5178753073b0e9241aa8f7a8bb42ef414646d6",
    "updated": "2026-11-08T17:56:08Z"
   },
+  "malopolskie": {
+   "count": 257334,
+   "errors": 2270,
+   "name": "Piccola Polonia",
+   "sha1": "bebe2aa6e51be7dd0c2ea5c832aeab6090c052cd",
+   "updated": "2026-11-08T18:19:47Z"
+  },
   "piemonte": {
    "count": 72959,
    "errors": 119,
