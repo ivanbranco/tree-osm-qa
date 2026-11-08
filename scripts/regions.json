@@ -1,6 +1,10 @@
 [
   {"slug": "bulgaria", "name": "Bulgaria", "name_en": "Bulgaria", "iso": "BG", "rel": 186382, "bbox": [41.2, 22.3, 44.2, 28.6], "split": 0},
   {"slug": "lettonia", "name": "Lettonia", "name_en": "Latvia", "iso": "LV", "rel": 72594, "bbox": [55.6, 20.9, 58.1, 28.3]},
+  {"slug": "lituania", "name": "Lituania", "name_en": "Lithuania", "iso": "LT", "rel": 72596, "bbox": [53.8, 20.6, 56.5, 26.9]},
+  {"slug": "estonia", "name": "Estonia", "name_en": "Estonia", "iso": "EE", "rel": 79510, "bbox": [57.5, 21.3, 60.0, 28.3]},
+  {"slug": "slovenia", "name": "Slovenia", "name_en": "Slovenia", "iso": "SI", "rel": 218657, "bbox": [45.4, 13.3, 46.9, 16.6]},
+  {"slug": "croazia", "name": "Croazia", "name_en": "Croatia", "iso": "HR", "rel": 214885, "bbox": [42.1, 13.2, 46.6, 19.5]},
   {"slug": "dolnoslaskie", "name": "Bassa Slesia", "name_en": "Lower Silesian", "group": "Polonia", "group_en": "Poland", "group_rel": 49715, "iso": "PL-02", "rel": 224457, "bbox": [50.0, 14.8, 51.9, 17.8]},
   {"slug": "kujawsko-pomorskie", "name": "Cuiavia-Pomerania", "name_en": "Kuyavian-Pomeranian", "group": "Polonia", "group_en": "Poland", "group_rel": 49715, "iso": "PL-04", "rel": 223407, "bbox": [52.3, 17.2, 53.8, 19.8]},
   {"slug": "lubelskie", "name": "Lublino", "name_en": "Lublin", "group": "Polonia", "group_en": "Poland", "group_rel": 49715, "iso": "PL-06", "rel": 130919, "bbox": [50.2, 21.6, 52.3, 24.2]},

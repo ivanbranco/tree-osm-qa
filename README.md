@@ -1,6 +1,6 @@
 # DendrOSM
 
-Mappa degli alberi di OpenStreetMap (`natural=tree`, e i ceppi `natural=tree_stump`), divisa per regioni e pensata per il controllo di qualità dei dati. Per ora le regioni attive sono quelle italiane, i voivodati della Polonia, la Bulgaria e la Lettonia. Il sito è statico (GitHub Pages, MapLibre GL JS) e i dati si aggiornano con una GitHub Action.
+Mappa degli alberi di OpenStreetMap (`natural=tree`, e i ceppi `natural=tree_stump`), divisa per regioni e pensata per il controllo di qualità dei dati. Per ora le regioni attive sono quelle italiane, i voivodati della Polonia, i Paesi baltici, la Bulgaria, la Croazia e la Slovenia. Il sito è statico (GitHub Pages, MapLibre GL JS) e i dati si aggiornano con una GitHub Action.
 
 Sito: https://ivanbranco.github.io/tree-osm-qa/
 
