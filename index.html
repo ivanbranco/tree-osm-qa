@@ -120,13 +120,14 @@ const I18N = {
     updated: d => `Dati aggiornati al ${d}`,
     tipTrees: (name, n) => `${name} · ${fmtN(n)} alberi`, tipNoData: name => `${name} · dati non ancora disponibili`,
     issueOpts: {
-      circumference: "Circonferenza > 43 m", height: "Altezza > 115,92 m",
+      circumference: "Circonferenza > 43 m", height: "Altezza > 115,92 m", crown: "Diametro chioma > 60,4 m",
       comma: "Virgola decimale (circumference, height, diameter_crown, diameter)",
       number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
       link_format: "Link con formato non valido", wikidata_mismatch: "species:wikidata incoerente con la species",
       leaf_type_mismatch: "leaf_type diverso da quello della specie", leaf_cycle_mismatch: "leaf_cycle diverso da quello della specie",
       monument_denotation: "Fonte monumentale senza natural_monument",
-      denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido", circumference_species: "Circonferenza > limite della specie",
+      denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
+      undocumented_tag: "Tag non documentato (tree, type)", circumference_species: "Circonferenza > limite della specie",
       height_species: "Altezza > limite della specie",
       too_slender: "Albero troppo slanciato (altezza > 100 × circonferenza)", too_stocky: "Albero troppo tozzo (circonferenza > 3 × altezza)",
       species: "Species di una sola parola", genus: "Genus non valido",
@@ -147,6 +148,8 @@ const I18N = {
       number_invalid: t => `valore non numerico, intervallo o zero in ${t}`,
       link_format: t => `formato non valido in ${t}`,
       monument_denotation: t => `${t} senza denotation=natural_monument`,
+      crown: v => `diametro chioma ${v} > 60,4 m (record per un albero vivo a tronco singolo)`,
+      undocumented_tag: kv => `tag non documentato ${kv}: verificare se può essere sostituito con un altro tag`,
       too_slender: (h, c, r) => `albero troppo slanciato: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
       too_stocky: (h, c, r) => `albero troppo tozzo: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "codici non validi" : "codice non valido"} ${bad.join(", ")} (ammessi a–g, a1, a2, a2.1–a2.3, separati da virgole senza spazi)`,
@@ -191,13 +194,14 @@ const I18N = {
     updated: d => `Data updated on ${d}`,
     tipTrees: (name, n) => `${name} · ${fmtN(n)} trees`, tipNoData: name => `${name} · no data yet`,
     issueOpts: {
-      circumference: "Circumference > 43 m", height: "Height > 115.92 m",
+      circumference: "Circumference > 43 m", height: "Height > 115.92 m", crown: "Crown diameter > 60.4 m",
       comma: "Decimal comma (circumference, height, diameter_crown, diameter)",
       number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
       link_format: "Link with invalid format", wikidata_mismatch: "species:wikidata inconsistent with species",
       leaf_type_mismatch: "leaf_type differs from the species", leaf_cycle_mismatch: "leaf_cycle differs from the species",
       monument_denotation: "Monumental source without natural_monument",
-      denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria", circumference_species: "Circumference > species limit",
+      denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
+      undocumented_tag: "Undocumented tag (tree, type)", circumference_species: "Circumference > species limit",
       height_species: "Height > species limit",
       too_slender: "Tree too slender (height > 100 × circumference)", too_stocky: "Tree too stocky (circumference > 3 × height)",
       species: "Single-word species", genus: "Invalid genus",
@@ -218,6 +222,8 @@ const I18N = {
       number_invalid: t => `non-numeric value, range or zero in ${t}`,
       link_format: t => `invalid format in ${t}`,
       monument_denotation: t => `${t} without denotation=natural_monument`,
+      crown: v => `crown diameter ${v} > 60.4 m (record for a living single-trunk tree)`,
+      undocumented_tag: kv => `undocumented tag ${kv}: check whether it can be replaced with another tag`,
       too_slender: (h, c, r) => `tree too slender: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
       too_stocky: (h, c, r) => `tree too stocky: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "invalid codes" : "invalid code"} ${bad.join(", ")} (allowed a–g, a1, a2, a2.1–a2.3, comma-separated without spaces)`,
@@ -315,6 +321,9 @@ map.on("load", async () => {
   const meta = await regionsP.catch(() => []);
   const boundaries = await boundsP;
   const metaBy = Object.fromEntries(meta.map(m => [m.slug, m]));
+  // nome e gruppo di una regione nella lingua scelta (name_en, group_en in regions.json), altrimenti in italiano
+  const regionName = slug => { const m = metaBy[slug] || {}; return m["name_" + LANG] || m.name || (idx[slug] || {}).name || slug; };
+  const regionGroup = slug => { const m = metaBy[slug] || {}; return m["group_" + LANG] || m.group; };
   let ALL = [], SHAPED = [], current = null;       // current = regione caricata (nessuna all'avvio)
   map.addSource("trees", { type: "geojson", data: EMPTY });
   const STROKE_COLOR = ["case",
@@ -567,9 +576,9 @@ map.on("load", async () => {
   // Si sceglie toccando i confini sulla mappa o dal menu; all'avvio nessuna regione è caricata.
   const regSel = document.getElementById("region"), info = document.getElementById("updated");
   const overviewBtn = document.getElementById("overview"), tip = document.getElementById("tip");
-  const entries = Object.keys(idx).map(slug => ({ slug, name: (metaBy[slug] || idx[slug]).name, group: (metaBy[slug] || {}).group }));
+  const entries = Object.keys(idx).map(slug => ({ slug, name: regionName(slug), group: regionGroup(slug) }));
   if (!entries.length) { document.getElementById("count").textContent = L.noData; return; }
-  const byName = (a, b) => a.name.localeCompare(b.name, "it");
+  const byName = (a, b) => a.name.localeCompare(b.name, LOC);
   const mkOpt = e => {
     const o = document.createElement("option");
     o.value = e.slug; o.textContent = L.regionOpt(e.name, idx[e.slug].count);
@@ -587,7 +596,7 @@ map.on("load", async () => {
     list.sort(byName).forEach(e => og.appendChild(mkOpt(e)));
     items.push({ label: g, node: og });
   }
-  items.sort((a, b) => a.label.localeCompare(b.label, "it"));
+  items.sort((a, b) => a.label.localeCompare(b.label, LOC));
   const placeholder = document.createElement("option");
   placeholder.value = ""; placeholder.textContent = L.chooseRegion;
   regSel.replaceChildren(placeholder, ...items.map(i => i.node));
@@ -596,7 +605,7 @@ map.on("load", async () => {
   const loadRegion = async (slug, fit) => {
     const seq = ++loadSeq, r = idx[slug];
     setCurrent(slug); regSel.value = slug; overviewBtn.hidden = false;
-    document.getElementById("count").textContent = L.loading(r.name);
+    document.getElementById("count").textContent = L.loading(regionName(slug));
     let fc;
     try { fc = await getGz(`data/regions/${slug}.geojson.gz`); }
     catch (e) { if (seq === loadSeq) document.getElementById("count").textContent = L.loadError; return; }
@@ -648,7 +657,7 @@ map.on("load", async () => {
       s.append(a, n);
       return s;
     };
-    const byErr = (a, b) => (b.errors ?? -1) - (a.errors ?? -1) || a.name.localeCompare(b.name, "it");
+    const byErr = (a, b) => (b.errors ?? -1) - (a.errors ?? -1) || a.name.localeCompare(b.name, LOC);
     const nations = {};
     for (const e of entries) {
       const r = idx[e.slug], key = e.group || e.name;
@@ -694,7 +703,8 @@ map.on("load", async () => {
     map.on("mousemove", "regions-fill", e => {
       const p = e.features[0].properties;
       hover(p.slug);
-      tip.textContent = p.has_data ? L.tipTrees(p.name, p.count) : L.tipNoData(p.name);
+      const nm = metaBy[p.slug] ? regionName(p.slug) : p.name;
+      tip.textContent = p.has_data ? L.tipTrees(nm, p.count) : L.tipNoData(nm);
       tip.style.left = (e.point.x + 12) + "px"; tip.style.top = (e.point.y + 12) + "px"; tip.style.display = "block";
       map.getCanvas().style.cursor = p.has_data ? "pointer" : "";
     });
@@ -737,6 +747,9 @@ const issueBase = (i, p) => {
     case "number_invalid": return T[i](list(p.bad_num));
     case "link_format": return T[i](list(p.bad_links));
     case "monument_denotation": return T[i](list(p.mon_src));
+    case "crown": return T[i](fmtM(p.diameter_crown));
+    case "undocumented_tag":     // tag_tree, tag_type: valori dei tag segnalati (fetch_trees.py)
+      return ["tree", "type"].filter(k => p["tag_" + k] != null).map(k => T[i](`${k}=${p["tag_" + k]}`)).join("; ");
     case "too_slender": case "too_stocky":   // hc_ratio, hc_circ: rapporto e circonferenza usata (fetch_trees.py)
       return T[i](fmtM(p.height), fmtM(p.hc_circ) + (p.diam_used ? L.fromDiameter : ""),
         Number(p.hc_ratio).toLocaleString(LOC, { maximumSignificantDigits: 3 }));

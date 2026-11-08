@@ -110,6 +110,14 @@ def fetch_bbox(region, bbox, depth=0, min_depth=0):
 # Soglie e valori ammessi
 MAX_CIRCUMFERENCE = 43.0   # m
 MAX_HEIGHT = 115.92        # m
+# Chioma più larga di un albero vivo a tronco singolo: 60,4 m, record Guinness (Samanea saman "Chamchuri",
+# Thailandia, 2018):
+# https://www.guinnessworldrecords.com/world-records/635581-widest-crown-on-a-living-tree-single-trunk
+# I baniani (Ficus benghalensis), con molti tronchi, possono superarlo.
+MAX_CROWN = 60.4           # m
+# Tag non documentati sugli alberi: tree=* e type=* (type=palm escluso: va sistemato in blocco)
+UNDOC_TAGS = ("tree", "type")
+UNDOC_IGNORE = {("type", "palm")}
 # Rapporto altezza/circonferenza ("slenderness"): segnalati solo i valori esagerati. Nei dati la mediana è ~6 e
 # gli alberi reali più tozzi (olivi monumentali) stanno sopra 0,45.
 SLENDER_MAX = 100.0        # oltre: albero troppo slanciato (es. height=24, circumference=0.01)
@@ -382,6 +390,11 @@ def genus_of_species(sp):
     return words[0] if words else ""
 
 
+def undocumented_tags(t):
+    """Tag non documentati presenti: [(chiave, valore)], esclusi quelli in UNDOC_IGNORE."""
+    return [(k, t[k]) for k in UNDOC_TAGS if k in t and (k, t[k].strip()) not in UNDOC_IGNORE]
+
+
 def slenderness(t):
     """height / circumference (anche da diameter); None per i ceppi o se manca una delle due misure."""
     if t.get("natural") == "tree_stump":
@@ -397,6 +410,9 @@ def checks(t):
         issues.append("circumference")
     if h is not None and h > MAX_HEIGHT:
         issues.append("height")
+    cd = num(t.get("diameter_crown"))
+    if cd is not None and cd > MAX_CROWN:
+        issues.append("crown")
     if comma_tags(t):
         issues.append("comma")
     lim = species_limit(t) or {}  # limite per specie: solo se non è già scattato quello generico
@@ -438,6 +454,8 @@ def checks(t):
         issues.append("denotation_value")
     if masaf_criteria_bad(t):
         issues.append("masaf_criteria")
+    if undocumented_tags(t):
+        issues.append("undocumented_tag")
     return issues
 
 
@@ -540,6 +558,9 @@ def to_feature(el):
     if "too_slender" in iss or "too_stocky" in iss:  # per la scheda: rapporto e circonferenza usata (anche da diameter)
         p["hc_ratio"] = round(slenderness(t), 3)
         p["hc_circ"] = round(circ_value(t)[0], 2)
+    if "undocumented_tag" in iss:  # per la scheda: tag_tree, tag_type con il valore (i tag non sono in KEEP)
+        for k, v in undocumented_tags(t):
+            p["tag_" + k] = v
     if "masaf_criteria" in iss:  # parti non valide, separate da "," come nel tag (non possono contenerne)
         p["masaf_bad"] = ",".join(masaf_criteria_bad(t))
     lim = species_limit(t)

@@ -10,6 +10,8 @@ Gli alberi con almeno un problema hanno il contorno rosso. I check sono:
 
 * Circonferenza maggiore di 43 m (record mondiale)
 * Altezza maggiore di 115,92 m (record mondiale)
+* `diameter_crown=*` maggiore di 60,4 m: la chioma più larga di un albero vivo a tronco singolo, record [Guinness](https://www.guinnessworldrecords.com/world-records/635581-widest-crown-on-a-living-tree-single-trunk) (*Samanea saman* "Chamchuri", Thailandia, 2018). I baniani (*Ficus benghalensis*), che hanno molti tronchi, possono superare la soglia
+* `tree=*` o `type=*`, tag non documentati sugli alberi: va verificato se si possono sostituire con un altro tag. `type=palm` non è segnalato, perché va sistemato in blocco
 * Circonferenza e altezza maggiori del record della singola specie. I limiti sono in `scripts/species_limits.json`; il confronto con `species=*` è esatto (nessuna variante o cultivar) e scatta solo se non è già scattato il check generico
 * Rapporto altezza/circonferenza esagerato: "albero troppo slanciato" se `height` è più di 100 volte la circonferenza (es. `height=24`, `circumference=0.01`), "albero troppo tozzo" se la circonferenza è più di 3 volte `height`. Le soglie sono larghe di proposito, per evitare falsi positivi: gli alberi reali più tozzi, come gli olivi monumentali, stanno intorno a 0,5. Non scatta se è già segnalata la circonferenza (per il tozzo) o l'altezza (per lo slanciato) oltre i limiti, né sui ceppi. Le soglie sono `SLENDER_MAX` e `STOCKY_MIN` in `scripts/fetch_trees.py`
 * `species=*` composto da una sola parola
@@ -69,7 +71,7 @@ I dati arrivano da Overpass (`natural=tree` e `natural=tree_stump`) e sono divis
 
 * `data/regions/<regione>.geojson.gz` – gli alberi di una regione, con i check già calcolati (compressi: il browser li decomprime)
 * `data/index.json` – elenco delle regioni disponibili, numero di alberi, numero di alberi con errori (`errors`) e data dell'ultimo cambiamento dei dati
-* `scripts/regions.json` – regioni: nome, `group` (es. "Italia": le regioni con lo stesso gruppo compaiono insieme nel menu), codice ISO 3166-2, id della relation OSM (`rel`), bbox approssimativa e, se serve, `split` (livelli iniziali di suddivisione in tile: 0 per i paesi con pochi alberi)
+* `scripts/regions.json` – regioni: nome, nome inglese (`name_en`, usato quando il sito è in inglese), `group` (con `group_en`) (es. "Italia": le regioni con lo stesso gruppo compaiono insieme nel menu), codice ISO 3166-2, id della relation OSM (`rel`), bbox approssimativa e, se serve, `split` (livelli iniziali di suddivisione in tile: 0 per i paesi con pochi alberi)
 * `data/regions_boundaries.geojson` – confini semplificati delle regioni, per sceglierle sulla mappa; si genera dall'Action "Aggiorna confini regioni" (da Nominatim)
 
 **Aggiornamento**: da GitHub, Actions → "Aggiorna dati alberi" → Run workflow, scegliendo dal menu `all`, un gruppo (`italia` = tutte le regioni italiane) o una singola regione. Per aggiornare più regioni insieme si scrivono invece nel campo di testo sotto il menu, separate da spazi o virgole (es. `liguria veneto lettonia`): se il campo è compilato, il menu è ignorato. Non ci sono esecuzioni automatiche: l'aggiornamento parte solo a mano. Se il download di una regione fallisce restano i suoi dati precedenti; se i dati non cambiano, i file non vengono modificati.

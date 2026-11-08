@@ -37,6 +37,8 @@
     {"key": "wikimedia_commons", "object_types": ["node"], "description": "Used for QA checks and to show a picture."},
     {"key": "panoramax", "object_types": ["node"], "description": "Used for QA checks and to show a picture."},
     {"key": "image", "object_types": ["node"], "description": "Used for QA checks and to show a picture."},
+    {"key": "tree", "object_types": ["node"], "description": "Used for QA checks."},
+    {"key": "type", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "name", "object_types": ["node"], "description": "Shown in the info panel."},
     {"key": "start_date", "object_types": ["node"], "description": "Shown in the info panel."}
   ]
