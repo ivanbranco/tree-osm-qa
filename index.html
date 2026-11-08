@@ -50,6 +50,12 @@
   .card dt{color:#666}.card dd{margin:0}
   .bad{color:#b00020;font-weight:600}
   .card .rec{margin:4px 0}
+  .osm-menu{display:inline-block;position:relative}
+  .osm-menu summary{display:inline;cursor:pointer;color:#1a5fb4;list-style:none}
+  .osm-menu summary::-webkit-details-marker{display:none}
+  .osm-menu div{position:absolute;left:0;top:1.5em;z-index:5;background:#fff;border:1px solid #ddd;border-radius:4px;box-shadow:0 2px 8px #0003;padding:3px 0;white-space:nowrap}
+  .osm-menu div a{display:block;padding:3px 12px}
+  .osm-menu div a:hover{background:#f2f2f2}
 </style>
 </head>
 <body>
@@ -128,7 +134,8 @@ const parseMapHash = v => {
 const I18N = {
   it: {
     pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente su GitHub",
-    osmAttribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>", allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
+    osmAttribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+    osmPage: "Pagina su OpenStreetMap", editId: "Modifica con iD", editJosm: "Apri in JOSM", editMapComplete: "Apri in MapComplete", allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
     scaleLow: "meno errori", scaleHigh: "più errori", tipErr: p => ` · ${p} con errori`,
     regionOpt: (name, n) => `${name} (${fmtN(n)} alberi)`,
     allTaxa: "Tutti i genus e le specie", unknown: "Sconosciuto", withSpecies: "Con species", genusGroup: "Genus", speciesGroup: "Specie",
@@ -213,7 +220,8 @@ const I18N = {
   },
   en: {
     pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code on GitHub",
-    osmAttribution: "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors", allRegions: "← All countries", chooseRegion: "Choose a region…",
+    osmAttribution: "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
+    osmPage: "OpenStreetMap page", editId: "Edit with iD", editJosm: "Open in JOSM", editMapComplete: "Open in MapComplete", allRegions: "← All countries", chooseRegion: "Choose a region…",
     scaleLow: "fewer errors", scaleHigh: "more errors", tipErr: p => ` · ${p} with errors`,
     regionOpt: (name, n) => `${name} (${fmtN(n)} trees)`,
     allTaxa: "All genera and species", unknown: "Unknown", withSpecies: "With species", genusGroup: "Genus", speciesGroup: "Species",
@@ -649,9 +657,9 @@ map.on("load", async () => {
 
   for (const id of [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid"]) {
     map.on("click", id, e => {
-      const g = e.features[0].geometry;
-      new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(g.type === "Point" ? g.coordinates : e.lngLat)
-        .setHTML(card(e.features[0].properties)).addTo(map);
+      const g = e.features[0].geometry, pos = g.type === "Point" ? g.coordinates : [e.lngLat.lng, e.lngLat.lat];
+      new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(pos)
+        .setHTML(card(e.features[0].properties, pos)).addTo(map);
     });
     map.on("mouseenter", id, () => map.getCanvas().style.cursor = "pointer");
     map.on("mouseleave", id, () => map.getCanvas().style.cursor = "");
@@ -933,16 +941,25 @@ function title(p) {
   return p.stump ? (b ? L.stumpOf(b) : L.stump) : (b || L.unknownSpecies);
 }
 
-function card(p) {
+// voce "OSM ▾" della scheda: un menu con la pagina del nodo e gli editor (pos = [lon, lat] dell'albero)
+function osmMenu(p, pos) {
+  const [lon, lat] = (pos || [0, 0]).map(v => Number(v).toFixed(6));
+  const items = [
+    [`https://www.openstreetmap.org/node/${p.id}`, L.osmPage],
+    [`https://www.openstreetmap.org/edit?editor=id&node=${p.id}`, L.editId],
+    // JOSM con il controllo remoto attivo: carica il nodo nell'editor già aperto
+    [`http://127.0.0.1:8111/load_object?objects=n${p.id}&relation_members=false`, L.editJosm],
+    [`https://mapcomplete.org/trees.html?z=19&lat=${lat}&lon=${lon}#node/${p.id}`, L.editMapComplete]];
+  return `<details class="osm-menu"><summary>OSM ▾</summary><div>${items.map(([u, t]) => link(u, t)).join("")}</div></details>`;
+}
+
+function card(p, pos) {
   const img = imageUrl(p);
   const genusIssue = ["genus", "genus_lowercase", "genus_mismatch"].some(i => p.issues.includes(`|${i}|`));
   const rows = ROWS.filter(([k]) => p[k] && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => issueText(i, p));
   const rec = recognitions(p);
-  const links = [link(`https://www.openstreetmap.org/node/${p.id}`, "OSM"),
-    link(`https://www.openstreetmap.org/edit?editor=id&node=${p.id}`, "iD"),
-    // JOSM con il controllo remoto attivo: carica il nodo nell'editor già aperto
-    link(`http://127.0.0.1:8111/load_object?objects=n${p.id}&relation_members=false`, "JOSM")];
+  const links = [osmMenu(p, pos)];
   if (p.wikidata) links.push(link(`https://www.wikidata.org/wiki/${p.wikidata}`, "Wikidata"));
   if (p.wikimedia_commons) links.push(link(`https://commons.wikimedia.org/wiki/${p.wikimedia_commons}`, "Commons"));
   const pano = panoramaxIds(p);
