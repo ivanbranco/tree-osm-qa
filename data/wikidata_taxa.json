@@ -1,9 +1,117 @@
 {
+"Q1001011": {
+"names": [
+"Quercus velutina"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1009478": {
+"en": "Celtis bungeana",
+"it": "Celtis bungeana",
+"names": [
+"Celtis bungeana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1010050": {
+"en": "Quercus castaneifolia",
+"it": "Quercus castaneifolia",
+"names": [
+"Quercus castaneifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1017264": {
+"en": "Quercus ilicifolia",
+"it": "Quercus ilicifolia",
+"names": [
+"Quercus ilicifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1021983": {
+"en": "Gleditsia sinensis",
+"it": "Gleditsia sinensis",
+"names": [
+"Gleditsia sinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1023519": {
+"en": "Malus toringoides",
+"it": "Malus bhutanica",
+"names": [
+"Malus toringoides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1031120": {
+"en": "Ceiba speciosa",
+"it": "Ceiba speciosa",
+"names": [
+"Ceiba speciosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1034859": {
+"en": "Quercus acutissima",
+"it": "Quercus acutissima",
+"names": [
+"Quercus acutissima"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q1036491": {
 "en": "Abies pindrow",
 "it": "Abies pindrow",
 "names": [
 "Abies pindrow"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1037204": {
+"en": "Sorbus scalaris",
+"it": "Sorbus scalaris",
+"names": [
+"Sorbus scalaris"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q104096326": {
+"en": "Carya illinoiensis",
+"it": "Carya illinoiensis",
+"names": [
+"Carya illinoiensis"
 ],
 "ranks": [
 "Q7432"
@@ -21,11 +129,33 @@
 ],
 "taxon": true
 },
+"Q104187864": {
+"en": "Populus nigra 'Italica'",
+"it": "Populus nigra ‘Italica’",
+"names": [
+"Populus nigra 'Italica'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
 "Q1042288": {
 "en": "Magnolia officinalis",
 "it": "Magnolia officinalis",
 "names": [
 "Magnolia officinalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1044186": {
+"en": "Pinus densiflora",
+"it": "Pinus densiflora",
+"names": [
+"Pinus densiflora"
 ],
 "ranks": [
 "Q7432"
@@ -43,11 +173,229 @@
 ],
 "taxon": true
 },
+"Q10497720": {
+"en": "Salix × pendulina",
+"it": "Salix ×pendulina",
+"names": [
+"Salix ×pendulina"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q105034954": {
+"en": "Gymnocladus dioica",
+"it": "Gymnocladus dioica",
+"names": [
+"Gymnocladus dioica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q10527903": {
+"en": "Catalpa × erubescens",
+"it": "Catalpa ×erubescens",
+"names": [
+"Catalpa ×erubescens"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q10561666": {
+"en": "Magnolia liliflora",
+"it": "Magnolia liliflora",
+"names": [
+"Magnolia liliflora"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q106094": {
 "en": "Pinus pinea",
 "it": "Pinus pinea",
 "names": [
 "Pinus pinea"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1066106": {
+"en": "Maclura pomifera",
+"it": "Maclura pomifera",
+"names": [
+"Maclura pomifera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1066116": {
+"en": "Quercus falcata",
+"it": "Quercus falcata",
+"names": [
+"Quercus falcata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1070845": {
+"en": "Photinia",
+"it": "Photinia",
+"names": [
+"Photinia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q1073191": {
+"en": "Chionanthus retusus",
+"it": "Chionanthus retusus",
+"names": [
+"Chionanthus retusus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1073825": {
+"en": "Populus szechuanica",
+"it": "Populus szechuanica",
+"names": [
+"Populus szechuanica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1073905": {
+"en": "Corylus chinensis",
+"it": "Corylus chinensis",
+"names": [
+"Corylus chinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1073968": {
+"en": "Pinus tabuliformis",
+"it": "Pinus tabuliformis",
+"names": [
+"Pinus tabuliformis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1074027": {
+"it": "Aesculus chinensis",
+"names": [
+"Aesculus chinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1074099": {
+"en": "Ulmus parvifolia",
+"it": "Ulmus parvifolia",
+"names": [
+"Ulmus parvifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1074153": {
+"en": "Malus spectabilis",
+"it": "Malus spectabilis",
+"names": [
+"Malus spectabilis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1074201": {
+"en": "Ligustrum sinense",
+"it": "Ligustrum sinense",
+"names": [
+"Ligustrum sinense"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1074257": {
+"it": "Liriodendron chinense",
+"names": [
+"Liriodendron chinense"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1074872": {
+"en": "Pinus bungeana",
+"it": "Pinus bungeana",
+"names": [
+"Pinus bungeana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1075957": {
+"en": "Quercus acuta",
+"it": "Quercus acuta",
+"names": [
+"Quercus acuta"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1075985": {
+"en": "Quercus myrsinifolia",
+"it": "Quercus myrsinifolia",
+"names": [
+"Quercus myrsinifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1076276": {
+"en": "Lonicera maackii",
+"it": "Lonicera maackii",
+"names": [
+"Lonicera maackii"
 ],
 "ranks": [
 "Q7432"
@@ -76,11 +424,526 @@
 ],
 "taxon": true
 },
+"Q1082365": {
+"en": "Quercus macrocarpa",
+"it": "Quercus macrocarpa",
+"names": [
+"Quercus macrocarpa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q10878191": {
+"en": "Prunus insititia",
+"it": "Prunus insititia",
+"names": [
+"Prunus insititia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q10879444": {
+"en": "Prunus 'Kanzan'",
+"it": "Prunus ‘Kanzan’",
+"names": [
+"Prunus ‘Kanzan’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q10881597": {
+"en": "Sophora japonica",
+"it": "Sophora japonica",
+"names": [
+"Sophora japonica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1088271": {
+"en": "Carpinus orientalis",
+"it": "Carpinus orientalis",
+"names": [
+"Carpinus orientalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1089472": {
+"it": "Acer capillipes",
+"names": [
+"Acer capillipes"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q10895250": {
 "en": "Itea ilicifolia",
 "it": "Itea ilicifolia",
 "names": [
 "Itea ilicifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q10901838": {
+"en": "Platycarya strobilacea",
+"it": "Platycarya strobilacea",
+"names": [
+"Platycarya strobilacea"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q10905799": {
+"en": "Morus cathayana",
+"it": "Morus cathayana",
+"names": [
+"Morus cathayana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1093540": {
+"en": "Magnolia macrophylla",
+"it": "Magnolia macrophylla",
+"names": [
+"Magnolia macrophylla"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q10935845": {
+"en": "Zelkova sinica",
+"it": "Zelkova sinica",
+"names": [
+"Zelkova sinica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q10937895": {
+"en": "Ficus caulocarpa",
+"it": "Ficus caulocarpa",
+"names": [
+"Ficus caulocarpa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q10940530": {
+"en": "Stewartia gemmata",
+"it": "Stewartia gemmata",
+"names": [
+"Stewartia gemmata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1095094": {
+"en": "Clapp's Favourite",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q10951071": {
+"en": "Malus transitoria",
+"it": "Malus transitoria",
+"names": [
+"Malus transitoria"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q10951249": {
+"en": "Malus trilobata",
+"it": "Malus trilobata",
+"names": [
+"Malus trilobata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q10960314": {
+"en": "Cladrastis sinensis",
+"it": "Cladrastis sinensis",
+"names": [
+"Cladrastis sinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q109642758": {
+"en": "Quercus robur",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q1096456": {
+"en": "Washingtonia robusta",
+"it": "Washingtonia robusta",
+"names": [
+"Washingtonia robusta"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1105707": {
+"en": "Quercus macranthera",
+"it": "Quercus macranthera",
+"names": [
+"Quercus macranthera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q110570766": {
+"en": "Ptelea baldwinii",
+"it": "Ptelea baldwinii",
+"names": [
+"Ptelea baldwinii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q110692156": {
+"en": "Camphora officinarum",
+"it": "Camphora officinarum",
+"names": [
+"Camphora officinarum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q110765786": {
+"names": [
+"Fagus sylvatica 'Atropunicea'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q110765849": {
+"names": [
+"Acer pseudoplatanus ʽAtropurpureum’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q110765899": {
+"en": "Alnus incana ʽLaciniata’",
+"it": "Alnus incana ʽLaciniata’",
+"names": [
+"Alnus incana ʽLaciniata’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q110765987": {
+"en": "Acer platanoides 'Crimson King'",
+"it": "Acer platanoides 'Crimson King'",
+"names": [
+"Acer platanoides 'Crimson King'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q110766055": {
+"en": "Carpinus betulus 'Quercifolia'",
+"it": "Carpinus betulus ʽQuercifolia’",
+"names": [
+"Carpinus betulus ʽQuercifolia’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q110766606": {
+"en": "Fraxinus excelsior 'Diversifolia'",
+"it": "Fraxinus excelsior ʽDiversifolia’",
+"names": [
+"Fraxinus excelsior ʽDiversifolia’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q11076697": {
+"en": "Corylus fargesii",
+"it": "Corylus fargesii",
+"names": [
+"Corylus fargesii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q110767176": {
+"en": "Ginkgo biloba ʽPrinceton Sentry’",
+"it": "Ginkgo biloba ʽPrinceton Sentry’",
+"names": [
+"Ginkgo biloba ʽPrinceton Sentry’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q110767261": {
+"names": [
+"Prunus 'Accolade'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q110767650": {
+"en": "Taxus baccata 'Fastigiata'",
+"it": "Taxus baccata ʽFastigiata’",
+"names": [
+"Taxus baccata 'Fastigiata'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q11083662": {
+"en": "Populus alba var. pyramidalis",
+"it": "Populus alba var. pyramidalis",
+"names": [
+"Populus alba var. pyramidalis"
+],
+"ranks": [
+"Q767728"
+],
+"taxon": true
+},
+"Q110875631": {
+"en": "Aesculus rubra",
+"it": "Aesculus rubra",
+"names": [
+"Aesculus rubra"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q11110842": {
+"en": "Castanopsis fargesii",
+"it": "Castanopsis fargesii",
+"names": [
+"Castanopsis fargesii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q11120066": {
+"en": "Catalpa bungei",
+"it": "Catalpa bungei",
+"names": [
+"Catalpa bungei"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q11128089": {
+"en": "Ailanthus giraldii",
+"it": "Ailanthus giraldii",
+"names": [
+"Ailanthus giraldii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q11129487": {
+"en": "Sycopsis sinensis",
+"it": "Sycopsis sinensis",
+"names": [
+"Sycopsis sinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q111333964": {
+"en": "Quercus alba var. gunnisonii",
+"it": "Quercus alba var. gunnisonii",
+"names": [
+"Quercus alba var. gunnisonii"
+],
+"ranks": [
+"Q767728"
+],
+"taxon": true
+},
+"Q111418753": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q111539323": {
+"en": "Fraxinus verrucosa",
+"it": "Fraxinus verrucosa",
+"names": [
+"Fraxinus verrucosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q11181633": {
+"en": "Ziziphus jujuba",
+"it": "Ziziphus jujuba",
+"names": [
+"Ziziphus jujuba"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q11225022": {
+"en": "Ceiba insignis",
+"it": "Ceiba insignis",
+"names": [
+"Ceiba insignis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q113251931": {
+"en": "Robinia × margaretta",
+"it": "Robinia margaretta",
+"names": [
+"Robinia margaretta"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1132580": {
+"en": "Aesculus turbinata",
+"names": [
+"Aesculus turbinata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q113401967": {
+"en": "Styphnolobium japonicum 'Pendula'",
+"it": "Styphnolobium japonicum ’Pendula‘",
+"names": [
+"Styphnolobium japonicum ’Pendula‘"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q113461869": {
+"en": "Cupressus nootkatensis 'Pendula'",
+"it": "Cupressus nootkatensis 'Pendula'",
+"names": [
+"Cupressus nootkatensis 'Pendula'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q113688113": {
+"en": "Pyrus calleryana 'Bradford'",
+"it": "Pyrus calleryana 'Bradford'",
+"names": [
+"Pyrus calleryana 'Bradford'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q1137001": {
+"en": "Pinus coulteri",
+"it": "Pinus coulteri",
+"names": [
+"Pinus coulteri"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1137143": {
+"en": "Tsuga canadensis",
+"it": "Tsuga canadensis",
+"names": [
+"Tsuga canadensis"
 ],
 "ranks": [
 "Q7432"
@@ -109,11 +972,267 @@
 ],
 "taxon": true
 },
+"Q1137607": {
+"en": "Picea obovata",
+"it": "Picea obovata",
+"names": [
+"Picea obovata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1138533": {
+"en": "Parrotia persica",
+"it": "Parrotia persica",
+"names": [
+"Parrotia persica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1141735": {
+"en": "Crataegus pinnatifida",
+"it": "Crataegus pinnatifida",
+"names": [
+"Crataegus pinnatifida"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1144409": {
+"en": "Tsuga heterophylla",
+"it": "Tsuga heterophylla",
+"names": [
+"Tsuga heterophylla"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1144805": {
+"en": "Catalpa ovata",
+"it": "Catalpa ovata",
+"names": [
+"Catalpa ovata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1144815": {
+"en": "Taxus cuspidata",
+"it": "Taxus cuspidata",
+"names": [
+"Taxus cuspidata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1145286": {
+"en": "Picea orientalis",
+"it": "Picea orientalis",
+"names": [
+"Picea orientalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q11468281": {
+"en": "× Chitalpa tashkentensis",
+"it": "×Chitalpa tashkentensis",
+"names": [
+"×Chitalpa tashkentensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1147634": {
+"en": "Fraxinus lanuginosa",
+"it": "Fraxinus lanuginosa",
+"names": [
+"Fraxinus lanuginosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q114854806": {
+"en": "Acer pseudoplatanus 'Leopoldii'",
+"it": "Acer pseudoplatanus ‘Leopoldii’",
+"names": [
+"Acer pseudoplatanus ‘Leopoldii’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
 "Q1148692": {
 "en": "Lagerstroemia indica",
 "it": "Lagerstroemia indica",
 "names": [
 "Lagerstroemia indica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1151932": {
+"en": "Picea glehnii",
+"it": "Picea glehnii",
+"names": [
+"Picea glehnii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1156537": {
+"en": "Zanthoxylum ailanthoides",
+"it": "Zanthoxylum ailanthoides",
+"names": [
+"Zanthoxylum ailanthoides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q115914849": {
+"en": "Fraxinus pennsylvanica 'Aucubaefolia'",
+"it": "Fraxinus pennsylvanica 'Aucubaefolia'",
+"names": [
+"Fraxinus pennsylvanica 'Aucubaefolia'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q115916785": {
+"en": "Carpinus betulus 'Fastigiata'",
+"it": "Carpinus betulus 'Fastigiata'",
+"names": [
+"Carpinus betulus 'Fastigiata'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q115917236": {
+"en": "Liriodendron tulipifera 'Aureomarginatum'",
+"it": "Liriodendron tulipifera 'Aureomarginatum'",
+"names": [
+"Liriodendron tulipifera 'Aureomarginatum'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q1166864": {
+"en": "Abies homolepis",
+"it": "Abies homolepis",
+"names": [
+"Abies homolepis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q117083315": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11815640": {
+"en": "Styphnolobium",
+"it": "Styphnolobium",
+"names": [
+"Styphnolobium"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q11832170": {
+"it": "Quercus heterophylla",
+"names": [
+"Quercus × heterophylla"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q11896943": {
+"en": "Salix euxina 'Bullata'",
+"it": "Salix fragilis 'Bullata'",
+"names": [
+"Salix fragilis 'Bullata'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q1190312": {
+"it": "Acer pensylvanicum",
+"names": [
+"Acer pensylvanicum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1193369": {
+"en": "Fraxinus americana",
+"it": "Fraxinus americana",
+"names": [
+"Fraxinus americana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q119410364": {
+"en": "Gleditsia triacanthos f. inermis",
+"it": "Gleditsia triacanthos f. inermis",
+"names": [
+"Gleditsia triacanthos f. inermis"
+],
+"ranks": [
+"Q279749"
+],
+"taxon": true
+},
+"Q1196240": {
+"en": "Quercus aliena",
+"it": "Quercus aliena",
+"names": [
+"Quercus aliena"
 ],
 "ranks": [
 "Q7432"
@@ -141,11 +1260,33 @@
 ],
 "taxon": true
 },
+"Q1209219": {
+"en": "Ligustrum japonicum",
+"it": "Ligustrum japonicum",
+"names": [
+"Ligustrum japonicum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q1209922": {
 "en": "Osmanthus fragrans",
 "it": "Osmanthus fragrans",
 "names": [
 "Osmanthus fragrans"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q121427": {
+"en": "Juniperus horizontalis",
+"it": "Juniperus horizontalis",
+"names": [
+"Juniperus horizontalis"
 ],
 "ranks": [
 "Q7432"
@@ -163,11 +1304,126 @@
 ],
 "taxon": true
 },
+"Q12246669": {
+"en": "Celtis australiensis",
+"it": "Celtis australiensis",
+"names": [
+"Celtis australiensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q12246704": {
+"it": "Celtis julianae",
+"names": [
+"Celtis julianae"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q122468869": {
+"en": "Pinus nigra var. corsicana",
+"names": [
+"Pinus nigra var. corsicana"
+],
+"ranks": [
+"Q767728"
+],
+"taxon": true
+},
+"Q12309040": {
+"en": "Davidia",
+"it": "Davidia",
+"names": [
+"Davidia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q12317600": {
+"en": "Laburnum × watereri",
+"it": "Laburnum ×watereri",
+"names": [
+"Laburnum ×watereri"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q12323064": {
+"en": "Cryptomeria",
+"it": "Cryptomeria",
+"names": [
+"Cryptomeria"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q123259310": {
+"en": "Ginkgo biloba 'Pendula'",
+"it": "Ginkgo biloba 'Pendula'",
+"names": [
+"Ginkgo biloba 'Pendula'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q12372598": {
+"en": "plum",
+"it": "susina",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q1249099": {
+"en": "Magnolia acuminata",
+"it": "Magnolia acuminata",
+"names": [
+"Magnolia acuminata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q124969": {
 "en": "Corylus avellana",
 "it": "Corylus avellana",
 "names": [
 "Corylus avellana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q125124845": {
+"en": "Ficus macrophylla m. f. macrophylla",
+"it": "Ficus macrophylla m. f. macrophylla",
+"names": [
+"Ficus macrophylla m. f. macrophylla"
+],
+"ranks": [
+"Q279749"
+],
+"taxon": true
+},
+"Q125337": {
+"en": "Citrus reticulata",
+"it": "Citrus reticulata",
+"names": [
+"Citrus reticulata"
 ],
 "ranks": [
 "Q7432"
@@ -181,6 +1437,68 @@
 ],
 "ranks": [
 "Q34740"
+],
+"taxon": true
+},
+"Q12795600": {
+"en": "Malus",
+"it": "Malus",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q1281102": {
+"en": "Crataegus laevigata ʽPaul's Scarlet’",
+"it": "Crataegus laevigata ʽPaul's Scarlet’",
+"names": [
+"Crataegus laevigata ʽPaul's Scarlet’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q128116": {
+"en": "Picea glauca",
+"it": "Picea glauca",
+"names": [
+"Picea glauca"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1283218": {
+"en": "greengage",
+"it": "Prunus domestica subsp. italica",
+"names": [
+"Prunus domestica subsp. italica"
+],
+"ranks": [
+"Q68947"
+],
+"taxon": true
+},
+"Q12836942": {
+"en": "Betula alba L. (1753)",
+"it": "Betula alba",
+"names": [
+"Betula alba"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q12849297": {
+"en": "Populus italica",
+"it": "Populus italica",
+"names": [
+"Populus italica"
+],
+"ranks": [
+"Q7432"
 ],
 "taxon": true
 },
@@ -217,9 +1535,707 @@
 ],
 "taxon": true
 },
+"Q1290970": {
+"en": "Cupressus × leylandii",
+"it": "× Cupressocyparis leylandii",
+"names": [
+"Cupressus ×leylandii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q129324": {
 "names": [
 "Castanea"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q129457674": {
+"en": "Acer platanoides 'Cleveland'",
+"names": [
+"Acer platanoides 'Cleveland'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q129485510": {
+"en": "Acer platanoides 'Drummondii'",
+"names": [
+"Acer platanoides 'Drummondii'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q129511705": {
+"en": "Acer platanoides 'Deborah'",
+"names": [
+"Acer platanoides 'Deborah'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q129513127": {
+"en": "Acer platanoides 'Schwedleri'",
+"names": [
+"Acer platanoides 'Schwedleri'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q12955905": {
+"en": "Cercis chinensis",
+"it": "Cercis chinensis",
+"names": [
+"Cercis chinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q12981878": {
+"en": "Wollemia",
+"it": "Wollemia",
+"names": [
+"Wollemia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q130230174": {
+"en": "Alnus × spaethii 'Spaeth'",
+"names": [
+"Alnus × spaethii 'Spaeth'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130237568": {
+"en": "Crataegus monogyna 'Stricta'",
+"names": [
+"Crataegus monogyna 'Stricta'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130251516": {
+"en": "Toona sinensis 'Flamingo'",
+"names": [
+"Toona sinensis 'Flamingo'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130252924": {
+"names": [
+"× Hesperotropsis leylandii"
+],
+"ranks": [
+"Q7432",
+"Q1306176"
+],
+"taxon": true
+},
+"Q130256643": {
+"en": "Gymnocladus dioicus 'Variegata'",
+"names": [
+"Gymnocladus dioicus 'Variegata'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130256726": {
+"en": "Prunus serrulata 'Kanzan'",
+"names": [
+"Prunus serrulata 'Kanzan'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130294543": {
+"en": "Pinus pinaster 'Aberdoniae'",
+"names": [
+"Pinus pinaster 'Aberdoniae'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130300780": {
+"en": "Prunus × subhirtella 'Autumnalis Rosea'",
+"names": [
+"Prunus × subhirtella 'Autumnalis Rosea'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130300893": {
+"en": "Ilex aquifolium 'Castanaefolia'",
+"names": [
+"Ilex aquifolium 'Castanaefolia'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130300940": {
+"en": "Albizia julibrissin 'Boubri'",
+"names": [
+"Albizia julibrissin 'Boubri'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130304443": {
+"names": [
+"Fagus sylvatica 'Rohanii'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130341059": {
+"en": "Viburnum rugosum",
+"names": [
+"Viburnum rugosum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q130345042": {
+"en": "Populus alba 'Pyramidalis'",
+"names": [
+"Populus alba 'Pyramidalis'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130354784": {
+"names": [
+"Tilia platyphyllos 'Rubra'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130355092": {
+"names": [
+"Prunus serrulata 'Amanogawa'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130355156": {
+"names": [
+"Pyrus calleryana 'Chanticleer'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130355207": {
+"names": [
+"Prunus avium 'Plena'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130355236": {
+"names": [
+"Pyrus communis 'Docteur Jules Guyot'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130355277": {
+"names": [
+"Malus domestica 'Canada Rouge'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130355299": {
+"names": [
+"Malus domestica 'Calville blanc'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130355337": {
+"names": [
+"Pyrus communis 'Doyenné du Comice'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130355373": {
+"names": [
+"Pyrus communis 'Conference'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130355392": {
+"names": [
+"Malus domestica 'Kidd's Orange Red'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130355457": {
+"names": [
+"Pyrus communis 'Bonne Louise d'Avranches'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130355880": {
+"en": "Fraxinus angustifolia 'Raywood'",
+"names": [
+"Fraxinus angustifolia 'Raywood'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130357412": {
+"names": [
+"Fagus sylvatica 'Pendula'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130358886": {
+"names": [
+"Fagus sylvatica 'Riversii'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130359082": {
+"names": [
+"Prunus 'Accolade'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130374687": {
+"en": "Fraxinus excelsior 'Pendula'",
+"names": [
+"Fraxinus excelsior 'Pendula'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130388544": {
+"names": [
+"Fagus sylvatica 'Dawyck'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130389528": {
+"names": [
+"Fagus sylvatica 'Dawyck Purple'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130394772": {
+"en": "Fagus sylvatica 'Atropurpurea'",
+"names": [
+"Fagus sylvatica 'Atropurpurea'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130404608": {
+"names": [
+"Fagus sylvatica 'Purpurea'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130466012": {
+"names": [
+"Thuja plicata 'Zebrina'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130466720": {
+"names": [
+"Thuja plicata 'Atrovirens'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130467115": {
+"names": [
+"Robinia pseudoacacia 'Bessoniana'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130467172": {
+"names": [
+"Robinia pseudoacacia 'Frisia'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130467225": {
+"names": [
+"Robinia pseudoacacia 'Umbraculifera'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130467230": {
+"names": [
+"Robinia pseudoacacia 'Unifoliola'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130505343": {
+"names": [
+"Liquidambar styraciflua 'Worplesdon'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130505626": {
+"en": "Amelanchier arborea 'Robin Hill'",
+"names": [
+"Amelanchier arborea 'Robin Hill'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130506400": {
+"en": "Tilia tomentosa 'Pendula'",
+"names": [
+"Tilia tomentosa 'Pendula'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130527443": {
+"names": [
+"Platanus × hispanica 'Pyramidalis'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130531881": {
+"names": [
+"Prunus avium 'Flore Pleno'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130532031": {
+"names": [
+"Aesculus × mutabilis 'Induta'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130533394": {
+"names": [
+"Tilia americana 'Nova'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130538302": {
+"names": [
+"Morus alba 'Pendula'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130538343": {
+"en": "Corylus avellana 'Pendula'",
+"names": [
+"Corylus avellana 'Pendula'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130538367": {
+"en": "Gleditsia triacanthos ‘Skycole’",
+"names": [
+"Gleditsia triacanthos ‘Skycole’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130541318": {
+"names": [
+"Catalpa ovata 'Slender Silhouette'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130550998": {
+"names": [
+"Castanea sativa 'Albomarginata'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130551055": {
+"names": [
+"Catalpa × erubescens 'Purpurea'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130554514": {
+"names": [
+"Sequoiadendron giganteum 'Pendulum'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130557635": {
+"en": "Corylus avellana 'Aurea'",
+"names": [
+"Corylus avellana 'Aurea'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130559115": {
+"en": "Magnolia × soulangeana 'Heaven Scent'",
+"names": [
+"Magnolia × soulangeana 'Heaven Scent'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q13056610": {
+"en": "Cunninghamia",
+"it": "Cunninghamia",
+"names": [
+"Cunninghamia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q130599315": {
+"en": "Magnolia × loebneri 'Merrill'",
+"names": [
+"Magnolia × loebneri 'Merrill'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130599614": {
+"names": [
+"Tilia cordata 'Greenspire'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130600762": {
+"names": [
+"Cercis siliquastrum 'Alba'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130603829": {
+"en": "Robinia × margaretta 'Pink Cascade'",
+"names": [
+"Robinia × margaretta 'Pink Cascade'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130607889": {
+"en": "Cornus controversa 'Variegata'",
+"names": [
+"Cornus controversa 'Variegata'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q1306148": {
+"en": "Populus lasiocarpa",
+"it": "Populus lasiocarpa",
+"names": [
+"Populus lasiocarpa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q130614943": {
+"en": "Salix babylonica 'Tortuosa'",
+"names": [
+"Salix babylonica 'Tortuosa'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130615316": {
+"names": [
+"Acer negundo 'Flamingo'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q130616904": {
+"names": [
+"Malus 'John Downie'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q13065504": {
+"en": "Jubaea",
+"it": "Jubaea",
+"names": [
+"Jubaea"
 ],
 "ranks": [
 "Q34740"
@@ -237,6 +2253,236 @@
 ],
 "taxon": true
 },
+"Q131372951": {
+"names": [
+"Prunus ‘Kanzan’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131386070": {
+"en": "Aesculus hippocastanum 'Fastigiata'",
+"names": [
+"Aesculus hippocastanum 'Fastigiata'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131386318": {
+"en": "Prunus padus 'Colorata'",
+"names": [
+"Prunus padus 'Colorata'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131387690": {
+"names": [
+"Populus alba 'Raket'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131448": {
+"en": "Sambucus",
+"it": "Sambucus",
+"names": [
+"Sambucus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q131517": {
+"it": "Prunus cerasus",
+"names": [
+"Prunus cerasus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q131528": {
+"en": "Eucommia ulmoides",
+"it": "Eucommia ulmoides",
+"names": [
+"Eucommia ulmoides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q131573892": {
+"en": "Gleditsia triacanthos ‘Skyline’",
+"names": [
+"Gleditsia triacanthos ‘Skyline’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131576181": {
+"en": "Tilia tomentosa 'Brabant'",
+"names": [
+"Tilia tomentosa 'Brabant'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131604526": {
+"en": "Malus domestica 'Niedzwetzkyana'",
+"names": [
+"Malus domestica 'Niedzwetzkyana'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131607132": {
+"names": [
+"Ilex aquifolium 'Aurea Marginata'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131608108": {
+"en": "Styphnolobium japonicum 'Regent'",
+"names": [
+"Styphnolobium japonicum 'Regent'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131624915": {
+"en": "× Sycoparrotia semidecidua",
+"names": [
+"× Sycoparrotia semidecidua"
+],
+"ranks": [
+"Q7432",
+"Q1306176"
+],
+"taxon": true
+},
+"Q131630065": {
+"en": "Malus domestica 'Schone van Boskoop'",
+"names": [
+"Malus domestica 'Schone van Boskoop'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131630084": {
+"names": [
+"Malus domestica 'Tenroy'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131630172": {
+"en": "Parrotia persica 'Vanessa'",
+"names": [
+"Parrotia persica 'Vanessa'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131673698": {
+"en": "Ulmus glabra 'Pendula'",
+"names": [
+"Ulmus glabra 'Pendula'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131689092": {
+"en": "Pyrus communis 'Beurré Lebrun'",
+"names": [
+"Pyrus communis 'Beurré Lebrun'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131689117": {
+"names": [
+"Pyrus communis 'Beurré Clairgeau'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q13172138": {
+"en": "Pyrus ussuriensis",
+"it": "Pyrus ussuriensis",
+"names": [
+"Pyrus ussuriensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q131766308": {
+"en": "Magnolia grandiflora 'Galissonnière'",
+"names": [
+"Magnolia grandiflora 'Galissonnière'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131785469": {
+"en": "Zelkova serrata 'Flekova'",
+"names": [
+"Zelkova serrata 'Flekova'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q13188": {
+"en": "pomegranate",
+"it": "Punica granatum",
+"names": [
+"Punica granatum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q13189": {
 "en": "Prunus persica",
 "it": "Prunus persica",
@@ -245,6 +2491,89 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q131893423": {
+"names": [
+"Prunus 'Spire'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131951225": {
+"en": "Ginkgo biloba 'Fastigiata'",
+"names": [
+"Ginkgo biloba 'Fastigiata'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q1321268": {
+"en": "Viburnum tinus",
+"it": "Viburnum tinus",
+"names": [
+"Viburnum tinus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1325491": {
+"en": "Quercus × turneri",
+"it": "Quercus × turneri",
+"names": [
+"Quercus ×turneri"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q132557": {
+"it": "Crataegus",
+"names": [
+"Crataegus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q1326200": {
+"en": "Ptelea trifoliata",
+"it": "Ptelea trifoliata",
+"names": [
+"Ptelea trifoliata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q132703": {
+"en": "Koelreuteria",
+"it": "Koelreuteria",
+"names": [
+"Koelreuteria"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q132825": {
+"en": "conifer",
+"names": [
+"Pinophyta"
+],
+"ranks": [
+"Q334460"
 ],
 "taxon": true
 },
@@ -270,11 +2599,375 @@
 ],
 "taxon": true
 },
+"Q1330391": {
+"en": "Thujopsis dolabrata",
+"it": "Thujopsis dolabrata",
+"names": [
+"Thujopsis dolabrata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q133098": {
+"en": "Brachychiton",
+"it": "Brachychiton",
+"names": [
+"Brachychiton"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q133128": {
 "en": "Pinus sylvestris",
 "it": "Pinus sylvestris",
 "names": [
 "Pinus sylvestris"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1331298": {
+"en": "Parrotiopsis jacquemontiana",
+"it": "Parrotiopsis jacquemontiana",
+"names": [
+"Parrotiopsis jacquemontiana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1333171": {
+"en": "Betula medwediewii",
+"it": "Betula medwediewii",
+"names": [
+"Betula medwediewii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1334892": {
+"en": "Pseudocydonia sinensis",
+"it": "Pseudocydonia sinensis",
+"names": [
+"Pseudocydonia sinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q134152315": {
+"en": "Prunus padus 'Albertii'",
+"names": [
+"Prunus padus 'Albertii'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q13424577": {
+"en": "Larix polonica",
+"it": "Larix decidua subsp. polonica",
+"names": [
+"Larix polonica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1342743": {
+"en": "Ulmus procera",
+"it": "Ulmus procera",
+"names": [
+"Ulmus procera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q134442807": {
+"en": "Crataegus × media 'Paul's Scarlet'",
+"names": [
+"Crataegus × media 'Paul's Scarlet'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q134483448": {
+"en": "× Arsorbus thuringiaca",
+"names": [
+"× Arsorbus thuringiaca"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q134605247": {
+"names": [
+"Crataegus × lavalleei 'Carrierei'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q134607603": {
+"names": [
+"Fraxinus ornus 'Louisa Lady'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q134616959": {
+"en": "Crataegus × media 'Rubra Plena'",
+"names": [
+"Crataegus × media 'Rubra Plena'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q134617025": {
+"names": [
+"Cedrus atlantica 'Aurea'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q134944721": {
+"names": [
+"Cupressus sempervirens 'Stricta'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q135222195": {
+"names": [
+"Cupressus sempervirens 'Totem'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q135271089": {
+"en": "Corylus colurna 'Fertile de Coutard'",
+"names": [
+"Corylus colurna 'Fertile de Coutard'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q1353171": {
+"names": [
+"Tilia dasystyla"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1357301": {
+"en": "Fraxinus mandschurica",
+"it": "Fraxinus mandshurica",
+"names": [
+"Fraxinus mandshurica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1357433": {
+"en": "Lithocarpus hancei",
+"it": "Lithocarpus hancei",
+"names": [
+"Lithocarpus hancei"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q135855944": {
+"names": [
+"× Chitalpa tashkentensis 'Pink Dawn'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q1367359": {
+"en": "Quercus mongolica",
+"it": "Quercus mongolica",
+"names": [
+"Quercus mongolica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q136745867": {
+"names": [
+"Ulmus 'Plantijn'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q136746871": {
+"names": [
+"Micromeles meliosmifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1367533": {
+"en": "Ostrya carpinifolia",
+"it": "Ostrya carpinifolia",
+"names": [
+"Ostrya carpinifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q136820544": {
+"names": [
+"Tilia × flaccida"
+],
+"ranks": [
+"Q7432",
+"Q1306176"
+],
+"taxon": true
+},
+"Q136830572": {
+"names": [
+"Prunus 'Hokusai'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q1368339": {
+"en": "Dwarf Beech",
+"it": "Fagus sylvatica var. suentelensis",
+"names": [
+"Fagus sylvatica var. suentelensis"
+],
+"ranks": [
+"Q767728"
+],
+"taxon": true
+},
+"Q136892092": {
+"names": [
+"Malus 'Echtermeyer"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q136908600": {
+"names": [
+"Ulmus 'Sapporo Gold 2'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q137046": {
+"en": "Magnolia cylindrica",
+"it": "Magnolia cylindrica",
+"names": [
+"Magnolia cylindrica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q137091": {
+"en": "Maclura",
+"it": "Maclura",
+"names": [
+"Maclura"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q1377319": {
+"en": "Quercus dentata",
+"it": "Quercus dentata",
+"names": [
+"Quercus dentata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1378211": {
+"en": "Rhus verniciflua",
+"it": "Rhus verniciflua",
+"names": [
+"Rhus verniciflua"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q137907138": {
+"names": [
+"Malus 'Winter Gold'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q138044": {
+"en": "Cupressus chengiana",
+"it": "Cupressus chengiana",
+"names": [
+"Cupressus chengiana"
 ],
 "ranks": [
 "Q7432"
@@ -292,11 +2985,213 @@
 ],
 "taxon": true
 },
+"Q138307": {
+"en": "Juniperus macrocarpa",
+"it": "Juniperus macrocarpa",
+"names": [
+"Juniperus macrocarpa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1394952": {
+"en": "Beurré Hardy",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q1398860": {
+"en": "Faux de Verzy",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q1399164": {
+"en": "Calocedrus decurrens",
+"it": "Calocedrus decurrens",
+"names": [
+"Calocedrus decurrens"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q139936561": {
+"en": "Aria torminalis",
+"names": [
+"Aria torminalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q140334": {
+"en": "Heptacodium miconioides",
+"it": "Heptacodium miconioides",
+"names": [
+"Heptacodium miconioides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q140341": {
+"en": "Chionanthus virginicus",
+"it": "Chionanthus virginicus",
+"names": [
+"Chionanthus virginicus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q14080": {
+"it": "palma",
+"names": [
+"Arecaceae"
+],
+"ranks": [
+"Q35409"
+],
+"taxon": true
+},
+"Q14169641": {
+"en": "cypress",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q1420126": {
+"en": "Pterocarya",
+"it": "Pterocarya",
+"names": [
+"Pterocarya"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q142792": {
+"en": "Quercus bicolor",
+"it": "Quercus bicolor",
+"names": [
+"Quercus bicolor"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q142912": {
+"en": "Tilia henryana",
+"names": [
+"Tilia henryana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1437921": {
+"en": "Forsythia viridissima",
+"it": "Forsythia viridissima",
+"names": [
+"Forsythia viridissima"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1439079": {
+"en": "Moreton Bay fig",
+"it": "Ficus macrophylla",
+"names": [
+"Ficus macrophylla"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1439142": {
+"en": "Cephalotaxus fortunei",
+"it": "Cephalotaxus fortunei",
+"names": [
+"Cephalotaxus fortunei"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1440975": {
+"en": "Torreya californica",
+"it": "Torreya californica",
+"names": [
+"Torreya californica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q145672": {
+"en": "Trachycarpus martianus",
+"it": "Trachycarpus martianus",
+"names": [
+"Trachycarpus martianus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q1458175": {
 "en": "Pseudolarix amabilis",
 "it": "Pseudolarix amabilis",
 "names": [
 "Pseudolarix amabilis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q145889": {
+"en": "Hazel",
+"it": "Corylus",
+"names": [
+"Corylus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q145939": {
+"en": "Abies concolor",
+"it": "Abies concolor",
+"names": [
+"Abies concolor"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q145954": {
+"en": "Pinus nigra",
+"it": "Pinus nigra",
+"names": [
+"Pinus nigra"
 ],
 "ranks": [
 "Q7432"
@@ -314,6 +3209,17 @@
 ],
 "taxon": true
 },
+"Q146021": {
+"en": "Pinus peuce",
+"it": "Pinus peuce",
+"names": [
+"Pinus peuce"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q146025": {
 "en": "Picea pungens",
 "it": "Picea pungens",
@@ -322,6 +3228,17 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q146037": {
+"en": "Cupressaceae",
+"it": "Cupressaceae",
+"names": [
+"Cupressaceae"
+],
+"ranks": [
+"Q35409"
 ],
 "taxon": true
 },
@@ -336,9 +3253,42 @@
 ],
 "taxon": true
 },
+"Q146110": {
+"en": "Populus tremula",
+"it": "Populus tremula",
+"names": [
+"Populus tremula"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q146149": {
 "names": [
 "Fagus sylvatica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q146186": {
+"en": "Mespilus germanica",
+"it": "Crataegus germanica",
+"names": [
+"Mespilus germanica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q146198": {
+"en": "Sorbus aucuparia",
+"it": "Sorbus aucuparia",
+"names": [
+"Sorbus aucuparia"
 ],
 "ranks": [
 "Q7432"
@@ -409,9 +3359,64 @@
 ],
 "taxon": true
 },
+"Q1470571": {
+"en": "Malus tschonoskii",
+"it": "Malus tschonoskii",
+"names": [
+"Malus tschonoskii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q147064": {
 "names": [
 "Populus nigra"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q14707792": {
+"en": "Sequoiadendron",
+"it": "Sequoiadendron",
+"names": [
+"Sequoiadendron"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q147096": {
+"en": "Citrus × aurantium",
+"it": "Citrus × aurantium",
+"names": [
+"Citrus × aurantium"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q147255": {
+"en": "Thuja",
+"it": "Thuja",
+"names": [
+"Thuja"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q147278": {
+"en": "Pinus cembra",
+"it": "Pinus cembra",
+"names": [
+"Pinus cembra"
 ],
 "ranks": [
 "Q7432"
@@ -440,6 +3445,81 @@
 ],
 "taxon": true
 },
+"Q147417": {
+"names": [
+"Thuja plicata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q147426": {
+"en": "Picea sitchensis",
+"it": "Picea sitchensis",
+"names": [
+"Picea sitchensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q147434": {
+"en": "Abies grandis",
+"it": "Abies grandis",
+"names": [
+"Abies grandis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q147439": {
+"en": "Larix kaempferi",
+"it": "Larix kaempferi",
+"names": [
+"Larix kaempferi"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q147459": {
+"en": "Sorbus torminalis",
+"it": "Sorbus torminalis",
+"names": [
+"Sorbus torminalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q147468": {
+"en": "Thuja occidentalis",
+"it": "Thuja occidentalis",
+"names": [
+"Thuja occidentalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q147475": {
+"en": "Pinus mugo",
+"it": "Pinus mugo",
+"names": [
+"Pinus mugo"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q147487": {
 "en": "Ulmus minor",
 "it": "Ulmus minor",
@@ -456,6 +3536,17 @@
 "it": "Ulmus laevis",
 "names": [
 "Ulmus laevis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q147498": {
+"en": "Ulmus glabra",
+"it": "Ulmus glabra",
+"names": [
+"Ulmus glabra"
 ],
 "ranks": [
 "Q7432"
@@ -483,11 +3574,99 @@
 ],
 "taxon": true
 },
+"Q147791": {
+"en": "Chamaecyparis",
+"it": "Chamaecyparis",
+"names": [
+"Chamaecyparis"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q1478203": {
+"en": "Hovenia dulcis",
+"it": "Hovenia dulcis",
+"names": [
+"Hovenia dulcis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q147824": {
+"en": "Picea omorika",
+"it": "Picea omorika",
+"names": [
+"Picea omorika"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q147861": {
+"en": "Rhamnus cathartica",
+"it": "Rhamnus cathartica",
+"names": [
+"Rhamnus cathartica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q147939": {
 "en": "Laburnum anagyroides",
 "it": "Laburnum anagyroides",
 "names": [
 "Laburnum anagyroides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q148630": {
+"en": "Juniperus sabina",
+"it": "Juniperus sabina",
+"names": [
+"Juniperus sabina"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q148723": {
+"en": "Mespilus",
+"it": "Mespilus",
+"names": [
+"Mespilus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q1488985": {
+"en": "Quercus libani",
+"it": "Quercus libani",
+"names": [
+"Quercus libani"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q148920": {
+"en": "Abies nordmanniana",
+"it": "Abies nordmanniana",
+"names": [
+"Abies nordmanniana"
 ],
 "ranks": [
 "Q7432"
@@ -516,6 +3695,123 @@
 ],
 "taxon": true
 },
+"Q1489573": {
+"en": "Ostrya virginiana",
+"it": "Ostrya virginiana",
+"names": [
+"Ostrya virginiana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q148986": {
+"en": "Rhus typhina",
+"it": "Rhus typhina",
+"names": [
+"Rhus typhina"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q149115": {
+"en": "Cunninghamia lanceolata",
+"it": "Cunninghamia lanceolata",
+"names": [
+"Cunninghamia lanceolata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q149195": {
+"en": "Prunus domestica subsp. insititia",
+"it": "Prunus domestica subsp. insititia",
+"names": [
+"Prunus domestica subsp. insititia"
+],
+"ranks": [
+"Q68947"
+],
+"taxon": true
+},
+"Q149269": {
+"names": [
+"Acer japonicum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q149319": {
+"names": [
+"Populus deltoides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q149332": {
+"en": "Pyrus pyraster",
+"it": "Pyrus pyraster",
+"names": [
+"Pyrus pyraster"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q149392": {
+"it": "Prunus maackii",
+"names": [
+"Prunus maackii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q149461": {
+"en": "Ginkgo",
+"it": "Ginkgo",
+"names": [
+"Ginkgo"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q149471": {
+"en": "Populus balsamifera",
+"it": "Populus balsamifera",
+"names": [
+"Populus balsamifera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q149553": {
+"en": "Populus × canescens",
+"it": "Populus × canescens",
+"names": [
+"Populus canescens"
+],
+"ranks": [
+"Q7432",
+"Q1306176"
+],
+"taxon": true
+},
 "Q149622": {
 "names": [
 "Populus × canadensis"
@@ -536,10 +3832,43 @@
 ],
 "taxon": true
 },
+"Q149741": {
+"en": "Prunus domestica subsp. syriaca",
+"it": "Prunus domestica subsp. syriaca",
+"names": [
+"Prunus domestica subsp. syriaca"
+],
+"ranks": [
+"Q68947"
+],
+"taxon": true
+},
 "Q149851": {
 "it": "Sequoiadendron giganteum",
 "names": [
 "Sequoiadendron giganteum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1499168": {
+"en": "Corylopsis glabrescens",
+"it": "Corylopsis glabrescens",
+"names": [
+"Corylopsis glabrescens"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1499241": {
+"en": "Betula alleghaniensis",
+"it": "Betula alleghaniensis",
+"names": [
+"Betula alleghaniensis"
 ],
 "ranks": [
 "Q7432"
@@ -557,11 +3886,436 @@
 ],
 "taxon": true
 },
+"Q150341": {
+"en": "Lithocarpus edulis",
+"it": "Lithocarpus edulis",
+"names": [
+"Lithocarpus edulis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15043561": {
+"en": "Chamaecyparis nootkatensis",
+"it": "Chamaecyparis nootkatensis",
+"names": [
+"Chamaecyparis nootkatensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q150691": {
+"names": [
+"Aesculus sylvatica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1510186": {
+"en": "Juniperus thurifera",
+"it": "Juniperus thurifera",
+"names": [
+"Juniperus thurifera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1510231": {
+"en": "Betula nigra",
+"it": "Betula nigra",
+"names": [
+"Betula nigra"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1520764": {
+"en": "Morus rubra",
+"it": "Morus rubra",
+"names": [
+"Morus rubra"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15224862": {
+"en": "Rhus potaninii",
+"it": "Rhus potaninii",
+"names": [
+"Rhus potaninii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15235730": {
+"en": "Juglans cathayensis",
+"it": "Juglans cathayensis",
+"names": [
+"Juglans cathayensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15236078": {
+"en": "Mallotus japonicus",
+"it": "Mallotus japonicus",
+"names": [
+"Mallotus japonicus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15236111": {
+"en": "Ehretia macrophylla",
+"it": "Ehretia macrophylla",
+"names": [
+"Ehretia macrophylla"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15236300": {
+"en": "Daphniphyllum himalense",
+"it": "Daphniphyllum himalense",
+"names": [
+"Daphniphyllum himalense"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15236930": {
+"en": "Liquidambar acalycina",
+"it": "Liquidambar acalycina",
+"names": [
+"Liquidambar acalycina"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15238052": {
+"en": "Gymnocladus chinensis",
+"it": "Gymnocladus chinensis",
+"names": [
+"Gymnocladus chinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15246108": {
+"en": "Diospyros rhombifolia",
+"it": "Diospyros rhombifolia",
+"names": [
+"Diospyros rhombifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15287303": {
+"en": "Acer cappadocium",
+"it": "Acer cappadocium",
+"names": [
+"Acer cappadocium"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15287356": {
+"it": "Acer conspicuum",
+"names": [
+"Acer × conspicuum"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q1529852": {
+"en": "Celtis laevigata",
+"it": "Celtis laevigata",
+"names": [
+"Celtis laevigata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15336999": {
+"en": "Quercus crassifolia",
+"it": "Quercus crassifolia",
+"names": [
+"Quercus crassifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15337558": {
+"it": "Quercus hispanica",
+"names": [
+"Quercus × hispanica"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q15339399": {
+"it": "Quercus rosacea",
+"names": [
+"Quercus × rosacea"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q15375906": {
+"en": "Alnus mayrii",
+"it": "Alnus mayrii",
+"names": [
+"Alnus × mayrii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15376140": {
+"en": "Alnus nitida",
+"it": "Alnus nitida",
+"names": [
+"Alnus nitida"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15378154": {
+"en": "Corylus colurnoides",
+"it": "Corylus colurnoides",
+"names": [
+"Corylus colurnoides"
+],
+"ranks": [
+"Q7432",
+"Q1306176"
+],
+"taxon": true
+},
+"Q15390761": {
+"en": "Citrus trifoliata",
+"it": "Citrus trifoliata",
+"names": [
+"Citrus trifoliata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q15393682": {
 "en": "Stewartia monadelpha",
 "it": "Stewartia monadelpha",
 "names": [
 "Stewartia monadelpha"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15393712": {
+"en": "Stewartia rostrata",
+"it": "Stewartia rostrata",
+"names": [
+"Stewartia rostrata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15394126": {
+"en": "Tetradium glabrifolium",
+"it": "Tetradium glabrifolium",
+"names": [
+"Tetradium glabrifolium"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15397208": {
+"en": "Eucalyptus dunnii",
+"it": "Eucalyptus dunnii",
+"names": [
+"Eucalyptus dunnii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1543680": {
+"en": "Betula populifolia",
+"it": "Betula populifolia",
+"names": [
+"Betula populifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1543689": {
+"en": "Alnus cordata",
+"it": "Alnus cordata",
+"names": [
+"Alnus cordata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1548216": {
+"en": "Picea smithiana",
+"it": "Picea smithiana",
+"names": [
+"Picea smithiana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1548337": {
+"en": "Torreya grandis",
+"it": "Torreya grandis",
+"names": [
+"Torreya grandis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15494678": {
+"en": "Magnolia sphaerantha",
+"it": "Magnolia sphaerantha",
+"names": [
+"Magnolia sphaerantha"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1550170": {
+"en": "Eriobotrya",
+"it": "Eriobotrya",
+"names": [
+"Eriobotrya"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q15507520": {
+"en": "Yucca gigantea",
+"it": "Yucca gigantea",
+"names": [
+"Yucca gigantea"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15528900": {
+"en": "Cladrastis delavayi",
+"it": "Cladrastis delavayi",
+"names": [
+"Cladrastis delavayi"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15539916": {
+"en": "Eriolobus trilobatus",
+"it": "Eriolobus trilobatus",
+"names": [
+"Eriolobus trilobatus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15545507": {
+"en": "Prunus amygdalus",
+"it": "Prunus amygdalus",
+"names": [
+"Prunus amygdalus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15548174": {
+"en": "Kalopanax septemlobus",
+"it": "Kalopanax septemlobus",
+"names": [
+"Kalopanax septemlobus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15548494": {
+"en": "Catalpa macrocarpa",
+"it": "Catalpa macrocarpa",
+"names": [
+"Catalpa macrocarpa"
 ],
 "ranks": [
 "Q7432"
@@ -579,6 +4333,51 @@
 ],
 "taxon": true
 },
+"Q15590509": {
+"en": "Pittosporum ralphii",
+"it": "Pittosporum ralphii",
+"names": [
+"Pittosporum ralphii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15601274": {
+"en": "Magnolia × proctoriana",
+"it": "Magnolia proctoriana",
+"names": [
+"Magnolia × proctoriana"
+],
+"ranks": [
+"Q7432",
+"Q1306176"
+],
+"taxon": true
+},
+"Q15605468": {
+"en": "Cornus rugosa",
+"it": "Cornus rugosa",
+"names": [
+"Cornus rugosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15606277": {
+"en": "Parrotia subaequalis",
+"it": "Parrotia subaequalis",
+"names": [
+"Parrotia subaequalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q156064": {
 "en": "Betulaceae",
 "it": "Betulaceae",
@@ -587,6 +4386,17 @@
 ],
 "ranks": [
 "Q35409"
+],
+"taxon": true
+},
+"Q15607965": {
+"en": "Cinnamomum wilsonii",
+"it": "Cinnamomum wilsonii",
+"names": [
+"Cinnamomum wilsonii"
+],
+"ranks": [
+"Q7432"
 ],
 "taxon": true
 },
@@ -608,6 +4418,28 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q15634290": {
+"en": "Acer ginnala",
+"it": "Acer ginnala",
+"names": [
+"Acer ginnala"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15635133": {
+"en": "Acer davidii subsp. grosseri",
+"it": "Acer davidii subsp. grosseri",
+"names": [
+"Acer davidii subsp. grosseri"
+],
+"ranks": [
+"Q68947"
 ],
 "taxon": true
 },
@@ -684,9 +4516,31 @@
 ],
 "taxon": true
 },
+"Q156928": {
+"en": "Viburnum opulus",
+"it": "Viburnum opulus",
+"names": [
+"Viburnum opulus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q156944": {
 "names": [
 "Acer pseudoplatanus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q156969": {
+"en": "Areca catechu",
+"it": "Areca catechu",
+"names": [
+"Areca catechu"
 ],
 "ranks": [
 "Q7432"
@@ -704,6 +4558,17 @@
 ],
 "taxon": true
 },
+"Q157214": {
+"en": "Araucaria",
+"it": "Araucaria",
+"names": [
+"Araucaria"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q157230": {
 "en": "Pinus strobus",
 "it": "Pinus strobus",
@@ -712,6 +4577,17 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q157236": {
+"en": "Liriodendron",
+"it": "Liriodendron",
+"names": [
+"Liriodendron"
+],
+"ranks": [
+"Q34740"
 ],
 "taxon": true
 },
@@ -735,6 +4611,17 @@
 ],
 "taxon": true
 },
+"Q157364": {
+"en": "Trachycarpus",
+"it": "Trachycarpus",
+"names": [
+"Trachycarpus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q157393": {
 "en": "Paulownia tomentosa",
 "it": "Paulownia tomentosa",
@@ -755,11 +4642,54 @@
 ],
 "taxon": true
 },
+"Q157449": {
+"en": "Syringa",
+"names": [
+"Syringa"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q157508": {
 "en": "cherry laurel",
 "it": "Prunus laurocerasus",
 "names": [
 "Prunus laurocerasus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q157518": {
+"en": "Salix fragilis",
+"it": "Salix fragilis",
+"names": [
+"Salix fragilis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q157522": {
+"en": "Juniperus virginiana",
+"it": "Juniperus virginiana",
+"names": [
+"Juniperus virginiana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q157540": {
+"en": "Salix cinerea",
+"it": "Salix cinerea",
+"names": [
+"Salix cinerea"
 ],
 "ranks": [
 "Q7432"
@@ -777,11 +4707,144 @@
 ],
 "taxon": true
 },
+"Q157641": {
+"en": "Alnus incana",
+"it": "Alnus incana",
+"names": [
+"Alnus incana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q157650": {
+"en": "Gleditsia triacanthos",
+"it": "Gleditsia triacanthos",
+"names": [
+"Gleditsia triacanthos"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q157697": {
+"en": "Juniperus chinensis",
+"it": "Juniperus chinensis",
+"names": [
+"Juniperus chinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q157737": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q157739": {
 "en": "Platanus occidentalis",
 "it": "Platanus occidentalis",
 "names": [
 "Platanus occidentalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q157756": {
+"en": "Hibiscus syriacus",
+"it": "Hibiscus syriacus",
+"names": [
+"Hibiscus syriacus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q157960": {
+"en": "Sorbus aria",
+"it": "Aria edulis",
+"names": [
+"Sorbus aria"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q157964": {
+"en": "Sorbus",
+"it": "Sorbus",
+"names": [
+"Sorbus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q157968": {
+"en": "Parthenocissus quinquefolia",
+"it": "Parthenocissus quinquefolia",
+"names": [
+"Parthenocissus quinquefolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q157969": {
+"en": "Elaeagnus angustifolia",
+"it": "Elaeagnus angustifolia",
+"names": [
+"Elaeagnus angustifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q157979": {
+"en": "Parthenocissus tricuspidata",
+"it": "Parthenocissus tricuspidata",
+"names": [
+"Parthenocissus tricuspidata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q158010": {
+"en": "Mamadış",
+"it": "Mamadyš",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q158029": {
+"en": "Calycanthus",
+"it": "Calycanthus",
+"names": [
+"Calycanthus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q158037": {
+"en": "Chaenomeles japonica",
+"it": "Chaenomeles japonica",
+"names": [
+"Chaenomeles japonica"
 ],
 "ranks": [
 "Q7432"
@@ -799,11 +4862,74 @@
 ],
 "taxon": true
 },
+"Q1581524": {
+"names": [
+"Fraxinus latifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q158178": {
+"en": "Quercus coccifera",
+"it": "Quercus coccifera",
+"names": [
+"Quercus coccifera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q158301": {
+"it": "Acer saccharinum",
+"names": [
+"Acer saccharinum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q158303": {
+"en": "Mahonia aquifolium",
+"it": "Mahonia aquifolium",
+"names": [
+"Mahonia aquifolium"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q158356": {
+"en": "Diospyros virginiana",
+"it": "Diospyros virginiana",
+"names": [
+"Diospyros virginiana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q158383": {
 "en": "Trachycarpus fortunei",
 "it": "Trachycarpus fortunei",
 "names": [
 "Trachycarpus fortunei"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q158389": {
+"en": "Washingtonia filifera",
+"it": "Washingtonia filifera",
+"names": [
+"Washingtonia filifera"
 ],
 "ranks": [
 "Q7432"
@@ -832,6 +4958,25 @@
 ],
 "taxon": true
 },
+"Q158590": {
+"names": [
+"Salix viminalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q158608": {
+"en": "Quercus petraea",
+"names": [
+"Quercus petraea"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q158642": {
 "it": "Cornus mas",
 "names": [
@@ -839,6 +4984,28 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q158657": {
+"en": "Malus pumila",
+"it": "Malus pumila",
+"names": [
+"Malus pumila"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q158703": {
+"en": "Buxus",
+"it": "Buxus",
+"names": [
+"Buxus"
+],
+"ranks": [
+"Q34740"
 ],
 "taxon": true
 },
@@ -859,6 +5026,28 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q158752": {
+"en": "Aesculus",
+"it": "Aesculus",
+"names": [
+"Aesculus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q158771": {
+"en": "Pseudotsuga",
+"it": "Pseudotsuga",
+"names": [
+"Pseudotsuga"
+],
+"ranks": [
+"Q34740"
 ],
 "taxon": true
 },
@@ -902,6 +5091,81 @@
 ],
 "taxon": true
 },
+"Q158793": {
+"en": "Washingtonia",
+"it": "Washingtonia",
+"names": [
+"Washingtonia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q15889125": {
+"en": "Pinus sylvestris var. sylvestriformis",
+"it": "Pinus sylvestris var. sylvestriformis",
+"names": [
+"Pinus sylvestris var. sylvestriformis"
+],
+"ranks": [
+"Q767728"
+],
+"taxon": true
+},
+"Q158896": {
+"en": "Pittosporum",
+"it": "Pittosporum",
+"names": [
+"Pittosporum"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q158987": {
+"en": "Prunus serotina",
+"it": "Prunus serotina",
+"names": [
+"Prunus serotina"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q159030": {
+"en": "Amelanchier canadensis",
+"it": "Amelanchier canadensis",
+"names": [
+"Amelanchier canadensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q159049": {
+"names": [
+"Aesculus pavia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1591053": {
+"en": "Pyrus salicifolia",
+"it": "Pyrus salicifolia",
+"names": [
+"Pyrus salicifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q159116": {
 "en": "Wisteria sinensis",
 "it": "Wisteria sinensis",
@@ -913,11 +5177,88 @@
 ],
 "taxon": true
 },
+"Q159204": {
+"en": "Catalpa speciosa",
+"it": "Catalpa speciosa",
+"names": [
+"Catalpa speciosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q159376": {
+"en": "Ceratonia",
+"it": "Ceratonia",
+"names": [
+"Ceratonia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q159476": {
+"en": "Salix daphnoides",
+"it": "Salix daphnoides",
+"names": [
+"Salix daphnoides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q159528": {
+"en": "Eucalyptus globulus",
+"it": "Eucalyptus globulus",
+"names": [
+"Eucalyptus globulus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15953373": {
+"en": "Prunus domestica subsp. italica ʽOullins Reneklode’",
+"it": "Prunus domestica subsp. italica ʽOullins Reneklode’",
+"names": [
+"Prunus domestica subsp. italica ‘Oullins Reneklode’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
 "Q159553": {
 "en": "Crataegus laevigata",
 "it": "Crataegus laevigata",
 "names": [
 "Crataegus laevigata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q159558": {
+"en": "Sorbus domestica",
+"it": "Cormus domestica",
+"names": [
+"Sorbus domestica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q159565": {
+"en": "Salix caprea",
+"it": "Salix caprea",
+"names": [
+"Salix caprea"
 ],
 "ranks": [
 "Q7432"
@@ -935,11 +5276,40 @@
 ],
 "taxon": true
 },
+"Q159620": {
+"names": [
+"Aesculus flava"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q159627": {
 "en": "Robinia viscosa",
 "it": "Robinia viscosa",
 "names": [
 "Robinia viscosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q159657": {
+"names": [
+"Tilia euchlora"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q159812": {
+"en": "Pistacia lentiscus",
+"it": "Pistacia lentiscus",
+"names": [
+"Pistacia lentiscus"
 ],
 "ranks": [
 "Q7432"
@@ -957,6 +5327,28 @@
 ],
 "taxon": true
 },
+"Q160576": {
+"en": "Ficus elastica",
+"it": "Ficus elastica",
+"names": [
+"Ficus elastica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q160580": {
+"en": "Ailanthus",
+"it": "Ailanthus",
+"names": [
+"Ailanthus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q161040": {
 "en": "Morus nigra",
 "it": "Morus nigra",
@@ -968,6 +5360,17 @@
 ],
 "taxon": true
 },
+"Q161042": {
+"en": "Elaeagnus",
+"it": "Elaeagnus",
+"names": [
+"Elaeagnus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q161105": {
 "en": "Plantanus orientalis",
 "it": "Platanus orientalis",
@@ -976,6 +5379,17 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q161113": {
+"en": "Euonymus",
+"it": "Euonymus",
+"names": [
+"Euonymus"
+],
+"ranks": [
+"Q34740"
 ],
 "taxon": true
 },
@@ -1003,6 +5417,37 @@
 "it": "Acer negundo",
 "names": [
 "Acer negundo"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q161244": {
+"en": "Tamaricaceae",
+"it": "Tamaricaceae",
+"names": [
+"Tamaricaceae"
+],
+"ranks": [
+"Q35409"
+],
+"taxon": true
+},
+"Q161250": {
+"en": "Gleditsia",
+"it": "Gleditsia",
+"names": [
+"Gleditsia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q161253": {
+"names": [
+"Quercus palustris"
 ],
 "ranks": [
 "Q7432"
@@ -1060,6 +5505,15 @@
 ],
 "taxon": true
 },
+"Q161388": {
+"names": [
+"Acer monspessulanum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q161406": {
 "en": "Cotinus coggygria",
 "it": "Cotinus coggygria",
@@ -1081,6 +5535,60 @@
 ],
 "taxon": true
 },
+"Q161416": {
+"en": "Cornus sanguinea",
+"it": "Cornus sanguinea",
+"names": [
+"Cornus sanguinea"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q161421": {
+"it": "Fraxinus ornus",
+"names": [
+"Fraxinus ornus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q161435": {
+"en": "Carpinus japonica",
+"it": "Carpinus japonica",
+"names": [
+"Carpinus japonica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q161511": {
+"en": "Crataegus monogyna",
+"it": "Crataegus monogyna",
+"names": [
+"Crataegus monogyna"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q161517": {
+"en": "Cycas revoluta",
+"it": "Cycas revoluta",
+"names": [
+"Cycas revoluta"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q161648": {
 "en": "Sciadopitys verticillata",
 "it": "Sciadopitys verticillata",
@@ -1092,11 +5600,141 @@
 ],
 "taxon": true
 },
+"Q161702": {
+"en": "Amelanchier × lamarckii",
+"it": "Amelanchier × lamarckii",
+"names": [
+"Amelanchier × lamarckii"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
 "Q161747": {
 "en": "Chamaerops humilis",
 "it": "Chamaerops humilis",
 "names": [
 "Chamaerops humilis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1619002": {
+"en": "Cupressus torulosa",
+"it": "Cupressus torulosa",
+"names": [
+"Cupressus torulosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q161920": {
+"en": "Prunus mahaleb",
+"it": "Prunus mahaleb",
+"names": [
+"Prunus mahaleb"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q161931": {
+"en": "Laurus azorica",
+"it": "Laurus azorica",
+"names": [
+"Laurus azorica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q162128": {
+"en": "Pyrus elaeagrifolia",
+"it": "Pyrus",
+"names": [
+"Pyrus elaeagrifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q162171": {
+"en": "Melia azedarach",
+"it": "Melia azedarach",
+"names": [
+"Melia azedarach"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1623892": {
+"en": "Betula maximowicziana",
+"it": "Betula maximowicziana",
+"names": [
+"Betula maximowicziana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q162403": {
+"en": "Deutzia scabra",
+"it": "Deutzia scabra",
+"names": [
+"Deutzia scabra"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q162440": {
+"names": [
+"Aesculus parviflora"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q162728": {
+"en": "Acer tataricum",
+"it": "Acer tataricum",
+"names": [
+"Acer tataricum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q162822": {
+"en": "Eucalyptus camaldulensis",
+"it": "Eucalyptus camaldulensis",
+"names": [
+"Eucalyptus camaldulensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q162829": {
+"en": "Prunus virginiana",
+"it": "Prunus virginiana",
+"names": [
+"Prunus virginiana"
 ],
 "ranks": [
 "Q7432"
@@ -1114,11 +5752,76 @@
 ],
 "taxon": true
 },
+"Q163039": {
+"en": "Prunus sargentii",
+"it": "Prunus sargentii",
+"names": [
+"Prunus sargentii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q163070": {
+"en": "Prunus × subhirtella",
+"it": "Prunus subhirtella",
+"names": [
+"Prunus × subhirtella"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q163078": {
+"it": "Prunus ×yedoensis",
+"names": [
+"Prunus × yedoensis"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q1631520": {
+"en": "Betula albosinensis",
+"it": "Betula albosinensis",
+"names": [
+"Betula albosinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q163273": {
+"en": "Pistacia chinensis",
+"it": "Pistacia chinensis",
+"names": [
+"Pistacia chinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q163522": {
 "en": "Actinidia chinensis",
 "it": "Actinidia chinensis",
 "names": [
 "Actinidia chinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q163544": {
+"en": "Betula ermanii",
+"it": "Betula ermanii",
+"names": [
+"Betula ermanii"
 ],
 "ranks": [
 "Q7432"
@@ -1144,9 +5847,136 @@
 ],
 "taxon": true
 },
+"Q163788": {
+"en": "Eucalyptus gunnii",
+"it": "Eucalyptus gunnii",
+"names": [
+"Eucalyptus gunnii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q163822": {
+"names": [
+"Acer opalus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q163825": {
+"en": "Amelanchier laevis",
+"it": "Amelanchier laevis",
+"names": [
+"Amelanchier laevis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q163831": {
 "names": [
 "Catalpa bignonioides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q163981": {
+"names": [
+"Tilia americana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q164097": {
+"en": "Rhapis excelsa",
+"it": "Rhapis excelsa",
+"names": [
+"Rhapis excelsa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q164135": {
+"en": "Yucca gloriosa",
+"it": "Yucca gloriosa",
+"names": [
+"Yucca gloriosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q164158": {
+"en": "Amelanchier alnifolia",
+"it": "Amelanchier alnifolia",
+"names": [
+"Amelanchier alnifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q164163": {
+"en": "Tamarix",
+"it": "Tamarix",
+"names": [
+"Tamarix"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q1642256": {
+"en": "Fagus sylvatica f. pendula",
+"it": "Fagus sylvatica f. pendula",
+"names": [
+"Fagus sylvatica f. pendula"
+],
+"ranks": [
+"Q279749"
+],
+"taxon": true
+},
+"Q164285": {
+"en": "Tamarix gallica",
+"it": "Tamarix gallica",
+"names": [
+"Tamarix gallica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q164371": {
+"it": "Prunus serrula",
+"names": [
+"Prunus serrula"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q164418": {
+"en": "Gleditsia caspica",
+"it": "Gleditsia caspica",
+"names": [
+"Gleditsia caspica"
 ],
 "ranks": [
 "Q7432"
@@ -1158,6 +5988,28 @@
 "names": [],
 "ranks": [],
 "taxon": false
+},
+"Q165063": {
+"en": "Podocarpus macrophyllus",
+"it": "Podocarpus macrophyllus",
+"names": [
+"Podocarpus macrophyllus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q165091": {
+"en": "Pinus contorta",
+"it": "Pinus contorta",
+"names": [
+"Pinus contorta"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
 },
 "Q165137": {
 "en": "Prunus avium",
@@ -1179,11 +6031,115 @@
 ],
 "taxon": true
 },
+"Q165173": {
+"en": "Paulownia",
+"it": "Paulownia",
+"names": [
+"Paulownia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q165258": {
+"en": "Diospyros",
+"it": "Diospyros",
+"names": [
+"Diospyros"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q165321": {
 "en": "Prunus serrulata",
 "it": "Prunus serrulata",
 "names": [
 "Prunus serrulata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q165378": {
+"it": "olivello spinoso",
+"names": [
+"Hippophae rhamnoides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q165387": {
+"en": "Picea engelmannii",
+"it": "Picea engelmannii",
+"names": [
+"Picea engelmannii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q165424": {
+"en": "Prunus padus",
+"it": "Prunus padus",
+"names": [
+"Prunus padus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1655870": {
+"en": "Juglans ailantifolia",
+"it": "Juglans ailantifolia",
+"names": [
+"Juglans ailantifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1669886": {
+"en": "Melrose",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q167881": {
+"en": "Zanthoxylum piperitum",
+"it": "Zanthoxylum piperitum",
+"names": [
+"Zanthoxylum piperitum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1683340": {
+"en": "Syringa reticulata",
+"it": "Syringa reticulata",
+"names": [
+"Syringa reticulata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1683370": {
+"en": "Malus × floribunda",
+"it": "Malus × floribunda",
+"names": [
+"Malus × floribunda"
 ],
 "ranks": [
 "Q7432"
@@ -1199,11 +6155,186 @@
 ],
 "taxon": true
 },
+"Q16919759": {
+"en": "Quercus macrolepis",
+"it": "Quercus macrolepis",
+"names": [
+"Quercus macrolepis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1693676": {
+"it": "Crataegus ×lavallei",
+"names": [
+"Crataegus × lavalleei"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q16993283": {
+"names": [
+"Ulmus 'Dodoens'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q16993287": {
+"names": [
+"Ulmus 'Sapporo Autumn Gold'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q170461": {
+"en": "Azadirachta indica",
+"it": "Azadirachta indica",
+"names": [
+"Azadirachta indica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1711441": {
+"names": [
+"Juglans major"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1712421": {
+"en": "Malus hupehensis",
+"it": "Malus hupehensis",
+"names": [
+"Malus hupehensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q17165418": {
+"it": "Juniperus ×pfitzeriana",
+"names": [
+"Juniperus × pfitzeriana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q17188267": {
+"en": "Balantium antarcticum",
+"it": "Balantium antarcticum",
+"names": [
+"Balantium antarcticum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q17216": {
+"en": "rootstock",
+"it": "portinnesto",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q17234465": {
 "en": "Prunus conradinae",
 "it": "Prunus conradinae",
 "names": [
 "Prunus conradinae"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q17234789": {
+"en": "Prunus jamasakura",
+"it": "Prunus jamasakura",
+"names": [
+"Prunus jamasakura"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1723511": {
+"en": "Taxus canadensis",
+"it": "Taxus canadensis",
+"names": [
+"Taxus canadensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q17245524": {
+"en": "Macromeles tschonoskii",
+"it": "Macromeles tschonoskii",
+"names": [
+"Macromeles tschonoskii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q17248463": {
+"en": "Hovenia tomentella",
+"it": "Hovenia tomentella",
+"names": [
+"Hovenia tomentella"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q17270668": {
+"en": "Crataegus persimilis",
+"it": "Crataegus persimilis",
+"names": [
+"Crataegus persimilis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q17275264": {
+"en": "Cupressus nootkatensis",
+"it": "Cupressus nootkatensis",
+"names": [
+"Cupressus nootkatensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q17358067": {
+"en": "Pinus abies",
+"it": "Pinus abies",
+"names": [
+"Pinus abies"
 ],
 "ranks": [
 "Q7432"
@@ -1221,11 +6352,177 @@
 ],
 "taxon": true
 },
+"Q17380176": {
+"en": "Laurier",
+"it": "Laurier",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q1743596": {
+"en": "Malus baccata",
+"it": "Malus baccata",
+"names": [
+"Malus baccata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q17562214": {
+"en": "Salix sepulchralis",
+"it": "Salix sepulchralis",
+"names": [
+"Salix sepulchralis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q17579311": {
+"it": "Tilia kiusiana",
+"names": [
+"Tilia kiusiana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1758201": {
+"en": "Brahea armata",
+"it": "Brahea armata",
+"names": [
+"Brahea armata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q17593235": {
+"en": "Eucalyptus niphophila",
+"it": "Eucalyptus niphophila",
+"names": [
+"Eucalyptus niphophila"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q178116": {
+"en": "Pinus parviflora",
+"it": "Pinus parviflora",
+"names": [
+"Pinus parviflora"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1784359": {
+"en": "Celtis koraiensis",
+"it": "Celtis koraiensis",
+"names": [
+"Celtis koraiensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1788044": {
+"it": "Acer sempervirens",
+"names": [
+"Acer sempervirens"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q179729": {
 "en": "Taxus baccata",
 "it": "Taxus baccata",
 "names": [
 "Taxus baccata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1801446": {
+"en": "Corylus maxima",
+"it": "Corylus maxima",
+"names": [
+"Corylus maxima"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q180606": {
+"en": "Viburnum rhytidophyllum",
+"it": "Viburnum rhytidophyllum",
+"names": [
+"Viburnum rhytidophyllum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q18078814": {
+"en": "Pistacia saportae",
+"it": "Pistacia saportae",
+"names": [
+"Pistacia saportae"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1813339": {
+"en": "Aesculus glabra",
+"names": [
+"Aesculus glabra"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1818806": {
+"en": "Alnus rubra",
+"it": "Alnus rubra",
+"names": [
+"Alnus rubra"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1825748": {
+"names": [
+"Metasequoia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q182756": {
+"en": "Simon's poplar",
+"names": [
+"Populus simonii"
 ],
 "ranks": [
 "Q7432"
@@ -1240,6 +6537,49 @@
 ],
 "ranks": [
 "Q34740"
+],
+"taxon": true
+},
+"Q18470412": {
+"en": "Acer campestre 'Huibers Elegant'",
+"it": "Acer campestre ‘Huibers Elegant’",
+"names": [
+"Acer campestre 'Huibers Elegant'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q18470445": {
+"en": "Acer campestre ‘Queen Elizabeth’",
+"it": "Acer campestre ‘Queen Elizabeth’",
+"names": [
+"Acer campestre ‘Queen Elizabeth’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q18470510": {
+"en": "Acer cappadocicum 'Rubrum'",
+"it": "Acer cappadocicum Rubrum",
+"names": [
+"Acer cappadocicum 'Rubrum'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q18471098": {
+"en": "Acer × freemanii ‘DTR 102’",
+"names": [
+"Acer × freemanii ‘DTR 102’"
+],
+"ranks": [
+"Q4886"
 ],
 "taxon": true
 },
@@ -1265,6 +6605,17 @@
 ],
 "taxon": true
 },
+"Q18593737": {
+"en": "Cormus domestica",
+"it": "Cormus domestica",
+"names": [
+"Cormus domestica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q18674606": {
 "en": "Malus domestica",
 "it": "Malus domestica",
@@ -1276,11 +6627,442 @@
 ],
 "taxon": true
 },
+"Q1869852": {
+"en": "Populus laurifolia",
+"it": "Populus laurifolia",
+"names": [
+"Populus laurifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q187454": {
+"en": "Zelkova",
+"it": "Zelkova",
+"names": [
+"Zelkova"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q1891342": {
+"en": "Phillyrea angustifolia",
+"it": "Phillyrea angustifolia",
+"names": [
+"Phillyrea angustifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1897380": {
+"en": "Salix magnifica",
+"it": "Salix magnifica",
+"names": [
+"Salix magnifica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q190510": {
+"en": "Wollemia nobilis",
+"it": "Wollemia nobilis",
+"names": [
+"Wollemia nobilis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q190545": {
+"en": "Prunus",
+"it": "Prunus",
+"names": [
+"Prunus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q191019": {
+"en": "Vitis",
+"it": "Vitis",
+"names": [
+"Vitis"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q192190": {
 "en": "Ilex aquifolium",
 "it": "Ilex aquifolium",
 "names": [
 "Ilex aquifolium"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q192608": {
+"en": "Quercus variabilis",
+"it": "Quercus variabilis",
+"names": [
+"Quercus variabilis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q19309094": {
+"en": "Malus × robusta",
+"it": "Malus ×robusta",
+"names": [
+"Malus ×robusta"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q1936162": {
+"en": "Abies recurvata",
+"it": "Abies recurvata",
+"names": [
+"Abies recurvata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q19391707": {
+"en": "Salix × sepulcralis",
+"it": "Salix ×sepulcralis",
+"names": [
+"Salix ×sepulcralis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1940705": {
+"en": "Crataegus × media",
+"it": "Crataegus × media",
+"names": [
+"Crataegus ×media"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1944479": {
+"names": [
+"Tilia mongolica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q19593": {
+"en": "Celtic F.C.",
+"it": "Celtic Football Club",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q19607284": {
+"en": "Acer × zoeschense 'Annae'",
+"it": "Acer zoeschense ʽAnnae’",
+"names": [
+"Acer zoeschense ‘Annae’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q1969110": {
+"en": "Prunus lusitanica",
+"it": "Prunus lusitanica",
+"names": [
+"Prunus lusitanica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1975652": {
+"en": "Sequoia",
+"it": "Sequoia",
+"names": [
+"Sequoia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q19810267": {
+"en": "Paradise apple",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q19850899": {
+"en": "Alnus × spaethii",
+"it": "Alnus ×spaethii",
+"names": [
+"Alnus ×spaethii"
+],
+"ranks": [
+"Q7432",
+"Q1306176"
+],
+"taxon": true
+},
+"Q2004978": {
+"en": "Abies numidica",
+"it": "Abies numidica",
+"names": [
+"Abies numidica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q201996": {
+"en": "Golden Delicious",
+"it": "Golden Delicious",
+"names": [
+"Malus domestica 'Golden Delicious'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q203985": {
+"names": [
+"Acer griseum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2045958": {
+"en": "Pinus resinosa",
+"it": "Pinus resinosa",
+"names": [
+"Pinus resinosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2048179": {
+"en": "palm tree",
+"it": "palma",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q2051387": {
+"en": "Angelica sinensis",
+"it": "Angelica sinensis",
+"names": [
+"Angelica sinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2060469": {
+"en": "Salix exigua",
+"it": "Salix exigua",
+"names": [
+"Salix exigua"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2065540": {
+"en": "Taxus brevifolia",
+"it": "Taxus brevifolia",
+"names": [
+"Taxus brevifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q20667332": {
+"names": [
+"Cedrus atlantica ʽGlauca Pendula’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q20722169": {
+"en": "Mirabellier",
+"it": "Mirabellier",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20722203": {
+"en": "Pinus nigra subsp. salzmannii",
+"it": "Pinus nigra subsp. salzmannii",
+"names": [
+"Pinus nigra subsp. salzmannii"
+],
+"ranks": [
+"Q68947"
+],
+"taxon": true
+},
+"Q20730585": {
+"en": "Bonne Louise d'Avranches",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q208021": {
+"en": "walnut",
+"it": "noce",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q2080746": {
+"en": "Crataegus ambigua",
+"it": "Crataegus ambigua",
+"names": [
+"Crataegus ambigua"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2081113": {
+"en": "Crataegus submollis",
+"it": "Crataegus submollis",
+"names": [
+"Crataegus submollis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2083452": {
+"en": "Crataegus calpodendron",
+"it": "Crataegus calpodendron",
+"names": [
+"Crataegus calpodendron"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2084514": {
+"en": "Crataegus viridis",
+"it": "Crataegus viridis",
+"names": [
+"Crataegus viridis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2091516": {
+"en": "Salix hookeriana",
+"it": "Salix hookeriana",
+"names": [
+"Salix hookeriana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2093169": {
+"en": "Liquidambar orientalis",
+"it": "Liquidambar orientalis",
+"names": [
+"Liquidambar orientalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2093561": {
+"en": "Picea schrenkiana",
+"it": "Picea schrenkiana",
+"names": [
+"Picea schrenkiana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2109862": {
+"en": "Ulmus chenmoui",
+"it": "Ulmus chenmoui",
+"names": [
+"Ulmus chenmoui"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2109921": {
+"en": "Ulmus davidiana",
+"it": "Ulmus davidiana",
+"names": [
+"Ulmus davidiana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2110146": {
+"en": "Ulmus serotina",
+"it": "Ulmus serotina",
+"names": [
+"Ulmus serotina"
 ],
 "ranks": [
 "Q7432"
@@ -1298,9 +7080,197 @@
 ],
 "taxon": true
 },
+"Q21177790": {
+"en": "Larix × marschlinsii",
+"it": "Larix marschlinsii",
+"names": [
+"Larix marschlinsii"
+],
+"ranks": [
+"Q7432",
+"Q1306176"
+],
+"taxon": true
+},
+"Q21270163": {
+"en": "Fontanesia philliraeoides",
+"it": "Fontanesia philliraeoides",
+"names": [
+"Fontanesia philliraeoides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q21297632": {
+"en": "Prunus × schmittii",
+"it": "Prunus ×schmittii",
+"names": [
+"Prunus ×schmittii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q21313775": {
+"en": "Morus kagayamae",
+"it": "Morus kagayamae",
+"names": [
+"Morus kagayamae"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q21325577": {
+"en": "Sorbus forrestii",
+"it": "Sorbus forrestii",
+"names": [
+"Sorbus forrestii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q21370021": {
+"en": "Garrya × thuretii",
+"it": "Garrya ×thuretii",
+"names": [
+"Garrya ×thuretii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q21370127": {
+"en": "Juglans × bixbyi",
+"it": "Juglans ×bixbyi",
+"names": [
+"Juglans ×bixbyi"
+],
+"ranks": [
+"Q7432",
+"Q1306176"
+],
+"taxon": true
+},
+"Q21370449": {
+"en": "Quercus × kewensis",
+"it": "Quercus ×kewensis",
+"names": [
+"Quercus × kewensis"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q21370551": {
+"en": "Robinia margarettae",
+"it": "Robinia ×margarettae",
+"names": [
+"Robinia margarettae"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q21378994": {
+"en": "Prunus × subhirtella var. autumnalis",
+"it": "Prunus subhirtella var. autumnalis",
+"names": [
+"Prunus subhirtella var. autumnalis"
+],
+"ranks": [
+"Q767728"
+],
+"taxon": true
+},
+"Q21382037": {
+"en": "Aesculus glabra glabra",
+"it": "Aesculus glabra glabra",
+"names": [
+"Aesculus glabra subsp. glabra"
+],
+"ranks": [
+"Q68947"
+],
+"taxon": true
+},
+"Q214733": {
+"en": "Acer saccharum",
+"names": [
+"Acer saccharum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q218155": {
 "names": [
 "Quercus ilex"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q218425": {
+"en": "Picea mariana",
+"it": "Picea mariana",
+"names": [
+"Picea mariana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q21877280": {
+"en": "Sambucus canadensis",
+"it": "Sambucus canadensis",
+"names": [
+"Sambucus canadensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q22114303": {
+"en": "Pyrus amygdaliformis",
+"it": "Pyrus amygdaliformis",
+"names": [
+"Pyrus amygdaliformis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2228034": {
+"en": "Salix ʽChrysocoma’",
+"it": "Salix vitellina var. pendula",
+"names": [
+"Salix ‘Chrysocoma’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q2249201": {
+"en": "Sorbus bristoliensis",
+"it": "Sorbus bristoliensis",
+"names": [
+"Sorbus bristoliensis"
 ],
 "ranks": [
 "Q7432"
@@ -1329,6 +7299,157 @@
 ],
 "taxon": true
 },
+"Q227763": {
+"en": "Betula lenta",
+"it": "Betula lenta",
+"names": [
+"Betula lenta"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2285767": {
+"en": "Phoenix sylvestris",
+"it": "Phoenix sylvestris",
+"names": [
+"Phoenix sylvestris"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2302697": {
+"en": "Salix matsudana",
+"it": "Salix matsudana",
+"names": [
+"Salix matsudana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2331107": {
+"en": "Populus ciliata",
+"it": "Populus ciliata",
+"names": [
+"Populus ciliata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q23707222": {
+"en": "Callitropsis nootkatensis",
+"it": "Callitropsis nootkatensis",
+"names": [
+"Callitropsis nootkatensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2379130": {
+"en": "Cordyline australis",
+"it": "Cordyline australis",
+"names": [
+"Cordyline australis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2379170": {
+"en": "Quercus robur 'Fastigiata'",
+"it": "Quercus robur ʽFastigiata’",
+"names": [
+"Quercus robur ʽFastigiata’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q2386378": {
+"en": "Magnolia obovata",
+"it": "Magnolia obovata",
+"names": [
+"Magnolia obovata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2427077": {
+"en": "Picea likiangensis",
+"it": "Picea likiangensis",
+"names": [
+"Picea likiangensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2432250": {
+"en": "Quercus faginea",
+"it": "Quercus faginea",
+"names": [
+"Quercus faginea"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q244278": {
+"en": "Sabal minor",
+"it": "Sabal minor",
+"names": [
+"Sabal minor"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2452407": {
+"it": "Cercis canadensis",
+"names": [
+"Cercis canadensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2453469": {
+"names": [
+"Juglans"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q2473331": {
+"en": "Pinus sabiniana",
+"it": "Pinus sabiniana",
+"names": [
+"Pinus sabiniana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q24853030": {
 "en": "Platanus × acerifolia",
 "it": "Platanus ×acerifolia",
@@ -1341,9 +7462,64 @@
 ],
 "taxon": true
 },
+"Q248582": {
+"en": "Celtis",
+"it": "Celtis",
+"names": [
+"Celtis"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q24877908": {
+"en": "Olea europaea subsp. europaea",
+"it": "Olea europaea subsp. europaea",
+"names": [
+"Olea europaea subsp. europaea"
+],
+"ranks": [
+"Q68947"
+],
+"taxon": true
+},
+"Q25239": {
+"en": "Alnus",
+"it": "Alnus",
+"names": [
+"Alnus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q25243": {
 "names": [
 "Betula"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q25292": {
+"en": "date palm",
+"it": "Phoenix dactylifera",
+"names": [
+"Phoenix dactylifera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q25350": {
+"en": "Abies",
+"it": "Abies",
+"names": [
+"Abies"
 ],
 "ranks": [
 "Q34740"
@@ -1404,11 +7580,44 @@
 ],
 "taxon": true
 },
+"Q258068": {
+"en": "Fraxinus velutina",
+"it": "Fraxinus velutina",
+"names": [
+"Fraxinus velutina"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2589444": {
+"en": "Magnolia delavayi",
+"it": "Magnolia delavayi",
+"names": [
+"Magnolia delavayi"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q2590046": {
 "en": "Camellia sasanqua",
 "it": "Camellia sasanqua",
 "names": [
 "Camellia sasanqua"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q259318": {
+"en": "Vitex agnus-castus",
+"it": "Vitex agnus-castus",
+"names": [
+"Vitex agnus-castus"
 ],
 "ranks": [
 "Q7432"
@@ -1426,6 +7635,39 @@
 ],
 "taxon": true
 },
+"Q2601238": {
+"en": "Carya ovata",
+"it": "Carya ovata",
+"names": [
+"Carya ovata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2603234": {
+"en": "Salix acutifolia",
+"it": "Salix acutifolia",
+"names": [
+"Salix acutifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2611816": {
+"en": "Quercus muehlenbergii",
+"it": "Quercus muehlenbergii",
+"names": [
+"Quercus muehlenbergii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q261903": {
 "en": "Wisteria",
 "it": "Wisteria",
@@ -1434,6 +7676,50 @@
 ],
 "ranks": [
 "Q34740"
+],
+"taxon": true
+},
+"Q26325": {
+"en": "Juniperus communis",
+"it": "ginepro",
+"names": [
+"Juniperus communis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2666305": {
+"en": "Aralia spinosa",
+"it": "Aralia spinosa",
+"names": [
+"Aralia spinosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2667019": {
+"en": "Eucalyptus sideroxylon",
+"it": "Eucalyptus sideroxylon",
+"names": [
+"Eucalyptus sideroxylon"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2671147": {
+"en": "Staphylea colchica",
+"it": "Staphylea colchica",
+"names": [
+"Staphylea colchica"
+],
+"ranks": [
+"Q7432"
 ],
 "taxon": true
 },
@@ -1468,6 +7754,19 @@
 ],
 "taxon": true
 },
+"Q26790870": {
+"en": "Alley of Oaks in Raduň",
+"it": "Quercus robur",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26790934": {
+"en": "Gleditsia triacanthos",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q26899": {
 "en": "Aesculus hippocastanum",
 "names": [
@@ -1487,11 +7786,88 @@
 ],
 "taxon": true
 },
+"Q2697430": {
+"en": "Toona",
+"it": "Toona",
+"names": [
+"Toona"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q2699896": {
 "en": "Pterocarya stenoptera",
 "it": "Pterocarya stenoptera",
 "names": [
 "Pterocarya stenoptera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2700622": {
+"en": "Parajubaea",
+"it": "Parajubaea",
+"names": [
+"Parajubaea"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q2702783": {
+"en": "flat peach",
+"it": "pesca tabacchiera",
+"names": [
+"Prunus persica var. platycarpa"
+],
+"ranks": [
+"Q767728"
+],
+"taxon": true
+},
+"Q2703200": {
+"en": "Picea wilsonii",
+"it": "Picea wilsonii",
+"names": [
+"Picea wilsonii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2703639": {
+"en": "Melia",
+"it": "Melia",
+"names": [
+"Melia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q2705488": {
+"en": "Prunus speciosa",
+"it": "Prunus speciosa",
+"names": [
+"Prunus speciosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2705848": {
+"en": "Butia capitata",
+"it": "Butia capitata",
+"names": [
+"Butia capitata"
 ],
 "ranks": [
 "Q7432"
@@ -1509,11 +7885,99 @@
 ],
 "taxon": true
 },
+"Q2707318": {
+"en": "Alangium chinense",
+"it": "Alangium chinense",
+"names": [
+"Alangium chinense"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2714887": {
+"en": "Crataegus chrysocarpa",
+"it": "Crataegus chrysocarpa",
+"names": [
+"Crataegus chrysocarpa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q271582": {
 "en": "Pinus pinaster",
 "it": "Pinus pinaster",
 "names": [
 "Pinus pinaster"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2717620": {
+"en": "Castanopsis cuspidata",
+"it": "Castanopsis cuspidata",
+"names": [
+"Castanopsis cuspidata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2727171": {
+"en": "Prunus triloba",
+"it": "Prunus triloba",
+"names": [
+"Prunus triloba"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q27344": {
+"en": "Buxus sempervirens",
+"it": "Buxus sempervirens",
+"names": [
+"Buxus sempervirens"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q27355": {
+"en": "Taxus",
+"it": "Taxus",
+"names": [
+"Taxus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q2739106": {
+"en": "Quercus ithaburensis",
+"it": "Quercus ithaburensis",
+"names": [
+"Quercus ithaburensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q275160": {
+"en": "Ficus benjamina",
+"it": "Ficus benjamina",
+"names": [
+"Ficus benjamina"
 ],
 "ranks": [
 "Q7432"
@@ -1531,11 +7995,191 @@
 ],
 "taxon": true
 },
+"Q27685": {
+"en": "Phoenix",
+"it": "Phoenix",
+"names": [
+"Phoenix"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q2777832": {
+"it": "Acer obtusifolium",
+"names": [
+"Acer obtusifolium"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2782566": {
+"en": "Cunninghamia konishii",
+"it": "Cunninghamia konishii",
+"names": [
+"Cunninghamia konishii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q27980": {
+"en": "Sorbus intermedia",
+"it": "Sorbus intermedia",
+"names": [
+"Sorbus intermedia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q28112572": {
+"en": "Betula utilis subsp. jacquemontii",
+"it": "Betula utilis subsp. jacquemontii",
+"names": [
+"Betula utilis subsp. jacquemontii"
+],
+"ranks": [
+"Q68947"
+],
+"taxon": true
+},
+"Q284019": {
+"en": "Ceiba",
+"it": "Ceiba",
+"names": [
+"Ceiba"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q2842647": {
+"en": "Amelanchier arborea",
+"it": "Amelanchier arborea",
+"names": [
+"Amelanchier arborea"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q284462": {
+"it": "Acer carpinifolium",
+"names": [
+"Acer carpinifolium"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q285744": {
+"it": "Acer rufinerve",
+"names": [
+"Acer rufinerve"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q28811747": {
+"en": "Quercus phillyreoides",
+"it": "Quercus phillyreoides",
+"names": [
+"Quercus phillyreoides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2883428": {
+"en": "Fraxinus chinensis",
+"it": "Fraxinus chinensis",
+"names": [
+"Fraxinus chinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q288558": {
 "en": "Styphnolobium japonicum",
 "it": "Sofora del Giappone",
 "names": [
 "Styphnolobium japonicum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q28933284": {
+"en": "Toxicodendron vernicifluum",
+"it": "Toxicodendron vernicifluum",
+"names": [
+"Toxicodendron vernicifluum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2894812": {
+"en": "Belle épine du Mas",
+"it": "Pyrus communis",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q2900277": {
+"en": "Betula cordifolia",
+"it": "Betula cordifolia",
+"names": [
+"Betula cordifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2902122": {
+"en": "Koelreuteria bipinnata",
+"it": "Koelreuteria bipinnata",
+"names": [
+"Koelreuteria bipinnata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q29033": {
+"en": "Cercis",
+"it": "Cercis",
+"names": [
+"Cercis"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q290605": {
+"en": "Betula chinensis",
+"it": "Betula chinensis",
+"names": [
+"Betula chinensis"
 ],
 "ranks": [
 "Q7432"
@@ -1553,6 +8197,23 @@
 ],
 "taxon": true
 },
+"Q291675": {
+"en": "Juglans microcarpa",
+"it": "Juglans microcarpa",
+"names": [
+"Juglans microcarpa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2929913": {
+"en": "Bénédictin",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2946681": {
 "en": "Prunus subg. Cerasus",
 "it": "ciliegio",
@@ -1561,6 +8222,17 @@
 ],
 "ranks": [
 "Q3238261"
+],
+"taxon": true
+},
+"Q2947466": {
+"en": "Chaenomeles cathayensis",
+"it": "Chaenomeles cathayensis",
+"names": [
+"Chaenomeles cathayensis"
+],
+"ranks": [
+"Q7432"
 ],
 "taxon": true
 },
@@ -1597,6 +8269,110 @@
 ],
 "taxon": true
 },
+"Q2991069": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q2998191": {
+"en": "Corylopsis veitchiana",
+"it": "Corylopsis veitchiana",
+"names": [
+"Corylopsis veitchiana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3002196": {
+"en": "Crataegus coccinea",
+"it": "Crataegus coccinea",
+"names": [
+"Crataegus coccinea"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3002674": {
+"en": "Crinodendron patagua",
+"it": "Crinodendron patagua",
+"names": [
+"Crinodendron patagua"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q30046": {
+"en": "Vitis vinifera",
+"it": "Vitis vinifera",
+"names": [
+"Vitis vinifera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3006305": {
+"en": "Eucalyptus tereticornis",
+"it": "Eucalyptus tereticornis",
+"names": [
+"Eucalyptus tereticornis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3008950": {
+"en": "Pterocarya rhoifolia",
+"it": "Pterocarya rhoifolia",
+"names": [
+"Pterocarya rhoifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3038963": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q3049295": {
+"en": "Ehretia dicksonii",
+"it": "Ehretia dicksonii",
+"names": [
+"Ehretia dicksonii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3066980": {
+"en": "Faros",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q3071706": {
+"en": "Ficus religiosa",
+"it": "Ficus religiosa",
+"names": [
+"Ficus religiosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q3074730": {
 "en": "Pinus yunnanensis",
 "it": "Pinus yunnanensis",
@@ -1608,11 +8384,299 @@
 ],
 "taxon": true
 },
+"Q3079244": {
+"en": "Zanthoxylum americanum",
+"it": "Zanthoxylum americanum",
+"names": [
+"Zanthoxylum americanum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3079266": {
+"en": "Pyrus calleryana",
+"it": "Pyrus calleryana",
+"names": [
+"Pyrus calleryana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3081804": {
+"names": [
+"Quercus acerifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q309213": {
+"en": "Sophora",
+"it": "Sophora",
+"names": [
+"Sophora"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q3100191": {
+"it": "×Sorbopyrus auricularis",
+"names": [
+"× Sorbopyrus auricularis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q310331": {
+"en": "Distylium racemosum",
+"it": "Distylium racemosum",
+"names": [
+"Distylium racemosum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q310750": {
+"en": "Aesculus assamica",
+"it": "Aesculus assamica",
+"names": [
+"Aesculus assamica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q310876": {
 "en": "Melaleuca leucadendra",
 "it": "Melaleuca leucadendra",
 "names": [
 "Melaleuca leucadendra"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q311395": {
+"en": "Glycine",
+"it": "Glycine",
+"names": [
+"Glycine"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q311957": {
+"en": "Keteleeria fortunei",
+"it": "Keteleeria fortunei",
+"names": [
+"Keteleeria fortunei"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3147858": {
+"en": "Idesia polycarpa",
+"it": "Idesia polycarpa",
+"names": [
+"Idesia polycarpa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3177997": {
+"en": "Rhus glabra",
+"it": "Rhus glabra",
+"names": [
+"Rhus glabra"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3179665": {
+"en": "Nyssa sylvatica",
+"it": "Nyssa sylvatica",
+"names": [
+"Nyssa sylvatica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q31837033": {
+"en": "Sorbus ulleungensis",
+"it": "Sorbus ulleungensis",
+"names": [
+"Sorbus ulleungensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3205552": {
+"it": "Acer oliverianum",
+"names": [
+"Acer oliverianum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3206440": {
+"en": "Magnolia × loebneri",
+"it": "Magnolia ×loebneri",
+"names": [
+"Magnolia ×loebneri"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q3219428": {
+"en": "Bambusa vulgaris",
+"it": "Bambusa vulgaris",
+"names": [
+"Bambusa vulgaris"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3239660": {
+"en": "Picea asperata",
+"it": "Picea asperata",
+"names": [
+"Picea asperata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3269605": {
+"en": "Prunus incisa",
+"it": "Prunus incisa",
+"names": [
+"Prunus incisa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3284652": {
+"en": "Malus communis",
+"it": "Malus communis",
+"names": [
+"Malus communis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q32856049": {
+"en": "Hesperocyparis bakeri",
+"it": "Hesperocyparis bakeri",
+"names": [
+"Hesperocyparis bakeri"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q329046": {
+"en": "Arbutus unedo",
+"it": "Arbutus unedo",
+"names": [
+"Arbutus unedo"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3297849": {
+"en": "Populus heterophylla",
+"it": "Populus heterophylla",
+"names": [
+"Populus heterophylla"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q33036816": {
+"en": "notable oak tree",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q3322417": {
+"en": "Picea retroflexa",
+"it": "Picea retroflexa",
+"names": [
+"Picea retroflexa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q33331": {
+"en": "Musa basjoo",
+"it": "Musa basjoo",
+"names": [
+"Musa basjoo"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3333998": {
+"en": "Morus bombycis",
+"it": "Morus bombycis",
+"names": [
+"Morus bombycis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q333877": {
+"en": "Carya illinoinensis",
+"it": "Carya illinoinensis",
+"names": [
+"Carya illinoinensis"
 ],
 "ranks": [
 "Q7432"
@@ -1641,6 +8705,102 @@
 ],
 "taxon": true
 },
+"Q3355098": {
+"en": "Citrus sinensis",
+"it": "arancio",
+"names": [
+"Citrus ×sinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3366033": {
+"en": "Parrotia",
+"it": "Parrotia",
+"names": [
+"Parrotia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q3377825": {
+"en": "Populus nigra var. italica",
+"it": "Populus nigra var. italica",
+"names": [
+"Populus nigra var. italica"
+],
+"ranks": [
+"Q767728"
+],
+"taxon": true
+},
+"Q3392902": {
+"en": "Corylus avellana 'Contorta'",
+"it": "Corylus avellana ‘Contorta’",
+"names": [
+"Corylus avellana ‘Contorta’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q3394252": {
+"en": "Poliothyrsis sinensis",
+"it": "Poliothyrsis sinensis",
+"names": [
+"Poliothyrsis sinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3396010": {
+"names": [
+"Malus 'Evereste'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q3408620": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q3408638": {
+"en": "Prunus davidiana",
+"it": "Prunus davidiana",
+"names": [
+"Prunus davidiana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3423886": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q3469829": {
+"en": "Salix humilis",
+"it": "Salix humilis",
+"names": [
+"Salix humilis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q3473542": {
 "en": "Sarcococca confusa",
 "it": "Sarcococca confusa",
@@ -1652,11 +8812,114 @@
 ],
 "taxon": true
 },
+"Q3497019": {
+"en": "Laburnum alpinum",
+"it": "Laburnum alpinum",
+"names": [
+"Laburnum alpinum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q353078": {
+"en": "King of the Pippins",
+"names": [
+"Malus domestica 'King of the Pippins'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q3547946": {
+"en": "Ulmus carpinifolia",
+"it": "Ulmus carpinifolia",
+"names": [
+"Ulmus carpinifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3574776": {
+"en": "Zanthoxylum caribaeum",
+"it": "Zanthoxylum caribaeum",
+"names": [
+"Zanthoxylum caribaeum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3590920": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q35987": {
+"en": "Pistacia",
+"it": "Pistacia",
+"names": [
+"Pistacia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q36050": {
+"en": "Salix",
+"it": "Salix",
+"names": [
+"Salix"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q36071": {
+"en": "Pistacia vera",
+"it": "Pistacia vera",
+"names": [
+"Pistacia vera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q36146": {
 "en": "Ficus carica",
 "it": "Ficus carica",
 "names": [
 "Ficus carica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3642237": {
+"en": "Englerophytum magalismontanum",
+"it": "Englerophytum magalismontanum",
+"names": [
+"Englerophytum magalismontanum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q368248": {
+"en": "Pinus taeda",
+"it": "Pinus taeda",
+"names": [
+"Pinus taeda"
 ],
 "ranks": [
 "Q7432"
@@ -1685,11 +8948,84 @@
 ],
 "taxon": true
 },
+"Q383086": {
+"en": "Fraxinus xanthoxyloides",
+"it": "Fraxinus xanthoxyloides",
+"names": [
+"Fraxinus xanthoxyloides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q38528274": {
+"en": "Alnus tenuifolia",
+"it": "Alnus tenuifolia",
+"names": [
+"Alnus tenuifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q3886573": {
 "en": "Osmanthus delavayi",
 "it": "Osmanthus delavayi",
 "names": [
 "Osmanthus delavayi"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q389185": {
+"en": "Broussonetia papyrifera",
+"it": "Broussonetia papyrifera",
+"names": [
+"Broussonetia papyrifera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3899625": {
+"en": "Pera cocomerina",
+"it": "Pera cocomerina",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q390100": {
+"en": "Abies koreana",
+"it": "Abies koreana",
+"names": [
+"Abies koreana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3901693": {
+"en": "Photinia × fraseri",
+"it": "Photinia × fraseri",
+"names": [
+"Photinia ×fraseri"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q39027258": {
+"en": "Parrotia jacquemontiana",
+"it": "Parrotia jacquemontiana",
+"names": [
+"Parrotia jacquemontiana"
 ],
 "ranks": [
 "Q7432"
@@ -1707,6 +9043,94 @@
 ],
 "taxon": true
 },
+"Q3905334": {
+"en": "Pinus nigra subsp. laricio",
+"it": "Pinus nigra laricio",
+"names": [
+"Pinus nigra subsp. laricio"
+],
+"ranks": [
+"Q68947"
+],
+"taxon": true
+},
+"Q39126127": {
+"en": "Gleditsia inermis",
+"it": "Gleditsia inermis",
+"names": [
+"Gleditsia inermis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q391374": {
+"en": "Picea koyamae",
+"it": "Picea koyamae",
+"names": [
+"Picea koyamae"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q39177241": {
+"en": "Sophora pubescens",
+"it": "Sophora pubescens",
+"names": [
+"Sophora pubescens"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3926580": {
+"en": "Alnus serrulata",
+"it": "Alnus serrulata",
+"names": [
+"Alnus serrulata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3926595": {
+"en": "Alnus formosana",
+"it": "Alnus formosana",
+"names": [
+"Alnus formosana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q39266486": {
+"en": "Cedrela sinensis",
+"it": "Cedrela sinensis",
+"names": [
+"Cedrela sinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3926712": {
+"en": "Betula occidentalis",
+"it": "Betula occidentalis",
+"names": [
+"Betula occidentalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q3927687": {
 "en": "Quercus × crenata",
 "it": "Quercus crenata",
@@ -1715,6 +9139,169 @@
 ],
 "ranks": [
 "Q1306176"
+],
+"taxon": true
+},
+"Q39708": {
+"en": "Salix purpurea",
+"it": "Salix purpurea",
+"names": [
+"Salix purpurea"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q39918": {
+"en": "Prunus dulcis",
+"it": "mandorlo",
+"names": [
+"Prunus dulcis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4085296": {
+"en": "Betula delavayi",
+"it": "Betula delavayi",
+"names": [
+"Betula delavayi"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4085297": {
+"en": "Betula forrestii",
+"it": "Betula forrestii",
+"names": [
+"Betula forrestii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4085300": {
+"en": "Betula pendula 'Youngii'",
+"it": "Betula pendula ‘Youngii’",
+"names": [
+"Betula pendula 'Youngii'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q4085303": {
+"en": "Betula luminifera",
+"it": "Betula luminifera",
+"names": [
+"Betula luminifera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4085318": {
+"en": "Betula tianschanica",
+"it": "Betula tianschanica",
+"names": [
+"Betula tianschanica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q41068995": {
+"en": "Aria edulis",
+"it": "Aria edulis",
+"names": [
+"Aria edulis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4112143": {
+"en": "Quercus laurifolia",
+"it": "Quercus laurifolia",
+"names": [
+"Quercus laurifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4112167": {
+"en": "Quercus lanata",
+"it": "Quercus lanata",
+"names": [
+"Quercus lanata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4112184": {
+"names": [
+"Quercus shumardii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4112855": {
+"en": "Quercus nigra",
+"it": "Quercus nigra",
+"names": [
+"Quercus nigra"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4116450": {
+"en": "Cinnamomum glanduliferum",
+"it": "Cinnamomum glanduliferum",
+"names": [
+"Cinnamomum glanduliferum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4135152": {
+"en": "Hemiptelea davidii",
+"it": "Hemiptelea davidii",
+"names": [
+"Hemiptelea davidii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q41480908": {
+"en": "Karpatiosorbus latifolia",
+"it": "Karpatiosorbus latifolia",
+"names": [
+"Karpatiosorbus latifolia"
+],
+"ranks": [
+"Q7432"
 ],
 "taxon": true
 },
@@ -1729,10 +9316,133 @@
 ],
 "taxon": true
 },
+"Q41521690": {
+"en": "Karpatiosorbus devoniensis",
+"it": "Karpatiosorbus devoniensis",
+"names": [
+"Karpatiosorbus devoniensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q41777793": {
+"en": "Groseille",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q41778374": {
+"it": "Euodia daniellii",
+"names": [
+"Euodia daniellii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q41778389": {
+"en": "Jonagold",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q41780739": {
+"en": "Reinette d'Armorique",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q4215101": {
+"en": "Carya laciniosa",
+"it": "Carya laciniosa",
+"names": [
+"Carya laciniosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q42292": {
 "en": "Acer",
 "names": [
 "Acer"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q42418813": {
+"en": "Red beech",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q42418891": {
+"en": "Common beech",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q42431564": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q42688380": {
+"en": "× Hesperotropsis leylandii",
+"it": "×Hesperotropsis leylandii",
+"names": [
+"× Hesperotropsis leylandii"
+],
+"ranks": [
+"Q7432",
+"Q1306176"
+],
+"taxon": true
+},
+"Q427914": {
+"en": "Firmiana",
+"it": "Firmiana",
+"names": [
+"Firmiana"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q428023": {
+"en": "Abies balsamea",
+"it": "Abies balsamea",
+"names": [
+"Abies balsamea"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q429179": {
+"en": "Gymnocladus",
+"it": "Gymnocladus",
+"names": [
+"Gymnocladus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q430057": {
+"en": "Arbutus",
+"it": "Arbutus",
+"names": [
+"Arbutus"
 ],
 "ranks": [
 "Q34740"
@@ -1750,6 +9460,50 @@
 ],
 "taxon": true
 },
+"Q43300": {
+"en": "quince",
+"it": "Cydonia oblonga",
+"names": [
+"Cydonia oblonga"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q434": {
+"en": "Pyrus",
+"it": "Pyrus",
+"names": [
+"Pyrus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q4383088": {
+"en": "Pteroceltis tatarinowii",
+"it": "Pteroceltis tatarinowii",
+"names": [
+"Pteroceltis tatarinowii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4392776": {
+"en": "Tilia chinensis",
+"it": "Tilia chinensis",
+"names": [
+"Tilia chinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q44120": {
 "en": "Prunus domestica",
 "it": "Prunus domestica",
@@ -1758,6 +9512,60 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q4460779": {
+"en": "Populus × berolinensis",
+"it": "Populus ×berolinensis",
+"names": [
+"Populus × berolinensis"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q4460782": {
+"en": "Populus koreana",
+"it": "Populus koreana",
+"names": [
+"Populus koreana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q44778579": {
+"en": "× Sorbopyrus irregularis",
+"it": "×Sorbopyrus irregularis",
+"names": [
+"×Sorbopyrus irregularis"
+],
+"ranks": [
+"Q7432",
+"Q1306176"
+],
+"taxon": true
+},
+"Q44789": {
+"en": "Morus",
+"it": "Morus",
+"names": [
+"Morus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q45417383": {
+"names": [
+"Tilia"
+],
+"ranks": [
+"Q34740"
 ],
 "taxon": true
 },
@@ -1783,6 +9591,49 @@
 ],
 "taxon": true
 },
+"Q460531": {
+"en": "Pinus heldreichii",
+"it": "Pinus heldreichii",
+"names": [
+"Pinus heldreichii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q46299": {
+"en": "Rosaceae",
+"names": [
+"Rosaceae"
+],
+"ranks": [
+"Q35409"
+],
+"taxon": true
+},
+"Q4673145": {
+"en": "Acer campestre 'Elsrijk'",
+"it": "Acer campestre ‘Elsrijk’",
+"names": [
+"Acer campestre 'Elsrijk'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q4673169": {
+"en": "Acer oblongum",
+"it": "Acer oblongum",
+"names": [
+"Acer oblongum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q4673170": {
 "names": [
 "Acer nipponicum"
@@ -1801,11 +9652,65 @@
 ],
 "taxon": true
 },
+"Q468659": {
+"en": "Corylus americana",
+"it": "Corylus americana",
+"names": [
+"Corylus americana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q468664": {
+"en": "Carpinus caroliniana",
+"it": "Carpinus caroliniana",
+"names": [
+"Carpinus caroliniana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q468698": {
+"en": "Castanea dentata",
+"it": "Castanea dentata",
+"names": [
+"Castanea dentata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q46871": {
 "en": "Juglans regia",
 "it": "Juglans regia",
 "names": [
 "Juglans regia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q469382": {
+"en": "Ulmus americana",
+"it": "Ulmus americana",
+"names": [
+"Ulmus americana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q469555": {
+"en": "Quercus alba",
+"names": [
+"Quercus alba"
 ],
 "ranks": [
 "Q7432"
@@ -1823,6 +9728,340 @@
 ],
 "taxon": true
 },
+"Q470006": {
+"en": "Celtis occidentalis",
+"it": "Celtis occidentalis",
+"names": [
+"Celtis occidentalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q470025": {
+"en": "Cladrastis kentukea",
+"it": "Cladrastis kentukea",
+"names": [
+"Cladrastis kentukea"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q47161": {
+"en": "Malus sylvestris",
+"it": "Malus sylvestris",
+"names": [
+"Malus sylvestris"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q472943": {
+"en": "Robinia",
+"it": "Robinia",
+"names": [
+"Robinia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q4730748": {
+"en": "Austrian pine",
+"it": "pino nero d'Austria",
+"names": [
+"Pinus nigra subsp. nigra"
+],
+"ranks": [
+"Q68947"
+],
+"taxon": true
+},
+"Q476655": {
+"en": "Picea breweriana",
+"it": "Picea breweriana",
+"names": [
+"Picea breweriana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q481711": {
+"it": "Phellodendron amurense",
+"names": [
+"Phellodendron amurense"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q481767": {
+"en": "Acer cissifolium",
+"it": "Acer cissifolium",
+"names": [
+"Acer cissifolium"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q486412": {
+"en": "Elstar",
+"it": "Elstar",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q494259": {
+"en": "Gala",
+"it": "Gala",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q49551003": {
+"en": "Fraxinus oxyphylla",
+"it": "Fraxinus oxyphylla",
+"names": [
+"Fraxinus oxyphylla"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4959355": {
+"en": "Punica",
+"it": "Punica",
+"names": [
+"Punica"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q498862": {
+"en": "Williams' bon chrétien",
+"it": "Pera Williams",
+"names": [
+"Pyrus communis 'Williams Bon Chrétien'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q499671": {
+"en": "Acca sellowiana",
+"it": "Acca sellowiana",
+"names": [
+"Acca sellowiana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q500": {
+"en": "Citrus × limon",
+"it": "Citrus × limon",
+"names": [
+"Citrus × limon"
+],
+"ranks": [
+"Q7432",
+"Q1306176"
+],
+"taxon": true
+},
+"Q504004": {
+"en": "Ulmus × hollandica",
+"it": "Ulmus × hollandica",
+"names": [
+"Ulmus ×hollandica"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q504565": {
+"en": "Belle de Boskoop",
+"it": "Bella di Boskoop",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q5047664": {
+"en": "Carya aquatica",
+"it": "Carya aquatica",
+"names": [
+"Carya aquatica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q5058587": {
+"en": "Celtis tenuifolia",
+"it": "Celtis tenuifolia",
+"names": [
+"Celtis tenuifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q506040": {
+"en": "Malus domestica 'Granny Smith'",
+"it": "Granny Smith",
+"names": [
+"Malus domestica 'Granny Smith'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q50826105": {
+"en": "Abies pardei",
+"it": "Abies pardei",
+"names": [
+"Abies pardei"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q50829139": {
+"en": "Betula verrucosa",
+"it": "Betula verrucosa",
+"names": [
+"Betula verrucosa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q50839379": {
+"names": [
+"Cephalotaxus harringtonia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q50843037": {
+"en": "Hesperocyparis arizonica",
+"it": "Hesperocyparis arizonica",
+"names": [
+"Hesperocyparis arizonica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q50843040": {
+"en": "Hesperocyparis lusitanica",
+"it": "Hesperocyparis lusitanica",
+"names": [
+"Hesperocyparis lusitanica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q508718": {
+"it": "Aesculus neglecta",
+"names": [
+"Aesculus × neglecta"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q51259104": {
+"names": [
+"Prunus × subhirtella 'Autumnalis'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q5182543": {
+"en": "Crataegus aprica",
+"it": "Crataegus aprica",
+"names": [
+"Crataegus aprica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q5182556": {
+"en": "Crataegus coccinioides",
+"it": "Crataegus coccinioides",
+"names": [
+"Crataegus coccinioides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q5182557": {
+"en": "Crataegus collina",
+"it": "Crataegus collina",
+"names": [
+"Crataegus collina"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q5182587": {
+"en": "Crataegus spathulata",
+"it": "Crataegus spathulata",
+"names": [
+"Crataegus spathulata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q518949": {
+"it": "Fraxinus angustifolia",
+"names": [
+"Fraxinus angustifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q5220976": {
 "en": "Photinia serratifolia",
 "it": "Photinia serratifolia",
@@ -1831,6 +10070,99 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q5232988": {
+"en": "Phellodendron chinense",
+"it": "Phellodendron chinense",
+"names": [
+"Phellodendron chinense"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q52558668": {
+"en": "Platanus orientalis",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q52626848": {
+"en": "Malus toringo",
+"it": "Malus toringo",
+"names": [
+"Malus toringo"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q526549": {
+"en": "Cercidiphyllum japonicum",
+"it": "Cercidiphyllum japonicum",
+"names": [
+"Cercidiphyllum japonicum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q528713": {
+"en": "Quercus imbricaria",
+"it": "Quercus imbricaria",
+"names": [
+"Quercus imbricaria"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q533674": {
+"en": "Juniperus scopulorum",
+"it": "Juniperus scopulorum",
+"names": [
+"Juniperus scopulorum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q5405662": {
+"en": "Eucalyptus parvula",
+"it": "Eucalyptus parvula",
+"names": [
+"Eucalyptus parvula"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q540646": {
+"en": "Aesculus californica",
+"names": [
+"Aesculus californica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q5429471": {
+"en": "Fagus × taurica",
+"it": "Fagus taurica",
+"names": [
+"Fagus × taurica"
+],
+"ranks": [
+"Q1306176"
 ],
 "taxon": true
 },
@@ -1845,6 +10177,65 @@
 ],
 "taxon": true
 },
+"Q549418": {
+"en": "Gymnocladus dioicus",
+"it": "Gymnocladus dioicus",
+"names": [
+"Gymnocladus dioicus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q5502745": {
+"en": "Quercus rysophylla",
+"it": "Quercus rysophylla",
+"names": [
+"Quercus rysophylla"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q5524257": {
+"en": "Garrya elliptica",
+"it": "Garrya elliptica",
+"names": [
+"Garrya elliptica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q55741369": {
+"en": "Gelso Bianco",
+"it": "gelso bianco",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q55741685": {
+"it": "cipresso messicano",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q55741686": {
+"it": "pino della baia di Moreton",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q55741735": {
+"en": "taxus baccata",
+"it": "tasso",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q55741788": {
 "it": "magnolia sempreverde",
 "names": [],
@@ -1857,17 +10248,153 @@
 "ranks": [],
 "taxon": false
 },
+"Q55742508": {
+"it": "pino di Norfolk",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q55743376": {
 "it": "quercia rossa",
 "names": [],
 "ranks": [],
 "taxon": false
 },
+"Q567948": {
+"en": "Hedera colchica",
+"it": "Hedera colchica",
+"names": [
+"Hedera colchica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q5721202": {
+"en": "Cerasus serrulata",
+"it": "Cerasus serrulata",
+"names": [
+"Cerasus serrulata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q573791": {
+"en": "Neolamarckia cadamba",
+"it": "Neolamarckia cadamba",
+"names": [
+"Neolamarckia cadamba"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q583885": {
+"en": "Pinus monophylla",
+"it": "Pinus monophylla",
+"names": [
+"Pinus monophylla"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q584469": {
+"en": "Sassafras albidum",
+"it": "Sassafras albidum",
+"names": [
+"Sassafras albidum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q5869075": {
+"en": "Prunus 'Umineko'",
+"names": [
+"Prunus 'Umineko'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q5963800": {
+"en": "Fraxinus griffithii",
+"it": "Fraxinus griffithii",
+"names": [
+"Fraxinus griffithii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q59798": {
 "en": "Ficus",
 "it": "Ficus",
 "names": [
 "Ficus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q5990804": {
+"en": "Malus × zumi",
+"it": "Malus ×zumi",
+"names": [
+"Malus × zumi"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q601203": {
+"it": "Acer heldreichii",
+"names": [
+"Acer heldreichii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q602322": {
+"en": "Maclura tricuspidata",
+"it": "Maclura tricuspidata",
+"names": [
+"Maclura tricuspidata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q605290": {
+"en": "Ostrya",
+"it": "Ostrya",
+"names": [
+"Ostrya"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q6078218": {
+"en": "Platycladus",
+"it": "Platycladus",
+"names": [
+"Platycladus"
 ],
 "ranks": [
 "Q34740"
@@ -1885,11 +10412,44 @@
 ],
 "taxon": true
 },
+"Q608412": {
+"en": "Acer henryi",
+"it": "Acer henryi",
+"names": [
+"Acer henryi"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q6089457": {
+"en": "Prunus cerasifera 'Pissardii'",
+"it": "Prunus cerasifera 'Pissardii'",
+"names": [
+"Prunus cerasifera 'Pissardii'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
 "Q61105": {
 "en": "Cedrus libani",
 "it": "Cedrus libani",
 "names": [
 "Cedrus libani"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q6146290": {
+"en": "Celtis biondii",
+"it": "Celtis biondii",
+"names": [
+"Celtis biondii"
 ],
 "ranks": [
 "Q7432"
@@ -1916,11 +10476,83 @@
 ],
 "taxon": true
 },
+"Q62474322": {
+"en": "cherry tree",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q6292155": {
+"en": "Taxus × media",
+"it": "Taxus ×media",
+"names": [
+"Taxus × media"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
 "Q630002": {
 "en": "Dicksonia antarctica",
 "it": "Dicksonia antartica",
 "names": [
 "Dicksonia antarctica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q630288": {
+"en": "Juglans cinerea",
+"it": "Juglans cinerea",
+"names": [
+"Juglans cinerea"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q63045": {
+"en": "Pistacia terebinthus",
+"it": "Pistacia terebinthus",
+"names": [
+"Pistacia terebinthus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q631388": {
+"en": "Acer tataricum subsp. ginnala",
+"it": "Acer tataricum subsp. ginnala",
+"names": [
+"Acer tataricum subsp. ginnala"
+],
+"ranks": [
+"Q68947"
+],
+"taxon": true
+},
+"Q6372036": {
+"en": "Quercus rhysophylla",
+"it": "Quercus rhysophylla",
+"names": [
+"Quercus rhysophylla"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q6372203": {
+"en": "Quercus stenophylloides",
+"it": "Quercus stenophylloides",
+"names": [
+"Quercus stenophylloides"
 ],
 "ranks": [
 "Q7432"
@@ -1938,11 +10570,241 @@
 ],
 "taxon": true
 },
+"Q6565319": {
+"en": "Syringa vulgaris",
+"it": "lillà comune",
+"names": [
+"Syringa vulgaris"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q657812": {
+"en": "Abies nebrodensis",
+"it": "Abies nebrodensis",
+"names": [
+"Abies nebrodensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q657935": {
+"en": "Acer davidii",
+"it": "Acer davidii",
+"names": [
+"Acer davidii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q6579882": {
+"en": "Tilia heterophylla",
+"it": "Tilia heterophylla",
+"names": [
+"Tilia heterophylla"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q664945": {
+"en": "Albizia",
+"it": "Albizia",
+"names": [
+"Albizia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q6666037": {
+"en": "Acer coriaceifolium",
+"it": "Acer coriaceifolium",
+"names": [
+"Acer coriaceifolium"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q670040": {
+"en": "Cupressus arizonica",
+"it": "Cupressus arizonica",
+"names": [
+"Cupressus arizonica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q67188210": {
+"en": "Prunus domestica var. domestica",
+"it": "Prunus domestica var. domestica",
+"names": [
+"Prunus domestica var. domestica"
+],
+"ranks": [
+"Q767728"
+],
+"taxon": true
+},
+"Q672980": {
+"en": "Forsythia",
+"it": "Forsythia",
+"names": [
+"Forsythia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q6744990": {
+"en": "Malus sikkimensis",
+"it": "Malus sikkimensis",
+"names": [
+"Malus sikkimensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q6772356": {
+"en": "Populus wilsonii",
+"it": "Populus wilsonii",
+"names": [
+"Populus wilsonii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q6825364": {
 "en": "Tamarix chinensis",
 "it": "Tamarix chinensis",
 "names": [
 "Tamarix chinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q68763": {
+"en": "Ceratonia siliqua",
+"names": [
+"Ceratonia siliqua"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q6915150": {
+"en": "Morus australis",
+"it": "Morus australis",
+"names": [
+"Morus australis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q692162": {
+"en": "Umbellularia californica",
+"it": "Umbellularia californica",
+"names": [
+"Umbellularia californica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q693392": {
+"en": "Quercus kelloggii",
+"it": "Quercus kelloggii",
+"names": [
+"Quercus kelloggii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q699584": {
+"en": "Castanea mollissima",
+"it": "Castanea mollissima",
+"names": [
+"Castanea mollissima"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q706339": {
+"en": "Celtis sinensis",
+"it": "Celtis sinensis",
+"names": [
+"Celtis sinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q7071273": {
+"en": "Nyssa aquatica",
+"it": "Nyssa aquatica",
+"names": [
+"Nyssa aquatica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q7071274": {
+"en": "Nyssa biflora",
+"it": "Nyssa biflora",
+"names": [
+"Nyssa biflora"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q7071277": {
+"en": "Nyssa sinensis",
+"it": "Nyssa sinensis",
+"names": [
+"Nyssa sinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q709649": {
+"en": "Livistona chinensis",
+"it": "Livistona chinensis",
+"names": [
+"Livistona chinensis"
 ],
 "ranks": [
 "Q7432"
@@ -1960,11 +10822,96 @@
 ],
 "taxon": true
 },
+"Q714124": {
+"en": "Quercus glauca",
+"it": "Quercus glauca",
+"names": [
+"Quercus glauca"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q716461": {
+"en": "Sorbus randaiensis",
+"it": "Sorbus randaiensis",
+"names": [
+"Sorbus randaiensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q717827": {
 "en": "Castanea crenata",
 "it": "Castanea crenata",
 "names": [
 "Castanea crenata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q7218203": {
+"en": "Alangium platanifolium",
+"it": "Alangium platanifolium",
+"names": [
+"Alangium platanifolium"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q722781": {
+"it": "Acer diabolicum",
+"names": [
+"Acer diabolicum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q7263800": {
+"en": "Pyrus nivalis",
+"it": "Pyrus nivalis",
+"names": [
+"Pyrus nivalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q7271351": {
+"names": [
+"Quercus texana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q728125": {
+"en": "Cornus officinalis",
+"it": "Cornus officinalis",
+"names": [
+"Cornus officinalis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q728441": {
+"en": "Cornus kousa",
+"it": "Cornus kousa",
+"names": [
+"Cornus kousa"
 ],
 "ranks": [
 "Q7432"
@@ -1982,11 +10929,65 @@
 ],
 "taxon": true
 },
+"Q732933": {
+"en": "Ligustrum lucidum",
+"it": "Ligustrum lucidum",
+"names": [
+"Ligustrum lucidum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q738571": {
+"en": "Malus prunifolia",
+"it": "Malus prunifolia",
+"names": [
+"Malus prunifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q74068": {
 "en": "Chamaecyparis pisifera",
 "it": "Chamaecyparis pisifera",
 "names": [
 "Chamaecyparis pisifera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q744244": {
+"en": "Metrosideros robusta",
+"it": "Metrosideros robusta",
+"names": [
+"Metrosideros robusta"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q747247": {
+"en": "Conference pear",
+"names": [
+"Pyrus communis ‘Conference’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q747652": {
+"en": "Pinus wallichiana",
+"it": "Pinus wallichiana",
+"names": [
+"Pinus wallichiana"
 ],
 "ranks": [
 "Q7432"
@@ -2015,6 +11016,17 @@
 ],
 "taxon": true
 },
+"Q753099": {
+"en": "Ligustrum",
+"it": "Ligustrum",
+"names": [
+"Ligustrum"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q756": {
 "en": "plant",
 "it": "piante",
@@ -2023,6 +11035,28 @@
 ],
 "ranks": [
 "Q36732"
+],
+"taxon": true
+},
+"Q756191": {
+"en": "Pinus canariensis",
+"it": "Pinus canariensis",
+"names": [
+"Pinus canariensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q756334": {
+"en": "Larix gmelinii",
+"it": "Larix gmelinii",
+"names": [
+"Larix gmelinii"
+],
+"ranks": [
+"Q7432"
 ],
 "taxon": true
 },
@@ -2037,11 +11071,243 @@
 ],
 "taxon": true
 },
+"Q764044": {
+"en": "Clerodendrum trichotomum",
+"it": "Clerodendrum trichotomum",
+"names": [
+"Clerodendrum trichotomum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q765246": {
+"en": "Calocedrus",
+"it": "Calocedrus",
+"names": [
+"Calocedrus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q766133": {
+"names": [
+"Acer cappadocicum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q766457": {
+"en": "Eucalyptus cypellocarpa",
+"it": "Eucalyptus cypellocarpa",
+"names": [
+"Eucalyptus cypellocarpa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q766995": {
+"en": "Caryota urens",
+"it": "Caryota urens",
+"names": [
+"Caryota urens"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q7691623": {
+"en": "Brucea javanica",
+"it": "Brucea javanica",
+"names": [
+"Brucea javanica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q76971": {
+"en": "Betula papyrifera",
+"it": "Betula papyrifera",
+"names": [
+"Betula papyrifera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q771101": {
+"en": "Diospyros lotus",
+"it": "Diospyros lotus",
+"names": [
+"Diospyros lotus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q774829": {
+"en": "Pinus sibirica",
+"it": "Pinus sibirica",
+"names": [
+"Pinus sibirica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q775229": {
+"en": "Lagerstroemia",
+"it": "Lagerstroemia",
+"names": [
+"Lagerstroemia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q776705": {
+"en": "Firmiana simplex",
+"it": "Firmiana simplex",
+"names": [
+"Firmiana simplex"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q782275": {
+"en": "Araucaria bidwillii",
+"it": "Araucaria bidwillii",
+"names": [
+"Araucaria bidwillii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q783224": {
+"en": "Quercus phellos",
+"names": [
+"Quercus phellos"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q784070": {
+"en": "Phillyrea latifolia",
+"it": "Phillyrea latifolia",
+"names": [
+"Phillyrea latifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q7879317": {
+"names": [
+"Ulmus 'Nanguen'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q7879319": {
+"names": [
+"Ulmus ‘New Horizon’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q7879345": {
+"en": "Ulmus ʽSan Zanobi’",
+"it": "Ulmus ‘San Zanobi’",
+"names": [
+"Ulmus ‘San Zanobi’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q7879348": {
+"en": "Ulmus ʽSapporo Gold 2’",
+"it": "Ulmus ‘Sapporo Gold 2’",
+"names": [
+"Ulmus ‘Sapporo Gold 2’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q7879355": {
+"names": [
+"Ulmus 'Wanoux'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
 "Q794061": {
 "en": "Magnolia denudata",
 "it": "Magnolia denudata",
 "names": [
 "Magnolia denudata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q805008": {
+"it": "Acer hyrcanum",
+"names": [
+"Acer hyrcanum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q805037": {
+"en": "Geranium macrorrhizum",
+"it": "Geranium macrorrhizum",
+"names": [
+"Geranium macrorrhizum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q806838": {
+"en": "Pinus banksiana",
+"it": "Pinus banksiana",
+"names": [
+"Pinus banksiana"
 ],
 "ranks": [
 "Q7432"
@@ -2056,6 +11322,60 @@
 ],
 "ranks": [
 "Q1306176"
+],
+"taxon": true
+},
+"Q81666": {
+"en": "Acacia",
+"it": "Acacia",
+"names": [
+"Acacia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q837237": {
+"it": "Tetradium daniellii",
+"names": [
+"Tetradium daniellii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q837410": {
+"en": "Pinus rigida",
+"it": "Pinus rigida",
+"names": [
+"Pinus rigida"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q838818": {
+"en": "Jacaranda mimosifolia",
+"it": "Jacaranda mimosifolia",
+"names": [
+"Jacaranda mimosifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q839507": {
+"en": "Magnolia stellata",
+"it": "Magnolia stellata",
+"names": [
+"Magnolia stellata"
+],
+"ranks": [
+"Q7432"
 ],
 "taxon": true
 },
@@ -2075,6 +11395,83 @@
 "it": "Styrax obassia",
 "names": [
 "Styrax obassia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q845791": {
+"en": "Quercus marilandica",
+"it": "Quercus marilandica",
+"names": [
+"Quercus marilandica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q847209": {
+"en": "Quercus serrata",
+"it": "Quercus serrata",
+"names": [
+"Quercus serrata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q847488": {
+"en": "Celtis jessoensis",
+"it": "Celtis jessoensis",
+"names": [
+"Celtis jessoensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q849381": {
+"en": "Abies pinsapo",
+"it": "Abies pinsapo",
+"names": [
+"Abies pinsapo"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q850480": {
+"en": "Betula davurica",
+"it": "Betula dahurica",
+"names": [
+"Betula dahurica",
+"Betula davurica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q85188894": {
+"it": "×Crataemespilus grandiflora",
+"names": [
+"× Crataemespilus grandiflora"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q852262": {
+"en": "Abies sibirica",
+"it": "Abies sibirica",
+"names": [
+"Abies sibirica"
 ],
 "ranks": [
 "Q7432"
@@ -2112,6 +11509,69 @@
 ],
 "taxon": true
 },
+"Q855853": {
+"en": "Toona sinensis",
+"it": "Toona sinensis",
+"names": [
+"Toona sinensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q855896": {
+"en": "Schinus molle",
+"it": "Schinus molle",
+"names": [
+"Schinus molle"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q855963": {
+"en": "Gleditsia japonica",
+"it": "Gleditsia japonica",
+"names": [
+"Gleditsia japonica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q856001": {
+"en": "Corypha umbraculifera",
+"it": "Corypha umbraculifera",
+"names": [
+"Corypha umbraculifera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q856646": {
+"names": [
+"Tilia miqueliana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q857075": {
+"en": "Quercus frainetto",
+"names": [
+"Quercus frainetto"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q857220": {
 "en": "Casuarina equisetifolia",
 "it": "Casuarina equisetifolia",
@@ -2122,6 +11582,185 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q857321": {
+"en": "Tilia mandshurica",
+"it": "Tilia mandshurica",
+"names": [
+"Tilia mandshurica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q85924410": {
+"names": [
+"Prunus serrulata 'Amanogawa'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q859433": {
+"en": "Poncirus trifoliata",
+"it": "Poncirus trifoliata",
+"names": [
+"Poncirus trifoliata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q867776": {
+"en": "yuzu",
+"it": "Citrus × junos",
+"names": [
+"Citrus ×junos"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q87599757": {
+"en": "Cladrastis lutea",
+"it": "Cladrastis lutea",
+"names": [
+"Cladrastis lutea"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q87638197": {
+"en": "Photinia serrulata",
+"it": "Photinia serrulata",
+"names": [
+"Photinia serrulata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q879016": {
+"en": "Carya cordiformis",
+"it": "Carya cordiformis",
+"names": [
+"Carya cordiformis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q882289": {
+"it": "Betula caerulea",
+"names": [
+"Betula × caerulea"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q882296": {
+"en": "Fraxinus quadrangulata",
+"it": "Fraxinus quadrangulata",
+"names": [
+"Fraxinus quadrangulata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q886464": {
+"en": "Malus × purpurea",
+"it": "Malus ×purpurea",
+"names": [
+"Malus × purpurea"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q886511": {
+"en": "Fagus sylvatica f. purpurea",
+"it": "Fagus sylvatica f. purpurea",
+"names": [
+"Fagus sylvatica f. purpurea"
+],
+"ranks": [
+"Q279749"
+],
+"taxon": true
+},
+"Q886711": {
+"en": "Prunus cerasifera 'Nigra'",
+"names": [
+"Prunus cerasifera 'Nigra'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q890507": {
+"en": "Fremontodendron californicum",
+"it": "Fremontodendron californicum",
+"names": [
+"Fremontodendron californicum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q89177881": {
+"en": "Micromeles vestita",
+"it": "Micromeles vestita",
+"names": [
+"Micromeles vestita"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q899179": {
+"en": "Araucaria angustifolia",
+"it": "Araucaria angustifolia",
+"names": [
+"Araucaria angustifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q899686": {
+"en": "Quercus pyrenaica",
+"it": "Quercus pyrenaica",
+"names": [
+"Quercus pyrenaica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q902545": {
+"en": "Pin",
+"it": "Pin",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q910358": {
 "en": "Spartium junceum",
@@ -2145,6 +11784,28 @@
 ],
 "taxon": true
 },
+"Q913129": {
+"en": "Hamamelis virginiana",
+"it": "Hamamelis virginiana",
+"names": [
+"Hamamelis virginiana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q916961": {
+"en": "Crataegus crus-galli",
+"it": "Crataegus crus-galli",
+"names": [
+"Crataegus crus-galli"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q917187": {
 "en": "Chamaecyparis obtusa",
 "it": "Chamaecyparis obtusa",
@@ -2161,6 +11822,318 @@
 "it": "Cupressus cashmeriana",
 "names": [
 "Cupressus cashmeriana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q918920": {
+"en": "Crataegus douglasii",
+"it": "Crataegus douglasii",
+"names": [
+"Crataegus douglasii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q920344": {
+"en": "Zelkova serrata",
+"it": "Zelkova serrata",
+"names": [
+"Zelkova serrata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q92163830": {
+"en": "Styphnolobium japonicum f. violaceum",
+"it": "Styphnolobium japonicum f. violaceum",
+"names": [
+"Styphnolobium japonicum f. violaceum"
+],
+"ranks": [
+"Q279749"
+],
+"taxon": true
+},
+"Q923901": {
+"en": "Fraxinus bungeana",
+"it": "Fraxinus bungeana",
+"names": [
+"Fraxinus bungeana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q926249": {
+"en": "Cornus controversa",
+"it": "Cornus controversa",
+"names": [
+"Cornus controversa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q9301049": {
+"en": "Camptotheca acuminata",
+"it": "Camptotheca acuminata",
+"names": [
+"Camptotheca acuminata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q930814": {
+"names": [
+"Betula utilis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q933520": {
+"en": "Cephalotaxus",
+"it": "Cephalotaxus",
+"names": [
+"Cephalotaxus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q934035": {
+"en": "Chêne",
+"it": "Chêne",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q93421779": {
+"en": "Platane",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q9355423": {
+"en": "Tamarix tetrandra",
+"it": "Tamarix tetrandra",
+"names": [
+"Tamarix tetrandra"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q936355": {
+"names": [
+"Carpinus turczaninovii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q941891": {
+"names": [
+"Acer buergerianum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q942031": {
+"en": "Magnolia liliiflora",
+"it": "Magnolia liliiflora",
+"names": [
+"Magnolia liliiflora"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q942409": {
+"en": "Magnolia kobus",
+"it": "Magnolia kobus",
+"names": [
+"Magnolia kobus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q947016": {
+"en": "Brachychiton populneus",
+"it": "Brachychiton populneus",
+"names": [
+"Brachychiton populneus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q948827": {
+"en": "Asimina triloba",
+"it": "Asimina triloba",
+"names": [
+"Asimina triloba"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q9576738": {
+"en": "Acer campestre 'Postelense'",
+"it": "Acer campestre ʽPostelense’",
+"names": [
+"Acer campestre 'Postelense'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q9577378": {
+"it": "Acer ×freemanii",
+"names": [
+"Acer × freemanii"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
+"Q9578266": {
+"names": [
+"Acer negundo 'Auriomarginatum'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q9578897": {
+"en": "Acer pseudoplatanus f. purpureum",
+"it": "Acer pseudoplatanus f. purpureum",
+"names": [
+"Acer pseudoplatanus f. purpureum"
+],
+"ranks": [
+"Q279749"
+],
+"taxon": true
+},
+"Q958336": {
+"en": "Juglans sigillata",
+"it": "Juglans sigillata",
+"names": [
+"Juglans sigillata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q95988426": {
+"en": "Scandosorbus intermedia",
+"it": "Scandosorbus intermedia",
+"names": [
+"Scandosorbus intermedia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q964952": {
+"en": "Nyssa",
+"it": "Nyssa",
+"names": [
+"Nyssa"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q97172025": {
+"en": "Corylus maxima 'purpurea'",
+"it": "Corylus maxima 'purpurea'",
+"names": [
+"Corylus maxima 'purpurea'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q97198288": {
+"en": "Salix × fragilis",
+"it": "Salix × fragilis",
+"names": [
+"Salix ×fragilis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q974954": {
+"en": "Abies cilicica",
+"it": "Abies cilicica",
+"names": [
+"Abies cilicica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q978755": {
+"en": "Abies lasiocarpa",
+"it": "Abies lasiocarpa",
+"names": [
+"Abies lasiocarpa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q986006": {
+"en": "Liquidambar formosana",
+"it": "Liquidambar formosana",
+"names": [
+"Liquidambar formosana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q990982": {
+"en": "Magnolia tripetala",
+"it": "Magnolia tripetala",
+"names": [
+"Magnolia tripetala"
 ],
 "ranks": [
 "Q7432"

@@ -1,4 +1,536 @@
 {
+"Q105661162": {
+"coords": [
+[
+9.368880555,
+42.036319444
+]
+],
+"heritage": [],
+"image": "2019 The bird-tree FR.jpg",
+"taxa": [
+"Q156137"
+],
+"taxon": false,
+"wp": {}
+},
+"Q105668659": {
+"coords": [
+[
+9.36875,
+42.281277777
+]
+],
+"heritage": [],
+"image": "2015 The Chestnut tree FR.jpg",
+"taxa": [
+"Q129324"
+],
+"taxon": false,
+"wp": {}
+},
+"Q106094": {
+"coords": [],
+"heritage": [],
+"image": "Pinus pinea and ruins on Palatine Hill.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Pinus_pinea",
+"it": "https://it.wikipedia.org/wiki/Pinus_pinea"
+}
+},
+"Q106111762": {
+"coords": [
+[
+-0.14475,
+48.47509
+]
+],
+"heritage": [],
+"image": "If commun de Lalacelle.jpg",
+"taxa": [
+"Q179729"
+],
+"taxon": false,
+"wp": {}
+},
+"Q106523316": {
+"coords": [
+[
+23.282527,
+41.56941
+]
+],
+"heritage": [],
+"image": "St. Vrach park, Sandanski, Bulgaria 2015 11.JPG",
+"taxa": [
+"Q161105"
+],
+"taxon": false,
+"wp": {}
+},
+"Q106523317": {
+"coords": [
+[
+23.28077,
+41.566752
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q161105"
+],
+"taxon": false,
+"wp": {}
+},
+"Q106523318": {
+"coords": [
+[
+23.390472,
+41.523194
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q161105"
+],
+"taxon": false,
+"wp": {}
+},
+"Q106523374": {
+"coords": [
+[
+24.623564,
+42.787685
+]
+],
+"heritage": [],
+"image": "Карцов бук Беклемето.jpg",
+"taxa": [
+"Q146149"
+],
+"taxon": false,
+"wp": {}
+},
+"Q106523596": {
+"coords": [
+[
+23.324989,
+42.699321
+]
+],
+"heritage": [],
+"image": "Morus in Sofia.jpg",
+"taxa": [
+"Q44789"
+],
+"taxon": false,
+"wp": {}
+},
+"Q106524029": {
+"coords": [
+[
+26.06759,
+41.748766
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q163025"
+],
+"taxon": false,
+"wp": {}
+},
+"Q106524710": {
+"coords": [
+[
+23.1408,
+42.706327
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q106633497": {
+"coords": [
+[
+23.331073,
+42.676651
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q106633539": {
+"coords": [
+[
+23.39351,
+41.522958
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q161105"
+],
+"taxon": false,
+"wp": {}
+},
+"Q106714698": {
+"coords": [
+[
+11.3106582,
+44.49638
+]
+],
+"heritage": [],
+"image": "Cimitero della Certosa di Bologna 2021-02-26 06.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Monumento_ai_caduti_in_Russia_della_seconda_guerra_mondiale"
+}
+},
+"Q1071485": {
+"coords": [
+[
+20.47400833,
+52.02066667
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q107390712": {
+"coords": [
+[
+10.835819578,
+44.340842348
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q61105"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Pinone_di_Pavullo"
+}
+},
+"Q107646014": {
+"coords": [
+[
+23.591024536,
+52.860804766
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Dąb Dunin 005.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q108077429": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q1087503": {
+"coords": [
+[
+15.70933333,
+51.52251944
+]
+],
+"heritage": [],
+"image": "Dąb Chrobry 2.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Chrobry_Oak"
+}
+},
+"Q1090986": {
+"coords": [
+[
+0.676485,
+49.596376
+]
+],
+"heritage": [
+[
+"site naturel classé",
+"site naturel classé"
+],
+[
+"listed in the general inventory of cultural heritage",
+"listed in the general inventory of cultural heritage"
+]
+],
+"image": "Chêne d'Allouville-Bellefosse 02.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Ch%C3%AAne_chapelle"
+}
+},
+"Q110895611": {
+"coords": [
+[
+18.4493614,
+50.19411
+]
+],
+"heritage": [],
+"image": "2025-07 Rudy (10).jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q110937014": {
+"coords": [
+[
+5.8098448,
+45.1781631
+]
+],
+"heritage": [
+[
+"Notable tree of France",
+"Notable tree of France"
+]
+],
+"image": "Le chêne de Venon face au Vercors.jpg",
+"taxa": [
+"Q158608"
+],
+"taxon": false,
+"wp": {}
+},
+"Q110946314": {
+"coords": [],
+"heritage": [],
+"image": "Chene Tombeboeuf (47) saisons.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q110948660": {
+"coords": [
+[
+2.5725648,
+48.8643862
+]
+],
+"heritage": [],
+"image": "Le catalpa de Gournay-sur-Marne.jpg",
+"taxa": [
+"Q15548494",
+"Q10527903"
+],
+"taxon": false,
+"wp": {}
+},
+"Q110948754": {
+"coords": [
+[
+-1.1698003,
+47.9197986
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Rannée (35) Chêne à la Vierge.jpg",
+"taxa": [
+"Q12004"
+],
+"taxon": false,
+"wp": {}
+},
+"Q111076645": {
+"coords": [
+[
+1.405996,
+48.808948
+]
+],
+"heritage": [],
+"image": "Chêne Saint-Hubert.jpg",
+"taxa": [
+"Q158608"
+],
+"taxon": false,
+"wp": {}
+},
+"Q111076706": {
+"coords": [
+[
+1.428625,
+48.821863
+]
+],
+"heritage": [],
+"image": "Forêt de Dreux - Chêne Sainte Barbe.jpg",
+"taxa": [
+"Q158608"
+],
+"taxon": false,
+"wp": {}
+},
+"Q111134010": {
+"coords": [
+[
+18.77308,
+50.224468
+]
+],
+"heritage": [],
+"image": "Topola Tekla, Chudów, Slezské vojvodství, Polsko 5.jpg",
+"taxa": [
+"Q149622"
+],
+"taxon": false,
+"wp": {}
+},
+"Q111980681": {
+"coords": [
+[
+21.86622,
+56.20367
+]
+],
+"heritage": [],
+"image": "Laumių miškas, 4-kamienė eglė 2.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q112245689": {
+"coords": [
+[
+9.37509,
+42.04076
+]
+],
+"heritage": [],
+"image": "Lentisque remarquable de Ghisonaccia (ext).jpg",
+"taxa": [
+"Q159812"
+],
+"taxon": false,
+"wp": {}
+},
+"Q112377862": {
+"coords": [
+[
+26.06099,
+55.35512
+]
+],
+"heritage": [],
+"image": "Asalnai 2022a.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q112678905": {
+"coords": [
+[
+23.328788,
+42.676434
+],
+[
+23.328788233,
+42.676434498
+],
+[
+23.328789,
+42.676435
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q113192125": {
+"coords": [
+[
+24.3927903,
+57.2337233
+]
+],
+"heritage": [],
+"image": "Lípy carevny Kateřiny (Katarīnas liepas), Pabaži, Saulkrasti, Vidzeme, Lotyšsko 01.jpg",
+"taxa": [
+"Q127849"
+],
+"taxon": false,
+"wp": {}
+},
+"Q113623541": {
+"coords": [
+[
+11.447647,
+46.176829
+]
+],
+"heritage": [],
+"image": "L'eterno - panoramio.jpg",
+"taxa": [
+"Q147278"
+],
+"taxon": false,
+"wp": {}
+},
 "Q115057813": {
 "coords": [
 [
@@ -12,6 +544,297 @@
 "Q165145"
 ],
 "taxon": false,
+"wp": {}
+},
+"Q115145930": {
+"coords": [
+[
+12.46095,
+41.8959
+]
+],
+"heritage": [],
+"image": "Paolo Monti - Servizio fotografico (Roma, 1966) - BEIC 6329056.jpg",
+"taxa": [
+"Q12004"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Quercia_del_Tasso"
+}
+},
+"Q115620235": {
+"coords": [
+[
+17.9236517,
+50.6669689
+]
+],
+"heritage": [],
+"image": "Starszy Platan klonolistny, severní část Plac Wolności, Opole 03.jpg",
+"taxa": [
+"Q161374"
+],
+"taxon": false,
+"wp": {}
+},
+"Q115620538": {
+"coords": [
+[
+17.9238572,
+50.6667356
+]
+],
+"heritage": [],
+"image": "Młodszy Platan klonolistny, jižní část Plac Wolności, Opole 01.jpg",
+"taxa": [
+"Q161374"
+],
+"taxon": false,
+"wp": {}
+},
+"Q116854604": {
+"coords": [
+[
+-3.32479,
+48.44912
+]
+],
+"heritage": [],
+"image": "Chene-de-Tronjoly.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11695784": {
+"coords": [
+[
+14.331944,
+53.515278
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q11695786": {
+"coords": [
+[
+17.0714,
+51.1123
+]
+],
+"heritage": [],
+"image": "Dąb Dzierżonia.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11695787": {
+"coords": [
+[
+21.4441195,
+49.8597829
+]
+],
+"heritage": [],
+"image": "Dąb w Januszkowicach 1.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11695788": {
+"coords": [
+[
+17.0837,
+51.1044
+]
+],
+"heritage": [],
+"image": "Dąb Własta.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q117225631": {
+"coords": [
+[
+21.555395806,
+52.165733323
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Sosna wszebora 4.jpg",
+"taxa": [
+"Q133128"
+],
+"taxon": false,
+"wp": {}
+},
+"Q117425885": {
+"coords": [
+[
+13.308526,
+42.6509
+]
+],
+"heritage": [],
+"image": "Cerro di Sant'Angelo.jpg",
+"taxa": [
+"Q157277"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Cerro_di_Sant%27Angelo"
+}
+},
+"Q118136533": {
+"coords": [
+[
+18.9415067,
+50.2451236
+]
+],
+"heritage": [],
+"image": "Zrośnięte sosny, Chorzów Batory, Slezské vojvodství, Polsko 01.jpg",
+"taxa": [
+"Q12024"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11823674": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q11823675": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q119079140": {
+"coords": [
+[
+24.3901,
+56.2559
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q119904458": {
+"coords": [
+[
+6.999489866,
+49.179550235
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q119941772": {
+"coords": [
+[
+-2.11232,
+48.06565
+]
+],
+"heritage": [],
+"image": "Chêne des Hindrés.jpg",
+"taxa": [
+"Q158608"
+],
+"taxon": false,
+"wp": {}
+},
+"Q12024": {
+"coords": [],
+"heritage": [],
+"image": "Ponderosa Pine cones, Idaho Panhandle National Forest.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Pine",
+"it": "https://it.wikipedia.org/wiki/Pinus"
+}
+},
+"Q120483970": {
+"coords": [
+[
+1.729765107,
+49.876606144
+]
+],
+"heritage": [],
+"image": "L'friperie d'Saint-Gleude.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q122086754": {
+"coords": [
+[
+18.7116342,
+52.9307592
+]
+],
+"heritage": [],
+"image": "Dąb Gniewko, Brzoza, Gmina Wielka Nieszawka, okr. Toruň.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q122310173": {
+"coords": [
+[
+5.660091666,
+45.208597222
+]
+],
+"heritage": [],
+"image": "Cèdre du Liban dans le parc du château de Sassenage - 2023-09-06.jpg",
+"taxa": [
+"Q61105"
+],
+"taxon": false,
+"wp": {}
+},
+"Q122679": {
+"coords": [],
+"heritage": [],
+"image": "Rosemary bush.jpg",
+"taxa": [],
+"taxon": true,
 "wp": {}
 },
 "Q123120261": {
@@ -29,6 +852,239 @@
 "taxon": false,
 "wp": {}
 },
+"Q123147073": {
+"coords": [
+[
+18.983119,
+50.512708
+]
+],
+"heritage": [],
+"image": "Drzewo Pętla Bibela.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q123247672": {
+"coords": [
+[
+19.2029525,
+49.6863214
+]
+],
+"heritage": [],
+"image": "Dąb Franciszek, Park Żywiecki, Żywiec 01.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q12359501": {
+"coords": [
+[
+26.416017,
+58.230407
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "Arbimäe mänd.jpg",
+"taxa": [
+"Q133128"
+],
+"taxon": false,
+"wp": {}
+},
+"Q12366782": {
+"coords": [
+[
+24.7425,
+59.43555556
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "",
+"taxa": [
+"Q163760"
+],
+"taxon": false,
+"wp": {}
+},
+"Q12368162": {
+"coords": [
+[
+24.0432266,
+59.0648632
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q12371649": {
+"coords": [
+[
+25.5834,
+58.14536
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "",
+"taxa": [
+"Q18674606"
+],
+"taxon": false,
+"wp": {}
+},
+"Q12372259": {
+"coords": [
+[
+26.406389,
+58.224722
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "",
+"taxa": [
+"Q133128"
+],
+"taxon": false,
+"wp": {}
+},
+"Q12372680": {
+"coords": [
+[
+26.192927,
+59.19151
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "Porkuni mänd.jpg",
+"taxa": [
+"Q133128"
+],
+"taxon": false,
+"wp": {}
+},
+"Q12373235": {
+"coords": [
+[
+26.45807,
+58.04561
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "Pühajärve sõjatamm udus.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q12375722": {
+"coords": [
+[
+24.745409,
+59.430186
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "Hõlmikpuu 1.jpg",
+"taxa": [
+"Q43284"
+],
+"taxon": false,
+"wp": {}
+},
+"Q12377616": {
+"coords": [
+[
+25.442548,
+59.467246
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+],
+[
+"archaeological monument",
+"archaeological monument"
+]
+],
+"image": "Tüliveretamm.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q124472567": {
+"coords": [
+[
+8.0240769,
+43.9934152
+]
+],
+"heritage": [],
+"image": "Stellanello-P1010564.JPG",
+"taxa": [
+"Q161415"
+],
+"taxon": false,
+"wp": {}
+},
+"Q125454391": {
+"coords": [
+[
+2.62717,
+48.43426
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q125461792": {
 "coords": [
 [
@@ -40,6 +1096,21 @@
 "image": "Pioppo Nero di Tronzano Vercellese 2.jpg",
 "taxa": [
 "Q147064"
+],
+"taxon": false,
+"wp": {}
+},
+"Q125502494": {
+"coords": [
+[
+22.7032088,
+50.011576
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q158783"
 ],
 "taxon": false,
 "wp": {}
@@ -74,6 +1145,21 @@
 "taxon": false,
 "wp": {}
 },
+"Q125957414": {
+"coords": [
+[
+22.702555555,
+50.011722222
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q179729"
+],
+"taxon": false,
+"wp": {}
+},
 "Q126101368": {
 "coords": [
 [
@@ -104,6 +1190,138 @@
 "taxon": false,
 "wp": {}
 },
+"Q12649420": {
+"coords": [
+[
+24.554661,
+55.253756
+]
+],
+"heritage": [],
+"image": "Atkočių tuopa.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q12656224": {
+"coords": [
+[
+23.567877,
+56.330137
+]
+],
+"heritage": [],
+"image": "Vaineikių gumbuotasis ąžuolas, kamienas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q12659822": {
+"coords": [
+[
+23.78825,
+54.90744
+]
+],
+"heritage": [],
+"image": "Pypliai. Karvelių ąžuolas 3.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q12667095": {
+"coords": [
+[
+23.9325,
+55.50694444
+]
+],
+"heritage": [],
+"image": "Nykio vinkšna.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q126689868": {
+"coords": [
+[
+17.78308,
+40.7177
+]
+],
+"heritage": [],
+"image": "Ginepro secolare Torre Guaceto.jpg",
+"taxa": [
+"Q138307"
+],
+"taxon": false,
+"wp": {}
+},
+"Q12670714": {
+"coords": [
+[
+21.816075,
+56.03865833
+]
+],
+"heritage": [],
+"image": "65 - Raganos uosis.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q12670717": {
+"coords": [
+[
+22.14302,
+55.10414
+]
+],
+"heritage": [],
+"image": "Raganų eglė, kamienas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q12671985": {
+"coords": [
+[
+25.01092778,
+54.70028056
+]
+],
+"heritage": [],
+"image": "Rykantu azuolas.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q12675681": {
+"coords": [
+[
+24.57222222,
+55.01944444
+]
+],
+"heritage": [],
+"image": "Upninkų liepos.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q12679491": {
+"coords": [
+[
+23.69777778,
+55.17527778
+]
+],
+"heritage": [],
+"image": "Saravu azuolas.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q126902383": {
 "coords": [
 [
@@ -113,6 +1331,264 @@
 ],
 "heritage": [],
 "image": "Pioppo nero di Dormelletto 2.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q127849": {
+"coords": [],
+"heritage": [],
+"image": "Tilia tomentosa.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Tilia",
+"it": "https://it.wikipedia.org/wiki/Tilia"
+}
+},
+"Q12795961": {
+"coords": [],
+"heritage": [],
+"image": "Maroltova jelka.jpg",
+"taxa": [
+"Q146992"
+],
+"taxon": false,
+"wp": {}
+},
+"Q12797267": {
+"coords": [
+[
+14.8555302,
+46.4473184
+]
+],
+"heritage": [],
+"image": "NajevskaLipa1.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q12799825": {
+"coords": [
+[
+15.0096581,
+45.6500155
+]
+],
+"heritage": [],
+"image": "Rog (3).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q12807017": {
+"coords": [
+[
+15.0231436,
+45.6513725
+]
+],
+"heritage": [],
+"image": "Kraljica Roga 2023.jpg",
+"taxa": [
+"Q25350"
+],
+"taxon": false,
+"wp": {}
+},
+"Q1283302": {
+"coords": [
+[
+2.14138889,
+48.85583333
+]
+],
+"heritage": [],
+"image": "Alfred Sisley 037.jpg",
+"taxa": [
+"Q22699"
+],
+"taxon": false,
+"wp": {}
+},
+"Q129324": {
+"coords": [],
+"heritage": [],
+"image": "Châtaignier 120807 1.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Chestnut",
+"it": "https://it.wikipedia.org/wiki/Castanea"
+}
+},
+"Q1301101": {
+"coords": [
+[
+15.218322873,
+51.171422735
+]
+],
+"heritage": [],
+"image": "Cis pospolity.jpg",
+"taxa": [
+"Q179729"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Henryk%C3%B3w_Yew"
+}
+},
+"Q130643670": {
+"coords": [
+[
+-3.8386371,
+52.2758378
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q130705254": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q130910654": {
+"coords": [
+[
+15.069076722,
+37.759819264
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q131161601": {
+"coords": [
+[
+11.2201792,
+45.70170617
+]
+],
+"heritage": [],
+"image": "Recoaro Terme - Libocedro monumentale 02.jpg",
+"taxa": [
+"Q1399164"
+],
+"taxon": false,
+"wp": {}
+},
+"Q131695240": {
+"coords": [
+[
+15.5550814,
+52.0254353
+]
+],
+"heritage": [],
+"image": "Dąb 500-lecia, Zelená Hora - Nowe Miasto, Zelená Hora, Lubušské vojvodství, Polsko 01.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q131744347": {
+"coords": [
+[
+13.8488302,
+45.9385517
+]
+],
+"heritage": [],
+"image": "Drevo z večjo udolbino na sredini in človekom za perspektivo.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q131841014": {
+"coords": [
+[
+14.205,
+52.9187
+]
+],
+"heritage": [],
+"image": "Dąb Madej (Dąb Lubiechowski N), Lubiechów Dolny, gmina Cedynia, okres Gryfino.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q131841094": {
+"coords": [
+[
+14.2044,
+52.9177
+]
+],
+"heritage": [],
+"image": "Dąb Pietrek (Dąb Lubiechowski S), Lubiechów Dolny, gmina Cedynia, okres Gryfino.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q13189": {
+"coords": [],
+"heritage": [],
+"image": "Peaches at Applecrest Farm Orchards - 20108462909.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Peach",
+"it": "https://it.wikipedia.org/wiki/Prunus_persica"
+}
+},
+"Q133351": {
+"coords": [],
+"heritage": [],
+"image": "Minnehaha Walk MRD 08.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Schefflera",
+"it": "https://it.wikipedia.org/wiki/Schefflera"
+}
+},
+"Q1337956": {
+"coords": [
+[
+2.478055555,
+49.458611111
+]
+],
+"heritage": [],
+"image": "Mairie et église d'Erquinvillers.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Erquinvillers",
+"it": "https://it.wikipedia.org/wiki/Erquinvillers"
+}
+},
+"Q135496834": {
+"coords": [],
+"heritage": [],
+"image": "",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -179,6 +1655,17 @@
 "taxon": false,
 "wp": {}
 },
+"Q1367533": {
+"coords": [],
+"heritage": [],
+"image": "Ostrya carpinifolia 2.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Ostrya_carpinifolia",
+"it": "https://it.wikipedia.org/wiki/Ostrya_carpinifolia"
+}
+},
 "Q136758281": {
 "coords": [
 [
@@ -194,6 +1681,298 @@
 "it": "https://it.wikipedia.org/wiki/Olmo_di_Montemarzino"
 }
 },
+"Q137589691": {
+"coords": [
+[
+11.12055,
+46.06347
+]
+],
+"heritage": [],
+"image": "Cedro dell'Himalaya monumentale (80615).jpg",
+"taxa": [
+"Q146935"
+],
+"taxon": false,
+"wp": {}
+},
+"Q137805343": {
+"coords": [
+[
+19.004209,
+50.306122
+]
+],
+"heritage": [],
+"image": "Siemianowice topola kanadyjska pl. Skrzeka i Wójcika (4).jpg",
+"taxa": [
+"Q149622"
+],
+"taxon": false,
+"wp": {}
+},
+"Q137805699": {
+"coords": [
+[
+2.93066,
+49.40658
+]
+],
+"heritage": [],
+"image": "Veilleur du Mont Saint-Mard ZILaXEufg.jpg",
+"taxa": [
+"Q122468869"
+],
+"taxon": false,
+"wp": {}
+},
+"Q138031413": {
+"coords": [
+[
+11.12118,
+46.07198
+]
+],
+"heritage": [],
+"image": "Olmo montano monumentale (Trento) (95279).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q138033691": {
+"coords": [
+[
+11.12142,
+46.07265
+]
+],
+"heritage": [],
+"image": "Platano comune monumentale (Vannetti 28) (90653).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q138661252": {
+"coords": [
+[
+-0.3997822,
+48.5667917
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q138987885": {
+"coords": [
+[
+15.435033,
+44.194825333
+]
+],
+"heritage": [],
+"image": "Zeleni hrast.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q139005774": {
+"coords": [
+[
+26.80975,
+43.161777777
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q139736835": {
+"coords": [
+[
+1.7351411,
+49.4271444
+]
+],
+"heritage": [],
+"image": "Le vénérable (5734406014).jpg",
+"taxa": [
+"Q127849"
+],
+"taxon": false,
+"wp": {}
+},
+"Q139816528": {
+"coords": [
+[
+23.328816,
+42.676624
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q139816529": {
+"coords": [
+[
+23.329196,
+42.676675
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q139816530": {
+"coords": [
+[
+23.329123,
+42.67682
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q139816531": {
+"coords": [
+[
+23.329196,
+42.676801
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q139816532": {
+"coords": [
+[
+23.329452,
+42.676758
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q139816533": {
+"coords": [
+[
+23.329572,
+42.676834
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q139816534": {
+"coords": [
+[
+23.329394,
+42.676923
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q139816535": {
+"coords": [
+[
+23.329499,
+42.676617
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q139816618": {
+"coords": [
+[
+23.32745,
+42.674182
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q139824009": {
+"coords": [
+[
+23.329339,
+42.676332
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q139824010": {
+"coords": [
+[
+23.329323,
+42.676838
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
 "Q140160143": {
 "coords": [
 [
@@ -208,6 +1987,45 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q140542234": {
+"coords": [
+[
+15.583605,
+46.4948664
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q22699"
+],
+"taxon": false,
+"wp": {}
+},
+"Q140543162": {
+"coords": [
+[
+15.5693681,
+46.5112404
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q14080": {
+"coords": [],
+"heritage": [],
+"image": "Una playa en Luquillo.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Arecaceae",
+"it": "https://it.wikipedia.org/wiki/Arecaceae"
+}
 },
 "Q140814896": {
 "coords": [
@@ -254,6 +2072,2520 @@
 "taxon": false,
 "wp": {}
 },
+"Q141550676": {
+"coords": [
+[
+15.26,
+46.552
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q17358067"
+],
+"taxon": false,
+"wp": {}
+},
+"Q1439079": {
+"coords": [],
+"heritage": [],
+"image": "Moretonbayfigfrom1850.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Ficus_macrophylla",
+"it": "https://it.wikipedia.org/wiki/Ficus_macrophylla"
+}
+},
+"Q146911": {
+"coords": [],
+"heritage": [],
+"image": "Cypress Halefka.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Cupressus",
+"it": "https://it.wikipedia.org/wiki/Cupressus"
+}
+},
+"Q147064": {
+"coords": [],
+"heritage": [],
+"image": "Populus nigra kz1.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Populus_nigra",
+"it": "https://it.wikipedia.org/wiki/Populus_nigra"
+}
+},
+"Q147392": {
+"coords": [],
+"heritage": [],
+"image": "Taxodium distichum NRCSMS01010.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Taxodium",
+"it": "https://it.wikipedia.org/wiki/Taxodium"
+}
+},
+"Q147468": {
+"coords": [],
+"heritage": [],
+"image": "2013-11-06 Lac Canards DDumais (21).jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Thuja_occidentalis",
+"it": "https://it.wikipedia.org/wiki/Thuja_occidentalis"
+}
+},
+"Q147492": {
+"coords": [],
+"heritage": [],
+"image": "Ulmus laevis (Flatter-Ulme) IMG 2383.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Ulmus_laevis",
+"it": "https://it.wikipedia.org/wiki/Ulmus_laevis"
+}
+},
+"Q147513": {
+"coords": [],
+"heritage": [],
+"image": "Cyprès.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Cupressus_sempervirens",
+"it": "https://it.wikipedia.org/wiki/Cupressus_sempervirens"
+}
+},
+"Q14954931": {
+"coords": [
+[
+26.406111,
+58.223611
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "",
+"taxa": [
+"Q133128"
+],
+"taxon": false,
+"wp": {}
+},
+"Q149553": {
+"coords": [],
+"heritage": [],
+"image": "Populus x canescens (14009152325).jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Populus_%C3%97_canescens",
+"it": "https://it.wikipedia.org/wiki/Populus_%C3%97_canescens"
+}
+},
+"Q14955992": {
+"coords": [
+[
+22.60218,
+58.70321
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+],
+[
+"archaeological monument",
+"archaeological monument"
+]
+],
+"image": "Tärkmaa ohvritamm sügisel.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q14956408": {
+"coords": [
+[
+25.64555556,
+58.37088889
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "Viiralti tamm.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q149851": {
+"coords": [],
+"heritage": [],
+"image": "Grizzly Giant Mariposa Grove.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Sequoiadendron_giganteum",
+"it": "https://it.wikipedia.org/wiki/Sequoiadendron_giganteum"
+}
+},
+"Q1520397": {
+"coords": [
+[
+15.131511111,
+37.749322222
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Castagno dei Cento Cavalli.jpg",
+"taxa": [
+"Q22699"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Hundred_Horse_Chestnut",
+"it": "https://it.wikipedia.org/wiki/Castagno_dei_Cento_Cavalli"
+}
+},
+"Q155874": {
+"coords": [],
+"heritage": [],
+"image": "Agave americana R01.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Agave",
+"it": "https://it.wikipedia.org/wiki/Agave"
+}
+},
+"Q156137": {
+"coords": [],
+"heritage": [],
+"image": "Surera de Tossa.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Quercus_suber",
+"it": "https://it.wikipedia.org/wiki/Quercus_suber"
+}
+},
+"Q156307": {
+"coords": [],
+"heritage": [],
+"image": "Wheeping willow Larousse Extracted.png",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Salix_babylonica",
+"it": "https://it.wikipedia.org/wiki/Salix_babylonica"
+}
+},
+"Q156831": {
+"coords": [],
+"heritage": [],
+"image": "Lípa u Horního Záblatí v roce 2011 (1).JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Tilia_platyphyllos",
+"it": "https://it.wikipedia.org/wiki/Tilia_platyphyllos"
+}
+},
+"Q157214": {
+"coords": [],
+"heritage": [],
+"image": "Araucaria heterophylla Norfolk Island 11.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Araucaria",
+"it": "https://it.wikipedia.org/wiki/Araucaria"
+}
+},
+"Q158608": {
+"coords": [],
+"heritage": [],
+"image": "Quercus petraea 02.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Quercus_petraea",
+"it": "https://it.wikipedia.org/wiki/Quercus_petraea"
+}
+},
+"Q158703": {
+"coords": [],
+"heritage": [],
+"image": "Buisfleurs.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Buxus",
+"it": "https://it.wikipedia.org/wiki/Buxus"
+}
+},
+"Q158722": {
+"coords": [],
+"heritage": [],
+"image": "Cinnamomum camphora20050314.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Camphora_officinarum",
+"it": "https://it.wikipedia.org/wiki/Cinnamomum_camphora"
+}
+},
+"Q158783": {
+"coords": [],
+"heritage": [],
+"image": "Liriodendron tulipifera JPG5a.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Liriodendron_tulipifera",
+"it": "https://it.wikipedia.org/wiki/Liriodendron_tulipifera"
+}
+},
+"Q158785": {
+"coords": [],
+"heritage": [],
+"image": "Dettaglio - Aceraceae Acer campestre L. Erbario Frizzi Perugia n. 3766.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Acer_campestre",
+"it": "https://it.wikipedia.org/wiki/Acer_campestre"
+}
+},
+"Q159204": {
+"coords": [],
+"heritage": [],
+"image": "Catalpa speciosa 20060624.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Catalpa_speciosa"
+}
+},
+"Q160580": {
+"coords": [],
+"heritage": [],
+"image": "Ailanthus altissima1.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Ailanthus",
+"it": "https://it.wikipedia.org/wiki/Ailanthus"
+}
+},
+"Q161116": {
+"coords": [],
+"heritage": [],
+"image": "Magnolia grandiflora3.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Magnolia_grandiflora",
+"it": "https://it.wikipedia.org/wiki/Magnolia_grandiflora"
+}
+},
+"Q161253": {
+"coords": [],
+"heritage": [],
+"image": "Quercus palustris 001.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Quercus_palustris",
+"it": "https://it.wikipedia.org/wiki/Quercus_palustris"
+}
+},
+"Q161374": {
+"coords": [],
+"heritage": [],
+"image": "PlatanusAcerifoliaTrunk.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/London_plane",
+"it": "https://it.wikipedia.org/wiki/Platanus_%C3%97_hispanica"
+}
+},
+"Q1616726": {
+"coords": [
+[
+16.18647222,
+54.191
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q156944"
+],
+"taxon": false,
+"wp": {}
+},
+"Q162171": {
+"coords": [],
+"heritage": [],
+"image": "Melia azedarach 01434.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Melia_azedarach",
+"it": "https://it.wikipedia.org/wiki/Melia_azedarach"
+}
+},
+"Q163025": {
+"coords": [],
+"heritage": [],
+"image": "Platanus orientalis-IMG 5938.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Platanus",
+"it": "https://it.wikipedia.org/wiki/Platanus"
+}
+},
+"Q16408919": {
+"coords": [
+[
+24.930905669,
+58.907908677
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+],
+[
+"archaeological monument",
+"archaeological monument"
+]
+],
+"image": "Ohekatku tamm1.JPG",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q16409267": {
+"coords": [
+[
+26.8436572,
+57.8877749
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q16410069": {
+"coords": [
+[
+27.384596123,
+57.795836622
+]
+],
+"heritage": [
+[
+"archaeological monument",
+"archaeological monument"
+]
+],
+"image": "Härmä mänd ja tsässon 2013 sügis.JPG",
+"taxa": [
+"Q133128"
+],
+"taxon": false,
+"wp": {}
+},
+"Q16443496": {
+"coords": [
+[
+25.548852,
+55.10122
+]
+],
+"heritage": [],
+"image": "Alkūnų ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16443646": {
+"coords": [
+[
+22.23892,
+55.41721
+]
+],
+"heritage": [],
+"image": "2022, Andriejaičių ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16443747": {
+"coords": [
+[
+24.34326111,
+54.85161944
+]
+],
+"heritage": [],
+"image": "Dešimtkamienė liepa.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16443750": {
+"coords": [
+[
+24.34394722,
+55.83881944
+]
+],
+"heritage": [],
+"image": "Antakalnio pušis.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16445790": {
+"coords": [
+[
+24.6965152,
+56.319299
+]
+],
+"heritage": [],
+"image": "2011 04 24PurviškiaiBielinio03.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16446038": {
+"coords": [
+[
+25.877468,
+55.831608
+]
+],
+"heritage": [],
+"image": "Bradesių ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16446417": {
+"coords": [
+[
+24.87973889,
+55.81461944
+]
+],
+"heritage": [],
+"image": "Buivėnų ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16449942": {
+"coords": [
+[
+24.12055556,
+54.81777778
+]
+],
+"heritage": [],
+"image": "Dubravos miško dvyniai.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16451897": {
+"coords": [
+[
+25.222027777,
+54.984888888
+]
+],
+"heritage": [],
+"image": "Glitiškės. Ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16452863": {
+"coords": [],
+"heritage": [],
+"image": "Ilzenbergo Azuolas 2012.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16455507": {
+"coords": [
+[
+24.17313333,
+54.90304444
+]
+],
+"heritage": [],
+"image": "Karčiupio ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16456348": {
+"coords": [
+[
+23.17618333,
+55.70195556
+]
+],
+"heritage": [],
+"image": "Kiaunorių ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16458607": {
+"coords": [
+[
+23.48613889,
+54.89231111
+]
+],
+"heritage": [],
+"image": "Braziūkai, liepa.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16464931": {
+"coords": [
+[
+22.87671667,
+55.45096944
+]
+],
+"heritage": [],
+"image": "2022, Molavėnai. Ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16465298": {
+"coords": [
+[
+23.035725,
+55.79670278
+]
+],
+"heritage": [],
+"image": "Napoleonopušis1.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16468728": {
+"coords": [
+[
+22.95549444,
+55.72826667
+]
+],
+"heritage": [],
+"image": "Panūdžiai, ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16469032": {
+"coords": [
+[
+21.17174722,
+55.72254722
+]
+],
+"heritage": [],
+"image": "Paupio ąžuolas.JPG",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q16470434": {
+"coords": [
+[
+22.7975738,
+55.4423279
+]
+],
+"heritage": [],
+"image": "Neveravičiaus uosis.JPG",
+"taxa": [
+"Q156907"
+],
+"taxon": false,
+"wp": {}
+},
+"Q16471635": {
+"coords": [
+[
+24.15428889,
+54.87519722
+]
+],
+"heritage": [],
+"image": "Prie Rumšiškių pušies.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16472247": {
+"coords": [
+[
+24.076733,
+54.317436
+]
+],
+"heritage": [],
+"image": "Senoji obelis kieme.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16472248": {
+"coords": [
+[
+24.07666667,
+54.31777778
+]
+],
+"heritage": [],
+"image": "Geisciunu guoba.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16472249": {
+"coords": [
+[
+24.07673333,
+54.31743611
+]
+],
+"heritage": [],
+"image": "Senoji kriause.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16473442": {
+"coords": [
+[
+21.17187778,
+55.72266389
+]
+],
+"heritage": [],
+"image": "Klaipėda, Paupių storasis uosis.JPG",
+"taxa": [
+"Q156907"
+],
+"taxon": false,
+"wp": {}
+},
+"Q16473445": {
+"coords": [
+[
+23.18944444,
+55.60333333
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16473814": {
+"coords": [
+[
+24.02287,
+54.87427
+]
+],
+"heritage": [],
+"image": "Taikos kalno ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16474561": {
+"coords": [
+[
+24.32259722,
+54.85763333
+]
+],
+"heritage": [],
+"image": "Uogintų ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16474999": {
+"coords": [
+[
+25.006611,
+54.803335
+]
+],
+"heritage": [],
+"image": "Vaigeliškių ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16476744": {
+"coords": [
+[
+24.70709167,
+55.46040833
+]
+],
+"heritage": [],
+"image": "Viškonių ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16477220": {
+"coords": [
+[
+23.92908889,
+54.89783889
+]
+],
+"heritage": [],
+"image": "Mažalapė liepa Kaune ant Parodos kalno.JPG",
+"taxa": [
+"Q127849"
+],
+"taxon": false,
+"wp": {}
+},
+"Q16477550": {
+"coords": [
+[
+23.88056389,
+55.14463611
+]
+],
+"heritage": [],
+"image": "Ąžuolas Galiūnas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16477562": {
+"coords": [
+[
+23.96506944,
+54.8794
+]
+],
+"heritage": [],
+"image": "Ąžuolas ir pušis.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16477578": {
+"coords": [
+[
+25.004753,
+54.809746
+]
+],
+"heritage": [],
+"image": "Ąžuolas Karalienė.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16478806": {
+"coords": [
+[
+25.17135,
+55.52144722
+]
+],
+"heritage": [],
+"image": "Žažumbrio ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q16508214": {
+"coords": [
+[
+6.72661,
+46.0835
+]
+],
+"heritage": [
+[
+"Notable tree of France",
+"Notable tree of France"
+],
+[
+"site naturel classé",
+"site naturel classé"
+]
+],
+"image": "Gros Tilleul de Samoens 1.jpg",
+"taxa": [
+"Q156831"
+],
+"taxon": false,
+"wp": {}
+},
+"Q16509810": {
+"coords": [
+[
+7.46331,
+43.76432
+]
+],
+"heritage": [],
+"image": "Roquebrune Olivier Millenaire.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Millennial_olive_tree_of_Roquebrune_Cap-Martin"
+}
+},
+"Q165145": {
+"coords": [],
+"heritage": [],
+"image": "Paprastasis azuolas.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Quercus_robur",
+"it": "https://it.wikipedia.org/wiki/Quercus_robur"
+}
+},
+"Q16565349": {
+"coords": [
+[
+15.102508333,
+37.717380555
+]
+],
+"heritage": [],
+"image": "Ilice di Carrinu.jpg",
+"taxa": [
+"Q218155"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Ilice_di_Carrinu"
+}
+},
+"Q16606999": {
+"coords": [
+[
+16.615972,
+52.717389
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q1678453": {
+"coords": [
+[
+23.83388889,
+52.7285
+]
+],
+"heritage": [],
+"image": "Białowieski Park Narodowy Dąb Jagiełły 2 by Maire.JPG",
+"taxa": [
+"Q12004"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Jagie%C5%82%C5%82o_Oak"
+}
+},
+"Q17340297": {
+"coords": [
+[
+-1.00995,
+43.74586
+]
+],
+"heritage": [],
+"image": "Ranquines 14.JPG",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q17480881": {
+"coords": [
+[
+16.013488888,
+45.973338888
+]
+],
+"heritage": [],
+"image": "2019 Gubec linden HR.jpg",
+"taxa": [
+"Q127849"
+],
+"taxon": false,
+"wp": {}
+},
+"Q179729": {
+"coords": [],
+"heritage": [],
+"image": "Taxus baccata tree.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Taxus_baccata",
+"it": "https://it.wikipedia.org/wiki/Taxus_baccata"
+}
+},
+"Q18119933": {
+"coords": [],
+"heritage": [],
+"image": "Salix fragilis 'Bullata'.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Salix_euxina"
+}
+},
+"Q18288934": {
+"coords": [
+[
+11.7214,
+43.0236
+]
+],
+"heritage": [],
+"image": "Quercia delle Checche 01.jpg",
+"taxa": [
+"Q158608"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Quercia_delle_Checche"
+}
+},
+"Q183543": {
+"coords": [],
+"heritage": [],
+"image": "Liquidambaseedpod.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Liquidambar",
+"it": "https://it.wikipedia.org/wiki/Liquidambar"
+}
+},
+"Q18423853": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q18482459": {
+"coords": [
+[
+11.06466,
+45.73927
+]
+],
+"heritage": [],
+"image": "Ronchi - Vista 01.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Ronchi_(Ala)"
+}
+},
+"Q18623495": {
+"coords": [
+[
+27.067506604,
+58.297113171
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+],
+[
+"archaeological monument",
+"archaeological monument"
+]
+],
+"image": "Ohvripärn13046.jpg",
+"taxa": [
+"Q158746"
+],
+"taxon": false,
+"wp": {}
+},
+"Q18623643": {
+"coords": [
+[
+27.651499,
+57.939941
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "Laudsi pettäi.jpg",
+"taxa": [
+"Q133128"
+],
+"taxon": false,
+"wp": {}
+},
+"Q18625146": {
+"coords": [
+[
+26.523541666,
+57.917336111
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "Mäe-Lehtsoo tamm.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q18737288": {
+"coords": [
+[
+24.856239,
+54.848346
+]
+],
+"heritage": [],
+"image": "Alkų ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q18737297": {
+"coords": [
+[
+25.307071,
+54.695974
+]
+],
+"heritage": [],
+"image": "Antakalnis, kedrinė pušis.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q18737325": {
+"coords": [
+[
+24.149239,
+56.017658
+]
+],
+"heritage": [],
+"image": "Austakynės ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q18737338": {
+"coords": [
+[
+25.305347,
+54.694968
+]
+],
+"heritage": [],
+"image": "Aštuonių klevų ratas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q18737432": {
+"coords": [
+[
+25.318789,
+55.46174
+]
+],
+"heritage": [],
+"image": "Buivydų uosis, kamienas.JPG",
+"taxa": [
+"Q156907"
+],
+"taxon": false,
+"wp": {}
+},
+"Q18737477": {
+"coords": [
+[
+23.98,
+55.74944444
+]
+],
+"heritage": [],
+"image": "Dapšionių ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q18737598": {
+"coords": [
+[
+25.606866,
+55.208498
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q12024"
+],
+"taxon": false,
+"wp": {}
+},
+"Q18737617": {
+"coords": [
+[
+25.152999,
+55.570048
+]
+],
+"heritage": [],
+"image": "Elmės šešiakamienis ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q18737631": {
+"coords": [
+[
+24.960594,
+55.278248
+]
+],
+"heritage": [],
+"image": "Felinkos ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q18737652": {
+"coords": [
+[
+24.132349,
+56.205788
+]
+],
+"heritage": [],
+"image": "Gedučių ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q18737656": {
+"coords": [
+[
+25.056178,
+55.479907
+]
+],
+"heritage": [],
+"image": "Gegutės uosis. stendas.JPG",
+"taxa": [
+"Q156907"
+],
+"taxon": false,
+"wp": {}
+},
+"Q18737678": {
+"coords": [
+[
+24.11461,
+56.01034
+]
+],
+"heritage": [],
+"image": "Girelės ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q18737695": {
+"coords": [
+[
+24.48294,
+56.01736
+]
+],
+"heritage": [],
+"image": "Girsūdų ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q18737699": {
+"coords": [
+[
+24.281081,
+54.568583
+]
+],
+"heritage": [],
+"image": "Gojaus miško ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q18737823": {
+"coords": [
+[
+24.135163,
+54.747245
+]
+],
+"heritage": [],
+"image": "Kaukinė, II liepa.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q18759691": {
+"coords": [
+[
+23.876679785,
+58.970759383
+]
+],
+"heritage": [
+[
+"archaeological monument",
+"archaeological monument"
+]
+],
+"image": "Hiiekünnapuu, Lääne-Nigula vald Palivere.JPG",
+"taxa": [
+"Q147492"
+],
+"taxon": false,
+"wp": {}
+},
+"Q18956856": {
+"coords": [
+[
+23.080255555,
+58.558938888
+]
+],
+"heritage": [],
+"image": "Orissaare staadioni tamm.JPG",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q1932208": {
+"coords": [
+[
+21.06944444,
+52.14222222
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Dąb Mieszko I w Warszawie 01.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q19400551": {
+"coords": [
+[
+22.9269,
+54.1008
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20032839": {
+"coords": [
+[
+16.9207,
+52.4117
+]
+],
+"heritage": [],
+"image": "Platanus hispanica, Poznan, Libelta street (II).JPG",
+"taxa": [
+"Q161374"
+],
+"taxon": false,
+"wp": {}
+},
+"Q201959": {
+"coords": [],
+"heritage": [],
+"image": "Capsicum annuum Bluete.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Capsicum",
+"it": "https://it.wikipedia.org/wiki/Capsicum"
+}
+},
+"Q20401995": {
+"coords": [
+[
+24.3131,
+56.9764
+]
+],
+"heritage": [],
+"image": "Rīga, Kaltiņu ozols 2009-03-07.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q20402058": {
+"coords": [
+[
+25.6617,
+57.7014
+]
+],
+"heritage": [
+[
+"archaeological monument of state importance in Latvia",
+"archaeological monument of state importance in Latvia"
+]
+],
+"image": "Kaņepju ozols 29.08.2016.jpg",
+"taxa": [
+"Q12004"
+],
+"taxon": false,
+"wp": {}
+},
+"Q20402455": {
+"coords": [
+[
+24.0981,
+57.0378
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q20503630": {
+"coords": [
+[
+26.04566,
+55.2862
+]
+],
+"heritage": [],
+"image": "Obelų Rago kadagys.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20503780": {
+"coords": [
+[
+25.28805,
+54.683357
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q20503797": {
+"coords": [
+[
+24.97271,
+54.74114
+]
+],
+"heritage": [],
+"image": "Paneriškių ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20503875": {
+"coords": [
+[
+24.476977,
+54.962518
+]
+],
+"heritage": [],
+"image": "Svirplionių ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20503885": {
+"coords": [
+[
+25.690598,
+55.933283
+]
+],
+"heritage": [],
+"image": "Mataučiznos guoba.JPG",
+"taxa": [
+"Q147492"
+],
+"taxon": false,
+"wp": {}
+},
+"Q20503905": {
+"coords": [
+[
+24.39516,
+56.06058
+]
+],
+"heritage": [],
+"image": "Pasvalio ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20503912": {
+"coords": [
+[
+25.106807,
+55.565636
+]
+],
+"heritage": [],
+"image": "Pavarių liepa.JPG",
+"taxa": [
+"Q127849"
+],
+"taxon": false,
+"wp": {}
+},
+"Q20503916": {
+"coords": [
+[
+23.6177886,
+54.0901145
+]
+],
+"heritage": [],
+"image": "Paveisiejai, pušis.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20503989": {
+"coords": [
+[
+25.309083,
+54.698333
+]
+],
+"heritage": [],
+"image": "Sapiegų parko liepa.JPG",
+"taxa": [
+"Q158746"
+],
+"taxon": false,
+"wp": {}
+},
+"Q20504014": {
+"coords": [
+[
+23.06563,
+55.80681
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20504155": {
+"coords": [
+[
+22.9036,
+55.81003
+]
+],
+"heritage": [],
+"image": "Šaukėnų pušis.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20504285": {
+"coords": [
+[
+23.986993,
+54.281901
+]
+],
+"heritage": [],
+"image": "Balkasodis, eglė, kamienas.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20504402": {
+"coords": [
+[
+24.17194,
+54.749832
+]
+],
+"heritage": [],
+"image": "Varkališkių miško pušis.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20504427": {
+"coords": [
+[
+24.37669,
+56.03326
+]
+],
+"heritage": [],
+"image": "Šlamų ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20504440": {
+"coords": [
+[
+24.90474,
+55.287015
+]
+],
+"heritage": [],
+"image": "Lentvorų ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20504449": {
+"coords": [
+[
+25.286985,
+54.68333
+]
+],
+"heritage": [],
+"image": "VU liepa.JPG",
+"taxa": [
+"Q158746"
+],
+"taxon": false,
+"wp": {}
+},
+"Q20504492": {
+"coords": [
+[
+25.057145,
+55.48294
+]
+],
+"heritage": [],
+"image": "Šventieji ąžuolai, link kelio.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20504514": {
+"coords": [
+[
+24.3782862,
+56.1952524
+]
+],
+"heritage": [],
+"image": "Žadeikonių ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20530083": {
+"coords": [
+[
+24.399629,
+59.305674
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q2073400": {
+"coords": [
+[
+15.25905556,
+52.26466667
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21045356": {
+"coords": [
+[
+9.254897,
+41.006865
+]
+],
+"heritage": [],
+"image": "L'olivastro (Olea europea var. sylvatica) plurimillenario di Luras.JPG",
+"taxa": [
+"Q37083"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21426944": {
+"coords": [],
+"heritage": [],
+"image": "BouquetotAubépine.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q21427411": {
+"coords": [
+[
+-1.4403106,
+48.800466
+]
+],
+"heritage": [],
+"image": "If funéraire de Saint-Ursin.JPG",
+"taxa": [
+"Q27355"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21427412": {
+"coords": [
+[
+-0.597992,
+48.7629133
+]
+],
+"heritage": [],
+"image": "FranceNormandieLaLandePatryIfs.jpg",
+"taxa": [
+"Q27355"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21481246": {
+"coords": [
+[
+21.75886111,
+57.00044444
+]
+],
+"heritage": [],
+"image": "Īvande manor.jpg",
+"taxa": [
+"Q25350"
+],
+"taxon": false,
+"wp": {}
+},
+"Q218155": {
+"coords": [],
+"heritage": [],
+"image": "Frouzet fg02.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Quercus_ilex",
+"it": "https://it.wikipedia.org/wiki/Quercus_ilex"
+}
+},
+"Q21856069": {
+"coords": [
+[
+14.4297,
+52.9665
+]
+],
+"heritage": [],
+"image": "Plane The Giant 2.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/The_Giant_Plane"
+}
+},
+"Q22694": {
+"coords": [],
+"heritage": [],
+"image": "Origanum majorana 001.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Marjoram",
+"it": "https://it.wikipedia.org/wiki/Origanum_majorana"
+}
+},
+"Q22699": {
+"coords": [],
+"heritage": [],
+"image": "Lajen Edelkastanie Unterbuchfelder Lajen Ried Strasse.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Sweet_chestnut",
+"it": "https://it.wikipedia.org/wiki/Castanea_sativa"
+}
+},
+"Q23137236": {
+"coords": [
+[
+19.5776,
+50.8909
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Lime_in_Ciel%C4%99tniki"
+}
+},
+"Q24650598": {
+"coords": [
+[
+17.6143,
+50.68124
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q24650610": {
+"coords": [
+[
+21.278055555,
+52.151666666
+]
+],
+"heritage": [],
+"image": "Dąb Bartek Mazowiecki1.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q24853030": {
+"coords": [],
+"heritage": [],
+"image": "London Plane fruit.png",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Platanus_%C3%97acerifolia"
+}
+},
+"Q24941483": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q24945968": {
+"coords": [
+[
+18.868333333,
+50.5275
+]
+],
+"heritage": [],
+"image": "Cis Donnersmarcka.jpg",
+"taxa": [
+"Q179729"
+],
+"taxon": false,
+"wp": {}
+},
+"Q25292": {
+"coords": [],
+"heritage": [],
+"image": "Phoenix dactylifera - EJ Burns - 606494286.jpeg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Date_palm",
+"it": "https://it.wikipedia.org/wiki/Phoenix_dactylifera"
+}
+},
+"Q2549024": {
+"coords": [
+[
+15.68333333,
+54.16666667
+]
+],
+"heritage": [],
+"image": "Dąb Warcisław 2017.jpg",
+"taxa": [
+"Q12004"
+],
+"taxon": false,
+"wp": {}
+},
+"Q25494344": {
+"coords": [
+[
+23.13145556,
+55.096575
+]
+],
+"heritage": [],
+"image": "Raudonė, parko liepa.JPG",
+"taxa": [
+"Q158746"
+],
+"taxon": false,
+"wp": {}
+},
+"Q25494684": {
+"coords": [
+[
+23.66034,
+55.69188
+]
+],
+"heritage": [],
+"image": "Liaudiškių pušis.JPG",
+"taxa": [
+"Q12024"
+],
+"taxon": false,
+"wp": {}
+},
+"Q25494788": {
+"coords": [
+[
+24.49902778,
+54.11024444
+]
+],
+"heritage": [],
+"image": "Zervynų ąžuolas ruduo.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q25495123": {
+"coords": [
+[
+22.78542,
+56.14762
+]
+],
+"heritage": [],
+"image": "Papilė. 15 kamienų liepa.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q25495143": {
+"coords": [
+[
+24.28762222,
+53.99933889
+]
+],
+"heritage": [],
+"image": "Lietuvio liepa Margionyse.JPG",
+"taxa": [
+"Q127849"
+],
+"taxon": false,
+"wp": {}
+},
+"Q25495149": {
+"coords": [
+[
+24.28385833,
+54.0031
+]
+],
+"heritage": [],
+"image": "2024 Kurpiko kadagys.JPEG",
+"taxa": [
+"Q26325"
+],
+"taxon": false,
+"wp": {}
+},
+"Q25495162": {
+"coords": [
+[
+25.553028,
+54.290316
+]
+],
+"heritage": [],
+"image": "Stakų ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q25495353": {
+"coords": [
+[
+24.17903,
+54.87138
+]
+],
+"heritage": [],
+"image": "Rumšiškių miško ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q25496079": {
+"coords": [
+[
+24.516388888,
+54.575833333
+]
+],
+"heritage": [],
+"image": "Mickevičiaus ąžuolas, Aukštadvaris.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q25498082": {
+"coords": [
+[
+24.518268,
+55.975882
+]
+],
+"heritage": [],
+"image": "Daujėnai, liepa šventoriuje.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q25498243": {
+"coords": [
+[
+24.586706,
+55.149578
+]
+],
+"heritage": [],
+"image": "Veprių ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q25498376": {
+"coords": [
+[
+15.0853577,
+44.7255556
+]
+],
+"heritage": [],
+"image": "Jela car.JPG",
+"taxa": [
+"Q146992"
+],
+"taxon": false,
+"wp": {}
+},
+"Q25498885": {
+"coords": [
+[
+25.6402,
+54.24836
+]
+],
+"heritage": [],
+"image": "Grybiškių ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q25498929": {
+"coords": [
+[
+24.9798,
+54.81187
+]
+],
+"heritage": [],
+"image": "Grybiškių pušis.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q25499369": {
+"coords": [
+[
+21.843694444,
+55.917583333
+]
+],
+"heritage": [],
+"image": "Perkūno ąžuolas (3).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Perk%C5%ABnas_Oak"
+}
+},
+"Q26248702": {
+"coords": [
+[
+17.5325,
+53.817472
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q27868535": {
+"coords": [
+[
+10.310674,
+43.885391
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q37083"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Olivo_dei_30_zoccoli"
+}
+},
+"Q27980": {
+"coords": [],
+"heritage": [],
+"image": "Sorbus intermedia Peterburg.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Hedlundia_intermedia"
+}
+},
+"Q28672969": {
+"coords": [
+[
+18.682222,
+54.6968
+]
+],
+"heritage": [],
+"image": "Jastarnia kasztan 2013.jpg",
+"taxa": [
+"Q26899"
+],
+"taxon": false,
+"wp": {}
+},
+"Q28673935": {
+"coords": [
+[
+17.5725,
+52.703056
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q28674521": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q28674595": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q29488": {
+"coords": [],
+"heritage": [],
+"image": "Cercis siliquastrum - Judas tree - Erguvan 01.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Cercis_siliquastrum",
+"it": "https://it.wikipedia.org/wiki/Cercis_siliquastrum"
+}
+},
+"Q2972102": {
+"coords": [
+[
+25.136009,
+42.254036
+]
+],
+"heritage": [],
+"image": "Quercus robur in Granit, Bulgaria 03.JPG",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Granit_oak"
+}
+},
+"Q2972108": {
+"coords": [
+[
+2.90303,
+49.3561
+]
+],
+"heritage": [],
+"image": "Le-Gros-Chene-de-Saint-Jean-aux-Bois.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q2972120": {
+"coords": [
+[
+26.217388888,
+55.829805555
+]
+],
+"heritage": [],
+"image": "2017 Stelmuže oak LT.jpg",
+"taxa": [
+"Q12004"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Stelmu%C5%BE%C4%97_Oak"
+}
+},
+"Q30739442": {
+"coords": [
+[
+2.354007,
+48.855772
+]
+],
+"heritage": [
+[
+"Notable tree of France",
+"Notable tree of France"
+]
+],
+"image": "P1380770 Paris IV orme St-Gervais rwk.jpg",
+"taxa": [
+"Q147487"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Saint-Gervais_elm"
+}
+},
+"Q3079266": {
+"coords": [],
+"heritage": [],
+"image": "Pyrus calleryana.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Pyrus_calleryana",
+"it": "https://it.wikipedia.org/wiki/Pyrus_calleryana"
+}
+},
+"Q31198425": {
+"coords": [
+[
+26.27588,
+55.17493
+]
+],
+"heritage": [],
+"image": "Švenčionių sen., Lithuania - panoramio (29).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31198851": {
+"coords": [
+[
+23.13116,
+55.09561
+]
+],
+"heritage": [],
+"image": "Raudonė, Gediminaičio ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31198860": {
+"coords": [
+[
+23.12737,
+55.09632
+]
+],
+"heritage": [],
+"image": "Raudonė. Juodoji tuopa.JPG",
+"taxa": [
+"Q147064"
+],
+"taxon": false,
+"wp": {}
+},
+"Q31198871": {
+"coords": [
+[
+25.64473,
+54.98185
+]
+],
+"heritage": [],
+"image": "Abejučių ąžuolas 2.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31272104": {
+"coords": [
+[
+25.194252373,
+58.413959201
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "Upsi tamm, 2020 03.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q3148078": {
+"coords": [
+[
+-7.727313,
+54.261004
+]
+],
+"heritage": [],
+"image": "Yewspread1.jpg",
+"taxa": [
+"Q110767650"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Florence_Court_Yew"
+}
+},
+"Q3148109": {
+"coords": [
+[
+0.72624,
+49.4045
+]
+],
+"heritage": [],
+"image": "LaHayeDeRoutotIf1.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q32206931": {
+"coords": [
+[
+27.098708333,
+57.927116666
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "",
+"taxa": [
+"Q26325"
+],
+"taxon": false,
+"wp": {}
+},
+"Q33036816": {
+"coords": [],
+"heritage": [],
+"image": "Oak of Tombeboeuf.png",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q33040885": {
 "coords": [
 [
@@ -276,6 +4608,166 @@
 "it": "https://it.wikipedia.org/wiki/Tiglio_di_Macugnaga"
 }
 },
+"Q3391801": {
+"coords": [
+[
+-0.449244,
+44.9944
+]
+],
+"heritage": [],
+"image": "Platane de Robillard.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q3391802": {
+"coords": [
+[
+5.08556,
+43.7003
+]
+],
+"heritage": [
+[
+"Notable tree of France",
+"Notable tree of France"
+]
+],
+"image": "Le Platane Géant De Provence à Lamanon.JPG",
+"taxa": [
+"Q161374"
+],
+"taxon": false,
+"wp": {}
+},
+"Q3391803": {
+"coords": [
+[
+-1.1611,
+45.7119
+]
+],
+"heritage": [],
+"image": "17225 - Les Mathes, Platanes du Roi de Rome.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q3437174": {
+"coords": [],
+"heritage": [],
+"image": "Robinia Purple Robe.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {}
+},
+"Q3528519": {
+"coords": [
+[
+5.1795,
+45.9035
+]
+],
+"heritage": [
+[
+"site naturel classé",
+"site naturel classé"
+]
+],
+"image": "Tilleul Place Halle Pérouges 4.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q3607997": {
+"coords": [
+[
+13.531,
+42.8499
+]
+],
+"heritage": [],
+"image": "Albero Piccioni AP.jpg",
+"taxa": [
+"Q161105"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Albero_del_Piccioni"
+}
+},
+"Q3662058": {
+"coords": [],
+"heritage": [],
+"image": "Castagno Miraglia, Parco nazionale delle foreste Casentinesi.JPG",
+"taxa": [
+"Q22699"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Castagno_Miraglia"
+}
+},
+"Q366359": {
+"coords": [
+[
+-0.8625,
+43.116388888
+]
+],
+"heritage": [],
+"image": "Atharratzeko plaza.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Tardets-Sorholus",
+"it": "https://it.wikipedia.org/wiki/Tardets-Sorholus"
+}
+},
+"Q37083": {
+"coords": [],
+"heritage": [],
+"image": "El Perelló - Old olive tree.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Olea_europaea",
+"it": "https://it.wikipedia.org/wiki/Olea_europaea"
+}
+},
+"Q3736402": {
+"coords": [
+[
+26.57666667,
+57.91722222
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "Tamme-Lauri tamm2.JPG",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Tamme-Lauri_oak"
+}
+},
+"Q37505089": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Quercia"
+}
+},
 "Q3895596": {
 "coords": [
 [
@@ -290,6 +4782,1060 @@
 "wp": {
 "it": "https://it.wikipedia.org/wiki/Parco_Bosco_dei_Ronchi_e_Parco_ex-ILA"
 }
+},
+"Q3906387": {
+"coords": [
+[
+10.81635,
+45.608092
+]
+],
+"heritage": [],
+"image": "Platano dei Cento Bersaglieri 01.jpg",
+"taxa": [
+"Q161105"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Platano_dei_Cento_Bersaglieri"
+}
+},
+"Q3927684": {
+"coords": [
+[
+10.648344444,
+43.868119444
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Quercia delle streghe Gragnano.jpg",
+"taxa": [
+"Q161415"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Quercia_delle_Streghe"
+}
+},
+"Q393278": {
+"coords": [],
+"heritage": [],
+"image": "Ulex parviflorus a Collserola.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Ulex",
+"it": "https://it.wikipedia.org/wiki/Ulex"
+}
+},
+"Q39918": {
+"coords": [],
+"heritage": [],
+"image": "Prunus dulcis - Köhler–s Medizinal-Pflanzen-250.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Prunus_dulcis"
+}
+},
+"Q41780739": {
+"coords": [],
+"heritage": [],
+"image": "Cross section of Reinette d'Armorique (Bretagne), National Fruit Collection (acc. 1948-203).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q41782105": {
+"coords": [],
+"heritage": [],
+"image": "Cross section of Teint Frais, National Fruit Collection (acc. 1947-155).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q4208586": {
+"coords": [
+[
+23.02552778,
+57.06430556
+]
+],
+"heritage": [
+[
+"local archaeological monument of Latvia",
+"local archaeological monument of Latvia"
+]
+],
+"image": "Kaives Senču ozols.JPG",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Kaive_Oak"
+}
+},
+"Q43284": {
+"coords": [],
+"heritage": [],
+"image": "Ginkgo biloba. filare.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Ginkgo_biloba",
+"it": "https://it.wikipedia.org/wiki/Ginkgo_biloba"
+}
+},
+"Q4463960": {
+"coords": [
+[
+-3.68504,
+53.19234
+]
+],
+"heritage": [],
+"image": "The Llangernyw yew.jpg",
+"taxa": [
+"Q179729"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Llangernyw_Yew"
+}
+},
+"Q46871": {
+"coords": [],
+"heritage": [],
+"image": "درختان کهنسال گردو در روستای جهان عکس از احمد نیک گفتار 1391.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Juglans_regia",
+"it": "https://it.wikipedia.org/wiki/Juglans_regia"
+}
+},
+"Q48755299": {
+"coords": [
+[
+2.347305555,
+48.852222222
+]
+],
+"heritage": [],
+"image": "Robinia pseudoacacia @ Square René-Viviani Paris 01.jpg",
+"taxa": [
+"Q157417"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Locust_of_Square_Ren%C3%A9-Viviani"
+}
+},
+"Q48847385": {
+"coords": [
+[
+21.644082,
+49.8687
+]
+],
+"heritage": [],
+"image": "2017 Josef Oak.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q51755216": {
+"coords": [
+[
+24.795322222,
+59.006986111
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q51755473": {
+"coords": [
+[
+26.914402777,
+57.717602777
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "Ruuga tamm.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q51756167": {
+"coords": [
+[
+26.880069444,
+57.659777777
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "Kadeni mänd 2014.jpg",
+"taxa": [
+"Q133128"
+],
+"taxon": false,
+"wp": {}
+},
+"Q51760012": {
+"coords": [
+[
+24.869883,
+58.848744
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q52008894": {
+"coords": [
+[
+-3.095361111,
+52.931472222
+]
+],
+"heritage": [],
+"image": "The Oak At The Gate Of The Dead.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Oak_at_the_Gate_of_the_Dead"
+}
+},
+"Q52679509": {
+"coords": [
+[
+-2.226615,
+48.056264
+]
+],
+"heritage": [
+[
+"Notable tree of France",
+"Notable tree of France"
+]
+],
+"image": "Arbre remarquable de mille ans , le chêne à Guillotin (mars 2011) - panoramio.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q52733653": {
+"coords": [
+[
+12.128478,
+44.236739
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Platano Orientale di Carpinello.jpg",
+"taxa": [
+"Q161105"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Platano_di_Carpinello"
+}
+},
+"Q528713": {
+"coords": [],
+"heritage": [],
+"image": "Quercus imbricaria (USDA).jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Quercus_imbricaria"
+}
+},
+"Q52939676": {
+"coords": [
+[
+26.919394444,
+57.733038888
+]
+],
+"heritage": [
+[
+"individual protected natural object",
+"individual protected natural object"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55100046": {
+"coords": [],
+"heritage": [],
+"image": "LibertyTreePlanting.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Tree_of_Liberty_(symbol)",
+"it": "https://it.wikipedia.org/wiki/Albero_della_libert%C3%A0"
+}
+},
+"Q55605947": {
+"coords": [
+[
+-3.292888888,
+52.5125
+]
+],
+"heritage": [],
+"image": "Brimmon Oak (geograph 5958816).jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Brimmon_Oak"
+}
+},
+"Q55741080": {
+"coords": [
+[
+11.357736,
+46.496725
+]
+],
+"heritage": [
+[
+"bene paesaggistico di Bolzano",
+"bene paesaggistico di Bolzano"
+]
+],
+"image": "Platano comune, Bolzano 03.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741095": {
+"coords": [
+[
+11.338706,
+46.426639
+]
+],
+"heritage": [
+[
+"bene paesaggistico di Bolzano",
+"bene paesaggistico di Bolzano"
+]
+],
+"image": "Laives, acero americano centenario.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Acero_americano_presso_la_chiesa_parrocchiale_di_Laives"
+}
+},
+"Q55741151": {
+"coords": [
+[
+11.64165,
+46.776203
+]
+],
+"heritage": [
+[
+"bene paesaggistico di Bolzano",
+"bene paesaggistico di Bolzano"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741152": {
+"coords": [
+[
+11.994914,
+46.810464
+]
+],
+"heritage": [
+[
+"bene paesaggistico di Bolzano",
+"bene paesaggistico di Bolzano"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741153": {
+"coords": [
+[
+11.348797,
+46.893089
+]
+],
+"heritage": [
+[
+"bene paesaggistico di Bolzano",
+"bene paesaggistico di Bolzano"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741154": {
+"coords": [
+[
+11.375842,
+46.880806
+]
+],
+"heritage": [
+[
+"bene paesaggistico di Bolzano",
+"bene paesaggistico di Bolzano"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741305": {
+"coords": [
+[
+14.401667,
+40.637314
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741316": {
+"coords": [
+[
+14.401725,
+40.637722
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741338": {
+"coords": [
+[
+11.314267,
+44.489817
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Bologna - Cedro dell'Atlante - 2023-09-05 13-12-13 001.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741347": {
+"coords": [
+[
+11.2404,
+44.572186
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741354": {
+"coords": [
+[
+11.669083,
+44.370483
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Piratello di imola 1.jpg",
+"taxa": [
+"Q61105"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55741418": {
+"coords": [
+[
+9.565556,
+44.877778
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Rivergaro - rovere - 202109191455 3.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741432": {
+"coords": [
+[
+10.738939,
+44.794597
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741434": {
+"coords": [
+[
+10.593056,
+44.660556
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "",
+"taxa": [
+"Q61105"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55741438": {
+"coords": [
+[
+12.433578,
+43.998647
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Il cipresso del Convento Santa Croce.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741450": {
+"coords": [
+[
+13.500419,
+45.825253
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q147064"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55741488": {
+"coords": [
+[
+13.786728,
+45.687267
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741506": {
+"coords": [
+[
+13.008569,
+45.949397
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741507": {
+"coords": [
+[
+13.008911,
+45.950339
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741512": {
+"coords": [
+[
+13.009603,
+45.948697
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741515": {
+"coords": [
+[
+13.133875,
+45.682125
+]
+],
+"heritage": [],
+"image": "Ufficio spiaggia 14.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741559": {
+"coords": [
+[
+13.236511,
+46.064292
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Cedro dell'Himalaya, Castello di Udine.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741643": {
+"coords": [
+[
+8.6816,
+44.401167
+]
+],
+"heritage": [],
+"image": "Cedro del Libano (Arenzano) (58812).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741655": {
+"coords": [
+[
+9.193892,
+44.357992
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741666": {
+"coords": [
+[
+7.667822,
+43.782019
+]
+],
+"heritage": [],
+"image": "Museo Bicknell (Bordighera) 2016 abc6.jpg",
+"taxa": [
+"Q159116"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Glicine_del_museo_Bicknell"
+}
+},
+"Q55741667": {
+"coords": [
+[
+7.667406,
+43.781978
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741668": {
+"coords": [
+[
+7.672583,
+43.779381
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741669": {
+"coords": [
+[
+7.667261,
+43.782022
+]
+],
+"heritage": [],
+"image": "Ficus Museo Bicknell (Bordighera).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741671": {
+"coords": [
+[
+7.670339,
+43.781347
+]
+],
+"heritage": [],
+"image": "Pinus canariensis - Gran Canaria.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741672": {
+"coords": [
+[
+7.938003,
+43.970628
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741673": {
+"coords": [
+[
+7.938022,
+43.970278
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741674": {
+"coords": [
+[
+7.902881,
+43.9765
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741675": {
+"coords": [
+[
+7.949189,
+43.895381
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741676": {
+"coords": [
+[
+8.021861,
+43.883061
+]
+],
+"heritage": [],
+"image": "Imperia - pino del Qeensland - 202109241618.jpg",
+"taxa": [
+"Q782275"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55741677": {
+"coords": [
+[
+7.811414,
+43.826806
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741678": {
+"coords": [
+[
+7.767011,
+43.8134
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q290967"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55741679": {
+"coords": [
+[
+7.789581,
+43.8213
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741680": {
+"coords": [
+[
+7.7797,
+43.817838888
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "18038 Sanremo IM, Italy - panoramio (29).jpg",
+"taxa": [
+"Q158389"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55741681": {
+"coords": [
+[
+7.762964,
+43.994789
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741682": {
+"coords": [
+[
+7.763064,
+43.994867
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741684": {
+"coords": [
+[
+7.764016666,
+43.991780555
+]
+],
+"heritage": [],
+"image": "Chiesa di San Bernardino con ippocastano, Triora.jpg",
+"taxa": [
+"Q26899"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55741685": {
+"coords": [
+[
+7.555019,
+43.783492
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741686": {
+"coords": [
+[
+7.554661,
+43.783447
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741688": {
+"coords": [
+[
+9.814247222,
+44.110844444
+]
+],
+"heritage": [],
+"image": "Platano comune La Spezia stazione FF.SS.jpg",
+"taxa": [
+"Q161374"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55741692": {
+"coords": [
+[
+9.652453,
+44.146261
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q55741739": {
 "coords": [
@@ -465,6 +6011,102 @@
 ],
 "heritage": [],
 "image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741911": {
+"coords": [
+[
+12.8275,
+43.352222
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741912": {
+"coords": [
+[
+12.903903,
+43.327969
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741914": {
+"coords": [
+[
+12.815278,
+43.345831
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741930": {
+"coords": [
+[
+13.478961,
+43.485175
+]
+],
+"heritage": [],
+"image": "Pino d'Aleppo - Pinus Halepensis.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741935": {
+"coords": [
+[
+12.8425,
+43.404444
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742041": {
+"coords": [
+[
+13.603678,
+43.037714
+]
+],
+"heritage": [],
+"image": "Ortezzano gelso bianco 05.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742128": {
+"coords": [
+[
+14.661611,
+41.560094
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Sequoia di Via Mazzini - Campobasso.jpg",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -1820,6 +7462,827 @@
 "it": "https://it.wikipedia.org/wiki/Liquidambar_di_piazza_Sant%27Eusebio"
 }
 },
+"Q55742640": {
+"coords": [
+[
+9.487111,
+40.166119
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742669": {
+"coords": [
+[
+9.055878,
+39.854183
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Laconi - Cedro del Libano - 2023-09-15 22-23-14 001.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742835": {
+"coords": [
+[
+15.173608,
+37.620058
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742844": {
+"coords": [
+[
+15.085147,
+37.510808
+]
+],
+"heritage": [],
+"image": "Pino del Queensland 4.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742845": {
+"coords": [
+[
+15.085181,
+37.510583
+]
+],
+"heritage": [],
+"image": "Pino del Queensland 3.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742852": {
+"coords": [
+[
+15.072489,
+37.760036
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742863": {
+"coords": [
+[
+15.105119,
+37.762394
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742911": {
+"coords": [
+[
+14.592711,
+36.775631
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55742953": {
+"coords": [
+[
+10.266778,
+43.843122
+]
+],
+"heritage": [],
+"image": "Torre del Lago 003.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743004": {
+"coords": [
+[
+11.543433,
+46.079703
+]
+],
+"heritage": [
+[
+"bene ambientale trentino",
+"bene ambientale trentino"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743053": {
+"coords": [
+[
+11.76975,
+46.149053
+]
+],
+"heritage": [
+[
+"bene ambientale trentino",
+"bene ambientale trentino"
+]
+],
+"image": "El fagheron - Imer.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743063": {
+"coords": [
+[
+10.884633,
+45.868397
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743090": {
+"coords": [
+[
+11.464597,
+46.076767
+]
+],
+"heritage": [
+[
+"bene ambientale trentino",
+"bene ambientale trentino"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743096": {
+"coords": [
+[
+11.160269,
+46.066589
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743097": {
+"coords": [
+[
+11.186625,
+46.064825
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743111": {
+"coords": [
+[
+10.999444,
+45.931944
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743114": {
+"coords": [
+[
+11.012208,
+45.935778
+]
+],
+"heritage": [
+[
+"bene ambientale trentino",
+"bene ambientale trentino"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743196": {
+"coords": [
+[
+7.327831,
+45.739267
+]
+],
+"heritage": [],
+"image": "L'albero e l'arco.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743218": {
+"coords": [
+[
+7.662989,
+45.692025
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743219": {
+"coords": [
+[
+7.611769,
+45.744903
+]
+],
+"heritage": [],
+"image": "Sequoia baron gamba.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743220": {
+"coords": [
+[
+7.612411,
+45.751392
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743221": {
+"coords": [
+[
+7.618889,
+45.760278
+]
+],
+"heritage": [],
+"image": "Faggio monumentale Châtillon.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743222": {
+"coords": [
+[
+7.611433,
+45.749886
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743223": {
+"coords": [
+[
+7.612078,
+45.750542
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743224": {
+"coords": [
+[
+7.61205,
+45.750569
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743225": {
+"coords": [
+[
+7.349325,
+45.603803
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743226": {
+"coords": [
+[
+6.953453,
+45.788969
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743227": {
+"coords": [
+[
+7.773172222,
+45.602983333
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Donnas 7.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743228": {
+"coords": [
+[
+7.773127777,
+45.602986111
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Donnas 7.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743229": {
+"coords": [
+[
+7.533061,
+45.657267
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743262": {
+"coords": [
+[
+7.859503,
+45.693978
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743308": {
+"coords": [
+[
+7.599486,
+45.731747
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743335": {
+"coords": [
+[
+7.215053,
+45.823972
+]
+],
+"heritage": [],
+"image": "St Oyen 2013 abc2 Château-Verdun.jpg",
+"taxa": [
+"Q3497019"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55743364": {
+"coords": [
+[
+12.434167,
+46.172003
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743371": {
+"coords": [
+[
+12.364172,
+46.167742
+]
+],
+"heritage": [],
+"image": "Cornoler de Tores a fine estate.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743376": {
+"coords": [
+[
+11.796256,
+45.608931
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743379": {
+"coords": [
+[
+11.88105,
+45.399425
+]
+],
+"heritage": [],
+"image": "Padova Orto botanico Palma di Goethe.jpg",
+"taxa": [
+"Q161747"
+],
+"taxon": false,
+"wp": {}
+},
+"Q55743384": {
+"coords": [
+[
+12.146744,
+45.039436
+]
+],
+"heritage": [],
+"image": "Leccio (Quercus ilex) di fronte a villa Papadopoli (Smergoncino, Adria) 02.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743397": {
+"coords": [
+[
+12.265728,
+45.577
+]
+],
+"heritage": [],
+"image": "Cedro dell'Atlante villa Condulmer.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743400": {
+"coords": [
+[
+12.264444,
+45.578058
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743401": {
+"coords": [
+[
+12.264492,
+45.577328
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743415": {
+"coords": [
+[
+12.111386,
+45.495006
+]
+],
+"heritage": [],
+"image": "Mirano - cedro del Libano - 202109081856.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743416": {
+"coords": [
+[
+12.111606,
+45.495594
+]
+],
+"heritage": [],
+"image": "Mirano - magnolia - 202109081854.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743419": {
+"coords": [
+[
+12.1498,
+45.500572
+]
+],
+"heritage": [],
+"image": "Spinea - pioppo bianco.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743420": {
+"coords": [
+[
+12.155125,
+45.496344
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743421": {
+"coords": [
+[
+12.155228,
+45.496192
+]
+],
+"heritage": [],
+"image": "Spinea - cedro dell'Himalaya - 202109052031.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743422": {
+"coords": [
+[
+12.154444,
+45.496392
+]
+],
+"heritage": [],
+"image": "Spinea - sofora del Giappone - 202109070802.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743423": {
+"coords": [
+[
+12.155281,
+45.496675
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743424": {
+"coords": [
+[
+12.154725,
+45.496392
+]
+],
+"heritage": [],
+"image": "Spinea - carpino bianco - 202109052032.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743427": {
+"coords": [
+[
+12.155764,
+45.495764
+]
+],
+"heritage": [],
+"image": "Spinea - magnolia.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743428": {
+"coords": [
+[
+12.157561,
+45.495183
+]
+],
+"heritage": [],
+"image": "Spinea - cedro dell'Himalaya - 202109051926.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743429": {
+"coords": [
+[
+12.1575,
+45.495278
+]
+],
+"heritage": [],
+"image": "Spinea - cedro dell'Himalaya - 202109051927.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743430": {
+"coords": [
+[
+12.154283,
+45.492842
+]
+],
+"heritage": [],
+"image": "Spinea - pioppo nero - 202109081840.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743431": {
+"coords": [
+[
+12.1548455,
+45.4923592
+]
+],
+"heritage": [],
+"image": "Spinea - pioppo nero - 202109081841.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743433": {
+"coords": [
+[
+12.009444,
+45.409722
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743435": {
+"coords": [
+[
+12.0125,
+45.410278
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743473": {
+"coords": [
+[
+11.497778,
+45.768806
+]
+],
+"heritage": [],
+"image": "Calvene 2.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743479": {
+"coords": [
+[
+11.431267,
+45.765219
+]
+],
+"heritage": [],
+"image": "Piovene Rocchette - cedro dell'Himalaya - 202109281731.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55743487": {
+"coords": [
+[
+11.150947,
+45.704425
+]
+],
+"heritage": [],
+"image": "Recoaro2.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56258312": {
+"coords": [
+[
+11.3260098,
+44.4766314
+]
+],
+"heritage": [],
+"image": "Cedro dell'Himalaya nel Parco di Villa Ghigi.jpg",
+"taxa": [
+"Q146935"
+],
+"taxon": false,
+"wp": {}
+},
 "Q56490178": {
 "coords": [
 [
@@ -1943,6 +8406,55 @@
 "wp": {
 "it": "https://it.wikipedia.org/wiki/Pero_di_Piazza_Suspize"
 }
+},
+"Q56629556": {
+"coords": [
+[
+11.624161,
+44.843975
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Bagolaro, parco Massari (Ferrara) 0.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629558": {
+"coords": [
+[
+11.6233,
+44.842361
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Cedro del Libano - Parco Massari (Ferrara).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q56629576": {
+"coords": [
+[
+14.660556,
+41.559722
+]
+],
+"heritage": [],
+"image": "Cedro convitto M. Pagano - Campobasso.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q56629579": {
 "coords": [
@@ -2169,6 +8681,317 @@
 "taxon": false,
 "wp": {}
 },
+"Q57728666": {
+"coords": [
+[
+24.971388888,
+41.850555555
+]
+],
+"heritage": [],
+"image": "Вековното дърво до Белинташ.jpg",
+"taxa": [
+"Q25403"
+],
+"taxon": false,
+"wp": {}
+},
+"Q57834607": {
+"coords": [
+[
+0.7884011,
+49.428991
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q58210870": {
+"coords": [
+[
+-2.677911,
+47.859289
+]
+],
+"heritage": [
+[
+"site naturel classé",
+"site naturel classé"
+]
+],
+"image": "Chêne millénaire du Pouldu - Morbihan - 1 juin 2012 (11).JPG",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q58477592": {
+"coords": [
+[
+-0.702952777,
+49.275716666
+]
+],
+"heritage": [],
+"image": "Arbre de la Liberté Bayeux.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q60357261": {
+"coords": [
+[
+14.146318509,
+46.38860082
+]
+],
+"heritage": [
+[
+"monumento di importanza nazionale",
+"monument of national significance"
+]
+],
+"image": "Vrba lipa.JPG",
+"taxa": [
+"Q156831"
+],
+"taxon": false,
+"wp": {}
+},
+"Q604709": {
+"coords": [
+[
+15.7,
+54.18333333
+]
+],
+"heritage": [],
+"image": "Dąb Bolesław.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q61380003": {
+"coords": [
+[
+24.411095,
+55.928243
+]
+],
+"heritage": [],
+"image": "Ramoninės ąžuolas 2.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q61380006": {
+"coords": [
+[
+24.39389,
+55.96888
+]
+],
+"heritage": [],
+"image": "Bernardo Brazdžionio ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q61380052": {
+"coords": [
+[
+23.71911,
+55.28694
+]
+],
+"heritage": [],
+"image": "Griniai, ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q61380246": {
+"coords": [
+[
+25.83731,
+55.16661
+]
+],
+"heritage": [],
+"image": "Juodalksnis Gumbulis.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q61380260": {
+"coords": [
+[
+25.84826,
+55.16167
+]
+],
+"heritage": [],
+"image": "Peršokšnos piramidinė eglė.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q61380265": {
+"coords": [
+[
+25.8304,
+55.178829
+]
+],
+"heritage": [],
+"image": "Lūšnios pušis.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q61380334": {
+"coords": [
+[
+26.10366,
+55.32782
+]
+],
+"heritage": [],
+"image": "Palūšės ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q61380576": {
+"coords": [
+[
+25.99357,
+55.07458
+]
+],
+"heritage": [],
+"image": "Laužėnų ąžuolas.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q61387604": {
+"coords": [
+[
+25.71411,
+55.73834
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q62521268": {
+"coords": [
+[
+4.552534,
+46.112273
+]
+],
+"heritage": [],
+"image": "Gros Châtaigner de Marchampt, Rhône 1 (mars 2019).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q630624": {
+"coords": [
+[
+1.989512,
+48.818429
+]
+],
+"heritage": [],
+"image": "Arbre de Diane, Les Clayes-sous-Bois, Yvelines 2.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q63253791": {
+"coords": [
+[
+4.849272,
+45.760631
+]
+],
+"heritage": [],
+"image": "Marronnier d'Anne Frank (Lyon) - Place Aron - en avril 2019.jpg",
+"taxa": [
+"Q26899"
+],
+"taxon": false,
+"wp": {}
+},
+"Q65260618": {
+"coords": [
+[
+25.10341,
+55.23947
+]
+],
+"heritage": [],
+"image": "Bliūdašilio eglė 2019 m.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q65260670": {
+"coords": [
+[
+26.11172,
+55.64694
+]
+],
+"heritage": [],
+"image": "Eglės Sesės.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q65261564": {
+"coords": [
+[
+24.684419,
+54.601167
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q66760041": {
+"coords": [
+[
+14.916741,
+40.878649
+]
+],
+"heritage": [
+[
+"bene culturale italiano",
+"Italian national heritage"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q67371157": {
 "coords": [
 [
@@ -2182,6 +9005,186 @@
 "taxon": false,
 "wp": {
 "it": "https://it.wikipedia.org/wiki/Quercia_Rogolone"
+}
+},
+"Q67644347": {
+"coords": [
+[
+12.433608,
+46.11627
+]
+],
+"heritage": [],
+"image": "Fagheron (Tambre).jpg",
+"taxa": [
+"Q25403"
+],
+"taxon": false,
+"wp": {}
+},
+"Q67648688": {
+"coords": [
+[
+14.691164,
+37.9315
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q42292"
+],
+"taxon": false,
+"wp": {}
+},
+"Q69542453": {
+"coords": [
+[
+15.020085,
+37.643496
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q22699"
+],
+"taxon": false,
+"wp": {}
+},
+"Q72862847": {
+"coords": [
+[
+20.97615,
+52.209991666
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Topola obrońców telefony.jpg",
+"taxa": [
+"Q149622"
+],
+"taxon": false,
+"wp": {}
+},
+"Q731443": {
+"coords": [],
+"heritage": [],
+"image": "Magnolia x soulangeana 2 (Piotr Kuczynski).jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Magnolia_%C3%97_soulangeana",
+"it": "https://it.wikipedia.org/wiki/Magnolia_%C3%97_soulangeana"
+}
+},
+"Q737594": {
+"coords": [
+[
+15.75598611,
+51.96486111
+]
+],
+"heritage": [],
+"image": "Dab napoleon.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Napoleon_Oak"
+}
+},
+"Q753099": {
+"coords": [],
+"heritage": [],
+"image": "Schurenbachhalde 11 ies.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Privet",
+"it": "https://it.wikipedia.org/wiki/Ligustrum"
+}
+},
+"Q790880": {
+"coords": [
+[
+20.66664,
+50.98336
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Bartek-ulica.jpg",
+"taxa": [
+"Q12004"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Bartek_(tree)"
+}
+},
+"Q804139": {
+"coords": [
+[
+23.422933,
+41.767117
+]
+],
+"heritage": [],
+"image": "BaikushevaMura1300.jpg",
+"taxa": [
+"Q460531"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Baikushev%27s_pine"
+}
+},
+"Q812618": {
+"coords": [
+[
+19.487416666,
+54.295833333
+],
+[
+19.483333,
+54.299998
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Baysen-Eiche 03.jpg",
+"taxa": [
+"Q12004"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Ba%C5%BCy%C5%84ski_Oak"
+}
+},
+"Q838818": {
+"coords": [],
+"heritage": [],
+"image": "Jacaranda1212.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Jacaranda_mimosifolia",
+"it": "https://it.wikipedia.org/wiki/Jacaranda_mimosifolia"
 }
 },
 "Q855274": {
@@ -2200,6 +9203,73 @@
 "it": "https://it.wikipedia.org/wiki/Bialbero_di_Casorzo"
 }
 },
+"Q855896": {
+"coords": [],
+"heritage": [],
+"image": "Schinus molle.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Schinus_molle",
+"it": "https://it.wikipedia.org/wiki/Schinus_molle"
+}
+},
+"Q891397": {
+"coords": [
+[
+23.6985,
+51.25677778
+]
+],
+"heritage": [],
+"image": "2016 The Oak of Bolko PL.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q920765": {
+"coords": [
+[
+15.644234,
+46.556742
+]
+],
+"heritage": [],
+"image": "Älteste Winrebe (18982947223).jpg",
+"taxa": [
+"Q191019"
+],
+"taxon": false,
+"wp": {}
+},
+"Q9249128": {
+"coords": [
+[
+17.0838,
+51.1071
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q9249135": {
+"coords": [
+[
+17.0811,
+51.1126
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q9249137": {
 "coords": [
 [
@@ -2210,6 +9280,172 @@
 "heritage": [],
 "image": "Dąb Jagielloński OB10.jpg",
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q9249143": {
+"coords": [
+[
+21.780997,
+49.775789
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q9249145": {
+"coords": [
+[
+17.0333,
+51.0975
+]
+],
+"heritage": [],
+"image": "Dąb Przewodnik.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q9249147": {
+"coords": [
+[
+18.273888888,
+50.129444444
+]
+],
+"heritage": [],
+"image": "Dąb Sobieskiego 7.JPG",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Sobieski_Oak"
+}
+},
+"Q9249155": {
+"coords": [
+[
+19.721111,
+51.965444
+]
+],
+"heritage": [],
+"image": "Market Square in Glowno (Plac Wolności) (4).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q9339709": {
+"coords": [
+[
+15.6707,
+52.0923
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Sosna Waligóra.jpg",
+"taxa": [
+"Q133128"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Walig%C3%B3ra_Pine"
+}
+},
+"Q9343770": {
+"coords": [
+[
+16.516083,
+50.689444
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q9360076": {
+"coords": [
+[
+20.5766,
+52.2543
+]
+],
+"heritage": [],
+"image": "Topola Lesznowska.jpg",
+"taxa": [
+"Q146269"
+],
+"taxon": false,
+"wp": {}
+},
+"Q9360082": {
+"coords": [
+[
+22.559276,
+51.248088
+]
+],
+"heritage": [],
+"image": "Ostatnia godzina baobabu 02.jpg",
+"taxa": [
+"Q147064"
+],
+"taxon": false,
+"wp": {}
+},
+"Q95571268": {
+"coords": [
+[
+4.37212,
+45.88697
+]
+],
+"heritage": [],
+"image": "Tilleul de Joux, Rhône (mai 2020).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q97163777": {
+"coords": [
+[
+13.6632902,
+43.0236162
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Roverella_di_Carassai"
+}
+},
+"Q97372879": {
+"coords": [
+[
+20.425444444,
+52.309166666
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
 "taxon": false,
 "wp": {}
 }

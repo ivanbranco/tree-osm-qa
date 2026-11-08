@@ -1,74 +1,207 @@
 {
  "regions": {
+  "abruzzo": {
+   "count": 684486,
+   "errors": 1724,
+   "name": "Abruzzo",
+   "sha1": "849b1a7898cb225f76654805efe753f5efa1e089",
+   "updated": "2026-11-08T22:06:13Z"
+  },
+  "alta-francia": {
+   "count": 126924,
+   "errors": 327,
+   "name": "Alta Francia",
+   "sha1": "6b118048d82a53fc3dc504e594409fb9d4c22517",
+   "updated": "2026-11-08T18:50:34Z"
+  },
+  "alvernia-rodano-alpi": {
+   "count": 383747,
+   "errors": 1580,
+   "name": "Alvernia-Rodano-Alpi",
+   "sha1": "95cdd84a64aacc73a1292854f1d0b150cb81d4e9",
+   "updated": "2026-11-08T18:44:39Z"
+  },
+  "basilicata": {
+   "count": 14417,
+   "errors": 81,
+   "name": "Basilicata",
+   "sha1": "9cfba381c93a18d6ff81c64d3806f5a43e4da95d",
+   "updated": "2026-11-08T22:07:51Z"
+  },
+  "borgogna-franca-contea": {
+   "count": 201168,
+   "errors": 317,
+   "name": "Borgogna-Franca Contea",
+   "sha1": "808f68e81f55eca14c0f28de743730e2c2450aa0",
+   "updated": "2026-11-08T18:45:52Z"
+  },
   "bretagna": {
-   "count": 135228,
-   "errors": 510,
+   "count": 135240,
+   "errors": 446,
    "name": "Bretagna",
-   "sha1": "085ab59d0a86aacab233ab9f6e34a6566e9d6965",
-   "updated": "2026-11-08T13:25:30Z"
+   "sha1": "137f05cd6cc418ef2909b01a74c4dd1e5f2d0d8e",
+   "updated": "2026-11-08T18:42:56Z"
   },
   "bulgaria": {
-   "count": 29076,
-   "errors": 6,
+   "count": 29077,
+   "errors": 12,
    "name": "Bulgaria",
-   "sha1": "e29913780721091f3b7bbd970d452da278ee3047",
-   "updated": "2026-11-08T03:37:33Z"
+   "sha1": "58c7a0f3095d2d6d3b598217cbd065ab94f12c46",
+   "updated": "2026-11-08T18:28:34Z"
+  },
+  "calabria": {
+   "count": 28423,
+   "errors": 20,
+   "name": "Calabria",
+   "sha1": "0d14e2242ac09a8d907b896d6690e7c0bda4b909",
+   "updated": "2026-11-08T22:08:23Z"
+  },
+  "campania": {
+   "count": 15640,
+   "errors": 25,
+   "name": "Campania",
+   "sha1": "e9629133e570e16d7bc6c752331d82c0e73efa3a",
+   "updated": "2026-11-08T22:07:03Z"
+  },
+  "centro-valle-della-loira": {
+   "count": 189388,
+   "errors": 171,
+   "name": "Centro-Valle della Loira",
+   "sha1": "e3e3bc74bc4f6f1bc7c09861c0e48ed3d3fbf9c8",
+   "updated": "2026-11-08T18:47:49Z"
+  },
+  "corsica": {
+   "count": 3560,
+   "errors": 20,
+   "name": "Corsica",
+   "sha1": "aa80855e5f2bb2f32a8b9ad6415c76c48aa0d7b4",
+   "updated": "2026-11-08T18:58:35Z"
   },
   "croazia": {
-   "count": 88742,
-   "errors": 193,
+   "count": 88758,
+   "errors": 194,
    "name": "Croazia",
-   "sha1": "a33ca546ef0ceacd992222a1e30b7f8f4ac156db",
-   "updated": "2026-11-08T12:11:55Z"
+   "sha1": "b5a323716139734d80ee32f5389b16378550f741",
+   "updated": "2026-11-08T18:38:58Z"
+  },
+  "dolnoslaskie": {
+   "count": 127589,
+   "errors": 192,
+   "name": "Bassa Slesia",
+   "sha1": "9cde6026b2059a3aac4b7f2f8c6e894741e59629",
+   "updated": "2026-11-08T19:07:46Z"
+  },
+  "emilia-romagna": {
+   "count": 240532,
+   "errors": 2218,
+   "name": "Emilia-Romagna",
+   "sha1": "202d485b9ba3f18ce0bf1d936776e3f194d70042",
+   "updated": "2026-11-08T22:02:58Z"
   },
   "estonia": {
-   "count": 80756,
-   "errors": 115,
+   "count": 80759,
+   "errors": 140,
    "name": "Estonia",
-   "sha1": "5339eb668f45055370e32e59b13e3c49e1e0ea7c",
-   "updated": "2026-11-08T12:04:27Z"
+   "sha1": "f54529f604e35a5d3b68b366c46651cd77ca4f33",
+   "updated": "2026-11-08T18:36:06Z"
+  },
+  "friuli-venezia-giulia": {
+   "count": 29916,
+   "errors": 321,
+   "name": "Friuli-Venezia Giulia",
+   "sha1": "fb9f5b875dbcfe81d8c1a6adeafd4f3daf887272",
+   "updated": "2026-11-08T22:01:44Z"
   },
   "galles": {
    "count": 59130,
    "errors": 28,
    "name": "Galles",
-   "sha1": "a7236492046a5cf6f4bf54a376e99d1c78de93a5",
-   "updated": "2026-11-08T13:18:45Z"
+   "sha1": "c1acb9022999bd629e09066bd3bf6070142717c2",
+   "updated": "2026-11-08T18:41:28Z"
+  },
+  "grand-est": {
+   "count": 253303,
+   "errors": 2166,
+   "name": "Grand Est",
+   "sha1": "9afb061f144069eb58e21309ea4a20719fb4ae9d",
+   "updated": "2026-11-08T18:49:29Z"
+  },
+  "ile-de-france": {
+   "count": 405591,
+   "errors": 10049,
+   "name": "Île-de-France",
+   "sha1": "b17de022df103a5fbeedfcfdb5107a07bdada66d",
+   "updated": "2026-11-08T18:51:41Z"
   },
   "irlanda-del-nord": {
-   "count": 45139,
+   "count": 45142,
    "errors": 12,
    "name": "Irlanda del Nord",
-   "sha1": "0bb1caa7fcc964ab4ceb0c3753de834701b4584b",
-   "updated": "2026-11-08T13:21:51Z"
+   "sha1": "c80a32096ea1c10dcb3af68c9b49cf6514b207c0",
+   "updated": "2026-11-08T18:42:06Z"
+  },
+  "kujawsko-pomorskie": {
+   "count": 53407,
+   "errors": 86,
+   "name": "Cuiavia-Pomerania",
+   "sha1": "874f4834f98fabd0fe5fdea56386780177695063",
+   "updated": "2026-11-08T19:45:23Z"
+  },
+  "lazio": {
+   "count": 71074,
+   "errors": 326,
+   "name": "Lazio",
+   "sha1": "609b989463765faf85d6fb719b9926b25f9bde3e",
+   "updated": "2026-11-08T22:05:22Z"
   },
   "lettonia": {
-   "count": 102100,
-   "errors": 197,
+   "count": 102207,
+   "errors": 79,
    "name": "Lettonia",
-   "sha1": "fbefb56a9bd30e70d6cb23fad3d635e7af803016",
-   "updated": "2026-11-08T02:58:20Z"
+   "sha1": "dabe29590360da93109ab122f4c164ec37ff2d8a",
+   "updated": "2026-11-08T18:29:19Z"
   },
   "liguria": {
    "count": 8905,
-   "errors": 145,
+   "errors": 203,
    "name": "Liguria",
-   "sha1": "c301cc7c3a6391e19f93ba3961f707f39948df71",
-   "updated": "2026-11-07T23:51:17Z"
+   "sha1": "8c9ebaef8586cf21d88bae7a290a2dbca911c376",
+   "updated": "2026-11-08T22:02:00Z"
   },
   "lituania": {
-   "count": 89234,
-   "errors": 17,
+   "count": 89235,
+   "errors": 78,
    "name": "Lituania",
-   "sha1": "8f574f9a35904ce9ee3ae35f1e774ffe6782a9e1",
-   "updated": "2026-11-08T12:01:32Z"
+   "sha1": "deda3223fe4bcf5a8faf83ce7ff1780e4ffbea56",
+   "updated": "2026-11-08T18:35:09Z"
+  },
+  "lodzkie": {
+   "count": 105029,
+   "errors": 107,
+   "name": "Łódź",
+   "sha1": "200e48c66e42285433ee675708f81c400f66ce54",
+   "updated": "2026-11-08T20:12:14Z"
   },
   "lombardia": {
-   "count": 387297,
+   "count": 387298,
    "errors": 2250,
    "name": "Lombardia",
-   "sha1": "6e5178753073b0e9241aa8f7a8bb42ef414646d6",
-   "updated": "2026-11-08T17:56:08Z"
+   "sha1": "18b2ec8b9086c930510b84645b3ff853f7a492ca",
+   "updated": "2026-11-08T21:58:02Z"
+  },
+  "lubelskie": {
+   "count": 81242,
+   "errors": 156,
+   "name": "Lublino",
+   "sha1": "09b1048944b377088e117cc72ec24f408680c13b",
+   "updated": "2026-11-08T20:04:03Z"
+  },
+  "lubuskie": {
+   "count": 56197,
+   "errors": 262,
+   "name": "Lubusz",
+   "sha1": "5273f3496b08e8cf517461a65616e2c247cc5bd1",
+   "updated": "2026-11-08T20:11:19Z"
   },
   "malopolskie": {
    "count": 257334,
@@ -77,51 +210,194 @@
    "sha1": "bebe2aa6e51be7dd0c2ea5c832aeab6090c052cd",
    "updated": "2026-11-08T18:19:47Z"
   },
+  "marche": {
+   "count": 32303,
+   "errors": 543,
+   "name": "Marche",
+   "sha1": "0aef0f091d037f8727b93a42c2b547565e9f1843",
+   "updated": "2026-11-08T22:04:25Z"
+  },
+  "mazowieckie": {
+   "count": 344316,
+   "errors": 1431,
+   "name": "Masovia",
+   "sha1": "d6f70ca37d76706111b5d1fe4c17e1faea8e1738",
+   "updated": "2026-11-08T20:22:39Z"
+  },
+  "molise": {
+   "count": 57194,
+   "errors": 9,
+   "name": "Molise",
+   "sha1": "c90e9a2fede4c19929fdb71375da647916bf2821",
+   "updated": "2026-11-08T22:06:25Z"
+  },
+  "normandia": {
+   "count": 118441,
+   "errors": 123,
+   "name": "Normandia",
+   "sha1": "9103e75c7d831e9c137483cf1eff6033d6de4d09",
+   "updated": "2026-11-08T18:54:07Z"
+  },
+  "nuova-aquitania": {
+   "count": 376160,
+   "errors": 1571,
+   "name": "Nuova Aquitania",
+   "sha1": "a34627633c3dbaa20a937ac2704703d6a5008757",
+   "updated": "2026-11-08T18:53:17Z"
+  },
+  "occitania": {
+   "count": 328399,
+   "errors": 2079,
+   "name": "Occitania",
+   "sha1": "83f5bf83b76ec995354c5887e5fcf5bb721c6948",
+   "updated": "2026-11-08T18:56:27Z"
+  },
+  "opolskie": {
+   "count": 26255,
+   "errors": 177,
+   "name": "Opole",
+   "sha1": "a9722b66e79094df583763b7c293706e15b5ccdc",
+   "updated": "2026-11-08T20:23:17Z"
+  },
+  "paesi-della-loira": {
+   "count": 123787,
+   "errors": 227,
+   "name": "Paesi della Loira",
+   "sha1": "4972b792bd3ba0290dafb59e74c7a450a370093c",
+   "updated": "2026-11-08T18:58:25Z"
+  },
   "piemonte": {
-   "count": 72959,
-   "errors": 119,
+   "count": 72960,
+   "errors": 114,
    "name": "Piemonte",
-   "sha1": "71222639104512368727a4fd4ba744a869a33f49",
-   "updated": "2026-11-08T17:35:15Z"
+   "sha1": "c25ec480085152674885beffc928ffb4c7152604",
+   "updated": "2026-11-08T21:56:50Z"
   },
   "podkarpackie": {
-   "count": 90333,
-   "errors": 44,
+   "count": 90334,
+   "errors": 161,
    "name": "Precarpazia",
-   "sha1": "4738dbab4f60fffc8d7a7f6aa560e417d2ba76ac",
-   "updated": "2026-11-08T10:37:45Z"
+   "sha1": "800061dec7c308031c9b72b09dd24b5127e0a916",
+   "updated": "2026-11-08T20:29:32Z"
+  },
+  "podlaskie": {
+   "count": 21614,
+   "errors": 147,
+   "name": "Podlachia",
+   "sha1": "eff44f942cc1cdacdfbd97f910e9361effa42c3f",
+   "updated": "2026-11-08T21:05:25Z"
+  },
+  "pomorskie": {
+   "count": 92079,
+   "errors": 100,
+   "name": "Pomerania",
+   "sha1": "d909a27ab6be9d6aec771fa355c74ef2a695ee02",
+   "updated": "2026-11-08T21:17:26Z"
+  },
+  "provenza-alpi-costa-azzurra": {
+   "count": 185718,
+   "errors": 1041,
+   "name": "Provenza-Alpi-Costa Azzurra",
+   "sha1": "8b6509454bc1007407c7e080e9a49f13ef834d52",
+   "updated": "2026-11-08T18:57:33Z"
+  },
+  "puglia": {
+   "count": 52885,
+   "errors": 898,
+   "name": "Puglia",
+   "sha1": "5e015995024543fff8cd2a4328c56f02dcbe2e35",
+   "updated": "2026-11-08T22:07:42Z"
   },
   "sardegna": {
    "count": 5428,
+   "errors": 18,
    "name": "Sardegna",
-   "sha1": "5095113a7904e47da71350b63ab6e25060c66222",
-   "updated": "2026-11-07T20:52:54Z"
+   "sha1": "2e4de9149aa0dd8ee32514e63c8523716f5a501f",
+   "updated": "2026-11-08T22:09:53Z"
   },
   "sicilia": {
    "count": 49240,
+   "errors": 763,
    "name": "Sicilia",
-   "sha1": "16ea365a9fac779d23746d2b03db1c77f9d32743",
-   "updated": "2026-11-07T22:03:27Z"
+   "sha1": "1e4d8b4911acde02965cbb9ae2dcfcc1e95f6e24",
+   "updated": "2026-11-08T22:09:04Z"
+  },
+  "slaskie": {
+   "count": 118497,
+   "errors": 198,
+   "name": "Slesia",
+   "sha1": "6c93c96be77be28d59f64b9744ad826fc265a05d",
+   "updated": "2026-11-08T21:19:29Z"
   },
   "slovenia": {
    "count": 51263,
-   "errors": 53,
+   "errors": 67,
    "name": "Slovenia",
-   "sha1": "9a6463c8e99b91a37ce21be83ea51c226be642a9",
-   "updated": "2026-11-08T12:08:42Z"
+   "sha1": "36635ac41983cac8f04028870f1efc5f011f724f",
+   "updated": "2026-11-08T18:38:10Z"
+  },
+  "swietokrzyskie": {
+   "count": 38856,
+   "errors": 78,
+   "name": "Santacroce",
+   "sha1": "31dc73b0c7f6b8da07063330b8375fd3e5b0621e",
+   "updated": "2026-11-08T21:28:19Z"
+  },
+  "toscana": {
+   "count": 117262,
+   "errors": 268,
+   "name": "Toscana",
+   "sha1": "be89bd4d44eb3132438c8f0fcacdd9224638c870",
+   "updated": "2026-11-08T22:03:55Z"
   },
   "trentino-alto-adige": {
-   "count": 67740,
+   "count": 67787,
+   "errors": 475,
    "name": "Trentino-Alto Adige",
-   "sha1": "5ca5a12f576277b21bff29bdc5d01a8338d80c3f",
-   "updated": "2026-11-07T00:13:59Z"
+   "sha1": "4448197f2e630df5dc623f552e33559261069807",
+   "updated": "2026-11-08T22:00:01Z"
+  },
+  "umbria": {
+   "count": 17770,
+   "errors": 95,
+   "name": "Umbria",
+   "sha1": "192c04fc7b0384f146d9e1d5ab29af092875c5a5",
+   "updated": "2026-11-08T22:04:11Z"
   },
   "valle-d-aosta": {
    "count": 18245,
-   "errors": 0,
+   "errors": 1,
    "name": "Valle d'Aosta",
-   "sha1": "9e9dd7c52efc43700f8b72a54c6ad4f31c6716a8",
-   "updated": "2026-11-07T22:59:19Z"
+   "sha1": "783616051031ad66507083e240078f15e043aab7",
+   "updated": "2026-11-08T21:57:00Z"
+  },
+  "veneto": {
+   "count": 149670,
+   "errors": 370,
+   "name": "Veneto",
+   "sha1": "1f8faf136ab6831ea1af664a5b07e4e38b8589f7",
+   "updated": "2026-11-08T22:01:27Z"
+  },
+  "warminsko-mazurskie": {
+   "count": 38229,
+   "errors": 79,
+   "name": "Varmia-Masuria",
+   "sha1": "05b3f1ef2be8581022b158c2cb06356e07024499",
+   "updated": "2026-11-08T21:30:57Z"
+  },
+  "wielkopolskie": {
+   "count": 109503,
+   "errors": 10011,
+   "name": "Grande Polonia",
+   "sha1": "7895c9e6bc66ce4250b5d65d69b1a850c1c36c91",
+   "updated": "2026-11-08T21:53:27Z"
+  },
+  "zachodniopomorskie": {
+   "count": 224051,
+   "errors": 154,
+   "name": "Pomerania Occidentale",
+   "sha1": "a11fd570824f018ec2029e63c43f5ba9a28e1231",
+   "updated": "2026-11-08T21:56:06Z"
   }
  }
 }
