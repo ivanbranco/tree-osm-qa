@@ -34,6 +34,13 @@
    "sha1": "c87c7d88fec4aebfb9d505079825dfd73034ebc9",
    "updated": "2026-11-08T02:47:27Z"
   },
+  "podkarpackie": {
+   "count": 90333,
+   "errors": 44,
+   "name": "Precarpazia",
+   "sha1": "4738dbab4f60fffc8d7a7f6aa560e417d2ba76ac",
+   "updated": "2026-11-08T10:37:45Z"
+  },
   "sardegna": {
    "count": 5428,
    "name": "Sardegna",
