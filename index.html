@@ -187,6 +187,7 @@ const I18N = {
       species_epithet_case: "Species con l'epiteto maiuscolo", species_common_name: "Species non scientifica (nome comune?)",
       species_unidentified: "Species non identificata (sp., spp.)", species_parentheses: "Parentesi in species", species_author: "Species con l'autore del nome",
       underscore: "Trattino basso (_) in species o genus", tag_in_value: "Tag scritto nel valore (=)",
+      not_latin: "Species o genus in alfabeto non latino",
       species_lang_only: "species:xx senza species",
       too_slender: "Albero troppo slanciato (altezza > 100 × circonferenza)", too_stocky: "Albero troppo tozzo (circonferenza > 3 × altezza)",
       species: "Species di una sola parola", genus: "Genus non valido",
@@ -216,6 +217,7 @@ const I18N = {
       species_author: (sp, c) => `species=${sp} contiene l'autore del nome: species=${c}`,
       underscore: kv => `${kv} contiene un trattino basso (_) al posto dello spazio`,
       tag_in_value: kv => `${kv} contiene "=": probabilmente un tag scritto nel valore`,
+      not_latin: kv => `${kv} non è in alfabeto latino, come i nomi scientifici: il nome nella lingua locale va in species:xx (es. species:bg)`,
       species_lang_only: kv => `c'è ${kv} ma manca species=* (il nome scientifico)`,
       wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
       wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
@@ -300,6 +302,7 @@ const I18N = {
       species_epithet_case: "Species with uppercase epithet", species_common_name: "Non-scientific species (common name?)",
       species_unidentified: "Unidentified species (sp., spp.)", species_parentheses: "Parentheses in species", species_author: "Species with the author name",
       underscore: "Underscore (_) in species or genus", tag_in_value: "Tag written in the value (=)",
+      not_latin: "Species or genus in a non-Latin script",
       species_lang_only: "species:xx without species",
       too_slender: "Tree too slender (height > 100 × circumference)", too_stocky: "Tree too stocky (circumference > 3 × height)",
       species: "Single-word species", genus: "Invalid genus",
@@ -329,6 +332,7 @@ const I18N = {
       species_author: (sp, c) => `species=${sp} contains the author name: species=${c}`,
       underscore: kv => `${kv} contains an underscore (_) instead of a space`,
       tag_in_value: kv => `${kv} contains "=": probably a tag written in the value`,
+      not_latin: kv => `${kv} is not in the Latin script, unlike scientific names: the name in the local language goes in species:xx (e.g. species:bg)`,
       species_lang_only: kv => `${kv} is present but species=* (the scientific name) is missing`,
       wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
       wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
@@ -673,7 +677,7 @@ map.on("load", async () => {
       "too_slender", "too_stocky"]],
     ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_common_name",
       "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "underscore", "tag_in_value",
-      "genus", "genus_lowercase", "genus_mismatch"]],
+      "not_latin", "genus", "genus_lowercase", "genus_mismatch"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
       "wikidata_is_taxon", "wikidata_tree_species", "wikidata_heritage", "wikidata_far"]],
     ["links", ["link_format", "broken_link", "monument_denotation", "masaf_criteria"]],
@@ -1042,6 +1046,7 @@ const issueBase = (i, p) => {
     case "species_parentheses": return T[i](p.species);
     case "underscore": return String(p.und_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");
     case "tag_in_value": return String(p.eq_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // eq_keys: fetch_trees.py
+    case "not_latin": return String(p.nl_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // nl_keys: fetch_trees.py
     case "species_lang_only": return T[i](String(p.sp_lang || "").split("\n").join(", "));   // sp_lang: righe "species:xx=valore"
     case "wikidata_not_taxon": return String(p.nt_tags || "").split(";").map(kv => T[i](kv)).join("\n");   // nt_tags, tx_wd: fetch_trees.py
     case "wikidata_is_taxon": return String(p.tx_wd || "").split(";").map(q => T[i](q)).join("\n");
@@ -1168,9 +1173,12 @@ async function fillPhoto(root) {
   } catch (e) { if (box.dataset.cat && box.querySelector("img").hidden) box.remove(); }
 }
 
+// Titolo della scheda: il nome dell'albero, altrimenti il nome comune della specie, altrimenti la specie (in corsivo,
+// come i nomi scientifici). Restituisce [HTML del titolo, chiave usata]: quella riga non si ripete sotto.
 function title(p) {
-  const b = p.name || p.species;
-  return p.stump ? (b ? L.stumpOf(b) : L.stump) : (b || L.unknownSpecies);
+  const key = ["name", "sp_common", "species"].find(k => p[k]);
+  const b = key === "species" ? `<i>${esc(p.species)}</i>` : key ? esc(p[key]) : "";
+  return [p.stump ? (b ? L.stumpOf(b) : esc(L.stump)) : (b || esc(L.unknownSpecies)), key];
 }
 
 // voce "Modifica ▾" della scheda: un menu con la pagina del nodo e gli editor (pos = [lon, lat] dell'albero)
@@ -1195,16 +1203,17 @@ function osmMenu(p, pos) {
 }
 
 function card(p, pos) {
-  // nome comune della specie nella lingua del sito (etichetta di species:wikidata, da fetch_trees.py)
+  // nome comune della specie nella lingua del sito (da Wikidata, vedi common_name in fetch_trees.py)
   p = { ...p, sp_common: p["sp_" + LANG] };
+  const [titleHtml, titleKey] = title(p);
   const img = imageInfo(p);
   const cat = !img && /^Category:/.test(p.wikimedia_commons || "") ? p.wikimedia_commons : null;
   // foto con i crediti in sovrimpressione (riempiti subito, o da fillPhoto per Commons); se non si carica sparisce
   const photo = img || cat ? `<div class="photo"${img?.commons ? ` data-commons="${esc(img.commons)}"` : ""}${cat ? ` data-cat="${esc(cat)}"` : ""}>
       <img ${img ? `src="${esc(img.src)}"` : "hidden"} alt="" loading="lazy" onerror="this.parentNode.remove()">
       <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}>${esc(img?.credit || "")}</a></div>` : "";
-  const genusIssue = ["genus", "genus_lowercase", "genus_mismatch"].some(i => p.issues.includes(`|${i}|`));
-  const rows = ROWS.filter(([k]) => p[k] && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
+  const genusIssue = ["genus", "genus_lowercase", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
+  const rows = ROWS.filter(([k]) => p[k] && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => issueText(i, p));
   const rec = recognitions(p);
   const links = [osmMenu(p, pos)];
@@ -1217,7 +1226,7 @@ function card(p, pos) {
   const pano = panoramaxIds(p);
   pano.forEach((id, i) => links.push(link(`https://api.panoramax.xyz/#focus=pic&pic=${id}`, pano.length > 1 ? `Panoramax ${i + 1}` : "Panoramax")));
   if (fotoshiId(p) && !img?.href?.includes(fotoshiId(p))) links.push(link(`https://www.fotoshi.com/photo/${fotoshiId(p)}`, "Fotoshi"));
-  return `<div class="card"><h3>${esc(title(p))}</h3>
+  return `<div class="card"><h3>${titleHtml}</h3>
     ${photo}
     <dl>${rows}</dl>
     ${rec.map(x => `<div class="rec">${x}</div>`).join("")}

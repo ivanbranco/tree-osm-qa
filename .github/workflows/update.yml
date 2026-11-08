@@ -101,6 +101,7 @@ jobs:
         env:   # passate come variabili d'ambiente, non inserite nel comando
           REGIONS: ${{ github.event.inputs.regions }}
           REGION: ${{ github.event.inputs.region || 'all' }}
+          PYTHONUNBUFFERED: "1"   # i messaggi dello script compaiono subito nel log
           # facoltativa: senza (o senza la spunta "Usa FairwayMapper"), si usano solo i server pubblici
           FAIRWAYMAPPER_KEY: ${{ inputs.fairwaymapper && secrets.FAIRWAYMAPPER_KEY || '' }}
         run: python scripts/fetch_trees.py "${REGIONS:-$REGION}"

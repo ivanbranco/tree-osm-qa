@@ -5,7 +5,7 @@ calcola i check QA e scrive data/regions/<regione>.geojson.gz e data/index.json.
 Uso: python scripts/fetch_trees.py [all | gruppo | regione ...]   (es. "liguria veneto", "italia", "liguria,bulgaria")
 Le regioni (nome, codice ISO, bbox) sono in scripts/regions.json.
 """
-import collections, concurrent.futures, datetime, functools, gzip, hashlib, json, math, os, re, sys, time
+import collections, concurrent.futures, datetime, functools, gzip, hashlib, json, math, os, re, sys, time, unicodedata
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
@@ -247,7 +247,10 @@ def denotation_problems(t):
 #   (P625), "image": file di Commons (P18), "taxa": [QID di P10241 "individuo del taxon"], "heritage": [[etichetta it,
 #   etichetta en] di P1435 "tutela"], "wp": {"it": url, "en": url} (voci di Wikipedia)}}
 # data/wikidata_taxa.json, elementi di species:wikidata, genus:wikidata e delle specie di P10241: {"Q…": {"taxon": bool,
-#   "names": [P225 nome scientifico], "ranks": [QID di P105 rango], "it": etichetta, "en": etichetta}}
+#   "names": [P225 nome scientifico], "ranks": [QID di P105 rango], "it": etichetta, "en": etichetta,
+#   "alias": {"it": [alias nell'ordine di Wikidata], "en": […]}}}; ci sono anche le specie di species_list.json usate
+#   negli alberi, per il nome comune (le etichette italiane delle piante sono quasi sempre il nome scientifico: i
+#   nomi comuni stanno negli alias, es. Cercis siliquastrum -> "Siliquastro", "Albero di Giuda")
 WD_ITEMS_FILE = DATA / "wikidata_items.json"
 WD_ITEMS = load_json(WD_ITEMS_FILE)
 WD_TAXA_FILE = DATA / "wikidata_taxa.json"
@@ -341,6 +344,46 @@ def store_taxa_info(batch, rows):
     WD_TAXA.update(found)
 
 
+def list_qid(sp):
+    """QID della specie nella lista wiki (species_list.json), per un valore di species singolo."""
+    sp = (sp or "").strip()
+    return SPECIES_REF.get(norm_species(sp), {}).get("wikidata") if sp and ";" not in sp else None
+
+
+def fetch_aliases(todo):
+    """Alias in italiano e inglese, nell'ordine di Wikidata (l'API li dà ordinati, SPARQL no), a blocchi di 50.
+    Se Wikidata non risponde si ferma: i QID rimasti si chiedono al prossimo aggiornamento."""
+    for i in range(0, len(todo), 50):
+        batch = todo[i:i + 50]
+        try:
+            r = requests.get("https://www.wikidata.org/w/api.php", timeout=60, headers=HEADERS, params={
+                "action": "wbgetentities", "ids": "|".join(batch), "props": "aliases", "languages": "it|en",
+                "format": "json"})
+            r.raise_for_status()
+            ents = r.json()["entities"]
+        except Exception as e:
+            warn(f"Wikidata non risponde ({str(e)[:150]}): {len(todo) - i} QID restano senza alias")
+            return
+        for q in batch:   # i QID reindirizzati compaiono col QID di destinazione: restano senza alias
+            al = ents.get(q, {}).get("aliases", {})
+            WD_TAXA[q]["alias"] = {lang: [a["value"] for a in al.get(lang, [])] for lang in ("it", "en")}
+        time.sleep(1)
+
+
+def common_name(q, lang, sp):
+    """Nome comune di una specie: l'etichetta di Wikidata nella lingua, se non è un nome scientifico, altrimenti il
+    primo alias che non lo è (non è un nome scientifico dell'elemento o della species, non inizia con un genere noto,
+    non ha il segno di ibrido). Con l'iniziale maiuscola; None se non c'è."""
+    e = WD_TAXA.get(q, {})
+    sci = {binomial(n) for n in e.get("names", [])} | ({binomial(sp)} if sp else set())
+    for c in [e.get(lang)] + e.get("alias", {}).get(lang, []):
+        c = (c or "").strip()
+        if not c or "×" in c or binomial(c) in sci or c.split()[0].casefold() in KNOWN_GENERA:
+            continue
+        return c[0].upper() + c[1:]
+    return None
+
+
 # percorso che segue anche i QID reindirizzati (owl:sameAs)
 def wd_prop(p):
     return f"(wdt:{p}|owl:sameAs/wdt:{p})"
@@ -362,14 +405,20 @@ def update_wikidata_cache(elements):
                  "OPTIONAL { ?wpit schema:about ?item ; schema:isPartOf <" + WP_SITES["it"] + "> } "
                  "OPTIONAL { ?wpen schema:about ?item ; schema:isPartOf <" + WP_SITES["en"] + "> } }",
                  store_items, "alberi")
-    # specie: quelle dei tag e quelle indicate da P10241 degli alberi
+    # specie: quelle dei tag, quelle indicate da P10241 degli alberi e quelle della lista wiki per i valori di species
+    # (per il nome comune)
+    listed = {q for t in tags if (q := list_qid(t.get("species")))}
     todo_taxa = sorted(({q for t in tags for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k)}
-                        | {x for q in wd for x in WD_ITEMS.get(q, {}).get("taxa", [])}) - WD_TAXA.keys())
+                        | {x for q in wd for x in WD_ITEMS.get(q, {}).get("taxa", [])} | listed) - WD_TAXA.keys())
     ask_wikidata(todo_taxa, lambda v: "SELECT ?item ?name ?rank ?it ?en WHERE { VALUES ?item { " + v + " } "
                  f"OPTIONAL {{ ?item {wd_prop('P225')} ?name }} OPTIONAL {{ ?item {wd_prop('P105')} ?rank }} "
                  "OPTIONAL { ?item rdfs:label ?it FILTER(LANG(?it) = 'it') } "
                  "OPTIONAL { ?item rdfs:label ?en FILTER(LANG(?en) = 'en') } }", store_taxa_info, "specie")
-    for todo, path, cache in ((todo_items, WD_ITEMS_FILE, WD_ITEMS), (todo_taxa, WD_TAXA_FILE, WD_TAXA)):
+    # alias (nomi comuni) delle specie: species:wikidata e lista wiki
+    todo_alias = sorted(q for q in ({q for t in tags for q in qids(t, "species:wikidata")} | listed)
+                        if q in WD_TAXA and "alias" not in WD_TAXA[q])
+    fetch_aliases(todo_alias)
+    for todo, path, cache in ((todo_items, WD_ITEMS_FILE, WD_ITEMS), (todo_taxa or todo_alias, WD_TAXA_FILE, WD_TAXA)):
         if todo:
             path.write_text(json.dumps(cache, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
 
@@ -440,16 +489,17 @@ def wikidata_heritage(t):
             if taxon_status(q) is not True and WD_ITEMS.get(q, {}).get("heritage")]
 
 
-def wikidata_extras(t):
-    """Proprietà per la scheda: nome comune della specie (etichetta di species:wikidata in it/en, se diversa dal
-    nome scientifico) e voci di Wikipedia dell'albero (elemento di wikidata=*)."""
+def wikidata_extras(t, wd_ok=True):
+    """Proprietà per la scheda: nome comune della specie in it/en (vedi common_name) e voci di Wikipedia dell'albero
+    (elemento di wikidata=*). La specie è quella di species:wikidata se è corretto (wd_ok), altrimenti quella della
+    lista wiki per il valore di species."""
     p = {}
     sp = (t.get("species") or "").strip()
-    for q in qids(t, "species:wikidata")[:1]:
+    q = (qids(t, "species:wikidata")[:1] if wd_ok else []) or [list_qid(sp)]
+    if q[0]:
         for lang in ("it", "en"):
-            label = WD_TAXA.get(q, {}).get(lang)
-            if label and binomial(label) != binomial(sp) and binomial(label) not in {binomial(n) for n in taxon_names(q)}:
-                p["sp_" + lang] = label
+            if name := common_name(q[0], lang, sp):
+                p["sp_" + lang] = name
     for q in qids(t, "wikidata")[:1]:
         for lang, url in WD_ITEMS.get(q, {}).get("wp", {}).items():
             p["wp_" + lang] = url
@@ -893,6 +943,11 @@ def species_unidentified(sp):
 
 
 EQ_KEYS = ("species", "genus", "taxon", "name", "start_date", "ref:masaf", "ref:rami")   # check tag_in_value
+
+
+def not_latin(v):
+    """True se il valore contiene lettere di un alfabeto non latino (cirillico, greco…); le lettere accentate latine vanno bene."""
+    return any(c.isalpha() and not unicodedata.name(c, "").startswith("LATIN") for c in str(v or ""))
 SCI_NAME = re.compile(r"^(×\s*)?[A-Z][a-zë-]+\s+(×\s*)?[a-zë-]+$")   # forma di un nome scientifico: Genere epiteto
 
 
@@ -1023,11 +1078,16 @@ def checks(t, pos):
     # perché negli indirizzi "=" è normale. Con "=" in species i check sulla sua forma non si ripetono
     if eq := [k for k in EQ_KEYS if "=" in str(t.get(k, ""))]:
         flag("tag_in_value", eq_keys=";".join(eq))
+    # species o genus in un alfabeto non latino (es. genus=череша): con questo errore non si ripetono i check sulla forma
+    if nl := [k for k in ("species", "genus") if k not in eq and not_latin(t.get(k))]:
+        flag("not_latin", nl_keys=";".join(nl))
     sp = t.get("species")
-    spf = None if "species" in eq else sp             # species per i check sulla forma del nome
-    if spf is not None and len(spf.split()) == 1:
+    spf = None if "species" in eq or "species" in nl else sp   # species per i check sulla forma del nome
+    one_word = spf is not None and len(spf.split()) == 1
+    if one_word:
         flag("species")
-    if spf is not None and spf.strip()[:1].islower():
+    # con una sola parola basta l'errore precedente: la correzione è la stessa, minuscola o no
+    if spf is not None and not one_word and spf.strip()[:1].islower():
         flag("species_lowercase")
     if spf and (g_un := species_unidentified(spf)):
         flag("species_unidentified", sp_genus=g_un)
@@ -1047,7 +1107,7 @@ def checks(t, pos):
     if lang := species_lang_only(t):    # "species:it=Leccio" separati da "\n" (i valori possono contenere ";")
         flag("species_lang_only", sp_lang="\n".join(f"{k}={v}" for k, v in lang))
     g = t.get("genus")
-    gf = None if "genus" in eq else g                 # genus per i check sulla forma del nome
+    gf = None if "genus" in eq or "genus" in nl else g   # genus per i check sulla forma del nome
     if gf is not None and len(gf.split()) > 1:
         flag("genus")
     if gf is not None and gf.strip()[:1].islower():
@@ -1056,7 +1116,9 @@ def checks(t, pos):
         flag("leaf_type")
     if "leaf_cycle" in t and t["leaf_cycle"] not in LEAF_CYCLE:
         flag("leaf_cycle")
-    if g is not None and sp is not None and len(g.split()) == 1:
+    # species di una sola parola minuscola (es. species=alba): è un epiteto, non un genere da confrontare
+    sp_epithet = sp is not None and len(sp.split()) == 1 and sp.strip()[:1].islower()
+    if g is not None and sp is not None and len(g.split()) == 1 and not sp_epithet and not nl:
         sg = genus_of_species(sp)
         if sg and g.casefold() != sg.casefold():
             flag("genus_mismatch")
@@ -1188,11 +1250,10 @@ def to_feature(el):
     if (fs := FOTOSHI.get(t.get("image:fotoshi", "").strip())) and fs.get("author"):   # crediti della foto
         p["fs_author"], p["fs_license"] = fs["author"], fs.get("license", "")
     iss, props = checks(t, [el["lon"], el["lat"]])
-    # nome comune della specie e voci di Wikipedia, per la scheda; il nome comune solo se species:wikidata è corretto
-    extras = wikidata_extras(t)
-    if {"wikidata_mismatch", "wikidata_not_taxon", "wikidata_rank", "wikidata_name_mismatch"} & set(iss):
-        extras = {k: v for k, v in extras.items() if not k.startswith("sp_")}
-    p.update(extras)
+    # nome comune della specie e voci di Wikipedia, per la scheda; se species:wikidata è sbagliato il nome comune
+    # viene dalla lista wiki
+    wd_bad = {"wikidata_mismatch", "wikidata_not_taxon", "wikidata_rank", "wikidata_name_mismatch"} & set(iss)
+    p.update(wikidata_extras(t, not wd_bad))
     p["issues"] = "|" + "|".join(iss) + "|" if iss else "|"
     p.update(props)
     return {"type": "Feature", "properties": p,
