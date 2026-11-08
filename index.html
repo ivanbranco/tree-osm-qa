@@ -50,10 +50,10 @@
 <div id="side">
 <div id="panel" class="box">
   <h1><span data-i18n="title">DendrOSM</span><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a></span></h1>
-  <select id="region"></select>
+  <select id="region" autocomplete="off"></select>
   <button id="overview" type="button" hidden data-i18n="allRegions">← Tutte le regioni</button>
-  <select id="taxon"><option value="" data-i18n="allTaxa">Tutti i genus e le specie</option></select>
-  <select id="issue"><option value="" data-i18n="allIssues">Tutti gli errori</option></select>
+  <select id="taxon" autocomplete="off"><option value="" data-i18n="allTaxa">Tutti i genus e le specie</option></select>
+  <select id="issue" autocomplete="off"><option value="" data-i18n="allIssues">Tutti gli errori</option></select>
   <div id="count"></div>
   <div id="updated" class="note"></div>
 </div>
@@ -124,6 +124,7 @@ const I18N = {
       comma: "Virgola decimale (circumference, height, diameter_crown, diameter)",
       number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
       link_format: "Link con formato non valido", wikidata_mismatch: "species:wikidata incoerente con la species",
+      wikidata_not_taxon: "species/genus:wikidata non è un taxon", wikidata_is_taxon: "wikidata è un taxon",
       leaf_type_mismatch: "leaf_type diverso da quello della specie", leaf_cycle_mismatch: "leaf_cycle diverso da quello della specie",
       monument_denotation: "Fonte monumentale senza natural_monument",
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
@@ -149,6 +150,8 @@ const I18N = {
       link_format: t => `formato non valido in ${t}`,
       monument_denotation: t => `${t} senza denotation=natural_monument`,
       crown: v => `diametro chioma ${v} > 60,4 m (record per un albero vivo a tronco singolo)`,
+      wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
+      wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
       undocumented_tag: kv => `tag non documentato ${kv}: verificare se può essere sostituito con un altro tag`,
       too_slender: (h, c, r) => `albero troppo slanciato: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
       too_stocky: (h, c, r) => `albero troppo tozzo: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
@@ -198,6 +201,7 @@ const I18N = {
       comma: "Decimal comma (circumference, height, diameter_crown, diameter)",
       number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
       link_format: "Link with invalid format", wikidata_mismatch: "species:wikidata inconsistent with species",
+      wikidata_not_taxon: "species/genus:wikidata is not a taxon", wikidata_is_taxon: "wikidata is a taxon",
       leaf_type_mismatch: "leaf_type differs from the species", leaf_cycle_mismatch: "leaf_cycle differs from the species",
       monument_denotation: "Monumental source without natural_monument",
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
@@ -223,6 +227,8 @@ const I18N = {
       link_format: t => `invalid format in ${t}`,
       monument_denotation: t => `${t} without denotation=natural_monument`,
       crown: v => `crown diameter ${v} > 60.4 m (record for a living single-trunk tree)`,
+      wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
+      wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
       undocumented_tag: kv => `undocumented tag ${kv}: check whether it can be replaced with another tag`,
       too_slender: (h, c, r) => `tree too slender: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
       too_stocky: (h, c, r) => `tree too stocky: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
@@ -748,6 +754,8 @@ const issueBase = (i, p) => {
     case "link_format": return T[i](list(p.bad_links));
     case "monument_denotation": return T[i](list(p.mon_src));
     case "crown": return T[i](fmtM(p.diameter_crown));
+    case "wikidata_not_taxon": return String(p.nt_tags || "").split(";").map(kv => T[i](kv)).join("; ");   // nt_tags, tx_wd: fetch_trees.py
+    case "wikidata_is_taxon": return String(p.tx_wd || "").split(";").map(q => T[i](q)).join("; ");
     case "undocumented_tag":     // tag_tree, tag_type: valori dei tag segnalati (fetch_trees.py)
       return ["tree", "type"].filter(k => p["tag_" + k] != null).map(k => T[i](`${k}=${p["tag_" + k]}`)).join("; ");
     case "too_slender": case "too_stocky":   // hc_ratio, hc_circ: rapporto e circonferenza usata (fetch_trees.py)

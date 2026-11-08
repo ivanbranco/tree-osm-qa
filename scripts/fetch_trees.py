@@ -186,6 +186,54 @@ def denotation_problems(t):
     return out
 
 
+# Elementi Wikidata che sono taxon: quelli con un nome scientifico (P225, "taxon name"). È molto più veloce del
+# controllo "istanza di taxon (Q16521) o di una sua sottoclasse" (37 s contro 4,5 s per 200 QID) e distingue
+# allo stesso modo specie, illustrazioni, frutti e alberi monumentali. Le risposte restano in
+# data/wikidata_taxon.json ({"Q…": true|false}): a ogni aggiornamento si interrogano solo i QID nuovi.
+# Se Wikidata non risponde, i QID restano sconosciuti e i check relativi non scattano.
+TAXON_FILE = DATA / "wikidata_taxon.json"
+TAXON = json.loads(TAXON_FILE.read_text(encoding="utf-8")) if TAXON_FILE.exists() else {}
+WDQS_URL = "https://query.wikidata.org/sparql"
+TAXON_KEYS = ("species:wikidata", "genus:wikidata", "wikidata")
+TAXON_BATCH = 200
+
+
+def qids(t, key):
+    """QID validi (Q…) di un tag, anche separati da ';'."""
+    return [x.strip() for x in str(t.get(key, "")).split(";") if WIKIDATA.match(x.strip())]
+
+
+def update_taxon_cache(elements):
+    """Chiede a Wikidata quali dei QID usati (e non ancora in cache) sono taxon; aggiorna e salva la cache."""
+    todo = sorted({q for el in elements for k in TAXON_KEYS for q in qids(el.get("tags", {}), k)} - TAXON.keys())
+    for i in range(0, len(todo), TAXON_BATCH):
+        batch = todo[i:i + TAXON_BATCH]
+        sparql = ("SELECT DISTINCT ?item WHERE { VALUES ?item { " + " ".join("wd:" + q for q in batch) + " } "
+                  "{ ?item wdt:P225 [] } UNION { ?item owl:sameAs/wdt:P225 [] } }")   # owl:sameAs: QID reindirizzati
+        try:
+            r = requests.post(WDQS_URL, data={"query": sparql}, timeout=120,
+                              headers={**HEADERS, "Accept": "application/sparql-results+json"})
+            r.raise_for_status()
+            taxa = {b["item"]["value"].rsplit("/", 1)[-1] for b in r.json()["results"]["bindings"]}
+        except Exception as e:
+            warn(f"Wikidata non risponde ({str(e)[:150]}): {len(todo) - i} QID restano da verificare")
+            break
+        TAXON.update({q: q in taxa for q in batch})
+        time.sleep(1)
+    if todo:
+        TAXON_FILE.write_text(json.dumps(TAXON, indent=0, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def not_taxon_tags(t):
+    """species:wikidata e genus:wikidata che puntano a un elemento che non è un taxon: [(chiave, QID)]."""
+    return [(k, q) for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k) if TAXON.get(q) is False]
+
+
+def taxon_wikidata(t):
+    """QID di wikidata=* che sono taxon (wikidata dovrebbe indicare il singolo albero)."""
+    return [q for q in qids(t, "wikidata") if TAXON.get(q) is True]
+
+
 CYCLE_GROUP = {"deciduous": "d", "semi_deciduous": "d", "evergreen": "e", "semi_evergreen": "e"}
 
 
@@ -444,6 +492,13 @@ def checks(t):
         if sg and g.casefold() != sg.casefold():
             issues.append("genus_mismatch")
     issues.extend(species_list_mismatches(t)[0])
+    nt = not_taxon_tags(t)
+    if nt:
+        issues.append("wikidata_not_taxon")
+        if any(k == "species:wikidata" for k, _ in nt) and "wikidata_mismatch" in issues:
+            issues.remove("wikidata_mismatch")   # stesso tag: basta l'errore più preciso
+    if taxon_wikidata(t):
+        issues.append("wikidata_is_taxon")
     if bad_numeric_tags(t):
         issues.append("number_invalid")
     if bad_link_tags(t):
@@ -558,6 +613,10 @@ def to_feature(el):
     if "too_slender" in iss or "too_stocky" in iss:  # per la scheda: rapporto e circonferenza usata (anche da diameter)
         p["hc_ratio"] = round(slenderness(t), 3)
         p["hc_circ"] = round(circ_value(t)[0], 2)
+    if "wikidata_not_taxon" in iss:  # per la scheda: "chiave=QID;…"
+        p["nt_tags"] = ";".join(f"{k}={q}" for k, q in not_taxon_tags(t))
+    if "wikidata_is_taxon" in iss:
+        p["tx_wd"] = ";".join(taxon_wikidata(t))
     if "undocumented_tag" in iss:  # per la scheda: tag_tree, tag_type con il valore (i tag non sono in KEEP)
         for k, v in undocumented_tags(t):
             p["tag_" + k] = v
@@ -591,6 +650,7 @@ def update_region(region, regions_index):
             return True
         print(f"{slug}: download fallito e nessuna cache disponibile")
         return False
+    update_taxon_cache(data["elements"])   # prima dei check: servono a wikidata_not_taxon e wikidata_is_taxon
     fc = build(data)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     digest = hashlib.sha1(raw).hexdigest()

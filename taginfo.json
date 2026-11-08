@@ -18,6 +18,7 @@
     {"key": "genus", "object_types": ["node"], "description": "Used for filtering, QA checks and the info panel."},
     {"key": "taxon", "object_types": ["node"], "description": "Shown in the info panel."},
     {"key": "species:wikidata", "object_types": ["node"], "description": "Used for QA checks."},
+    {"key": "genus:wikidata", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "leaf_type", "object_types": ["node"], "description": "Used to render the crown shape and for QA checks."},
     {"key": "leaf_cycle", "object_types": ["node"], "description": "Used for QA checks and the info panel."},
     {"key": "circumference", "object_types": ["node"], "description": "Used to render the 2D trunk and for QA checks."},
