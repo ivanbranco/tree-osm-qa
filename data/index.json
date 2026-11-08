@@ -7,6 +7,20 @@
    "sha1": "e29913780721091f3b7bbd970d452da278ee3047",
    "updated": "2026-11-08T03:37:33Z"
   },
+  "croazia": {
+   "count": 88742,
+   "errors": 193,
+   "name": "Croazia",
+   "sha1": "a33ca546ef0ceacd992222a1e30b7f8f4ac156db",
+   "updated": "2026-11-08T12:11:55Z"
+  },
+  "estonia": {
+   "count": 80756,
+   "errors": 115,
+   "name": "Estonia",
+   "sha1": "5339eb668f45055370e32e59b13e3c49e1e0ea7c",
+   "updated": "2026-11-08T12:04:27Z"
+  },
   "lettonia": {
    "count": 102100,
    "errors": 197,
@@ -20,6 +34,13 @@
    "name": "Liguria",
    "sha1": "c301cc7c3a6391e19f93ba3961f707f39948df71",
    "updated": "2026-11-07T23:51:17Z"
+  },
+  "lituania": {
+   "count": 89234,
+   "errors": 17,
+   "name": "Lituania",
+   "sha1": "8f574f9a35904ce9ee3ae35f1e774ffe6782a9e1",
+   "updated": "2026-11-08T12:01:32Z"
   },
   "lombardia": {
    "count": 387030,
@@ -52,6 +73,13 @@
    "name": "Sicilia",
    "sha1": "16ea365a9fac779d23746d2b03db1c77f9d32743",
    "updated": "2026-11-07T22:03:27Z"
+  },
+  "slovenia": {
+   "count": 51263,
+   "errors": 53,
+   "name": "Slovenia",
+   "sha1": "9a6463c8e99b91a37ce21be83ea51c226be642a9",
+   "updated": "2026-11-08T12:08:42Z"
   },
   "trentino-alto-adige": {
    "count": 67740,
