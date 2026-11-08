@@ -4,12 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       region:
-        description: "Regione da aggiornare (all = tutte)"
+        description: "Regione da aggiornare (all = tutte, italia = tutte le regioni italiane)"
         type: choice
         default: all
         options:
           - all
+          - italia
           - bulgaria
+          - lettonia
           - piemonte
           - valle-d-aosta
           - lombardia
@@ -30,6 +32,11 @@ on:
           - calabria
           - sicilia
           - sardegna
+      regions:
+        description: "Oppure più regioni, separate da spazi o virgole (es. liguria veneto lettonia): se compilato, la scelta sopra è ignorata"
+        type: string
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -49,7 +56,10 @@ jobs:
           python-version: "3.12"
       - run: pip install requests
       - name: Scarica i dati
-        run: python scripts/fetch_trees.py "${{ github.event.inputs.region || 'all' }}"
+        env:   # passate come variabili d'ambiente, non inserite nel comando
+          REGIONS: ${{ github.event.inputs.regions }}
+          REGION: ${{ github.event.inputs.region || 'all' }}
+        run: python scripts/fetch_trees.py "${REGIONS:-$REGION}"
       - name: Commit
         if: ${{ !cancelled() }}
         run: |

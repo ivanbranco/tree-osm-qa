@@ -1,5 +1,6 @@
 [
   {"slug": "bulgaria", "name": "Bulgaria", "iso": "BG", "rel": 186382, "bbox": [41.2, 22.3, 44.2, 28.6], "split": 0},
+  {"slug": "lettonia", "name": "Lettonia", "iso": "LV", "rel": 72594, "bbox": [55.6, 20.9, 58.1, 28.3]},
   {"slug": "piemonte", "name": "Piemonte", "group": "Italia", "iso": "IT-21", "rel": 44874, "bbox": [44.0, 6.6, 46.5, 9.3]},
   {"slug": "valle-d-aosta", "name": "Valle d'Aosta", "group": "Italia", "iso": "IT-23", "rel": 45155, "bbox": [45.4, 6.7, 46.1, 8.0]},
   {"slug": "lombardia", "name": "Lombardia", "group": "Italia", "iso": "IT-25", "rel": 44879, "bbox": [44.6, 8.4, 46.7, 11.5]},

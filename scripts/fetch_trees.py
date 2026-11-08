@@ -2,7 +2,7 @@
 """Scarica gli alberi OSM (natural=tree) delle regioni italiane via Overpass, calcola i check QA
 e scrive data/regions/<regione>.geojson.gz e data/index.json.
 
-Uso: python scripts/fetch_trees.py [all | regione [regione ...]]
+Uso: python scripts/fetch_trees.py [all | gruppo | regione ...]   (es. "liguria veneto", "italia", "liguria,bulgaria")
 Le regioni (nome, codice ISO, bbox) sono in scripts/regions.json.
 """
 import gzip, hashlib, json, math, os, re, sys, time
@@ -545,15 +545,20 @@ def save_index(regions_index):
 
 
 def main(argv):
-    names = argv or ["all"]
+    # regioni separate da spazi o virgole; "all" = tutte; il nome di un gruppo (es. "italia") = tutte le sue regioni
+    names = [x.lower() for a in argv for x in re.split(r"[\s,]+", a) if x] or ["all"]
     by_slug = {r["slug"]: r for r in REGIONS}
+    groups = {}
+    for r in REGIONS:
+        if r.get("group"):
+            groups.setdefault(r["group"].lower(), []).append(r)
     if "all" in names:
         todo = REGIONS
     else:
-        unknown = [x for x in names if x not in by_slug]
+        unknown = [x for x in names if x not in by_slug and x not in groups]
         if unknown:
-            sys.exit(f"Regione sconosciuta: {', '.join(unknown)}. Disponibili: all, {', '.join(by_slug)}")
-        todo = [by_slug[x] for x in names]
+            sys.exit(f"Regione sconosciuta: {', '.join(unknown)}. Disponibili: all, {', '.join([*groups, *by_slug])}")
+        todo = list({r["slug"]: r for x in names for r in (groups.get(x) or [by_slug[x]])}.values())  # senza doppioni
     regions_index = json.loads(INDEX.read_text(encoding="utf-8")).get("regions", {}) if INDEX.exists() else {}
     ok = True
     for i, region in enumerate(todo, 1):
