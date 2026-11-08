@@ -434,10 +434,12 @@ LEAF_TYPE = {"broadleaved", "needleleaved", "leafless", "palm"}
 LEAF_CYCLE = {"deciduous", "semi_deciduous", "evergreen", "semi_evergreen"}
 
 # Raggio di default della chioma (m) quando manca diameter_crown; più grande per gli alberi monumentali
-# e i landmark, più piccolo per i parcheggi (di solito alberelli). In caso di più valori vince il primo della lista.
+# e i landmark, più piccolo per parcheggi e ornamentali (di solito alberelli) e per gli alberi agricoli e dei
+# frutteti (potati bassi). In caso di più valori vince il primo della lista.
 DEFAULT_CROWN_R = 3.0
 DEFAULT_STUMP_R = 0.25  # m, raggio della X di un ceppo senza circumference
-DEFAULT_CROWN_R_BY_DENOTATION = (("natural_monument", 6.0), ("landmark", 6.0), ("parking", 2.0))
+DEFAULT_CROWN_R_BY_DENOTATION = (("natural_monument", 5.0), ("landmark", 5.0), ("parking", 2.0), ("decoration", 2.0),
+                                 ("agricultural", 2.5), ("orchard", 2.5))
 
 
 def default_crown_r(t):
@@ -562,6 +564,18 @@ def genus_of_species(sp):
     return words[0] if words else ""
 
 
+# Nome della specie in una lingua: species:<codice lingua>, es. species:it, species:pl, species:en, species:zh-Hans
+# (2-3 lettere, con eventuale variante). species:wikidata, species:wikipedia e simili non sono lingue.
+SPECIES_LANG = re.compile(r"^species:[a-z]{2,3}(?:[-_][A-Za-z]{2,4})?$")
+
+
+def species_lang_only(t):
+    """Nomi della specie in qualche lingua (species:xx) su un albero senza species=*: [(chiave, valore)]."""
+    if t.get("species"):
+        return []
+    return sorted((k, v) for k, v in t.items() if SPECIES_LANG.match(k))
+
+
 def undocumented_tags(t):
     """Tag non documentati presenti: [(chiave, valore)], esclusi quelli in UNDOC_IGNORE."""
     return [(k, t[k]) for k in UNDOC_TAGS if k in t and (k, t[k].strip()) not in UNDOC_IGNORE]
@@ -611,6 +625,8 @@ def checks(t, pos):
         flag("species_lowercase")
     if sp and SPECIES_BIN and (typo := species_typo(sp)):
         flag("species_typo", sp_sugg=typo)
+    if lang := species_lang_only(t):    # "species:it=Leccio" separati da "\n" (i valori possono contenere ";")
+        flag("species_lang_only", sp_lang="\n".join(f"{k}={v}" for k, v in lang))
     g = t.get("genus")
     if g is not None and len(g.split()) > 1:
         flag("genus")

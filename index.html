@@ -149,6 +149,7 @@ const I18N = {
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
       undocumented_tag: "Tag non documentato (tree, type)", circumference_species: "Circonferenza > limite della specie",
       height_species: "Altezza > limite della specie", species_typo: "Species forse scritta male",
+      species_lang_only: "species:xx senza species",
       too_slender: "Albero troppo slanciato (altezza > 100 × circonferenza)", too_stocky: "Albero troppo tozzo (circonferenza > 3 × altezza)",
       species: "Species di una sola parola", genus: "Genus non valido",
       species_lowercase: "Species con iniziale minuscola", genus_lowercase: "Genus con iniziale minuscola",
@@ -170,6 +171,7 @@ const I18N = {
       monument_denotation: t => `${t} senza denotation=natural_monument`,
       crown: v => `diametro chioma ${v} > 60,4 m (record per un albero vivo a tronco singolo)`,
       species_typo: (sp, s) => `species=${sp} non è nella lista delle specie: forse ${s}?`,
+      species_lang_only: kv => `c'è ${kv} ma manca species=* (il nome scientifico)`,
       wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
       wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: le coordinate dell'elemento su Wikidata sono a ${km} km da questo albero`,
@@ -230,6 +232,7 @@ const I18N = {
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
       undocumented_tag: "Undocumented tag (tree, type)", circumference_species: "Circumference > species limit",
       height_species: "Height > species limit", species_typo: "Possibly misspelled species",
+      species_lang_only: "species:xx without species",
       too_slender: "Tree too slender (height > 100 × circumference)", too_stocky: "Tree too stocky (circumference > 3 × height)",
       species: "Single-word species", genus: "Invalid genus",
       species_lowercase: "Species starting lowercase", genus_lowercase: "Genus starting lowercase",
@@ -251,6 +254,7 @@ const I18N = {
       monument_denotation: t => `${t} without denotation=natural_monument`,
       crown: v => `crown diameter ${v} > 60.4 m (record for a living single-trunk tree)`,
       species_typo: (sp, s) => `species=${sp} is not in the species list: did you mean ${s}?`,
+      species_lang_only: kv => `${kv} is present but species=* (the scientific name) is missing`,
       wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
       wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: the coordinates of the Wikidata item are ${km} km from this tree`,
@@ -791,6 +795,7 @@ const issueBase = (i, p) => {
     case "monument_denotation": return T[i](list(p.mon_src));
     case "crown": return T[i](fmtM(p.diameter_crown));
     case "species_typo": return T[i](p.species, p.sp_sugg);   // sp_sugg: fetch_trees.py
+    case "species_lang_only": return T[i](String(p.sp_lang || "").split("\n").join(", "));   // sp_lang: righe "species:xx=valore"
     case "wikidata_not_taxon": return String(p.nt_tags || "").split(";").map(kv => T[i](kv)).join("; ");   // nt_tags, tx_wd: fetch_trees.py
     case "wikidata_is_taxon": return String(p.tx_wd || "").split(";").map(q => T[i](q)).join("; ");
     case "wikidata_far":         // wd_far: "QID:km;…" (fetch_trees.py)
