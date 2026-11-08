@@ -5,7 +5,7 @@ calcola i check QA e scrive data/regions/<regione>.geojson.gz e data/index.json.
 Uso: python scripts/fetch_trees.py [all | gruppo | regione ...]   (es. "liguria veneto", "italia", "liguria,bulgaria")
 Le regioni (nome, codice ISO, bbox) sono in scripts/regions.json.
 """
-import functools, gzip, hashlib, json, math, os, re, sys, time
+import collections, concurrent.futures, datetime, functools, gzip, hashlib, json, math, os, re, sys, time
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
@@ -266,14 +266,66 @@ def store_images(batch, rows):
     IMAGES.update({q: found.get(q, "") for q in batch})
 
 
+# Elementi dei singoli alberi (wikidata=*): data/wikidata_trees.json, {"Q…": {"taxa": [QID di P10241 "individuo del
+# taxon"], "heritage": [[etichetta it, etichetta en] di P1435 "tutela"], "wp": {"it": url, "en": url} (Wikipedia)}}.
+WD_TREES_FILE = DATA / "wikidata_trees.json"
+WD_TREES = load_json(WD_TREES_FILE)
+# Elementi delle specie e dei generi (species:wikidata, genus:wikidata e le specie di P10241):
+# data/wikidata_taxa.json, {"Q…": {"names": [P225 nome scientifico], "ranks": [QID di P105 rango], "it": etichetta,
+# "en": etichetta}}.
+WD_TAXA_FILE = DATA / "wikidata_taxa.json"
+WD_TAXA = load_json(WD_TAXA_FILE)
+WP_SITES = {"it": "https://it.wikipedia.org/", "en": "https://en.wikipedia.org/"}
+# ranghi (P105): species:wikidata non deve puntare a un genere o più su, genus:wikidata non a una specie o più giù
+RANK_GENUS_OR_ABOVE = {"Q34740", "Q3238261", "Q3181348", "Q5998839", "Q3025161", "Q227936", "Q164280", "Q35409", "Q36602"}
+RANK_SPECIES_OR_BELOW = {"Q7432", "Q68947", "Q767728", "Q279749"}
+
+
+def qid_of(b, var):
+    return b[var]["value"].rsplit("/", 1)[-1]
+
+
+def store_trees(batch, rows):
+    found = {q: {"taxa": [], "heritage": [], "wp": {}} for q in batch}
+    for b in rows:
+        e = found[qid_of(b, "item")]
+        if "taxon" in b and qid_of(b, "taxon") not in e["taxa"]:
+            e["taxa"].append(qid_of(b, "taxon"))
+        if "her" in b:
+            label = [b.get("herIt", b.get("herEn", {})).get("value", qid_of(b, "her")),
+                     b.get("herEn", b.get("herIt", {})).get("value", qid_of(b, "her"))]
+            if label not in e["heritage"]:
+                e["heritage"].append(label)
+        for lang in WP_SITES:
+            if "wp" + lang in b:
+                e["wp"][lang] = b["wp" + lang]["value"]
+    WD_TREES.update(found)
+
+
+def store_taxa_info(batch, rows):
+    found = {q: {"names": [], "ranks": []} for q in batch}
+    for b in rows:
+        e = found[qid_of(b, "item")]
+        if "name" in b and b["name"]["value"] not in e["names"]:
+            e["names"].append(b["name"]["value"])
+        if "rank" in b and qid_of(b, "rank") not in e["ranks"]:
+            e["ranks"].append(qid_of(b, "rank"))
+        for lang in ("it", "en"):
+            if lang in b:
+                e[lang] = b[lang]["value"]
+    WD_TAXA.update(found)
+
+
 def update_wikidata_cache(elements):
-    """Chiede a Wikidata, per i QID usati e non ancora in cache, se sono taxon (species:wikidata, genus:wikidata,
-    wikidata), le coordinate e l'immagine (solo wikidata); aggiorna e salva le cache."""
+    """Chiede a Wikidata, per i QID usati e non ancora in cache: se sono taxon (species:wikidata, genus:wikidata,
+    wikidata); per wikidata coordinate, immagine, specie (P10241), tutela (P1435) e voci di Wikipedia; per le specie
+    nome scientifico, rango ed etichette. Aggiorna e salva le cache."""
     tags = [el.get("tags", {}) for el in elements]
     wd = {q for t in tags for q in qids(t, "wikidata")}
     todo_taxa = sorted({q for t in tags for k in TAXON_KEYS for q in qids(t, k)} - TAXON.keys())
     todo_coords = sorted(wd - COORDS.keys())
     todo_images = sorted(wd - IMAGES.keys())
+    todo_trees = sorted(wd - WD_TREES.keys())
     # owl:sameAs: QID reindirizzati a un altro elemento
     ask_wikidata(todo_taxa, lambda v: "SELECT DISTINCT ?item WHERE { VALUES ?item { " + v + " } "
                  "{ ?item wdt:P225 [] } UNION { ?item owl:sameAs/wdt:P225 [] } }", store_taxa, "taxon")
@@ -281,10 +333,200 @@ def update_wikidata_cache(elements):
                  "{ ?item wdt:P625 ?coord } UNION { ?item owl:sameAs/wdt:P625 ?coord } }", store_coords, "coordinate")
     ask_wikidata(todo_images, lambda v: "SELECT ?item ?img WHERE { VALUES ?item { " + v + " } "
                  "{ ?item wdt:P18 ?img } UNION { ?item owl:sameAs/wdt:P18 ?img } }", store_images, "immagini")
+    ask_wikidata(todo_trees, lambda v: "SELECT ?item ?taxon ?her ?herIt ?herEn ?wpit ?wpen WHERE { VALUES ?item { "
+                 + v + " } OPTIONAL { ?item wdt:P10241 ?taxon } "
+                 "OPTIONAL { ?item wdt:P1435 ?her . OPTIONAL { ?her rdfs:label ?herIt FILTER(LANG(?herIt) = 'it') } "
+                 "OPTIONAL { ?her rdfs:label ?herEn FILTER(LANG(?herEn) = 'en') } } "
+                 "OPTIONAL { ?wpit schema:about ?item ; schema:isPartOf <" + WP_SITES["it"] + "> } "
+                 "OPTIONAL { ?wpen schema:about ?item ; schema:isPartOf <" + WP_SITES["en"] + "> } }",
+                 store_trees, "alberi")
+    # specie: quelle dei tag e quelle indicate da P10241 degli alberi
+    todo_info = sorted(({q for t in tags for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k)}
+                        | {x for q in wd for x in WD_TREES.get(q, {}).get("taxa", [])}) - WD_TAXA.keys())
+    ask_wikidata(todo_info, lambda v: "SELECT ?item ?name ?rank ?it ?en WHERE { VALUES ?item { " + v + " } "
+                 "OPTIONAL { ?item wdt:P225 ?name } OPTIONAL { ?item wdt:P105 ?rank } "
+                 "OPTIONAL { ?item rdfs:label ?it FILTER(LANG(?it) = 'it') } "
+                 "OPTIONAL { ?item rdfs:label ?en FILTER(LANG(?en) = 'en') } }", store_taxa_info, "specie")
     for todo, path, cache in ((todo_taxa, TAXON_FILE, TAXON), (todo_coords, COORDS_FILE, COORDS),
-                              (todo_images, IMAGES_FILE, IMAGES)):
+                              (todo_images, IMAGES_FILE, IMAGES), (todo_trees, WD_TREES_FILE, WD_TREES),
+                              (todo_info, WD_TAXA_FILE, WD_TAXA)):
         if todo:
             path.write_text(json.dumps(cache, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def taxon_names(q):
+    """Nomi scientifici (P225) di un elemento Wikidata, dalla cache."""
+    return WD_TAXA.get(q, {}).get("names", [])
+
+
+def rank_problem(k, q):
+    """Rango sbagliato per la chiave: un genere o più su per species:wikidata, una specie o più giù per genus:wikidata."""
+    wrong = RANK_GENUS_OR_ABOVE if k == "species:wikidata" else RANK_SPECIES_OR_BELOW
+    return next((r for r in WD_TAXA.get(q, {}).get("ranks", []) if r in wrong), None)
+
+
+def wikidata_rank_problems(t):
+    """[(chiave, QID, QID del rango)] di species:wikidata e genus:wikidata con il rango sbagliato."""
+    return [(k, q, r) for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k) if (r := rank_problem(k, q))]
+
+
+def genus_key(g):
+    return g.replace("×", " ").split()[0].casefold() if g.replace("×", " ").split() else ""
+
+
+def wikidata_name_problems(t, skip_species):
+    """[(chiave, QID, nome su Wikidata)] quando il nome scientifico (P225) dell'elemento di species:wikidata o
+    genus:wikidata non corrisponde a species o genus. skip_species: species:wikidata già segnalato dalla lista wiki."""
+    out = []
+    for k, tag in (("species:wikidata", "species"), ("genus:wikidata", "genus")):
+        val = (t.get(tag) or "").strip()
+        if not val or ";" in val or (k == "species:wikidata" and skip_species):
+            continue
+        for q in qids(t, k):
+            names = taxon_names(q)
+            if not names or rank_problem(k, q):      # niente nome (non è un taxon) o rango sbagliato: altri check
+                continue
+            if k == "species:wikidata":
+                ok = q in WD_WHITELIST.get(norm_species(val), ()) or binomial(val) in {binomial(n) for n in names}
+            else:
+                ok = genus_key(val) in {genus_key(n) for n in names}
+            if not ok:
+                out.append((k, q, names[0]))
+    return out
+
+
+def wikidata_tree_species(t):
+    """[(QID, nome)] quando la specie dell'albero su Wikidata (P10241 dell'elemento di wikidata=*) non corrisponde
+    a species:wikidata né a species (si confrontano i QID e i nomi scientifici)."""
+    out = []
+    sw, sp = qids(t, "species:wikidata"), (t.get("species") or "").strip()
+    own = {binomial(n) for q2 in sw for n in taxon_names(q2)} | ({binomial(sp)} if sp and ";" not in sp else set())
+    for q in qids(t, "wikidata"):
+        taxa = WD_TREES.get(q, {}).get("taxa", [])
+        names = [n for tx in taxa for n in taxon_names(tx)]
+        if TAXON.get(q) is True or not names or set(sw) & set(taxa) or not own:
+            continue
+        if not own & {binomial(n) for n in names}:
+            out.append((q, names[0]))
+    return out
+
+
+def wikidata_heritage(t):
+    """[(QID, [etichetta it, etichetta en])] se l'elemento di wikidata=* ha una tutela (P1435) e manca
+    denotation=natural_monument."""
+    if "natural_monument" in [x.strip() for x in str(t.get("denotation", "")).split(";")]:
+        return []
+    return [(q, WD_TREES[q]["heritage"][0]) for q in qids(t, "wikidata")
+            if TAXON.get(q) is not True and WD_TREES.get(q, {}).get("heritage")]
+
+
+def wikidata_extras(t):
+    """Proprietà per la scheda: nome comune della specie (etichetta di species:wikidata in it/en, se diversa dal
+    nome scientifico) e voci di Wikipedia dell'albero (elemento di wikidata=*)."""
+    p = {}
+    sp = (t.get("species") or "").strip()
+    for q in qids(t, "species:wikidata")[:1]:
+        for lang in ("it", "en"):
+            label = WD_TAXA.get(q, {}).get(lang)
+            if label and binomial(label) != binomial(sp) and binomial(label) not in {binomial(n) for n in taxon_names(q)}:
+                p["sp_" + lang] = label
+    for q in qids(t, "wikidata")[:1]:
+        for lang, url in WD_TREES.get(q, {}).get("wp", {}).items():
+            p["wp_" + lang] = url
+    return p
+
+
+# --- Link rotti: image, website, url (indirizzi http) e file di Commons (wikimedia_commons=File:…) ---
+# Stato in data/url_status.json: {"<url o commons:File:…>": {"s": stato, "d": "AAAA-MM-GG"}}; ogni link si
+# ricontrolla dopo URL_RECHECK_DAYS giorni. Si segnalano solo i link sicuramente rotti (404, 410, dominio
+# inesistente, file di Commons mancante): 403, 429, errori del server e timeout sono spesso blocchi verso i
+# programmi automatici, non link rotti.
+URL_FILE = DATA / "url_status.json"
+URL_STATUS = load_json(URL_FILE)
+URL_RECHECK_DAYS = 30
+URL_KEYS = ("image", "website", "url")
+URL_BROKEN = {"404", "410", "dns", "missing"}
+URL_WORKERS = 8        # siti controllati in parallelo; i link dello stesso sito uno alla volta
+URL_PAUSE = 0.5        # s tra due link dello stesso sito
+COMMONS_API = "https://commons.wikimedia.org/w/api.php"
+
+
+def link_urls(t):
+    """[(chiave, url)] degli indirizzi http in image, website e url (anche più valori separati da ';')."""
+    return [(k, u) for k in URL_KEYS for u in (x.strip() for x in str(t.get(k, "")).split(";")) if URL.match(u)]
+
+
+def commons_files(t):
+    """File di Commons in wikimedia_commons (le categorie no)."""
+    return [x.strip() for x in str(t.get("wikimedia_commons", "")).split(";") if x.strip().startswith("File:")]
+
+
+def url_state(u):
+    """Stato di un indirizzo: il codice HTTP finale, "dns" se il dominio non esiste, oppure timeout/conn/err."""
+    try:
+        r = requests.head(u, allow_redirects=True, timeout=15, headers=HEADERS)
+        if r.status_code in (400, 403, 405, 501):   # alcuni siti non accettano HEAD: si riprova con GET
+            r = requests.get(u, allow_redirects=True, timeout=15, headers=HEADERS, stream=True)
+            r.close()
+        return str(r.status_code)
+    except requests.exceptions.Timeout:
+        return "timeout"
+    except requests.exceptions.ConnectionError as e:
+        msg = str(e)
+        return "dns" if any(x in msg for x in ("NameResolution", "Failed to resolve", "getaddrinfo failed",
+                                                "Name or service not known", "nodename nor servname")) else "conn"
+    except Exception:
+        return "err"
+
+
+def update_url_cache(elements):
+    """Controlla i link e i file di Commons usati e non ancora verificati (o verificati da più di
+    URL_RECHECK_DAYS giorni); aggiorna e salva data/url_status.json."""
+    today = datetime.date.today()
+    stale = lambda key: key not in URL_STATUS or (today - datetime.date.fromisoformat(URL_STATUS[key]["d"])).days >= URL_RECHECK_DAYS
+    tags = [el.get("tags", {}) for el in elements]
+    urls = sorted({u for t in tags for _, u in link_urls(t) if stale(u)})
+    files = sorted({f for t in tags for f in commons_files(t) if stale("commons:" + f)})
+    by_host = collections.defaultdict(list)
+    for u in urls:
+        by_host[urlparse(u).hostname or ""].append(u)
+
+    def check_host(host_urls):
+        out = {}
+        for u in host_urls:
+            out[u] = url_state(u)
+            time.sleep(URL_PAUSE)
+        return out
+
+    with concurrent.futures.ThreadPoolExecutor(URL_WORKERS) as ex:
+        for res in ex.map(check_host, by_host.values()):
+            URL_STATUS.update({u: {"s": s, "d": today.isoformat()} for u, s in res.items()})
+    for i in range(0, len(files), 50):   # file di Commons: 50 titoli per richiesta all'API
+        batch = files[i:i + 50]
+        try:
+            r = requests.get(COMMONS_API, headers=HEADERS, timeout=60, params={
+                "action": "query", "titles": "|".join(batch), "format": "json", "formatversion": 2})
+            r.raise_for_status()
+            q = r.json()["query"]
+            norm = {n["from"]: n["to"] for n in q.get("normalized", [])}
+            missing = {p["title"] for p in q.get("pages", []) if p.get("missing") or p.get("invalid")}
+            for f in batch:
+                URL_STATUS["commons:" + f] = {"s": "missing" if norm.get(f, f) in missing else "ok", "d": today.isoformat()}
+        except Exception as e:
+            warn(f"Commons non risponde ({str(e)[:150]}): {len(files) - i} file restano da verificare")
+            break
+    if urls or files:
+        broken = sum(1 for k in urls + ["commons:" + f for f in files] if URL_STATUS.get(k, {}).get("s") in URL_BROKEN)
+        print(f" link controllati: {len(urls)} indirizzi, {len(files)} file di Commons ({broken} rotti)")
+        URL_FILE.write_text(json.dumps(URL_STATUS, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def broken_links(t):
+    """[(chiave, valore, stato)] dei link sicuramente rotti dell'albero."""
+    out = [(k, u, URL_STATUS[u]["s"]) for k, u in link_urls(t) if URL_STATUS.get(u, {}).get("s") in URL_BROKEN]
+    out += [("wikimedia_commons", f, "missing") for f in commons_files(t)
+            if URL_STATUS.get("commons:" + f, {}).get("s") == "missing"]
+    return out
 
 
 def wikidata_image(t):
@@ -680,12 +922,24 @@ def checks(t, pos):
         flag("wikidata_not_taxon", nt_tags=";".join(f"{k}={q}" for k, q in nt))
     if tx := taxon_wikidata(t):
         flag("wikidata_is_taxon", tx_wd=";".join(tx))
+    # dati di Wikidata (cache di update_wikidata_cache): valori "chiave=QID:valore" separati da ";"
+    if rk := wikidata_rank_problems(t):
+        flag("wikidata_rank", wd_rank=";".join(f"{k}={q}:{r}" for k, q, r in rk))
+    if nm := wikidata_name_problems(t, "wikidata_mismatch" in list_issues):
+        flag("wikidata_name_mismatch", wd_name=";".join(f"{k}={q}:{n}" for k, q, n in nm))
+    if ts := wikidata_tree_species(t):
+        flag("wikidata_tree_species", wd_tree_sp=";".join(f"{q}:{n}" for q, n in ts))
+    if hr := wikidata_heritage(t):
+        q, (label_it, label_en) = hr[0]
+        flag("wikidata_heritage", wd_her_q=q, wd_her_it=label_it, wd_her_en=label_en)
     if far := wikidata_far(t, pos):     # "QID:km;…"
         flag("wikidata_far", wd_far=";".join(f"{q}:{km}" for q, km in far))
     if bad := bad_numeric_tags(t):
         flag("number_invalid", bad_num=";".join(bad))
     if bad := bad_link_tags(t):
         flag("link_format", bad_links=";".join(bad))
+    if bl := broken_links(t):           # righe "chiave=valore (stato)" separate da "\n" (i valori possono contenere ";")
+        flag("broken_link", bad_url="\n".join(f"{k}={v} ({s})" for k, v, s in bl))
     if (src := monument_sources(t)) and "natural_monument" not in t.get("denotation", "").split(";"):
         flag("monument_denotation", mon_src=";".join(src))
     if den := denotation_problems(t):   # valori, motivi e usi, nello stesso ordine
@@ -782,6 +1036,11 @@ def to_feature(el):
     if wd_img := wikidata_image(t):   # per la scheda, se l'albero non ha altre immagini
         p["wd_img"] = wd_img
     iss, props = checks(t, [el["lon"], el["lat"]])
+    # nome comune della specie e voci di Wikipedia, per la scheda; il nome comune solo se species:wikidata è corretto
+    extras = wikidata_extras(t)
+    if {"wikidata_mismatch", "wikidata_not_taxon", "wikidata_rank", "wikidata_name_mismatch"} & set(iss):
+        extras = {k: v for k, v in extras.items() if not k.startswith("sp_")}
+    p.update(extras)
     p["issues"] = "|" + "|".join(iss) + "|" if iss else "|"
     p.update(props)
     return {"type": "Feature", "properties": p,
@@ -817,6 +1076,7 @@ def update_region(region, regions_index):
              f"incompleta, mantengo i dati precedenti")
         return True
     update_wikidata_cache(data["elements"])   # prima dei check: servono ai check su Wikidata (taxon e distanza)
+    update_url_cache(data["elements"])        # e al check sui link rotti
     fc = build(data)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     digest = hashlib.sha1(raw).hexdigest()

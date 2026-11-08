@@ -30,6 +30,7 @@
   #tip{position:absolute;z-index:3;display:none;pointer-events:none;background:#fff;padding:4px 8px;border-radius:4px;box-shadow:0 1px 6px #0004;font-size:12px}
   #overview{margin:0 0 6px;width:100%;padding:3px 6px;cursor:pointer}
   .note{font-size:11px;color:#777;margin-top:6px}
+  #subtitle{font-size:12px;color:#666;margin:-4px 0 8px}
   #panel h1{font-size:15px;margin:0 0 6px;display:flex;justify-content:space-between;align-items:baseline}
   #lang{font-size:12px;font-weight:400;color:#999}
   #lang a{color:#1a5fb4;text-decoration:none}
@@ -62,6 +63,7 @@
 <div id="side">
 <div id="panel" class="box">
   <h1><span data-i18n="title">DendrOSM</span><span class="hdr"><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a></span><a id="gh" href="https://github.com/ivanbranco/tree-osm-qa" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a></span></h1>
+  <div id="subtitle" data-i18n="subtitle">Controllo qualità degli alberi di OpenStreetMap</div>
   <select id="region" autocomplete="off"></select>
   <button id="overview" type="button" hidden data-i18n="allRegions">← Tutte le regioni</button>
   <select id="taxon" autocomplete="off"><option value="" data-i18n="allTaxa">Tutti i genus e le specie</option></select>
@@ -133,7 +135,7 @@ const parseMapHash = v => {
 // I valori possono essere funzioni (testi con parti variabili).
 const I18N = {
   it: {
-    pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente su GitHub",
+    pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente su GitHub", subtitle: "Controllo qualità degli alberi di OpenStreetMap",
     osmAttribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
     editMenu: "Modifica", osmPage: "Pagina su OpenStreetMap", editId: "Modifica con iD", editJosm: "Apri in JOSM", editMapComplete: "Apri in MapComplete", allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
     scaleLow: "meno errori", scaleHigh: "più errori", tipErr: p => ` · ${p} con errori`,
@@ -157,9 +159,11 @@ const I18N = {
       circumference: "Circonferenza > 43 m", height: "Altezza > 115,92 m", crown: "Diametro chioma > 60,4 m",
       comma: "Virgola decimale (circumference, height, diameter_crown, diameter)",
       number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
-      link_format: "Link con formato non valido", wikidata_mismatch: "species:wikidata incoerente con la species",
+      link_format: "Link con formato non valido", broken_link: "Link non raggiungibile", wikidata_mismatch: "species:wikidata incoerente con la species",
       wikidata_not_taxon: "species/genus:wikidata non è un taxon", wikidata_is_taxon: "wikidata è un taxon",
       wikidata_far: "Elemento wikidata a più di 1 km",
+      wikidata_rank: "species/genus:wikidata con il rango sbagliato", wikidata_name_mismatch: "Nome su Wikidata diverso da species/genus",
+      wikidata_tree_species: "Specie diversa da quella su Wikidata", wikidata_heritage: "Tutelato su Wikidata senza natural_monument",
       leaf_type_mismatch: "leaf_type diverso da quello della specie", leaf_cycle_mismatch: "leaf_cycle diverso da quello della specie",
       monument_denotation: "Fonte monumentale senza natural_monument",
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
@@ -174,7 +178,7 @@ const I18N = {
       urban: "Albero urbano", cluster: "Gruppo di alberi", agricultural: "Albero agricolo" },
     leafType: { broadleaved: "Latifoglia", needleleaved: "Aghifoglia", leafless: "Senza foglie", palm: "Palma" },
     leafCycle: { deciduous: "Caducifoglia", semi_deciduous: "Semi-caducifoglia", evergreen: "Sempreverde", semi_evergreen: "Semi-sempreverde" },
-    rows: { species: "Specie", genus: "Genere", taxon: "Taxon", denotation: "Categoria", leaf_type: "Tipo di foglie",
+    rows: { species: "Specie", sp_common: "Nome comune", genus: "Genere", taxon: "Taxon", denotation: "Categoria", leaf_type: "Tipo di foglie",
       lt: "Tipo di foglie (stimato)", leaf_cycle: "Ciclo fogliare", lc: "Ciclo fogliare (stimato)", circumference: "Circonferenza", diameter: "Diametro tronco",
       height: "Altezza", diameter_crown: "Diametro chioma", start_date: "Data di impianto" },
     fromDiameter: " (da diameter)",
@@ -191,6 +195,17 @@ const I18N = {
       wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
       wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: le coordinate dell'elemento su Wikidata sono a ${km} km da questo albero`,
+      wikidata_rank: (kq, rank, want) => `${kq} su Wikidata ha rango «${rank}», non ${want}`,
+      broken_link: (kv, why) => `${kv}: ${why}`,
+      linkWhy: { "404": "pagina inesistente (404)", "410": "pagina rimossa (410)", dns: "il sito non esiste più",
+        missing: "file inesistente su Commons" },
+      wikidata_name_mismatch: (kq, name, val) => `${kq} su Wikidata è ${name}, non ${val}`,
+      wikidata_tree_species: (q, name) => `su Wikidata l'albero (wikidata=${q}) è ${name}`,
+      wikidata_heritage: (q, label) => `su Wikidata l'albero (wikidata=${q}) è tutelato (${label}) ma manca denotation=natural_monument`,
+      rankSpecies: "specie", rankGenus: "genere",
+      ranks: { Q7432: "specie", Q34740: "genere", Q35409: "famiglia", Q68947: "sottospecie", Q767728: "varietà", Q279749: "forma",
+        Q36602: "ordine", Q3238261: "sottogenere", Q3181348: "sezione", Q5998839: "sottosezione", Q3025161: "serie",
+        Q227936: "tribù", Q164280: "sottofamiglia" },
       undocumented_tag: kv => `tag non documentato ${kv}: verificare se può essere sostituito con un altro tag`,
       too_slender: (h, c, r) => `albero troppo slanciato: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
       too_stocky: (h, c, r) => `albero troppo tozzo: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
@@ -219,7 +234,7 @@ const I18N = {
     stump: "Ceppo", stumpOf: b => `${b} (ceppo)`, unknownSpecies: "Specie sconosciuta",
   },
   en: {
-    pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code on GitHub",
+    pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code on GitHub", subtitle: "Quality checks for OpenStreetMap trees",
     osmAttribution: "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
     editMenu: "Edit", osmPage: "OpenStreetMap page", editId: "Edit with iD", editJosm: "Open in JOSM", editMapComplete: "Open in MapComplete", allRegions: "← All countries", chooseRegion: "Choose a region…",
     scaleLow: "fewer errors", scaleHigh: "more errors", tipErr: p => ` · ${p} with errors`,
@@ -243,9 +258,11 @@ const I18N = {
       circumference: "Circumference > 43 m", height: "Height > 115.92 m", crown: "Crown diameter > 60.4 m",
       comma: "Decimal comma (circumference, height, diameter_crown, diameter)",
       number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
-      link_format: "Link with invalid format", wikidata_mismatch: "species:wikidata inconsistent with species",
+      link_format: "Link with invalid format", broken_link: "Broken link", wikidata_mismatch: "species:wikidata inconsistent with species",
       wikidata_not_taxon: "species/genus:wikidata is not a taxon", wikidata_is_taxon: "wikidata is a taxon",
       wikidata_far: "wikidata item more than 1 km away",
+      wikidata_rank: "species/genus:wikidata with the wrong rank", wikidata_name_mismatch: "Name on Wikidata differs from species/genus",
+      wikidata_tree_species: "Species differs from Wikidata", wikidata_heritage: "Protected on Wikidata without natural_monument",
       leaf_type_mismatch: "leaf_type differs from the species", leaf_cycle_mismatch: "leaf_cycle differs from the species",
       monument_denotation: "Monumental source without natural_monument",
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
@@ -260,7 +277,7 @@ const I18N = {
       urban: "Urban tree", cluster: "Tree cluster", agricultural: "Agricultural tree" },
     leafType: { broadleaved: "Broadleaved", needleleaved: "Needleleaved", leafless: "Leafless", palm: "Palm" },
     leafCycle: { deciduous: "Deciduous", semi_deciduous: "Semi-deciduous", evergreen: "Evergreen", semi_evergreen: "Semi-evergreen" },
-    rows: { species: "Species", genus: "Genus", taxon: "Taxon", denotation: "Category", leaf_type: "Leaf type",
+    rows: { species: "Species", sp_common: "Common name", genus: "Genus", taxon: "Taxon", denotation: "Category", leaf_type: "Leaf type",
       lt: "Leaf type (estimated)", leaf_cycle: "Leaf cycle", lc: "Leaf cycle (estimated)", circumference: "Circumference", diameter: "Trunk diameter",
       height: "Height", diameter_crown: "Crown diameter", start_date: "Planting date" },
     fromDiameter: " (from diameter)",
@@ -277,6 +294,17 @@ const I18N = {
       wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
       wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: the coordinates of the Wikidata item are ${km} km from this tree`,
+      wikidata_rank: (kq, rank, want) => `${kq} has rank "${rank}" on Wikidata, not ${want}`,
+      broken_link: (kv, why) => `${kv}: ${why}`,
+      linkWhy: { "404": "page not found (404)", "410": "page removed (410)", dns: "the website no longer exists",
+        missing: "file not found on Commons" },
+      wikidata_name_mismatch: (kq, name, val) => `${kq} is ${name} on Wikidata, not ${val}`,
+      wikidata_tree_species: (q, name) => `on Wikidata the tree (wikidata=${q}) is ${name}`,
+      wikidata_heritage: (q, label) => `on Wikidata the tree (wikidata=${q}) is protected (${label}) but denotation=natural_monument is missing`,
+      rankSpecies: "species", rankGenus: "genus",
+      ranks: { Q7432: "species", Q34740: "genus", Q35409: "family", Q68947: "subspecies", Q767728: "variety", Q279749: "form",
+        Q36602: "order", Q3238261: "subgenus", Q3181348: "section", Q5998839: "subsection", Q3025161: "series",
+        Q227936: "tribe", Q164280: "subfamily" },
       undocumented_tag: kv => `undocumented tag ${kv}: check whether it can be replaced with another tag`,
       too_slender: (h, c, r) => `tree too slender: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
       too_stocky: (h, c, r) => `tree too stocky: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
@@ -842,7 +870,7 @@ const num = v => { const m = String(v).match(/^\s*(-?\d+(?:[.,]\d+)?)\s*(m)?\s*$
 const fmtM = v => { const n = num(v); return n === null ? v : Number(n).toLocaleString(LOC, { maximumFractionDigits: 3 }) + " m"; };
 const tr = (dict, v) => dict[v] || v;
 
-const ROW_KEYS = ["species", "genus", "taxon", "denotation", "leaf_type", "lt", "leaf_cycle", "lc",
+const ROW_KEYS = ["species", "sp_common", "genus", "taxon", "denotation", "leaf_type", "lt", "leaf_cycle", "lc",
   "circumference", "diameter", "height", "diameter_crown", "start_date"];
 const ROW_FMT = { denotation: v => tr(L.denotation, v), leaf_type: v => tr(L.leafType, v), lt: v => tr(L.leafType, v),
   leaf_cycle: v => tr(L.leafCycle, v), lc: v => tr(L.leafCycle, v), circumference: fmtM, diameter: fmtM, height: fmtM, diameter_crown: fmtM };
@@ -852,6 +880,11 @@ const fromD = (i, p) => p.diam_used && i.startsWith("circumference") ? L.fromDia
 // i dati scrivono "il genere X" e "a o b" (fetch_trees.py): qui li si rende nella lingua scelta
 const expFor = p => { const m = /^il genere (.+)$/.exec(p.exp_for || ""); return m ? L.genusOf(m[1]) : (p.exp_for || p.species); };
 const expLc = p => String(p.exp_lc || "").split(" o ").join(L.or);
+// "species:wikidata=Q1:valore;genus:wikidata=Q2:valore" -> [["species:wikidata", "Q1", "valore"], …]
+const wdParts = s => String(s || "").split(";").filter(Boolean).map(x => {
+  const e = x.indexOf("="), c = x.indexOf(":", e);
+  return [x.slice(0, e), x.slice(e + 1, c), x.slice(c + 1)];
+});
 const issueText = (i, p) => issueBase(i, p) + fromD(i, p);
 const issueBase = (i, p) => {
   const T = L.issue;
@@ -867,6 +900,17 @@ const issueBase = (i, p) => {
     case "species_lang_only": return T[i](String(p.sp_lang || "").split("\n").join(", "));   // sp_lang: righe "species:xx=valore"
     case "wikidata_not_taxon": return String(p.nt_tags || "").split(";").map(kv => T[i](kv)).join("; ");   // nt_tags, tx_wd: fetch_trees.py
     case "wikidata_is_taxon": return String(p.tx_wd || "").split(";").map(q => T[i](q)).join("; ");
+    // wd_rank, wd_name: "chiave=QID:valore;…" (la chiave contiene già ":"); wd_tree_sp: "QID:nome;…" (fetch_trees.py)
+    case "wikidata_rank": return wdParts(p.wd_rank).map(([k, q, r]) =>
+      T[i](`${k}=${q}`, T.ranks[r] || r, k === "species:wikidata" ? T.rankSpecies : T.rankGenus)).join("; ");
+    case "wikidata_name_mismatch": return wdParts(p.wd_name).map(([k, q, n]) =>
+      T[i](`${k}=${q}`, n, k === "species:wikidata" ? p.species : p.genus)).join("; ");
+    case "wikidata_tree_species": return String(p.wd_tree_sp || "").split(";").map(x => { const j = x.indexOf(":");
+      return T[i](x.slice(0, j), x.slice(j + 1)); }).join("; ");
+    case "broken_link":          // bad_url: righe "chiave=valore (stato)" (fetch_trees.py)
+      return String(p.bad_url || "").split("\n").filter(Boolean).map(x => { const m = /^(.*) \((\w+)\)$/.exec(x);
+        return m ? T[i](m[1], T.linkWhy[m[2]] || m[2]) : x; }).join("; ");
+    case "wikidata_heritage": return T[i](p.wd_her_q, LANG === "it" ? p.wd_her_it : p.wd_her_en);
     case "wikidata_far":         // wd_far: "QID:km;…" (fetch_trees.py)
       return String(p.wd_far || "").split(";").map(x => { const [q, km] = x.split(":"); return T[i](q, Number(km).toLocaleString(LOC)); }).join("; ");
     case "undocumented_tag":     // tag_tree, tag_type: valori dei tag segnalati (fetch_trees.py)
@@ -978,6 +1022,8 @@ function osmMenu(p, pos) {
 }
 
 function card(p, pos) {
+  // nome comune della specie nella lingua del sito (etichetta di species:wikidata, da fetch_trees.py)
+  p = { ...p, sp_common: p["sp_" + LANG] };
   const img = imageUrl(p);
   const genusIssue = ["genus", "genus_lowercase", "genus_mismatch"].some(i => p.issues.includes(`|${i}|`));
   const rows = ROWS.filter(([k]) => p[k] && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
@@ -985,6 +1031,8 @@ function card(p, pos) {
   const rec = recognitions(p);
   const links = [osmMenu(p, pos)];
   if (p.wikidata) links.push(link(`https://www.wikidata.org/wiki/${p.wikidata}`, "Wikidata"));
+  const wp = p["wp_" + LANG] || p.wp_it || p.wp_en;   // voce di Wikipedia dell'albero, nella lingua del sito se c'è
+  if (wp) links.push(link(wp, "Wikipedia"));
   if (p.wikimedia_commons) links.push(link(`https://commons.wikimedia.org/wiki/${p.wikimedia_commons}`, "Commons"));
   const pano = panoramaxIds(p);
   pano.forEach((id, i) => links.push(link(`https://api.panoramax.xyz/#focus=pic&pic=${id}`, pano.length > 1 ? `Panoramax ${i + 1}` : "Panoramax")));
