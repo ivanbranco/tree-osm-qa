@@ -477,9 +477,14 @@ def sizes(t):
 JITTER = 0.15   # variazione massima (±15%) del raggio di ripiego della chioma
 
 
-def jitter(osm_id):
+NO_JITTER_DENOTATION = {"natural_monument", "landmark"}   # questi tengono il raggio di ripiego esatto
+
+
+def jitter(osm_id, t):
     """Fattore tra 1 - JITTER e 1 + JITTER, casuale ma sempre uguale per lo stesso albero (dall'id OSM):
-    varia il raggio di ripiego della chioma, solo per l'aspetto della mappa."""
+    varia il raggio di ripiego della chioma, solo per l'aspetto della mappa. 1 per monumentali e landmark."""
+    if NO_JITTER_DENOTATION & {x.strip() for x in str(t.get("denotation", "")).split(";")}:
+        return 1.0
     return 1 - JITTER + 2 * JITTER * ((osm_id * 2654435761) % 2**32) / 2**32
 
 
@@ -502,8 +507,8 @@ def to_feature(el):
             p["sr"], p["sr_est"] = DEFAULT_STUMP_R, True
     else:
         crown, circ, circ_est = sizes(t)
-        # chioma: diameter_crown, altrimenti raggio di ripiego con variazione casuale
-        p["cr"] = round(crown / 2, 2) if crown else round(default_crown_r(t) * jitter(el["id"]), 2)
+        # chioma: diameter_crown, altrimenti raggio di ripiego con variazione casuale (non per monumentali e landmark)
+        p["cr"] = round(crown / 2, 2) if crown else round(default_crown_r(t) * jitter(el["id"], t), 2)
         p["cr_est"] = crown is None
         if circ_value(t)[1] and circ_value(t)[0]:
             p["diam_used"] = True

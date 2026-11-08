@@ -40,7 +40,7 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 
 ## Rendering
 
-* **Chioma**: cerchio con dimensione reale da `diameter_crown=*`; se manca, raggio di ripiego (3 m; 6 m per `denotation=natural_monument` e `landmark`, 2 m per `parking`), variato del ±15% in modo casuale ma sempre uguale per lo stesso albero, perché la mappa non sia uniforme, e riempimento più trasparente. La chioma non viene stimata da circonferenza o altezza: le stime provate (rapporto mediano chioma/circonferenza, metodo di UrbanEye3D) risultavano troppo grandi. La forma dipende da `leaf_type=*` (se manca o non è valido, viene stimato dalle liste della wiki OSM: dalla specie o, se non c'è, dal genere):
+* **Chioma**: cerchio con dimensione reale da `diameter_crown=*`; se manca, raggio di ripiego (3 m; 6 m per `denotation=natural_monument` e `landmark`, 2 m per `parking`), variato del ±15% in modo casuale ma sempre uguale per lo stesso albero, perché la mappa non sia uniforme (tranne che per monumentali e landmark, che restano a 6 m), e riempimento più trasparente. La chioma non viene stimata da circonferenza o altezza: le stime provate (rapporto mediano chioma/circonferenza, metodo di UrbanEye3D) risultavano troppo grandi. La forma dipende da `leaf_type=*` (se manca o non è valido, viene stimato dalle liste della wiki OSM: dalla specie o, se non c'è, dal genere):
   * rotonda se `leaf_type` è mancante (o ha un altro valore, come `leafless`)
   * bombata, a lobi, se `broadleaved` o `palm`
   * poligonale (esagono o ottagono, ruotato in modo diverso per ogni albero) se `needleleaved`
