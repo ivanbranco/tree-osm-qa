@@ -1,5 +1,5 @@
 {
-"count": 608,
+"count": 674,
 "license": "CC BY-SA 2.0 (OpenStreetMap Wiki)",
 "source": "https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species",
 "species": {
@@ -2356,7 +2356,7 @@
 "Prunus domestica": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
-"wikidata": "Q10878191"
+"wikidata": "Q44120"
 },
 "Prunus incana": {
 "leaf_cycle": "deciduous",
@@ -2483,65 +2483,310 @@
 "leaf_type": "broadleaved",
 "wikidata": "Q7263791"
 },
+"Quercus acerifolia": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3081804"
+},
 "Quercus acuta": {
 "leaf_cycle": "evergreen",
 "leaf_type": "broadleaved",
 "wikidata": "Q1075957"
+},
+"Quercus acutissima": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1034859"
+},
+"Quercus agrifolia": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q514052"
+},
+"Quercus ajoensis": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q6322733"
 },
 "Quercus alba": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q469555"
 },
+"Quercus arizonica": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q669926"
+},
+"Quercus arkansana": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3414210"
+},
+"Quercus austrina": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2013403"
+},
+"Quercus berberidifolia": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2701006"
+},
 "Quercus bicolor": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q142792"
+},
+"Quercus boyntonii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3768884"
+},
+"Quercus buckleyi": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3017139"
+},
+"Quercus carmenensis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q6323361"
+},
+"Quercus cedrosensis": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q2460452"
 },
 "Quercus cerris": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q157277"
 },
+"Quercus chapmanii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3774513"
+},
+"Quercus chihuahuensis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15339331"
+},
+"Quercus chrysolepis": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q138446"
+},
 "Quercus coccinea": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q854714"
+},
+"Quercus douglasii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q666160"
+},
+"Quercus ellipsoidalis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q241698"
+},
+"Quercus emoryi": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q2715241"
+},
+"Quercus engelmannii": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q3009480"
+},
+"Quercus falcata": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1066116"
 },
 "Quercus frainetto": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q857075"
 },
+"Quercus fusiformis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3009781"
+},
+"Quercus gambelii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2266358"
+},
+"Quercus garryana": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2029492"
+},
+"Quercus geminata": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112997"
+},
+"Quercus georgiana": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3815753"
+},
+"Quercus graciliformis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3006265"
+},
+"Quercus gravesii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3009711"
+},
+"Quercus grisea": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112218"
+},
+"Quercus havardii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112174"
+},
+"Quercus hemisphaerica": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112157"
+},
+"Quercus hypoleucoides": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112139"
+},
 "Quercus ilex": {
 "leaf_cycle": "evergreen",
 "leaf_type": "broadleaved",
 "wikidata": "Q218155"
+},
+"Quercus ilicifolia": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1017264"
 },
 "Quercus imbricaria": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q528713"
 },
+"Quercus incana": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4111870"
+},
+"Quercus kelloggii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q693392"
+},
+"Quercus laceyi": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3024386"
+},
+"Quercus laevis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2586757"
+},
+"Quercus laurifolia": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112143"
+},
+"Quercus lobata": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1377986"
+},
+"Quercus lyrata": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1633311"
+},
 "Quercus macrocarpa": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q1082365"
+},
+"Quercus margaretta": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q6325239"
+},
+"Quercus marilandica": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q845791"
 },
 "Quercus michauxii": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q1460497"
 },
+"Quercus mohriana": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112180"
+},
+"Quercus montana": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1735296"
+},
 "Quercus muehlenbergii": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q2611816"
 },
+"Quercus myrtifolia": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q6371836"
+},
 "Quercus nigra": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q4112855"
+},
+"Quercus oblongifolia": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q3414214"
+},
+"Quercus oglethorpensis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112253"
+},
+"Quercus pacifica": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q7271346"
+},
+"Quercus pagoda": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112844"
+},
+"Quercus palmeri": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q2068042"
 },
 "Quercus palustris": {
 "leaf_cycle": "deciduous",
@@ -2558,10 +2803,25 @@
 "leaf_type": "broadleaved",
 "wikidata": "Q783224"
 },
+"Quercus polymorpha": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112232"
+},
+"Quercus prinoides": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112849"
+},
 "Quercus pubescens": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q161415"
+},
+"Quercus pungens": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112482"
 },
 "Quercus pyrenaica": {
 "leaf_cycle": "deciduous",
@@ -2578,30 +2838,100 @@
 "leaf_type": "broadleaved",
 "wikidata": "Q147525"
 },
+"Quercus rugosa": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q980721"
+},
+"Quercus shumardii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112184"
+},
+"Quercus similis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q6372166"
+},
+"Quercus sinuata": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q6372185"
+},
+"Quercus stellata": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2600501"
+},
 "Quercus suber": {
 "leaf_cycle": "evergreen",
 "leaf_type": "broadleaved",
 "wikidata": "Q156137"
+},
+"Quercus tardifolia": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q4112208"
+},
+"Quercus texana": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q7271351"
+},
+"Quercus tomentella": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q2715180"
+},
+"Quercus toumeyi": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q3768906"
+},
+"Quercus turbinella": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q3006230"
 },
 "Quercus variabilis": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q192608"
 },
+"Quercus vaseyana": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q6372344"
+},
 "Quercus velutina": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q1001011"
+},
+"Quercus viminea": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q6372359"
 },
 "Quercus virginiana": {
 "leaf_cycle": "evergreen",
 "leaf_type": "broadleaved",
 "wikidata": "Q1758722"
 },
+"Quercus wislizeni": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q3009812"
+},
 "Quercus × hispanica": {
 "leaf_cycle": "evergreen",
 "leaf_type": "broadleaved",
 "wikidata": "Q15337558"
+},
+"Quercus × undulata": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15339942"
 },
 "Rhamnus cathartica": {
 "leaf_cycle": "deciduous",
