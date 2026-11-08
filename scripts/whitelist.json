@@ -1,5 +1,6 @@
 {
-  "_info": "Eccezioni ai check. wikidata_mismatch: per ogni species, i species:wikidata accettati oltre a quello della lista wiki (es. sinonimi).",
+  "_info": "Eccezioni ai check. wikidata_mismatch: per ogni species, i species:wikidata accettati oltre a quello della lista wiki (es. sinonimi). species_typo: species vere, assenti dalla lista, da non segnalare come errori di battitura.",
+  "species_typo": ["Quercus virgiliana", "Myrtus communis"],
   "wikidata_mismatch": {
     "Platanus × hispanica": ["Q24853030"],
     "Platanus × acerifolia": ["Q161374"]

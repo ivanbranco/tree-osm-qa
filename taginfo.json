@@ -20,7 +20,7 @@
     {"key": "species:wikidata", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "genus:wikidata", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "leaf_type", "object_types": ["node"], "description": "Used to render the crown shape and for QA checks."},
-    {"key": "leaf_cycle", "object_types": ["node"], "description": "Used for QA checks and the info panel."},
+    {"key": "leaf_cycle", "object_types": ["node"], "description": "Used to render the crown color, for QA checks and the info panel."},
     {"key": "circumference", "object_types": ["node"], "description": "Used to render the 2D trunk and for QA checks."},
     {"key": "diameter", "object_types": ["node"], "description": "Used like circumference when circumference is missing, and for QA checks."},
     {"key": "height", "object_types": ["node"], "description": "Used for QA checks and to estimate the trunk size."},

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Scarica gli alberi OSM (natural=tree) delle regioni italiane via Overpass, calcola i check QA
-e scrive data/regions/<regione>.geojson.gz e data/index.json.
+"""Scarica gli alberi OSM (natural=tree e natural=tree_stump) delle regioni di scripts/regions.json via Overpass,
+calcola i check QA e scrive data/regions/<regione>.geojson.gz e data/index.json.
 
 Uso: python scripts/fetch_trees.py [all | gruppo | regione ...]   (es. "liguria veneto", "italia", "liguria,bulgaria")
 Le regioni (nome, codice ISO, bbox) sono in scripts/regions.json.
 """
-import gzip, hashlib, json, math, os, re, sys, time
+import functools, gzip, hashlib, json, math, os, re, sys, time
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -16,6 +16,14 @@ DATA = HERE.parent / "data"
 OUT_DIR = DATA / "regions"
 INDEX = DATA / "index.json"
 REGIONS = json.loads((HERE / "regions.json").read_text(encoding="utf-8"))
+
+
+def load_json(path, key=None):
+    """Contenuto di un file JSON (o della sua chiave key); {} se il file manca."""
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return data.get(key, {}) if key else data
 
 MAX_DEPTH = 3    # livelli massimi di suddivisione in 4 tile (1 -> 4 -> 16 -> 64)
 BBOX_PAD = 0.1   # gradi aggiunti alla bbox di ogni regione (il confine esatto lo decide l'area OSM)
@@ -123,7 +131,7 @@ UNDOC_IGNORE = {("type", "palm")}
 SLENDER_MAX = 100.0        # oltre: albero troppo slanciato (es. height=24, circumference=0.01)
 STOCKY_MIN = 1 / 3         # sotto: albero troppo tozzo (circonferenza più di 3 volte l'altezza)
 # Limiti massimi per specie (altezza e circonferenza, in m), modificabili in species_limits.json
-_RAW_LIMITS = json.loads((Path(__file__).resolve().parent / "species_limits.json").read_text(encoding="utf-8"))
+_RAW_LIMITS = load_json(HERE / "species_limits.json")
 # rapporti medi (mediane) usati quando la specie non ne ha uno proprio
 DEFAULT_RATIOS = _RAW_LIMITS.pop("_default", {})
 SPECIES_LIMITS = {" ".join(k.split()).lower(): v for k, v in _RAW_LIMITS.items()}
@@ -134,29 +142,27 @@ def norm_species(s):
     return " ".join("×" if w in ("x", "X") else w for w in s.split()).casefold()
 
 
-# Lista di specie della wiki OSM (scripts/update_species_list.py): species:wikidata, leaf_type, leaf_cycle
-_LIST_FILE = Path(__file__).resolve().parent / "species_list.json"
-_LIST = json.loads(_LIST_FILE.read_text(encoding="utf-8")).get("species", {}) if _LIST_FILE.exists() else {}
+# Lista di specie della wiki OSM (scripts/update_reference_lists.py): species:wikidata, leaf_type, leaf_cycle
+_LIST = load_json(HERE / "species_list.json", "species")
 SPECIES_REF = {norm_species(k): v for k, v in _LIST.items()}
 QID_TO_SPECIES = {}
 for _name, _v in _LIST.items():
     if _v.get("wikidata"):
         QID_TO_SPECIES.setdefault(_v["wikidata"], _name)
 
-# Eccezioni ai check (scripts/whitelist.json): species:wikidata accettati per specie (es. sinonimi)
-_WL_FILE = Path(__file__).resolve().parent / "whitelist.json"
-_WL = json.loads(_WL_FILE.read_text(encoding="utf-8")) if _WL_FILE.exists() else {}
+# Eccezioni ai check (scripts/whitelist.json): species:wikidata accettati per specie (es. sinonimi) e
+# species vere che il check sugli errori di battitura scambierebbe per una specie della lista
+_WL = load_json(HERE / "whitelist.json")
 WD_WHITELIST = {norm_species(k): set(v) for k, v in _WL.get("wikidata_mismatch", {}).items()}
+TYPO_WHITELIST = {norm_species(k) for k in _WL.get("species_typo", [])}
 
 
-# Lista dei generi della wiki OSM (scripts/update_species_list.py): leaf_cycle (uno o entrambi) e leaf_type
-_GENUS_FILE = Path(__file__).resolve().parent / "genus_list.json"
-_GENERA = json.loads(_GENUS_FILE.read_text(encoding="utf-8")).get("genera", {}) if _GENUS_FILE.exists() else {}
+# Lista dei generi della wiki OSM (scripts/update_reference_lists.py): leaf_cycle (uno o entrambi) e leaf_type
+_GENERA = load_json(HERE / "genus_list.json", "genera")
 GENUS_REF = {k.lstrip("× ").casefold(): (k, v) for k, v in _GENERA.items()}
 
-# Valori di denotation sui nodi con il numero di usi, da Taginfo (scripts/update_species_list.py)
-_DEN_FILE = Path(__file__).resolve().parent / "denotation_values.json"
-DEN_COUNTS = json.loads(_DEN_FILE.read_text(encoding="utf-8")).get("values", {}) if _DEN_FILE.exists() else {}
+# Valori di denotation sui nodi con il numero di usi, da Taginfo (scripts/update_reference_lists.py)
+DEN_COUNTS = load_json(HERE / "denotation_values.json", "values")
 DEN_RARE_MAX = 10      # valore raro: usato al massimo 10 volte
 DEN_COMMON_MIN = 1000  # valore comune: usato almeno 1000 volte (es. urban, avenue, park)
 DEN_FORMAT = re.compile(r"^[a-z][a-z0-9_]*$")   # minuscole, cifre e _, come i valori OSM
@@ -192,7 +198,7 @@ def denotation_problems(t):
 # data/wikidata_taxon.json ({"Q…": true|false}): a ogni aggiornamento si interrogano solo i QID nuovi.
 # Se Wikidata non risponde, i QID restano sconosciuti e i check relativi non scattano.
 TAXON_FILE = DATA / "wikidata_taxon.json"
-TAXON = json.loads(TAXON_FILE.read_text(encoding="utf-8")) if TAXON_FILE.exists() else {}
+TAXON = load_json(TAXON_FILE)
 WDQS_URL = "https://query.wikidata.org/sparql"
 TAXON_KEYS = ("species:wikidata", "genus:wikidata", "wikidata")
 TAXON_BATCH = 200
@@ -263,6 +269,70 @@ def leaf_type_estimate(t):
             return ref["leaf_type"]
     g = genus_ref(t)
     return g[1].get("leaf_type") if g else None
+
+
+def leaf_cycle_estimate(t):
+    """leaf_cycle ricavato dalle liste della wiki, come leaf_type_estimate; None se il genere li ammette entrambi."""
+    sp = t.get("species")
+    if sp and ";" not in sp:
+        ref = SPECIES_REF.get(norm_species(sp))
+        if ref and ref.get("leaf_cycle"):
+            return ref["leaf_cycle"]
+    g = genus_ref(t)
+    cycles = g[1].get("leaf_cycle") or [] if g else []
+    return cycles[0] if len(cycles) == 1 else None
+
+
+# --- species scritta male: confronto con la lista delle specie ---
+# Il nome (genere + epiteto, senza il segno di ibrido ×) si confronta con quelli della lista contando le lettere
+# da cambiare (distanza di Levenshtein). Tarato sui dati: con 1 lettera sono quasi sempre errori di battitura
+# (Olea europeea, Phoenix dactilifera); con 2 anche specie vere assenti dalla lista (Myrtus communis -> Pyrus
+# communis), quindi a 2 si segnala solo se il genere scritto non è un genere noto; da 3 in su troppi falsi positivi.
+def binomial(sp):
+    """Genere ed epiteto normalizzati, senza ×: 'Citrus × limon L.' -> 'citrus limon'."""
+    words = [w for w in norm_species(sp).split() if w != "×"]
+    return " ".join(words[:2])
+
+
+SPECIES_BIN = {}
+for _name in _LIST:
+    SPECIES_BIN.setdefault(binomial(_name), _name)
+KNOWN_GENERA = {b.split()[0] for b in SPECIES_BIN} | set(GENUS_REF)
+
+
+def levenshtein(a, b, limit):
+    """Distanza di Levenshtein tra a e b, o limit + 1 se è maggiore di limit."""
+    if abs(len(a) - len(b)) > limit:
+        return limit + 1
+    prev = list(range(len(b) + 1))
+    for i, ca in enumerate(a, 1):
+        cur = [i]
+        for j, cb in enumerate(b, 1):
+            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (ca != cb)))
+        if min(cur) > limit:
+            return limit + 1
+        prev = cur
+    return prev[-1]
+
+
+@functools.lru_cache(maxsize=None)
+def species_typo(sp):
+    """Specie della lista che species probabilmente voleva scrivere, o None."""
+    if ";" in sp or norm_species(sp) in TYPO_WHITELIST:
+        return None
+    b = binomial(sp)
+    if len(b.split()) < 2 or b in SPECIES_BIN:   # una parola: c'è già il check; in lista (anche cultivar): ok
+        return None
+    best, dist = None, 3
+    for cand, name in SPECIES_BIN.items():
+        d = levenshtein(b, cand, 2)
+        if d < dist:
+            best, dist = (cand, name), d
+    if best is None:
+        return None
+    if dist == 2 and b.split()[0] != best[0].split()[0] and b.split()[0] in KNOWN_GENERA:
+        return None   # genere diverso ed esistente: probabilmente un'altra specie, non un errore
+    return best[1]
 
 
 def species_list_mismatches(t):
@@ -348,13 +418,9 @@ def circ_value(t):
     return (d * math.pi, True) if d is not None else (None, False)
 
 
-def numeric_keys(t):
-    return list(NUMERIC_TAGS)  # diameter incluso: il formato viene controllato anche quando è ignorato
-
-
 def comma_tags(t):
-    """Tag numerici scritti con la virgola decimale (2,9 invece di 2.9)."""
-    return [k for k in numeric_keys(t) if "," in str(t.get(k, ""))]
+    """Tag numerici scritti con la virgola decimale (2,9 invece di 2.9); diameter è controllato anche se ignorato."""
+    return [k for k in NUMERIC_TAGS if "," in str(t.get(k, ""))]
 
 
 # --- check su numeri, collegamenti e fonti monumentali ---
@@ -379,7 +445,7 @@ def bad_number(v):
 
 
 def bad_numeric_tags(t):
-    return [k for k in numeric_keys(t) if k in t and bad_number(t[k])]
+    return [k for k in NUMERIC_TAGS if k in t and bad_number(t[k])]
 
 
 def bad_link_tags(t):
@@ -452,66 +518,79 @@ def slenderness(t):
 
 
 def checks(t):
-    issues = []
-    c, h = circ_value(t)[0], num(t.get("height"))
+    """Check QA di un albero: (codici degli errori, proprietà per i messaggi della scheda), in un solo passaggio.
+    Per aggiungere un check: una riga qui con flag(codice, proprietà), e il messaggio in index.html."""
+    issues, props = [], {}
+
+    def flag(code, **p):
+        issues.append(code)
+        props.update(p)
+
+    c, h, cd = circ_value(t)[0], num(t.get("height")), num(t.get("diameter_crown"))
     if c is not None and c > MAX_CIRCUMFERENCE:
-        issues.append("circumference")
+        flag("circumference")
     if h is not None and h > MAX_HEIGHT:
-        issues.append("height")
-    cd = num(t.get("diameter_crown"))
+        flag("height")
     if cd is not None and cd > MAX_CROWN:
-        issues.append("crown")
-    if comma_tags(t):
-        issues.append("comma")
+        flag("crown")
+    if comma := comma_tags(t):
+        flag("comma", comma=";".join(comma))
     lim = species_limit(t) or {}  # limite per specie: solo se non è già scattato quello generico
     if "circumference" in lim and c is not None and "circumference" not in issues and c > lim["circumference"]:
-        issues.append("circumference_species")
+        flag("circumference_species", lim_c=lim["circumference"])
     if "height" in lim and h is not None and "height" not in issues and h > lim["height"]:
-        issues.append("height_species")
+        flag("height_species", lim_h=lim["height"])
     r = slenderness(t)  # solo se non è già segnalata la misura sbagliata (circonferenza o altezza oltre i limiti)
     if r is not None and r > SLENDER_MAX and not {"height", "height_species"} & set(issues):
-        issues.append("too_slender")
+        flag("too_slender", hc_ratio=round(r, 3), hc_circ=round(c, 2))
     if r is not None and r < STOCKY_MIN and not {"circumference", "circumference_species"} & set(issues):
-        issues.append("too_stocky")
+        flag("too_stocky", hc_ratio=round(r, 3), hc_circ=round(c, 2))
     sp = t.get("species")
     if sp is not None and len(sp.split()) == 1:
-        issues.append("species")
+        flag("species")
     if sp is not None and sp.strip()[:1].islower():
-        issues.append("species_lowercase")
+        flag("species_lowercase")
+    if sp and SPECIES_BIN and (typo := species_typo(sp)):
+        flag("species_typo", sp_sugg=typo)
     g = t.get("genus")
     if g is not None and len(g.split()) > 1:
-        issues.append("genus")
+        flag("genus")
     if g is not None and g.strip()[:1].islower():
-        issues.append("genus_lowercase")
+        flag("genus_lowercase")
     if "leaf_type" in t and t["leaf_type"] not in LEAF_TYPE:
-        issues.append("leaf_type")
+        flag("leaf_type")
     if "leaf_cycle" in t and t["leaf_cycle"] not in LEAF_CYCLE:
-        issues.append("leaf_cycle")
+        flag("leaf_cycle")
     if g is not None and sp is not None and len(g.split()) == 1:
         sg = genus_of_species(sp)
         if sg and g.casefold() != sg.casefold():
-            issues.append("genus_mismatch")
-    issues.extend(species_list_mismatches(t)[0])
+            flag("genus_mismatch")
+    list_issues, list_props = species_list_mismatches(t)
     nt = not_taxon_tags(t)
+    if any(k == "species:wikidata" for k, _ in nt) and "wikidata_mismatch" in list_issues:
+        list_issues.remove("wikidata_mismatch")   # stesso tag: basta l'errore più preciso (non è un taxon)
+        for k in ("sp_wd", "exp_wd", "exp_sp"):
+            list_props.pop(k, None)
+    issues.extend(list_issues)
+    props.update(list_props)
     if nt:
-        issues.append("wikidata_not_taxon")
-        if any(k == "species:wikidata" for k, _ in nt) and "wikidata_mismatch" in issues:
-            issues.remove("wikidata_mismatch")   # stesso tag: basta l'errore più preciso
-    if taxon_wikidata(t):
-        issues.append("wikidata_is_taxon")
-    if bad_numeric_tags(t):
-        issues.append("number_invalid")
-    if bad_link_tags(t):
-        issues.append("link_format")
-    if monument_sources(t) and "natural_monument" not in t.get("denotation", "").split(";"):
-        issues.append("monument_denotation")
-    if denotation_problems(t):
-        issues.append("denotation_value")
-    if masaf_criteria_bad(t):
-        issues.append("masaf_criteria")
-    if undocumented_tags(t):
-        issues.append("undocumented_tag")
-    return issues
+        flag("wikidata_not_taxon", nt_tags=";".join(f"{k}={q}" for k, q in nt))
+    if tx := taxon_wikidata(t):
+        flag("wikidata_is_taxon", tx_wd=";".join(tx))
+    if bad := bad_numeric_tags(t):
+        flag("number_invalid", bad_num=";".join(bad))
+    if bad := bad_link_tags(t):
+        flag("link_format", bad_links=";".join(bad))
+    if (src := monument_sources(t)) and "natural_monument" not in t.get("denotation", "").split(";"):
+        flag("monument_denotation", mon_src=";".join(src))
+    if den := denotation_problems(t):   # valori, motivi e usi, nello stesso ordine
+        flag("denotation_value", den_bad=";".join(v for v, _, _ in den), den_why=";".join(w for _, w, _ in den),
+             den_n=";".join(str(n) for _, _, n in den))
+    if bad := masaf_criteria_bad(t):    # parti separate da "," come nel tag (non possono contenerne)
+        flag("masaf_criteria", masaf_bad=",".join(bad))
+    if undoc := undocumented_tags(t):  # i tag non sono in KEEP: il valore va nella proprietà tag_<chiave>
+        flag("undocumented_tag", **{"tag_" + k: v for k, v in undoc})
+    return issues, props
 
 
 KEEP = ["name", "species", "genus", "taxon",
@@ -583,50 +662,21 @@ def to_feature(el):
         # chioma: diameter_crown, altrimenti raggio di ripiego con variazione casuale (non per monumentali e landmark)
         p["cr"] = round(crown / 2, 2) if crown else round(default_crown_r(t) * jitter(el["id"], t), 2)
         p["cr_est"] = crown is None
-        if circ_value(t)[1] and circ_value(t)[0]:
+        c, from_d = circ_value(t)
+        if from_d and c:
             p["diam_used"] = True
         if circ:  # il tronco si disegna solo se c'è una circonferenza (reale o stimata)
             p["tr"] = round(circ / (2 * math.pi), 3)
             if circ_est:
                 p["tr_est"] = True
-        lt = t.get("leaf_type")
-        if lt not in LEAF_TYPE:  # leaf_type mancante o non valido: forma della chioma stimata dalla lista
-            est = leaf_type_estimate(t)
-            if est:
-                p["lt"] = est
-    iss = checks(t)
+        # leaf_type e leaf_cycle mancanti o non validi: stimati dalle liste (forma e colore della chioma)
+        if t.get("leaf_type") not in LEAF_TYPE and (est := leaf_type_estimate(t)):
+            p["lt"] = est
+        if t.get("leaf_cycle") not in LEAF_CYCLE and (est := leaf_cycle_estimate(t)):
+            p["lc"] = est
+    iss, props = checks(t)
     p["issues"] = "|" + "|".join(iss) + "|" if iss else "|"
-    if "comma" in iss:
-        p["comma"] = ";".join(comma_tags(t))
-    p.update(species_list_mismatches(t)[1])
-    if "number_invalid" in iss:
-        p["bad_num"] = ";".join(bad_numeric_tags(t))
-    if "link_format" in iss:
-        p["bad_links"] = ";".join(bad_link_tags(t))
-    if "monument_denotation" in iss:
-        p["mon_src"] = ";".join(monument_sources(t))
-    if "denotation_value" in iss:  # per la scheda: valori, motivi e usi, nello stesso ordine
-        den = denotation_problems(t)
-        p["den_bad"] = ";".join(v for v, _, _ in den)
-        p["den_why"] = ";".join(w for _, w, _ in den)
-        p["den_n"] = ";".join(str(n) for _, _, n in den)
-    if "too_slender" in iss or "too_stocky" in iss:  # per la scheda: rapporto e circonferenza usata (anche da diameter)
-        p["hc_ratio"] = round(slenderness(t), 3)
-        p["hc_circ"] = round(circ_value(t)[0], 2)
-    if "wikidata_not_taxon" in iss:  # per la scheda: "chiave=QID;…"
-        p["nt_tags"] = ";".join(f"{k}={q}" for k, q in not_taxon_tags(t))
-    if "wikidata_is_taxon" in iss:
-        p["tx_wd"] = ";".join(taxon_wikidata(t))
-    if "undocumented_tag" in iss:  # per la scheda: tag_tree, tag_type con il valore (i tag non sono in KEEP)
-        for k, v in undocumented_tags(t):
-            p["tag_" + k] = v
-    if "masaf_criteria" in iss:  # parti non valide, separate da "," come nel tag (non possono contenerne)
-        p["masaf_bad"] = ",".join(masaf_criteria_bad(t))
-    lim = species_limit(t)
-    if "height_species" in iss:
-        p["lim_h"] = lim["height"]
-    if "circumference_species" in iss:
-        p["lim_c"] = lim["circumference"]
+    p.update(props)
     return {"type": "Feature", "properties": p,
             "geometry": {"type": "Point", "coordinates": [round(el["lon"], 7), round(el["lat"], 7)]}}
 

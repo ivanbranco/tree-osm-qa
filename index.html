@@ -63,6 +63,8 @@
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#e6a800" stroke-width="3"/></svg> <span data-i18n="legMonument">Albero monumentale</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#7b3fc4" stroke-width="2"/></svg> <span data-i18n="legLandmark">Landmark</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#d00020" stroke-width="2"/></svg> <span data-i18n="legIssues">Con problemi</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#7cbf5a" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legDeciduous">Caducifoglia</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#1f6b35" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legEvergreen">Sempreverde</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e"/></svg> <span data-i18n="legTrunk">Tronco (circonferenza)</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e" fill-opacity=".45"/></svg> <span data-i18n="legTrunkEst">Tronco stimato</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><path d="M5 5L17 17M17 5L5 17" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/></svg> <span data-i18n="legStump">Ceppo</span></li>
@@ -90,13 +92,24 @@ const LANG = [hashParams().get("lang"), storedLang(), (navigator.language || "")
   .find(l => LANGS.includes(l));
 const LOC = LANG === "it" ? "it-IT" : "en-GB";
 const fmtN = n => Number(n).toLocaleString(LOC);
-// indirizzo con la regione, mantenendo #lang se c'era
-const setHash = slug => {
+// indirizzo: #region=<slug>&map=<zoom>/<lat>/<lon>, mantenendo #lang se c'era. Senza argomento tiene la regione attuale.
+let hashSlug = null;
+const setHash = (slug = hashSlug) => {
+  hashSlug = slug;
   const h = new URLSearchParams();
   if (slug) h.set("region", slug);
+  if (typeof map !== "undefined") {
+    const c = map.getCenter();
+    h.set("map", `${map.getZoom().toFixed(2)}/${c.lat.toFixed(5)}/${c.lng.toFixed(5)}`);
+  }
   if (hashParams().get("lang")) h.set("lang", LANG);
-  const s = h.toString();
+  const s = h.toString().replace(/%2F/g, "/");
   history.replaceState(null, "", s ? "#" + s : location.pathname + location.search);
+};
+// map=<zoom>/<lat>/<lon> dell'indirizzo -> { zoom, center } per jumpTo, o null
+const parseMapHash = v => {
+  const m = /^(\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/.exec(v || "");
+  return m ? { zoom: +m[1], center: [+m[3], +m[2]] } : null;
 };
 
 // Testi dell'interfaccia. Per una nuova lingua: aggiungerla a LANGS e copiare uno dei due blocchi.
@@ -109,7 +122,8 @@ const I18N = {
     allIssues: "Tutti gli errori",
     legend: "Legenda", legMonument: "Albero monumentale", legLandmark: "Landmark", legIssues: "Con problemi",
     legTrunk: "Tronco (circonferenza)", legTrunkEst: "Tronco stimato", legStump: "Ceppo", legBroad: "Latifoglia o palma",
-    legNeedle: "Aghifoglia", legNoLeaf: "Tipo di foglia non specificato", legNote: "Tronco e forme da zoom 16",
+    legNeedle: "Aghifoglia", legNoLeaf: "Tipo di foglia non specificato",
+    legDeciduous: "Caducifoglia", legEvergreen: "Sempreverde", legNote: "Tronco e forme da zoom 16",
     rank: "Classifica errori", rankNote: "Alberi con almeno un errore; tra parentesi la quota sul totale. Tocca una regione per aprirla.",
     rankEmpty: "Conteggi non ancora disponibili: lancia l'Action \"Aggiorna dati alberi\".",
     loadError: "Errore nel caricamento dei dati", noData: "Nessun dato: lancia l'Action di aggiornamento",
@@ -129,7 +143,7 @@ const I18N = {
       monument_denotation: "Fonte monumentale senza natural_monument",
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
       undocumented_tag: "Tag non documentato (tree, type)", circumference_species: "Circonferenza > limite della specie",
-      height_species: "Altezza > limite della specie",
+      height_species: "Altezza > limite della specie", species_typo: "Species forse scritta male",
       too_slender: "Albero troppo slanciato (altezza > 100 × circonferenza)", too_stocky: "Albero troppo tozzo (circonferenza > 3 × altezza)",
       species: "Species di una sola parola", genus: "Genus non valido",
       species_lowercase: "Species con iniziale minuscola", genus_lowercase: "Genus con iniziale minuscola",
@@ -139,7 +153,7 @@ const I18N = {
     leafType: { broadleaved: "Latifoglia", needleleaved: "Aghifoglia", leafless: "Senza foglie", palm: "Palma" },
     leafCycle: { deciduous: "Caducifoglia", semi_deciduous: "Semi-caducifoglia", evergreen: "Sempreverde", semi_evergreen: "Semi-sempreverde" },
     rows: { species: "Specie", genus: "Genere", taxon: "Taxon", denotation: "Categoria", leaf_type: "Tipo di foglie",
-      lt: "Tipo di foglie (stimato)", leaf_cycle: "Ciclo fogliare", circumference: "Circonferenza", diameter: "Diametro tronco",
+      lt: "Tipo di foglie (stimato)", leaf_cycle: "Ciclo fogliare", lc: "Ciclo fogliare (stimato)", circumference: "Circonferenza", diameter: "Diametro tronco",
       height: "Altezza", diameter_crown: "Diametro chioma", start_date: "Data di impianto" },
     fromDiameter: " (da diameter)",
     issue: {
@@ -150,6 +164,7 @@ const I18N = {
       link_format: t => `formato non valido in ${t}`,
       monument_denotation: t => `${t} senza denotation=natural_monument`,
       crown: v => `diametro chioma ${v} > 60,4 m (record per un albero vivo a tronco singolo)`,
+      species_typo: (sp, s) => `species=${sp} non è nella lista delle specie: forse ${s}?`,
       wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
       wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
       undocumented_tag: kv => `tag non documentato ${kv}: verificare se può essere sostituito con un altro tag`,
@@ -186,7 +201,8 @@ const I18N = {
     allIssues: "All errors",
     legend: "Legend", legMonument: "Monumental tree", legLandmark: "Landmark", legIssues: "With errors",
     legTrunk: "Trunk (circumference)", legTrunkEst: "Estimated trunk", legStump: "Stump", legBroad: "Broadleaved or palm",
-    legNeedle: "Needleleaved", legNoLeaf: "Leaf type not specified", legNote: "Trunks and shapes from zoom 16",
+    legNeedle: "Needleleaved", legNoLeaf: "Leaf type not specified",
+    legDeciduous: "Deciduous", legEvergreen: "Evergreen", legNote: "Trunks and shapes from zoom 16",
     rank: "Error ranking", rankNote: "Trees with at least one error; in brackets the share of the total. Tap a region to open it.",
     rankEmpty: "Counts not available yet: run the \"Aggiorna dati alberi\" Action.",
     loadError: "Error loading data", noData: "No data: run the update Action",
@@ -206,7 +222,7 @@ const I18N = {
       monument_denotation: "Monumental source without natural_monument",
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
       undocumented_tag: "Undocumented tag (tree, type)", circumference_species: "Circumference > species limit",
-      height_species: "Height > species limit",
+      height_species: "Height > species limit", species_typo: "Possibly misspelled species",
       too_slender: "Tree too slender (height > 100 × circumference)", too_stocky: "Tree too stocky (circumference > 3 × height)",
       species: "Single-word species", genus: "Invalid genus",
       species_lowercase: "Species starting lowercase", genus_lowercase: "Genus starting lowercase",
@@ -216,7 +232,7 @@ const I18N = {
     leafType: { broadleaved: "Broadleaved", needleleaved: "Needleleaved", leafless: "Leafless", palm: "Palm" },
     leafCycle: { deciduous: "Deciduous", semi_deciduous: "Semi-deciduous", evergreen: "Evergreen", semi_evergreen: "Semi-evergreen" },
     rows: { species: "Species", genus: "Genus", taxon: "Taxon", denotation: "Category", leaf_type: "Leaf type",
-      lt: "Leaf type (estimated)", leaf_cycle: "Leaf cycle", circumference: "Circumference", diameter: "Trunk diameter",
+      lt: "Leaf type (estimated)", leaf_cycle: "Leaf cycle", lc: "Leaf cycle (estimated)", circumference: "Circumference", diameter: "Trunk diameter",
       height: "Height", diameter_crown: "Crown diameter", start_date: "Planting date" },
     fromDiameter: " (from diameter)",
     issue: {
@@ -227,6 +243,7 @@ const I18N = {
       link_format: t => `invalid format in ${t}`,
       monument_denotation: t => `${t} without denotation=natural_monument`,
       crown: v => `crown diameter ${v} > 60.4 m (record for a living single-trunk tree)`,
+      species_typo: (sp, s) => `species=${sp} is not in the species list: did you mean ${s}?`,
       wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
       wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
       undocumented_tag: kv => `undocumented tag ${kv}: check whether it can be replaced with another tag`,
@@ -343,8 +360,12 @@ map.on("load", async () => {
     ["==", ["get", "denotation"], "landmark"], 2,
     1];
   const FILL_OPACITY = ["case", ["get", "cr_est"], 0.3, 0.55];
+  // colore della chioma da leaf_cycle (o dalla stima lc delle liste wiki): caducifoglie più chiare, sempreverdi più scure
+  const CYCLE = ["case", ["in", ["coalesce", ["get", "leaf_cycle"], ""], ["literal", ["deciduous", "semi_deciduous", "evergreen", "semi_evergreen"]]],
+    ["get", "leaf_cycle"], ["coalesce", ["get", "lc"], ""]];
+  const CROWN_COLOR = ["match", CYCLE, ["deciduous", "semi_deciduous"], "#7cbf5a", ["evergreen", "semi_evergreen"], "#1f6b35", "#2e9e45"];
   const circlePaint = () => ({
-    "circle-radius": radius("cr", 3), "circle-color": "#2e9e45", "circle-opacity": FILL_OPACITY,
+    "circle-radius": radius("cr", 3), "circle-color": CROWN_COLOR, "circle-opacity": FILL_OPACITY,
     "circle-stroke-color": STROKE_COLOR, "circle-stroke-width": STROKE_W,
     "circle-pitch-alignment": "map", "circle-pitch-scale": "map" });
 
@@ -406,7 +427,7 @@ map.on("load", async () => {
     { id: "crown", spec: tier => ({ type: "circle", source: "trees", minzoom: tier.minZ, maxzoom: SHAPE_Z, paint: circlePaint() }) },
     { id: "crown-plain", base: NOSHAPE, spec: () => ({ type: "circle", source: "trees", minzoom: SHAPE_Z, paint: circlePaint() }) },
     { id: "crown-poly", spec: () => ({ type: "fill", source: "shapes", paint: {
-      "fill-color": "#2e9e45", "fill-opacity": FILL_OPACITY } }) },
+      "fill-color": CROWN_COLOR, "fill-opacity": FILL_OPACITY } }) },
     { id: "crown-poly-line", spec: () => ({ type: "line", source: "shapes", layout: { "line-join": "round" }, paint: {
       "line-color": STROKE_COLOR, "line-width": STROKE_W } }) },
     { id: "trunk", base: ["has", "tr"], spec: () => ({ type: "circle", source: "trees", minzoom: SHAPE_Z, paint: {
@@ -723,9 +744,14 @@ map.on("load", async () => {
     });
   }
 
-  const fromHash = hashParams().get("region");
-  if (idx[fromHash]) await selectRegion(fromHash);
-  else { fitAll(); update(); }
+  // avvio dall'indirizzo: regione e, se c'è, posizione della mappa (altrimenti la vista della regione o d'insieme)
+  const fromHash = hashParams().get("region"), startView = parseMapHash(hashParams().get("map"));
+  if (startView) map.jumpTo(startView);
+  if (idx[fromHash]) { hashSlug = fromHash; await loadRegion(fromHash, !startView); }
+  else { if (!startView) fitAll(); update(); }
+  let hashTimer;   // a ogni spostamento la posizione finisce nell'indirizzo (pronto da condividere)
+  map.on("moveend", () => { clearTimeout(hashTimer); hashTimer = setTimeout(() => setHash(), 300); });
+  setHash();
 });
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -733,10 +759,10 @@ const num = v => { const m = String(v).match(/^\s*(-?\d+(?:[.,]\d+)?)\s*(m)?\s*$
 const fmtM = v => { const n = num(v); return n === null ? v : Number(n).toLocaleString(LOC, { maximumFractionDigits: 3 }) + " m"; };
 const tr = (dict, v) => dict[v] || v;
 
-const ROW_KEYS = ["species", "genus", "taxon", "denotation", "leaf_type", "lt", "leaf_cycle",
+const ROW_KEYS = ["species", "genus", "taxon", "denotation", "leaf_type", "lt", "leaf_cycle", "lc",
   "circumference", "diameter", "height", "diameter_crown", "start_date"];
 const ROW_FMT = { denotation: v => tr(L.denotation, v), leaf_type: v => tr(L.leafType, v), lt: v => tr(L.leafType, v),
-  leaf_cycle: v => tr(L.leafCycle, v), circumference: fmtM, diameter: fmtM, height: fmtM, diameter_crown: fmtM };
+  leaf_cycle: v => tr(L.leafCycle, v), lc: v => tr(L.leafCycle, v), circumference: fmtM, diameter: fmtM, height: fmtM, diameter_crown: fmtM };
 const ROWS = ROW_KEYS.map(k => [k, L.rows[k], ROW_FMT[k]]);
 const list = v => String(v || "").split(";").join(", ");
 const fromD = (i, p) => p.diam_used && i.startsWith("circumference") ? L.fromDiameter : "";
@@ -754,6 +780,7 @@ const issueBase = (i, p) => {
     case "link_format": return T[i](list(p.bad_links));
     case "monument_denotation": return T[i](list(p.mon_src));
     case "crown": return T[i](fmtM(p.diameter_crown));
+    case "species_typo": return T[i](p.species, p.sp_sugg);   // sp_sugg: fetch_trees.py
     case "wikidata_not_taxon": return String(p.nt_tags || "").split(";").map(kv => T[i](kv)).join("; ");   // nt_tags, tx_wd: fetch_trees.py
     case "wikidata_is_taxon": return String(p.tx_wd || "").split(";").map(q => T[i](q)).join("; ");
     case "undocumented_tag":     // tag_tree, tag_type: valori dei tag segnalati (fetch_trees.py)
@@ -835,7 +862,10 @@ function card(p) {
   const rows = ROWS.filter(([k]) => p[k] && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => issueText(i, p));
   const rec = recognitions(p);
-  const links = [link(`https://www.openstreetmap.org/node/${p.id}`, "OSM")];
+  const links = [link(`https://www.openstreetmap.org/node/${p.id}`, "OSM"),
+    link(`https://www.openstreetmap.org/edit?editor=id&node=${p.id}`, "iD"),
+    // JOSM con il controllo remoto attivo: carica il nodo nell'editor già aperto
+    link(`http://127.0.0.1:8111/load_object?objects=n${p.id}&relation_members=false`, "JOSM")];
   if (p.wikidata) links.push(link(`https://www.wikidata.org/wiki/${p.wikidata}`, "Wikidata"));
   if (p.wikimedia_commons) links.push(link(`https://commons.wikimedia.org/wiki/${p.wikimedia_commons}`, "Commons"));
   const pano = panoramaxIds(p);

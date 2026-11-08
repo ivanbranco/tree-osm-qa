@@ -14,6 +14,7 @@ Gli alberi con almeno un problema hanno il contorno rosso. I check sono:
 * `tree=*` o `type=*`, tag non documentati sugli alberi: va verificato se si possono sostituire con un altro tag. `type=palm` non è segnalato, perché va sistemato in blocco
 * Circonferenza e altezza maggiori del record della singola specie. I limiti sono in `scripts/species_limits.json`; il confronto con `species=*` è esatto (nessuna variante o cultivar) e scatta solo se non è già scattato il check generico
 * Rapporto altezza/circonferenza esagerato: "albero troppo slanciato" se `height` è più di 100 volte la circonferenza (es. `height=24`, `circumference=0.01`), "albero troppo tozzo" se la circonferenza è più di 3 volte `height`. Le soglie sono larghe di proposito, per evitare falsi positivi: gli alberi reali più tozzi, come gli olivi monumentali, stanno intorno a 0,5. Non scatta se è già segnalata la circonferenza (per il tozzo) o l'altezza (per lo slanciato) oltre i limiti, né sui ceppi. Le soglie sono `SLENDER_MAX` e `STOCKY_MIN` in `scripts/fetch_trees.py`
+* `species=*` probabilmente scritta male: non è nella lista delle specie, ma ci è molto vicina (es. `Olea europeea` → `Olea europaea`). Si confrontano genere ed epiteto, senza il segno di ibrido `×` e senza cultivar o autore: con una lettera di differenza è segnalata sempre, con due solo se il genere scritto non è un genere noto (così `Myrtus communis` non diventa `Pyrus communis`). Le specie vere che non sono nella lista ma ci assomigliano si escludono in `scripts/whitelist.json` (`species_typo`)
 * `species=*` composto da una sola parola
 * `genus=*` composto da più di una parola
 * `species=*` o `genus=*` che iniziano con una lettera minuscola
@@ -50,6 +51,7 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
   * poligonale (esagono o ottagono, ruotato in modo diverso per ogni albero) se `needleleaved`
 * **Tronco**: cerchio marrone con raggio ricavato da `circumference=*` (o da `diameter=*`). Se il tag manca, la circonferenza è stimata (tronco disegnato più chiaro) da `height=*` oppure da `diameter_crown=*`, usando i rapporti della specie in `scripts/species_limits.json` (`height_circ_ratio`, `crown_circ_ratio`) o, per le specie senza rapporto, le mediane generali di `_default` (altezza/circonferenza 12, chioma/circonferenza 7,03). Le stime servono solo al rendering e non entrano nei check QA.
 * **Ceppi** (`natural=tree_stump`): una X marrone, grande quanto la circonferenza (`circumference=*` o `diameter=*`); se manca, raggio di 0,25 m e X più chiara. Compaiono da zoom 10, con la X rossa se il ceppo ha errori; seguono gli stessi check degli alberi.
+* **Colore della chioma**: da `leaf_cycle=*` (o, se manca, stimato dalle liste della wiki come `leaf_type`): verde chiaro per le caducifoglie, verde scuro per le sempreverdi, verde medio se non si sa.
 * **Contorno della chioma**: giallo per `denotation=natural_monument` (gli alberi monumentali sono disegnati sopra agli altri), viola per `denotation=landmark`, rosso per gli alberi con problemi (il rosso ha la precedenza).
 * **Zoom**: gli alberi con problemi si vedono a ogni zoom; da zoom 9 si aggiungono i monumentali; da zoom 10 tutti gli alberi (come cerchi); da zoom 16 compaiono le forme e il tronco.
 
@@ -57,7 +59,8 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 
 * Filtri per genus/specie e per tipo di errore: entrambi gli elenchi sono costruiti dagli alberi in vista, con il conteggio. Nel filtro genus/specie, "Sconosciuto" mostra gli alberi senza `genus` né `species`, "Con species" quelli con `species=*` (qualsiasi valore). Per vedere solo i monumentali basta restare tra zoom 9 e 10.
 * Riquadro "Classifica errori" (chiudibile): le nazioni in ordine di alberi con almeno un errore e, dentro ogni nazione, le regioni; toccando una regione la si apre. I conteggi sono nel campo `errors` di `data/index.json` e si riempiono all'aggiornamento dei dati.
-* Cliccando un albero si apre la scheda con i dati principali, i problemi rilevati e i link a OSM, Wikidata, Commons e Panoramax.
+* Cliccando un albero si apre la scheda con i dati principali, i problemi rilevati e i link a OSM, Wikidata, Commons e Panoramax, più due link per correggerlo: iD (l'editor web di OSM) e JOSM (carica il nodo nell'editor già aperto, se il controllo remoto è attivo).
+* L'indirizzo contiene regione e posizione della mappa (`#region=lombardia&map=17.00/45.46420/9.18990`): copiandolo si condivide il punto esatto.
 * L'immagine viene da `wikimedia_commons`, poi da `panoramax`, poi da `image`.
 * Se presenti, la scheda indica `ref:masaf` (elenco degli alberi monumentali d'Italia del MASAF) con i criteri di monumentalità da `masaf:criteria` (per esempio `a,b,g` diventa "a) età e/o dimensioni; b) forma o portamento particolari; g) valore storico, culturale, religioso", vedi la [wiki](https://wiki.openstreetmap.org/wiki/IT:Key:ref:masaf#Criteri_di_monumentalit%C3%A0)), `ref:rami` (registro RAMI) e `website`/`url` verso monumentaltrees.com.
 
@@ -88,9 +91,9 @@ Le regioni grandi vengono scaricate a pezzi (tile) e unite. Il confine esatto lo
 * `scripts/fetch_trees.py` – scarica da Overpass, calcola i check, scrive i dati
 * `scripts/regions.json` – elenco delle regioni
 * `scripts/update_boundaries.py` – scarica i confini delle regioni in `data/regions_boundaries.geojson`
-* `scripts/update_species_list.py` – scarica le liste di specie e generi dalla wiki OSM in `scripts/species_list.json` e `scripts/genus_list.json`, e i valori di `denotation` con il numero di usi da Taginfo in `scripts/denotation_values.json`
+* `scripts/update_reference_lists.py` – scarica le liste di specie e generi dalla wiki OSM in `scripts/species_list.json` e `scripts/genus_list.json`, e i valori di `denotation` con il numero di usi da Taginfo in `scripts/denotation_values.json`
 * `scripts/species_limits.json` – per specie: limiti di altezza e circonferenza, rapporti usati per stimare le dimensioni mancanti
-* `scripts/whitelist.json` – eccezioni ai check (per ora: `species:wikidata` accettati per specie)
+* `scripts/whitelist.json` – eccezioni ai check: `species:wikidata` accettati per specie (`wikidata_mismatch`) e specie da non segnalare come scritte male (`species_typo`)
 * `.github/workflows/update.yml` – aggiornamento dei dati
 * `.github/workflows/update-boundaries.yml` – aggiornamento dei confini (solo a mano)
 * `.github/workflows/update-species-list.yml` – Action "Aggiorna liste di riferimento": specie, generi e valori di `denotation` (solo a mano)
