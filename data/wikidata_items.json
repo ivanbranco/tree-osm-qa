@@ -74,6 +74,36 @@
 "taxon": false,
 "wp": {}
 },
+"Q126101368": {
+"coords": [
+[
+8.78056,
+45.28056
+]
+],
+"heritage": [],
+"image": "Populus nigra, Parona 3.jpg",
+"taxa": [
+"Q147064"
+],
+"taxon": false,
+"wp": {}
+},
+"Q126101493": {
+"coords": [
+[
+8.76829,
+45.28154
+]
+],
+"heritage": [],
+"image": "Farnia monumentale, Parona.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
 "Q126902383": {
 "coords": [
 [
@@ -245,6 +275,199 @@
 "wp": {
 "it": "https://it.wikipedia.org/wiki/Tiglio_di_Macugnaga"
 }
+},
+"Q3895596": {
+"coords": [
+[
+8.93163,
+45.59749
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Parco_Bosco_dei_Ronchi_e_Parco_ex-ILA"
+}
+},
+"Q55741739": {
+"coords": [
+[
+9.568447,
+45.488414
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741793": {
+"coords": [
+[
+9.403347,
+45.53035
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Gorgonzola - Giardini XXV aprile - Cedro Himalaya codice 07M17701E094MI03 - foto 02.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741794": {
+"coords": [
+[
+9.406625,
+45.528175
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741795": {
+"coords": [
+[
+9.407217,
+45.528047
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Gorgonzola - Parco Sola Calbiati - Platano codice 07M17701E094MI03 - foto 03.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741796": {
+"coords": [
+[
+9.407772,
+45.528047
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Gorgonzola - Parco Sola Calbiati - Bagolaro codice 07M17704E094MI03 - foto 01.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741798": {
+"coords": [
+[
+9.406661,
+45.527214
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Gorgonzola - Parco Sola Calbiati - Bagolaro codice 07M17705E094MI03 - foto 01.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741799": {
+"coords": [
+[
+9.406936,
+45.527361
+]
+],
+"heritage": [
+[
+"Dichiarazione di notevole interesse pubblico",
+"Dichiarazione di notevole interesse pubblico"
+]
+],
+"image": "Gorgonzola - Parco Sola Calbiati - Bagolaro codice 07M17706E094MI03 - foto 02.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741806": {
+"coords": [
+[
+9.176022,
+45.472661
+]
+],
+"heritage": [],
+"image": "Noce del Caucaso parco Sempione Milano.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741836": {
+"coords": [
+[
+9.283333,
+45.513306
+]
+],
+"heritage": [],
+"image": "Vimodrone - Magnolia secolare di Villa Torri - codice 07M17701M053MI03 -.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741884": {
+"coords": [
+[
+8.889056,
+45.629889
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q55741885": {
+"coords": [
+[
+8.888694,
+45.632306
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q55742254": {
 "coords": [
@@ -1930,6 +2153,21 @@
 "taxa": [],
 "taxon": false,
 "wp": {}
+},
+"Q67371157": {
+"coords": [
+[
+9.1885185,
+46.0395906
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Quercia_Rogolone"
+}
 },
 "Q855274": {
 "coords": [

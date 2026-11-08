@@ -64,10 +64,11 @@
    "updated": "2026-11-08T12:01:32Z"
   },
   "lombardia": {
-   "count": 387030,
+   "count": 387297,
+   "errors": 2250,
    "name": "Lombardia",
-   "sha1": "f77976f390813a5a6c0d30ddd22fdc366ed701f1",
-   "updated": "2026-11-06T12:15:27Z"
+   "sha1": "6e5178753073b0e9241aa8f7a8bb42ef414646d6",
+   "updated": "2026-11-08T17:56:08Z"
   },
   "piemonte": {
    "count": 72959,
