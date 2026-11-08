@@ -75,6 +75,10 @@ on:
         type: string
         required: false
         default: ""
+      fairwaymapper:
+        description: "Usa FairwayMapper (se c'è il secret FAIRWAYMAPPER_KEY); togli la spunta per non consumare la quota"
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -97,6 +101,8 @@ jobs:
         env:   # passate come variabili d'ambiente, non inserite nel comando
           REGIONS: ${{ github.event.inputs.regions }}
           REGION: ${{ github.event.inputs.region || 'all' }}
+          # facoltativa: senza (o senza la spunta "Usa FairwayMapper"), si usano solo i server pubblici
+          FAIRWAYMAPPER_KEY: ${{ inputs.fairwaymapper && secrets.FAIRWAYMAPPER_KEY || '' }}
         run: python scripts/fetch_trees.py "${REGIONS:-$REGION}"
       - name: Commit
         if: ${{ !cancelled() }}

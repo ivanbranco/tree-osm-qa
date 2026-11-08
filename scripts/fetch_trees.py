@@ -39,6 +39,30 @@ HEADERS = {
     "User-Agent": "tree-osm-qa/1.0 (https://github.com/ivanbranco/tree-osm-qa)",
     "Accept-Encoding": "gzip",
 }
+# Mirror Overpass di FairwayMapper (https://www.fairwaymapper.com/api/overpass): si usa per primo solo se c'è la
+# chiave nella variabile d'ambiente FAIRWAYMAPPER_KEY (nell'Action viene dal secret omonimo, mai scritta nei file).
+# Piano gratuito: 10 richieste al minuto e 2000 al mese. Se la chiave viene rifiutata o il limite è esaurito,
+# per il resto dell'esecuzione si usano solo gli altri server.
+# La chiave va nell'indirizzo (https://api.fairwaymapper.com/k/<chiave>/api/interpreter, la forma usata anche da
+# overpass-turbo e JOSM): nei messaggi l'indirizzo compare come "FairwayMapper" e la chiave è sempre oscurata.
+# Il secret può contenere la sola chiave (fm_…) o l'indirizzo intero copiato da overpass-turbo.
+FM_URL = "FairwayMapper"   # segnaposto nell'elenco ENDPOINTS
+_fm_raw = os.environ.get("FAIRWAYMAPPER_KEY", "").strip()
+FM_KEY = (re.search(r"/k/([^/\s]+)", _fm_raw) or re.match(r"(\S*)", _fm_raw)).group(1)
+FM_INTERVAL = 6.5          # secondi tra due richieste (massimo 10 al minuto)
+
+
+def hide_key(s):
+    return str(s).replace(FM_KEY, "***") if FM_KEY else str(s)
+if FM_KEY:
+    ENDPOINTS.insert(0, FM_URL)
+_fm_last = 0.0
+
+
+def fm_disable(reason):
+    if FM_URL in ENDPOINTS:
+        ENDPOINTS.remove(FM_URL)
+        warn(f"FairwayMapper non usato per il resto dell'aggiornamento: {reason}")
 
 
 def warn(msg):
@@ -65,10 +89,24 @@ out body qt;"""
 def run_overpass(q, label, can_split):
     """Prova gli endpoint; restituisce il JSON solo se completo. Se la query è troppo pesante
     (timeout, errore di memoria, 504) e si può dividere, restituisce subito None."""
-    for url in ENDPOINTS:
+    global _fm_last
+    for url in list(ENDPOINTS):
         for attempt in range(2):
+            if url not in ENDPOINTS:     # FairwayMapper disattivato nel frattempo
+                break
             try:
-                r = requests.post(url, data={"data": q}, headers=HEADERS, timeout=420)
+                real = url
+                if url == FM_URL:
+                    time.sleep(max(0.0, _fm_last + FM_INTERVAL - time.time()))
+                    _fm_last = time.time()
+                    real = f"https://api.fairwaymapper.com/k/{FM_KEY}/api/interpreter"
+                r = requests.post(real, data={"data": q}, headers=HEADERS, timeout=420)
+                if url == FM_URL and r.status_code in (401, 403):
+                    fm_disable(f"chiave rifiutata (HTTP {r.status_code}): {hide_key(r.text[:150])}")
+                    break
+                if url == FM_URL and r.status_code == 429:
+                    fm_disable(f"limite di richieste raggiunto: {hide_key(r.text[:150])}")
+                    break
                 if r.status_code == 504 and can_split:
                     print(f" [!] {url} -> HTTP 504 ({label}): provo a dividere")
                     return None
@@ -90,7 +128,7 @@ def run_overpass(q, label, can_split):
                 if can_split:
                     return None
             except Exception as e:
-                print(f" [!] {url} fallito ({label}, tentativo {attempt + 1}/2): {str(e)[:200]}")
+                print(f" [!] {url} fallito ({label}, tentativo {attempt + 1}/2): {hide_key(e)[:200]}")
                 time.sleep(15)
     return None
 
