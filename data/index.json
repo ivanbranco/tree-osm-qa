@@ -10,8 +10,8 @@
    "count": 102100,
    "errors": 183,
    "name": "Lettonia",
-   "sha1": "24a82b5b034caef7ee921fbaf904b049c8f07228",
-   "updated": "2026-11-08T00:12:43Z"
+   "sha1": "3af8687cf12ef3ec43d5f76507640c10e5ba1eb0",
+   "updated": "2026-11-08T01:27:56Z"
   },
   "liguria": {
    "count": 8905,
@@ -30,8 +30,8 @@
    "count": 72959,
    "errors": 55,
    "name": "Piemonte",
-   "sha1": "834b1fce0467671d6a50aae739673c8f0778d7c5",
-   "updated": "2026-11-08T00:57:06Z"
+   "sha1": "f95eeb464a7235cca20ad3356e364807d2151d15",
+   "updated": "2026-11-08T01:24:54Z"
   },
   "sardegna": {
    "count": 5428,
