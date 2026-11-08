@@ -1108,7 +1108,7 @@ def main(argv):
     groups = {}
     for r in REGIONS:
         if r.get("group"):
-            groups.setdefault(r["group"].lower(), []).append(r)
+            groups.setdefault(r["group"].lower().replace(" ", "-"), []).append(r)   # "Regno Unito" -> regno-unito
     if "all" in names:
         todo = REGIONS
     else:

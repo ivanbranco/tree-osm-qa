@@ -1,6 +1,6 @@
 # DendrOSM
 
-Mappa degli alberi di OpenStreetMap (`natural=tree`, e i ceppi `natural=tree_stump`), divisa per regioni e pensata per il controllo di qualità dei dati. Per ora le regioni attive sono quelle italiane, i voivodati della Polonia, i Paesi baltici, la Bulgaria, la Croazia e la Slovenia. Il sito è statico (GitHub Pages, MapLibre GL JS) e i dati si aggiornano con una GitHub Action.
+Mappa degli alberi di OpenStreetMap (`natural=tree`, e i ceppi `natural=tree_stump`), divisa per regioni e pensata per il controllo di qualità dei dati. Per ora le regioni attive sono quelle italiane, i voivodati della Polonia, i Paesi baltici, la Bulgaria, la Croazia, la Slovenia, il Galles, l'Irlanda del Nord e la Bretagna. Il sito è statico (GitHub Pages, MapLibre GL JS) e i dati si aggiornano con una GitHub Action.
 
 Sito: https://ivanbranco.github.io/tree-osm-qa/
 
@@ -93,7 +93,7 @@ I dati arrivano da Overpass (`natural=tree` e `natural=tree_stump`) e sono divis
 * `scripts/regions.json` – regioni: nome, nome inglese (`name_en`, usato quando il sito è in inglese), `group` (con `group_en`) (es. "Italia": le regioni con lo stesso gruppo compaiono insieme nel menu) e `group_rel` (la relation OSM della nazione, per il confine nazionale sulla mappa), codice ISO 3166-2, id della relation OSM (`rel`), bbox approssimativa e, se serve, `split` (livelli iniziali di suddivisione in tile: 0 per i paesi con pochi alberi)
 * `data/regions_boundaries.geojson` – confini semplificati delle regioni e delle nazioni divise in regioni, per sceglierle sulla mappa; si genera dall'Action "Aggiorna confini regioni" (da Nominatim)
 
-**Aggiornamento**: da GitHub, Actions → "Aggiorna dati alberi" → Run workflow, scegliendo dal menu `all`, un gruppo (`italia`, `polonia` = tutte le regioni del paese) o una singola regione. Per aggiornare più regioni insieme si scrivono invece nel campo di testo sotto il menu, separate da spazi o virgole (es. `liguria veneto lettonia`): se il campo è compilato, il menu è ignorato. Non ci sono esecuzioni automatiche: l'aggiornamento parte solo a mano. Se il download di una regione fallisce restano i suoi dati precedenti; se i dati non cambiano, i file non vengono modificati.
+**Aggiornamento**: da GitHub, Actions → "Aggiorna dati alberi" → Run workflow, scegliendo dal menu `all`, un gruppo (`italia`, `polonia`, `regno-unito`, `francia` = tutte le regioni del paese che ci sono in `regions.json`) o una singola regione. Per aggiornare più regioni insieme si scrivono invece nel campo di testo sotto il menu, separate da spazi o virgole (es. `liguria veneto lettonia`): se il campo è compilato, il menu è ignorato. Non ci sono esecuzioni automatiche: l'aggiornamento parte solo a mano. Se il download di una regione fallisce restano i suoi dati precedenti; se i dati non cambiano, i file non vengono modificati.
 
 In locale: `python scripts/fetch_trees.py lombardia` (oppure `all`, `italia`, `liguria veneto`). Una nuova regione si aggiunge in `scripts/regions.json` e nel menu di `.github/workflows/update.yml`; poi si lanciano "Aggiorna confini regioni" e "Aggiorna dati alberi".
 
