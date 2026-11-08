@@ -14,7 +14,6 @@ on:
           - regno-unito
           - francia
           - bulgaria
-          - bretagna
           - croazia
           - estonia
           - galles
@@ -22,6 +21,19 @@ on:
           - lettonia
           - lituania
           - slovenia
+          - alta-francia
+          - alvernia-rodano-alpi
+          - borgogna-franca-contea
+          - bretagna
+          - centro-valle-della-loira
+          - corsica
+          - grand-est
+          - ile-de-france
+          - normandia
+          - nuova-aquitania
+          - occitania
+          - paesi-della-loira
+          - provenza-alpi-costa-azzurra
           - dolnoslaskie
           - kujawsko-pomorskie
           - lubelskie
