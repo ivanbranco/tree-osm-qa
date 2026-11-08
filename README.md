@@ -51,7 +51,7 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
   * poligonale (esagono o ottagono, ruotato in modo diverso per ogni albero) se `needleleaved`
 * **Tronco**: cerchio marrone con raggio ricavato da `circumference=*` (o da `diameter=*`). Se il tag manca, la circonferenza è stimata (tronco disegnato più chiaro) da `height=*` oppure da `diameter_crown=*`, usando i rapporti della specie in `scripts/species_limits.json` (`height_circ_ratio`, `crown_circ_ratio`) o, per le specie senza rapporto, le mediane generali di `_default` (altezza/circonferenza 12, chioma/circonferenza 7,03). Le stime servono solo al rendering e non entrano nei check QA.
 * **Ceppi** (`natural=tree_stump`): una X marrone, grande quanto la circonferenza (`circumference=*` o `diameter=*`); se manca, raggio di 0,25 m e X più chiara. Compaiono da zoom 10, con la X rossa se il ceppo ha errori; seguono gli stessi check degli alberi.
-* **Colore della chioma**: da `leaf_cycle=*` (o, se manca, stimato dalle liste della wiki come `leaf_type`): verde chiaro per le caducifoglie, verde scuro per le sempreverdi, verde medio se non si sa.
+* **Colore della chioma**: da `leaf_cycle=*` (o, se manca, stimato dalle liste della wiki come `leaf_type`): verde-giallo chiaro per le caducifoglie, verde scuro per le sempreverdi, verde grigio se non si sa.
 * **Contorno della chioma**: giallo per `denotation=natural_monument` (gli alberi monumentali sono disegnati sopra agli altri), viola per `denotation=landmark`, rosso per gli alberi con problemi (il rosso ha la precedenza).
 * **Zoom**: gli alberi con problemi si vedono a ogni zoom; da zoom 9 si aggiungono i monumentali; da zoom 10 tutti gli alberi (come cerchi); da zoom 16 compaiono le forme e il tronco.
 
