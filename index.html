@@ -856,18 +856,19 @@ map.on("load", async () => {
     // stesso criterio di minimal() in fetch_trees.py
     const reduce = fc => ({ type: "FeatureCollection", features: fc.features.filter(f => f.properties.issues !== "|"
       || String(f.properties.denotation || "").split(";").includes("natural_monument")) });
-    const fullP = getGz(`data/regions/${slug}.geojson.gz`);
-    fullP.catch(() => {});
-    const min = await getGz(`data/regions/${slug}.min.geojson.gz`).catch(() => null);
-    if (seq !== loadSeq) return;                      // nel frattempo è stata scelta un'altra regione
-    taxSel.value = ""; taxSig = "";                   // l'elenco genus/specie dipende dalla regione
-    info.textContent = r.updated ? L.updated(new Date(r.updated).toLocaleDateString(LOC)) : "";
     let fitted = false;
     const fitTo = feats => {                          // inquadra la regione: dal confine se c'è, altrimenti dagli alberi
       if (!fit || fitted) return;
       const box = unitBox[slug] || (feats.length ? bboxOf(feats.map(f => f.geometry.coordinates)) : null);
       if (box) { map.fitBounds(box, { padding: 30, duration: 0 }); fitted = true; }
     };
+    fitTo([]);                                        // col confine noto si inquadra subito, senza aspettare i dati
+    const fullP = getGz(`data/regions/${slug}.geojson.gz`);
+    fullP.catch(() => {});
+    const min = await getGz(`data/regions/${slug}.min.geojson.gz`).catch(() => null);
+    if (seq !== loadSeq) return;                      // nel frattempo è stata scelta un'altra regione
+    taxSel.value = ""; taxSig = "";                   // l'elenco genus/specie dipende dalla regione
+    info.textContent = r.updated ? L.updated(new Date(r.updated).toLocaleDateString(LOC)) : "";
     map.getSource("trees").setData(EMPTY);            // gli alberi della regione precedente
     if (min) { partial = true; apply(); fitTo(min.features); show(min, "trees-min"); }
     else map.getSource("trees-min").setData(EMPTY);
