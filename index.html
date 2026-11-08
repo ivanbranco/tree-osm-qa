@@ -135,7 +135,7 @@ const I18N = {
   it: {
     pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente su GitHub",
     osmAttribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
-    osmPage: "Pagina su OpenStreetMap", editId: "Modifica con iD", editJosm: "Apri in JOSM", editMapComplete: "Apri in MapComplete", allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
+    editMenu: "Modifica", osmPage: "Pagina su OpenStreetMap", editId: "Modifica con iD", editJosm: "Apri in JOSM", editMapComplete: "Apri in MapComplete", allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
     scaleLow: "meno errori", scaleHigh: "più errori", tipErr: p => ` · ${p} con errori`,
     regionOpt: (name, n) => `${name} (${fmtN(n)} alberi)`,
     allTaxa: "Tutti i genus e le specie", unknown: "Sconosciuto", withSpecies: "Con species", genusGroup: "Genus", speciesGroup: "Specie",
@@ -221,7 +221,7 @@ const I18N = {
   en: {
     pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code on GitHub",
     osmAttribution: "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
-    osmPage: "OpenStreetMap page", editId: "Edit with iD", editJosm: "Open in JOSM", editMapComplete: "Open in MapComplete", allRegions: "← All countries", chooseRegion: "Choose a region…",
+    editMenu: "Edit", osmPage: "OpenStreetMap page", editId: "Edit with iD", editJosm: "Open in JOSM", editMapComplete: "Open in MapComplete", allRegions: "← All countries", chooseRegion: "Choose a region…",
     scaleLow: "fewer errors", scaleHigh: "more errors", tipErr: p => ` · ${p} with errors`,
     regionOpt: (name, n) => `${name} (${fmtN(n)} trees)`,
     allTaxa: "All genera and species", unknown: "Unknown", withSpecies: "With species", genusGroup: "Genus", speciesGroup: "Species",
@@ -349,11 +349,11 @@ const boundsP = getJSON("data/regions_boundaries.geojson").catch(() => null);
 
 const map = new maplibregl.Map({
   container: "map", center: [12.5, 42.0], zoom: 5, maxZoom: 21,
-  // sfondo: in italiano le tessere "Carto (Italian)" di Wikimedia Italia (etichette in italiano in tutto il mondo),
-  // nelle altre lingue quelle standard di openstreetmap.org
+  // sfondo: tessere standard di openstreetmap.org. Quelle di Wikimedia Italia (tile.osmit.it) non si possono usare:
+  // il server non invia Access-Control-Allow-Origin e il browser le blocca (MapLibre le legge con WebGL)
   style: { version: 8, sources: { osm: { type: "raster", tileSize: 256, maxzoom: 19,
-      tiles: [LANG === "it" ? "https://tile.osmit.it/tiles/carto/{z}/{x}/{y}.png" : "https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-      attribution: L.osmAttribution + (LANG === "it" ? " · tessere <a href='https://tile.osmit.it/'>Wikimedia Italia</a>" : "") } },
+      tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+      attribution: L.osmAttribution } },
     layers: [{ id: "osm", type: "raster", source: "osm" }] }
 });
 // solo + e −: niente bussola, e la mappa non si ruota (senza bussola non si potrebbe raddrizzare)
@@ -941,7 +941,7 @@ function title(p) {
   return p.stump ? (b ? L.stumpOf(b) : L.stump) : (b || L.unknownSpecies);
 }
 
-// voce "OSM ▾" della scheda: un menu con la pagina del nodo e gli editor (pos = [lon, lat] dell'albero)
+// voce "Modifica ▾" della scheda: un menu con la pagina del nodo e gli editor (pos = [lon, lat] dell'albero)
 function osmMenu(p, pos) {
   const [lon, lat] = (pos || [0, 0]).map(v => Number(v).toFixed(6));
   const items = [
@@ -950,7 +950,7 @@ function osmMenu(p, pos) {
     // JOSM con il controllo remoto attivo: carica il nodo nell'editor già aperto
     [`http://127.0.0.1:8111/load_object?objects=n${p.id}&relation_members=false`, L.editJosm],
     [`https://mapcomplete.org/trees.html?z=19&lat=${lat}&lon=${lon}#node/${p.id}`, L.editMapComplete]];
-  return `<details class="osm-menu"><summary>OSM ▾</summary><div>${items.map(([u, t]) => link(u, t)).join("")}</div></details>`;
+  return `<details class="osm-menu"><summary>${L.editMenu} ▾</summary><div>${items.map(([u, t]) => link(u, t)).join("")}</div></details>`;
 }
 
 function card(p, pos) {

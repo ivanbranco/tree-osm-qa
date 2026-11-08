@@ -61,7 +61,7 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 
 * Filtri per genus/specie e per tipo di errore: entrambi gli elenchi sono costruiti dagli alberi in vista, con il conteggio. Nel filtro genus/specie, "Sconosciuto" mostra gli alberi senza `genus` né `species`, "Con species" quelli con `species=*` (qualsiasi valore). Per vedere solo i monumentali basta restare tra zoom 9 e 10.
 * Riquadro "Classifica errori" (chiudibile): le nazioni in ordine di alberi con almeno un errore e, dentro ogni nazione, le regioni; toccando una regione la si apre. I conteggi sono nel campo `errors` di `data/index.json` e si riempiono all'aggiornamento dei dati.
-* Cliccando un albero si apre la scheda con i dati principali, i problemi rilevati e i link a Wikidata, Commons e Panoramax. La voce "OSM ▾" apre un menu con la pagina del nodo su OpenStreetMap e gli editor per correggerlo: iD (l'editor web di OSM), JOSM (carica il nodo nell'editor già aperto, se il controllo remoto è attivo) e MapComplete (tema alberi).
+* Cliccando un albero si apre la scheda con i dati principali, i problemi rilevati e i link a Wikidata, Commons e Panoramax. La voce "Modifica ▾" apre un menu con la pagina del nodo su OpenStreetMap e gli editor per correggerlo: iD (l'editor web di OSM), JOSM (carica il nodo nell'editor già aperto, se il controllo remoto è attivo) e MapComplete (tema alberi).
 * L'indirizzo contiene regione e posizione della mappa (`#region=lombardia&map=17.00/45.46420/9.18990`): copiandolo si condivide il punto esatto.
 * L'immagine viene da `wikimedia_commons`, poi da `panoramax`, poi da `image`.
 * Se presenti, la scheda indica `ref:masaf` (elenco degli alberi monumentali d'Italia del MASAF) con i criteri di monumentalità da `masaf:criteria` (per esempio `a,b,g` diventa "a) età e/o dimensioni; b) forma o portamento particolari; g) valore storico, culturale, religioso", vedi la [wiki](https://wiki.openstreetmap.org/wiki/IT:Key:ref:masaf#Criteri_di_monumentalit%C3%A0)), `ref:rami` (registro RAMI) e `website`/`url` verso monumentaltrees.com.
@@ -69,8 +69,6 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 ## Lingua
 
 Il sito è in italiano se la lingua del browser è l'italiano, altrimenti in inglese. Si cambia con IT · EN in alto nel pannello: la scelta resta salvata nel browser. Si può anche forzare dall'indirizzo, per esempio `#lang=en` oppure `#region=lombardia&lang=en`.
-
-Anche lo sfondo dipende dalla lingua: in italiano si usano le tessere "Carto (Italian)" di [Wikimedia Italia](https://tile.osmit.it/), con le etichette in italiano in tutto il mondo; nelle altre lingue quelle standard di openstreetmap.org.
 
 Tutti i testi sono nell'oggetto `I18N` all'inizio dello script in `index.html`: per aggiungere una lingua si copia uno dei due blocchi, lo si traduce e si aggiunge il codice a `LANGS`. Nomi delle regioni, tag e valori OSM non vengono tradotti.
 
