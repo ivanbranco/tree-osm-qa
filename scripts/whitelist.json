@@ -1,6 +1,7 @@
 {
   "_info": "Eccezioni ai check. wikidata_mismatch: per ogni species, i species:wikidata accettati oltre a quello della lista wiki (es. sinonimi).",
   "wikidata_mismatch": {
-    "Platanus × hispanica": ["Q24853030"]
+    "Platanus × hispanica": ["Q24853030"],
+    "Platanus × acerifolia": ["Q161374"]
   }
 }
