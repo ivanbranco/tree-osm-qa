@@ -144,8 +144,10 @@ QUOTES = str.maketrans("", "", "'‘’`´\"“”")
 
 
 def norm_species(s):
-    """Nome normalizzato per i confronti: senza virgolette, spazi singoli, 'x' tra i nomi come '×', minuscolo."""
-    return " ".join("×" if w in ("x", "X") else w for w in s.translate(QUOTES).split()).casefold()
+    """Nome normalizzato per i confronti: senza virgolette, spazi singoli, 'x' tra i nomi come '×', '×' staccato dal
+    nome ('Platanus ×acerifolia', come su Wikidata, = 'Platanus × acerifolia'), minuscolo."""
+    words = s.translate(QUOTES).replace("×", " × ").split()
+    return " ".join("×" if w in ("x", "X") else w for w in words).casefold()
 
 
 # Lista di specie della wiki OSM (scripts/update_reference_lists.py): species:wikidata, leaf_type, leaf_cycle
