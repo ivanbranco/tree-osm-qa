@@ -34,6 +34,9 @@
   #lang{font-size:12px;font-weight:400;color:#999}
   #lang a{color:#1a5fb4;text-decoration:none}
   #lang a.on{color:#222;font-weight:600;pointer-events:none}
+  .hdr{display:flex;align-items:center;gap:8px}
+  #gh{color:#999;display:flex}
+  #gh:hover{color:#222}
   #panel label{display:block;margin:2px 0}
   #panel select{width:100%;margin-bottom:6px}
   #count{color:#555;margin-top:6px;font-size:12px}
@@ -49,7 +52,7 @@
 <body>
 <div id="side">
 <div id="panel" class="box">
-  <h1><span data-i18n="title">DendrOSM</span><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a></span></h1>
+  <h1><span data-i18n="title">DendrOSM</span><span class="hdr"><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a></span><a id="gh" href="https://github.com/ivanbranco/tree-osm-qa" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a></span></h1>
   <select id="region" autocomplete="off"></select>
   <button id="overview" type="button" hidden data-i18n="allRegions">← Tutte le regioni</button>
   <select id="taxon" autocomplete="off"><option value="" data-i18n="allTaxa">Tutti i genus e le specie</option></select>
@@ -117,7 +120,7 @@ const parseMapHash = v => {
 // I valori possono essere funzioni (testi con parti variabili).
 const I18N = {
   it: {
-    pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", allRegions: "← Tutte le regioni", chooseRegion: "Scegli una regione…",
+    pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente su GitHub", allRegions: "← Tutte le regioni", chooseRegion: "Scegli una regione…",
     regionOpt: (name, n) => `${name} (${fmtN(n)} alberi)`,
     allTaxa: "Tutti i genus e le specie", unknown: "Sconosciuto", withSpecies: "Con species", genusGroup: "Genus", speciesGroup: "Specie",
     allIssues: "Tutti gli errori",
@@ -198,7 +201,7 @@ const I18N = {
     stump: "Ceppo", stumpOf: b => `${b} (ceppo)`, unknownSpecies: "Specie sconosciuta",
   },
   en: {
-    pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", allRegions: "← All regions", chooseRegion: "Choose a region…",
+    pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code on GitHub", allRegions: "← All regions", chooseRegion: "Choose a region…",
     regionOpt: (name, n) => `${name} (${fmtN(n)} trees)`,
     allTaxa: "All genera and species", unknown: "Unknown", withSpecies: "With species", genusGroup: "Genus", speciesGroup: "Species",
     allIssues: "All errors",
@@ -283,6 +286,7 @@ const L = I18N[LANG];
 document.documentElement.lang = LANG;
 document.title = L.pageTitle;
 document.querySelectorAll("[data-i18n]").forEach(e => { e.textContent = L[e.dataset.i18n]; });
+document.getElementById("gh").title = L.github;
 document.querySelectorAll("#lang a").forEach(a => {
   a.classList.toggle("on", a.dataset.lang === LANG);
   a.onclick = ev => {          // cambia lingua: la ricorda e ricarica la pagina (la regione resta nell'indirizzo)
