@@ -6,6 +6,13 @@
    "sha1": "495a380e1827b718b25e5967cae46e2a90bdc9c5",
    "updated": "2026-11-07T13:18:09Z"
   },
+  "lettonia": {
+   "count": 102100,
+   "errors": 183,
+   "name": "Lettonia",
+   "sha1": "24a82b5b034caef7ee921fbaf904b049c8f07228",
+   "updated": "2026-11-08T00:12:43Z"
+  },
   "liguria": {
    "count": 8905,
    "errors": 145,
