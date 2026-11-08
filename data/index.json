@@ -1,10 +1,11 @@
 {
  "regions": {
   "bulgaria": {
-   "count": 28403,
+   "count": 29076,
+   "errors": 6,
    "name": "Bulgaria",
-   "sha1": "495a380e1827b718b25e5967cae46e2a90bdc9c5",
-   "updated": "2026-11-07T13:18:09Z"
+   "sha1": "e29913780721091f3b7bbd970d452da278ee3047",
+   "updated": "2026-11-08T03:37:33Z"
   },
   "lettonia": {
    "count": 102100,
