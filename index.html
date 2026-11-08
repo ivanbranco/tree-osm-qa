@@ -898,23 +898,23 @@ const issueBase = (i, p) => {
     case "crown": return T[i](fmtM(p.diameter_crown));
     case "species_typo": return T[i](p.species, p.sp_sugg);   // sp_sugg: fetch_trees.py
     case "species_lang_only": return T[i](String(p.sp_lang || "").split("\n").join(", "));   // sp_lang: righe "species:xx=valore"
-    case "wikidata_not_taxon": return String(p.nt_tags || "").split(";").map(kv => T[i](kv)).join("; ");   // nt_tags, tx_wd: fetch_trees.py
-    case "wikidata_is_taxon": return String(p.tx_wd || "").split(";").map(q => T[i](q)).join("; ");
+    case "wikidata_not_taxon": return String(p.nt_tags || "").split(";").map(kv => T[i](kv)).join("\n");   // nt_tags, tx_wd: fetch_trees.py
+    case "wikidata_is_taxon": return String(p.tx_wd || "").split(";").map(q => T[i](q)).join("\n");
     // wd_rank, wd_name: "chiave=QID:valore;…" (la chiave contiene già ":"); wd_tree_sp: "QID:nome;…" (fetch_trees.py)
     case "wikidata_rank": return wdParts(p.wd_rank).map(([k, q, r]) =>
-      T[i](`${k}=${q}`, T.ranks[r] || r, k === "species:wikidata" ? T.rankSpecies : T.rankGenus)).join("; ");
+      T[i](`${k}=${q}`, T.ranks[r] || r, k === "species:wikidata" ? T.rankSpecies : T.rankGenus)).join("\n");
     case "wikidata_name_mismatch": return wdParts(p.wd_name).map(([k, q, n]) =>
-      T[i](`${k}=${q}`, n, k === "species:wikidata" ? p.species : p.genus)).join("; ");
+      T[i](`${k}=${q}`, n, k === "species:wikidata" ? p.species : p.genus)).join("\n");
     case "wikidata_tree_species": return String(p.wd_tree_sp || "").split(";").map(x => { const j = x.indexOf(":");
-      return T[i](x.slice(0, j), x.slice(j + 1)); }).join("; ");
+      return T[i](x.slice(0, j), x.slice(j + 1)); }).join("\n");
     case "broken_link":          // bad_url: righe "chiave=valore (stato)" (fetch_trees.py)
       return String(p.bad_url || "").split("\n").filter(Boolean).map(x => { const m = /^(.*) \((\w+)\)$/.exec(x);
-        return m ? T[i](m[1], T.linkWhy[m[2]] || m[2]) : x; }).join("; ");
+        return m ? T[i](m[1], T.linkWhy[m[2]] || m[2]) : x; }).join("\n");
     case "wikidata_heritage": return T[i](p.wd_her_q, LANG === "it" ? p.wd_her_it : p.wd_her_en);
     case "wikidata_far":         // wd_far: "QID:km;…" (fetch_trees.py)
-      return String(p.wd_far || "").split(";").map(x => { const [q, km] = x.split(":"); return T[i](q, Number(km).toLocaleString(LOC)); }).join("; ");
+      return String(p.wd_far || "").split(";").map(x => { const [q, km] = x.split(":"); return T[i](q, Number(km).toLocaleString(LOC)); }).join("\n");
     case "undocumented_tag":     // tag_tree, tag_type: valori dei tag segnalati (fetch_trees.py)
-      return ["tree", "type"].filter(k => p["tag_" + k] != null).map(k => T[i](`${k}=${p["tag_" + k]}`)).join("; ");
+      return ["tree", "type"].filter(k => p["tag_" + k] != null).map(k => T[i](`${k}=${p["tag_" + k]}`)).join("\n");
     case "too_slender": case "too_stocky":   // hc_ratio, hc_circ: rapporto e circonferenza usata (fetch_trees.py)
       return T[i](fmtM(p.height), fmtM(p.hc_circ) + (p.diam_used ? L.fromDiameter : ""),
         Number(p.hc_ratio).toLocaleString(LOC, { maximumSignificantDigits: 3 }));
@@ -925,7 +925,7 @@ const issueBase = (i, p) => {
       return String(p.den_bad || "").split(";").map((v, k) => {
         const w = ws[k] || "";
         return w === "format" ? T.den_format(v) : w.startsWith("glued:") ? T.den_glued(v, w.slice(6)) : T.den_rare(v, fmtN(ns[k] || 0));
-      }).join("; ");
+      }).join("\n");
     }
     case "wikidata_mismatch": return p.exp_sp ? T.wikidata_other(p.sp_wd, p.exp_sp, p.species) : T.wikidata_expected(p.sp_wd, p.species, p.exp_wd);
     case "leaf_type_mismatch": return T[i](p.leaf_type, expFor(p), p.exp_lt);
@@ -1010,13 +1010,22 @@ function title(p) {
 }
 
 // voce "Modifica ▾" della scheda: un menu con la pagina del nodo e gli editor (pos = [lon, lat] dell'albero)
+// Tag del changeset quando si modifica da DendrOSM: hashtag e fonte (l'indirizzo del sito con la regione aperta)
+const SITE_URL = "https://ivanbranco.github.io/tree-osm-qa/";
+const CHANGESET_HASHTAG = "dendrosm";
+const changesetSource = () => SITE_URL + (hashSlug ? "#region=" + hashSlug : "");
+
 function osmMenu(p, pos) {
   const [lon, lat] = (pos || [0, 0]).map(v => Number(v).toFixed(6));
   const items = [
     [`https://www.openstreetmap.org/node/${p.id}`, L.osmPage],
-    [`https://www.openstreetmap.org/edit?editor=id&node=${p.id}`, L.editId],
-    // JOSM con il controllo remoto attivo: carica il nodo nell'editor già aperto
-    [`http://127.0.0.1:8111/load_object?objects=n${p.id}&relation_members=false`, L.editJosm],
+    // iD: hashtag e fonte finiscono nei tag del changeset (hashtags, source)
+    [`https://www.openstreetmap.org/edit?editor=id#id=n${p.id}&map=19/${lat}/${lon}`
+      + `&hashtags=${CHANGESET_HASHTAG}&source=${encodeURIComponent(changesetSource())}`, L.editId],
+    // JOSM con il controllo remoto attivo: carica la zona attorno all'albero nell'editor già aperto e lo seleziona
+    [`http://127.0.0.1:8111/load_and_zoom?left=${(+lon - 0.0005).toFixed(6)}&right=${(+lon + 0.0005).toFixed(6)}`
+      + `&bottom=${(+lat - 0.0003).toFixed(6)}&top=${(+lat + 0.0003).toFixed(6)}&select=n${p.id}`
+      + `&changeset_hashtags=${CHANGESET_HASHTAG}&changeset_source=${encodeURIComponent(changesetSource())}`, L.editJosm],
     [`https://mapcomplete.org/trees.html?z=19&lat=${lat}&lon=${lon}#node/${p.id}`, L.editMapComplete]];
   return `<details class="osm-menu"><summary>${L.editMenu} ▾</summary><div>${items.map(([u, t]) => link(u, t)).join("")}</div></details>`;
 }
@@ -1042,7 +1051,7 @@ function card(p, pos) {
       : /^Category:/.test(p.wikimedia_commons || "") ? `<img data-cat="${esc(p.wikimedia_commons)}" alt="" hidden onerror="this.remove()">` : ""}
     <dl>${rows}</dl>
     ${rec.map(x => `<div class="rec">${x}</div>`).join("")}
-    ${issues.length ? `<div class="bad">⚠ ${esc(issues.join("; "))}</div>` : ""}
+    ${issues.flatMap(x => x.split("\n")).map(x => `<div class="bad">⚠ ${esc(x)}</div>`).join("")}
     <div>${links.join(" · ")}</div></div>`;
 }
 </script>
