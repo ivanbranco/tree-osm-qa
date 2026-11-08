@@ -4,14 +4,31 @@ on:
   workflow_dispatch:
     inputs:
       region:
-        description: "Regione da aggiornare (all = tutte, italia = tutte le regioni italiane)"
+        description: "Regione da aggiornare (all = tutte; italia, polonia = tutte le regioni del paese)"
         type: choice
         default: all
         options:
           - all
           - italia
+          - polonia
           - bulgaria
           - lettonia
+          - dolnoslaskie
+          - kujawsko-pomorskie
+          - lubelskie
+          - lubuskie
+          - lodzkie
+          - malopolskie
+          - mazowieckie
+          - opolskie
+          - podkarpackie
+          - podlaskie
+          - pomorskie
+          - slaskie
+          - swietokrzyskie
+          - warminsko-mazurskie
+          - wielkopolskie
+          - zachodniopomorskie
           - piemonte
           - valle-d-aosta
           - lombardia
