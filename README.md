@@ -70,6 +70,8 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 
 Il sito è in italiano se la lingua del browser è l'italiano, altrimenti in inglese. Si cambia con IT · EN in alto nel pannello: la scelta resta salvata nel browser. Si può anche forzare dall'indirizzo, per esempio `#lang=en` oppure `#region=lombardia&lang=en`.
 
+Anche lo sfondo dipende dalla lingua: in italiano si usano le tessere "Carto (Italian)" di [Wikimedia Italia](https://tile.osmit.it/), con le etichette in italiano in tutto il mondo; nelle altre lingue quelle standard di openstreetmap.org.
+
 Tutti i testi sono nell'oggetto `I18N` all'inizio dello script in `index.html`: per aggiungere una lingua si copia uno dei due blocchi, lo si traduce e si aggiunge il codice a `LANGS`. Nomi delle regioni, tag e valori OSM non vengono tradotti.
 
 ## Regioni e dati

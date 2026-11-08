@@ -127,7 +127,8 @@ const parseMapHash = v => {
 // I valori possono essere funzioni (testi con parti variabili).
 const I18N = {
   it: {
-    pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente su GitHub", allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
+    pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente su GitHub",
+    osmAttribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>", allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
     scaleLow: "meno errori", scaleHigh: "più errori", tipErr: p => ` · ${p} con errori`,
     regionOpt: (name, n) => `${name} (${fmtN(n)} alberi)`,
     allTaxa: "Tutti i genus e le specie", unknown: "Sconosciuto", withSpecies: "Con species", genusGroup: "Genus", speciesGroup: "Specie",
@@ -211,7 +212,8 @@ const I18N = {
     stump: "Ceppo", stumpOf: b => `${b} (ceppo)`, unknownSpecies: "Specie sconosciuta",
   },
   en: {
-    pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code on GitHub", allRegions: "← All countries", chooseRegion: "Choose a region…",
+    pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code on GitHub",
+    osmAttribution: "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors", allRegions: "← All countries", chooseRegion: "Choose a region…",
     scaleLow: "fewer errors", scaleHigh: "more errors", tipErr: p => ` · ${p} with errors`,
     regionOpt: (name, n) => `${name} (${fmtN(n)} trees)`,
     allTaxa: "All genera and species", unknown: "Unknown", withSpecies: "With species", genusGroup: "Genus", speciesGroup: "Species",
@@ -339,9 +341,11 @@ const boundsP = getJSON("data/regions_boundaries.geojson").catch(() => null);
 
 const map = new maplibregl.Map({
   container: "map", center: [12.5, 42.0], zoom: 5, maxZoom: 21,
+  // sfondo: in italiano le tessere "Carto (Italian)" di Wikimedia Italia (etichette in italiano in tutto il mondo),
+  // nelle altre lingue quelle standard di openstreetmap.org
   style: { version: 8, sources: { osm: { type: "raster", tileSize: 256, maxzoom: 19,
-      tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-      attribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>" } },
+      tiles: [LANG === "it" ? "https://tile.osmit.it/tiles/carto/{z}/{x}/{y}.png" : "https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+      attribution: L.osmAttribution + (LANG === "it" ? " · tessere <a href='https://tile.osmit.it/'>Wikimedia Italia</a>" : "") } },
     layers: [{ id: "osm", type: "raster", source: "osm" }] }
 });
 // solo + e −: niente bussola, e la mappa non si ruota (senza bussola non si potrebbe raddrizzare)
