@@ -3,6 +3,7 @@
   "species_typo": ["Quercus virgiliana", "Myrtus communis"],
   "wikidata_mismatch": {
     "Platanus × hispanica": ["Q24853030"],
-    "Platanus × acerifolia": ["Q161374"]
+    "Platanus × acerifolia": ["Q161374"],
+    "Populus × euramericana": ["Q149622"]
   }
 }

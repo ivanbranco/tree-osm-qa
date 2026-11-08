@@ -198,16 +198,29 @@ def denotation_problems(t):
     return out
 
 
-# Elementi Wikidata che sono taxon: quelli con un nome scientifico (P225, "taxon name"). È molto più veloce del
-# controllo "istanza di taxon (Q16521) o di una sua sottoclasse" (37 s contro 4,5 s per 200 QID) e distingue
-# allo stesso modo specie, illustrazioni, frutti e alberi monumentali. Le risposte restano in
-# data/wikidata_taxon.json ({"Q…": true|false}): a ogni aggiornamento si interrogano solo i QID nuovi.
-# Se Wikidata non risponde, i QID restano sconosciuti e i check relativi non scattano.
-TAXON_FILE = DATA / "wikidata_taxon.json"
-TAXON = load_json(TAXON_FILE)
+# --- Wikidata: due cache, a ogni aggiornamento si interrogano solo i QID nuovi; se Wikidata non risponde i QID
+# restano sconosciuti e i check relativi non scattano. Un elemento è un taxon se ha un nome scientifico (P225): è molto
+# più veloce del controllo "istanza di taxon (Q16521) o di una sua sottoclasse" (37 s contro 4,5 s per 200 QID) e
+# distingue allo stesso modo specie, illustrazioni, frutti e alberi monumentali. I QID reindirizzati (owl:sameAs) si
+# seguono.
+# data/wikidata_items.json, elementi di wikidata=* (i singoli alberi): {"Q…": {"taxon": bool, "coords": [[lon, lat]…]
+#   (P625), "image": file di Commons (P18), "taxa": [QID di P10241 "individuo del taxon"], "heritage": [[etichetta it,
+#   etichetta en] di P1435 "tutela"], "wp": {"it": url, "en": url} (voci di Wikipedia)}}
+# data/wikidata_taxa.json, elementi di species:wikidata, genus:wikidata e delle specie di P10241: {"Q…": {"taxon": bool,
+#   "names": [P225 nome scientifico], "ranks": [QID di P105 rango], "it": etichetta, "en": etichetta}}
+WD_ITEMS_FILE = DATA / "wikidata_items.json"
+WD_ITEMS = load_json(WD_ITEMS_FILE)
+WD_TAXA_FILE = DATA / "wikidata_taxa.json"
+# le voci scritte prima dell'unificazione delle cache non hanno "taxon": si richiedono di nuovo una volta
+WD_TAXA = {q: v for q, v in load_json(WD_TAXA_FILE).items() if "taxon" in v}
 WDQS_URL = "https://query.wikidata.org/sparql"
-TAXON_KEYS = ("species:wikidata", "genus:wikidata", "wikidata")
-TAXON_BATCH = 200
+WD_BATCH = 200
+WD_MAX_DIST = 1000   # m: oltre, l'albero è "lontano" dall'elemento Wikidata collegato (nei dati il massimo è ~0,7 km)
+POINT = re.compile(r"Point\(([-\d.eE]+) ([-\d.eE]+)\)")
+WP_SITES = {"it": "https://it.wikipedia.org/", "en": "https://en.wikipedia.org/"}
+# ranghi (P105): species:wikidata non deve puntare a un genere o più su, genus:wikidata non a una specie o più giù
+RANK_GENUS_OR_ABOVE = {"Q34740", "Q3238261", "Q3181348", "Q5998839", "Q3025161", "Q227936", "Q164280", "Q35409", "Q36602"}
+RANK_SPECIES_OR_BELOW = {"Q7432", "Q68947", "Q767728", "Q279749"}
 
 
 def qids(t, key):
@@ -215,12 +228,12 @@ def qids(t, key):
     return [x.strip() for x in str(t.get(key, "")).split(";") if WIKIDATA.match(x.strip())]
 
 
-# Coordinate (P625) degli elementi di wikidata=*, per il check sulla distanza: data/wikidata_coords.json
-# ({"Q…": [[lon, lat], …]}, lista vuota se l'elemento non ha coordinate). Come per i taxon, solo i QID nuovi.
-COORDS_FILE = DATA / "wikidata_coords.json"
-COORDS = load_json(COORDS_FILE)
-WD_MAX_DIST = 1000   # m: oltre, l'albero è "lontano" dall'elemento Wikidata collegato (nei dati il massimo è ~0,7 km)
-POINT = re.compile(r"Point\(([-\d.eE]+) ([-\d.eE]+)\)")
+def taxon_status(q):
+    """True se l'elemento è un taxon, False se non lo è, None se non è ancora stato verificato."""
+    for cache in (WD_TAXA, WD_ITEMS):
+        if q in cache:
+            return cache[q].get("taxon")
+    return None
 
 
 def wdqs(sparql):
@@ -232,10 +245,10 @@ def wdqs(sparql):
 
 
 def ask_wikidata(todo, query, store, label):
-    """Interroga Wikidata a blocchi di TAXON_BATCH QID: query(batch) dà lo SPARQL, store(batch, righe) salva.
+    """Interroga Wikidata a blocchi di WD_BATCH QID: query(batch) dà lo SPARQL, store(batch, righe) salva.
     Se Wikidata non risponde si ferma: i QID rimasti si verificano al prossimo aggiornamento."""
-    for i in range(0, len(todo), TAXON_BATCH):
-        batch = todo[i:i + TAXON_BATCH]
+    for i in range(0, len(todo), WD_BATCH):
+        batch = todo[i:i + WD_BATCH]
         try:
             store(batch, wdqs(query(" ".join("wd:" + q for q in batch))))
         except Exception as e:
@@ -244,117 +257,79 @@ def ask_wikidata(todo, query, store, label):
         time.sleep(1)
 
 
-def store_taxa(batch, rows):
-    taxa = {b["item"]["value"].rsplit("/", 1)[-1] for b in rows}
-    TAXON.update({q: q in taxa for q in batch})
-
-
-def store_coords(batch, rows):
-    found = {}
-    for b in rows:
-        m = POINT.search(b["coord"]["value"])
-        if m:
-            found.setdefault(b["item"]["value"].rsplit("/", 1)[-1], []).append([float(m.group(1)), float(m.group(2))])
-    COORDS.update({q: found.get(q, []) for q in batch})
-
-
-# Immagine (P18, un file di Commons) degli elementi di wikidata=*: data/wikidata_images.json ({"Q…": "Nome.jpg"},
-# stringa vuota se l'elemento non ha immagine). Serve alla scheda quando l'albero non ha altre immagini.
-IMAGES_FILE = DATA / "wikidata_images.json"
-IMAGES = load_json(IMAGES_FILE)
-
-
-def store_images(batch, rows):
-    found = {}
-    for b in rows:   # il valore è un indirizzo .../Special:FilePath/<nome file codificato>
-        found.setdefault(b["item"]["value"].rsplit("/", 1)[-1], unquote(b["img"]["value"].rsplit("/", 1)[-1]))
-    IMAGES.update({q: found.get(q, "") for q in batch})
-
-
-# Elementi dei singoli alberi (wikidata=*): data/wikidata_trees.json, {"Q…": {"taxa": [QID di P10241 "individuo del
-# taxon"], "heritage": [[etichetta it, etichetta en] di P1435 "tutela"], "wp": {"it": url, "en": url} (Wikipedia)}}.
-WD_TREES_FILE = DATA / "wikidata_trees.json"
-WD_TREES = load_json(WD_TREES_FILE)
-# Elementi delle specie e dei generi (species:wikidata, genus:wikidata e le specie di P10241):
-# data/wikidata_taxa.json, {"Q…": {"names": [P225 nome scientifico], "ranks": [QID di P105 rango], "it": etichetta,
-# "en": etichetta}}.
-WD_TAXA_FILE = DATA / "wikidata_taxa.json"
-WD_TAXA = load_json(WD_TAXA_FILE)
-WP_SITES = {"it": "https://it.wikipedia.org/", "en": "https://en.wikipedia.org/"}
-# ranghi (P105): species:wikidata non deve puntare a un genere o più su, genus:wikidata non a una specie o più giù
-RANK_GENUS_OR_ABOVE = {"Q34740", "Q3238261", "Q3181348", "Q5998839", "Q3025161", "Q227936", "Q164280", "Q35409", "Q36602"}
-RANK_SPECIES_OR_BELOW = {"Q7432", "Q68947", "Q767728", "Q279749"}
-
-
 def qid_of(b, var):
     return b[var]["value"].rsplit("/", 1)[-1]
 
 
-def store_trees(batch, rows):
-    found = {q: {"taxa": [], "heritage": [], "wp": {}} for q in batch}
+def add(lst, v):
+    if v not in lst:
+        lst.append(v)
+
+
+def store_items(batch, rows):
+    found = {q: {"taxon": False, "coords": [], "image": "", "taxa": [], "heritage": [], "wp": {}} for q in batch}
     for b in rows:
         e = found[qid_of(b, "item")]
-        if "taxon" in b and qid_of(b, "taxon") not in e["taxa"]:
-            e["taxa"].append(qid_of(b, "taxon"))
+        e["taxon"] = e["taxon"] or "name" in b
+        if "coord" in b and (m := POINT.search(b["coord"]["value"])):
+            add(e["coords"], [float(m.group(1)), float(m.group(2))])
+        if "img" in b and not e["image"]:   # indirizzo .../Special:FilePath/<nome file codificato>
+            e["image"] = unquote(b["img"]["value"].rsplit("/", 1)[-1])
+        if "taxon" in b:
+            add(e["taxa"], qid_of(b, "taxon"))
         if "her" in b:
-            label = [b.get("herIt", b.get("herEn", {})).get("value", qid_of(b, "her")),
-                     b.get("herEn", b.get("herIt", {})).get("value", qid_of(b, "her"))]
-            if label not in e["heritage"]:
-                e["heritage"].append(label)
+            add(e["heritage"], [b.get("herIt", b.get("herEn", {})).get("value", qid_of(b, "her")),
+                                b.get("herEn", b.get("herIt", {})).get("value", qid_of(b, "her"))])
         for lang in WP_SITES:
             if "wp" + lang in b:
                 e["wp"][lang] = b["wp" + lang]["value"]
-    WD_TREES.update(found)
+    WD_ITEMS.update(found)
 
 
 def store_taxa_info(batch, rows):
-    found = {q: {"names": [], "ranks": []} for q in batch}
+    found = {q: {"taxon": False, "names": [], "ranks": []} for q in batch}
     for b in rows:
         e = found[qid_of(b, "item")]
-        if "name" in b and b["name"]["value"] not in e["names"]:
-            e["names"].append(b["name"]["value"])
-        if "rank" in b and qid_of(b, "rank") not in e["ranks"]:
-            e["ranks"].append(qid_of(b, "rank"))
+        if "name" in b:
+            e["taxon"] = True
+            add(e["names"], b["name"]["value"])
+        if "rank" in b:
+            add(e["ranks"], qid_of(b, "rank"))
         for lang in ("it", "en"):
             if lang in b:
                 e[lang] = b[lang]["value"]
     WD_TAXA.update(found)
 
 
+# percorso che segue anche i QID reindirizzati (owl:sameAs)
+def wd_prop(p):
+    return f"(wdt:{p}|owl:sameAs/wdt:{p})"
+
+
 def update_wikidata_cache(elements):
-    """Chiede a Wikidata, per i QID usati e non ancora in cache: se sono taxon (species:wikidata, genus:wikidata,
-    wikidata); per wikidata coordinate, immagine, specie (P10241), tutela (P1435) e voci di Wikipedia; per le specie
-    nome scientifico, rango ed etichette. Aggiorna e salva le cache."""
+    """Chiede a Wikidata i dati dei QID usati e non ancora in cache: per wikidata=* (alberi) se è un taxon,
+    coordinate, immagine, specie (P10241), tutela (P1435) e voci di Wikipedia; per species:wikidata, genus:wikidata e
+    le specie di P10241 nome scientifico, rango ed etichette. Aggiorna e salva le due cache."""
     tags = [el.get("tags", {}) for el in elements]
     wd = {q for t in tags for q in qids(t, "wikidata")}
-    todo_taxa = sorted({q for t in tags for k in TAXON_KEYS for q in qids(t, k)} - TAXON.keys())
-    todo_coords = sorted(wd - COORDS.keys())
-    todo_images = sorted(wd - IMAGES.keys())
-    todo_trees = sorted(wd - WD_TREES.keys())
-    # owl:sameAs: QID reindirizzati a un altro elemento
-    ask_wikidata(todo_taxa, lambda v: "SELECT DISTINCT ?item WHERE { VALUES ?item { " + v + " } "
-                 "{ ?item wdt:P225 [] } UNION { ?item owl:sameAs/wdt:P225 [] } }", store_taxa, "taxon")
-    ask_wikidata(todo_coords, lambda v: "SELECT ?item ?coord WHERE { VALUES ?item { " + v + " } "
-                 "{ ?item wdt:P625 ?coord } UNION { ?item owl:sameAs/wdt:P625 ?coord } }", store_coords, "coordinate")
-    ask_wikidata(todo_images, lambda v: "SELECT ?item ?img WHERE { VALUES ?item { " + v + " } "
-                 "{ ?item wdt:P18 ?img } UNION { ?item owl:sameAs/wdt:P18 ?img } }", store_images, "immagini")
-    ask_wikidata(todo_trees, lambda v: "SELECT ?item ?taxon ?her ?herIt ?herEn ?wpit ?wpen WHERE { VALUES ?item { "
-                 + v + " } OPTIONAL { ?item wdt:P10241 ?taxon } "
+    todo_items = sorted(wd - WD_ITEMS.keys())
+    ask_wikidata(todo_items, lambda v: "SELECT ?item ?name ?coord ?img ?taxon ?her ?herIt ?herEn ?wpit ?wpen WHERE { "
+                 "VALUES ?item { " + v + " } "
+                 f"OPTIONAL {{ ?item {wd_prop('P225')} ?name }} OPTIONAL {{ ?item {wd_prop('P625')} ?coord }} "
+                 f"OPTIONAL {{ ?item {wd_prop('P18')} ?img }} OPTIONAL {{ ?item wdt:P10241 ?taxon }} "
                  "OPTIONAL { ?item wdt:P1435 ?her . OPTIONAL { ?her rdfs:label ?herIt FILTER(LANG(?herIt) = 'it') } "
                  "OPTIONAL { ?her rdfs:label ?herEn FILTER(LANG(?herEn) = 'en') } } "
                  "OPTIONAL { ?wpit schema:about ?item ; schema:isPartOf <" + WP_SITES["it"] + "> } "
                  "OPTIONAL { ?wpen schema:about ?item ; schema:isPartOf <" + WP_SITES["en"] + "> } }",
-                 store_trees, "alberi")
+                 store_items, "alberi")
     # specie: quelle dei tag e quelle indicate da P10241 degli alberi
-    todo_info = sorted(({q for t in tags for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k)}
-                        | {x for q in wd for x in WD_TREES.get(q, {}).get("taxa", [])}) - WD_TAXA.keys())
-    ask_wikidata(todo_info, lambda v: "SELECT ?item ?name ?rank ?it ?en WHERE { VALUES ?item { " + v + " } "
-                 "OPTIONAL { ?item wdt:P225 ?name } OPTIONAL { ?item wdt:P105 ?rank } "
+    todo_taxa = sorted(({q for t in tags for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k)}
+                        | {x for q in wd for x in WD_ITEMS.get(q, {}).get("taxa", [])}) - WD_TAXA.keys())
+    ask_wikidata(todo_taxa, lambda v: "SELECT ?item ?name ?rank ?it ?en WHERE { VALUES ?item { " + v + " } "
+                 f"OPTIONAL {{ ?item {wd_prop('P225')} ?name }} OPTIONAL {{ ?item {wd_prop('P105')} ?rank }} "
                  "OPTIONAL { ?item rdfs:label ?it FILTER(LANG(?it) = 'it') } "
                  "OPTIONAL { ?item rdfs:label ?en FILTER(LANG(?en) = 'en') } }", store_taxa_info, "specie")
-    for todo, path, cache in ((todo_taxa, TAXON_FILE, TAXON), (todo_coords, COORDS_FILE, COORDS),
-                              (todo_images, IMAGES_FILE, IMAGES), (todo_trees, WD_TREES_FILE, WD_TREES),
-                              (todo_info, WD_TAXA_FILE, WD_TAXA)):
+    for todo, path, cache in ((todo_items, WD_ITEMS_FILE, WD_ITEMS), (todo_taxa, WD_TAXA_FILE, WD_TAXA)):
         if todo:
             path.write_text(json.dumps(cache, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
 
@@ -407,9 +382,9 @@ def wikidata_tree_species(t):
     sw, sp = qids(t, "species:wikidata"), (t.get("species") or "").strip()
     own = {binomial(n) for q2 in sw for n in taxon_names(q2)} | ({binomial(sp)} if sp and ";" not in sp else set())
     for q in qids(t, "wikidata"):
-        taxa = WD_TREES.get(q, {}).get("taxa", [])
+        taxa = WD_ITEMS.get(q, {}).get("taxa", [])
         names = [n for tx in taxa for n in taxon_names(tx)]
-        if TAXON.get(q) is True or not names or set(sw) & set(taxa) or not own:
+        if taxon_status(q) is True or not names or set(sw) & set(taxa) or not own:
             continue
         if not own & {binomial(n) for n in names}:
             out.append((q, names[0]))
@@ -421,8 +396,8 @@ def wikidata_heritage(t):
     denotation=natural_monument."""
     if "natural_monument" in [x.strip() for x in str(t.get("denotation", "")).split(";")]:
         return []
-    return [(q, WD_TREES[q]["heritage"][0]) for q in qids(t, "wikidata")
-            if TAXON.get(q) is not True and WD_TREES.get(q, {}).get("heritage")]
+    return [(q, WD_ITEMS[q]["heritage"][0]) for q in qids(t, "wikidata")
+            if taxon_status(q) is not True and WD_ITEMS.get(q, {}).get("heritage")]
 
 
 def wikidata_extras(t):
@@ -436,7 +411,7 @@ def wikidata_extras(t):
             if label and binomial(label) != binomial(sp) and binomial(label) not in {binomial(n) for n in taxon_names(q)}:
                 p["sp_" + lang] = label
     for q in qids(t, "wikidata")[:1]:
-        for lang, url in WD_TREES.get(q, {}).get("wp", {}).items():
+        for lang, url in WD_ITEMS.get(q, {}).get("wp", {}).items():
             p["wp_" + lang] = url
     return p
 
@@ -526,6 +501,35 @@ def update_url_cache(elements):
         URL_FILE.write_text(json.dumps(URL_STATUS, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+# Autore e licenza delle foto di Fotoshi (image:fotoshi): dalla descrizione della pagina della foto
+# ("… · Photo by @utente · CC BY 4.0"). Il sito non può leggerla direttamente (Fotoshi non permette le richieste
+# da altri siti), quindi si legge qui e resta in data/fotoshi.json ({"<id>": {"author": …, "license": …}}).
+FOTOSHI_FILE = DATA / "fotoshi.json"
+FOTOSHI = load_json(FOTOSHI_FILE)
+FOTOSHI_ID = re.compile(r"^[A-Za-z0-9_-]{10,}$")
+FOTOSHI_CREDIT = re.compile(r"Photo by\s+([^·<\"]+?)\s*·\s*([^<\"]+?)\s*\"")
+
+
+def update_fotoshi_cache(elements):
+    """Legge autore e licenza delle foto di Fotoshi non ancora in cache; aggiorna e salva data/fotoshi.json."""
+    ids = sorted({t["image:fotoshi"].strip() for t in (el.get("tags", {}) for el in elements)
+                  if FOTOSHI_ID.match(t.get("image:fotoshi", "").strip())} - FOTOSHI.keys())
+    for pid in ids:
+        try:
+            r = requests.get(f"https://fotoshi.com/photo/{pid}", headers=HEADERS, timeout=30)
+            if r.status_code == 404:
+                FOTOSHI[pid] = {}
+                continue
+            r.raise_for_status()
+            m = FOTOSHI_CREDIT.search(r.text)
+            FOTOSHI[pid] = {"author": m.group(1), "license": m.group(2)} if m else {}
+        except Exception as e:
+            warn(f"Fotoshi non risponde ({str(e)[:120]}): {pid} resta da leggere")
+        time.sleep(URL_PAUSE)
+    if ids:
+        FOTOSHI_FILE.write_text(json.dumps(FOTOSHI, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
 def broken_links(t):
     """[(chiave, valore, stato)] dei link sicuramente rotti dell'albero."""
     out = [(k, u, URL_STATUS[u]["s"]) for k, u in link_urls(t) if URL_STATUS.get(u, {}).get("s") in URL_BROKEN]
@@ -538,8 +542,8 @@ def wikidata_image(t):
     """File di Commons dell'immagine (P18) dell'elemento di wikidata=*, se non è un taxon (sarebbe la foto della
     specie, non dell'albero); None se manca."""
     for q in qids(t, "wikidata"):
-        if TAXON.get(q) is not True and IMAGES.get(q):
-            return IMAGES[q]
+        if taxon_status(q) is not True and WD_ITEMS.get(q, {}).get("image"):
+            return WD_ITEMS[q]["image"]
     return None
 
 
@@ -555,9 +559,10 @@ def wikidata_far(t, pos):
     dall'albero; se l'elemento ha più coordinate conta la più vicina."""
     out = []
     for q in qids(t, "wikidata"):
-        if TAXON.get(q) is True or not COORDS.get(q):
+        coords = WD_ITEMS.get(q, {}).get("coords")
+        if taxon_status(q) is True or not coords:
             continue
-        d = min(distance_m(pos, c) for c in COORDS[q])
+        d = min(distance_m(pos, c) for c in coords)
         if d > WD_MAX_DIST:
             out.append((q, round(d / 1000, 2)))
     return out
@@ -565,12 +570,12 @@ def wikidata_far(t, pos):
 
 def not_taxon_tags(t):
     """species:wikidata e genus:wikidata che puntano a un elemento che non è un taxon: [(chiave, QID)]."""
-    return [(k, q) for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k) if TAXON.get(q) is False]
+    return [(k, q) for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k) if taxon_status(q) is False]
 
 
 def taxon_wikidata(t):
     """QID di wikidata=* che sono taxon (wikidata dovrebbe indicare il singolo albero)."""
-    return [q for q in qids(t, "wikidata") if TAXON.get(q) is True]
+    return [q for q in qids(t, "wikidata") if taxon_status(q) is True]
 
 
 CYCLE_GROUP = {"deciduous": "d", "semi_deciduous": "d", "evergreen": "e", "semi_evergreen": "e"}
@@ -689,14 +694,16 @@ def species_list_mismatches(t):
         exp_lc = [ref["leaf_cycle"]] if ref.get("leaf_cycle") else []
     else:
         g = genus_ref(t)
-        exp_for, exp_lt, exp_lc = (f"il genere {g[0]}", g[1].get("leaf_type"), g[1].get("leaf_cycle") or []) if g else (None, None, [])
+        exp_for, exp_lt, exp_lc = (g[0], g[1].get("leaf_type"), g[1].get("leaf_cycle") or []) if g else (None, None, [])
+        if g:
+            props["exp_genus"] = True   # exp_for è un genere: il sito scrive "il genere X" / "the genus X"
     lt, lc = t.get("leaf_type"), t.get("leaf_cycle")
     if exp_for and lt in LEAF_TYPE and exp_lt and not type_ok(lt, exp_lt):
         issues.append("leaf_type_mismatch")
         props.update(exp_lt=exp_lt, exp_for=exp_for)
     if exp_for and lc in LEAF_CYCLE and exp_lc and not cycle_ok(lc, exp_lc):
         issues.append("leaf_cycle_mismatch")
-        props.update(exp_lc=" o ".join(exp_lc), exp_for=exp_for)
+        props.update(exp_lc=";".join(exp_lc), exp_for=exp_for)   # più cicli separati da ";": li unisce il sito
     return issues, props
 
 
@@ -845,6 +852,41 @@ def species_unidentified(sp):
     return m.group(2) if m else None
 
 
+EQ_KEYS = ("species", "genus", "taxon", "name", "start_date", "ref:masaf", "ref:rami")   # check tag_in_value
+SCI_NAME = re.compile(r"^(×\s*)?[A-Z][a-zë-]+\s+(×\s*)?[a-zë-]+$")   # forma di un nome scientifico: Genere epiteto
+
+
+def species_common_name(sp):
+    """Se species non ha la forma di un nome scientifico perché la seconda parola è maiuscola (nomi comuni come
+    "Black Matipo", "Pino Marittimo", cultivar senza virgolette come "Malus Golden Hornet"):
+    il nome scientifico se è scritto tra parentesi ("Black Matipo (Pittosporum tenuifolium)"), altrimenti "".
+    None se species ha la forma di un nome scientifico. Le cultivar tra virgolette e gli autori non contano."""
+    if not sp or ";" in sp:
+        return None
+    words = [w for w in sp.split() if w != "×"]
+    if len(words) < 2:
+        return None                              # una parola sola: c'è già il check apposito
+    second = words[1]
+    if not second[:1].isupper() or second[:1] in "'‘`\"“(" or AUTHOR.match(second):
+        return None
+    m = re.search(r"\(([^)]*)\)", sp)
+    return m.group(1).strip() if m and SCI_NAME.match(m.group(1).strip()) else ""
+
+
+def species_epithet_case(sp):
+    """Se species è un nome scientifico scritto con l'epiteto maiuscolo: il nome corretto. Vale per i nomi della
+    lista ("Catalpa Bignonioides" -> "Catalpa bignonioides") e per i nomi di due parole con un genere noto
+    ("Wisteria Sinensis" -> "Wisteria sinensis"); altrimenti None."""
+    if species_common_name(sp) is None:
+        return None
+    if binomial(sp) in SPECIES_BIN:
+        return SPECIES_BIN[binomial(sp)]
+    words = [w for w in sp.split() if w != "×"]
+    if len(words) == 2 and words[0].casefold() in KNOWN_GENERA:
+        return f"{words[0]} {words[1].lower()}"
+    return None
+
+
 def species_without_author(sp):
     """species senza l'autore del nome, se c'è (es. "Camellia sinensis (L.) Kuntze" -> "Camellia sinensis");
     restano genere, epiteto, i ranghi infraspecifici (var., subsp. …) e le cultivar tra virgolette. None se non c'è
@@ -937,25 +979,38 @@ def checks(t, pos):
         flag("too_slender", hc_ratio=round(r, 3), hc_circ=round(c, 2))
     if r is not None and r < STOCKY_MIN and not {"circumference", "circumference_species"} & set(issues):
         flag("too_stocky", hc_ratio=round(r, 3), hc_circ=round(c, 2))
+    # un tag scritto dentro un valore (es. genus=leaf_type=broadleaved); i link (image, website, url) non contano,
+    # perché negli indirizzi "=" è normale. Con "=" in species i check sulla sua forma non si ripetono
+    if eq := [k for k in EQ_KEYS if "=" in str(t.get(k, ""))]:
+        flag("tag_in_value", eq_keys=";".join(eq))
     sp = t.get("species")
-    if sp is not None and len(sp.split()) == 1:
+    spf = None if "species" in eq else sp             # species per i check sulla forma del nome
+    if spf is not None and len(spf.split()) == 1:
         flag("species")
-    if sp is not None and sp.strip()[:1].islower():
+    if spf is not None and spf.strip()[:1].islower():
         flag("species_lowercase")
-    if sp and (g_un := species_unidentified(sp)):
+    if spf and (g_un := species_unidentified(spf)):
         flag("species_unidentified", sp_genus=g_un)
-    if sp and (no_auth := species_without_author(sp)):
+    if spf and (ec := species_epithet_case(spf)):                # nome della lista con l'epiteto maiuscolo
+        flag("species_epithet_case", sp_sci=ec)
+    elif spf and (common := species_common_name(spf)) is not None:  # "" se non c'è un nome scientifico da proporre
+        flag("species_common_name", **({"sp_sci": common} if common else {}))
+    if spf and (no_auth := species_without_author(spf)):
         flag("species_author", sp_clean=no_auth)
-    if und := [k for k in ("species", "genus") if "_" in str(t.get(k, ""))]:
+    # nessun nome scientifico contiene parentesi; non si ripete se le spiegano già l'autore o il nome comune
+    if spf and ("(" in spf or ")" in spf) and not {"species_author", "species_common_name"} & set(issues):
+        flag("species_parentheses")
+    if und := [k for k in ("species", "genus") if "_" in str(t.get(k, "")) and k not in eq]:
         flag("underscore", und_keys=";".join(und))
-    if sp and SPECIES_BIN and (typo := species_typo(sp)):
+    if spf and SPECIES_BIN and (typo := species_typo(spf)):
         flag("species_typo", sp_sugg=typo)
     if lang := species_lang_only(t):    # "species:it=Leccio" separati da "\n" (i valori possono contenere ";")
         flag("species_lang_only", sp_lang="\n".join(f"{k}={v}" for k, v in lang))
     g = t.get("genus")
-    if g is not None and len(g.split()) > 1:
+    gf = None if "genus" in eq else g                 # genus per i check sulla forma del nome
+    if gf is not None and len(gf.split()) > 1:
         flag("genus")
-    if g is not None and g.strip()[:1].islower():
+    if gf is not None and gf.strip()[:1].islower():
         flag("genus_lowercase")
     if "leaf_type" in t and t["leaf_type"] not in LEAF_TYPE:
         flag("leaf_type")
@@ -1090,6 +1145,8 @@ def to_feature(el):
             p["lc"] = est
     if wd_img := wikidata_image(t):   # per la scheda, se l'albero non ha altre immagini
         p["wd_img"] = wd_img
+    if (fs := FOTOSHI.get(t.get("image:fotoshi", "").strip())) and fs.get("author"):   # crediti della foto
+        p["fs_author"], p["fs_license"] = fs["author"], fs.get("license", "")
     iss, props = checks(t, [el["lon"], el["lat"]])
     # nome comune della specie e voci di Wikipedia, per la scheda; il nome comune solo se species:wikidata è corretto
     extras = wikidata_extras(t)
@@ -1106,6 +1163,22 @@ def build(data):
     feats = [to_feature(e) for e in data["elements"] if e.get("type") == "node"]
     feats.sort(key=lambda f: f["properties"]["id"])  # ordine stabile: se i dati non cambiano, il file resta identico
     return {"type": "FeatureCollection", "features": feats}
+
+
+def write_gz(path, raw):
+    """Scrive un file .gz identico se i dati sono identici (mtime=0, nessun nome di file)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "wb") as fh:
+        with gzip.GzipFile(filename="", mode="wb", fileobj=fh, compresslevel=9, mtime=0) as gz:
+            gz.write(raw)
+
+
+def minimal(fc):
+    """File ridotto per il caricamento in due fasi: solo gli alberi visibili a zoom basso (con errori o
+    monumentali). Il sito lo carica e lo mostra subito, mentre il file completo si carica in secondo piano."""
+    feats = [f for f in fc["features"] if f["properties"]["issues"] != "|"
+             or "natural_monument" in str(f["properties"].get("denotation", "")).split(";")]
+    return json.dumps({"type": "FeatureCollection", "features": feats}, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
 
 def update_region(region, regions_index):
@@ -1132,18 +1205,21 @@ def update_region(region, regions_index):
         return True
     update_wikidata_cache(data["elements"])   # prima dei check: servono ai check su Wikidata (taxon e distanza)
     update_url_cache(data["elements"])        # e al check sui link rotti
+    update_fotoshi_cache(data["elements"])    # autore e licenza delle foto di Fotoshi, per la scheda
     fc = build(data)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     digest = hashlib.sha1(raw).hexdigest()
     errors = sum(1 for f in fc["features"] if f["properties"]["issues"] != "|")  # alberi con almeno un errore
+    min_path = OUT_DIR / f"{slug}.min.geojson.gz"
     if regions_index.get(slug, {}).get("sha1") == digest and path.exists():
         regions_index[slug]["errors"] = errors  # per gli indici scritti prima che esistesse il conteggio
+        if not min_path.exists():               # regioni scaricate prima che esistesse il file ridotto
+            write_gz(min_path, minimal(fc))
         print(f"{slug}: nessuna modifica ({len(fc['features'])} alberi)")
         return True
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    with open(path, "wb") as fh:  # mtime=0 e filename vuoto: file identico se i dati sono identici
-        with gzip.GzipFile(filename="", mode="wb", fileobj=fh, compresslevel=9, mtime=0) as gz:
-            gz.write(raw)
+    write_gz(path, raw)
+    write_gz(min_path, minimal(fc))
     regions_index[slug] = {"name": region["name"], "count": len(fc["features"]), "errors": errors,
                            "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "sha1": digest}
     print(f"{slug}: {len(fc['features'])} alberi -> {path} ({path.stat().st_size / 1e6:.1f} MB)")

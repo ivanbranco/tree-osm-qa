@@ -46,10 +46,18 @@
   #gh:hover{color:#222}
   #panel label{display:block;margin:2px 0}
   #panel select{width:100%;margin-bottom:6px}
+  #issue-row{display:flex;gap:4px;margin-bottom:6px}
+  #panel #issue-row select{margin-bottom:0;min-width:0;flex:1}
+  #dl{flex:none;display:flex;align-items:center;padding:0 6px;cursor:pointer;color:#333}
+  #dl[hidden]{display:none}
   #count{color:#555;margin-top:6px;font-size:12px}
   .card{max-width:260px}
   .card h3{margin:0 0 4px;font-size:15px}
-  .card img{width:100%;border-radius:4px;margin:4px 0}
+  .card .photo{position:relative;margin:4px 0}
+  .card img{width:100%;border-radius:4px;display:block}
+  .card .credit{position:absolute;right:4px;bottom:4px;max-width:calc(100% - 8px);box-sizing:border-box;background:#000a;color:#fff;
+    font-size:10px;line-height:1.5;padding:0 5px;border-radius:3px;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .card .credit:empty{display:none}
   .card dl{margin:4px 0;display:grid;grid-template-columns:auto 1fr;gap:1px 8px}
   .card dt{color:#666}.card dd{margin:0}
   .bad{color:#b00020;font-weight:600}
@@ -70,7 +78,7 @@
   <select id="region" autocomplete="off"></select>
   <button id="overview" type="button" hidden data-i18n="allRegions">← Tutte le regioni</button>
   <select id="taxon" autocomplete="off"><option value="" data-i18n="allTaxa">Tutti i genus e le specie</option></select>
-  <select id="issue" autocomplete="off"><option value="" data-i18n="allIssues">Tutti gli errori</option></select>
+  <div id="issue-row"><select id="issue" autocomplete="off"><option value="" data-i18n="allIssues">Tutti gli errori</option></select><button id="dl" type="button" hidden><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v9M4 6.5l4 4 4-4M2 14h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
   <div id="count"></div>
   <div id="scale" hidden><span data-i18n="scaleLow">meno errori</span><i></i><span data-i18n="scaleHigh">più errori</span></div>
   <div id="updated" class="note"></div>
@@ -145,6 +153,10 @@ const I18N = {
     regionOpt: (name, n) => `${name} (${fmtN(n)} alberi)`,
     allTaxa: "Tutti i genus e le specie", unknown: "Sconosciuto", withSpecies: "Con species", genusGroup: "Genus", speciesGroup: "Specie",
     allIssues: "Tutti gli errori",
+    allOfGroup: g => `Tutti gli errori di «${g}»`,
+    download: "Scarica questi errori di tutta la regione (GeoJSON)",
+    issueGroups: { size: "Misure", name: "Nome della specie e del genere", wikidata: "Wikidata",
+      links: "Link, fonti e monumentali", other: "Altri tag" },
     legend: "Legenda", legMonument: "Albero monumentale", legLandmark: "Landmark", legIssues: "Con problemi",
     legTrunk: "Tronco (circonferenza)", legTrunkEst: "Tronco stimato", legStump: "Ceppo", legBroad: "Latifoglia o palma",
     legNeedle: "Aghifoglia", legNoLeaf: "Tipo di foglia non specificato",
@@ -152,7 +164,7 @@ const I18N = {
     rank: "Classifica errori", rankNote: "Alberi con almeno un errore; tra parentesi la quota sul totale. Tocca una regione per aprirla.",
     rankEmpty: "Conteggi non ancora disponibili: lancia l'Action \"Aggiorna dati alberi\".",
     loadError: "Errore nel caricamento dei dati", noData: "Nessun dato: lancia l'Action di aggiornamento",
-    pickRegion: "Scegli una regione sulla mappa o dal menu", loading: name => `Caricamento di ${name}…`,
+    pickRegion: "Scegli una regione sulla mappa o dal menu", loadingAll: "caricamento di tutti gli alberi…", loading: name => `Caricamento di ${name}…`,
     countIssues: n => `Alberi problematici in vista: ${n} (ingrandisci per vedere i monumentali)`,
     countMid: n => `Problematici e monumentali in vista: ${n} (ingrandisci per vedere tutti)`,
     countAll: n => `Alberi in vista: ${n}`,
@@ -172,8 +184,9 @@ const I18N = {
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
       undocumented_tag: "Tag non documentato (tree, type)", circumference_species: "Circonferenza > limite della specie",
       height_species: "Altezza > limite della specie", species_typo: "Species forse scritta male",
-      species_unidentified: "Species non identificata (sp., spp.)", species_author: "Species con l'autore del nome",
-      underscore: "Trattino basso (_) in species o genus",
+      species_epithet_case: "Species con l'epiteto maiuscolo", species_common_name: "Species non scientifica (nome comune?)",
+      species_unidentified: "Species non identificata (sp., spp.)", species_parentheses: "Parentesi in species", species_author: "Species con l'autore del nome",
+      underscore: "Trattino basso (_) in species o genus", tag_in_value: "Tag scritto nel valore (=)",
       species_lang_only: "species:xx senza species",
       too_slender: "Albero troppo slanciato (altezza > 100 × circonferenza)", too_stocky: "Albero troppo tozzo (circonferenza > 3 × altezza)",
       species: "Species di una sola parola", genus: "Genus non valido",
@@ -197,8 +210,12 @@ const I18N = {
       crown: v => `diametro chioma ${v} > 60,4 m (record per un albero vivo a tronco singolo)`,
       species_typo: (sp, s) => `species=${sp} non è nella lista delle specie: forse ${s}?`,
       species_unidentified: (sp, g) => `species=${sp} indica una specie non identificata: usare genus=${g} senza species`,
+      species_epithet_case: (sp, s) => `species=${sp}: l'epiteto va minuscolo, species=${s}`,
+      species_parentheses: sp => `species=${sp} contiene parentesi, che nei nomi scientifici non ci sono`,
+      species_common_name: (sp, s) => `species=${sp} non ha la forma di un nome scientifico (Genere epiteto)` + (s ? `: species=${s}?` : ""),
       species_author: (sp, c) => `species=${sp} contiene l'autore del nome: species=${c}`,
       underscore: kv => `${kv} contiene un trattino basso (_) al posto dello spazio`,
+      tag_in_value: kv => `${kv} contiene "=": probabilmente un tag scritto nel valore`,
       species_lang_only: kv => `c'è ${kv} ma manca species=* (il nome scientifico)`,
       wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
       wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
@@ -249,6 +266,10 @@ const I18N = {
     regionOpt: (name, n) => `${name} (${fmtN(n)} trees)`,
     allTaxa: "All genera and species", unknown: "Unknown", withSpecies: "With species", genusGroup: "Genus", speciesGroup: "Species",
     allIssues: "All errors",
+    allOfGroup: g => `All "${g}" errors`,
+    download: "Download these errors for the whole region (GeoJSON)",
+    issueGroups: { size: "Measurements", name: "Species and genus name", wikidata: "Wikidata",
+      links: "Links, sources and monumental trees", other: "Other tags" },
     legend: "Legend", legMonument: "Monumental tree", legLandmark: "Landmark", legIssues: "With errors",
     legTrunk: "Trunk (circumference)", legTrunkEst: "Estimated trunk", legStump: "Stump", legBroad: "Broadleaved or palm",
     legNeedle: "Needleleaved", legNoLeaf: "Leaf type not specified",
@@ -256,7 +277,7 @@ const I18N = {
     rank: "Error ranking", rankNote: "Trees with at least one error; in brackets the share of the total. Tap a region to open it.",
     rankEmpty: "Counts not available yet: run the \"Aggiorna dati alberi\" Action.",
     loadError: "Error loading data", noData: "No data: run the update Action",
-    pickRegion: "Choose a region on the map or from the menu", loading: name => `Loading ${name}…`,
+    pickRegion: "Choose a region on the map or from the menu", loadingAll: "loading all trees…", loading: name => `Loading ${name}…`,
     countIssues: n => `Trees with errors in view: ${n} (zoom in to see monumental trees)`,
     countMid: n => `Trees with errors and monumental trees in view: ${n} (zoom in to see all)`,
     countAll: n => `Trees in view: ${n}`,
@@ -276,8 +297,9 @@ const I18N = {
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
       undocumented_tag: "Undocumented tag (tree, type)", circumference_species: "Circumference > species limit",
       height_species: "Height > species limit", species_typo: "Possibly misspelled species",
-      species_unidentified: "Unidentified species (sp., spp.)", species_author: "Species with the author name",
-      underscore: "Underscore (_) in species or genus",
+      species_epithet_case: "Species with uppercase epithet", species_common_name: "Non-scientific species (common name?)",
+      species_unidentified: "Unidentified species (sp., spp.)", species_parentheses: "Parentheses in species", species_author: "Species with the author name",
+      underscore: "Underscore (_) in species or genus", tag_in_value: "Tag written in the value (=)",
       species_lang_only: "species:xx without species",
       too_slender: "Tree too slender (height > 100 × circumference)", too_stocky: "Tree too stocky (circumference > 3 × height)",
       species: "Single-word species", genus: "Invalid genus",
@@ -301,8 +323,12 @@ const I18N = {
       crown: v => `crown diameter ${v} > 60.4 m (record for a living single-trunk tree)`,
       species_typo: (sp, s) => `species=${sp} is not in the species list: did you mean ${s}?`,
       species_unidentified: (sp, g) => `species=${sp} means an unidentified species: use genus=${g} without species`,
+      species_epithet_case: (sp, s) => `species=${sp}: the epithet should be lowercase, species=${s}`,
+      species_parentheses: sp => `species=${sp} contains parentheses, which scientific names never have`,
+      species_common_name: (sp, s) => `species=${sp} is not a scientific name (Genus epithet)` + (s ? `: species=${s}?` : ""),
       species_author: (sp, c) => `species=${sp} contains the author name: species=${c}`,
       underscore: kv => `${kv} contains an underscore (_) instead of a space`,
+      tag_in_value: kv => `${kv} contains "=": probably a tag written in the value`,
       species_lang_only: kv => `${kv} is present but species=* (the scientific name) is missing`,
       wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
       wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
@@ -413,7 +439,11 @@ map.on("load", async () => {
   const regionName = slug => { const m = metaBy[slug] || {}; return m["name_" + LANG] || m.name || (idx[slug] || {}).name || slug; };
   const regionGroup = slug => { const m = metaBy[slug] || {}; return m["group_" + LANG] || m.group; };
   let ALL = [], SHAPED = [], current = null;       // current = regione caricata (nessuna all'avvio)
+  let partial = false;                              // true finché del file della regione c'è solo la parte ridotta
+  // due sorgenti: "trees-min" con i soli alberi visibili a zoom basso (con errori e monumentali), che MapLibre prepara in
+  // un attimo, e "trees" con tutti gli alberi, che per le regioni grandi richiede decine di secondi e serve da zoom 10
   map.addSource("trees", { type: "geojson", data: EMPTY });
+  map.addSource("trees-min", { type: "geojson", data: EMPTY });
   const STROKE_COLOR = ["case",
     ["!=", ["get", "issues"], "|"], "#d00020",                 // errore: precedenza massima
     ["==", ["get", "denotation"], "natural_monument"], "#e6a800", // monumentale: oro
@@ -488,15 +518,17 @@ map.on("load", async () => {
   // Due livelli di layer: prima tutti gli alberi, poi i monumentali, che restano sopra agli altri
   const TREE = ["!", ["has", "stump"]];   // i ceppi (natural=tree_stump) hanno un layer a parte
   const MON = ["==", ["coalesce", ["get", "denotation"], ""], "natural_monument"];
-  const TIERS = [{ suf: "", cond: ["all", TREE, ["!", MON]], minZ: ALL_Z }, { suf: "-top", cond: ["all", TREE, MON], minZ: MON_Z }];
+  // i monumentali (livello "-top") stanno tutti nella sorgente ridotta
+  const TIERS = [{ suf: "", cond: ["all", TREE, ["!", MON]], minZ: ALL_Z, src: "trees" },
+    { suf: "-top", cond: ["all", TREE, MON], minZ: MON_Z, src: "trees-min" }];
   const DEFS = [
-    { id: "crown", spec: tier => ({ type: "circle", source: "trees", minzoom: tier.minZ, maxzoom: SHAPE_Z, paint: circlePaint() }) },
-    { id: "crown-plain", base: NOSHAPE, spec: () => ({ type: "circle", source: "trees", minzoom: SHAPE_Z, paint: circlePaint() }) },
+    { id: "crown", spec: tier => ({ type: "circle", source: tier.src, minzoom: tier.minZ, maxzoom: SHAPE_Z, paint: circlePaint() }) },
+    { id: "crown-plain", base: NOSHAPE, spec: tier => ({ type: "circle", source: tier.src, minzoom: SHAPE_Z, paint: circlePaint() }) },
     { id: "crown-poly", spec: () => ({ type: "fill", source: "shapes", paint: {
       "fill-color": CROWN_COLOR, "fill-opacity": FILL_OPACITY } }) },
     { id: "crown-poly-line", spec: () => ({ type: "line", source: "shapes", layout: { "line-join": "round" }, paint: {
       "line-color": STROKE_COLOR, "line-width": STROKE_W } }) },
-    { id: "trunk", base: ["has", "tr"], spec: () => ({ type: "circle", source: "trees", minzoom: SHAPE_Z, paint: {
+    { id: "trunk", base: ["has", "tr"], spec: tier => ({ type: "circle", source: tier.src, minzoom: SHAPE_Z, paint: {
       "circle-radius": radius("tr", 1.5), "circle-color": "#7b4a1e",
       "circle-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1],
       "circle-pitch-alignment": "map" } }) },
@@ -596,15 +628,15 @@ map.on("load", async () => {
     "circle-radius": radius("cr", 4), "circle-color": "#d00020", "circle-opacity": 0.7,
     "circle-stroke-color": "#fff", "circle-stroke-width": 1 });
   const ISSUE_MID = ["all", ISSUE, ["!", MON]];
-  map.addLayer({ id: "crown-issues", type: "circle", source: "trees", maxzoom: MON_Z, filter: ISSUE, paint: issuePaint() });
-  map.addLayer({ id: "crown-issues-mid", type: "circle", source: "trees", minzoom: MON_Z, maxzoom: ALL_Z, filter: ISSUE_MID, paint: issuePaint() });
+  map.addLayer({ id: "crown-issues", type: "circle", source: "trees-min", maxzoom: MON_Z, filter: ISSUE, paint: issuePaint() });
+  map.addLayer({ id: "crown-issues-mid", type: "circle", source: "trees-min", minzoom: MON_Z, maxzoom: ALL_Z, filter: ISSUE_MID, paint: issuePaint() });
 
   const apply = () => {
     const f = ["all"];
     const tx = document.getElementById("taxon").value;
     if (tx) f.push(taxonFilter(tx));
     const is = document.getElementById("issue").value;
-    if (is) f.push(["in", `|${is}|`, ["get", "issues"]]);
+    if (is) f.push(issueFilter(is));
     const rest = f.slice(1);
     for (const tier of TIERS) for (const def of DEFS) map.setFilter(def.id + tier.suf, filterFor(def, tier, rest));
     map.setFilter("stumps", ["all", STUMP, ...rest]);
@@ -617,7 +649,9 @@ map.on("load", async () => {
     const z = map.getZoom();
     const layers = z < MON_Z ? ["crown-issues"] : z < ALL_Z ? ["crown-issues-mid", "crown-top"] : CROWN_IDS;
     const n = new Set(map.queryRenderedFeatures({ layers }).map(f => f.properties.id)).size;
-    document.getElementById("count").textContent = (z < MON_Z ? L.countIssues : z < ALL_Z ? L.countMid : L.countAll)(fmtN(n));
+    document.getElementById("count").textContent = (z < MON_Z ? L.countIssues : z < ALL_Z ? L.countMid : L.countAll)(fmtN(n))
+      // file completo ancora in caricamento, o MapLibre lo sta ancora preparando
+      + (partial || !map.isSourceLoaded("trees") ? " · " + L.loadingAll : "");
   };
   const taxonFilter = v => {
     if (v === "unknown") return ["all", ["!", ["has", "genus"]], ["!", ["has", "species"]]];
@@ -632,10 +666,25 @@ map.on("load", async () => {
   const issSel = document.getElementById("issue");
   // etichette e ordine degli errori nel menu (dai testi della lingua scelta)
   const ISSUE_OPTS = Object.entries(L.issueOpts);
+  // gruppi del menu errori: i codici non elencati finiscono in "Altri tag"
+  const ISSUE_GROUPS = [
+    ["size", ["circumference", "height", "crown", "comma", "number_invalid", "circumference_species", "height_species",
+      "too_slender", "too_stocky"]],
+    ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_common_name",
+      "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "underscore", "tag_in_value",
+      "genus", "genus_lowercase", "genus_mismatch"]],
+    ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
+      "wikidata_is_taxon", "wikidata_tree_species", "wikidata_heritage", "wikidata_far"]],
+    ["links", ["link_format", "broken_link", "monument_denotation", "masaf_criteria"]],
+  ];
+  const issueGroupOf = code => (ISSUE_GROUPS.find(([, codes]) => codes.includes(code)) || ["other"])[0];
+  // filtro di MapLibre per una voce del menu: un errore, oppure (g:<gruppo>) uno qualsiasi degli errori del gruppo
+  const issueFilter = v => !v.startsWith("g:") ? ["in", `|${v}|`, ["get", "issues"]]
+    : ["any", ...Object.keys(L.issueOpts).filter(c => issueGroupOf(c) === v.slice(2)).map(c => ["in", `|${c}|`, ["get", "issues"]])];
   let taxSig = "", issSig = "";
   const updateTaxa = () => {
     const b = map.getBounds(), z = map.getZoom();
-    const G = new Map(), S = new Map(), I = new Map();
+    const G = new Map(), S = new Map(), I = new Map(), GI = new Map();   // GI: alberi con errori per gruppo
     let U = 0, WS = 0;   // senza genus né species; con species
     for (const ft of ALL) {
       const [x, y] = ft.geometry.coordinates;
@@ -643,7 +692,9 @@ map.on("load", async () => {
       const p = ft.properties;
       // fuori da zoom 10 si vedono solo i problematici e, da zoom 9, i monumentali
       if (z < ALL_Z && (p.stump || (p.issues === "|" && !(z >= MON_Z && p.denotation === "natural_monument")))) continue;
-      p.issues.split("|").forEach(i => { if (i) I.set(i, (I.get(i) || 0) + 1); });
+      const codes = p.issues.split("|").filter(Boolean);
+      codes.forEach(i => I.set(i, (I.get(i) || 0) + 1));
+      new Set(codes.map(issueGroupOf)).forEach(g => GI.set(g, (GI.get(g) || 0) + 1));
       if (!p.genus && !p.species) { U++; continue; }
       const gs = new Set();
       if (p.genus) gs.add(p.genus);
@@ -657,12 +708,24 @@ map.on("load", async () => {
     const opt = (v, t) => { const o = document.createElement("option"); o.value = v; o.textContent = t; return o; };
     // errori: solo quelli presenti in vista, nell'ordine del menu; il selezionato resta anche se fuori vista
     const curI = issSel.value;
-    if (curI && !I.has(curI)) I.set(curI, 0);
+    if (curI.startsWith("g:") && !GI.has(curI.slice(2))) GI.set(curI.slice(2), 0);
+    else if (curI && !curI.startsWith("g:") && !I.has(curI)) I.set(curI, 0);
     const iList = ISSUE_OPTS.filter(([k]) => I.has(k));
-    const iSig = JSON.stringify(iList.map(([k]) => [k, I.get(k)]));
+    const iSig = JSON.stringify([iList.map(([k]) => [k, I.get(k)]), [...GI]]);
     if (iSig !== issSig) {
       issSig = iSig;
-      issSel.replaceChildren(opt("", L.allIssues), ...iList.map(([k, t]) => opt(k, `${t} (${fmtN(I.get(k))})`)));
+      // voci raggruppate per tema (ISSUE_GROUPS), ognuna con in testa "tutti gli errori del gruppo" (g:<gruppo>);
+      // un gruppo compare solo se ha errori in vista
+      const groups = [...ISSUE_GROUPS.map(([g]) => g), "other"].filter(g => GI.has(g))
+        .map(g => [g, iList.filter(([k]) => issueGroupOf(k) === g)]);
+      issSel.replaceChildren(opt("", L.allIssues), ...groups.map(([g, l]) => {
+        const og = document.createElement("optgroup"); og.label = L.issueGroups[g];
+        // con un solo tipo di errore in vista la voce del gruppo sarebbe identica: si omette (salvo se è quella scelta)
+        if (l.length > 1 || curI === "g:" + g)
+          og.appendChild(opt("g:" + g, `${L.allOfGroup(L.issueGroups[g])} (${fmtN(GI.get(g))})`));
+        l.forEach(([k, t]) => og.appendChild(opt(k, `${t} (${fmtN(I.get(k))})`)));
+        return og;
+      }));
       issSel.value = curI;
     }
     const cur = taxSel.value;   // la voce selezionata resta in elenco anche se fuori vista
@@ -693,7 +756,46 @@ map.on("load", async () => {
   map.on("zoom", () => { if ((map.getZoom() >= SHAPE_Z) === shapesEmpty) updateShapes(); });
   updateShapes();
 
-  issSel.onchange = () => { apply(); updateTaxa(); };   // toglie dall'elenco la voce deselezionata se fuori vista
+  // Scarica gli errori scelti nel menu: tutti gli alberi della regione (non solo quelli in vista) con quell'errore
+  // (o con un errore del gruppo) e, se impostato, del genus/specie scelto, in un file GeoJSON
+  const dlBtn = document.getElementById("dl");
+  dlBtn.title = L.download;
+  const matchIssue = (v, p) => {
+    const codes = p.issues.split("|").filter(Boolean);
+    return v.startsWith("g:") ? codes.some(c => issueGroupOf(c) === v.slice(2)) : codes.includes(v);
+  };
+  const matchTaxon = (v, p) => {
+    if (!v) return true;
+    if (v === "unknown") return !p.genus && !p.species;
+    if (v === "with_species") return !!p.species;
+    const name = v.slice(2);
+    return v.startsWith("s:") ? p.species === name : p.genus === name || String(p.species || "").startsWith(name + " ");
+  };
+  const plain = html => { const d = document.createElement("div"); d.innerHTML = html; return d.textContent; };
+  dlBtn.onclick = () => {
+    const is = issSel.value, tx = taxSel.value;
+    if (!is || !current) return;
+    const feats = ALL.filter(f => matchIssue(is, f.properties) && matchTaxon(tx, f.properties)).map(f => {
+      const p = f.properties, codes = p.issues.split("|").filter(Boolean);
+      const out = { osm: `https://www.openstreetmap.org/node/${p.id}`, id: p.id,
+        errors: codes.join(";"), description: codes.map(c => plain(issueText(c, p))).join(" | ") };
+      out.natural = p.stump ? "tree_stump" : "tree";
+      for (const k of ["species", "genus", "denotation", "circumference", "height", "diameter_crown", "wikidata"])
+        if (p[k] !== undefined && p[k] !== "") out[k] = p[k];
+      return { type: "Feature", geometry: f.geometry, properties: out };
+    });
+    const blob = new Blob([JSON.stringify({ type: "FeatureCollection", features: feats }, null, 1)], { type: "application/geo+json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `dendrosm-${current}-${is.replace(/^g:/, "")}${tx ? "-" + tx.replace(/^[gs]:/, "").replace(/\W+/g, "_") : ""}.geojson`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
+  issSel.onchange = () => { dlBtn.hidden = !issSel.value; apply(); updateTaxa(); };   // toglie dall'elenco la voce deselezionata se fuori vista
+  // il conteggio si aggiorna anche poco dopo l'ultimo ridisegno, senza aspettare "idle" (che per le regioni grandi
+  // attende la sorgente completa)
+  let countTimer;
+  map.on("render", () => { clearTimeout(countTimer); countTimer = setTimeout(update, 250); });
   map.on("moveend", update); map.on("idle", update); update();
 
   for (const id of [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid"]) {
@@ -701,7 +803,7 @@ map.on("load", async () => {
       const g = e.features[0].geometry, pos = g.type === "Point" ? g.coordinates : [e.lngLat.lng, e.lngLat.lat];
       const popup = new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(pos)
         .setHTML(card(e.features[0].properties, pos)).addTo(map);
-      categoryImage(popup.getElement());   // immagine da una categoria di Commons, se serve
+      fillPhoto(popup.getElement());   // crediti dei file di Commons e immagine di una categoria, se serve
     });
     map.on("mouseenter", id, () => map.getCanvas().style.cursor = "pointer");
     map.on("mouseleave", id, () => map.getCanvas().style.cursor = "");
@@ -741,24 +843,42 @@ map.on("load", async () => {
     const seq = ++loadSeq, r = idx[slug];
     setCurrent(slug); regSel.value = slug; overviewBtn.hidden = false;
     document.getElementById("count").textContent = L.loading(regionName(slug));
-    let fc;
-    try { fc = await getGz(`data/regions/${slug}.geojson.gz`); }
-    catch (e) { if (seq === loadSeq) document.getElementById("count").textContent = L.loadError; return; }
+    // Caricamento in due fasi: prima il file ridotto (<slug>.min, solo alberi con errori e monumentali, gli unici
+    // visibili a zoom basso) che MapLibre prepara in un attimo; poi, in secondo piano, il file completo. Se il file
+    // ridotto manca (dati scritti prima che esistesse) lo si ricava dal completo. Le due parti vanno in due sorgenti
+    // distinte ("trees-min" e "trees"), così i livelli a zoom basso non aspettano che MapLibre prepari il completo.
+    const show = (fc, src) => {
+      ALL = fc.features;
+      SHAPED = ALL.filter(isShaped);
+      map.getSource(src).setData(fc);
+      updateTaxa(); updateShapes(); update();
+    };
+    // stesso criterio di minimal() in fetch_trees.py
+    const reduce = fc => ({ type: "FeatureCollection", features: fc.features.filter(f => f.properties.issues !== "|"
+      || String(f.properties.denotation || "").split(";").includes("natural_monument")) });
+    const fullP = getGz(`data/regions/${slug}.geojson.gz`);
+    fullP.catch(() => {});
+    const min = await getGz(`data/regions/${slug}.min.geojson.gz`).catch(() => null);
     if (seq !== loadSeq) return;                      // nel frattempo è stata scelta un'altra regione
-    ALL = fc.features;
-    SHAPED = ALL.filter(isShaped);
-    map.getSource("trees").setData(fc);
-    info.textContent = r.updated ? L.updated(new Date(r.updated).toLocaleDateString(LOC)) : "";
-    if (fit && ALL.length) {
-      let w = 180, s = 90, e = -180, n = -90;
-      for (const ft of ALL) {
-        const [x, y] = ft.geometry.coordinates;
-        if (x < w) w = x; if (x > e) e = x; if (y < s) s = y; if (y > n) n = y;
-      }
-      map.fitBounds([[w, s], [e, n]], { padding: 30, duration: 0 });
-    }
     taxSel.value = ""; taxSig = "";                   // l'elenco genus/specie dipende dalla regione
-    apply(); updateTaxa(); updateShapes();
+    info.textContent = r.updated ? L.updated(new Date(r.updated).toLocaleDateString(LOC)) : "";
+    let fitted = false;
+    const fitTo = feats => {                          // inquadra la regione: dal confine se c'è, altrimenti dagli alberi
+      if (!fit || fitted) return;
+      const box = unitBox[slug] || (feats.length ? bboxOf(feats.map(f => f.geometry.coordinates)) : null);
+      if (box) { map.fitBounds(box, { padding: 30, duration: 0 }); fitted = true; }
+    };
+    map.getSource("trees").setData(EMPTY);            // gli alberi della regione precedente
+    if (min) { partial = true; apply(); fitTo(min.features); show(min, "trees-min"); }
+    else map.getSource("trees-min").setData(EMPTY);
+    let fc;
+    try { fc = await fullP; }
+    catch (e) { if (seq === loadSeq) { partial = false; document.getElementById("count").textContent = L.loadError; } return; }
+    if (seq !== loadSeq) return;
+    partial = false;
+    if (!min) { apply(); map.getSource("trees-min").setData(reduce(fc)); }
+    fitTo(fc.features);
+    show(fc, "trees");
   };
   const selectRegion = slug => {
     setHash(slug);
@@ -767,8 +887,9 @@ map.on("load", async () => {
   // toglie gli alberi della regione caricata (senza cambiare la vista della mappa)
   const clearRegion = () => {
     loadSeq++;
+    partial = false;
     ALL = []; SHAPED = [];
-    map.getSource("trees").setData(EMPTY);
+    map.getSource("trees").setData(EMPTY); map.getSource("trees-min").setData(EMPTY);
     setCurrent(null); regSel.value = ""; info.textContent = "";
     setHash(null);
     taxSel.value = ""; taxSig = "";
@@ -890,9 +1011,11 @@ const ROW_FMT = { denotation: v => tr(L.denotation, v), leaf_type: v => tr(L.lea
 const ROWS = ROW_KEYS.map(k => [k, L.rows[k], ROW_FMT[k]]);
 const list = v => String(v || "").split(";").join(", ");
 const fromD = (i, p) => p.diam_used && i.startsWith("circumference") ? L.fromDiameter : "";
-// i dati scrivono "il genere X" e "a o b" (fetch_trees.py): qui li si rende nella lingua scelta
-const expFor = p => { const m = /^il genere (.+)$/.exec(p.exp_for || ""); return m ? L.genusOf(m[1]) : (p.exp_for || p.species); };
-const expLc = p => String(p.exp_lc || "").split(" o ").join(L.or);
+// exp_for: specie o genere (exp_genus) di riferimento; exp_lc: cicli fogliari separati da ";" (fetch_trees.py).
+// I dati scritti prima usavano "il genere X" e "a o b": si leggono ancora, finché non vengono aggiornati
+const expFor = p => { const m = /^il genere (.+)$/.exec(p.exp_for || "");
+  return p.exp_genus ? L.genusOf(p.exp_for) : m ? L.genusOf(m[1]) : (p.exp_for || p.species); };
+const expLc = p => String(p.exp_lc || "").split(/;| o /).join(L.or);
 // "species:wikidata=Q1:valore;genus:wikidata=Q2:valore" -> [["species:wikidata", "Q1", "valore"], …]
 const wdParts = s => String(s || "").split(";").filter(Boolean).map(x => {
   const e = x.indexOf("="), c = x.indexOf(":", e);
@@ -912,7 +1035,10 @@ const issueBase = (i, p) => {
     case "species_typo": return T[i](p.species, p.sp_sugg);   // sp_sugg: fetch_trees.py
     case "species_unidentified": return T[i](p.species, p.sp_genus);   // sp_genus, sp_clean, und_keys: fetch_trees.py
     case "species_author": return T[i](p.species, p.sp_clean);
+    case "species_epithet_case": case "species_common_name": return T[i](p.species, p.sp_sci);   // sp_sci: fetch_trees.py
+    case "species_parentheses": return T[i](p.species);
     case "underscore": return String(p.und_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");
+    case "tag_in_value": return String(p.eq_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // eq_keys: fetch_trees.py
     case "species_lang_only": return T[i](String(p.sp_lang || "").split("\n").join(", "));   // sp_lang: righe "species:xx=valore"
     case "wikidata_not_taxon": return String(p.nt_tags || "").split(";").map(kv => T[i](kv)).join("\n");   // nt_tags, tx_wd: fetch_trees.py
     case "wikidata_is_taxon": return String(p.tx_wd || "").split(";").map(q => T[i](q)).join("\n");
@@ -989,35 +1115,54 @@ const commonsFile = name => "https://commons.wikimedia.org/wiki/Special:FilePath
 const fotoshiId = p => /^[A-Za-z0-9_-]{10,}$/.test(String(p["image:fotoshi"] || "").trim()) ? p["image:fotoshi"].trim() : null;
 
 // Immagine della scheda, in ordine: wikimedia_commons=File:…, panoramax, image:fotoshi, image (anche link a Commons),
-// immagine dell'elemento Wikidata (wd_img, P18, da fetch_trees.py). Una categoria di Commons si cerca a parte
-// (categoryImage), quando la scheda è aperta.
-function imageUrl(p) {
+// immagine dell'elemento Wikidata (wd_img, P18, da fetch_trees.py). Restituisce { src, commons (nome del file, per
+// chiedere a Commons autore e licenza), credit e href (crediti già noti, es. Fotoshi) }. Una categoria di Commons
+// si cerca a parte (categoryImage), quando la scheda è aperta.
+function imageInfo(p) {
   const c = p.wikimedia_commons;
-  if (c && /^File:/.test(c)) return commonsFile(c.slice(5));
+  if (c && /^File:/.test(c)) return { src: commonsFile(c.slice(5)), commons: c.slice(5) };
   const pid = panoramaxIds(p)[0];
-  if (pid) return `https://api.panoramax.xyz/api/pictures/${pid}/sd.jpg`;
+  if (pid) return { src: `https://api.panoramax.xyz/api/pictures/${pid}/sd.jpg` };
   const fid = fotoshiId(p);
-  if (fid) return `https://cdn.fotoshi.com/thumbnails/${fid}.jpeg`;
+  if (fid) return { src: `https://cdn.fotoshi.com/thumbnails/${fid}.jpeg`, href: `https://www.fotoshi.com/photo/${fid}`,
+    credit: p.fs_author ? `${p.fs_author}${p.fs_license ? ` (${p.fs_license})` : ""}` : "" };
   if (p.image && /^https?:\/\//.test(p.image)) {
     const m = p.image.match(/commons\.wikimedia\.org\/wiki\/(File:.+)$/);
-    return m ? commonsFile(decodeURIComponent(m[1]).replace(/^File:/, "")) : p.image;
+    if (m) { const name = decodeURIComponent(m[1]).replace(/^File:/, ""); return { src: commonsFile(name), commons: name }; }
+    return { src: p.image };
   }
-  if (p.wd_img) return commonsFile(p.wd_img);
+  if (p.wd_img) return { src: commonsFile(p.wd_img), commons: p.wd_img };
   return null;
 }
 
-// wikimedia_commons=Category:…: chiede a Commons il primo file della categoria e lo mostra nella scheda già aperta
-async function categoryImage(root) {
-  const el = root && root.querySelector("img[data-cat]");
-  if (!el) return;
+const COMMONS_API = "https://commons.wikimedia.org/w/api.php?format=json&formatversion=2&origin=*&action=query";
+const plain = html => new DOMParser().parseFromString(html || "", "text/html").body.textContent.replace(/\s+/g, " ").trim();
+
+// Completa la foto della scheda già aperta: per una categoria di Commons cerca il primo file; per i file di Commons
+// chiede autore e licenza e li scrive in sovrimpressione ("Autore (CC BY-SA 4.0)", con il link alla pagina del file)
+async function fillPhoto(root) {
+  const box = root && root.querySelector(".photo");
+  if (!box) return;
   try {
-    const u = "https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers&cmtype=file&cmlimit=1&format=json&origin=*&cmtitle="
-      + encodeURIComponent(el.dataset.cat);
-    const file = (await fetch(u).then(r => r.json())).query.categorymembers[0];
-    if (!file) { el.remove(); return; }
-    el.src = commonsFile(file.title.replace(/^File:/, ""));
-    el.hidden = false;
-  } catch (e) { el.remove(); }
+    if (box.dataset.cat) {
+      const r = await fetch(`${COMMONS_API}&list=categorymembers&cmtype=file&cmlimit=1&cmtitle=${encodeURIComponent(box.dataset.cat)}`).then(r => r.json());
+      const file = r.query.categorymembers[0];
+      if (!file) { box.remove(); return; }
+      box.dataset.commons = file.title.replace(/^File:/, "");
+      const img = box.querySelector("img");
+      img.src = commonsFile(box.dataset.commons);
+      img.hidden = false;
+    }
+    if (box.dataset.commons) {
+      const r = await fetch(`${COMMONS_API}&prop=imageinfo&iiprop=extmetadata&titles=${encodeURIComponent("File:" + box.dataset.commons)}`).then(r => r.json());
+      const md = r.query.pages[0].imageinfo?.[0]?.extmetadata || {};
+      const author = plain(md.Artist?.value), lic = plain(md.LicenseShortName?.value);
+      const a = box.querySelector(".credit");
+      a.textContent = author ? `${author}${lic ? ` (${lic})` : ""}` : lic;
+      a.href = "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(box.dataset.commons);
+      a.title = a.textContent;
+    }
+  } catch (e) { if (box.dataset.cat && box.querySelector("img").hidden) box.remove(); }
 }
 
 function title(p) {
@@ -1049,7 +1194,12 @@ function osmMenu(p, pos) {
 function card(p, pos) {
   // nome comune della specie nella lingua del sito (etichetta di species:wikidata, da fetch_trees.py)
   p = { ...p, sp_common: p["sp_" + LANG] };
-  const img = imageUrl(p);
+  const img = imageInfo(p);
+  const cat = !img && /^Category:/.test(p.wikimedia_commons || "") ? p.wikimedia_commons : null;
+  // foto con i crediti in sovrimpressione (riempiti subito, o da fillPhoto per Commons); se non si carica sparisce
+  const photo = img || cat ? `<div class="photo"${img?.commons ? ` data-commons="${esc(img.commons)}"` : ""}${cat ? ` data-cat="${esc(cat)}"` : ""}>
+      <img ${img ? `src="${esc(img.src)}"` : "hidden"} alt="" loading="lazy" onerror="this.parentNode.remove()">
+      <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}>${esc(img?.credit || "")}</a></div>` : "";
   const genusIssue = ["genus", "genus_lowercase", "genus_mismatch"].some(i => p.issues.includes(`|${i}|`));
   const rows = ROWS.filter(([k]) => p[k] && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => issueText(i, p));
@@ -1058,13 +1208,14 @@ function card(p, pos) {
   if (p.wikidata) links.push(link(`https://www.wikidata.org/wiki/${p.wikidata}`, "Wikidata"));
   const wp = p["wp_" + LANG] || p.wp_it || p.wp_en;   // voce di Wikipedia dell'albero, nella lingua del sito se c'è
   if (wp) links.push(link(wp, "Wikipedia"));
-  if (p.wikimedia_commons) links.push(link(`https://commons.wikimedia.org/wiki/${p.wikimedia_commons}`, "Commons"));
+  // Commons e Fotoshi solo se la foto mostrata non è già quella: in quel caso il credito sulla foto porta lì
+  const shownCommons = img?.commons && /^File:/.test(p.wikimedia_commons || "");
+  if (p.wikimedia_commons && !shownCommons) links.push(link(`https://commons.wikimedia.org/wiki/${p.wikimedia_commons}`, "Commons"));
   const pano = panoramaxIds(p);
   pano.forEach((id, i) => links.push(link(`https://api.panoramax.xyz/#focus=pic&pic=${id}`, pano.length > 1 ? `Panoramax ${i + 1}` : "Panoramax")));
-  if (fotoshiId(p)) links.push(link(`https://www.fotoshi.com/photo/${fotoshiId(p)}`, "Fotoshi"));
+  if (fotoshiId(p) && !img?.href?.includes(fotoshiId(p))) links.push(link(`https://www.fotoshi.com/photo/${fotoshiId(p)}`, "Fotoshi"));
   return `<div class="card"><h3>${esc(title(p))}</h3>
-    ${img ? `<img src="${esc(img)}" alt="" loading="lazy" onerror="this.remove()">`
-      : /^Category:/.test(p.wikimedia_commons || "") ? `<img data-cat="${esc(p.wikimedia_commons)}" alt="" hidden onerror="this.remove()">` : ""}
+    ${photo}
     <dl>${rows}</dl>
     ${rec.map(x => `<div class="rec">${x}</div>`).join("")}
     ${issues.flatMap(x => x.split("\n")).map(x => `<div class="bad">⚠ ${esc(x)}</div>`).join("")}
