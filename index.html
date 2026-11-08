@@ -35,6 +35,9 @@
   #lang a{color:#1a5fb4;text-decoration:none}
   #lang a.on{color:#222;font-weight:600;pointer-events:none}
   .hdr{display:flex;align-items:center;gap:8px}
+  #scale{display:flex;align-items:center;gap:6px;font-size:11px;color:#777;margin-top:6px}
+  #scale[hidden]{display:none}
+  #scale i{flex:1;height:8px;border-radius:4px;background:linear-gradient(90deg,#2e9e45,#f0a020,#d00020);opacity:.8}
   #gh{color:#999;display:flex}
   #gh:hover{color:#222}
   #panel label{display:block;margin:2px 0}
@@ -58,6 +61,7 @@
   <select id="taxon" autocomplete="off"><option value="" data-i18n="allTaxa">Tutti i genus e le specie</option></select>
   <select id="issue" autocomplete="off"><option value="" data-i18n="allIssues">Tutti gli errori</option></select>
   <div id="count"></div>
+  <div id="scale" hidden><span data-i18n="scaleLow">meno errori</span><i></i><span data-i18n="scaleHigh">più errori</span></div>
   <div id="updated" class="note"></div>
 </div>
   <details id="legend-box" class="box">
@@ -96,6 +100,9 @@ const LANG = [hashParams().get("lang"), storedLang(), (navigator.language || "")
   .find(l => LANGS.includes(l));
 const LOC = LANG === "it" ? "it-IT" : "en-GB";
 const fmtN = n => Number(n).toLocaleString(LOC);
+// quota di alberi con errori: "1,6%", "<0,1%", "0%"
+const fmtPct = (e, c) => !c || !e ? "0%" : 100 * e / c < 0.05 ? `<${(0.1).toLocaleString(LOC)}%`
+  : (100 * e / c).toLocaleString(LOC, { maximumFractionDigits: 1 }) + "%";
 // indirizzo: #region=<slug>&map=<zoom>/<lat>/<lon>, mantenendo #lang se c'era. Senza argomento tiene la regione attuale.
 let hashSlug = null;
 const setHash = (slug = hashSlug) => {
@@ -120,7 +127,8 @@ const parseMapHash = v => {
 // I valori possono essere funzioni (testi con parti variabili).
 const I18N = {
   it: {
-    pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente su GitHub", allRegions: "← Tutte le regioni", chooseRegion: "Scegli una regione…",
+    pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente su GitHub", allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
+    scaleLow: "meno errori", scaleHigh: "più errori", tipErr: p => ` · ${p} con errori`,
     regionOpt: (name, n) => `${name} (${fmtN(n)} alberi)`,
     allTaxa: "Tutti i genus e le specie", unknown: "Sconosciuto", withSpecies: "Con species", genusGroup: "Genus", speciesGroup: "Specie",
     allIssues: "Tutti gli errori",
@@ -203,7 +211,8 @@ const I18N = {
     stump: "Ceppo", stumpOf: b => `${b} (ceppo)`, unknownSpecies: "Specie sconosciuta",
   },
   en: {
-    pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code on GitHub", allRegions: "← All regions", chooseRegion: "Choose a region…",
+    pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code on GitHub", allRegions: "← All countries", chooseRegion: "Choose a region…",
+    scaleLow: "fewer errors", scaleHigh: "more errors", tipErr: p => ` · ${p} with errors`,
     regionOpt: (name, n) => `${name} (${fmtN(n)} trees)`,
     allTaxa: "All genera and species", unknown: "Unknown", withSpecies: "With species", genusGroup: "Genus", speciesGroup: "Species",
     allIssues: "All errors",
@@ -335,21 +344,11 @@ const map = new maplibregl.Map({
       attribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>" } },
     layers: [{ id: "osm", type: "raster", source: "osm" }] }
 });
-map.addControl(new maplibregl.NavigationControl());
-class ZoomInfo {
-  onAdd(m) {
-    this.m = m;
-    this.c = document.createElement("div");
-    this.c.className = "maplibregl-ctrl maplibregl-ctrl-group";
-    this.c.style.cssText = "padding:4px 8px;font-size:12px;text-align:center";
-    this.u = () => { this.c.textContent = "Zoom " + m.getZoom().toFixed(1); };
-    m.on("zoom", this.u); this.u();
-    return this.c;
-  }
-  onRemove() { this.m.off("zoom", this.u); this.c.remove(); }
-}
-map.addControl(new ZoomInfo());
-
+// solo + e −: niente bussola, e la mappa non si ruota (senza bussola non si potrebbe raddrizzare)
+map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
+map.dragRotate.disable();
+map.touchZoomRotate.disableRotation();
+map.keyboard.disableRotation();
 map.on("load", async () => {
   let idx;
   try { idx = (await indexP).regions; }
@@ -454,32 +453,71 @@ map.on("load", async () => {
     map.addLayer({ id: def.id + tier.suf, ...def.spec(tier), filter: filterFor(def, tier, []) });
   const CROWN_IDS = TIERS.flatMap(t => ["crown", "crown-plain", "crown-poly"].map(i => i + t.suf));
 
-  // Confini delle regioni: si sceglie la regione toccandola (l'area della regione caricata non è cliccabile)
+  // Confini. All'apertura si vedono le nazioni: quelle divise in regioni (Italia, Polonia) con il confine
+  // nazionale, le altre (Bulgaria) con la loro unica regione. Toccando una nazione divisa si vedono le sue regioni.
+  // Colore: posizione in classifica per quota di alberi con errori, dal verde (meno) al rosso (più); le nazioni
+  // sono in classifica tra loro, le regioni di una nazione aperta solo tra loro. Grigio: dati non disponibili.
   const coordsOf = c => typeof c[0] === "number" ? [c] : c.flatMap(coordsOf);
-  let allBounds = null;
+  const bboxOf = coords => { let w = 180, s = 90, e = -180, n = -90;
+    for (const [x, y] of coords) { if (x < w) w = x; if (x > e) e = x; if (y < s) s = y; if (y > n) n = y; }
+    return [[w, s], [e, n]]; };
+  const groupOf = slug => (metaBy[slug] || {}).group || null;
+  const groupName = g => { const m = meta.find(x => x.group === g) || {}; return m["group_" + LANG] || g; };
+  let allBounds = null, openGroup = null;
+  const unitBox = {}, hasCountry = new Set();
   if (boundaries) {
-    let w = 180, s = 90, e = -180, n = -90;
     for (const f of boundaries.features) {
-      const r = idx[f.properties.slug];
-      f.properties.has_data = !!r;
-      f.properties.count = r ? r.count : 0;
-      for (const [x, y] of coordsOf(f.geometry.coordinates)) {
-        if (x < w) w = x; if (x > e) e = x; if (y < s) s = y; if (y > n) n = y;
-      }
+      const p = f.properties;
+      p.key = p.key || p.slug;                       // file dei confini scritti prima delle nazioni: solo slug
+      if (!p.country) p.group = p.group || groupOf(p.key);
+      if (p.country) hasCountry.add(p.group);
+      unitBox[p.key] = bboxOf(coordsOf(f.geometry.coordinates));
     }
-    allBounds = [[w, s], [e, n]];
-    map.addSource("regions", { type: "geojson", data: boundaries, promoteId: "slug" });
-    map.addLayer({ id: "regions-fill", type: "fill", source: "regions", maxzoom: ALL_Z, paint: {
-      "fill-color": ["case", ["get", "has_data"], "#2e9e45", "#999999"],
-      "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.4, 0.15] } }, "crown");
-    map.addLayer({ id: "regions-line", type: "line", source: "regions", paint: {
-      "line-color": ["case", ["get", "has_data"], "#1b6b2c", "#888888"], "line-width": 1.5 } }, "crown");
+    allBounds = bboxOf(Object.values(unitBox).flat());
+    map.addSource("regions", { type: "geojson", data: boundaries, promoteId: "key" });
+    map.addLayer({ id: "regions-fill", type: "fill", source: "regions", maxzoom: ALL_Z, filter: ["get", "show"], paint: {
+      "fill-color": ["case", ["<", ["get", "t"], 0], "#999999",
+        ["interpolate", ["linear"], ["get", "t"], 0, "#2e9e45", 0.5, "#f0a020", 1, "#d00020"]],
+      "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.6, 0.35] } }, "crown");
+    map.addLayer({ id: "regions-line", type: "line", source: "regions", filter: ["get", "vis"], paint: {
+      "line-color": "#555555", "line-width": 1.2 } }, "crown");
   }
+  // alberi ed errori di una regione o, per una nazione, della somma delle sue regioni (errors null se mancano i conteggi)
+  const unitStats = p => {
+    const slugs = p.country ? Object.keys(idx).filter(s => groupOf(s) === p.group) : idx[p.key] ? [p.key] : [];
+    let count = 0, errors = null;
+    for (const s of slugs) { count += idx[s].count; if (idx[s].errors != null) errors = (errors || 0) + idx[s].errors; }
+    return { has: slugs.length > 0, count, errors };
+  };
+  // t tra 0 e 1: posizione in classifica (quota di errori crescente); -1 se non ci sono dati
+  const rankColors = list => {
+    const rated = list.filter(p => p.has_data && p.errors != null && p.count > 0)
+      .sort((a, b) => a.errors / a.count - b.errors / b.count);
+    list.forEach(p => { p.t = -1; });
+    rated.forEach((p, i) => { p.t = rated.length > 1 ? i / (rated.length - 1) : 0.5; });
+  };
+  const refreshBoundaries = () => {
+    document.getElementById("scale").hidden = !boundaries || !!current;
+    if (!boundaries) return;
+    const nationLevel = [], regionLevel = [];
+    for (const f of boundaries.features) {
+      const p = f.properties;
+      Object.assign(p, (({ has, count, errors }) => ({ has_data: has, count, errors }))(unitStats(p)));
+      const inOpen = !p.country && p.group && hasCountry.has(p.group);   // regione di una nazione divisa
+      p.vis = p.country ? p.group !== openGroup : inOpen ? p.group === openGroup : true;
+      p.show = p.vis && p.key !== current;           // la regione caricata non si colora e non si clicca
+      if (p.vis) (inOpen ? regionLevel : nationLevel).push(p);
+    }
+    rankColors(nationLevel); rankColors(regionLevel);
+    map.getSource("regions").setData(boundaries);
+  };
   const fitAll = () => { if (allBounds) map.fitBounds(allBounds, { padding: 30, duration: 0 }); };
   const setCurrent = slug => {
     current = slug;
-    if (boundaries) map.setFilter("regions-fill", slug ? ["!=", ["get", "slug"], slug] : null);
+    if (slug && hasCountry.has(groupOf(slug))) openGroup = groupOf(slug);   // si vedono le regioni vicine
+    refreshBoundaries();
   };
+  refreshBoundaries();
 
   // Ceppi: una X (immagine disegnata al volo), grande quanto la circonferenza ma mai sotto i 5 px di raggio
   const xImage = color => {
@@ -670,10 +708,18 @@ map.on("load", async () => {
     setHash(slug);
     return loadRegion(slug, true);
   };
-  const unloadRegion = () => {                        // torna alla vista d'insieme, senza regione
+  // apre una nazione divisa in regioni: si vedono le sue regioni, colorate in classifica tra loro
+  const openCountry = g => {
+    openGroup = g;
+    overviewBtn.hidden = false;
+    refreshBoundaries();
+    if (unitBox["g:" + g]) map.fitBounds(unitBox["g:" + g], { padding: 30, duration: 0 });
+  };
+  const unloadRegion = () => {                        // torna alla vista d'insieme delle nazioni, senza regione
     loadSeq++;
     ALL = []; SHAPED = [];
     map.getSource("trees").setData(EMPTY);
+    openGroup = null;
     setCurrent(null); regSel.value = ""; overviewBtn.hidden = true; info.textContent = "";
     setHash(null);
     taxSel.value = ""; taxSig = "";
@@ -687,9 +733,7 @@ map.on("load", async () => {
   // le regioni, in ordine di alberi con errori (campo "errors" di data/index.json)
   const renderRank = () => {
     const box = document.getElementById("rank");
-    const fmt = fmtN;
-    const pct = (e, c) => !c || !e ? "0%" : 100 * e / c < 0.05 ? `<${(0.1).toLocaleString(LOC)}%`
-      : (100 * e / c).toLocaleString(LOC, { maximumFractionDigits: 1 }) + "%";
+    const fmt = fmtN, pct = fmtPct;
     const row = (name, e, c, strong) => {
       const s = document.createElement("span"); s.className = "rk";
       const a = document.createElement(strong ? "b" : "span"); a.textContent = name;
@@ -743,18 +787,21 @@ map.on("load", async () => {
     };
     map.on("mousemove", "regions-fill", e => {
       const p = e.features[0].properties;
-      hover(p.slug);
-      const nm = metaBy[p.slug] ? regionName(p.slug) : p.name;
-      tip.textContent = p.has_data ? L.tipTrees(nm, p.count) : L.tipNoData(nm);
+      hover(p.key);
+      const nm = p.country ? groupName(p.group) : metaBy[p.key] ? regionName(p.key) : p.name;
+      tip.textContent = p.has_data ? L.tipTrees(nm, p.count) + (p.errors != null ? L.tipErr(fmtPct(p.errors, p.count)) : "")
+        : L.tipNoData(nm);
       tip.style.left = (e.point.x + 12) + "px"; tip.style.top = (e.point.y + 12) + "px"; tip.style.display = "block";
-      map.getCanvas().style.cursor = p.has_data ? "pointer" : "";
+      map.getCanvas().style.cursor = p.has_data || p.country ? "pointer" : "";
     });
     map.on("mouseleave", "regions-fill", () => { hover(null); tip.style.display = "none"; map.getCanvas().style.cursor = ""; });
     map.on("click", "regions-fill", e => {
       // se il clic cade su un albero (la chioma può sconfinare in una regione vicina) vale la scheda dell'albero
       if (map.queryRenderedFeatures(e.point, { layers: [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid"] }).length) return;
       const p = e.features[0].properties;
-      if (p.has_data) selectRegion(p.slug);
+      hover(null); tip.style.display = "none";
+      if (p.country) openCountry(p.group);
+      else if (p.has_data) selectRegion(p.key);
     });
   }
 
