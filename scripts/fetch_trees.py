@@ -110,6 +110,10 @@ def fetch_bbox(region, bbox, depth=0, min_depth=0):
 # Soglie e valori ammessi
 MAX_CIRCUMFERENCE = 43.0   # m
 MAX_HEIGHT = 115.92        # m
+# Rapporto altezza/circonferenza ("slenderness"): segnalati solo i valori esagerati. Nei dati la mediana è ~6 e
+# gli alberi reali più tozzi (olivi monumentali) stanno sopra 0,45.
+SLENDER_MAX = 100.0        # oltre: albero troppo slanciato (es. height=24, circumference=0.01)
+STOCKY_MIN = 1 / 3         # sotto: albero troppo tozzo (circonferenza più di 3 volte l'altezza)
 # Limiti massimi per specie (altezza e circonferenza, in m), modificabili in species_limits.json
 _RAW_LIMITS = json.loads((Path(__file__).resolve().parent / "species_limits.json").read_text(encoding="utf-8"))
 # rapporti medi (mediane) usati quando la specie non ne ha uno proprio
@@ -378,6 +382,14 @@ def genus_of_species(sp):
     return words[0] if words else ""
 
 
+def slenderness(t):
+    """height / circumference (anche da diameter); None per i ceppi o se manca una delle due misure."""
+    if t.get("natural") == "tree_stump":
+        return None
+    c, h = circ_value(t)[0], num(t.get("height"))
+    return h / c if c and h and c > 0 and h > 0 else None
+
+
 def checks(t):
     issues = []
     c, h = circ_value(t)[0], num(t.get("height"))
@@ -392,6 +404,11 @@ def checks(t):
         issues.append("circumference_species")
     if "height" in lim and h is not None and "height" not in issues and h > lim["height"]:
         issues.append("height_species")
+    r = slenderness(t)  # solo se non è già segnalata la misura sbagliata (circonferenza o altezza oltre i limiti)
+    if r is not None and r > SLENDER_MAX and not {"height", "height_species"} & set(issues):
+        issues.append("too_slender")
+    if r is not None and r < STOCKY_MIN and not {"circumference", "circumference_species"} & set(issues):
+        issues.append("too_stocky")
     sp = t.get("species")
     if sp is not None and len(sp.split()) == 1:
         issues.append("species")
@@ -431,7 +448,8 @@ KEEP = ["name", "species", "genus", "taxon",
 
 
 def sizes(t):
-    """Diametro chioma (solo se il tag c'è) e circonferenza per il rendering. Se manca la circonferenza
+    """Diametro chioma, se è stimato, circonferenza e se è stimata, per il rendering. La chioma viene da
+    diameter_crown o, se manca, da crown_estimate (metodo di UrbanEye3D). Se manca la circonferenza
     (anche da diameter), la stima da height o da diameter_crown con i rapporti della specie
     (height_circ_ratio = altezza/circonferenza, crown_circ_ratio = diametro chioma/circonferenza) o,
     se la specie non ne ha, con quelli di "_default" in species_limits.json. Se il rapporto della specie
@@ -453,8 +471,35 @@ def sizes(t):
         if est:
             circ, circ_est = est, True
 
-    crown = cd if cd and cd > 0 else None   # la chioma non si stima dalla circonferenza
-    return crown, circ, circ_est
+    if cd and cd > 0:
+        return cd, False, circ, circ_est
+    crown = crown_estimate(t, h if h and 0 < h <= max_h else None, c if c and 0 < c <= max_c else None)
+    return crown, crown is not None, circ, circ_est
+
+
+# Stima della chioma quando manca diameter_crown: metodo di UrbanEye3D di Zkir
+# (https://github.com/Zkir/UrbanEye3D, TreeSpeciesDatabase.enrichTags e Scene.calculateUpdate).
+# Altezza: height, oppure dalla circonferenza (in m) come (log2(C) * 0.33 + 3)^2; chioma = altezza * rapporto
+# larghezza/altezza del modello di albero per leaf_type (assets.mapcss di UrbanEye3D); 0,9 se leaf_type è ignoto.
+CROWN_ASPECT = {"broadleaved": 1.0, "needleleaved": 0.69, "palm": 0.87}
+CROWN_ASPECT_DEFAULT = 0.9
+
+
+def crown_estimate(t, h, c):
+    """Diametro della chioma stimato (m) da height (h) o, se manca, dalla circonferenza (c); None se mancano entrambi.
+    h e c arrivano già filtrati (valori positivi ed entro i limiti della specie)."""
+    if h is None and c is not None:
+        h = max(0.0, math.log2(c) * 0.33 + 3) ** 2   # base >= 0: per tronchi minuscoli la parabola risalirebbe
+    if not h:
+        return None
+    lt = t.get("leaf_type") if t.get("leaf_type") in LEAF_TYPE else leaf_type_estimate(t)
+    return h * CROWN_ASPECT.get(lt, CROWN_ASPECT_DEFAULT)
+
+
+def jitter(osm_id):
+    """Fattore tra 0,75 e 1,25, casuale ma sempre uguale per lo stesso albero (dall'id OSM): varia il raggio
+    di ripiego della chioma, solo per l'aspetto della mappa."""
+    return 0.75 + 0.5 * ((osm_id * 2654435761) % 2**32) / 2**32
 
 
 def to_feature(el):
@@ -475,9 +520,10 @@ def to_feature(el):
         else:
             p["sr"], p["sr_est"] = DEFAULT_STUMP_R, True
     else:
-        crown, circ, circ_est = sizes(t)
-        p["cr"] = round(crown / 2, 2) if crown else default_crown_r(t)
-        p["cr_est"] = crown is None
+        crown, crown_est, circ, circ_est = sizes(t)
+        # chioma: diameter_crown, altrimenti stimata (UrbanEye3D), altrimenti raggio di ripiego con variazione casuale
+        p["cr"] = round(crown / 2, 2) if crown else round(default_crown_r(t) * jitter(el["id"]), 2)
+        p["cr_est"] = crown is None or crown_est
         if circ_value(t)[1] and circ_value(t)[0]:
             p["diam_used"] = True
         if circ:  # il tronco si disegna solo se c'è una circonferenza (reale o stimata)
@@ -505,6 +551,9 @@ def to_feature(el):
         p["den_bad"] = ";".join(v for v, _, _ in den)
         p["den_why"] = ";".join(w for _, w, _ in den)
         p["den_n"] = ";".join(str(n) for _, _, n in den)
+    if "too_slender" in iss or "too_stocky" in iss:  # per la scheda: rapporto e circonferenza usata (anche da diameter)
+        p["hc_ratio"] = round(slenderness(t), 3)
+        p["hc_circ"] = round(circ_value(t)[0], 2)
     if "masaf_criteria" in iss:  # parti non valide, separate da "," come nel tag (non possono contenerne)
         p["masaf_bad"] = ",".join(masaf_criteria_bad(t))
     lim = species_limit(t)

@@ -127,7 +127,9 @@ const I18N = {
       leaf_type_mismatch: "leaf_type diverso da quello della specie", leaf_cycle_mismatch: "leaf_cycle diverso da quello della specie",
       monument_denotation: "Fonte monumentale senza natural_monument",
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido", circumference_species: "Circonferenza > limite della specie",
-      height_species: "Altezza > limite della specie", species: "Species di una sola parola", genus: "Genus non valido",
+      height_species: "Altezza > limite della specie",
+      too_slender: "Albero troppo slanciato (altezza > 100 × circonferenza)", too_stocky: "Albero troppo tozzo (circonferenza > 3 × altezza)",
+      species: "Species di una sola parola", genus: "Genus non valido",
       species_lowercase: "Species con iniziale minuscola", genus_lowercase: "Genus con iniziale minuscola",
       leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" },
     denotation: { natural_monument: "Albero monumentale", landmark: "Punto di riferimento", avenue: "Albero di viale",
@@ -145,6 +147,8 @@ const I18N = {
       number_invalid: t => `valore non numerico, intervallo o zero in ${t}`,
       link_format: t => `formato non valido in ${t}`,
       monument_denotation: t => `${t} senza denotation=natural_monument`,
+      too_slender: (h, c, r) => `albero troppo slanciato: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
+      too_stocky: (h, c, r) => `albero troppo tozzo: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "codici non validi" : "codice non valido"} ${bad.join(", ")} (ammessi a–g, a1, a2, a2.1–a2.3, separati da virgole senza spazi)`,
       empty: "(vuoto)",
       den_format: v => `denotation=${v}: formato non valido`,
@@ -194,7 +198,9 @@ const I18N = {
       leaf_type_mismatch: "leaf_type differs from the species", leaf_cycle_mismatch: "leaf_cycle differs from the species",
       monument_denotation: "Monumental source without natural_monument",
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria", circumference_species: "Circumference > species limit",
-      height_species: "Height > species limit", species: "Single-word species", genus: "Invalid genus",
+      height_species: "Height > species limit",
+      too_slender: "Tree too slender (height > 100 × circumference)", too_stocky: "Tree too stocky (circumference > 3 × height)",
+      species: "Single-word species", genus: "Invalid genus",
       species_lowercase: "Species starting lowercase", genus_lowercase: "Genus starting lowercase",
       leaf_type: "Invalid leaf_type", leaf_cycle: "Invalid leaf_cycle" },
     denotation: { natural_monument: "Monumental tree", landmark: "Landmark", avenue: "Avenue tree",
@@ -212,6 +218,8 @@ const I18N = {
       number_invalid: t => `non-numeric value, range or zero in ${t}`,
       link_format: t => `invalid format in ${t}`,
       monument_denotation: t => `${t} without denotation=natural_monument`,
+      too_slender: (h, c, r) => `tree too slender: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
+      too_stocky: (h, c, r) => `tree too stocky: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "invalid codes" : "invalid code"} ${bad.join(", ")} (allowed a–g, a1, a2, a2.1–a2.3, comma-separated without spaces)`,
       empty: "(empty)",
       den_format: v => `denotation=${v}: invalid format`,
@@ -729,6 +737,9 @@ const issueBase = (i, p) => {
     case "number_invalid": return T[i](list(p.bad_num));
     case "link_format": return T[i](list(p.bad_links));
     case "monument_denotation": return T[i](list(p.mon_src));
+    case "too_slender": case "too_stocky":   // hc_ratio, hc_circ: rapporto e circonferenza usata (fetch_trees.py)
+      return T[i](fmtM(p.height), fmtM(p.hc_circ) + (p.diam_used ? L.fromDiameter : ""),
+        Number(p.hc_ratio).toLocaleString(LOC, { maximumSignificantDigits: 3 }));
     case "masaf_criteria":       // masaf_bad: parti non valide separate da "," (fetch_trees.py)
       return T[i](p["masaf:criteria"] ?? "", String(p.masaf_bad ?? "").split(",").map(x => x === "" ? T.empty : `"${x}"`));
     case "denotation_value": {    // den_bad, den_why, den_n: valori, motivi e usi, separati da ";" (fetch_trees.py)
