@@ -1,5 +1,12 @@
 {
  "regions": {
+  "bretagna": {
+   "count": 135228,
+   "errors": 510,
+   "name": "Bretagna",
+   "sha1": "085ab59d0a86aacab233ab9f6e34a6566e9d6965",
+   "updated": "2026-11-08T13:25:30Z"
+  },
   "bulgaria": {
    "count": 29076,
    "errors": 6,
@@ -20,6 +27,20 @@
    "name": "Estonia",
    "sha1": "5339eb668f45055370e32e59b13e3c49e1e0ea7c",
    "updated": "2026-11-08T12:04:27Z"
+  },
+  "galles": {
+   "count": 59130,
+   "errors": 28,
+   "name": "Galles",
+   "sha1": "a7236492046a5cf6f4bf54a376e99d1c78de93a5",
+   "updated": "2026-11-08T13:18:45Z"
+  },
+  "irlanda-del-nord": {
+   "count": 45139,
+   "errors": 12,
+   "name": "Irlanda del Nord",
+   "sha1": "0bb1caa7fcc964ab4ceb0c3753de834701b4584b",
+   "updated": "2026-11-08T13:21:51Z"
   },
   "lettonia": {
    "count": 102100,

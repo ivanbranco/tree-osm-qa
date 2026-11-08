@@ -1,0 +1,150 @@
+{
+"Q110948754": {
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"taxa": [
+"Q12004"
+],
+"wp": {}
+},
+"Q116854604": {
+"heritage": [],
+"taxa": [
+"Q165145"
+],
+"wp": {}
+},
+"Q119941772": {
+"heritage": [],
+"taxa": [
+"Q158608"
+],
+"wp": {}
+},
+"Q130643670": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q149553": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Populus_%C3%97_canescens",
+"it": "https://it.wikipedia.org/wiki/Populus_%C3%97_canescens"
+}
+},
+"Q156831": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Tilia_platyphyllos",
+"it": "https://it.wikipedia.org/wiki/Tilia_platyphyllos"
+}
+},
+"Q161374": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"en": "https://en.wikipedia.org/wiki/London_plane",
+"it": "https://it.wikipedia.org/wiki/Platanus_%C3%97_hispanica"
+}
+},
+"Q27980": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Hedlundia_intermedia"
+}
+},
+"Q3079266": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Pyrus_calleryana",
+"it": "https://it.wikipedia.org/wiki/Pyrus_calleryana"
+}
+},
+"Q3148078": {
+"heritage": [],
+"taxa": [
+"Q110767650"
+],
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Florence_Court_Yew"
+}
+},
+"Q393278": {
+"heritage": [],
+"taxa": [],
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Ulex",
+"it": "https://it.wikipedia.org/wiki/Ulex"
+}
+},
+"Q41780739": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q41782105": {
+"heritage": [],
+"taxa": [],
+"wp": {}
+},
+"Q4463960": {
+"heritage": [],
+"taxa": [
+"Q179729"
+],
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Llangernyw_Yew"
+}
+},
+"Q52008894": {
+"heritage": [],
+"taxa": [
+"Q165145"
+],
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Oak_at_the_Gate_of_the_Dead"
+}
+},
+"Q52679509": {
+"heritage": [
+[
+"Notable tree of France",
+"Notable tree of France"
+]
+],
+"taxa": [
+"Q165145"
+],
+"wp": {}
+},
+"Q55605947": {
+"heritage": [],
+"taxa": [
+"Q165145"
+],
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Brimmon_Oak"
+}
+},
+"Q58210870": {
+"heritage": [
+[
+"site naturel classé",
+"site naturel classé"
+]
+],
+"taxa": [
+"Q165145"
+],
+"wp": {}
+}
+}
