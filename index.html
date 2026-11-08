@@ -15,15 +15,18 @@
   #legend-box summary,#rank-box>summary{font-weight:600;cursor:pointer}
   #rank{margin-top:8px;font-size:13px;max-height:50vh;overflow:auto}
   #rank details{margin:2px 0}
-  #rank summary{cursor:pointer}
+  /* tutte le righe larghe uguali: a sinistra 16 px per il triangolo (o vuoti), i numeri allineati a destra */
+  #rank summary{cursor:pointer;display:flex;list-style:none}
+  #rank summary::-webkit-details-marker{display:none}
+  #rank summary::before{content:"▶";flex:none;width:16px;font-size:10px;line-height:18px}
+  #rank details[open]>summary::before{content:"▼"}
   #rank ol{margin:2px 0 6px;padding-left:22px}
-  .rk{display:inline-flex;width:calc(100% - 18px);justify-content:space-between;gap:6px;vertical-align:top}
+  .rk{display:flex;flex:1;min-width:0;justify-content:space-between;gap:6px}
   .rk b{font-weight:600}
   .rk .n{color:#b00020;white-space:nowrap;font-variant-numeric:tabular-nums}
   #rank li{cursor:pointer}
-  #rank li .rk{width:100%}
   #rank li:hover,#rank .solo:hover{background:#f2f2f2}
-  #rank .solo{cursor:pointer;padding-left:18px}
+  #rank .solo{cursor:pointer;display:flex;padding-left:16px}
   .leg{list-style:none;margin:8px 0 0;padding:0;font-size:13px}
   .leg li{display:flex;align-items:center;gap:8px;margin:2px 0}
   .leg svg{flex:none}
