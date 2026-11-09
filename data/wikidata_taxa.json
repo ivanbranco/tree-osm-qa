@@ -11048,6 +11048,10 @@
 "taxon": true
 },
 "Q2228034": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Salix ʽChrysocoma’",
 "it": "Salix vitellina var. pendula",
 "names": [
@@ -14947,6 +14951,12 @@
 "taxon": true
 },
 "Q468698": {
+"alias": {
+"en": [
+"American chestnut"
+],
+"it": []
+},
 "en": "Castanea dentata",
 "it": "Castanea dentata",
 "names": [
@@ -15162,6 +15172,10 @@
 "taxon": false
 },
 "Q481711": {
+"alias": {
+"en": [],
+"it": []
+},
 "it": "Phellodendron amurense",
 "names": [
 "Phellodendron amurense"
@@ -17404,6 +17418,12 @@
 "taxon": true
 },
 "Q774829": {
+"alias": {
+"en": [
+"Siberian Pine"
+],
+"it": []
+},
 "en": "Pinus sibirica",
 "it": "Pinus sibirica",
 "names": [
@@ -17833,6 +17853,12 @@
 "taxon": true
 },
 "Q852262": {
+"alias": {
+"en": [
+"Siberian Fir"
+],
+"it": []
+},
 "en": "Abies sibirica",
 "it": "Abies sibirica",
 "names": [
