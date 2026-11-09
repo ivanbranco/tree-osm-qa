@@ -16,6 +16,22 @@
 "en": "https://en.wikipedia.org/wiki/Fortingall_Yew"
 }
 },
+"Q1055111": {
+"coords": [],
+"heritage": [
+[
+"bene culturale italiano",
+"Italian national heritage"
+]
+],
+"image": "Madonna and Child with two Angels (by Filippo Lippi) – Galleria degli Uffizi, Florence.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Madonna_and_Child_(Lippi)",
+"it": "https://it.wikipedia.org/wiki/Lippina"
+}
+},
 "Q105661162": {
 "coords": [
 [
@@ -739,6 +755,36 @@
 "image": "Jiji-sugi, the Grandpa Cedar in Mt.Haguro 20180421.jpg",
 "taxa": [
 "Q147388"
+],
+"taxon": false,
+"wp": {}
+},
+"Q112130770": {
+"coords": [
+[
+13.861251,
+48.710501
+]
+],
+"heritage": [],
+"image": "Donabauer Kapellenlinde in Schönberg.jpg",
+"taxa": [
+"Q156831"
+],
+"taxon": false,
+"wp": {}
+},
+"Q112130782": {
+"coords": [
+[
+13.834704,
+48.731021
+]
+],
+"heritage": [],
+"image": "Manzenreiter-Linde.jpg",
+"taxa": [
+"Q127849"
 ],
 "taxon": false,
 "wp": {}
@@ -1564,6 +1610,26 @@
 "taxon": false,
 "wp": {}
 },
+"Q118771541": {
+"coords": [
+[
+14.287279,
+48.52006
+]
+],
+"heritage": [
+[
+"natural monument in Upper Austria",
+"natural monument in Upper Austria"
+]
+],
+"image": "Bad Leonfelden Zötllinde 03.jpg",
+"taxa": [
+"Q156831"
+],
+"taxon": false,
+"wp": {}
+},
 "Q119079140": {
 "coords": [
 [
@@ -1574,6 +1640,101 @@
 "heritage": [],
 "image": "",
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q119625503": {
+"coords": [
+[
+13.369326,
+47.813176
+]
+],
+"heritage": [],
+"image": "ND381 Linde CF9A2920.jpg",
+"taxa": [
+"Q156831"
+],
+"taxon": false,
+"wp": {}
+},
+"Q119685359": {
+"coords": [
+[
+14.677824,
+48.443365
+]
+],
+"heritage": [],
+"image": "Winter-Linde \"Dorflinde\" in St. Leonhard bei Freistadt.jpg",
+"taxa": [
+"Q158746"
+],
+"taxon": false,
+"wp": {}
+},
+"Q119691508": {
+"coords": [
+[
+13.150939,
+48.055076
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q119692935": {
+"coords": [
+[
+13.149656668,
+48.105861635
+]
+],
+"heritage": [],
+"image": "Mammutbaum Gesamtansicht.jpg",
+"taxa": [
+"Q149851"
+],
+"taxon": false,
+"wp": {}
+},
+"Q119693009": {
+"coords": [
+[
+13.15064,
+48.10547
+]
+],
+"heritage": [],
+"image": "Amerikanische Schwarznuß.jpg",
+"taxa": [
+"Q852572"
+],
+"taxon": false,
+"wp": {}
+},
+"Q119847775": {
+"coords": [
+[
+14.299204,
+48.306836
+]
+],
+"heritage": [
+[
+"natural monument in Upper Austria",
+"natural monument in Upper Austria"
+]
+],
+"image": "Edelkastanie (Kaplanhofstraße 3, Linz, Austria).JPG",
+"taxa": [
+"Q22699"
+],
 "taxon": false,
 "wp": {}
 },
@@ -1645,6 +1806,21 @@
 "image": "Arima-Harunire1.JPG",
 "taxa": [
 "Q844010"
+],
+"taxon": false,
+"wp": {}
+},
+"Q120868238": {
+"coords": [
+[
+14.621909533,
+48.413627708
+]
+],
+"heritage": [],
+"image": "1000jährige Eibe, Gutau.jpg",
+"taxa": [
+"Q179729"
 ],
 "taxon": false,
 "wp": {}
@@ -2066,6 +2242,21 @@
 "heritage": [],
 "image": "Kilmog Rag tree 01.jpg",
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q125174925": {
+"coords": [
+[
+14.277694444,
+48.297333333
+]
+],
+"heritage": [],
+"image": "Botanischer Garten (Linz) - Küstenmammutbaum (Sequoia sempervirens).jpg",
+"taxa": [
+"Q150129"
+],
 "taxon": false,
 "wp": {}
 },
@@ -2529,6 +2720,24 @@
 "taxon": false,
 "wp": {}
 },
+"Q129172674": {
+"coords": [
+[
+16.291315568,
+48.323958514
+]
+],
+"heritage": [
+[
+"natural monument in Lower Austria",
+"natural monument in Lower Austria"
+]
+],
+"image": "Waldandacht Kritzendorf 04.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q129324": {
 "coords": [],
 "heritage": [],
@@ -2749,6 +2958,42 @@
 "it": "https://it.wikipedia.org/wiki/Prunus_persica"
 }
 },
+"Q133141079": {
+"coords": [
+[
+13.084497,
+47.769503
+]
+],
+"heritage": [
+[
+"natural monument in Salzburg state",
+"natural monument in Salzburg state"
+]
+],
+"image": "Linde beim Pulvermacherguetl in Glasenbach -DSC04759 01.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q133191233": {
+"coords": [
+[
+12.959484,
+47.768447
+]
+],
+"heritage": [
+[
+"natural monument in Salzburg state",
+"natural monument in Salzburg state"
+]
+],
+"image": "Tofferl-Eiche - DSC04805 16.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q133351": {
 "coords": [],
 "heritage": [],
@@ -2759,6 +3004,26 @@
 "en": "https://en.wikipedia.org/wiki/Schefflera",
 "it": "https://it.wikipedia.org/wiki/Schefflera"
 }
+},
+"Q133481867": {
+"coords": [
+[
+13.112885,
+47.717522
+]
+],
+"heritage": [
+[
+"natural monument in Salzburg state",
+"natural monument in Salzburg state"
+]
+],
+"image": "Bergahorn beim Schartenbauern - DSC04965.jpg",
+"taxa": [
+"Q156944"
+],
+"taxon": false,
+"wp": {}
 },
 "Q1337956": {
 "coords": [
@@ -2786,6 +3051,21 @@
 "heritage": [],
 "image": "",
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q133855199": {
+"coords": [
+[
+13.145206,
+47.874152
+]
+],
+"heritage": [],
+"image": "NDM00199 Geschirrnlinde CF9A3231.jpg",
+"taxa": [
+"Q127849"
+],
 "taxon": false,
 "wp": {}
 },
@@ -2865,6 +3145,26 @@
 "image": "Shimo-Ose no Okatsura in Fuji, Saga full view.jpg",
 "taxa": [
 "Q526549"
+],
+"taxon": false,
+"wp": {}
+},
+"Q1349795": {
+"coords": [
+[
+13.008806,
+47.926692
+]
+],
+"heritage": [
+[
+"natural monument in Salzburg state",
+"natural monument in Salzburg state"
+]
+],
+"image": "Neue Kaiserbuche 6.jpg",
+"taxa": [
+"Q146149"
 ],
 "taxon": false,
 "wp": {}
@@ -3601,6 +3901,19 @@
 "it": "https://it.wikipedia.org/wiki/Sequoiadendron_giganteum"
 }
 },
+"Q15109818": {
+"coords": [
+[
+13.233793,
+47.777896
+]
+],
+"heritage": [],
+"image": "1000-jährige Linde in Faistenau001.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q1520397": {
 "coords": [
 [
@@ -3634,6 +3947,24 @@
 "en": "https://en.wikipedia.org/wiki/Heinkel_He_111",
 "it": "https://it.wikipedia.org/wiki/Heinkel_He_111"
 }
+},
+"Q1546587": {
+"coords": [
+[
+15.8278,
+48.2108
+]
+],
+"heritage": [
+[
+"natural monument in Lower Austria",
+"natural monument in Lower Austria"
+]
+],
+"image": "Kogelbaum.png",
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q155874": {
 "coords": [],
@@ -3689,6 +4020,30 @@
 "en": "https://en.wikipedia.org/wiki/Araucaria",
 "it": "https://it.wikipedia.org/wiki/Araucaria"
 }
+},
+"Q15829174": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q15829199": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q15829222": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q158608": {
 "coords": [],
@@ -4327,6 +4682,26 @@
 "taxon": false,
 "wp": {}
 },
+"Q164792": {
+"coords": [
+[
+16.05149,
+47.10515
+]
+],
+"heritage": [
+[
+"natural monument in Styria",
+"natural monument in Styria"
+]
+],
+"image": "1000-jährige Eiche Bad Blumau.JPG",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
 "Q16508214": {
 "coords": [
 [
@@ -4423,6 +4798,26 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Jagie%C5%82%C5%82o_Oak"
 }
+},
+"Q16857092": {
+"coords": [
+[
+13.367866,
+47.487626
+]
+],
+"heritage": [
+[
+"area protetta",
+"protected area"
+]
+],
+"image": "Tannenstrauch.jpg",
+"taxa": [
+"Q146992"
+],
+"taxon": false,
+"wp": {}
 },
 "Q17190671": {
 "coords": [
@@ -5000,6 +5395,24 @@
 "taxa": [
 "Q161374"
 ],
+"taxon": false,
+"wp": {}
+},
+"Q2008900": {
+"coords": [
+[
+13.0986,
+47.7013
+]
+],
+"heritage": [
+[
+"Denkmalgeschütztes Objekt",
+"Listed objects in Austria"
+]
+],
+"image": "Oberalm Schranne 8089.jpg",
+"taxa": [],
 "taxon": false,
 "wp": {}
 },
@@ -7844,6 +8257,26 @@
 "en": "https://en.wikipedia.org/wiki/Ulex",
 "it": "https://it.wikipedia.org/wiki/Ulex"
 }
+},
+"Q39715082": {
+"coords": [
+[
+15.74126,
+48.54618
+]
+],
+"heritage": [
+[
+"natural monument in Lower Austria",
+"natural monument in Lower Austria"
+]
+],
+"image": "Silberne Eiche beide Bäume Schönberg-Fernitz.jpg",
+"taxa": [
+"Q12004"
+],
+"taxon": false,
+"wp": {}
 },
 "Q39918": {
 "coords": [],
@@ -14960,6 +15393,19 @@
 "en": "https://en.wikipedia.org/wiki/Ormiston_Yew"
 }
 },
+"Q82102460": {
+"coords": [
+[
+16.24046,
+48.12545
+]
+],
+"heritage": [],
+"image": "Tree shrine in Perchtoldsdorf, Lower Austria, Austria PNr°0470.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q838818": {
 "coords": [],
 "heritage": [],
@@ -14970,6 +15416,19 @@
 "en": "https://en.wikipedia.org/wiki/Jacaranda_mimosifolia",
 "it": "https://it.wikipedia.org/wiki/Jacaranda_mimosifolia"
 }
+},
+"Q84731877": {
+"coords": [
+[
+9.91141,
+47.520477
+]
+],
+"heritage": [],
+"image": "400 jährige Linde - panoramio.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q855274": {
 "coords": [
@@ -14997,6 +15456,27 @@
 "en": "https://en.wikipedia.org/wiki/Schinus_molle",
 "it": "https://it.wikipedia.org/wiki/Schinus_molle"
 }
+},
+"Q865771": {
+"coords": [
+[
+12.9733,
+47.784
+]
+],
+"heritage": [],
+"image": "Birnbaum auf dem Walserfeld.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q886511": {
+"coords": [],
+"heritage": [],
+"image": "FagusPurpurea052005.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {}
 },
 "Q891397": {
 "coords": [
@@ -15048,6 +15528,32 @@
 ],
 "heritage": [],
 "image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q91783709": {
+"coords": [
+[
+16.14339,
+47.88189
+]
+],
+"heritage": [],
+"image": "Tree shrine near Markt Piesting, Lower Austria, Austria PNr°0479.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q91783711": {
+"coords": [
+[
+16.14769,
+47.8823
+]
+],
+"heritage": [],
+"image": "Tree shrine near Markt Piesting, Lower Austria, Austria PNr°0477.jpg",
 "taxa": [],
 "taxon": false,
 "wp": {}

@@ -256,6 +256,10 @@
 "taxon": true
 },
 "Q1042288": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Magnolia officinalis",
 "it": "Magnolia officinalis",
 "names": [
@@ -768,6 +772,12 @@
 "taxon": true
 },
 "Q10771199": {
+"alias": {
+"en": [
+"dragon tree"
+],
+"it": []
+},
 "en": "Paulownia fortunei",
 "it": "Paulownia fortunei",
 "names": [
@@ -794,6 +804,14 @@
 "taxon": true
 },
 "Q1079824": {
+"alias": {
+"en": [
+"Siberian elm"
+],
+"it": [
+"Olmo siberiano"
+]
+},
 "en": "Ulmus pumila",
 "it": "Ulmus pumila",
 "names": [
@@ -949,6 +967,10 @@
 "taxon": true
 },
 "Q10881597": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Sophora japonica",
 "it": "Sophora japonica",
 "names": [
@@ -1021,6 +1043,13 @@
 "taxon": true
 },
 "Q10895250": {
+"alias": {
+"en": [
+"holly-leaved sweet spire",
+"hollyleaf sweetspire"
+],
+"it": []
+},
 "en": "Itea ilicifolia",
 "it": "Itea ilicifolia",
 "names": [
@@ -1788,6 +1817,13 @@
 "taxon": true
 },
 "Q1137593": {
+"alias": {
+"en": [
+"Pride of India",
+"Queen's Crape Myrtle, Jarul"
+],
+"it": []
+},
 "en": "Lagerstroemia speciosa",
 "it": "Lagerstroemia speciosa",
 "names": [
@@ -2672,6 +2708,13 @@
 "taxon": true
 },
 "Q128116": {
+"alias": {
+"en": [
+"Picea canadensis",
+"White spruce"
+],
+"it": []
+},
 "en": "Picea glauca",
 "it": "Picea glauca",
 "names": [
@@ -2736,6 +2779,14 @@
 "taxon": true
 },
 "Q128887": {
+"alias": {
+"en": [
+"ashes"
+],
+"it": [
+"Frassino"
+]
+},
 "en": "Fraxinus",
 "it": "Fraxinus",
 "names": [
@@ -2790,6 +2841,18 @@
 "taxon": true
 },
 "Q129324": {
+"alias": {
+"en": [
+"chestnut genus",
+"chestnut",
+"chestnuts"
+],
+"it": [
+"Castagni",
+"Castagno giapponese",
+"Castagno"
+]
+},
 "names": [
 "Castanea"
 ],
@@ -3538,6 +3601,16 @@
 "taxon": true
 },
 "Q131113": {
+"alias": {
+"en": [
+"elm",
+"elms"
+],
+"it": [
+"olmi",
+"olmo"
+]
+},
 "en": "Ulmus",
 "it": "Ulmus",
 "names": [
@@ -4575,6 +4648,12 @@
 "taxon": true
 },
 "Q138085": {
+"alias": {
+"en": [
+"Yunnan Cypress"
+],
+"it": []
+},
 "en": "Cupressus duclouxiana",
 "it": "Cupressus duclouxiana",
 "names": [
@@ -5091,6 +5170,25 @@
 "it": "Populus tremula",
 "names": [
 "Populus tremula"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q146136": {
+"alias": {
+"en": [
+"Alder Buckthorn"
+],
+"it": [
+"Frangola"
+]
+},
+"en": "Frangula alnus",
+"it": "Rhamnus frangula",
+"names": [
+"Frangula alnus"
 ],
 "ranks": [
 "Q7432"
@@ -5969,6 +6067,14 @@
 "taxon": true
 },
 "Q149332": {
+"alias": {
+"en": [
+"European wild pear"
+],
+"it": [
+"Perastro"
+]
+},
 "en": "Pyrus pyraster",
 "it": "Pyrus pyraster",
 "names": [
@@ -6599,6 +6705,10 @@
 "taxon": true
 },
 "Q15393682": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Stewartia monadelpha",
 "it": "Stewartia monadelpha",
 "names": [
@@ -7366,6 +7476,15 @@
 "taxon": true
 },
 "Q157017": {
+"alias": {
+"en": [
+"magnolia tree",
+"magnolias"
+],
+"it": [
+"Magnolie"
+]
+},
 "en": "Magnolia",
 "it": "Magnolia",
 "names": [
@@ -7594,6 +7713,24 @@
 "taxon": true
 },
 "Q157522": {
+"alias": {
+"en": [
+"eastern redcedar",
+"Virginian juniper",
+"eastern red cedar",
+"red cedar",
+"eastern juniper",
+"red juniper",
+"pencil cedar",
+"aromatic cedar",
+"Virginia cedar",
+"Virginian cedar"
+],
+"it": [
+"Ginepro della Virginia",
+"Sabina virginiana"
+]
+},
 "en": "Juniperus virginiana",
 "it": "Juniperus virginiana",
 "names": [
@@ -7832,6 +7969,16 @@
 "taxon": true
 },
 "Q157969": {
+"alias": {
+"en": [
+"Russian olive",
+"Persian olive",
+"Silver berry",
+"Oleastar",
+"Wild olive"
+],
+"it": []
+},
 "en": "Elaeagnus angustifolia",
 "it": "Elaeagnus angustifolia",
 "names": [
@@ -8078,6 +8225,16 @@
 "taxon": true
 },
 "Q158590": {
+"alias": {
+"en": [
+"basket willow",
+"common osier",
+"osier"
+],
+"it": [
+"Vinco"
+]
+},
 "names": [
 "Salix viminalis"
 ],
@@ -8473,6 +8630,12 @@
 "taxon": true
 },
 "Q159116": {
+"alias": {
+"en": [
+"Chinese wisteria"
+],
+"it": []
+},
 "en": "Wisteria sinensis",
 "it": "Wisteria sinensis",
 "names": [
@@ -8718,6 +8881,10 @@
 "taxon": true
 },
 "Q159627": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Robinia viscosa",
 "it": "Robinia viscosa",
 "names": [
@@ -9081,6 +9248,17 @@
 "taxon": true
 },
 "Q161375": {
+"alias": {
+"en": [
+"cheesewood",
+"Japanese mock orange",
+"Australian laurel",
+"Japanese pittosporum",
+"mock orange",
+"Japanese cheesewood"
+],
+"it": []
+},
 "en": "Pittosporum tobira",
 "it": "Pittosporum tobira",
 "names": [
@@ -9547,6 +9725,15 @@
 "taxon": true
 },
 "Q163025": {
+"alias": {
+"en": [
+"the plane tree genus",
+"planes"
+],
+"it": [
+"platano"
+]
+},
 "en": "Platanus",
 "it": "Platanus",
 "names": [
@@ -9675,6 +9862,19 @@
 "taxon": true
 },
 "Q163522": {
+"alias": {
+"en": [
+"golden kiwi",
+"yellow kiwi",
+"kiwi",
+"kiwi fruit",
+"Chinese gooseberry"
+],
+"it": [
+"Kiwi",
+"Summer kiwi"
+]
+},
 "en": "Actinidia chinensis",
 "it": "Actinidia chinensis",
 "names": [
@@ -9694,6 +9894,23 @@
 "it": "Betula ermanii",
 "names": [
 "Betula ermanii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1635788": {
+"alias": {
+"en": [
+"rose locust"
+],
+"it": []
+},
+"en": "Robinia neomexicana",
+"it": "Robinia neomexicana",
+"names": [
+"Robinia neomexicana"
 ],
 "ranks": [
 "Q7432"
@@ -10358,6 +10575,10 @@
 "taxon": true
 },
 "Q17188267": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Balantium antarcticum",
 "it": "Balantium antarcticum",
 "names": [
@@ -10376,6 +10597,12 @@
 "taxon": false
 },
 "Q17234465": {
+"alias": {
+"en": [
+"Conradine’s cherry"
+],
+"it": []
+},
 "en": "Prunus conradinae",
 "it": "Prunus conradinae",
 "names": [
@@ -10926,6 +11153,10 @@
 "taxon": true
 },
 "Q1825748": {
+"alias": {
+"en": [],
+"it": []
+},
 "names": [
 "Metasequoia"
 ],
@@ -11370,6 +11601,12 @@
 "taxon": true
 },
 "Q1975652": {
+"alias": {
+"en": [
+"redwood"
+],
+"it": []
+},
 "en": "Sequoia",
 "it": "Sequoia",
 "names": [
@@ -11414,6 +11651,25 @@
 "it": "Grevillea robusta",
 "names": [
 "Grevillea robusta"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1990136": {
+"alias": {
+"en": [
+"Nikau palm",
+"Feather duster palm",
+"Nikau"
+],
+"it": []
+},
+"en": "Rhopalostylis sapida",
+"it": "Rhopalostylis sapida",
+"names": [
+"Rhopalostylis sapida"
 ],
 "ranks": [
 "Q7432"
@@ -11785,6 +12041,16 @@
 "taxon": true
 },
 "Q211457": {
+"alias": {
+"en": [
+"Aleppo Pine"
+],
+"it": [
+"Pini d'Aleppo",
+"Pino d'aleppo",
+"Pino di Aleppo"
+]
+},
 "en": "Pinus halepensis",
 "it": "Pinus halepensis",
 "names": [
@@ -11792,6 +12058,19 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q21163121": {
+"alias": {
+"en": [],
+"it": []
+},
+"names": [
+"Fagus sylvatica 'Purpurea'"
+],
+"ranks": [
+"Q4886"
 ],
 "taxon": true
 },
@@ -11994,6 +12273,21 @@
 ],
 "ranks": [
 "Q68947"
+],
+"taxon": true
+},
+"Q21397599": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Ulmus speciosa",
+"it": "Ulmus speciosa",
+"names": [
+"Ulmus speciosa"
+],
+"ranks": [
+"Q7432"
 ],
 "taxon": true
 },
@@ -12597,6 +12891,15 @@
 "taxon": true
 },
 "Q25356": {
+"alias": {
+"en": [
+"the poplar and aspen genus"
+],
+"it": [
+"pioppi",
+"pioppo"
+]
+},
 "en": "Populus",
 "names": [
 "Populus"
@@ -12607,6 +12910,14 @@
 "taxon": true
 },
 "Q25403": {
+"alias": {
+"en": [
+"the beech genus"
+],
+"it": [
+"faggio"
+]
+},
 "en": "Fagus",
 "it": "Fagus",
 "names": [
@@ -12687,6 +12998,13 @@
 "taxon": true
 },
 "Q2566375": {
+"alias": {
+"en": [
+"fragrant wintersweet",
+"wintersweet"
+],
+"it": []
+},
 "en": "Chimonanthus praecox",
 "it": "Chimonanthus praecox",
 "names": [
@@ -13884,6 +14202,12 @@
 "taxon": true
 },
 "Q3002196": {
+"alias": {
+"en": [
+"pear-fruited cockspurthorn"
+],
+"it": []
+},
 "en": "Crataegus coccinea",
 "it": "Crataegus coccinea",
 "names": [
@@ -14021,6 +14345,10 @@
 "taxon": true
 },
 "Q3074730": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Pinus yunnanensis",
 "it": "Pinus yunnanensis",
 "names": [
@@ -14117,6 +14445,12 @@
 "taxon": true
 },
 "Q310876": {
+"alias": {
+"en": [
+"Weeping Paperbark"
+],
+"it": []
+},
 "en": "Melaleuca leucadendra",
 "it": "Melaleuca leucadendra",
 "names": [
@@ -14820,6 +15154,10 @@
 "taxon": true
 },
 "Q3473542": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Sarcococca confusa",
 "it": "Sarcococca confusa",
 "names": [
@@ -15033,7 +15371,31 @@
 ],
 "taxon": true
 },
+"Q3736033": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Betula pendula var. carelica",
+"it": "Betula pendula var. carelica",
+"names": [
+"Betula pendula var. carelica"
+],
+"ranks": [
+"Q767728"
+],
+"taxon": true
+},
 "Q37453": {
+"alias": {
+"en": [
+"apricot",
+"apricot tree"
+],
+"it": [
+"albicocco"
+]
+},
 "en": "Prunus armeniaca",
 "it": "Prunus armeniaca",
 "names": [
@@ -15084,6 +15446,15 @@
 "taxon": true
 },
 "Q3886573": {
+"alias": {
+"en": [
+"Delavay teaolive"
+],
+"it": [
+"Siphonosmanthus delavayi",
+"Osmanthus delawayi"
+]
+},
 "en": "Osmanthus delavayi",
 "it": "Osmanthus delavayi",
 "names": [
@@ -16346,6 +16717,10 @@
 "taxon": true
 },
 "Q4673170": {
+"alias": {
+"en": [],
+"it": []
+},
 "names": [
 "Acer nipponicum"
 ],
@@ -16621,6 +16996,15 @@
 },
 "en": "Apple tree",
 "it": "Apple tree",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q47971628": {
+"alias": {
+"en": [],
+"it": []
+},
 "names": [],
 "ranks": [],
 "taxon": false
@@ -17525,6 +17909,16 @@
 "ranks": [],
 "taxon": false
 },
+"Q55741490": {
+"alias": {
+"en": [],
+"it": []
+},
+"it": "tuia gigante",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q55741685": {
 "it": "cipresso messicano",
 "names": [],
@@ -17564,6 +17958,19 @@
 },
 "Q55743376": {
 "it": "quercia rossa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q55743469": {
+"alias": {
+"en": [],
+"it": [
+"Ginkgo biloba"
+]
+},
+"en": "Ginkgo biloba",
+"it": "ginco",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -17897,6 +18304,16 @@
 ],
 "taxon": true
 },
+"Q60174716": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Acer platanoides",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q602322": {
 "en": "Maclura tricuspidata",
 "it": "Maclura tricuspidata",
@@ -17956,6 +18373,12 @@
 "taxon": true
 },
 "Q608215": {
+"alias": {
+"en": [
+"Caesalpi"
+],
+"it": []
+},
 "en": "Caesalpinia",
 "it": "Caesalpinia",
 "names": [
@@ -18164,6 +18587,13 @@
 "taxon": true
 },
 "Q630002": {
+"alias": {
+"en": [
+"soft tree fern",
+"Tasmanian tree fern"
+],
+"it": []
+},
 "en": "Dicksonia antarctica",
 "it": "Dicksonia antartica",
 "names": [
@@ -18273,6 +18703,13 @@
 "taxon": true
 },
 "Q653466": {
+"alias": {
+"en": [
+"Cephalotaxus harringtoniana",
+"Cephalotaxus harringtonii"
+],
+"it": []
+},
 "en": "Cephalotaxus harringtonia",
 "it": "Cephalotaxus harringtonia",
 "names": [
@@ -18468,6 +18905,10 @@
 "taxon": true
 },
 "Q6825364": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Tamarix chinensis",
 "it": "Tamarix chinensis",
 "names": [
@@ -18661,6 +19102,13 @@
 "taxon": true
 },
 "Q712166": {
+"alias": {
+"en": [
+"Tetrapanax papyriferus",
+"Tetrapanax papyriferum"
+],
+"it": []
+},
 "en": "Tetrapanax papyrifer",
 "it": "Tetrapanax papyrifer",
 "names": [
@@ -18867,8 +19315,6 @@
 "Magnolia soulangeana"
 ]
 },
-"en": "Magnolia × soulangeana",
-"it": "Magnolia × soulangeana",
 "names": [
 "Magnolia ×soulangeana"
 ],
@@ -19493,6 +19939,12 @@
 "taxon": true
 },
 "Q8068785": {
+"alias": {
+"en": [
+"Zelkova verschaffeltii"
+],
+"it": []
+},
 "en": "Zelkova × verschaffeltii",
 "it": "Zelkova verschaffeltii",
 "names": [
@@ -19662,6 +20114,12 @@
 "taxon": true
 },
 "Q845222": {
+"alias": {
+"en": [],
+"it": [
+"Styrax obassis"
+]
+},
 "en": "Styrax obassia",
 "it": "Styrax obassia",
 "names": [
@@ -19991,6 +20449,19 @@
 "taxon": true
 },
 "Q857220": {
+"alias": {
+"en": [
+"Australian pine tree",
+"horsetail tree",
+"whistling pine tree",
+"agoho pine",
+"Australian pine",
+"beach sheoak",
+"beach casuarina",
+"coastal she-oak"
+],
+"it": []
+},
 "en": "Casuarina equisetifolia",
 "it": "Casuarina equisetifolia",
 "names": [
@@ -20211,6 +20682,21 @@
 ],
 "taxon": true
 },
+"Q894236": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Robinia hispida",
+"it": "Robinia hispida",
+"names": [
+"Robinia hispida"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q899179": {
 "en": "Araucaria angustifolia",
 "it": "Araucaria angustifolia",
@@ -20244,7 +20730,43 @@
 "ranks": [],
 "taxon": false
 },
+"Q907118": {
+"alias": {
+"en": [
+"Brachychiton",
+"flame tree",
+"Illawarra flame tree",
+"lacebark tree",
+"kurrajong"
+],
+"it": []
+},
+"en": "Brachychiton acerifolius",
+"it": "Brachychiton acerifolius",
+"names": [
+"Brachychiton acerifolius"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q910358": {
+"alias": {
+"en": [
+"Spanish broom",
+"rush broom",
+"weaver's broom",
+"Spartium juncea"
+],
+"it": [
+"ginestra odorosa",
+"ginestra comune",
+"ginestra di Spagna",
+"giunco di Spagna",
+"pianta della scopa"
+]
+},
 "en": "Spartium junceum",
 "it": "Spartium junceum",
 "names": [
@@ -20522,6 +21044,12 @@
 ],
 "taxon": true
 },
+"Q93845211": {
+"en": "Natural monument \"Ginkgo biloba\"",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q941891": {
 "alias": {
 "en": [
@@ -20721,6 +21249,21 @@
 ],
 "taxon": true
 },
+"Q95921245": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Ulmus",
+"it": "Ulmus",
+"names": [
+"Ulmus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q95988426": {
 "alias": {
 "en": [],
@@ -20883,6 +21426,10 @@
 "taxon": true
 },
 "Q990982": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Magnolia tripetala",
 "it": "Magnolia tripetala",
 "names": [
