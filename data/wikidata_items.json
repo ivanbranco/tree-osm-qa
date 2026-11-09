@@ -72,6 +72,49 @@
 "taxon": false,
 "wp": {}
 },
+"Q106317999": {
+"coords": [
+[
+130.57218,
+30.38075
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q147388"
+],
+"taxon": false,
+"wp": {}
+},
+"Q106318003": {
+"coords": [
+[
+130.5435723,
+30.302739
+]
+],
+"heritage": [],
+"image": "Kigen Sugi in Yakushima.jpg",
+"taxa": [
+"Q147388"
+],
+"taxon": false,
+"wp": {}
+},
+"Q106488309": {
+"coords": [
+[
+133.180222222,
+35.189666666
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q106523316": {
 "coords": [
 [
@@ -222,6 +265,21 @@
 "it": "https://it.wikipedia.org/wiki/Monumento_ai_caduti_in_Russia_della_seconda_guerra_mondiale"
 }
 },
+"Q106910580": {
+"coords": [
+[
+138.830388888,
+35.516111111
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q1329209"
+],
+"taxon": false,
+"wp": {}
+},
 "Q107137308": {
 "coords": [
 [
@@ -317,6 +375,46 @@
 "taxon": false,
 "wp": {}
 },
+"Q10855733": {
+"coords": [
+[
+140.152036,
+35.159522
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Kamogawa Seicho-ji 06.jpg",
+"taxa": [
+"Q147388"
+],
+"taxon": false,
+"wp": {}
+},
+"Q10860801": {
+"coords": [
+[
+138.36772222,
+35.78047222
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Hokuto Yamanashi Yamatakajindaizakura 1.jpg",
+"taxa": [
+"Q51117378"
+],
+"taxon": false,
+"wp": {}
+},
 "Q1087503": {
 "coords": [
 [
@@ -333,6 +431,26 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Chrobry_Oak"
 }
+},
+"Q10879191": {
+"coords": [
+[
+138.588583,
+35.301222
+]
+],
+"heritage": [
+[
+"Special Natural Monument",
+"Special Natural Monument"
+]
+],
+"image": "Kariyado no Geba Sakura.jpg",
+"taxa": [
+"Q17234789"
+],
+"taxon": false,
+"wp": {}
 },
 "Q1090986": {
 "coords": [
@@ -370,6 +488,26 @@
 "heritage": [],
 "image": "Gradsko jezgro sr.karlovaca 18.JPG",
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q110777276": {
+"coords": [
+[
+139.851527777,
+38.765388888
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Hodashi no Keyaki B.jpg",
+"taxa": [
+"Q920344"
+],
 "taxon": false,
 "wp": {}
 },
@@ -512,6 +650,66 @@
 "taxon": false,
 "wp": {}
 },
+"Q111585833": {
+"coords": [
+[
+136.657833333,
+36.562166666
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Grand chinquapin tree in front of Shiinoki Cultural Complex of Ishikawa Prefecture.JPG",
+"taxa": [
+"Q846994"
+],
+"taxon": false,
+"wp": {}
+},
+"Q111605751": {
+"coords": [
+[
+129.905166666,
+33.193194444
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Ginkgo Tree Arita 01.jpg",
+"taxa": [
+"Q43284"
+],
+"taxon": false,
+"wp": {}
+},
+"Q111817882": {
+"coords": [
+[
+134.362305555,
+35.005472222
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Ginkgo tree at Sayo 200103.jpg",
+"taxa": [
+"Q43284"
+],
+"taxon": false,
+"wp": {}
+},
 "Q111980681": {
 "coords": [
 [
@@ -521,6 +719,59 @@
 ],
 "heritage": [],
 "image": "Laumių miškas, 4-kamienė eglė 2.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q112080442": {
+"coords": [
+[
+139.967,
+38.705139
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Jiji-sugi, the Grandpa Cedar in Mt.Haguro 20180421.jpg",
+"taxa": [
+"Q147388"
+],
+"taxon": false,
+"wp": {}
+},
+"Q112167804": {
+"coords": [
+[
+129.993333,
+33.251833
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Kawako camphor tree.jpg",
+"taxa": [
+"Q158722"
+],
+"taxon": false,
+"wp": {}
+},
+"Q112169099": {
+"coords": [
+[
+137.380194,
+34.807417
+]
+],
+"heritage": [],
+"image": "",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -571,6 +822,37 @@
 "it": "https://it.wikipedia.org/wiki/Royal_Oak_(albero)"
 }
 },
+"Q112581469": {
+"coords": [
+[
+139.627083,
+35.872028
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q11263067": {
+"coords": [
+[
+139.076778,
+35.098972
+]
+],
+"heritage": [],
+"image": "Omiya no Matsu.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q112678905": {
 "coords": [
 [
@@ -594,6 +876,27 @@
 "taxon": false,
 "wp": {}
 },
+"Q11288187": {
+"coords": [
+[
+130.54194444,
+30.35638889
+]
+],
+"heritage": [],
+"image": "Wilson Stump 01.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q11302429": {
+"coords": [],
+"heritage": [],
+"image": "Prunus pendula form. ascendens 'Komatsu-otome' 02.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {}
+},
 "Q113192125": {
 "coords": [
 [
@@ -606,6 +909,52 @@
 "taxa": [
 "Q127849"
 ],
+"taxon": false,
+"wp": {}
+},
+"Q11352772": {
+"coords": [
+[
+140.60736111,
+36.6275
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q11355279": {
+"coords": [
+[
+138.919264,
+35.122003
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Mishima-taisha-no-Kinmokusei 2011-09-18.jpg",
+"taxa": [
+"Q1209922"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11359084": {
+"coords": [
+[
+136.983039,
+36.852978
+]
+],
+"heritage": [],
+"image": "Ginkgo at Jyonichiji temple.JPG",
+"taxa": [],
 "taxon": false,
 "wp": {}
 },
@@ -624,6 +973,154 @@
 "taxon": false,
 "wp": {}
 },
+"Q11363887": {
+"coords": [
+[
+136.873083,
+35.452583
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Ganjoji-Gifu2008-3.jpg",
+"taxa": [
+"Q17234789"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11398591": {
+"coords": [
+[
+137.334564,
+35.752564
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Kashimo Ōsugi 20100809.jpg",
+"taxa": [
+"Q147388"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11410214": {
+"coords": [
+[
+135.917777777,
+34.473916666
+]
+],
+"heritage": [],
+"image": "またべい1.jpg",
+"taxa": [
+"Q10879010"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11412190": {
+"coords": [
+[
+135.7619713,
+35.0239683
+]
+],
+"heritage": [],
+"image": "Ukon no Tachibana.JPG",
+"taxa": [
+"Q11121938"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11419015": {
+"coords": [
+[
+139.642139,
+35.601556
+]
+],
+"heritage": [],
+"image": "Japanese nutmeg in Zenyōmitsu-ji 201504 03.jpg",
+"taxa": [
+"Q1373999"
+],
+"taxon": false,
+"wp": {}
+},
+"Q114289633": {
+"coords": [
+[
+141.304722,
+40.166361
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q11447792": {
+"coords": [
+[
+129.933611,
+33.098611
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Tea Tree.jpg",
+"taxa": [
+"Q101815"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11479727": {
+"coords": [
+[
+135.7623093,
+35.0239705
+]
+],
+"heritage": [],
+"image": "Sakon no Sakura.JPG",
+"taxa": [
+"Q5721717"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11480957": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q917187"
+],
+"taxon": false,
+"wp": {}
+},
 "Q115057813": {
 "coords": [
 [
@@ -635,6 +1132,21 @@
 "image": "Rul d' la Costa 6 (cropped).jpg",
 "taxa": [
 "Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11511121": {
+"coords": [
+[
+139.734639,
+35.641667
+]
+],
+"heritage": [],
+"image": "Kyu Hosokawa tei-no-shii 01.jpg",
+"taxa": [
+"Q846994"
 ],
 "taxon": false,
 "wp": {}
@@ -655,6 +1167,52 @@
 "wp": {
 "it": "https://it.wikipedia.org/wiki/Quercia_del_Tasso"
 }
+},
+"Q11516171": {
+"coords": [
+[
+137.566667,
+35.257778
+]
+],
+"heritage": [],
+"image": "Tsukize-no-Osugi ac (5).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q11543715": {
+"coords": [
+[
+134.711056,
+35.347639
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q11557197": {
+"coords": [
+[
+140.487667,
+39.262972
+]
+],
+"heritage": [
+[
+"Prefectural Natural Monument",
+"Prefectural Natural Monument"
+]
+],
+"image": "Tsukinoki Illumination in Yokote 20200104d.jpg",
+"taxa": [
+"Q920344"
+],
+"taxon": false,
+"wp": {}
 },
 "Q115620235": {
 "coords": [
@@ -686,6 +1244,30 @@
 "taxon": false,
 "wp": {}
 },
+"Q11570113": {
+"coords": [
+[
+139.77319444,
+35.985
+]
+],
+"heritage": [
+[
+"Special Natural Monument",
+"Special Natural Monument"
+],
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Kasukabe Wisteria Of Ushijima 1.jpg",
+"taxa": [
+"Q1329209"
+],
+"taxon": false,
+"wp": {}
+},
 "Q115933929": {
 "coords": [
 [
@@ -697,6 +1279,133 @@
 "image": "2780theHardyTreeOldStPancrasChurchyard.jpg",
 "taxa": [
 "Q156907"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11608086": {
+"coords": [
+[
+139.650333,
+35.740389
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "NERIMA-HAKUSANJINJA-NO-OOKEYAKI.JPG",
+"taxa": [
+"Q920344"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11611985": {
+"coords": [
+[
+138.248139,
+34.778917
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Nomanji Temple Cycad A.jpg",
+"taxa": [
+"Q161517"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11612441": {
+"coords": [
+[
+137.248008,
+36.089156
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Garyuuzakura001.JPG",
+"taxa": [
+"Q51117378"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11620303": {
+"coords": [
+[
+139.0725,
+36.339444
+]
+],
+"heritage": [],
+"image": "Hagiwara no O-kasamatsu.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q11621332": {
+"coords": [
+[
+130.569622,
+31.765567
+]
+],
+"heritage": [
+[
+"Special Natural Monument",
+"Special Natural Monument"
+],
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Big Japanese cinnamon Kamo hachiman shrine.jpg",
+"taxa": [
+"Q158722"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11653596": {
+"coords": [
+[
+139.115361,
+35.243806
+]
+],
+"heritage": [],
+"image": "Weeping Cherry Tree in Chōkōzan Shōtai-ji Temple.jpg",
+"taxa": [
+"Q10879010"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11665779": {
+"coords": [
+[
+130.53491667,
+33.52136111
+]
+],
+"heritage": [],
+"image": "Dazaifu Tenmangu Plum Tree 2004-03-07.jpg",
+"taxa": [
+"Q157763"
 ],
 "taxon": false,
 "wp": {}
@@ -920,6 +1629,26 @@
 "taxon": false,
 "wp": {}
 },
+"Q120703507": {
+"coords": [
+[
+139.407944444,
+35.418555555
+]
+],
+"heritage": [
+[
+"Natural Monument designated by Kanagawa prefectural government",
+"Natural Monument designated by Kanagawa prefectural government"
+]
+],
+"image": "Arima-Harunire1.JPG",
+"taxa": [
+"Q844010"
+],
+"taxon": false,
+"wp": {}
+},
 "Q122086754": {
 "coords": [
 [
@@ -1029,6 +1758,44 @@
 "taxon": false,
 "wp": {}
 },
+"Q123434781": {
+"coords": [
+[
+140.703444,
+36.714778
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Arakawa Jii cedar tree. A.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q123486959": {
+"coords": [
+[
+130.411222222,
+33.593055555
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Kushida no Ginan the W side 1-41 Kami-kawabatamachi Hakata-ku Fukuoka 20230801.jpg",
+"taxa": [
+"Q43284"
+],
+"taxon": false,
+"wp": {}
+},
 "Q12359501": {
 "coords": [
 [
@@ -1098,6 +1865,21 @@
 "image": "",
 "taxa": [
 "Q18674606"
+],
+"taxon": false,
+"wp": {}
+},
+"Q123717399": {
+"coords": [
+[
+140.364972,
+37.530972
+]
+],
+"heritage": [],
+"image": "Baba Zakura. Oct 25, 2023. Otama Village, Fukushima Prefecture. A.jpg",
+"taxa": [
+"Q51117378"
 ],
 "taxon": false,
 "wp": {}
@@ -1206,6 +1988,24 @@
 "taxon": false,
 "wp": {}
 },
+"Q124285355": {
+"coords": [
+[
+140.400388888,
+35.905722222
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Kōzaki-jinja (Kōzaki, Chiba) 12.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q124472567": {
 "coords": [
 [
@@ -1236,6 +2036,26 @@
 "taxon": false,
 "wp": {}
 },
+"Q124719160": {
+"coords": [
+[
+138.915139,
+34.659167
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Distylium racemosum tree of Kisami Hachiman Jinja Shrine. A.jpg",
+"taxa": [
+"Q310331"
+],
+"taxon": false,
+"wp": {}
+},
 "Q124846838": {
 "coords": [
 [
@@ -1246,6 +2066,46 @@
 "heritage": [],
 "image": "Kilmog Rag tree 01.jpg",
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q125399311": {
+"coords": [
+[
+139.3979982,
+35.4523912
+]
+],
+"heritage": [
+[
+"Natural Monument designated by Kanagawa prefectural government",
+"Natural Monument designated by Kanagawa prefectural government"
+]
+],
+"image": "2024-04-07 海老名の大ケヤキ DSC06528.jpg",
+"taxa": [
+"Q920344"
+],
+"taxon": false,
+"wp": {}
+},
+"Q125399894": {
+"coords": [
+[
+139.35461,
+35.46466
+]
+],
+"heritage": [
+[
+"Natural Monument designated by Kanagawa prefectural government",
+"Natural Monument designated by Kanagawa prefectural government"
+]
+],
+"image": "KanagawaSelectedTree100-Tsumada Atsugi.jpg",
+"taxa": [
+"Q158722"
+],
 "taxon": false,
 "wp": {}
 },
@@ -1318,6 +2178,41 @@
 "image": "Pioppo ibrido di Palazzolo Vercellese 02.jpg",
 "taxa": [
 "Q149622"
+],
+"taxon": false,
+"wp": {}
+},
+"Q125550517": {
+"coords": [
+[
+138.8545475,
+35.4603839
+]
+],
+"heritage": [
+[
+"Oshino village designated natural monument",
+"Oshino village designated natural monument"
+]
+],
+"image": "Big ichii tree in Oshino-mura.jpg",
+"taxa": [
+"Q1144815"
+],
+"taxon": false,
+"wp": {}
+},
+"Q125659015": {
+"coords": [
+[
+139.399666666,
+35.4225
+]
+],
+"heritage": [],
+"image": "Ebina-Tsubakizizou.JPG",
+"taxa": [
+"Q160121"
 ],
 "taxon": false,
 "wp": {}
@@ -1619,6 +2514,21 @@
 "taxon": false,
 "wp": {}
 },
+"Q129055482": {
+"coords": [
+[
+140.117583333,
+35.537388888
+]
+],
+"heritage": [],
+"image": "20240615 Iigaoka Hachimangu no Meoto Icho Ichihara-JPN.jpg",
+"taxa": [
+"Q43284"
+],
+"taxon": false,
+"wp": {}
+},
 "Q129324": {
 "coords": [],
 "heritage": [],
@@ -1685,6 +2595,26 @@
 "heritage": [],
 "image": "Rag tree at Saint Molin's Well.jpg",
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q130296651": {
+"coords": [
+[
+138.832056,
+36.574861
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Haramachi-no-O-Keyaki 201907 001.jpg",
+"taxa": [
+"Q920344"
+],
 "taxon": false,
 "wp": {}
 },
@@ -1869,6 +2799,26 @@
 "taxon": false,
 "wp": {}
 },
+"Q134375795": {
+"coords": [
+[
+139.670083333,
+35.284777777
+]
+],
+"heritage": [
+[
+"Important Landscape Structure",
+"Important Landscape Structure"
+]
+],
+"image": "",
+"taxa": [
+"Q838818"
+],
+"taxon": false,
+"wp": {}
+},
 "Q134376041": {
 "coords": [
 [
@@ -1895,6 +2845,26 @@
 "image": "Dunnamaggin mass bush.jpg",
 "taxa": [
 "Q132557"
+],
+"taxon": false,
+"wp": {}
+},
+"Q134777085": {
+"coords": [
+[
+130.26025,
+33.44362
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Shimo-Ose no Okatsura in Fuji, Saga full view.jpg",
+"taxa": [
+"Q526549"
 ],
 "taxon": false,
 "wp": {}
@@ -2079,6 +3049,19 @@
 ],
 "heritage": [],
 "image": "Platano comune monumentale (Vannetti 28) (90653).jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q138349368": {
+"coords": [
+[
+140.420709,
+42.5572428
+]
+],
+"heritage": [],
+"image": "",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -2639,6 +3622,17 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Hundred_Horse_Chestnut",
 "it": "https://it.wikipedia.org/wiki/Castagno_dei_Cento_Cavalli"
+}
+},
+"Q154532": {
+"coords": [],
+"heritage": [],
+"image": "Bundesarchiv Bild 101I-343-0694-21, Belgien-Frankreich, Flugzeug Heinkel He 111.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Heinkel_He_111",
+"it": "https://it.wikipedia.org/wiki/Heinkel_He_111"
 }
 },
 "Q155874": {
@@ -3430,6 +4424,109 @@
 "en": "https://en.wikipedia.org/wiki/Jagie%C5%82%C5%82o_Oak"
 }
 },
+"Q17190671": {
+"coords": [
+[
+138.15638889,
+36.34983611
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q17213699": {
+"coords": [
+[
+134.398556,
+34.099694
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q17214933": {
+"coords": [
+[
+133.004722,
+34.248389
+]
+],
+"heritage": [],
+"image": "Ōyamazumi-jinja kusunoki (Nōin-houshi).JPG",
+"taxa": [
+"Q158722"
+],
+"taxon": false,
+"wp": {}
+},
+"Q17215169": {
+"coords": [
+[
+130.971,
+31.33901
+],
+[
+130.970833,
+31.339111
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Camphor tree of Tsukazaki Kagoshima.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q17222727": {
+"coords": [
+[
+139.733333,
+35.653333
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Zenpukuji-sakasa-ichou.jpg",
+"taxa": [
+"Q43284"
+],
+"taxon": false,
+"wp": {}
+},
+"Q17226861": {
+"coords": [
+[
+127.985944444,
+26.587333333
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Hinpun-Gajumaru.jpg",
+"taxa": [
+"Q714180"
+],
+"taxon": false,
+"wp": {}
+},
 "Q17340297": {
 "coords": [
 [
@@ -3846,6 +4943,17 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q189838": {
+"coords": [],
+"heritage": [],
+"image": "Box Elder (Acer negundo) Buds - Guelph, Ontario 01.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Bud",
+"it": "https://it.wikipedia.org/wiki/Gemma_(botanica)"
+}
 },
 "Q1932208": {
 "coords": [
@@ -4300,6 +5408,21 @@
 "taxon": false,
 "wp": {}
 },
+"Q2089641": {
+"coords": [
+[
+132.453361,
+34.391889
+]
+],
+"heritage": [],
+"image": "Phoenix Trees (China Parasol Trees) Exposed to the A-bomb 20131013-1.JPG",
+"taxa": [
+"Q776705"
+],
+"taxon": false,
+"wp": {}
+},
 "Q21045356": {
 "coords": [
 [
@@ -4485,6 +5608,41 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Platanus_%C3%97acerifolia"
 }
+},
+"Q24862411": {
+"coords": [
+[
+135.83499722,
+34.68196389
+]
+],
+"heritage": [],
+"image": "Yougou No Matsu Nara Koen.jpg",
+"taxa": [
+"Q854884"
+],
+"taxon": false,
+"wp": {}
+},
+"Q24868795": {
+"coords": [
+[
+139.553295,
+35.667013
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "青渭神社のケヤキ, 2016.jpg",
+"taxa": [
+"Q920344"
+],
+"taxon": false,
+"wp": {}
 },
 "Q24941483": {
 "coords": [],
@@ -4828,6 +5986,39 @@
 "en": "https://en.wikipedia.org/wiki/Queen_Elizabeth_Oak"
 }
 },
+"Q27158877": {
+"coords": [
+[
+140.1317912,
+35.594863
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Chibadera-ginkgo.jpg",
+"taxa": [
+"Q43284"
+],
+"taxon": false,
+"wp": {}
+},
+"Q27179241": {
+"coords": [
+[
+140.1227663,
+35.6040576
+]
+],
+"heritage": [],
+"image": "千葉市羽衣の松.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q27868535": {
 "coords": [
 [
@@ -5028,6 +6219,46 @@
 "en": "https://en.wikipedia.org/wiki/Pyrus_calleryana",
 "it": "https://it.wikipedia.org/wiki/Pyrus_calleryana"
 }
+},
+"Q30922759": {
+"coords": [
+[
+139.15213889,
+35.78397222
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Giant zelkova tree of Mount Mitake Ome Tokyo.jpg",
+"taxa": [
+"Q920344"
+],
+"taxon": false,
+"wp": {}
+},
+"Q30937292": {
+"coords": [
+[
+139.13733333,
+35.24211111
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Hayakawa no Biranju.jpeg",
+"taxa": [
+"Q11176093"
+],
+"taxon": false,
+"wp": {}
 },
 "Q31182252": {
 "coords": [
@@ -6766,6 +7997,19 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Locust_of_Square_Ren%C3%A9-Viviani"
 }
+},
+"Q48756110": {
+"coords": [
+[
+137.03880556,
+35.00136111
+]
+],
+"heritage": [],
+"image": "Chiryu City Library 2016-c.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q48816893": {
 "coords": [
@@ -9145,6 +10389,23 @@
 "taxon": false,
 "wp": {}
 },
+"Q5353635": {
+"coords": [
+[
+139.05938888,
+35.45836111
+]
+],
+"heritage": [],
+"image": "Yamakita-Hokisugi.jpg",
+"taxa": [
+"Q128550"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Houkisugi_at_Nakagawa"
+}
+},
 "Q55100046": {
 "coords": [],
 "heritage": [],
@@ -9155,6 +10416,21 @@
 "en": "https://en.wikipedia.org/wiki/Tree_of_Liberty_(symbol)",
 "it": "https://it.wikipedia.org/wiki/Albero_della_libert%C3%A0"
 }
+},
+"Q55527106": {
+"coords": [
+[
+133.64719444,
+35.024
+]
+],
+"heritage": [],
+"image": "醍醐桜.jpg",
+"taxa": [
+"Q51117378"
+],
+"taxon": false,
+"wp": {}
 },
 "Q55605400": {
 "coords": [
@@ -12341,6 +13617,28 @@
 "it": "https://it.wikipedia.org/wiki/Albero_di_Robin_Hood"
 }
 },
+"Q5600400": {
+"coords": [
+[
+136.36,
+36.2275
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Kayano Ōsugi 20070814.jpg",
+"taxa": [
+"Q147388"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Great_sugi_of_Kayano"
+}
+},
 "Q56258312": {
 "coords": [
 [
@@ -12879,6 +14177,24 @@
 "taxon": false,
 "wp": {}
 },
+"Q589967": {
+"coords": [
+[
+130.531944444,
+30.360833333
+]
+],
+"heritage": [],
+"image": "Jomon Sugi 07.jpg",
+"taxa": [
+"Q12323064",
+"Q590101"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/J%C5%8Dmon_Sugi"
+}
+},
 "Q59835134": {
 "coords": [],
 "heritage": [],
@@ -12905,6 +14221,30 @@
 "image": "Vrba lipa.JPG",
 "taxa": [
 "Q156831"
+],
+"taxon": false,
+"wp": {}
+},
+"Q60403026": {
+"coords": [
+[
+139.067819444,
+35.1005
+]
+],
+"heritage": [
+[
+"Tesoro nazionale",
+"National Treasure of Japan"
+],
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Azusawake Jinja no Okusu -02.jpg",
+"taxa": [
+"Q158722"
 ],
 "taxon": false,
 "wp": {}
@@ -12969,6 +14309,26 @@
 "taxon": false,
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Islington_Green"
+}
+},
+"Q6125832": {
+"coords": [
+[
+141.625139,
+39.003444
+]
+],
+"heritage": [
+[
+"100 Landscapes of Shōwa",
+"100 Landscapes of Shōwa"
+]
+],
+"image": "Reforested Takata Matsubara.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Takata-matsubara"
 }
 },
 "Q61361175": {
@@ -13140,6 +14500,27 @@
 "taxon": false,
 "wp": {}
 },
+"Q61874645": {
+"coords": [
+[
+134.845830555,
+35.584888888
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q624558": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q62521268": {
 "coords": [
 [
@@ -13226,6 +14607,21 @@
 "en": "https://en.wikipedia.org/wiki/Knightwood_Oak"
 }
 },
+"Q65234193": {
+"coords": [
+[
+134.704777777,
+35.538805555
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q51117378"
+],
+"taxon": false,
+"wp": {}
+},
 "Q65260618": {
 "coords": [
 [
@@ -13262,6 +14658,39 @@
 "heritage": [],
 "image": "",
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q65271674": {
+"coords": [
+[
+134.681988888,
+35.561480555
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q65286486": {
+"coords": [
+[
+135.450416666,
+34.946083333
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Noma no Okeyaki B.jpg",
+"taxa": [
+"Q920344"
+],
 "taxon": false,
 "wp": {}
 },
@@ -13404,6 +14833,28 @@
 "taxon": false,
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Napoleon_Oak"
+}
+},
+"Q7397301": {
+"coords": [
+[
+135.983972,
+33.731667
+]
+],
+"heritage": [
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
+]
+],
+"image": "Sacred Nagi Tree of Kumano Hayatama Taisha (1).jpg",
+"taxa": [
+"Q3274110"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Sacred_Nagi_Tree_of_Kumano_Hayatama_Taisha"
 }
 },
 "Q753099": {
@@ -13791,6 +15242,16 @@
 "taxon": false,
 "wp": {}
 },
+"Q95994298": {
+"coords": [],
+"heritage": [],
+"image": "Oicho in Utsunomiya, May 2020-1.jpg",
+"taxa": [
+"Q43284"
+],
+"taxon": false,
+"wp": {}
+},
 "Q96400689": {
 "coords": [
 [
@@ -13876,6 +15337,19 @@
 "taxa": [
 "Q165145"
 ],
+"taxon": false,
+"wp": {}
+},
+"Q99541305": {
+"coords": [
+[
+139.773389,
+35.712587
+]
+],
+"heritage": [],
+"image": "100 views edo 089.jpg",
+"taxa": [],
 "taxon": false,
 "wp": {}
 }

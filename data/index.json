@@ -134,6 +134,14 @@
    "sha1": "74faf147f3f0afac8962f785b49a02b3fe5cdb48",
    "updated": "2026-11-08T23:27:27Z"
   },
+  "giappone": {
+   "count": 307295,
+   "diam": "mm",
+   "errors": 12829,
+   "name": "Giappone",
+   "sha1": "9a7b233a87b8e48cf3312d62acca27327cb0001c",
+   "updated": "2026-11-09T17:00:28Z"
+  },
   "grand-est": {
    "count": 253303,
    "errors": 2166,
