@@ -70,6 +70,14 @@
    "sha1": "e3e3bc74bc4f6f1bc7c09861c0e48ed3d3fbf9c8",
    "updated": "2026-11-08T18:47:49Z"
   },
+  "connacht": {
+   "count": 45804,
+   "diam": "mm",
+   "errors": 14,
+   "name": "Connacht",
+   "sha1": "163f9fd9f48e28438688bc3a441d4da931d558cb",
+   "updated": "2026-11-09T16:02:52Z"
+  },
   "corsica": {
    "count": 3560,
    "errors": 20,
@@ -160,6 +168,14 @@
    "name": "Lazio",
    "sha1": "609b989463765faf85d6fb719b9926b25f9bde3e",
    "updated": "2026-11-08T22:05:22Z"
+  },
+  "leinster": {
+   "count": 600057,
+   "diam": "mm",
+   "errors": 1001,
+   "name": "Leinster",
+   "sha1": "ce1ba2b502b0dd684d823713185fe4b27eb68907",
+   "updated": "2026-11-09T16:00:44Z"
   },
   "lettonia": {
    "count": 102449,
@@ -259,6 +275,14 @@
    "name": "Molise",
    "sha1": "c90e9a2fede4c19929fdb71375da647916bf2821",
    "updated": "2026-11-08T22:06:25Z"
+  },
+  "munster": {
+   "count": 245356,
+   "diam": "mm",
+   "errors": 76,
+   "name": "Munster",
+   "sha1": "7f8767b3733a3c4ee4af87a9b70d2b54dddbe5ae",
+   "updated": "2026-11-09T16:02:14Z"
   },
   "nord-est-inghilterra": {
    "count": 12256,
@@ -365,6 +389,14 @@
    "sha1": "568c78ffd546cd96ad908b8b08c99bbaa9fed117",
    "updated": "2026-11-08T23:28:59Z"
   },
+  "serbia": {
+   "count": 40023,
+   "diam": "mm",
+   "errors": 368,
+   "name": "Serbia",
+   "sha1": "08aacceb803901b920f35d5dec0e3d542dcd0a19",
+   "updated": "2026-11-09T16:04:20Z"
+  },
   "sicilia": {
    "count": 49240,
    "errors": 763,
@@ -420,6 +452,14 @@
    "name": "Trentino-Alto Adige",
    "sha1": "4448197f2e630df5dc623f552e33559261069807",
    "updated": "2026-11-08T22:00:01Z"
+  },
+  "ulster-irlanda": {
+   "count": 47000,
+   "diam": "mm",
+   "errors": 2,
+   "name": "Ulster",
+   "sha1": "9c65a3f180a9b98636e04277906b1caad4a86ab5",
+   "updated": "2026-11-09T16:03:29Z"
   },
   "umbria": {
    "count": 17770,

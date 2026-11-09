@@ -360,6 +360,34 @@
 "en": "https://en.wikipedia.org/wiki/Ch%C3%AAne_chapelle"
 }
 },
+"Q110045279": {
+"coords": [
+[
+19.936294,
+45.201903
+]
+],
+"heritage": [],
+"image": "Gradsko jezgro sr.karlovaca 18.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q110821702": {
+"coords": [
+[
+-8.567972222,
+51.929055555
+]
+],
+"heritage": [],
+"image": "2020 Witch’s Yew Tree IRL.jpg",
+"taxa": [
+"Q179729"
+],
+"taxon": false,
+"wp": {}
+},
 "Q110895611": {
 "coords": [
 [
@@ -798,6 +826,19 @@
 "taxon": false,
 "wp": {}
 },
+"Q118215822": {
+"coords": [
+[
+19.827555,
+45.252693
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q11823674": {
 "coords": [],
 "heritage": [],
@@ -1195,6 +1236,19 @@
 "taxon": false,
 "wp": {}
 },
+"Q124846838": {
+"coords": [
+[
+-7.2656469,
+52.6086651
+]
+],
+"heritage": [],
+"image": "Kilmog Rag tree 01.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q125454391": {
 "coords": [
 [
@@ -1458,6 +1512,36 @@
 "taxon": false,
 "wp": {}
 },
+"Q126918993": {
+"coords": [
+[
+-7.2246427,
+52.4410735
+],
+[
+-7.224659265,
+52.441104263
+]
+],
+"heritage": [],
+"image": "Kilkeasy Holy Well.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q12752589": {
+"coords": [
+[
+20.928497,
+44.663568
+]
+],
+"heritage": [],
+"image": "Smederevo, Karađorđev dud, 02.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q127849": {
 "coords": [],
 "heritage": [],
@@ -1578,6 +1662,32 @@
 "taxon": false,
 "wp": {}
 },
+"Q130266502": {
+"coords": [
+[
+-7.794542,
+53.067187
+]
+],
+"heritage": [],
+"image": "Seir Kieran St. Ciaran's Bush 2010 09 09.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q130296515": {
+"coords": [
+[
+-7.1158525,
+52.4307248
+]
+],
+"heritage": [],
+"image": "Rag tree at Saint Molin's Well.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q130643670": {
 "coords": [
 [
@@ -1685,6 +1795,19 @@
 "taxon": false,
 "wp": {}
 },
+"Q131841783": {
+"coords": [
+[
+19.559039,
+43.288674
+]
+],
+"heritage": [],
+"image": "Sveti Bor.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q13189": {
 "coords": [],
 "heritage": [],
@@ -1723,6 +1846,19 @@
 "it": "https://it.wikipedia.org/wiki/Erquinvillers"
 }
 },
+"Q133817985": {
+"coords": [
+[
+-7.3844614,
+52.5106471
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q133894730": {
 "coords": [],
 "heritage": [],
@@ -1747,6 +1883,21 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Fuck_tree"
 }
+},
+"Q134476319": {
+"coords": [
+[
+-7.3013906,
+52.4984843
+]
+],
+"heritage": [],
+"image": "Dunnamaggin mass bush.jpg",
+"taxa": [
+"Q132557"
+],
+"taxon": false,
+"wp": {}
 },
 "Q135496834": {
 "coords": [],
@@ -2293,6 +2444,17 @@
 "it": "https://it.wikipedia.org/wiki/Ficus_macrophylla"
 }
 },
+"Q146198": {
+"coords": [],
+"heritage": [],
+"image": "Sorbus-aucuparia.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Sorbus_aucuparia",
+"it": "https://it.wikipedia.org/wiki/Sorbus_aucuparia"
+}
+},
 "Q146911": {
 "coords": [],
 "heritage": [],
@@ -2302,6 +2464,17 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Cupressus",
 "it": "https://it.wikipedia.org/wiki/Cupressus"
+}
+},
+"Q146951": {
+"coords": [],
+"heritage": [],
+"image": "Mirabellen am Baum HD.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Prunus_cerasifera",
+"it": "https://it.wikipedia.org/wiki/Prunus_cerasifera"
 }
 },
 "Q147064": {
@@ -3783,6 +3956,71 @@
 "taxon": false,
 "wp": {}
 },
+"Q20435616": {
+"coords": [
+[
+20.4509599,
+44.8199104
+]
+],
+"heritage": [],
+"image": "Kalemegdan5.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20436998": {
+"coords": [
+[
+20.442222,
+44.780278
+]
+],
+"heritage": [],
+"image": "London Plane, Topčider Park, Belgrade.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20437012": {
+"coords": [
+[
+20.4550894,
+44.7867125
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20437018": {
+"coords": [
+[
+20.4203429,
+44.7831327
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q20437027": {
+"coords": [
+[
+20.491618,
+44.810331
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q20503630": {
 "coords": [
 [
@@ -4282,6 +4520,62 @@
 "it": "https://it.wikipedia.org/wiki/Phoenix_dactylifera"
 }
 },
+"Q25461165": {
+"coords": [
+[
+20.4519047,
+44.8179588
+]
+],
+"heritage": [],
+"image": "Tise u porti Saborne crkve u Beogradu (4).jpg",
+"taxa": [
+"Q179729"
+],
+"taxon": false,
+"wp": {}
+},
+"Q25461753": {
+"coords": [
+[
+21.4175,
+44.2392
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q12004"
+],
+"taxon": false,
+"wp": {}
+},
+"Q25461788": {
+"coords": [
+[
+20.8746,
+44.0682
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q25464489": {
+"coords": [
+[
+21.279146,
+44.041216
+]
+],
+"heritage": [],
+"image": "Zapis-0109-Kocino-Selo-Hrast-Koce-kapetana 20150318 1659 stitch.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q2549024": {
 "coords": [
 [
@@ -4561,6 +4855,45 @@
 "en": "https://en.wikipedia.org/wiki/Hedlundia_intermedia"
 }
 },
+"Q28553619": {
+"coords": [
+[
+20.6758,
+43.5696
+]
+],
+"heritage": [],
+"image": "Zapis-0502-Brezna-Kruska 20160102 8049.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q28553643": {
+"coords": [
+[
+20.9317,
+44.0971
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q28611137": {
+"coords": [
+[
+20.9408,
+44.1122
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q28672969": {
 "coords": [
 [
@@ -4695,6 +5028,1194 @@
 "en": "https://en.wikipedia.org/wiki/Pyrus_calleryana",
 "it": "https://it.wikipedia.org/wiki/Pyrus_calleryana"
 }
+},
+"Q31182252": {
+"coords": [
+[
+21.923299196,
+42.905553588
+]
+],
+"heritage": [],
+"image": "Strojkovce, Leskovac, Muzej tekstilne industrije, b04.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31184651": {
+"coords": [
+[
+20.348991,
+43.891864
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Фикус у Дому културе Чачак, Заштићено природно добро III категорије 02.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186349": {
+"coords": [
+[
+21.0726,
+44.1418
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186350": {
+"coords": [
+[
+20.9855,
+44.5538
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186354": {
+"coords": [
+[
+20.9039,
+44.0778
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186356": {
+"coords": [
+[
+20.5719,
+44.2999
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186357": {
+"coords": [
+[
+20.681,
+44.2705
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186359": {
+"coords": [
+[
+21.3037,
+43.9833
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186360": {
+"coords": [
+[
+21.3302,
+43.9722
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186362": {
+"coords": [
+[
+21.4324,
+44.035
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186365": {
+"coords": [
+[
+21.4123,
+43.8555
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186369": {
+"coords": [
+[
+21.4128,
+43.8626
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186371": {
+"coords": [
+[
+20.7211,
+44.2728
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186373": {
+"coords": [
+[
+21.3848,
+43.8057
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186374": {
+"coords": [
+[
+21.3704,
+43.804
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186381": {
+"coords": [
+[
+21.4104,
+43.801
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186382": {
+"coords": [
+[
+21.3872,
+43.7995
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186384": {
+"coords": [
+[
+21.4273,
+43.8013
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186388": {
+"coords": [
+[
+21.4203,
+43.7639
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186389": {
+"coords": [
+[
+21.429,
+43.8053
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186390": {
+"coords": [
+[
+21.4106,
+43.768
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186393": {
+"coords": [
+[
+21.4521,
+43.7458
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186401": {
+"coords": [
+[
+21.4491,
+43.7303
+]
+],
+"heritage": [],
+"image": "Zapis-0533-Cicevac-Hrast-na-Kljucu 20160208 9663.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186402": {
+"coords": [
+[
+21.4547,
+43.7299
+]
+],
+"heritage": [],
+"image": "Zapis-0534-Cicevac-Hrast-kod-groblja-severni 20160208 9695.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186403": {
+"coords": [
+[
+21.4547,
+43.7299
+]
+],
+"heritage": [],
+"image": "Zapis-0535-Cicevac-Hrast-kod-groblja-juzni 20160208 9712.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186406": {
+"coords": [
+[
+21.4407,
+43.7106
+]
+],
+"heritage": [],
+"image": "Zapis-0536-Radosevac-dud 20160208 9722.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186410": {
+"coords": [
+[
+21.3706,
+43.724
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186411": {
+"coords": [
+[
+21.36,
+43.7384
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186414": {
+"coords": [
+[
+21.3249,
+43.7431
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186418": {
+"coords": [
+[
+21.2545,
+43.9784
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186419": {
+"coords": [
+[
+21.2592,
+43.979
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186420": {
+"coords": [
+[
+21.2584,
+43.75
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186424": {
+"coords": [
+[
+20.7487,
+44.1966
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186427": {
+"coords": [
+[
+20.7616,
+44.1959
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186430": {
+"coords": [
+[
+20.5473,
+44.2288
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186431": {
+"coords": [
+[
+20.5723,
+44.2124
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186433": {
+"coords": [
+[
+20.9436,
+44.1169
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186436": {
+"coords": [
+[
+20.9438,
+44.1086
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186439": {
+"coords": [
+[
+20.4921,
+44.8051
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186440": {
+"coords": [
+[
+20.896,
+44.1108
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186443": {
+"coords": [
+[
+21.3569,
+44.1172
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186445": {
+"coords": [
+[
+21.51,
+44.2918
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186448": {
+"coords": [
+[
+21.5007,
+44.3078
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186452": {
+"coords": [
+[
+21.5029,
+44.3353
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186458": {
+"coords": [
+[
+21.468,
+44.3221
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186461": {
+"coords": [
+[
+20.2688,
+43.8971
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186469": {
+"coords": [
+[
+20.2797,
+43.8869
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186474": {
+"coords": [
+[
+20.2788,
+43.882
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186479": {
+"coords": [
+[
+21.498,
+43.9425
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186480": {
+"coords": [
+[
+21.5045,
+43.9418
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186489": {
+"coords": [
+[
+20.5394,
+43.6128
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186492": {
+"coords": [
+[
+20.5405,
+43.611
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186493": {
+"coords": [
+[
+20.5332,
+43.6723
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186494": {
+"coords": [
+[
+20.5009,
+43.6791
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186499": {
+"coords": [
+[
+20.9995,
+43.6203
+]
+],
+"heritage": [],
+"image": "Zapis-0587-Trstenik-hrast-kod-crkve 20160402 2562.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186502": {
+"coords": [
+[
+20.9983,
+43.6201
+]
+],
+"heritage": [],
+"image": "Zapis-0588-Trstenik-hrast-na-trgu 20160402 2539.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186507": {
+"coords": [
+[
+21.0316,
+43.733
+]
+],
+"heritage": [],
+"image": "Zapis-0592-Riljac-Glisica-hrast 20160402 2732.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186508": {
+"coords": [
+[
+21.0141,
+43.7363
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186513": {
+"coords": [
+[
+20.9128,
+44.008
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186514": {
+"coords": [
+[
+20.7761,
+43.9271
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186518": {
+"coords": [
+[
+20.7939,
+43.9299
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186522": {
+"coords": [
+[
+20.7945,
+43.9233
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186533": {
+"coords": [
+[
+21.578,
+43.7928
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186534": {
+"coords": [
+[
+20.8071,
+43.9274
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186535": {
+"coords": [
+[
+20.378,
+43.8479
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186537": {
+"coords": [
+[
+20.3707,
+43.8363
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186543": {
+"coords": [
+[
+20.3867,
+43.8725
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186544": {
+"coords": [
+[
+20.3689,
+43.8664
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186549": {
+"coords": [
+[
+20.8743,
+44.242
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186550": {
+"coords": [
+[
+20.3431,
+43.8531
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186554": {
+"coords": [
+[
+20.6389,
+44.2572
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186557": {
+"coords": [
+[
+20.8896,
+43.686
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186559": {
+"coords": [
+[
+20.9119,
+43.6678
+]
+],
+"heritage": [],
+"image": "Zapis-0618-Ugljarevo-orah-kod-doma 20160618 9299.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186565": {
+"coords": [
+[
+21.0953,
+43.5921
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186567": {
+"coords": [
+[
+21.0694,
+43.5909
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186574": {
+"coords": [
+[
+21.1751,
+43.5626
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186575": {
+"coords": [
+[
+20.7996,
+43.9165
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186580": {
+"coords": [
+[
+21.3746,
+43.8434
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186585": {
+"coords": [
+[
+21.3817,
+44.0249
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186588": {
+"coords": [
+[
+21.3088,
+44.034
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186593": {
+"coords": [
+[
+21.3319,
+44.0475
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186597": {
+"coords": [
+[
+21.3594,
+44.0536
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186599": {
+"coords": [
+[
+21.3501,
+44.0845
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186600": {
+"coords": [
+[
+21.3639,
+44.0894
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186603": {
+"coords": [
+[
+21.367,
+44.092
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186609": {
+"coords": [
+[
+21.3618,
+44.0948
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186611": {
+"coords": [
+[
+21.3726,
+44.1012
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186612": {
+"coords": [
+[
+21.3585,
+44.1177
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186620": {
+"coords": [
+[
+21.3434,
+44.1515
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186621": {
+"coords": [
+[
+21.4097,
+43.7843
+]
+],
+"heritage": [],
+"image": "Zapis-0649-Gornje-Vidovo-Hrast-kod-crkve 20160622 0565.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q31186623": {
+"coords": [
+[
+21.4081,
+43.7864
+]
+],
+"heritage": [],
+"image": "Zapis-0648-Gornje-Vidovo-Dud 20160622 0472.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q31198425": {
 "coords": [
@@ -5312,6 +6833,71 @@
 "en": "https://en.wikipedia.org/wiki/Bowthorpe_Oak"
 }
 },
+"Q50343987": {
+"coords": [
+[
+20.3402,
+44.5611
+]
+],
+"heritage": [],
+"image": "Zapis-0994-Siljakovac-Tri-hrasta-veci 20161029 8450.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50345007": {
+"coords": [
+[
+20.6968,
+44.4403
+]
+],
+"heritage": [],
+"image": "Zapis-0014-Mladenovac-Hrast-20150127-7071.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50353036": {
+"coords": [
+[
+21.4973,
+43.6886
+]
+],
+"heritage": [],
+"image": "Zapis-0656-Macija-hrast-kod-crkve 20160622 0779.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50354288": {
+"coords": [
+[
+21.5419,
+43.7535
+]
+],
+"heritage": [],
+"image": "Zapis-0674-Pretrkovac-hrast-kod-crkve 20160624 1510.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50354413": {
+"coords": [
+[
+21.4722,
+43.6691
+]
+],
+"heritage": [],
+"image": "Zapis-0657-Braljina-klen-kod-crkve 20160622 0820.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q5036084": {
 "coords": [
 [
@@ -5326,6 +6912,1917 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Capon_Tree"
 }
+},
+"Q50410664": {
+"coords": [
+[
+21.572,
+43.7932
+]
+],
+"heritage": [],
+"image": "Zapis-0668-Skorica-orah-kod-crkve 20160624 1371.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50411990": {
+"coords": [
+[
+21.5997,
+43.7846
+]
+],
+"heritage": [],
+"image": "Zapis-0672-Smilovac-hrast-kod-crkve 20160624 1476.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50412198": {
+"coords": [
+[
+21.533,
+43.7596
+]
+],
+"heritage": [],
+"image": "Zapis-0675-Pretrkovac-orah-kod-crkve 20160624 1540.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50412203": {
+"coords": [
+[
+21.5193,
+43.7508
+]
+],
+"heritage": [],
+"image": "Zapis-0676-Pretrkovac-hrast-kod-vade 20160624 1593.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50418172": {
+"coords": [
+[
+22.659,
+43.0441
+]
+],
+"heritage": [],
+"image": "Zapis-0458-Sukovo-miro-Mladenovica-hrast 20151004 5814.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50596820": {
+"coords": [
+[
+21.2754,
+44.0692
+]
+],
+"heritage": [],
+"image": "Zapis-0680-Duboka-lipa-kod-skole 20160626 2026.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50596895": {
+"coords": [
+[
+21.2744,
+44.0699
+]
+],
+"heritage": [],
+"image": "Zapis-0681-Duboka-lipa-kod-doma 20160626 2037.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50596923": {
+"coords": [
+[
+21.2622,
+44.0585
+]
+],
+"heritage": [],
+"image": "Zapis-0682-Duboka-orah-kod-crkve 20160626 2073.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50597050": {
+"coords": [
+[
+21.2768,
+43.9659
+]
+],
+"heritage": [],
+"image": "Zapis-0123-Jagodina-Sveta-Trojica 20141115 0667.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50597270": {
+"coords": [
+[
+21.2408,
+43.8997
+]
+],
+"heritage": [],
+"image": "Zapis-0454-Kolare-hrast-luznjak-spomenik-prirode 20150828 1334.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50597339": {
+"coords": [
+[
+21.2722,
+44.0341
+]
+],
+"heritage": [],
+"image": "Zapis-0107-Kocino-Selo-Bozin-hrast 20150318 1570.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50597368": {
+"coords": [
+[
+21.2742,
+44.0401
+]
+],
+"heritage": [],
+"image": "Zapis-0108-Kocino-Selo-Milunov-hrast 20150318 1600.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50600823": {
+"coords": [
+[
+21.2942,
+44.0507
+]
+],
+"heritage": [],
+"image": "Zapis-0678-Mali-Popovic-orah 20160626 2020.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50600846": {
+"coords": [
+[
+21.2989,
+44.0492
+]
+],
+"heritage": [],
+"image": "Zapis-0677-Mali-Popovic-dud-bivsi 20160626 2000.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50600910": {
+"coords": [
+[
+21.2942,
+44.0507
+]
+],
+"heritage": [],
+"image": "Zapis-0679-Mali-Popovic-lipa 20160626 2006.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50603236": {
+"coords": [
+[
+21.2537,
+44.0727
+]
+],
+"heritage": [],
+"image": "Zapis-0683-Rajkinac-hrast 20160626 2111.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50603368": {
+"coords": [
+[
+21.243,
+44.0732
+]
+],
+"heritage": [],
+"image": "Zapis-0684-Rajkinac-dud 20160626 2149.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50603435": {
+"coords": [
+[
+21.2471,
+44.0681
+]
+],
+"heritage": [],
+"image": "Zapis-0685-Rajkinac-dud 20160626 2164.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50603502": {
+"coords": [
+[
+21.2889,
+44.0142
+]
+],
+"heritage": [],
+"image": "Zapis-0110-Ribare-Crkva 20150318 1678.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50606080": {
+"coords": [
+[
+21.2028,
+44.0424
+]
+],
+"heritage": [],
+"image": "Zapis-0262-Donji-Racnik-Dud-Djigot 20150515 5673.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50606115": {
+"coords": [
+[
+21.1706,
+44.0625
+]
+],
+"heritage": [],
+"image": "Zapis-0263-Donji-Racnik-Hrast-Poljeto 20150515 5683.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50606174": {
+"coords": [
+[
+21.1734,
+44.048
+]
+],
+"heritage": [],
+"image": "Zapis-0255-Donji-Racnik-Lipa 20150515 5549.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50606216": {
+"coords": [
+[
+21.1737,
+44.0571
+]
+],
+"heritage": [],
+"image": "Zapis-0254-Donji-Racnik 20140417 0152.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50606360": {
+"coords": [
+[
+21.1666,
+44.0192
+]
+],
+"heritage": [],
+"image": "Zapis-0261-Donje-Stiplje-Kruska 20150515 5649.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50606402": {
+"coords": [
+[
+21.1802,
+44.0144
+]
+],
+"heritage": [],
+"image": "Zapis-0260-Donje-Stiplje-Hrast 20150515 5630.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50606460": {
+"coords": [
+[
+21.1685,
+44.004
+]
+],
+"heritage": [],
+"image": "Zapis-0259-Donje-Stiplje-Crkva 20150515 5610.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50606517": {
+"coords": [
+[
+21.1545,
+44.0334
+]
+],
+"heritage": [],
+"image": "Zapis-0256-Gornji-Racnik-Lipa 20150515 5570.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50606691": {
+"coords": [
+[
+21.3173,
+44.0437
+]
+],
+"heritage": [],
+"image": "Zapis-0111-Glogovac-Crkva 20160621 0158.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50606733": {
+"coords": [
+[
+21.2495,
+43.9244
+]
+],
+"heritage": [],
+"image": "Zapis-0452-Glavinci-hrast 20150828 1266.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50607232": {
+"coords": [
+[
+21.1565,
+44.0183
+]
+],
+"heritage": [],
+"image": "Zapis-0258-Vranovac-Crkva 20150515 5594.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50607248": {
+"coords": [
+[
+21.1499,
+44.0239
+]
+],
+"heritage": [],
+"image": "Zapis-0257-Vranovac-Dud 20150515 5580.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50672909": {
+"coords": [
+[
+21.4708,
+43.8784
+]
+],
+"heritage": [],
+"image": "Zapis-0409-Bosnjane-Mihajlovica-hrast 20150823 0068.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50673024": {
+"coords": [
+[
+21.4831,
+43.8895
+]
+],
+"heritage": [],
+"image": "Zapis-0410-Bosnjane-Lukica-hrast 20150823 0121.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50795883": {
+"coords": [
+[
+21.0545,
+44.2281
+]
+],
+"heritage": [],
+"image": "Zapis-0250-Markovac-Pinosava-hrast 20150510 5373.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50795958": {
+"coords": [
+[
+21.1167,
+44.2381
+]
+],
+"heritage": [],
+"image": "Zapis-0002-Markovac-Stari-Hrast 20111114 7944.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50796106": {
+"coords": [
+[
+21.4689,
+44.1176
+]
+],
+"heritage": [],
+"image": "Zapis-0421-Panjevac-lipa-kod-doma 20150824 0354.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50796173": {
+"coords": [
+[
+21.4533,
+44.114
+]
+],
+"heritage": [],
+"image": "Zapis-0422-Bukovac-Nesica-hrast 20150824 0364.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50796652": {
+"coords": [
+[
+21.3977,
+44.0884
+]
+],
+"heritage": [],
+"image": "Zapis-0442-Vitance-Stanojlovica-hrast 20150827 1043.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50796736": {
+"coords": [
+[
+21.3993,
+44.1781
+]
+],
+"heritage": [],
+"image": "Zapis-0425-Grabovica-dud-na-Gradinistu 20150825 0468.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50796815": {
+"coords": [
+[
+21.4029,
+44.1631
+]
+],
+"heritage": [],
+"image": "Zapis-0426-Grabovica-Milica-kruska 20150825 0485.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50796975": {
+"coords": [
+[
+21.5068,
+44.0963
+]
+],
+"heritage": [],
+"image": "Zapis-0435-Dvoriste-jasen 20150826 0673.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50797104": {
+"coords": [
+[
+21.5068,
+44.0902
+]
+],
+"heritage": [],
+"image": "Zapis-0437-Dvoriste-Milenkovica-orah 20150826 0705.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50797256": {
+"coords": [
+[
+21.5737,
+44.0573
+]
+],
+"heritage": [],
+"image": "Zapis-0429-Zidilje-lipa-kod-doma 20150826 0559.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50798015": {
+"coords": [
+[
+21.4307,
+44.2043
+]
+],
+"heritage": [],
+"image": "Zapis-0424-Zlatovo-Trifunovica-hrast 20150825 0445.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50798153": {
+"coords": [
+[
+21.5263,
+44.1639
+]
+],
+"heritage": [],
+"image": "Zapis-0423-Lipovica-Vujcica-hrast 20150824 0404.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50798376": {
+"coords": [
+[
+21.4299,
+44.129
+]
+],
+"heritage": [],
+"image": "Zapis-0438-Miliva-lipa-kod-skole 20150827 0722.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50798493": {
+"coords": [
+[
+21.5278,
+44.1277
+]
+],
+"heritage": [],
+"image": "Zapis-0418-Panjevac-hrast-kod-crkve 20150824 0293.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50798549": {
+"coords": [
+[
+21.5295,
+44.1314
+]
+],
+"heritage": [],
+"image": "Zapis-0419-Panjevac-dud-kod-cesme 20150824 0314.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50798659": {
+"coords": [
+[
+21.5251,
+44.1272
+]
+],
+"heritage": [],
+"image": "Zapis-0420-Panjevac-hrast-kod-skole 20150824 0335.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50800801": {
+"coords": [
+[
+21.4053,
+44.1471
+]
+],
+"heritage": [],
+"image": "Zapis-0439-Plazane-Miljkovica-kruska 20150827 0981.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50800867": {
+"coords": [
+[
+21.4224,
+44.1416
+]
+],
+"heritage": [],
+"image": "Zapis-0440-Plazane-Ljubisavljevica-hrast 20150827 0999.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50800906": {
+"coords": [
+[
+21.421,
+44.1422
+]
+],
+"heritage": [],
+"image": "Zapis-0441-Plazane-Stevanovica-hrast 20150827 1020.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50801041": {
+"coords": [
+[
+21.5172,
+44.0691
+]
+],
+"heritage": [],
+"image": "Zapis-0430-Resavica-lipa-kod-doma 20150826 0580.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50801159": {
+"coords": [
+[
+21.5179,
+44.0628
+]
+],
+"heritage": [],
+"image": "Zapis-0431-Resavica-Simionovica-lipa 20150826 0590.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50801345": {
+"coords": [
+[
+21.5052,
+44.0653
+]
+],
+"heritage": [],
+"image": "Zapis-0434-Popovnjak-lipa-kod-skole 20150826 0662.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50801382": {
+"coords": [
+[
+21.51,
+44.0641
+]
+],
+"heritage": [],
+"image": "Zapis-0433-Popovnjak-Komnenovica-lipa 20150826 0652.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50801419": {
+"coords": [
+[
+21.4868,
+44.059
+]
+],
+"heritage": [],
+"image": "Zapis-0432-Popovnjak-Miloradovica-hrast 20150826 0598.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50801546": {
+"coords": [
+[
+21.5591,
+44.1207
+]
+],
+"heritage": [],
+"image": "Zapis-0415-Sladaja-mladi-orah-kod-mosta 20150824 0266.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50801585": {
+"coords": [
+[
+21.5478,
+44.1228
+]
+],
+"heritage": [],
+"image": "Zapis-0416-Sladaja-Marinkovica-kruska 20150824 0278.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50801789": {
+"coords": [
+[
+21.5519,
+44.1282
+]
+],
+"heritage": [],
+"image": "Zapis-0417-Sladaja-orah-kod-skole 20150824 0286.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50801985": {
+"coords": [
+[
+21.5404,
+44.0874
+]
+],
+"heritage": [],
+"image": "Zapis-0443-Stenjevac-Jovanovica-hrast 20150828 1092.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50802796": {
+"coords": [
+[
+21.6064,
+44.1021
+]
+],
+"heritage": [],
+"image": "Zapis-0412-Strmosten-Racin-orah 20150824 0193.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50802833": {
+"coords": [
+[
+21.594,
+44.1047
+]
+],
+"heritage": [],
+"image": "Zapis-0411-Strmosten-lipa-kod-crkve 20150824 0158.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50802893": {
+"coords": [
+[
+21.6115,
+44.1066
+]
+],
+"heritage": [],
+"image": "Zapis-0413-Strmosten-Milovanovica-kruska 20150824 0243.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50803516": {
+"coords": [
+[
+21.5404,
+43.8957
+]
+],
+"heritage": [],
+"image": "Zapis-0406-Buljane-Jovanovica-orah 20150823 9968.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50803547": {
+"coords": [
+[
+21.537,
+43.9003
+]
+],
+"heritage": [],
+"image": "Zapis-0407-Buljane-orah-kod-doma 20150823 9979.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50803566": {
+"coords": [
+[
+21.5034,
+43.8911
+]
+],
+"heritage": [],
+"image": "Zapis-0408-Buljane-Milisavljevica-hrast 20150823 0006.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50803630": {
+"coords": [
+[
+21.5638,
+43.881
+]
+],
+"heritage": [],
+"image": "Zapis-0401-Gornja-Mutnica-kruska-kod-crkve 20150823 9907.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50803660": {
+"coords": [
+[
+21.5783,
+43.8815
+]
+],
+"heritage": [],
+"image": "Zapis-0400-Gornja-Mutnica-Popovica-orah 20150823 9877.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50803696": {
+"coords": [
+[
+21.5501,
+43.8751
+]
+],
+"heritage": [],
+"image": "Zapis-0399-Gornja-Mutnica-Sutica-orah 20150823 9865.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50803860": {
+"coords": [
+[
+21.4962,
+43.8065
+]
+],
+"heritage": [],
+"image": "Zapis-0323-Golubovac-Stankovica-orah 20150607 0437.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50803906": {
+"coords": [
+[
+21.5093,
+43.8053
+]
+],
+"heritage": [],
+"image": "Zapis-0319-Golubovac-Velickovica-orah 20150607 0394.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50803966": {
+"coords": [
+[
+21.5016,
+43.8122
+]
+],
+"heritage": [],
+"image": "Zapis-0320-Golubovac-Ognjanovica-kruska 20150607 0400.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50804015": {
+"coords": [
+[
+21.5019,
+43.8167
+]
+],
+"heritage": [],
+"image": "Zapis-0321-Golubovac-Petrovica-orah 20150607 0415.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50804048": {
+"coords": [
+[
+21.5006,
+43.8059
+]
+],
+"heritage": [],
+"image": "Zapis-0322-Golubovac-orah-na-Cukaru 20150607 0429.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50804668": {
+"coords": [
+[
+21.4474,
+43.8587
+]
+],
+"heritage": [],
+"image": "Zapis-0665-Glavica-dud 20160623 1275.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50804692": {
+"coords": [
+[
+21.4778,
+43.801
+]
+],
+"heritage": [],
+"image": "Zapis-0324-Busilovac-orah-kod-crkve 20150607 0477.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50804701": {
+"coords": [
+[
+21.4827,
+43.797
+]
+],
+"heritage": [],
+"image": "Zapis-0325-Busilovac-Zivkovica-tresnja 20150607 0509.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50804720": {
+"coords": [
+[
+21.5137,
+43.7961
+]
+],
+"heritage": [],
+"image": "Zapis-0326-Busilovac-Rajica-kruska 20150607 0528.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50804724": {
+"coords": [
+[
+21.4973,
+43.7993
+]
+],
+"heritage": [],
+"image": "Zapis-0327-Busilovac-Nikolica-kruska 20150607 0582.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50804726": {
+"coords": [
+[
+21.4855,
+43.8081
+]
+],
+"heritage": [],
+"image": "Zapis-0328-Busilovac-Milutinovica-kruska 20150607 0630.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50809527": {
+"coords": [
+[
+21.5349,
+43.8512
+]
+],
+"heritage": [],
+"image": "Zapis-0045-Lesje-Orah 20150221 1024.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50809530": {
+"coords": [
+[
+21.5345,
+43.8509
+]
+],
+"heritage": [],
+"image": "Zapis-0044-Lesje-Lipa 20150221 0978.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50809548": {
+"coords": [
+[
+21.4506,
+43.8216
+]
+],
+"heritage": [],
+"image": "Zapis-0013-Lebina-Orah-20150107-0169.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50809559": {
+"coords": [
+[
+21.4361,
+43.8269
+]
+],
+"heritage": [],
+"image": "Zapis-0012-Lebina-Potok-20150107-0124.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50809567": {
+"coords": [
+[
+21.461,
+43.8242
+]
+],
+"heritage": [],
+"image": "Zapis-0011-Lebina-Hrast-20150107-0098.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50809598": {
+"coords": [
+[
+21.4511,
+43.8024
+]
+],
+"heritage": [],
+"image": "Zapis-0330-Krezbinac-Jankovica-hrast 20150607 0674.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50809612": {
+"coords": [
+[
+21.5766,
+43.8453
+]
+],
+"heritage": [],
+"image": "Zapis-0396-Klacevica-Milenkovica-orah 20150823 9786.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50809617": {
+"coords": [
+[
+21.5851,
+43.8366
+]
+],
+"heritage": [],
+"image": "Zapis-0395-Klacevica-klen-kod-cesme 20150823 9747.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50809621": {
+"coords": [
+[
+21.6026,
+43.8382
+]
+],
+"heritage": [],
+"image": "Zapis-0394-Klacevica-Stefanovica-kruska 20150823 9712.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50821984": {
+"coords": [
+[
+21.4654,
+43.8653
+]
+],
+"heritage": [],
+"image": "Zapis-0049-Davidovac-Crkva 20150221 1100.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50821986": {
+"coords": [
+[
+21.4742,
+43.8637
+]
+],
+"heritage": [],
+"image": "Zapis-0050-Davidovac-Dud 20150221 1135.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50821997": {
+"coords": [
+[
+21.5781,
+43.8658
+]
+],
+"heritage": [],
+"image": "Zapis-0398-Izvor-Boskovica-dud 20150823 9846.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50822005": {
+"coords": [
+[
+21.5994,
+43.8564
+]
+],
+"heritage": [],
+"image": "Zapis-0397-Izvor-lipa-kod-crkve 20150823 9829.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50822009": {
+"coords": [
+[
+21.5984,
+43.8569
+]
+],
+"heritage": [],
+"image": "Zapis-0349-Izvor-orah-kod-izvora 20150628 1189.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50822018": {
+"coords": [
+[
+21.5959,
+43.8554
+]
+],
+"heritage": [],
+"image": "Zapis-0348-Izvor-lipa-kod-skole 20150628 1187.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50822047": {
+"coords": [
+[
+21.4204,
+43.7638
+]
+],
+"heritage": [],
+"image": "Zapis-0527-Drenovac-kod-crkve-buduci 20160208 0435.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50822055": {
+"coords": [
+[
+21.4364,
+43.7806
+]
+],
+"heritage": [],
+"image": "Zapis-0701-Drenovac-Ivanovica-Trifunovica-hrast 20160619 9509.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50822070": {
+"coords": [
+[
+21.5521,
+43.8539
+]
+],
+"heritage": [],
+"image": "Zapis-0046-Donja-Mutnica-Orah1 20150221 1065.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50822072": {
+"coords": [
+[
+21.5598,
+43.8502
+]
+],
+"heritage": [],
+"image": "Zapis-0047-Donja-Mutnica-Orah2 20150221 1076.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50822074": {
+"coords": [
+[
+21.563,
+43.8512
+]
+],
+"heritage": [],
+"image": "Zapis-0048-Donja-Mutnica-Orah3 20150221 1086.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50822149": {
+"coords": [
+[
+21.5445,
+43.8152
+]
+],
+"heritage": [],
+"image": "Zapis-0043-Plana-Hrast 20150221 0896.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50822156": {
+"coords": [
+[
+21.4833,
+43.8379
+]
+],
+"heritage": [],
+"image": "Zapis-0318-Mirilovac-lipa 20150607 0378.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50822171": {
+"coords": [
+[
+21.4123,
+43.8638
+]
+],
+"heritage": [],
+"image": "Zapis-0116-Paracin-Crkva 20150318 1761.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50822173": {
+"coords": [
+[
+21.4042,
+43.8649
+]
+],
+"heritage": [],
+"image": "Zapis-0117-Paracin-Skola 20150318 1768.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50827285": {
+"coords": [
+[
+21.4193,
+43.7758
+]
+],
+"heritage": [],
+"image": "Zapis-0699-Sikirica-stara-kruska 20160618 9499.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50827300": {
+"coords": [
+[
+21.4195,
+43.7763
+]
+],
+"heritage": [],
+"image": "Zapis-0700-Sikirica-Milenkovica-dud 20160619 9559.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50827314": {
+"coords": [
+[
+21.3965,
+43.7747
+]
+],
+"heritage": [],
+"image": "Zapis-0702-Sikirica-Jovanovica-orah 20160619 9626.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50827318": {
+"coords": [
+[
+21.3926,
+43.7682
+]
+],
+"heritage": [],
+"image": "Zapis-0703-Sikirica-Radica-orah 20160619 9643.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50827363": {
+"coords": [
+[
+21.4,
+43.7725
+]
+],
+"heritage": [],
+"image": "Zapis-0704-Sikirica-Antica-orah 20160619 9674.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50827482": {
+"coords": [
+[
+21.3203,
+43.8387
+]
+],
+"heritage": [],
+"image": "Zapis-0060-Rasevica-Orah 20150222 1260.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50827495": {
+"coords": [
+[
+20.9925,
+43.7722
+]
+],
+"heritage": [],
+"image": "Zapis-0392-Kalenicki-Prnjavor-hrast-kod-manastira 20150802 9690.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50827528": {
+"coords": [
+[
+21.0833,
+43.7972
+]
+],
+"heritage": [],
+"image": "Zapis-0220-Dragovo-Novi-sasusen 20150501 4329.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50827533": {
+"coords": [
+[
+21.0844,
+43.7971
+]
+],
+"heritage": [],
+"image": "Zapis-0221-Dragovo-Kruska 20150501 4341.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50827538": {
+"coords": [
+[
+21.0917,
+43.7948
+]
+],
+"heritage": [],
+"image": "Zapis-0222-Dragovo-Kruska-Antena 20150501 4349.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50827544": {
+"coords": [
+[
+21.0915,
+43.7887
+]
+],
+"heritage": [],
+"image": "Zapis-0223-Dragovo-Livada 20150501 4355.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50827552": {
+"coords": [
+[
+21.0902,
+43.7896
+]
+],
+"heritage": [],
+"image": "Zapis-0224-Dragovo-Igraliste 20150501 4368.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50828175": {
+"coords": [
+[
+21.3866,
+43.8402
+]
+],
+"heritage": [],
+"image": "Zapis-0660-Striza-Savica-hrast 20160623 1035.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50828179": {
+"coords": [
+[
+21.4086,
+43.8309
+]
+],
+"heritage": [],
+"image": "Zapis-0698-Striza-Dud-kod-skole 20160207 0193.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50828635": {
+"coords": [
+[
+21.3654,
+43.8339
+]
+],
+"heritage": [],
+"image": "Zapis-0056-Cepure-Crkva 20150222 1219.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50828640": {
+"coords": [
+[
+21.3588,
+43.8265
+]
+],
+"heritage": [],
+"image": "Zapis-0057-Cepure-Cesma 20150222 1227.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50828650": {
+"coords": [
+[
+21.3564,
+43.8244
+]
+],
+"heritage": [],
+"image": "Zapis-0058-Cepure-Miljkovica-Orah 20150222 1234.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50828659": {
+"coords": [
+[
+21.3546,
+43.8288
+]
+],
+"heritage": [],
+"image": "Zapis-0059-Cepure-Orah-Brana 20150222 1245.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50828672": {
+"coords": [
+[
+21.3682,
+43.8493
+]
+],
+"heritage": [],
+"image": "Zapis-0052-Savac-Hrast 20150222 1189.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50828681": {
+"coords": [
+[
+21.3698,
+43.8503
+]
+],
+"heritage": [],
+"image": "Zapis-0053-Savac-Orah1 20150222 1196.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50828693": {
+"coords": [
+[
+21.3528,
+43.8463
+]
+],
+"heritage": [],
+"image": "Zapis-0054-Savac-Orah-Brana 20150222 1203.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50828704": {
+"coords": [
+[
+21.36,
+43.843
+]
+],
+"heritage": [],
+"image": "Zapis-0055-Savac-Orah-Selo 20150222 1211.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50828774": {
+"coords": [
+[
+21.1328,
+43.7719
+]
+],
+"heritage": [],
+"image": "Zapis-nije-0666-Brajinovac-gumasto-drvo 20150802 9447.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50828788": {
+"coords": [
+[
+21.0813,
+43.8479
+]
+],
+"heritage": [],
+"image": "Zapis-0215-Velika-Krusevica-Dud 20150501 4193.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50840873": {
+"coords": [
+[
+21.558,
+43.8903
+]
+],
+"heritage": [],
+"image": "Zapis-0402-Saludovac-Zivkovica-dud 20150823 9917.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50840876": {
+"coords": [
+[
+21.5347,
+43.8819
+]
+],
+"heritage": [],
+"image": "Zapis-0403-Saludovac-Milenkovica-dud 20150823 9927.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50840878": {
+"coords": [
+[
+21.5531,
+43.8896
+]
+],
+"heritage": [],
+"image": "Zapis-0404-Saludovac-Vasica-orah 20150823 9947.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q50840881": {
+"coords": [
+[
+21.5478,
+43.8894
+]
+],
+"heritage": [],
+"image": "Zapis-0405-Saludovac-orah-kod-doma 20150823 9957.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51376254": {
+"coords": [
+[
+21.0478,
+43.7658
+]
+],
+"heritage": [],
+"image": "Zapis-0385-Prevest-Obradovica-kruska 20150802 9552.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51376311": {
+"coords": [
+[
+21.0316,
+43.7445
+]
+],
+"heritage": [],
+"image": "Zapis-0382-Prevest-Ilica-hrast 20150802 9493.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51376384": {
+"coords": [
+[
+21.0516,
+43.7544
+]
+],
+"heritage": [],
+"image": "Zapis-0384-Prevest-Manastirski-mladi-hrast 20150802 9536.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51378193": {
+"coords": [
+[
+21.0729,
+43.8294
+]
+],
+"heritage": [],
+"image": "Zapis-0216-Komarane-Milanovica-Hrast 20150501 4214.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51378305": {
+"coords": [
+[
+21.0808,
+43.8308
+]
+],
+"heritage": [],
+"image": "Zapis-0361-Komarane-Kesten-Porta 20150501 4245.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51378735": {
+"coords": [
+[
+21.0692,
+43.7466
+]
+],
+"heritage": [],
+"image": "Zapis-0386-Lepojevic-dud 20150802 9564.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51378786": {
+"coords": [
+[
+21.0705,
+43.7415
+]
+],
+"heritage": [],
+"image": "Zapis-0387-Lepojevic-hrast-na-Bacevistu 20150802 9578.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51378970": {
+"coords": [
+[
+21.1159,
+43.7494
+]
+],
+"heritage": [],
+"image": "Zapis-0388-Oparic-kruska-kod-crkve 20150802 9598.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51379020": {
+"coords": [
+[
+21.1204,
+43.7498
+]
+],
+"heritage": [],
+"image": "Zapis-0389-Oparic-orah-kod-trafoa 20150802 9623.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51379049": {
+"coords": [
+[
+21.1239,
+43.7458
+]
+],
+"heritage": [],
+"image": "Zapis-0390-Oparic-Vukicevica-hrast 20150802 9632.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51379093": {
+"coords": [
+[
+21.126,
+43.7575
+]
+],
+"heritage": [],
+"image": "Zapis-0391-Oparic-Tomina-kruska 20150802 9682.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51384734": {
+"coords": [
+[
+21.0787,
+43.8195
+]
+],
+"heritage": [],
+"image": "Zapis-0217-Motric-Orah 20150501 4256.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51384767": {
+"coords": [
+[
+21.0784,
+43.8164
+]
+],
+"heritage": [],
+"image": "Zapis-0218-Motric-Dud 20150501 4286.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51384791": {
+"coords": [
+[
+21.09,
+43.8102
+]
+],
+"heritage": [],
+"image": "Zapis-0219-Motric-Raskrsnica 20150501 4303.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q51755216": {
 "coords": [
@@ -5401,6 +8898,162 @@
 ]
 ],
 "image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51783582": {
+"coords": [
+[
+21.3455,
+44.2261
+]
+],
+"heritage": [],
+"image": "Zapis-0287-Djurinac-Rakica-hrast 20150521 6345.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51785843": {
+"coords": [
+[
+21.2315,
+44.187
+]
+],
+"heritage": [],
+"image": "Zapis-0277-Grabovac-Milanovica-hrast 20150521 6051.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51785873": {
+"coords": [
+[
+21.2414,
+44.1888
+]
+],
+"heritage": [],
+"image": "Zapis-0278-Grabovac-Miloradovica-hrast 20150521 6117.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51785917": {
+"coords": [
+[
+21.253,
+44.2072
+]
+],
+"heritage": [],
+"image": "Zapis-0279-Grabovac-Sindjelica-hrast 20150521 6197.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51786988": {
+"coords": [
+[
+21.2304,
+44.1394
+]
+],
+"heritage": [],
+"image": "Zapis-0694-Bresje-hrast2 20160626 2510.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51787064": {
+"coords": [
+[
+21.2303,
+44.1395
+]
+],
+"heritage": [],
+"image": "Zapis-0693-Bresje-hrast1 20160626 2471.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51788398": {
+"coords": [
+[
+21.217,
+44.1008
+]
+],
+"heritage": [],
+"image": "Zapis-0686-Vojska-hrast 20160626 2186.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51789685": {
+"coords": [
+[
+21.0351,
+43.918
+]
+],
+"heritage": [],
+"image": "Zapis-0139-Ratkovic-Lipa-kod-crkve 20150322 1845.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51830529": {
+"coords": [
+[
+21.1083,
+43.8376
+]
+],
+"heritage": [],
+"image": "Zapis-0455-Tecic-Jovanovica-jasen 20150828 1364.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51830609": {
+"coords": [
+[
+21.1096,
+43.8388
+]
+],
+"heritage": [],
+"image": "Zapis-0456-Tecic-Veljkovica-jasen-kod-crkve 20150828 1396.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51885674": {
+"coords": [
+[
+21.358,
+44.2376
+]
+],
+"heritage": [],
+"image": "Zapis-0290-Djurinac-Markovica-cer 20150521 6391.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q51885675": {
+"coords": [
+[
+21.3544,
+44.2368
+]
+],
+"heritage": [],
+"image": "Zapis-0289-Djurinac-Ljubina-lipa 20150521 6382.JPG",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -9118,6 +12771,23 @@
 "taxon": false,
 "wp": {}
 },
+"Q56867887": {
+"coords": [
+[
+-6.2731,
+53.3521
+]
+],
+"heritage": [],
+"image": "Hungry Tree at King’s Inns, Dublin-17565181402.jpg",
+"taxa": [
+"Q161374"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Hungry_Tree"
+}
+},
 "Q57082074": {
 "coords": [
 [
@@ -9159,6 +12829,19 @@
 ],
 "heritage": [],
 "image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q57935578": {
+"coords": [
+[
+20.4087561,
+44.8406969
+]
+],
+"heritage": [],
+"image": "Prirodni spomenik Stabla u Zemunskom parku 1 - Tisa i Pterokarija.jpg",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -9287,6 +12970,58 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Islington_Green"
 }
+},
+"Q61361175": {
+"coords": [
+[
+21.6621,
+44.4624
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q61361178": {
+"coords": [
+[
+21.6705,
+44.4766
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q61361423": {
+"coords": [
+[
+20.3403,
+44.5615
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q61361505": {
+"coords": [
+[
+20.2875,
+44.433
+]
+],
+"heritage": [],
+"image": "Zapis-1013-Vreoci-hrast-kod-crkve 20161111 9287.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q61380003": {
 "coords": [
@@ -9827,6 +13562,45 @@
 "taxon": false,
 "wp": {}
 },
+"Q89305865": {
+"coords": [
+[
+20.4644535,
+44.8214219
+]
+],
+"heritage": [],
+"image": "Споменик природе Кестен на Дорћолу 008.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q89414778": {
+"coords": [
+[
+20.4726992,
+44.7989375
+]
+],
+"heritage": [],
+"image": "Platan na Vračaru.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q89416516": {
+"coords": [
+[
+20.4651501,
+44.7996586
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q920765": {
 "coords": [
 [
@@ -10076,6 +13850,19 @@
 "wp": {
 "it": "https://it.wikipedia.org/wiki/Roverella_di_Carassai"
 }
+},
+"Q97203167": {
+"coords": [
+[
+20.4653701,
+44.8055414
+]
+],
+"heritage": [],
+"image": "Quercus robur at Flower Square, Belgrade.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q97372879": {
 "coords": [
