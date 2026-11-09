@@ -900,7 +900,8 @@ map.on("load", async () => {
   for (const id of [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid"]) {
     map.on("click", id, e => {
       const g = e.features[0].geometry, pos = g.type === "Point" ? g.coordinates : [e.lngLat.lng, e.lngLat.lat];
-      const popup = new maplibregl.Popup({ maxWidth: "280px", focusAfterOpen: false })   // il focus aprirebbe il pop-up del primo ⚠.setLngLat(pos)
+      // focusAfterOpen: false, altrimenti il focus aprirebbe subito la spiegazione del primo ⚠
+      const popup = new maplibregl.Popup({ maxWidth: "280px", focusAfterOpen: false }).setLngLat(pos)
         .setHTML(card(e.features[0].properties, pos)).addTo(map);
       fillPhoto(popup.getElement());   // crediti dei file di Commons e immagine di una categoria, se serve
     });
