@@ -708,6 +708,8 @@ map.on("load", async () => {
 
   map.addSource("shapes", { type: "geojson", data: EMPTY });
   map.addSource("deco", { type: "geojson", data: EMPTY });
+  // monumentale e sacro insieme, senza errori: contorno metà giallo (sinistra) e metà azzurro (destra)
+  const isDual = p => p.sacred && isMon(p) && p.issues === "|";
   // Decorazioni da zoom 16, punti con le proprietà dell'albero più dk (tipo), dr (raggio in m) e dc (colore):
   // tronchi di multi_stemmed (stems: raggi da fetch_trees.py), puntini verdi intorno al tronco per ivyclad=yes,
   // frutti sulla chioma (fruit: colore). Posizioni fisse per albero, ricavate dall'id come i lobi della chioma.
@@ -734,6 +736,20 @@ map.on("load", async () => {
           out.push(pt(dx + Rg * Math.cos(a), dy + Rg * Math.sin(a), "ivy", Math.max(r * 0.16, 0.035)));
         }
       });
+    }
+    if (isDual(p) && p.cr) {                      // contorno diviso dalla verticale: metà sinistra gialla, destra azzurra
+      const ring = isShaped(ft) ? shapeRing(ft)[0].slice(0, -1)
+        : Array.from({ length: 48 }, (_, k) => { const a = k / 48 * 2 * Math.PI;
+          return [lon + p.cr * Math.cos(a) * kx, lat + p.cr * Math.sin(a) * ky]; });
+      // angolo di ogni punto dal nord, in senso antiorario (0 = nord, π = sud): l'anello va già in senso antiorario
+      const ang = c => (Math.atan2((c[1] - lat) / ky, (c[0] - lon) / kx) - Math.PI / 2 + 4 * Math.PI) % (2 * Math.PI);
+      const start = ring.reduce((m, c, k) => ang(c) < ang(ring[m]) ? k : m, 0);
+      const r = [...ring.slice(start), ...ring.slice(0, start)];
+      const left = r.filter(c => ang(c) < Math.PI), right = r.filter(c => ang(c) >= Math.PI);
+      const line = (coords, dc) => ({ type: "Feature", properties: { ...p, dk: "dual", dc }, geometry: { type: "LineString", coordinates: coords } });
+      if (left.length && right.length) {        // le due metà si toccano: ognuna finisce sul primo punto dell'altra
+        out.push(line([...left, right[0]], "#e6a800"), line([...right, left[0]], "#1a9fe0"));
+      }
     }
     if (p.fruit && p.cr) {                        // 5, 6 o 7 frutti secondo la grandezza della chioma
       const cr = p.cr, nf = cr < 2.5 ? 5 : cr < 4.5 ? 6 : 7, rot = hash01(id, 2) * 2 * Math.PI;
@@ -783,6 +799,9 @@ map.on("load", async () => {
       "fill-color": CROWN_COLOR, "fill-opacity": FILL_OPACITY } }) },
     { id: "crown-poly-line", spec: () => ({ type: "line", source: "shapes", layout: { "line-join": "round" }, paint: {
       "line-color": STROKE_COLOR, "line-width": STROKE_W } }) },
+    // monumentale e sacro (isDual): sopra al contorno oro, metà sinistra gialla e metà destra azzurra (colore in dc)
+    { id: "dual", base: ["==", ["get", "dk"], "dual"], spec: () => ({ type: "line", source: "deco", minzoom: SHAPE_Z,
+      layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-width": 3, "line-color": ["get", "dc"] } }) },
     // tronco unico; gli alberi con più tronchi li disegna "stem" (sorgente deco)
     { id: "trunk", base: ["all", ["has", "tr"], ["!", ["has", "stems"]]], spec: tier => ({ type: "circle", source: tier.src, minzoom: SHAPE_Z, paint: {
       "circle-radius": radius("tr", 1.5), "circle-color": "#7b4a1e",
@@ -1139,7 +1158,7 @@ map.on("load", async () => {
       if (r.diam !== "mm") fixDiameter(fc);          // dati con diameter letto in metri (vedi fixDiameter)
       ALL = fc.features;
       SHAPED = ALL.filter(isShaped);
-      DECO = ALL.filter(ft => ft.properties.stems || ft.properties.ivy || ft.properties.fruit);
+      DECO = ALL.filter(ft => ft.properties.stems || ft.properties.ivy || ft.properties.fruit || isDual(ft.properties));
       map.getSource(src).setData(fc);
       updateTaxa(); updateShapes(); update();
     };
