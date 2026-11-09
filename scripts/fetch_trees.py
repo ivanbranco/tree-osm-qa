@@ -1372,9 +1372,65 @@ def to_feature(el):
             "geometry": {"type": "Point", "coordinates": [round(el["lon"], 7), round(el["lat"], 7)]}}
 
 
+BIG_TRUNK = {"circumference", "circumference_species"}   # tronchi già segnalati come troppo grandi: niente confronto
+
+
+def neighbour_checks(feats):
+    """Check tra alberi vicini (non i ceppi), dopo quelli del singolo albero:
+    same_point = stesse identiche coordinate di un altro albero (sp_nodes: gli altri id);
+    trunk_overlap = distanza tra i nodi minore della somma dei raggi dei tronchi misurati (non stimati, non già troppo
+    grandi); un albero senza tronco misurato conta come un punto, segnalato se cade dentro il tronco di un altro.
+    to_nodes: "id:distanza:raggi:tipo" separati da ";", tipo o = tronchi sovrapposti (raggi = somma dei due),
+    i = questo nodo è dentro il tronco dell'altro, c = questo tronco contiene l'altro nodo (raggi = raggio del tronco)."""
+    trees = [f for f in feats if not f["properties"].get("stump")]
+    same, overlap = collections.defaultdict(list), collections.defaultdict(list)
+    by_pt = collections.defaultdict(list)
+    for f in trees:
+        by_pt[tuple(f["geometry"]["coordinates"])].append(f["properties"]["id"])
+    for ids in by_pt.values():
+        for i in ids:
+            same[i] += [j for j in ids if j != i]
+    # alberi in celle di 15 m: i tronchi plausibili (< 43 m di circonferenza) non superano 6,9 m di raggio. Raggio 0 per
+    # chi non ha un tronco misurato (stimato, mancante o già troppo grande): conta come un punto
+    CELL = 15.0
+    grid = collections.defaultdict(list)
+    for f in trees:
+        p = f["properties"]
+        measured = p.get("tr") and not p.get("tr_est") and not BIG_TRUNK & set(p["issues"].strip("|").split("|"))
+        lon, lat = f["geometry"]["coordinates"]
+        x, y = lon * 111320 * math.cos(math.radians(lat)), lat * 111320
+        grid[(int(x // CELL), int(y // CELL))].append((p["id"], x, y, p["tr"] if measured else 0))
+    for (cx, cy), cell in grid.items():
+        near = [t for dx in (-1, 0, 1) for dy in (-1, 0, 1) for t in grid.get((cx + dx, cy + dy), [])]
+        for a in cell:
+            for b in near:
+                if b[0] <= a[0] or not (a[3] or b[3]) or b[0] in same.get(a[0], ()):
+                    continue
+                d = math.hypot(a[1] - b[1], a[2] - b[2])
+                if d < a[3] + b[3]:
+                    if a[3] and b[3]:
+                        overlap[a[0]].append(f"{b[0]}:{d:.2f}:{a[3] + b[3]:.2f}:o")
+                        overlap[b[0]].append(f"{a[0]}:{d:.2f}:{a[3] + b[3]:.2f}:o")
+                    else:   # uno solo ha il tronco: l'altro nodo ci cade dentro
+                        t, pt = (a, b) if a[3] else (b, a)
+                        overlap[pt[0]].append(f"{t[0]}:{d:.2f}:{t[3]:.2f}:i")
+                        overlap[t[0]].append(f"{pt[0]}:{d:.2f}:{t[3]:.2f}:c")
+    for f in trees:
+        p, extra = f["properties"], []
+        if same.get(p["id"]):
+            extra.append("same_point")
+            p["sp_nodes"] = ";".join(map(str, sorted(same[p["id"]])))
+        if overlap.get(p["id"]):
+            extra.append("trunk_overlap")
+            p["to_nodes"] = ";".join(overlap[p["id"]])
+        if extra:
+            p["issues"] = "|" + "|".join([*p["issues"].strip("|").split("|"), *extra]).lstrip("|") + "|"
+
+
 def build(data):
     feats = [to_feature(e) for e in data["elements"] if e.get("type") == "node"]
     feats.sort(key=lambda f: f["properties"]["id"])  # ordine stabile: se i dati non cambiano, il file resta identico
+    neighbour_checks(feats)
     return {"type": "FeatureCollection", "features": feats}
 
 

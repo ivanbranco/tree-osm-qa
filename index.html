@@ -209,6 +209,7 @@ const I18N = {
       comma: "Virgola decimale (circumference, height, diameter_crown, diameter)",
       diameter_unit: "diameter senza unità troppo piccolo per i millimetri",
       circ_diam_mismatch: "circumference e diameter non coincidono",
+      trunk_overlap: "Tronco sovrapposto a quello di un altro albero", same_point: "Nello stesso punto di un altro albero",
       number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
       link_format: "Link con formato non valido", broken_link: "Link non raggiungibile", wikidata_mismatch: "species:wikidata incoerente con la species",
       wikidata_not_taxon: "species/genus:wikidata non è un taxon", wikidata_is_taxon: "wikidata è un taxon",
@@ -251,6 +252,8 @@ const I18N = {
       too_stocky: "Soglia: circonferenza più di 3 volte l'altezza. Gli alberi reali più tozzi, come gli olivi monumentali, hanno un rapporto altezza/circonferenza intorno a 0,5.",
       comma: "In OSM il separatore decimale è il punto (2.9, non 2,9).",
       diameter_unit: "Senza unità, diameter è in millimetri (wiki OSM, Key:diameter): questo valore sarebbe un tronco di meno di 1 cm. Se è in metri, va scritta l'unità (es. diameter=0.5 m); meglio ancora usare circumference, in metri. Il valore non è usato per disegnare il tronco.",
+      trunk_overlap: "Il tronco (da circumference o diameter) si sovrappone a quello di un altro albero, o contiene un altro albero. Se sono lo stesso albero mappato due volte, va tenuto un solo nodo; se sono i tronchi di un unico albero, un solo nodo con multi_stemmed=*.",
+      same_point: "Due nodi natural=tree con le stesse identiche coordinate. Se sono lo stesso albero mappato due volte, va tenuto un solo nodo.",
       circ_diam_mismatch: "La circonferenza dovrebbe essere circa π × diametro: segnalato uno scarto oltre il 20%. diameter senza unità è in millimetri, circumference in metri. Per disegnare il tronco si usa circumference.",
       number_invalid: "Una misura è un solo numero positivo, eventualmente con l'unità (150 cm). Testo, intervalli, elenchi e zero non sono misure.",
       species: "Il nome di una specie ha almeno due parole (Genere epiteto). Se si conosce solo il genere, va in genus=*.",
@@ -292,6 +295,10 @@ const I18N = {
       comma: t => `virgola decimale in ${t}`,
       diameter_unit: v => `diameter=${v} senza unità: in millimetri il tronco sarebbe di meno di 1 cm`,
       circ_diam_mismatch: (c, d, cd) => `circumference=${c}, ma diameter=${d} corrisponde a una circonferenza di ${cd}`,
+      trunk_overlap: (id, d, s, k) => k === "i" ? `il nodo è dentro il tronco del nodo ${id} (distanza ${d}, raggio del tronco ${s})`
+        : k === "c" ? `il tronco contiene il nodo ${id} (distanza ${d}, raggio del tronco ${s})`
+        : `il tronco si sovrappone a quello del nodo ${id} (distanza ${d}, somma dei raggi ${s})`,
+      same_point: ids => `nello stesso punto ${ids.length > 1 ? "dei nodi" : "del nodo"} ${ids.join(", ")}`,
       number_invalid: t => `valore non numerico, intervallo o zero in ${t}`,
       link_format: t => `formato non valido in ${t}`,
       monument_denotation: t => `${t} senza denotation=natural_monument`,
@@ -399,6 +406,7 @@ const I18N = {
       comma: "Decimal comma (circumference, height, diameter_crown, diameter)",
       diameter_unit: "diameter without unit too small for millimetres",
       circ_diam_mismatch: "circumference and diameter do not match",
+      trunk_overlap: "Trunk overlapping another tree's trunk", same_point: "At the same point as another tree",
       number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
       link_format: "Link with invalid format", broken_link: "Broken link", wikidata_mismatch: "species:wikidata inconsistent with species",
       wikidata_not_taxon: "species/genus:wikidata is not a taxon", wikidata_is_taxon: "wikidata is a taxon",
@@ -439,6 +447,8 @@ const I18N = {
       too_stocky: "Threshold: circumference more than 3 times the height. The stockiest real trees, like monumental olive trees, have a height/circumference ratio around 0.5.",
       comma: "In OSM the decimal separator is the point (2.9, not 2,9).",
       diameter_unit: "Without a unit, diameter is in millimetres (OSM wiki, Key:diameter): this value would be a trunk under 1 cm. If it is in metres, the unit must be written (e.g. diameter=0.5 m); better still, use circumference, in metres. The value is not used to draw the trunk.",
+      trunk_overlap: "The trunk (from circumference or diameter) overlaps another tree's trunk, or contains another tree. If they are the same tree mapped twice, keep only one node; if they are the trunks of a single tree, one node with multi_stemmed=*.",
+      same_point: "Two natural=tree nodes with exactly the same coordinates. If they are the same tree mapped twice, keep only one node.",
       circ_diam_mismatch: "The circumference should be about π × diameter: a difference over 20% is reported. diameter without a unit is in millimetres, circumference in metres. The trunk is drawn from circumference.",
       number_invalid: "A measurement is a single positive number, optionally with a unit (150 cm). Text, ranges, lists and zero are not measurements.",
       species: "A species name has at least two words (Genus epithet). If only the genus is known, it goes in genus=*.",
@@ -480,6 +490,10 @@ const I18N = {
       comma: t => `decimal comma in ${t}`,
       diameter_unit: v => `diameter=${v} without unit: in millimetres the trunk would be under 1 cm`,
       circ_diam_mismatch: (c, d, cd) => `circumference=${c}, but diameter=${d} corresponds to a circumference of ${cd}`,
+      trunk_overlap: (id, d, s, k) => k === "i" ? `the node is inside the trunk of node ${id} (distance ${d}, trunk radius ${s})`
+        : k === "c" ? `the trunk contains node ${id} (distance ${d}, trunk radius ${s})`
+        : `the trunk overlaps that of node ${id} (distance ${d}, sum of radii ${s})`,
+      same_point: ids => `at the same point as ${ids.length > 1 ? "nodes" : "node"} ${ids.join(", ")}`,
       number_invalid: t => `non-numeric value, range or zero in ${t}`,
       link_format: t => `invalid format in ${t}`,
       monument_denotation: t => `${t} without denotation=natural_monument`,
@@ -967,7 +981,7 @@ map.on("load", async () => {
   const ISSUE_OPTS = Object.entries(L.issueOpts);
   // gruppi del menu errori: i codici non elencati finiscono in "Altri tag"
   const ISSUE_GROUPS = [
-    ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "circ_diam_mismatch", "number_invalid", "circumference_species", "height_species",
+    ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "circ_diam_mismatch", "trunk_overlap", "number_invalid", "circumference_species", "height_species",
       "too_slender", "too_slender_species", "too_stocky"]],
     ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_common_name",
       "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "underscore", "tag_in_value",
@@ -1366,6 +1380,9 @@ const issueBase = (i, p) => {
     case "comma": return T[i](list(p.comma));
     case "diameter_unit": return T[i](p.diameter);
     case "circ_diam_mismatch": return T[i](p.circumference, p.diameter, fmtM(p.cd_circ));   // cd_circ: fetch_trees.py
+    case "trunk_overlap":        // to_nodes: "id:distanza:raggi:tipo;…" (neighbour_checks in fetch_trees.py)
+      return String(p.to_nodes || "").split(";").filter(Boolean).map(x => { const [id, d, s, k] = x.split(":"); return T[i](id, fmtM(d), fmtM(s), k); }).join("\n");
+    case "same_point": return T[i](String(p.sp_nodes || "").split(";").filter(Boolean));   // sp_nodes: id degli altri alberi
     case "number_invalid": return T[i](list(p.bad_num));
     case "link_format": return T[i](list(p.bad_links));
     case "monument_denotation": return T[i](list(p.mon_src));
