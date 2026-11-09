@@ -31,7 +31,9 @@
   #rank .solo{cursor:pointer;display:flex;padding-left:16px}
   .leg{list-style:none;margin:8px 0 0;padding:0;font-size:13px}
   .leg li{display:flex;align-items:center;gap:8px;margin:2px 0}
-  .leg svg{flex:none}
+  .leg svg{flex:none;display:block}
+  .leg li{position:relative}
+  .leg .why{flex:none}
   #tip{position:absolute;z-index:3;display:none;pointer-events:none;background:#fff;padding:4px 8px;border-radius:4px;box-shadow:0 1px 6px #0004;font-size:12px}
   #overview{margin:0 0 6px;width:100%;padding:3px 6px;cursor:pointer}
   .note{font-size:11px;color:#777;margin-top:6px}
@@ -80,7 +82,7 @@
 <body>
 <div id="side">
 <div id="panel" class="box">
-  <h1><span data-i18n="title">DendrOSM</span><span class="hdr"><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a></span><a id="gh" href="https://github.com/ivanbranco/tree-osm-qa" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a></span></h1>
+  <h1><span data-i18n="title">DendrOSM</span><span class="hdr"><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a></span><a id="gh" href="https://github.com/ivanbranco/tree-osm-qa" target="_blank" rel="noopener"><svg width="16" height="14" viewBox="0 0 18 16" aria-hidden="true"><path d="M5.5 3.5L1.5 8l4 4.5M12.5 3.5l4 4.5-4 4.5M10.5 2L7.5 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></span></h1>
   <div id="subtitle" data-i18n="subtitle">Controllo qualità degli alberi di OpenStreetMap</div>
   <select id="region" autocomplete="off"></select>
   <button id="overview" type="button" hidden data-i18n="allRegions">← Tutte le regioni</button>
@@ -100,8 +102,11 @@
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#a5d64c" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legDeciduous">Caducifoglia</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#1f6b35" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legEvergreen">Sempreverde</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#5fa36f" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legNoCycle">Ciclo fogliare non specificato</span></li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e"/></svg> <span data-i18n="legTrunk">Tronco (circonferenza)</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e"/></svg> <span data-i18n="legTrunk">Tronco</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e" fill-opacity=".45"/></svg> <span data-i18n="legTrunkEst">Tronco stimato</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="7" r="3" fill="#7b4a1e"/><circle cx="7" cy="14" r="3" fill="#7b4a1e"/><circle cx="15" cy="14" r="3" fill="#7b4a1e"/></svg> <span data-i18n="legStems">Più tronchi</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e"/><g fill="#2e5e1a" stroke="#d9efb0" stroke-width=".5"><circle cx="18" cy="11" r="1.4"/><circle cx="16" cy="16" r="1.4"/><circle cx="11" cy="18" r="1.4"/><circle cx="6" cy="16" r="1.4"/><circle cx="4" cy="11" r="1.4"/><circle cx="6" cy="6" r="1.4"/><circle cx="11" cy="4" r="1.4"/><circle cx="16" cy="6" r="1.4"/></g></svg> <span data-i18n="legIvy">Coperto d'edera</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1b6b2c" stroke-width="1"/><g fill="#d63a2f"><circle cx="7" cy="8" r="1.8"/><circle cx="15" cy="7" r="1.8"/><circle cx="16" cy="14" r="1.8"/><circle cx="8" cy="15" r="1.8"/></g></svg> <span data-i18n="legFruit">Albero da frutto</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><path d="M5 5L17 17M17 5L5 17" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/></svg> <span data-i18n="legStump">Ceppo</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.0,11.0 19.3,10.1 19.4,9.1 19.1,8.2 18.5,7.4 17.8,6.8 16.9,6.3 16.3,5.7 16.0,4.7 15.5,3.9 14.7,3.3 13.8,2.9 12.9,2.8 11.9,3.1 11.0,3.5 10.2,3.5 9.2,3.2 8.2,3.1 7.3,3.3 6.4,3.7 5.8,4.5 5.4,5.4 5.1,6.3 4.6,7.0 3.8,7.5 3.1,8.2 2.6,9.1 2.5,10.0 2.6,11.0 3.1,11.9 3.7,12.7 3.9,13.5 3.8,14.5 3.9,15.5 4.3,16.4 4.9,17.1 5.8,17.5 6.8,17.8 7.8,17.7 8.5,18.1 9.2,18.8 10.1,19.3 11.0,19.6 12.0,19.5 12.9,19.2 13.6,18.5 14.2,17.7 15.0,17.4 16.0,17.3 16.9,16.9 17.7,16.4 18.3,15.6 18.5,14.6 18.5,13.6 18.3,12.7 18.5,11.8" stroke-linejoin="round" fill="none" stroke="#1b6b2c" stroke-width="1.5"/></svg> <span data-i18n="legBroad">Latifoglia o palma</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.3,8.8 13.2,2.7 4.9,4.9 2.7,13.2 8.8,19.3 17.1,17.1" stroke-linejoin="round" fill="none" stroke="#1b6b2c" stroke-width="1.5"/></svg> <span data-i18n="legNeedle">Aghifoglia</span></li>
@@ -156,7 +161,7 @@ const parseMapHash = v => {
 // I valori possono essere funzioni (testi con parti variabili).
 const I18N = {
   it: {
-    pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente su GitHub", subtitle: "Controllo qualità degli alberi di OpenStreetMap",
+    pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente", subtitle: "Controllo qualità degli alberi di OpenStreetMap",
     osmAttribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
     editMenu: "Modifica", osmPage: "Pagina su OpenStreetMap", editId: "Modifica con iD", editJosm: "Apri in JOSM", editMapComplete: "Apri in MapComplete", allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
     scaleLow: "meno errori", scaleHigh: "più errori", tipErr: p => ` · ${p} con errori`,
@@ -168,7 +173,26 @@ const I18N = {
     issueGroups: { size: "Misure", name: "Nome della specie e del genere", wikidata: "Wikidata",
       links: "Link, fonti e monumentali", other: "Altri tag" },
     legend: "Legenda", legMonument: "Albero monumentale", legSacred: "Albero sacro", legLandmark: "Landmark", legIssues: "Con problemi",
-    legTrunk: "Tronco (circonferenza)", legTrunkEst: "Tronco stimato", legStump: "Ceppo", legBroad: "Latifoglia o palma",
+    legTrunk: "Tronco", legTrunkEst: "Tronco stimato", legStump: "Ceppo",
+    legStems: "Più tronchi", legIvy: "Coperto d'edera", legFruit: "Albero da frutto",
+    // pop-up sulle icone della legenda: i tag che le producono (chiave = data-i18n della voce)
+    legTips: {
+      legMonument: "denotation=natural_monument",
+      legSacred: "ref:zapis=* (zapis), sacred_tree=* o place_of_worship=sacred_tree (rag tree), religion=shinto (goshinboku)",
+      legLandmark: "denotation=landmark",
+      legIssues: "Almeno un errore: i tipi di errore sono nel menu «Tutti gli errori»",
+      legDeciduous: "leaf_cycle=deciduous o semi_deciduous; se manca, dalla specie o dal genere (liste della wiki OSM)",
+      legEvergreen: "leaf_cycle=evergreen o semi_evergreen; se manca, dalla specie o dal genere (liste della wiki OSM)",
+      legNoCycle: "leaf_cycle mancante e non ricavabile dalla specie o dal genere",
+      legTrunk: "circumference=*, oppure diameter=* (senza unità in millimetri)",
+      legTrunkEst: "Senza circumference né diameter: stimato da height o diameter_crown con i rapporti della specie",
+      legStems: "multi_stemmed=*: yes = 2 tronchi, un numero = quei tronchi, più circonferenze separate da ; = un tronco per misura",
+      legIvy: "ivyclad=yes",
+      legFruit: "species=Malus domestica",
+      legStump: "natural=tree_stump",
+      legBroad: "leaf_type=broadleaved o palm; se manca, dalla specie o dal genere",
+      legNeedle: "leaf_type=needleleaved; se manca, dalla specie o dal genere",
+      legNoLeaf: "leaf_type mancante, non ricavabile o con un altro valore (es. leafless)" }, legBroad: "Latifoglia o palma",
     legNeedle: "Aghifoglia", legNoLeaf: "Tipo di foglia non specificato",
     legDeciduous: "Caducifoglia", legEvergreen: "Sempreverde", legNoCycle: "Ciclo fogliare non specificato", legNote: "Tronco e forme da zoom 16",
     rank: "Classifica errori", rankNote: "Alberi con almeno un errore; tra parentesi la quota sul totale. Tocca una regione per aprirla.",
@@ -328,7 +352,7 @@ const I18N = {
     stump: "Ceppo", stumpOf: b => `${b} (ceppo)`, unknownSpecies: "Specie sconosciuta",
   },
   en: {
-    pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code on GitHub", subtitle: "Quality checks for OpenStreetMap trees",
+    pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code", subtitle: "Quality checks for OpenStreetMap trees",
     osmAttribution: "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
     editMenu: "Edit", osmPage: "OpenStreetMap page", editId: "Edit with iD", editJosm: "Open in JOSM", editMapComplete: "Open in MapComplete", allRegions: "← All countries", chooseRegion: "Choose a region…",
     scaleLow: "fewer errors", scaleHigh: "more errors", tipErr: p => ` · ${p} with errors`,
@@ -340,7 +364,25 @@ const I18N = {
     issueGroups: { size: "Measurements", name: "Species and genus name", wikidata: "Wikidata",
       links: "Links, sources and monumental trees", other: "Other tags" },
     legend: "Legend", legMonument: "Monumental tree", legSacred: "Sacred tree", legLandmark: "Landmark", legIssues: "With errors",
-    legTrunk: "Trunk (circumference)", legTrunkEst: "Estimated trunk", legStump: "Stump", legBroad: "Broadleaved or palm",
+    legTrunk: "Trunk", legTrunkEst: "Estimated trunk", legStump: "Stump",
+    legStems: "Multiple trunks", legIvy: "Covered in ivy", legFruit: "Fruit tree",
+    legTips: {
+      legMonument: "denotation=natural_monument",
+      legSacred: "ref:zapis=* (zapis), sacred_tree=* or place_of_worship=sacred_tree (rag tree), religion=shinto (goshinboku)",
+      legLandmark: "denotation=landmark",
+      legIssues: "At least one error: the error types are in the \"All errors\" menu",
+      legDeciduous: "leaf_cycle=deciduous or semi_deciduous; if missing, from the species or genus (OSM wiki lists)",
+      legEvergreen: "leaf_cycle=evergreen or semi_evergreen; if missing, from the species or genus (OSM wiki lists)",
+      legNoCycle: "leaf_cycle missing and not derivable from the species or genus",
+      legTrunk: "circumference=*, or diameter=* (millimetres without a unit)",
+      legTrunkEst: "No circumference or diameter: estimated from height or diameter_crown with the species ratios",
+      legStems: "multi_stemmed=*: yes = 2 trunks, a number = that many trunks, several circumferences separated by ; = one trunk each",
+      legIvy: "ivyclad=yes",
+      legFruit: "species=Malus domestica",
+      legStump: "natural=tree_stump",
+      legBroad: "leaf_type=broadleaved or palm; if missing, from the species or genus",
+      legNeedle: "leaf_type=needleleaved; if missing, from the species or genus",
+      legNoLeaf: "leaf_type missing, not derivable or another value (e.g. leafless)" }, legBroad: "Broadleaved or palm",
     legNeedle: "Needleleaved", legNoLeaf: "Leaf type not specified",
     legDeciduous: "Deciduous", legEvergreen: "Evergreen", legNoCycle: "Leaf cycle not specified", legNote: "Trunks and shapes from zoom 16",
     rank: "Error ranking", rankNote: "Trees with at least one error; in brackets the share of the total. Tap a region to open it.",
@@ -500,6 +542,17 @@ const L = I18N[LANG];
 document.documentElement.lang = LANG;
 document.title = L.pageTitle;
 document.querySelectorAll("[data-i18n]").forEach(e => { e.textContent = L[e.dataset.i18n]; });
+// legenda: l'icona di ogni voce mostra nel pop-up (mouse o tocco) i tag che la producono (L.legTips)
+document.querySelectorAll(".leg li").forEach(li => {
+  const tip = L.legTips[li.querySelector("[data-i18n]")?.dataset.i18n], svg = li.querySelector("svg");
+  if (!tip || !svg) return;
+  const w = document.createElement("span");
+  w.className = "why"; w.tabIndex = 0;
+  svg.replaceWith(w);
+  const t = document.createElement("span");
+  t.className = "tip"; t.textContent = tip;
+  w.append(svg, t);
+});
 document.getElementById("gh").title = L.github;
 document.querySelectorAll("#lang a").forEach(a => {
   a.classList.toggle("on", a.dataset.lang === LANG);
@@ -654,10 +707,52 @@ map.on("load", async () => {
   };
 
   map.addSource("shapes", { type: "geojson", data: EMPTY });
+  map.addSource("deco", { type: "geojson", data: EMPTY });
+  // Decorazioni da zoom 16, punti con le proprietà dell'albero più dk (tipo), dr (raggio in m) e dc (colore):
+  // tronchi di multi_stemmed (stems: raggi da fetch_trees.py), puntini verdi intorno al tronco per ivyclad=yes,
+  // frutti sulla chioma (fruit: colore). Posizioni fisse per albero, ricavate dall'id come i lobi della chioma.
+  const hash01 = (id, k) => { let x = (id * 2654435761 + k * 40503) >>> 0; x ^= x >>> 15; x = Math.imul(x, 2246822507) >>> 0;
+    x ^= x >>> 13; return (x >>> 0) / 4294967296; };
+  const decoPoints = ft => {
+    const [lon, lat] = ft.geometry.coordinates, p = ft.properties, id = p.id;
+    const kx = 1 / (111320 * Math.cos(lat * Math.PI / 180)), ky = 1 / 111320;
+    const pt = (dx, dy, dk, dr, dc) => ({ type: "Feature", properties: { ...p, dk, dr, dc },
+      geometry: { type: "Point", coordinates: [lon + dx * kx, lat + dy * ky] } });
+    const out = [];
+    const stems = p.stems ? String(p.stems).split(";").map(Number).filter(r => r > 0) : null;
+    let trunks = p.tr ? [[0, 0, p.tr]] : [];      // [dx, dy, raggio] di ogni tronco
+    if (stems && stems.length > 1) {              // tronchi in cerchio intorno al centro, senza sovrapporsi
+      const rmax = Math.max(...stems), D = rmax / Math.sin(Math.PI / stems.length) * 1.05, rot = hash01(id, 0) * 2 * Math.PI;
+      trunks = stems.map((r, k) => { const a = rot + k * 2 * Math.PI / stems.length; return [D * Math.cos(a), D * Math.sin(a), r]; });
+      trunks.forEach(([dx, dy, r]) => out.push(pt(dx, dy, "stem", r)));
+    }
+    if (p.ivy) {                                  // anello puntinato verde intorno a ciascun tronco
+      trunks.forEach(([dx, dy, r], j) => {
+        const Rg = r * 1.3 + 0.03, nd = 9, rot = hash01(id, 10 + j) * 2 * Math.PI;
+        for (let k = 0; k < nd; k++) {
+          const a = rot + k * 2 * Math.PI / nd;
+          out.push(pt(dx + Rg * Math.cos(a), dy + Rg * Math.sin(a), "ivy", Math.max(r * 0.16, 0.035)));
+        }
+      });
+    }
+    if (p.fruit && p.cr) {                        // 5, 6 o 7 frutti secondo la grandezza della chioma
+      const cr = p.cr, nf = cr < 2.5 ? 5 : cr < 4.5 ? 6 : 7, rot = hash01(id, 2) * 2 * Math.PI;
+      for (let k = 0; k < nf; k++) {
+        const a = rot + k * 2 * Math.PI / nf + (hash01(id, k + 3) - 0.5) * (Math.PI / nf);
+        const d = cr * (0.45 + 0.35 * hash01(id, k + 50));
+        out.push(pt(d * Math.cos(a), d * Math.sin(a), "fruit", cr * 0.09, p.fruit));
+      }
+    }
+    return out;
+  };
+  let DECO = [];
   let shapesEmpty = true;
   const updateShapes = () => {
     const src = map.getSource("shapes");
-    if (map.getZoom() < SHAPE_Z) { if (!shapesEmpty) { src.setData(EMPTY); shapesEmpty = true; } return; }
+    if (map.getZoom() < SHAPE_Z) {
+      if (!shapesEmpty) { src.setData(EMPTY); map.getSource("deco").setData(EMPTY); shapesEmpty = true; }
+      return;
+    }
     const b = map.getBounds();
     const px = (b.getEast() - b.getWest()) * 0.25, py = (b.getNorth() - b.getSouth()) * 0.25;
     const w = b.getWest() - px, e = b.getEast() + px, s = b.getSouth() - py, n = b.getNorth() + py;
@@ -669,6 +764,9 @@ map.on("load", async () => {
     }
     src.setData({ type: "FeatureCollection", features: list.map(ft =>
       ({ type: "Feature", properties: ft.properties, geometry: { type: "Polygon", coordinates: shapeRing(ft) } })) });
+    // decorazioni degli alberi in vista (stessa finestra): tronchi multipli, edera, frutti
+    const deco = DECO.filter(ft => { const [x, y] = ft.geometry.coordinates; return x >= w && x <= e && y >= s && y <= n; });
+    map.getSource("deco").setData({ type: "FeatureCollection", features: deco.slice(0, SHAPE_CAP).flatMap(decoPoints) });
     shapesEmpty = false;
   };
 
@@ -685,10 +783,20 @@ map.on("load", async () => {
       "fill-color": CROWN_COLOR, "fill-opacity": FILL_OPACITY } }) },
     { id: "crown-poly-line", spec: () => ({ type: "line", source: "shapes", layout: { "line-join": "round" }, paint: {
       "line-color": STROKE_COLOR, "line-width": STROKE_W } }) },
-    { id: "trunk", base: ["has", "tr"], spec: tier => ({ type: "circle", source: tier.src, minzoom: SHAPE_Z, paint: {
+    // tronco unico; gli alberi con più tronchi li disegna "stem" (sorgente deco)
+    { id: "trunk", base: ["all", ["has", "tr"], ["!", ["has", "stems"]]], spec: tier => ({ type: "circle", source: tier.src, minzoom: SHAPE_Z, paint: {
       "circle-radius": radius("tr", 1.5), "circle-color": "#7b4a1e",
       "circle-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1],
       "circle-pitch-alignment": "map" } }) },
+    { id: "stem", base: ["==", ["get", "dk"], "stem"], spec: () => ({ type: "circle", source: "deco", minzoom: SHAPE_Z, paint: {
+      "circle-radius": radius("dr", 1.5), "circle-color": "#7b4a1e",
+      "circle-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1], "circle-pitch-alignment": "map" } }) },
+    { id: "ivy", base: ["==", ["get", "dk"], "ivy"], spec: () => ({ type: "circle", source: "deco", minzoom: SHAPE_Z, paint: {
+      // verde scuro con bordo chiaro: si legge sia sulle chiome chiare (caducifoglie) sia su quelle scure (sempreverdi)
+      "circle-radius": radius("dr", 1.2), "circle-color": "#2e5e1a", "circle-stroke-color": "#d9efb0",
+      "circle-stroke-width": 0.6, "circle-pitch-alignment": "map" } }) },
+    { id: "fruit", base: ["==", ["get", "dk"], "fruit"], spec: () => ({ type: "circle", source: "deco", minzoom: SHAPE_Z, paint: {
+      "circle-radius": radius("dr", 1.5), "circle-color": ["get", "dc"], "circle-pitch-alignment": "map" } }) },
   ];
   const filterFor = (def, tier, rest) => ["all", ...(def.base ? [def.base] : []), tier.cond, ...rest];
   for (const tier of TIERS) for (const def of DEFS)
@@ -1031,6 +1139,7 @@ map.on("load", async () => {
       if (r.diam !== "mm") fixDiameter(fc);          // dati con diameter letto in metri (vedi fixDiameter)
       ALL = fc.features;
       SHAPED = ALL.filter(isShaped);
+      DECO = ALL.filter(ft => ft.properties.stems || ft.properties.ivy || ft.properties.fruit);
       map.getSource(src).setData(fc);
       updateTaxa(); updateShapes(); update();
     };
@@ -1072,7 +1181,7 @@ map.on("load", async () => {
     closeCard();
     loadSeq++;
     partial = false;
-    ALL = []; SHAPED = [];
+    ALL = []; SHAPED = []; DECO = [];
     map.getSource("trees").setData(EMPTY); map.getSource("trees-min").setData(EMPTY);
     setCurrent(null); regSel.value = ""; info.textContent = "";
     setHash(null);

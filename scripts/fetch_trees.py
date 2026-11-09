@@ -699,7 +699,7 @@ def type_ok(tag, expected):
 def genus_ref(t):
     """(nome, voce) del genere nella lista: dal tag genus se è di una sola parola, altrimenti dalla species."""
     g = t.get("genus")
-    g = g.strip() if g and len(g.split()) == 1 else (genus_of_species(t["species"]) if t.get("species") else "")
+    g = genus_words(g)[0] if g and len(genus_words(g)) == 1 else (genus_of_species(t["species"]) if t.get("species") else "")
     return GENUS_REF.get(g.lstrip("× ").casefold()) if g else None
 
 
@@ -1064,6 +1064,17 @@ def genus_of_species(sp):
     return words[0] if words else ""
 
 
+def genus_words(g):
+    """Parole di genus senza il segno di ibrido iniziale: "× Sycoparrotia" e "x Sycoparrotia" sono una parola sola
+    (generi ibridi intergenerici); anche "×Sycoparrotia" attaccato perde il segno."""
+    words = g.split()
+    while words and words[0] in ("×", "x", "X"):
+        words = words[1:]
+    if words and words[0].startswith("×"):
+        words[0] = words[0][1:]
+    return words
+
+
 # Nome della specie in una lingua: species:<codice lingua>, es. species:it, species:pl, species:en, species:zh-Hans
 # (2-3 lettere, con eventuale variante). species:wikidata, species:wikipedia e simili non sono lingue.
 SPECIES_LANG = re.compile(r"^species:[a-z]{2,3}(?:[-_][A-Za-z]{2,4})?$")
@@ -1163,9 +1174,10 @@ def checks(t, pos):
         flag("species_lang_only", sp_lang="\n".join(f"{k}={v}" for k, v in lang))
     g = t.get("genus")
     gf = None if "genus" in eq or "genus" in nl else g   # genus per i check sulla forma del nome
-    if gf is not None and len(gf.split()) > 1:
+    gw = genus_words(gf) if gf is not None else None    # senza il segno di ibrido (× Sycoparrotia)
+    if gw is not None and len(gw) > 1:
         flag("genus")
-    if gf is not None and gf.strip()[:1].islower():
+    if gw and gw[0][:1].islower():
         flag("genus_lowercase")
     if "leaf_type" in t and t["leaf_type"] not in LEAF_TYPE:
         flag("leaf_type")
@@ -1173,9 +1185,9 @@ def checks(t, pos):
         flag("leaf_cycle")
     # species di una sola parola minuscola (es. species=alba): è un epiteto, non un genere da confrontare
     sp_epithet = sp is not None and len(sp.split()) == 1 and sp.strip()[:1].islower()
-    if g is not None and sp is not None and len(g.split()) == 1 and not sp_epithet and not nl:
-        sg = genus_of_species(sp)
-        if sg and g.casefold() != sg.casefold():
+    if g is not None and sp is not None and len(gw := genus_words(g)) == 1 and not sp_epithet and not nl:
+        sg = genus_of_species(sp).lstrip("×")   # il segno di ibrido non conta, né nel genus né nella species
+        if sg and gw[0].casefold() != sg.casefold():
             flag("genus_mismatch")
     list_issues, list_props = species_list_mismatches(t)
     nt = not_taxon_tags(t)
@@ -1222,7 +1234,35 @@ def checks(t, pos):
 KEEP = ["name", "species", "genus", "taxon",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
-        "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion"]
+        "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion", "multi_stemmed"]
+
+# Alberi da frutto (rendering: puntini colorati sulla chioma): per ora solo Malus domestica (le mele). Solo specie
+# coltivate per i frutti, non i generi interi (molti Malus e Prunus sono ornamentali). Colore del frutto per specie.
+FRUIT_SPECIES = {"Malus domestica": "#d63a2f"}
+FRUIT_BY_NAME = {}   # riempito alla prima chiamata, con i nomi normalizzati (norm_species)
+
+
+def fruit_color(t):
+    """Colore dei frutti da disegnare, dalla specie (FRUIT_SPECIES); None se l'albero non è tra quelli da frutto."""
+    if not FRUIT_BY_NAME:
+        FRUIT_BY_NAME.update({norm_species(k): v for k, v in FRUIT_SPECIES.items()})
+    return FRUIT_BY_NAME.get(norm_species(t.get("species") or ""))
+
+
+def stem_radii(t, trunk_r):
+    """Raggi (m) dei tronchi di un albero con multi_stemmed=*, oppure None. yes (o un valore non numerico) = 2 tronchi,
+    un intero = quel numero di tronchi (dividendo l'area del tronco), più valori con ";" o decimali = circonferenze dei
+    singoli tronchi. Senza un tronco da disegnare (né circonferenze), None."""
+    v = str(t.get("multi_stemmed", "")).strip().lower()
+    if not v or v == "no":
+        return None
+    parts = [x.strip() for x in v.split(";") if x.strip()]
+    nums = [num(x) for x in parts]
+    if len(parts) > 1 or (len(parts) == 1 and nums[0] is not None and not parts[0].isdigit()):
+        circs = [x for x in nums if x and x > 0]
+        return [c / (2 * math.pi) for c in circs] if len(circs) > 1 else None
+    n = int(parts[0]) if len(parts) == 1 and parts[0].isdigit() and 2 <= int(parts[0]) <= 12 else 2
+    return [trunk_r / math.sqrt(n)] * n if trunk_r else None
 
 
 def is_sacred(t):
@@ -1305,6 +1345,13 @@ def to_feature(el):
             p["tr"] = round(circ / (2 * math.pi), 3)
             if circ_est:
                 p["tr_est"] = True
+        # decorazioni disegnate da zoom 16 (index.html): tronchi multipli, edera, frutti
+        if stems := stem_radii(t, p.get("tr")):
+            p["stems"] = ";".join(f"{r:.3f}" for r in stems)
+        if t.get("ivyclad") == "yes":
+            p["ivy"] = 1
+        if fc := fruit_color(t):
+            p["fruit"] = fc
         # leaf_type e leaf_cycle mancanti o non validi: stimati dalle liste (forma e colore della chioma)
         if t.get("leaf_type") not in LEAF_TYPE and (est := leaf_type_estimate(t)):
             p["lt"] = est
