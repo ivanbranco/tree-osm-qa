@@ -1,7 +1,7 @@
 {
   "data_format": 1,
   "data_url": "https://raw.githubusercontent.com/ivanbranco/tree-osm-qa/main/taginfo.json",
-  "data_updated": "20261108T000000Z",
+  "data_updated": "20261109T000000Z",
   "project": {
     "name": "DendrOSM",
     "description": "Quality assurance map of OSM trees and tree stumps, by region.",
@@ -22,7 +22,7 @@
     {"key": "leaf_type", "object_types": ["node"], "description": "Used to render the crown shape and for QA checks."},
     {"key": "leaf_cycle", "object_types": ["node"], "description": "Used to render the crown color, for QA checks and the info panel."},
     {"key": "circumference", "object_types": ["node"], "description": "Used to render the 2D trunk and for QA checks."},
-    {"key": "diameter", "object_types": ["node"], "description": "Used like circumference when circumference is missing, and for QA checks."},
+    {"key": "diameter", "object_types": ["node"], "description": "Trunk diameter (millimetres without a unit): used like circumference when circumference is missing, and for QA checks, including the comparison with circumference."},
     {"key": "height", "object_types": ["node"], "description": "Used for QA checks and to estimate the trunk size."},
     {"key": "diameter_crown", "object_types": ["node"], "description": "Used to render the 2D crown and for QA checks."},
     {"key": "denotation", "object_types": ["node"], "description": "Used for QA checks."},
@@ -35,6 +35,8 @@
     {"key": "ref:masaf", "object_types": ["node"], "description": "Used for QA checks and the info panel."},
     {"key": "masaf:criteria", "object_types": ["node"], "description": "Used for QA checks and the info panel."},
     {"key": "ref:rami", "object_types": ["node"], "description": "Used for QA checks and the info panel."},
+    {"key": "ref:zapis", "object_types": ["node"], "description": "Used to render sacred trees (zapis) and shown in the info panel."},
+    {"key": "place_of_worship", "value": "sacred_tree", "object_types": ["node"], "description": "Used to render sacred trees."},
     {"key": "website", "object_types": ["node"], "description": "Used for QA checks and the info panel."},
     {"key": "url", "object_types": ["node"], "description": "Used for QA checks and the info panel."},
     {"key": "wikidata", "object_types": ["node"], "description": "Used for QA checks, the info panel and to show a picture."},
