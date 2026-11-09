@@ -923,6 +923,11 @@ map.on("load", async () => {
   const ISSUE_MID = ["all", ISSUE, ["!", MON]];
   map.addLayer({ id: "crown-issues", type: "circle", source: "trees-min", maxzoom: MON_Z, filter: ISSUE, paint: issuePaint() });
   map.addLayer({ id: "crown-issues-mid", type: "circle", source: "trees-min", minzoom: MON_Z, maxzoom: ALL_Z, filter: ISSUE_MID, paint: issuePaint() });
+  // Da zoom 10 gli alberi con errori (non monumentali) arrivano dal file completo: finché non è pronto li disegna questo
+  // livello dal file ridotto, con l'aspetto definitivo; poi si nasconde (regioni piccole come Vienna si aprono già da zoom 10)
+  map.addLayer({ id: "crown-issues-wait", type: "circle", source: "trees-min", minzoom: ALL_Z, filter: ISSUE_MID,
+    layout: { visibility: "none" }, paint: circlePaint() });
+  const setWait = on => map.setLayoutProperty("crown-issues-wait", "visibility", on ? "visible" : "none");
 
   const apply = () => {
     const f = ["all"];
@@ -935,12 +940,13 @@ map.on("load", async () => {
     map.setFilter("stumps", ["all", STUMP, ...rest]);
     map.setFilter("crown-issues", ["all", ISSUE, ...rest]);
     map.setFilter("crown-issues-mid", ["all", ISSUE_MID, ...rest]);
+    map.setFilter("crown-issues-wait", ["all", ISSUE_MID, ...rest]);
     update();
   };
   const update = () => {
     if (!current) { document.getElementById("count").textContent = L.pickRegion; return; }
     const z = map.getZoom();
-    const layers = z < MON_Z ? ["crown-issues"] : z < ALL_Z ? ["crown-issues-mid", "crown-top"] : CROWN_IDS;
+    const layers = z < MON_Z ? ["crown-issues"] : z < ALL_Z ? ["crown-issues-mid", "crown-top"] : [...CROWN_IDS, "crown-issues-wait"];
     const n = new Set(map.queryRenderedFeatures({ layers }).map(f => f.properties.id)).size;
     document.getElementById("count").textContent = (z < MON_Z ? L.countIssues : z < ALL_Z ? L.countMid : L.countAll)(fmtN(n))
       // file completo ancora in caricamento, o MapLibre lo sta ancora preparando
@@ -1107,7 +1113,7 @@ map.on("load", async () => {
     });
   };
   const closeCard = () => { if (cardPopup) cardPopup.remove(); };
-  for (const id of [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid"]) {
+  for (const id of [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"]) {
     map.on("click", id, e => {
       const g = e.features[0].geometry, pos = g.type === "Point" ? g.coordinates : [e.lngLat.lng, e.lngLat.lat];
       openCard(e.features[0].properties, pos);
@@ -1179,7 +1185,7 @@ map.on("load", async () => {
     taxSel.value = ""; taxSig = "";                   // l'elenco genus/specie dipende dalla regione
     info.textContent = r.updated ? L.updated(new Date(r.updated).toLocaleDateString(LOC)) : "";
     map.getSource("trees").setData(EMPTY);            // gli alberi della regione precedente
-    if (min) { partial = true; apply(); fitTo(min.features); show(min, "trees-min"); }
+    if (min) { partial = true; apply(); fitTo(min.features); show(min, "trees-min"); setWait(true); }
     else map.getSource("trees-min").setData(EMPTY);
     let fc;
     try { fc = await fullP; }
@@ -1189,6 +1195,8 @@ map.on("load", async () => {
     if (!min) { apply(); if (r.diam !== "mm") fixDiameter(fc); map.getSource("trees-min").setData(reduce(fc)); }
     fitTo(fc.features);
     show(fc, "trees");
+    // quando MapLibre ha preparato il file completo (mappa ferma) gli alberi con errori li disegna lui
+    map.once("idle", () => { if (seq === loadSeq) setWait(false); });
   };
   const selectRegion = slug => {
     closeCard();
@@ -1200,6 +1208,7 @@ map.on("load", async () => {
     closeCard();
     loadSeq++;
     partial = false;
+    setWait(false);
     ALL = []; SHAPED = []; DECO = [];
     map.getSource("trees").setData(EMPTY); map.getSource("trees-min").setData(EMPTY);
     setCurrent(null); regSel.value = ""; info.textContent = "";
@@ -1293,7 +1302,7 @@ map.on("load", async () => {
     map.on("mouseleave", "regions-fill", () => { hover(null); tip.style.display = "none"; map.getCanvas().style.cursor = ""; });
     map.on("click", "regions-fill", e => {
       // se il clic cade su un albero (la chioma può sconfinare in una regione vicina) vale la scheda dell'albero
-      if (map.queryRenderedFeatures(e.point, { layers: [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid"] }).length) return;
+      if (map.queryRenderedFeatures(e.point, { layers: [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"] }).length) return;
       const p = e.features[0].properties;
       hover(null); tip.style.display = "none";
       if (p.country) openCountry(p.group);
