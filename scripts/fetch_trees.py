@@ -173,6 +173,11 @@ UNDOC_IGNORE = {("type", "palm")}
 # gli alberi reali più tozzi (olivi monumentali) stanno sopra 0,45.
 SLENDER_MAX = 100.0        # oltre: albero troppo slanciato (es. height=24, circumference=0.01)
 STOCKY_MIN = 1 / 3         # sotto: albero troppo tozzo (circonferenza più di 3 volte l'altezza)
+# Slancio rispetto alla specie (check too_slender_species, solo per le specie con height_circ_ratio): provato su
+# 59.169 alberi, con queste soglie ne segnalava 81, quasi tutti con tronchi di pochi cm su alberi alti
+SLENDER_SP_FACTOR = 4      # oltre 4 volte il rapporto tipico della specie
+SLENDER_SP_MIN = 40        # ma mai sotto 40 (specie con rapporto basso, come l'olivo: i giovani sono più slanciati)
+SLENDER_SP_MIN_H = 10      # m: solo alberi alti almeno 10 m
 # Limiti massimi per specie (altezza e circonferenza, in m), modificabili in species_limits.json. Sono i record
 # della pagina wiki https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/Tree_species_records, presi da
 # monumentaltrees.com; "height_source" / "circumference_source" indicano una fonte diversa (es. "MASAF")
@@ -1116,6 +1121,12 @@ def checks(t, pos):
     r = slenderness(t)  # solo se non è già segnalata la misura sbagliata (circonferenza o altezza oltre i limiti)
     if r is not None and r > SLENDER_MAX and not {"height", "height_species"} & set(issues):
         flag("too_slender", hc_ratio=round(r, 3), hc_circ=round(c, 2))
+    # troppo slanciato per la specie: oltre SLENDER_SP_FACTOR volte il rapporto tipico (height_circ_ratio), e almeno
+    # SLENDER_SP_MIN; solo da SLENDER_SP_MIN_H m di altezza, perché gli alberelli appena piantati sono sottili
+    r0 = lim.get("height_circ_ratio")
+    if (r is not None and r0 and h is not None and h >= SLENDER_SP_MIN_H and r <= SLENDER_MAX
+            and r > max(SLENDER_SP_FACTOR * r0, SLENDER_SP_MIN) and not {"height", "height_species"} & set(issues)):
+        flag("too_slender_species", hc_ratio=round(r, 3), hc_circ=round(c, 2), sp_ratio=r0)
     if r is not None and r < STOCKY_MIN and not {"circumference", "circumference_species"} & set(issues):
         flag("too_stocky", hc_ratio=round(r, 3), hc_circ=round(c, 2))
     # un tag scritto dentro un valore (es. genus=leaf_type=broadleaved); i link (image, website, url) non contano,
