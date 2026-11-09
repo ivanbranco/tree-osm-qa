@@ -60,7 +60,12 @@
   .card .credit:empty{display:none}
   .card dl{margin:4px 0;display:grid;grid-template-columns:auto 1fr;gap:1px 8px}
   .card dt{color:#666}.card dd{margin:0}
-  .bad{color:#b00020;font-weight:600}
+  .bad{color:#b00020;font-weight:600;position:relative}
+  /* pop-up con la spiegazione del check: passando il mouse sul ⚠, o toccandolo (focus) da telefono */
+  .why{cursor:help;outline:none}
+  .why .tip{display:none;position:absolute;left:0;right:0;top:100%;z-index:6;background:#fff;color:#222;font-weight:400;
+    font-size:12px;line-height:1.4;border:1px solid #ddd;border-radius:4px;box-shadow:0 2px 8px #0003;padding:4px 7px}
+  .why:hover .tip,.why:focus .tip{display:block}
   .card .rec{margin:4px 0}
   .osm-menu{display:inline-block;position:relative}
   .osm-menu summary{display:inline;cursor:pointer;color:#1a5fb4;list-style:none}
@@ -171,7 +176,7 @@ const I18N = {
     updated: d => `Dati aggiornati al ${d}`,
     tipTrees: (name, n) => `${name} · ${fmtN(n)} alberi`, tipNoData: name => `${name} · dati non ancora disponibili`,
     issueOpts: {
-      circumference: "Circonferenza > 43 m", height: "Altezza > 115,92 m", crown: "Diametro chioma > 60,4 m",
+      circumference: "Circonferenza > 43 m", height: "Altezza > 116,22 m", crown: "Diametro chioma > 60,4 m",
       comma: "Virgola decimale (circumference, height, diameter_crown, diameter)",
       number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
       link_format: "Link con formato non valido", broken_link: "Link non raggiungibile", wikidata_mismatch: "species:wikidata incoerente con la species",
@@ -201,6 +206,51 @@ const I18N = {
       lt: "Tipo di foglie (stimato)", leaf_cycle: "Ciclo fogliare", lc: "Ciclo fogliare (stimato)", circumference: "Circonferenza", diameter: "Diametro tronco",
       height: "Altezza", diameter_crown: "Diametro chioma", start_date: "Data di impianto" },
     fromDiameter: " (da diameter)",
+    // spiegazione del check, nel pop-up sul simbolo ⚠ della scheda
+    why: {
+      circumference: "43 m è la circonferenza più grande registrata, nei baobab africani (Adansonia digitata; fonte: Guinness World Records). Il valore va in metri.",
+      height: "116,22 m è l'altezza dell'albero più alto misurato, Hyperion (Sequoia sempervirens, Redwood National Park, California; fonte: monumentaltrees.com). Il valore va in metri.",
+      crown: "60,4 m è la chioma più larga di un albero vivo a tronco singolo (record Guinness: Samanea saman «Chamchuri», Thailandia, 2018). I baniani, che hanno molti tronchi, possono superarla.",
+      // lim_c_src, lim_h_src: fonte del limite se non è monumentaltrees.com (fetch_trees.py)
+      circumference_species: p => `La soglia è il record della specie nella pagina wiki OSM «Tree species records» (fonte: ${p.lim_c_src || "monumentaltrees.com"}). Scatta solo se la circonferenza è sotto il record mondiale.`,
+      height_species: p => `La soglia è il record della specie nella pagina wiki OSM «Tree species records» (fonte: ${p.lim_h_src || "monumentaltrees.com"}). Scatta solo se l'altezza è sotto il record mondiale.`,
+      too_slender: "Soglia: altezza più di 100 volte la circonferenza. È larga di proposito, per evitare falsi positivi.",
+      too_stocky: "Soglia: circonferenza più di 3 volte l'altezza. Gli alberi reali più tozzi, come gli olivi monumentali, hanno un rapporto altezza/circonferenza intorno a 0,5.",
+      comma: "In OSM il separatore decimale è il punto (2.9, non 2,9).",
+      number_invalid: "Una misura è un solo numero positivo, in metri o con l'unità (150 cm). Testo, intervalli, elenchi e zero non sono misure.",
+      species: "Il nome di una specie ha almeno due parole (Genere epiteto). Se si conosce solo il genere, va in genus=*.",
+      genus: "Il nome di un genere è una sola parola (es. Quercus).",
+      species_lowercase: "Un nome scientifico inizia con il genere, che ha l'iniziale maiuscola.",
+      genus_lowercase: "Il nome di un genere ha l'iniziale maiuscola.",
+      species_typo: "Il nome non è nella lista delle specie della wiki OSM, ma differisce di una o due lettere da una specie che c'è.",
+      species_epithet_case: "In un nome scientifico il genere ha l'iniziale maiuscola e l'epiteto è minuscolo (Taxus baccata).",
+      species_common_name: "species=* contiene il nome scientifico (Genere epiteto, con l'epiteto minuscolo). Il nome comune va in species:xx (es. species:it).",
+      species_unidentified: "«sp.» e «spp.» indicano una specie non identificata: in OSM si indica solo il genere.",
+      species_parentheses: "Nessun nome scientifico contiene parentesi.",
+      species_author: "species=* contiene solo il nome, senza l'autore che ha descritto la specie (L., Mill., …).",
+      species_lang_only: "species:xx affianca species=*, non lo sostituisce: il nome scientifico è lo stesso in tutte le lingue.",
+      underscore: "Nei nomi scientifici le parole sono separate da spazi.",
+      tag_in_value: "Questi tag non contengono «=»: il valore ha la forma di un tag (chiave=valore).",
+      not_latin: "I nomi scientifici si scrivono in alfabeto latino.",
+      genus_mismatch: "La prima parola di species=* è il genere, e deve coincidere con genus=*.",
+      leaf_type: "Valori documentati: broadleaved, needleleaved, leafless, palm.",
+      leaf_cycle: "Valori documentati: deciduous, semi_deciduous, evergreen, semi_evergreen.",
+      leaf_type_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. palm vale come broadleaved.",
+      leaf_cycle_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. I valori semi_ valgono come quelli pieni.",
+      link_format: "wikidata vuole un QID (Q…), wikimedia_commons il prefisso File: o Category:, panoramax un UUID, image un indirizzo http(s).",
+      broken_link: "Segnalati: pagine 404 o 410, siti che non esistono più e file assenti su Commons. Non sono segnalati 403, 429, errori del server e timeout, che spesso sono blocchi verso i programmi automatici.",
+      monument_denotation: "ref:masaf, ref:rami e le schede di monumentaltrees.com indicano un albero monumentale, che in OSM ha denotation=natural_monument.",
+      masaf_criteria: "Codici ammessi: a–g, a1, a2, a2.1, a2.2, a2.3, separati da virgole senza spazi.",
+      denotation_value: "Confronto con gli usi su Taginfo: segnalati i valori usati al massimo 10 volte, quelli con un formato non valido e quelli comuni con altro testo attaccato.",
+      undocumented_tag: "tree=* e type=* non sono documentati per gli alberi nella wiki OSM.",
+      wikidata_mismatch: "Confronto con il QID che la lista delle specie della wiki OSM associa a species=*.",
+      wikidata_not_taxon: "Un taxon su Wikidata ha un nome scientifico (P225): questo elemento non ce l'ha, oppure non esiste.",
+      wikidata_is_taxon: "wikidata=* collega l'elemento del singolo albero; la specie si collega con species:wikidata=*.",
+      wikidata_far: "Le coordinate dell'elemento su Wikidata (P625) distano più di 1 km dall'albero.",
+      wikidata_rank: "species:wikidata indica una specie (o un rango inferiore), genus:wikidata un genere (rango: P105).",
+      wikidata_name_mismatch: "Confronto con il nome scientifico dell'elemento su Wikidata (P225), solo genere ed epiteto.",
+      wikidata_tree_species: "Confronto con la specie dell'albero su Wikidata (P10241, individuo del taxon).",
+      wikidata_heritage: "Su Wikidata l'albero ha una tutela (P1435): in OSM gli alberi monumentali hanno denotation=natural_monument." },
     issue: {
       circumference_species: (v, sp) => `circonferenza > ${v} (limite per ${sp})`,
       height_species: (v, sp) => `altezza > ${v} (limite per ${sp})`,
@@ -248,7 +298,7 @@ const I18N = {
       leaf_cycle_mismatch: (v, f, e) => `leaf_cycle=${v}, ma per ${f} la lista wiki indica ${e}`,
       genus_mismatch: (g, sp) => `genus (${g}) diverso dal genere della species (${sp})`,
       species: "species di una sola parola", species_lowercase: "species con iniziale minuscola",
-      genus_lowercase: "genus con iniziale minuscola", circumference: "circonferenza > 43 m", height: "altezza > 115,92 m",
+      genus_lowercase: "genus con iniziale minuscola", circumference: "circonferenza > 43 m", height: "altezza > 116,22 m",
       genus: "genus con più parole", leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" },
     genusOf: g => `il genere ${g}`, or: " o ",
     recMasaf: (l, ref) => `Albero inserito nell’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${ref})`,
@@ -286,7 +336,7 @@ const I18N = {
     updated: d => `Data updated on ${d}`,
     tipTrees: (name, n) => `${name} · ${fmtN(n)} trees`, tipNoData: name => `${name} · no data yet`,
     issueOpts: {
-      circumference: "Circumference > 43 m", height: "Height > 115.92 m", crown: "Crown diameter > 60.4 m",
+      circumference: "Circumference > 43 m", height: "Height > 116.22 m", crown: "Crown diameter > 60.4 m",
       comma: "Decimal comma (circumference, height, diameter_crown, diameter)",
       number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
       link_format: "Link with invalid format", broken_link: "Broken link", wikidata_mismatch: "species:wikidata inconsistent with species",
@@ -316,6 +366,49 @@ const I18N = {
       lt: "Leaf type (estimated)", leaf_cycle: "Leaf cycle", lc: "Leaf cycle (estimated)", circumference: "Circumference", diameter: "Trunk diameter",
       height: "Height", diameter_crown: "Crown diameter", start_date: "Planting date" },
     fromDiameter: " (from diameter)",
+    why: {
+      circumference: "43 m is the largest girth recorded, in African baobabs (Adansonia digitata; source: Guinness World Records). The value is in metres.",
+      height: "116.22 m is the height of the tallest measured tree, Hyperion (Sequoia sempervirens, Redwood National Park, California; source: monumentaltrees.com). The value is in metres.",
+      crown: "60.4 m is the widest crown of a living single-trunk tree (Guinness record: Samanea saman \"Chamchuri\", Thailand, 2018). Banyans, which have many trunks, can exceed it.",
+      circumference_species: p => `The threshold is the species record on the OSM wiki page "Tree species records" (source: ${p.lim_c_src || "monumentaltrees.com"}). It only applies if the circumference is below the world record.`,
+      height_species: p => `The threshold is the species record on the OSM wiki page "Tree species records" (source: ${p.lim_h_src || "monumentaltrees.com"}). It only applies if the height is below the world record.`,
+      too_slender: "Threshold: height more than 100 times the circumference. It is deliberately loose, to avoid false positives.",
+      too_stocky: "Threshold: circumference more than 3 times the height. The stockiest real trees, like monumental olive trees, have a height/circumference ratio around 0.5.",
+      comma: "In OSM the decimal separator is the point (2.9, not 2,9).",
+      number_invalid: "A measurement is a single positive number, in metres or with a unit (150 cm). Text, ranges, lists and zero are not measurements.",
+      species: "A species name has at least two words (Genus epithet). If only the genus is known, it goes in genus=*.",
+      genus: "A genus name is a single word (e.g. Quercus).",
+      species_lowercase: "A scientific name starts with the genus, which is capitalised.",
+      genus_lowercase: "A genus name is capitalised.",
+      species_typo: "The name is not in the OSM wiki species list, but differs by one or two letters from a species that is.",
+      species_epithet_case: "In a scientific name the genus is capitalised and the epithet is lowercase (Taxus baccata).",
+      species_common_name: "species=* holds the scientific name (Genus epithet, with a lowercase epithet). The common name goes in species:xx (e.g. species:en).",
+      species_unidentified: "\"sp.\" and \"spp.\" mean an unidentified species: in OSM only the genus is tagged.",
+      species_parentheses: "No scientific name contains parentheses.",
+      species_author: "species=* holds only the name, without the author who described the species (L., Mill., …).",
+      species_lang_only: "species:xx goes alongside species=*, not instead of it: the scientific name is the same in every language.",
+      underscore: "In scientific names words are separated by spaces.",
+      tag_in_value: "These tags never contain \"=\": the value has the form of a tag (key=value).",
+      not_latin: "Scientific names are written in the Latin script.",
+      genus_mismatch: "The first word of species=* is the genus, and it must match genus=*.",
+      leaf_type: "Documented values: broadleaved, needleleaved, leafless, palm.",
+      leaf_cycle: "Documented values: deciduous, semi_deciduous, evergreen, semi_evergreen.",
+      leaf_type_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. palm counts as broadleaved.",
+      leaf_cycle_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. semi_ values count as the full ones.",
+      link_format: "wikidata needs a QID (Q…), wikimedia_commons the File: or Category: prefix, panoramax a UUID, image an http(s) address.",
+      broken_link: "Reported: 404 or 410 pages, sites that no longer exist and files missing on Commons. 403, 429, server errors and timeouts are not reported, as they are often blocks against automated tools.",
+      monument_denotation: "ref:masaf, ref:rami and monumentaltrees.com pages indicate a monumental tree, which in OSM has denotation=natural_monument.",
+      masaf_criteria: "Allowed codes: a–g, a1, a2, a2.1, a2.2, a2.3, separated by commas without spaces.",
+      denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format and common values with other text attached.",
+      undocumented_tag: "tree=* and type=* are not documented for trees on the OSM wiki.",
+      wikidata_mismatch: "Compared with the QID that the OSM wiki species list gives for species=*.",
+      wikidata_not_taxon: "A taxon on Wikidata has a scientific name (P225): this item does not, or does not exist.",
+      wikidata_is_taxon: "wikidata=* links the item of the individual tree; the species is linked with species:wikidata=*.",
+      wikidata_far: "The coordinates of the Wikidata item (P625) are more than 1 km from the tree.",
+      wikidata_rank: "species:wikidata points to a species (or a lower rank), genus:wikidata to a genus (rank: P105).",
+      wikidata_name_mismatch: "Compared with the scientific name of the Wikidata item (P225), genus and epithet only.",
+      wikidata_tree_species: "Compared with the tree's species on Wikidata (P10241, individual of taxon).",
+      wikidata_heritage: "On Wikidata the tree has a heritage designation (P1435): in OSM monumental trees have denotation=natural_monument." },
     issue: {
       circumference_species: (v, sp) => `circumference > ${v} (limit for ${sp})`,
       height_species: (v, sp) => `height > ${v} (limit for ${sp})`,
@@ -363,7 +456,7 @@ const I18N = {
       leaf_cycle_mismatch: (v, f, e) => `leaf_cycle=${v}, but the wiki list gives ${e} for ${f}`,
       genus_mismatch: (g, sp) => `genus (${g}) differs from the genus of species (${sp})`,
       species: "single-word species", species_lowercase: "species starting lowercase",
-      genus_lowercase: "genus starting lowercase", circumference: "circumference > 43 m", height: "height > 115.92 m",
+      genus_lowercase: "genus starting lowercase", circumference: "circumference > 43 m", height: "height > 116.22 m",
       genus: "genus with more than one word", leaf_type: "invalid leaf_type", leaf_cycle: "invalid leaf_cycle" },
     genusOf: g => `the genus ${g}`, or: " or ",
     recMasaf: (l, ref) => `Listed in the MASAF ${l("list of monumental trees of Italy")} (${ref})`,
@@ -1214,7 +1307,7 @@ function card(p, pos) {
       <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}>${esc(img?.credit || "")}</a></div>` : "";
   const genusIssue = ["genus", "genus_lowercase", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
   const rows = ROWS.filter(([k]) => p[k] && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
-  const issues = p.issues.split("|").filter(Boolean).map(i => issueText(i, p));
+  const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
   const rec = recognitions(p);
   const links = [osmMenu(p, pos)];
   if (p.wikidata) links.push(link(`https://www.wikidata.org/wiki/${p.wikidata}`, "Wikidata"));
@@ -1230,7 +1323,8 @@ function card(p, pos) {
     ${photo}
     <dl>${rows}</dl>
     ${rec.map(x => `<div class="rec">${x}</div>`).join("")}
-    ${issues.flatMap(x => x.split("\n")).map(x => `<div class="bad">⚠ ${esc(x)}</div>`).join("")}
+    ${issues.flatMap(([i, x]) => { const w = L.why[i]; return x.split("\n").map(line => [typeof w === "function" ? w(p) : w, line]); }).map(([why, x]) =>
+      `<div class="bad">${why ? `<span class="why" tabindex="0">⚠<span class="tip">${esc(why)}</span></span>` : "⚠"} ${esc(x)}</div>`).join("")}
     <div>${links.join(" · ")}</div></div>`;
 }
 </script>

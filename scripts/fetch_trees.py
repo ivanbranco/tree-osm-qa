@@ -155,8 +155,12 @@ def fetch_bbox(region, bbox, depth=0, min_depth=0):
 
 
 # Soglie e valori ammessi
+# Circonferenza più grande registrata: 43 m, baobab africani (Adansonia digitata), record Guinness:
+# https://www.guinnessworldrecords.com/world-records/living-tree-with-greatest-girth
 MAX_CIRCUMFERENCE = 43.0   # m
-MAX_HEIGHT = 115.92        # m
+# Albero più alto: Hyperion (Sequoia sempervirens, Redwood National Park, California), 116,22 m:
+# https://www.monumentaltrees.com/en/usa/california/delnortecounty/4462_redwoodnationalpark/9104/
+MAX_HEIGHT = 116.22        # m
 # Chioma più larga di un albero vivo a tronco singolo: 60,4 m, record Guinness (Samanea saman "Chamchuri",
 # Thailandia, 2018):
 # https://www.guinnessworldrecords.com/world-records/635581-widest-crown-on-a-living-tree-single-trunk
@@ -169,7 +173,9 @@ UNDOC_IGNORE = {("type", "palm")}
 # gli alberi reali più tozzi (olivi monumentali) stanno sopra 0,45.
 SLENDER_MAX = 100.0        # oltre: albero troppo slanciato (es. height=24, circumference=0.01)
 STOCKY_MIN = 1 / 3         # sotto: albero troppo tozzo (circonferenza più di 3 volte l'altezza)
-# Limiti massimi per specie (altezza e circonferenza, in m), modificabili in species_limits.json
+# Limiti massimi per specie (altezza e circonferenza, in m), modificabili in species_limits.json. Sono i record
+# della pagina wiki https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/Tree_species_records, presi da
+# monumentaltrees.com; "height_source" / "circumference_source" indicano una fonte diversa (es. "MASAF")
 _RAW_LIMITS = load_json(HERE / "species_limits.json")
 # rapporti medi (mediane) usati quando la specie non ne ha uno proprio
 DEFAULT_RATIOS = _RAW_LIMITS.pop("_default", {})
@@ -1066,9 +1072,10 @@ def checks(t, pos):
         flag("comma", comma=";".join(comma))
     lim = species_limit(t) or {}  # limite per specie: solo se non è già scattato quello generico
     if "circumference" in lim and c is not None and "circumference" not in issues and c > lim["circumference"]:
-        flag("circumference_species", lim_c=lim["circumference"])
+        flag("circumference_species", lim_c=lim["circumference"],
+             **({"lim_c_src": lim["circumference_source"]} if "circumference_source" in lim else {}))
     if "height" in lim and h is not None and "height" not in issues and h > lim["height"]:
-        flag("height_species", lim_h=lim["height"])
+        flag("height_species", lim_h=lim["height"], **({"lim_h_src": lim["height_source"]} if "height_source" in lim else {}))
     r = slenderness(t)  # solo se non è già segnalata la misura sbagliata (circonferenza o altezza oltre i limiti)
     if r is not None and r > SLENDER_MAX and not {"height", "height_species"} & set(issues):
         flag("too_slender", hc_ratio=round(r, 3), hc_circ=round(c, 2))
