@@ -28,6 +28,7 @@ Gli alberi con almeno un problema hanno il contorno rosso. I check sono:
 * `genus=*` composto da più di una parola
 * `species=*` o `genus=*` che iniziano con una lettera minuscola (per `species` solo con più di una parola: con una sola parola basta l'errore precedente)
 * `circumference=*`, `height=*`, `diameter_crown=*` o `diameter=*` con la virgola come separatore decimale (`2,9` invece di `2.9`)
+* `diameter=*` senza unità e minore di 10 (es. `diameter=0.5`): senza unità la [wiki](https://wiki.openstreetmap.org/wiki/Key:diameter) indica i millimetri, e sarebbe un tronco di meno di 1 cm. Se il valore è in metri va scritta l'unità (`diameter=0.5 m`). Questi valori non si usano per la circonferenza; il check vale anche se c'è `circumference`. La soglia è `DIAM_MM_MIN` in `scripts/fetch_trees.py`
 * `circumference=*`, `height=*`, `diameter_crown=*` o `diameter=*` con testo, intervalli, elenchi o valori a 0 (o negativi); i valori con unità (`150 cm`, `12 ft`) non sono segnalati
 * `genus=*` diverso dalla prima parola di `species=*` (il segno di ibrido `×` iniziale è ignorato); non si controlla se `species` è una sola parola minuscola (es. `species=alba`), che non è un genere
 * Collegamenti con formato non valido: `wikidata` diverso da `Q…`, `wikimedia_commons` senza `File:` o `Category:`, `panoramax` che non è un UUID, `image` che non inizia con `http`
@@ -54,7 +55,7 @@ Gli alberi con almeno un problema hanno il contorno rosso. I check sono:
 
 I check basati sulle liste richiedono `scripts/species_list.json`, `scripts/genus_list.json` e `scripts/denotation_values.json`, che si generano dall'Action "Aggiorna liste di riferimento"; se i file mancano, non vengono eseguiti.
 
-Se `circumference=*` manca ma c'è `diameter=*` (in metri), la circonferenza è ricavata come π × diametro e sottoposta agli stessi check e alle stesse stime; se ci sono entrambi i tag, `diameter` è ignorato (ma i controlli sul formato dei valori numerici valgono comunque anche per `diameter`).
+Se `circumference=*` manca ma c'è `diameter=*`, la circonferenza è ricavata come π × diametro. Come indica la [wiki](https://wiki.openstreetmap.org/wiki/Key:diameter), `diameter` senza unità è in millimetri (a differenza di `circumference` e `diameter_crown`, in metri); le unità scritte (`mm`, `cm`, `m`, `ft`, `in`) sono rispettate. I valori senza unità sotto 10 non si usano (vedi il check sopra). La circonferenza ricavata è sottoposta agli stessi check e alle stesse stime; se ci sono entrambi i tag, `diameter` è ignorato (ma i controlli sul formato dei valori numerici valgono comunque anche per `diameter`).
 
 I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` di `data/trees.geojson`.
 

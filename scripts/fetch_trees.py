@@ -847,12 +847,37 @@ def panoramax_ids(t):
 NUMERIC_TAGS = ("circumference", "height", "diameter_crown", "diameter")
 
 
+# diameter: senza unità è in millimetri (https://wiki.openstreetmap.org/wiki/Key:diameter), a differenza di
+# circumference e diameter_crown, che sono in metri
+DIAM_UNITS = {"mm": 0.001, "cm": 0.01, "m": 1, "metre": 1, "metres": 1, "meter": 1, "meters": 1,
+              "ft": 0.3048, "feet": 0.3048, "foot": 0.3048, "in": 0.0254, "inch": 0.0254, "inches": 0.0254}
+DIAM_RE = re.compile(r"^\s*(\d+(?:[.,]\d+)?)\s*([a-zA-Z]*)\s*$")
+DIAM_MM_MIN = 10   # sotto: diameter senza unità troppo piccolo per i millimetri (tronco < 1 cm), check diameter_unit
+
+
+def diameter_small(t):
+    """Vero se diameter non ha unità e vale meno di DIAM_MM_MIN (es. diameter=0.5): in millimetri sarebbe un
+    tronco di meno di 1 cm. Lo zero è già segnalato da number_invalid."""
+    m = DIAM_RE.match(str(t.get("diameter", "")))
+    return bool(m) and not m.group(2) and 0 < float(m.group(1).replace(",", ".")) < DIAM_MM_MIN
+
+
+def diameter_m(t):
+    """Diametro del tronco in metri da diameter=*: senza unità in mm, altrimenti con l'unità scritta
+    (mm, cm, m, ft, in). None se manca, non è leggibile o è troppo piccolo per i millimetri (diameter_small)."""
+    m = DIAM_RE.match(str(t.get("diameter", "")))
+    if not m or diameter_small(t):
+        return None
+    f = DIAM_UNITS.get(m.group(2).lower() or "mm")
+    return float(m.group(1).replace(",", ".")) * f if f else None
+
+
 def circ_value(t):
-    """Circonferenza in m, e se deriva da diameter. Se manca circumference ma c'è diameter (in m)
-    si usa π × diametro; se ci sono entrambi i tag, diameter è ignorato."""
+    """Circonferenza in m, e se deriva da diameter. Se manca circumference ma c'è diameter si usa
+    π × diametro (vedi diameter_m); se ci sono entrambi i tag, diameter è ignorato."""
     if "circumference" in t:
         return num(t["circumference"]), False
-    d = num(t.get("diameter"))
+    d = diameter_m(t)
     return (d * math.pi, True) if d is not None else (None, False)
 
 
@@ -1070,6 +1095,8 @@ def checks(t, pos):
         flag("crown")
     if comma := comma_tags(t):
         flag("comma", comma=";".join(comma))
+    if diameter_small(t):   # come comma, vale anche se c'è circumference e diameter non si usa
+        flag("diameter_unit")
     lim = species_limit(t) or {}  # limite per specie: solo se non è già scattato quello generico
     if "circumference" in lim and c is not None and "circumference" not in issues and c > lim["circumference"]:
         flag("circumference_species", lim_c=lim["circumference"],
@@ -1321,6 +1348,7 @@ def update_region(region, regions_index):
     min_path = OUT_DIR / f"{slug}.min.geojson.gz"
     if regions_index.get(slug, {}).get("sha1") == digest and path.exists():
         regions_index[slug]["errors"] = errors  # per gli indici scritti prima che esistesse il conteggio
+        regions_index[slug]["diam"] = "mm"      # vedi sotto
         if not min_path.exists():               # regioni scaricate prima che esistesse il file ridotto
             write_gz(min_path, minimal(fc))
         print(f"{slug}: nessuna modifica ({len(fc['features'])} alberi)")
@@ -1328,8 +1356,10 @@ def update_region(region, regions_index):
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     write_gz(path, raw)
     write_gz(min_path, minimal(fc))
+    # "diam": "mm" = dati scritti leggendo diameter senza unità in millimetri; senza, il sito corregge da sé i dati
+    # vecchi (fixDiameter in index.html)
     regions_index[slug] = {"name": region["name"], "count": len(fc["features"]), "errors": errors,
-                           "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "sha1": digest}
+                           "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "sha1": digest, "diam": "mm"}
     print(f"{slug}: {len(fc['features'])} alberi -> {path} ({path.stat().st_size / 1e6:.1f} MB)")
     return True
 
@@ -1362,6 +1392,11 @@ def main(argv):
         ok &= update_region(region, regions_index)
         save_index(regions_index)
         time.sleep(5)
+    # fixDiameter in index.html corregge le regioni scritte quando diameter si leggeva in metri: quando tutte le
+    # regioni sono state riscaricate non serve più (va tolto insieme al campo "diam")
+    if all(regions_index.get(r["slug"], {}).get("diam") == "mm" for r in REGIONS):
+        warn("Tutte le regioni hanno \"diam\": \"mm\" in data/index.json: si può togliere fixDiameter da index.html "
+             "(e il campo \"diam\" da fetch_trees.py)")
     if not ok:
         sys.exit(1)
 

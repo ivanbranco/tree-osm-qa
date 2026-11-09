@@ -178,6 +178,7 @@ const I18N = {
     issueOpts: {
       circumference: "Circonferenza > 43 m", height: "Altezza > 116,22 m", crown: "Diametro chioma > 60,4 m",
       comma: "Virgola decimale (circumference, height, diameter_crown, diameter)",
+      diameter_unit: "diameter senza unità troppo piccolo per i millimetri",
       number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
       link_format: "Link con formato non valido", broken_link: "Link non raggiungibile", wikidata_mismatch: "species:wikidata incoerente con la species",
       wikidata_not_taxon: "species/genus:wikidata non è un taxon", wikidata_is_taxon: "wikidata è un taxon",
@@ -217,7 +218,8 @@ const I18N = {
       too_slender: "Soglia: altezza più di 100 volte la circonferenza. È larga di proposito, per evitare falsi positivi.",
       too_stocky: "Soglia: circonferenza più di 3 volte l'altezza. Gli alberi reali più tozzi, come gli olivi monumentali, hanno un rapporto altezza/circonferenza intorno a 0,5.",
       comma: "In OSM il separatore decimale è il punto (2.9, non 2,9).",
-      number_invalid: "Una misura è un solo numero positivo, in metri o con l'unità (150 cm). Testo, intervalli, elenchi e zero non sono misure.",
+      diameter_unit: "Senza unità, diameter è in millimetri (wiki OSM, Key:diameter): questo valore sarebbe un tronco di meno di 1 cm. Se è in metri, va scritta l'unità (es. diameter=0.5 m); meglio ancora usare circumference, in metri. Il valore non è usato per disegnare il tronco.",
+      number_invalid: "Una misura è un solo numero positivo, eventualmente con l'unità (150 cm). Testo, intervalli, elenchi e zero non sono misure.",
       species: "Il nome di una specie ha almeno due parole (Genere epiteto). Se si conosce solo il genere, va in genus=*.",
       genus: "Il nome di un genere è una sola parola (es. Quercus).",
       species_lowercase: "Un nome scientifico inizia con il genere, che ha l'iniziale maiuscola.",
@@ -255,6 +257,7 @@ const I18N = {
       circumference_species: (v, sp) => `circonferenza > ${v} (limite per ${sp})`,
       height_species: (v, sp) => `altezza > ${v} (limite per ${sp})`,
       comma: t => `virgola decimale in ${t}`,
+      diameter_unit: v => `diameter=${v} senza unità: in millimetri il tronco sarebbe di meno di 1 cm`,
       number_invalid: t => `valore non numerico, intervallo o zero in ${t}`,
       link_format: t => `formato non valido in ${t}`,
       monument_denotation: t => `${t} senza denotation=natural_monument`,
@@ -338,6 +341,7 @@ const I18N = {
     issueOpts: {
       circumference: "Circumference > 43 m", height: "Height > 116.22 m", crown: "Crown diameter > 60.4 m",
       comma: "Decimal comma (circumference, height, diameter_crown, diameter)",
+      diameter_unit: "diameter without unit too small for millimetres",
       number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
       link_format: "Link with invalid format", broken_link: "Broken link", wikidata_mismatch: "species:wikidata inconsistent with species",
       wikidata_not_taxon: "species/genus:wikidata is not a taxon", wikidata_is_taxon: "wikidata is a taxon",
@@ -375,7 +379,8 @@ const I18N = {
       too_slender: "Threshold: height more than 100 times the circumference. It is deliberately loose, to avoid false positives.",
       too_stocky: "Threshold: circumference more than 3 times the height. The stockiest real trees, like monumental olive trees, have a height/circumference ratio around 0.5.",
       comma: "In OSM the decimal separator is the point (2.9, not 2,9).",
-      number_invalid: "A measurement is a single positive number, in metres or with a unit (150 cm). Text, ranges, lists and zero are not measurements.",
+      diameter_unit: "Without a unit, diameter is in millimetres (OSM wiki, Key:diameter): this value would be a trunk under 1 cm. If it is in metres, the unit must be written (e.g. diameter=0.5 m); better still, use circumference, in metres. The value is not used to draw the trunk.",
+      number_invalid: "A measurement is a single positive number, optionally with a unit (150 cm). Text, ranges, lists and zero are not measurements.",
       species: "A species name has at least two words (Genus epithet). If only the genus is known, it goes in genus=*.",
       genus: "A genus name is a single word (e.g. Quercus).",
       species_lowercase: "A scientific name starts with the genus, which is capitalised.",
@@ -413,6 +418,7 @@ const I18N = {
       circumference_species: (v, sp) => `circumference > ${v} (limit for ${sp})`,
       height_species: (v, sp) => `height > ${v} (limit for ${sp})`,
       comma: t => `decimal comma in ${t}`,
+      diameter_unit: v => `diameter=${v} without unit: in millimetres the trunk would be under 1 cm`,
       number_invalid: t => `non-numeric value, range or zero in ${t}`,
       link_format: t => `invalid format in ${t}`,
       monument_denotation: t => `${t} without denotation=natural_monument`,
@@ -504,6 +510,33 @@ async function getGz(u) {   // file .geojson.gz: se il server non lo ha già dec
     return JSON.parse(await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"))).text());
   }
   return JSON.parse(new TextDecoder().decode(buf));
+}
+// Dati scritti prima della correzione di diameter (senza unità è in mm, Key:diameter): fetch_trees.py lo leggeva in
+// metri. Per le regioni non ancora riscaricate (index.json senza "diam": "mm") il tronco ricavato da diameter si
+// ricalcola qui, e gli errori basati sulla circonferenza ricavata si tolgono (resta solo "circonferenza > 43 m",
+// ricalcolato). I valori senza unità sotto 10 restano come prima. Si può togliere quando tutte le regioni hanno "diam".
+const DIAM_UNITS = { mm: 0.001, cm: 0.01, m: 1, metre: 1, metres: 1, meter: 1, meters: 1,
+  ft: 0.3048, feet: 0.3048, foot: 0.3048, in: 0.0254, inch: 0.0254, inches: 0.0254 };
+const diamM = v => {   // come diameter_m in fetch_trees.py
+  const m = /^\s*(\d+(?:[.,]\d+)?)\s*([a-zA-Z]*)\s*$/.exec(String(v ?? ""));
+  if (!m) return null;
+  const x = Number(m[1].replace(",", ".")), u = m[2].toLowerCase();
+  if (!u && x < 10) return null;
+  const f = DIAM_UNITS[u || "mm"];
+  return f ? x * f : null;
+};
+const CIRC_ISSUES = ["circumference", "circumference_species", "too_slender", "too_stocky"];
+function fixDiameter(fc) {
+  for (const f of fc.features) {
+    const p = f.properties, d = p.diam_used ? diamM(p.diameter) : null;
+    if (d === null || d <= 0) continue;
+    if (p.stump) p.sr = Math.round(d / 2 * 1000) / 1000;
+    else { p.tr = Math.round(d / 2 * 1000) / 1000; delete p.tr_est; }
+    const l = p.issues.split("|").filter(i => i && !CIRC_ISSUES.includes(i));
+    if (d * Math.PI > 43) l.unshift("circumference");
+    p.issues = l.length ? `|${l.join("|")}|` : "|";
+  }
+  return fc;
 }
 const indexP = getJSON("data/index.json");
 indexP.catch(() => {});
@@ -766,7 +799,7 @@ map.on("load", async () => {
   const ISSUE_OPTS = Object.entries(L.issueOpts);
   // gruppi del menu errori: i codici non elencati finiscono in "Altri tag"
   const ISSUE_GROUPS = [
-    ["size", ["circumference", "height", "crown", "comma", "number_invalid", "circumference_species", "height_species",
+    ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "number_invalid", "circumference_species", "height_species",
       "too_slender", "too_stocky"]],
     ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_common_name",
       "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "underscore", "tag_in_value",
@@ -948,6 +981,7 @@ map.on("load", async () => {
     // ridotto manca (dati scritti prima che esistesse) lo si ricava dal completo. Le due parti vanno in due sorgenti
     // distinte ("trees-min" e "trees"), così i livelli a zoom basso non aspettano che MapLibre prepari il completo.
     const show = (fc, src) => {
+      if (r.diam !== "mm") fixDiameter(fc);          // dati con diameter letto in metri (vedi fixDiameter)
       ALL = fc.features;
       SHAPED = ALL.filter(isShaped);
       map.getSource(src).setData(fc);
@@ -977,7 +1011,7 @@ map.on("load", async () => {
     catch (e) { if (seq === loadSeq) { partial = false; document.getElementById("count").textContent = L.loadError; } return; }
     if (seq !== loadSeq) return;
     partial = false;
-    if (!min) { apply(); map.getSource("trees-min").setData(reduce(fc)); }
+    if (!min) { apply(); if (r.diam !== "mm") fixDiameter(fc); map.getSource("trees-min").setData(reduce(fc)); }
     fitTo(fc.features);
     show(fc, "trees");
   };
@@ -1103,12 +1137,14 @@ map.on("load", async () => {
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const num = v => { const m = String(v).match(/^\s*(-?\d+(?:[.,]\d+)?)\s*(m)?\s*$/); return m ? m[1].replace(",", ".") : null; };
 const fmtM = v => { const n = num(v); return n === null ? v : Number(n).toLocaleString(LOC, { maximumFractionDigits: 3 }) + " m"; };
+// diameter senza unità è in millimetri (Key:diameter); con un'unità si mostra com'è scritto
+const fmtD = v => /^\s*\d+(?:[.,]\d+)?\s*$/.test(v) ? Number(String(v).replace(",", ".")).toLocaleString(LOC, { maximumFractionDigits: 3 }) + " mm" : v;
 const tr = (dict, v) => dict[v] || v;
 
 const ROW_KEYS = ["species", "sp_common", "genus", "taxon", "denotation", "leaf_type", "lt", "leaf_cycle", "lc",
   "circumference", "diameter", "height", "diameter_crown", "start_date"];
 const ROW_FMT = { denotation: v => tr(L.denotation, v), leaf_type: v => tr(L.leafType, v), lt: v => tr(L.leafType, v),
-  leaf_cycle: v => tr(L.leafCycle, v), lc: v => tr(L.leafCycle, v), circumference: fmtM, diameter: fmtM, height: fmtM, diameter_crown: fmtM };
+  leaf_cycle: v => tr(L.leafCycle, v), lc: v => tr(L.leafCycle, v), circumference: fmtM, diameter: fmtD, height: fmtM, diameter_crown: fmtM };
 const ROWS = ROW_KEYS.map(k => [k, L.rows[k], ROW_FMT[k]]);
 const list = v => String(v || "").split(";").join(", ");
 const fromD = (i, p) => p.diam_used && i.startsWith("circumference") ? L.fromDiameter : "";
@@ -1129,6 +1165,7 @@ const issueBase = (i, p) => {
     case "circumference_species": return T[i](fmtM(p.lim_c), p.species);
     case "height_species": return T[i](fmtM(p.lim_h), p.species);
     case "comma": return T[i](list(p.comma));
+    case "diameter_unit": return T[i](p.diameter);
     case "number_invalid": return T[i](list(p.bad_num));
     case "link_format": return T[i](list(p.bad_links));
     case "monument_denotation": return T[i](list(p.mon_src));
