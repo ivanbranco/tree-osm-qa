@@ -1211,12 +1211,15 @@ def checks(t, pos):
 KEEP = ["name", "species", "genus", "taxon",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
-        "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis"]
+        "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion"]
 
 
 def is_sacred(t):
-    """Albero sacro: zapis serbo (ref:zapis=*) o place_of_worship=sacred_tree (es. i rag tree di Irlanda e Scozia)."""
-    return "ref:zapis" in t or t.get("place_of_worship") == "sacred_tree"
+    """Albero sacro: zapis serbo (ref:zapis=*), place_of_worship=sacred_tree o la sua sottocategoria sacred_tree=*
+    (es. sacred_tree=rag_tree, i rag tree di Irlanda e Scozia), goshinboku giapponese (religion=shinto,
+    https://wiki.openstreetmap.org/wiki/Tag:religion%3Dshinto)."""
+    return ("ref:zapis" in t or t.get("place_of_worship") == "sacred_tree" or "sacred_tree" in t
+            or t.get("religion") == "shinto")
 
 
 def sizes(t):

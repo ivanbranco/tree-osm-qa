@@ -312,7 +312,9 @@ const I18N = {
     genusOf: g => `il genere ${g}`, or: " o ",
     recMasaf: (l, ref) => `Albero inserito nell’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${ref})`,
     recRami: (l, ref) => `Albero inserito nel ${l("registro RAMI")} (${ref})`,
-    recSacred: ref => ref ? `Albero sacro: zapis (ref:zapis=${ref})` : "Albero sacro (place_of_worship=sacred_tree)",
+    // l(url, testo): link; kind = "zapis" (ref:zapis; il numero, di una lista non ufficiale, non si mostra),
+    // "rag_tree" (sacred_tree=rag_tree), "goshinboku" (religion=shinto) o null
+    recSacred: (l, kind) => kind ? `Albero sacro: ${l(SACRED_WP[kind], SACRED_NAME[kind])}` : "Albero sacro",
     recCriteria: list => `Criteri di monumentalità MASAF: ${list}`,
     masafCriteria: { a: "età e/o dimensioni", a1: "età", a2: "dimensioni", "a2.1": "circonferenza", "a2.2": "altezza",
       "a2.3": "ampiezza chioma", b: "forma o portamento particolari", c: "valore ecologico", d: "rarità botanica",
@@ -477,7 +479,7 @@ const I18N = {
     genusOf: g => `the genus ${g}`, or: " or ",
     recMasaf: (l, ref) => `Listed in the MASAF ${l("list of monumental trees of Italy")} (${ref})`,
     recRami: (l, ref) => `Listed in the ${l("RAMI register")} (${ref})`,
-    recSacred: ref => ref ? `Sacred tree: zapis (ref:zapis=${ref})` : "Sacred tree (place_of_worship=sacred_tree)",
+    recSacred: (l, kind) => kind ? `Sacred tree: ${l(SACRED_WP[kind], SACRED_NAME[kind])}` : "Sacred tree",
     recCriteria: list => `MASAF monumentality criteria: ${list}`,
     masafCriteria: { a: "age and/or size", a1: "age", a2: "size", "a2.1": "circumference", "a2.2": "height",
       "a2.3": "crown width", b: "particular shape or habit", c: "ecological value", d: "botanical rarity",
@@ -705,7 +707,15 @@ map.on("load", async () => {
       if (p.country) hasCountry.add(p.group);
       unitBox[p.key] = bboxOf(coordsOf(f.geometry.coordinates));
     }
-    allBounds = bboxOf(Object.values(unitBox).flat());
+    // vista d'insieme: il gruppo più numeroso di regioni vicine (l'Europa). Le regioni separate da più di 40° di
+    // longitudine (es. il Giappone) restano fuori, altrimenti tutto il resto diventerebbe minuscolo
+    const clusters = [];
+    for (const b of Object.values(unitBox).sort((a, c) => a[0][0] - c[0][0])) {
+      const last = clusters[clusters.length - 1];
+      if (last && b[0][0] - last.east <= 40) { last.boxes.push(b); last.east = Math.max(last.east, b[1][0]); }
+      else clusters.push({ boxes: [b], east: b[1][0] });
+    }
+    if (clusters.length) allBounds = bboxOf(clusters.sort((a, c) => c.boxes.length - a.boxes.length)[0].boxes.flat());
     map.addSource("regions", { type: "geojson", data: boundaries, promoteId: "key" });
     map.addLayer({ id: "regions-fill", type: "fill", source: "regions", maxzoom: ALL_Z, filter: ["get", "show"], paint: {
       "fill-color": ["case", ["<", ["get", "t"], 0], "#999999",
@@ -1263,6 +1273,13 @@ const issueBase = (i, p) => {
 
 const MASAF_URL = "https://www.masaf.gov.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/11260";
 const RAMI_URL = "https://ilregistrodeglialberi.it/cerca";
+// tipi di albero sacro: nome e voce di Wikipedia in inglese (in italiano non ci sono). Per i rag tree non c'è una
+// voce propria (Wikidata Q107257053): la più vicina è quella sui clootie well. Goshinboku: religion=shinto
+const SACRED_NAME = { zapis: "zapis", rag_tree: "rag tree", goshinboku: "goshinboku" };
+const SACRED_WP = { zapis: "https://en.wikipedia.org/wiki/Zapis", rag_tree: "https://en.wikipedia.org/wiki/Clootie_well",
+  goshinboku: "https://en.wikipedia.org/wiki/Shinboku" };
+const sacredKind = p => "ref:zapis" in p ? "zapis" : p.sacred_tree === "rag_tree" ? "rag_tree"
+  : p.religion === "shinto" ? "goshinboku" : null;
 
 function monumentalTreesUrl(p) {
   for (const v of [p.website, p.url]) {
@@ -1288,7 +1305,7 @@ function recognitions(p) {
     r.push(esc(L.recCriteria(codes.map(c => L.masafCriteria[c] ? `${c}) ${L.masafCriteria[c]}` : c).join("; "))));
   }
   if (p["ref:rami"]) r.push(L.recRami(t => link(RAMI_URL, t), esc(p["ref:rami"])));
-  if (p.sacred) r.push(esc(L.recSacred(p["ref:zapis"])));
+  if (p.sacred) r.push(L.recSacred(link, sacredKind(p)));
   const mt = monumentalTreesUrl(p);
   if (mt) r.push(L.recMt(link(mt, "monumentaltrees.com")));
   return r;
