@@ -92,6 +92,7 @@
     <summary data-i18n="legend">Legenda</summary>
     <ul class="leg">
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#e6a800" stroke-width="3"/></svg> <span data-i18n="legMonument">Albero monumentale</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1a9fe0" stroke-width="3"/></svg> <span data-i18n="legSacred">Albero sacro</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#7b3fc4" stroke-width="2"/></svg> <span data-i18n="legLandmark">Landmark</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#d00020" stroke-width="2"/></svg> <span data-i18n="legIssues">Con problemi</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#a5d64c" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legDeciduous">Caducifoglia</span></li>
@@ -127,12 +128,14 @@ const fmtN = n => Number(n).toLocaleString(LOC);
 // quota di alberi con errori: "1,6%", "<0,1%", "0%"
 const fmtPct = (e, c) => !c || !e ? "0%" : 100 * e / c < 0.05 ? `<${(0.1).toLocaleString(LOC)}%`
   : (100 * e / c).toLocaleString(LOC, { maximumFractionDigits: 1 }) + "%";
-// indirizzo: #region=<slug>&map=<zoom>/<lat>/<lon>, mantenendo #lang se c'era. Senza argomento tiene la regione attuale.
-let hashSlug = null;
+// indirizzo: #region=<slug>&node=<id OSM dell'albero con la scheda aperta>&map=<zoom>/<lat>/<lon>, mantenendo #lang
+// se c'era. Senza argomento tiene la regione attuale.
+let hashSlug = null, hashNode = null;
 const setHash = (slug = hashSlug) => {
   hashSlug = slug;
   const h = new URLSearchParams();
   if (slug) h.set("region", slug);
+  if (slug && hashNode) h.set("node", hashNode);
   if (typeof map !== "undefined") {
     const c = map.getCenter();
     h.set("map", `${map.getZoom().toFixed(2)}/${c.lat.toFixed(5)}/${c.lng.toFixed(5)}`);
@@ -162,7 +165,7 @@ const I18N = {
     download: "Scarica questi errori di tutta la regione (GeoJSON)",
     issueGroups: { size: "Misure", name: "Nome della specie e del genere", wikidata: "Wikidata",
       links: "Link, fonti e monumentali", other: "Altri tag" },
-    legend: "Legenda", legMonument: "Albero monumentale", legLandmark: "Landmark", legIssues: "Con problemi",
+    legend: "Legenda", legMonument: "Albero monumentale", legSacred: "Albero sacro", legLandmark: "Landmark", legIssues: "Con problemi",
     legTrunk: "Tronco (circonferenza)", legTrunkEst: "Tronco stimato", legStump: "Ceppo", legBroad: "Latifoglia o palma",
     legNeedle: "Aghifoglia", legNoLeaf: "Tipo di foglia non specificato",
     legDeciduous: "Caducifoglia", legEvergreen: "Sempreverde", legNoCycle: "Ciclo fogliare non specificato", legNote: "Tronco e forme da zoom 16",
@@ -179,6 +182,7 @@ const I18N = {
       circumference: "Circonferenza > 43 m", height: "Altezza > 116,22 m", crown: "Diametro chioma > 60,4 m",
       comma: "Virgola decimale (circumference, height, diameter_crown, diameter)",
       diameter_unit: "diameter senza unità troppo piccolo per i millimetri",
+      circ_diam_mismatch: "circumference e diameter non coincidono",
       number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
       link_format: "Link con formato non valido", broken_link: "Link non raggiungibile", wikidata_mismatch: "species:wikidata incoerente con la species",
       wikidata_not_taxon: "species/genus:wikidata non è un taxon", wikidata_is_taxon: "wikidata è un taxon",
@@ -219,6 +223,7 @@ const I18N = {
       too_stocky: "Soglia: circonferenza più di 3 volte l'altezza. Gli alberi reali più tozzi, come gli olivi monumentali, hanno un rapporto altezza/circonferenza intorno a 0,5.",
       comma: "In OSM il separatore decimale è il punto (2.9, non 2,9).",
       diameter_unit: "Senza unità, diameter è in millimetri (wiki OSM, Key:diameter): questo valore sarebbe un tronco di meno di 1 cm. Se è in metri, va scritta l'unità (es. diameter=0.5 m); meglio ancora usare circumference, in metri. Il valore non è usato per disegnare il tronco.",
+      circ_diam_mismatch: "La circonferenza dovrebbe essere circa π × diametro: segnalato uno scarto oltre il 20%. diameter senza unità è in millimetri, circumference in metri. Per disegnare il tronco si usa circumference.",
       number_invalid: "Una misura è un solo numero positivo, eventualmente con l'unità (150 cm). Testo, intervalli, elenchi e zero non sono misure.",
       species: "Il nome di una specie ha almeno due parole (Genere epiteto). Se si conosce solo il genere, va in genus=*.",
       genus: "Il nome di un genere è una sola parola (es. Quercus).",
@@ -258,6 +263,7 @@ const I18N = {
       height_species: (v, sp) => `altezza > ${v} (limite per ${sp})`,
       comma: t => `virgola decimale in ${t}`,
       diameter_unit: v => `diameter=${v} senza unità: in millimetri il tronco sarebbe di meno di 1 cm`,
+      circ_diam_mismatch: (c, d, cd) => `circumference=${c}, ma diameter=${d} corrisponde a una circonferenza di ${cd}`,
       number_invalid: t => `valore non numerico, intervallo o zero in ${t}`,
       link_format: t => `formato non valido in ${t}`,
       monument_denotation: t => `${t} senza denotation=natural_monument`,
@@ -306,6 +312,7 @@ const I18N = {
     genusOf: g => `il genere ${g}`, or: " o ",
     recMasaf: (l, ref) => `Albero inserito nell’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${ref})`,
     recRami: (l, ref) => `Albero inserito nel ${l("registro RAMI")} (${ref})`,
+    recSacred: ref => ref ? `Albero sacro: zapis (ref:zapis=${ref})` : "Albero sacro (place_of_worship=sacred_tree)",
     recCriteria: list => `Criteri di monumentalità MASAF: ${list}`,
     masafCriteria: { a: "età e/o dimensioni", a1: "età", a2: "dimensioni", "a2.1": "circonferenza", "a2.2": "altezza",
       "a2.3": "ampiezza chioma", b: "forma o portamento particolari", c: "valore ecologico", d: "rarità botanica",
@@ -325,7 +332,7 @@ const I18N = {
     download: "Download these errors for the whole region (GeoJSON)",
     issueGroups: { size: "Measurements", name: "Species and genus name", wikidata: "Wikidata",
       links: "Links, sources and monumental trees", other: "Other tags" },
-    legend: "Legend", legMonument: "Monumental tree", legLandmark: "Landmark", legIssues: "With errors",
+    legend: "Legend", legMonument: "Monumental tree", legSacred: "Sacred tree", legLandmark: "Landmark", legIssues: "With errors",
     legTrunk: "Trunk (circumference)", legTrunkEst: "Estimated trunk", legStump: "Stump", legBroad: "Broadleaved or palm",
     legNeedle: "Needleleaved", legNoLeaf: "Leaf type not specified",
     legDeciduous: "Deciduous", legEvergreen: "Evergreen", legNoCycle: "Leaf cycle not specified", legNote: "Trunks and shapes from zoom 16",
@@ -342,6 +349,7 @@ const I18N = {
       circumference: "Circumference > 43 m", height: "Height > 116.22 m", crown: "Crown diameter > 60.4 m",
       comma: "Decimal comma (circumference, height, diameter_crown, diameter)",
       diameter_unit: "diameter without unit too small for millimetres",
+      circ_diam_mismatch: "circumference and diameter do not match",
       number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
       link_format: "Link with invalid format", broken_link: "Broken link", wikidata_mismatch: "species:wikidata inconsistent with species",
       wikidata_not_taxon: "species/genus:wikidata is not a taxon", wikidata_is_taxon: "wikidata is a taxon",
@@ -380,6 +388,7 @@ const I18N = {
       too_stocky: "Threshold: circumference more than 3 times the height. The stockiest real trees, like monumental olive trees, have a height/circumference ratio around 0.5.",
       comma: "In OSM the decimal separator is the point (2.9, not 2,9).",
       diameter_unit: "Without a unit, diameter is in millimetres (OSM wiki, Key:diameter): this value would be a trunk under 1 cm. If it is in metres, the unit must be written (e.g. diameter=0.5 m); better still, use circumference, in metres. The value is not used to draw the trunk.",
+      circ_diam_mismatch: "The circumference should be about π × diameter: a difference over 20% is reported. diameter without a unit is in millimetres, circumference in metres. The trunk is drawn from circumference.",
       number_invalid: "A measurement is a single positive number, optionally with a unit (150 cm). Text, ranges, lists and zero are not measurements.",
       species: "A species name has at least two words (Genus epithet). If only the genus is known, it goes in genus=*.",
       genus: "A genus name is a single word (e.g. Quercus).",
@@ -419,6 +428,7 @@ const I18N = {
       height_species: (v, sp) => `height > ${v} (limit for ${sp})`,
       comma: t => `decimal comma in ${t}`,
       diameter_unit: v => `diameter=${v} without unit: in millimetres the trunk would be under 1 cm`,
+      circ_diam_mismatch: (c, d, cd) => `circumference=${c}, but diameter=${d} corresponds to a circumference of ${cd}`,
       number_invalid: t => `non-numeric value, range or zero in ${t}`,
       link_format: t => `invalid format in ${t}`,
       monument_denotation: t => `${t} without denotation=natural_monument`,
@@ -467,6 +477,7 @@ const I18N = {
     genusOf: g => `the genus ${g}`, or: " or ",
     recMasaf: (l, ref) => `Listed in the MASAF ${l("list of monumental trees of Italy")} (${ref})`,
     recRami: (l, ref) => `Listed in the ${l("RAMI register")} (${ref})`,
+    recSacred: ref => ref ? `Sacred tree: zapis (ref:zapis=${ref})` : "Sacred tree (place_of_worship=sacred_tree)",
     recCriteria: list => `MASAF monumentality criteria: ${list}`,
     masafCriteria: { a: "age and/or size", a1: "age", a2: "size", "a2.1": "circumference", "a2.2": "height",
       "a2.3": "crown width", b: "particular shape or habit", c: "ecological value", d: "botanical rarity",
@@ -497,6 +508,7 @@ const px = (prop, minPx, z) => ["max", minPx, ["/", ["get", prop], M0 / Math.pow
 // raggio in pixel = max(minimo, metri / (m per pixel)); uno stop per ogni zoom intero, così il minimo è un vero max
 const radius = (prop, minPx, div = 1) => ["interpolate", ["exponential", 2], ["zoom"],
   ...Array.from({ length: 23 }, (_, z) => [z, div === 1 ? px(prop, minPx, z) : ["/", px(prop, minPx, z), div]]).flat()];
+const isMon = p => String(p.denotation || "").split(";").includes("natural_monument");   // come hasDen sulla mappa
 const leafOf = p => p.lt || p.leaf_type;   // lt = leaf_type stimato dalla lista di specie quando il tag manca
 
 const EMPTY = { type: "FeatureCollection", features: [] };
@@ -574,15 +586,20 @@ map.on("load", async () => {
   // un attimo, e "trees" con tutti gli alberi, che per le regioni grandi richiede decine di secondi e serve da zoom 10
   map.addSource("trees", { type: "geojson", data: EMPTY });
   map.addSource("trees-min", { type: "geojson", data: EMPTY });
+  // denotation può avere più valori (natural_monument;landmark): si cerca ";valore;" in ";denotation;", come fa
+  // fetch_trees.py dividendo sui ";"
+  const hasDen = v => ["in", `;${v};`, ["concat", ";", ["coalesce", ["get", "denotation"], ""], ";"]];
   const STROKE_COLOR = ["case",
     ["!=", ["get", "issues"], "|"], "#d00020",                 // errore: precedenza massima
-    ["==", ["get", "denotation"], "natural_monument"], "#e6a800", // monumentale: oro
-    ["==", ["get", "denotation"], "landmark"], "#7b3fc4",         // landmark: viola
+    hasDen("natural_monument"), "#e6a800",                      // monumentale: oro
+    ["has", "sacred"], "#1a9fe0",                                 // albero sacro (ref:zapis, sacred_tree): azzurro
+    hasDen("landmark"), "#7b3fc4",                              // landmark: viola
     "#1b6b2c"];
   const STROKE_W = ["case",
     ["!=", ["get", "issues"], "|"], 2,
-    ["==", ["get", "denotation"], "natural_monument"], 3,
-    ["==", ["get", "denotation"], "landmark"], 2,
+    hasDen("natural_monument"), 3,
+    ["has", "sacred"], 3,
+    hasDen("landmark"), 2,
     1];
   const FILL_OPACITY = ["case", ["get", "cr_est"], 0.3, 0.55];
   // colore della chioma da leaf_cycle (o dalla stima lc delle liste wiki): caducifoglie più chiare, sempreverdi più scure
@@ -647,7 +664,7 @@ map.on("load", async () => {
 
   // Due livelli di layer: prima tutti gli alberi, poi i monumentali, che restano sopra agli altri
   const TREE = ["!", ["has", "stump"]];   // i ceppi (natural=tree_stump) hanno un layer a parte
-  const MON = ["==", ["coalesce", ["get", "denotation"], ""], "natural_monument"];
+  const MON = hasDen("natural_monument");
   // i monumentali (livello "-top") stanno tutti nella sorgente ridotta
   const TIERS = [{ suf: "", cond: ["all", TREE, ["!", MON]], minZ: ALL_Z, src: "trees" },
     { suf: "-top", cond: ["all", TREE, MON], minZ: MON_Z, src: "trees-min" }];
@@ -799,7 +816,7 @@ map.on("load", async () => {
   const ISSUE_OPTS = Object.entries(L.issueOpts);
   // gruppi del menu errori: i codici non elencati finiscono in "Altri tag"
   const ISSUE_GROUPS = [
-    ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "number_invalid", "circumference_species", "height_species",
+    ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "circ_diam_mismatch", "number_invalid", "circumference_species", "height_species",
       "too_slender", "too_stocky"]],
     ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_common_name",
       "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "underscore", "tag_in_value",
@@ -822,7 +839,7 @@ map.on("load", async () => {
       if (x < b.getWest() || x > b.getEast() || y < b.getSouth() || y > b.getNorth()) continue;
       const p = ft.properties;
       // fuori da zoom 10 si vedono solo i problematici e, da zoom 9, i monumentali
-      if (z < ALL_Z && (p.stump || (p.issues === "|" && !(z >= MON_Z && p.denotation === "natural_monument")))) continue;
+      if (z < ALL_Z && (p.stump || (p.issues === "|" && !(z >= MON_Z && isMon(p))))) continue;
       const codes = p.issues.split("|").filter(Boolean);
       codes.forEach(i => I.set(i, (I.get(i) || 0) + 1));
       new Set(codes.map(issueGroupOf)).forEach(g => GI.set(g, (GI.get(g) || 0) + 1));
@@ -930,13 +947,25 @@ map.on("load", async () => {
   map.on("render", () => { clearTimeout(countTimer); countTimer = setTimeout(update, 250); });
   map.on("moveend", update); map.on("idle", update); update();
 
+  // scheda dell'albero; il suo nodo va nell'indirizzo (#node=<id>), così il link si condivide con la scheda aperta
+  let cardPopup = null;
+  const openCard = (p, pos) => {
+    if (cardPopup) cardPopup.remove();
+    // focusAfterOpen: false, altrimenti il focus aprirebbe subito la spiegazione del primo ⚠
+    const popup = cardPopup = new maplibregl.Popup({ maxWidth: "280px", focusAfterOpen: false }).setLngLat(pos)
+      .setHTML(card(p, pos)).addTo(map);
+    fillPhoto(popup.getElement());   // crediti dei file di Commons e immagine di una categoria, se serve
+    hashNode = p.id; setHash();
+    popup.on("close", () => {         // solo se nel frattempo non si è aperta un'altra scheda
+      if (cardPopup !== popup) return;
+      cardPopup = null; hashNode = null; setHash();
+    });
+  };
+  const closeCard = () => { if (cardPopup) cardPopup.remove(); };
   for (const id of [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid"]) {
     map.on("click", id, e => {
       const g = e.features[0].geometry, pos = g.type === "Point" ? g.coordinates : [e.lngLat.lng, e.lngLat.lat];
-      // focusAfterOpen: false, altrimenti il focus aprirebbe subito la spiegazione del primo ⚠
-      const popup = new maplibregl.Popup({ maxWidth: "280px", focusAfterOpen: false }).setLngLat(pos)
-        .setHTML(card(e.features[0].properties, pos)).addTo(map);
-      fillPhoto(popup.getElement());   // crediti dei file di Commons e immagine di una categoria, se serve
+      openCard(e.features[0].properties, pos);
     });
     map.on("mouseenter", id, () => map.getCanvas().style.cursor = "pointer");
     map.on("mouseleave", id, () => map.getCanvas().style.cursor = "");
@@ -989,7 +1018,7 @@ map.on("load", async () => {
     };
     // stesso criterio di minimal() in fetch_trees.py
     const reduce = fc => ({ type: "FeatureCollection", features: fc.features.filter(f => f.properties.issues !== "|"
-      || String(f.properties.denotation || "").split(";").includes("natural_monument")) });
+      || isMon(f.properties)) });
     let fitted = false;
     const fitTo = feats => {                          // inquadra la regione: dal confine se c'è, altrimenti dagli alberi
       if (!fit || fitted) return;
@@ -1016,11 +1045,13 @@ map.on("load", async () => {
     show(fc, "trees");
   };
   const selectRegion = slug => {
+    closeCard();
     setHash(slug);
     return loadRegion(slug, true);
   };
   // toglie gli alberi della regione caricata (senza cambiare la vista della mappa)
   const clearRegion = () => {
+    closeCard();
     loadSeq++;
     partial = false;
     ALL = []; SHAPED = [];
@@ -1127,7 +1158,20 @@ map.on("load", async () => {
   // avvio dall'indirizzo: regione e, se c'è, posizione della mappa (altrimenti la vista della regione o d'insieme)
   const fromHash = hashParams().get("region"), startView = parseMapHash(hashParams().get("map"));
   if (startView) map.jumpTo(startView);
-  if (idx[fromHash]) { hashSlug = fromHash; await loadRegion(fromHash, !startView); }
+  // #node=<id>: la scheda dell'albero si apre appena la regione è caricata (senza "map", la vista lo centra)
+  const nodeFromHash = Number(hashParams().get("node")) || null;
+  if (idx[fromHash]) {
+    hashSlug = fromHash;
+    await loadRegion(fromHash, !startView && !nodeFromHash);
+    const f = nodeFromHash && ALL.find(x => x.properties.id === nodeFromHash);
+    if (f) {
+      if (!startView) map.jumpTo({ center: f.geometry.coordinates, zoom: 19 });
+      openCard(f.properties, f.geometry.coordinates);
+    } else if (nodeFromHash && !startView) {   // nodo non trovato (es. albero cancellato): vista della regione
+      const box = unitBox[fromHash] || (ALL.length ? bboxOf(ALL.map(x => x.geometry.coordinates)) : null);
+      if (box) map.fitBounds(box, { padding: 30, duration: 0 });
+    }
+  }
   else { if (!startView) fitAll(); update(); }
   let hashTimer;   // a ogni spostamento la posizione finisce nell'indirizzo (pronto da condividere)
   map.on("moveend", () => { clearTimeout(hashTimer); hashTimer = setTimeout(() => setHash(), 300); });
@@ -1166,6 +1210,7 @@ const issueBase = (i, p) => {
     case "height_species": return T[i](fmtM(p.lim_h), p.species);
     case "comma": return T[i](list(p.comma));
     case "diameter_unit": return T[i](p.diameter);
+    case "circ_diam_mismatch": return T[i](p.circumference, p.diameter, fmtM(p.cd_circ));   // cd_circ: fetch_trees.py
     case "number_invalid": return T[i](list(p.bad_num));
     case "link_format": return T[i](list(p.bad_links));
     case "monument_denotation": return T[i](list(p.mon_src));
@@ -1243,6 +1288,7 @@ function recognitions(p) {
     r.push(esc(L.recCriteria(codes.map(c => L.masafCriteria[c] ? `${c}) ${L.masafCriteria[c]}` : c).join("; "))));
   }
   if (p["ref:rami"]) r.push(L.recRami(t => link(RAMI_URL, t), esc(p["ref:rami"])));
+  if (p.sacred) r.push(esc(L.recSacred(p["ref:zapis"])));
   const mt = monumentalTreesUrl(p);
   if (mt) r.push(L.recMt(link(mt, "monumentaltrees.com")));
   return r;

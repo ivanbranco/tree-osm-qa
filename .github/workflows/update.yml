@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       region:
-        description: "Regione da aggiornare (all = tutte; italia, polonia, regno-unito, francia = tutte le regioni del paese)"
+        description: "Regione da aggiornare (all = tutte; italia, polonia, regno-unito, francia, irlanda = tutte le regioni del paese)"
         type: choice
         default: all
         options:
@@ -13,12 +13,18 @@ on:
           - polonia
           - regno-unito
           - francia
+          - irlanda
           - bulgaria
           - croazia
           - estonia
           - lettonia
           - lituania
+          - serbia
           - slovenia
+          - connacht
+          - leinster
+          - munster
+          - ulster-irlanda
           - est-inghilterra
           - galles
           - irlanda-del-nord

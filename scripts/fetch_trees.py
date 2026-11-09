@@ -336,7 +336,9 @@ def store_items(batch, rows):
 
 
 def store_taxa_info(batch, rows):
-    found = {q: {"taxon": False, "names": [], "ranks": []} for q in batch}
+    # gli alias (nomi comuni) si tengono: li aggiorna fetch_aliases solo per le specie che non li hanno
+    found = {q: {"taxon": False, "names": [], "ranks": [], **({"alias": WD_TAXA[q]["alias"]} if "alias" in WD_TAXA.get(q, {}) else {})}
+             for q in batch}
     for b in rows:
         e = found[qid_of(b, "item")]
         if "name" in b:
@@ -396,12 +398,14 @@ def wd_prop(p):
 
 
 def update_wikidata_cache(elements):
-    """Chiede a Wikidata i dati dei QID usati e non ancora in cache: per wikidata=* (alberi) se è un taxon,
+    """Chiede a Wikidata i dati dei QID usati dalla regione: per wikidata=* (alberi) se è un taxon,
     coordinate, immagine, specie (P10241), tutela (P1435) e voci di Wikipedia; per species:wikidata, genus:wikidata e
-    le specie di P10241 nome scientifico, rango ed etichette. Aggiorna e salva le due cache."""
+    le specie di P10241 nome scientifico, rango ed etichette. Aggiorna e salva le due cache.
+    I QID si rileggono a ogni aggiornamento, anche se sono già in cache: così le correzioni fatte su Wikidata
+    arrivano nei check (le cache sono piccole, poche richieste). Se Wikidata non risponde resta la cache."""
     tags = [el.get("tags", {}) for el in elements]
     wd = {q for t in tags for q in qids(t, "wikidata")}
-    todo_items = sorted(wd - WD_ITEMS.keys())
+    todo_items = sorted(wd)
     ask_wikidata(todo_items, lambda v: "SELECT ?item ?name ?coord ?img ?taxon ?her ?herIt ?herEn ?wpit ?wpen WHERE { "
                  "VALUES ?item { " + v + " } "
                  f"OPTIONAL {{ ?item {wd_prop('P225')} ?name }} OPTIONAL {{ ?item {wd_prop('P625')} ?coord }} "
@@ -415,7 +419,7 @@ def update_wikidata_cache(elements):
     # (per il nome comune)
     listed = {q for t in tags if (q := list_qid(t.get("species")))}
     todo_taxa = sorted(({q for t in tags for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k)}
-                        | {x for q in wd for x in WD_ITEMS.get(q, {}).get("taxa", [])} | listed) - WD_TAXA.keys())
+                        | {x for q in wd for x in WD_ITEMS.get(q, {}).get("taxa", [])} | listed))
     ask_wikidata(todo_taxa, lambda v: "SELECT ?item ?name ?rank ?it ?en WHERE { VALUES ?item { " + v + " } "
                  f"OPTIONAL {{ ?item {wd_prop('P225')} ?name }} OPTIONAL {{ ?item {wd_prop('P105')} ?rank }} "
                  "OPTIONAL { ?item rdfs:label ?it FILTER(LANG(?it) = 'it') } "
@@ -853,6 +857,10 @@ DIAM_UNITS = {"mm": 0.001, "cm": 0.01, "m": 1, "metre": 1, "metres": 1, "meter":
               "ft": 0.3048, "feet": 0.3048, "foot": 0.3048, "in": 0.0254, "inch": 0.0254, "inches": 0.0254}
 DIAM_RE = re.compile(r"^\s*(\d+(?:[.,]\d+)?)\s*([a-zA-Z]*)\s*$")
 DIAM_MM_MIN = 10   # sotto: diameter senza unità troppo piccolo per i millimetri (tronco < 1 cm), check diameter_unit
+# circumference e diameter insieme: segnalati se la circonferenza si scosta più del 20% da π × diametro (check
+# circ_diam_mismatch). Il margine lascia passare le imprecisioni di misura (tronchi non rotondi, quote diverse);
+# nei dati gli scarti sono quasi tutti sotto il 10% o molto grandi
+CIRC_DIAM_TOL = 0.2
 
 
 def diameter_small(t):
@@ -1097,6 +1105,8 @@ def checks(t, pos):
         flag("comma", comma=";".join(comma))
     if diameter_small(t):   # come comma, vale anche se c'è circumference e diameter non si usa
         flag("diameter_unit")
+    if "circumference" in t and c and c > 0 and (d := diameter_m(t)) and abs(c / (math.pi * d) - 1) > CIRC_DIAM_TOL:
+        flag("circ_diam_mismatch", cd_circ=round(math.pi * d, 2))   # circonferenza che corrisponde a diameter
     lim = species_limit(t) or {}  # limite per specie: solo se non è già scattato quello generico
     if "circumference" in lim and c is not None and "circumference" not in issues and c > lim["circumference"]:
         flag("circumference_species", lim_c=lim["circumference"],
@@ -1201,7 +1211,12 @@ def checks(t, pos):
 KEEP = ["name", "species", "genus", "taxon",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
-        "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi"]
+        "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis"]
+
+
+def is_sacred(t):
+    """Albero sacro: zapis serbo (ref:zapis=*) o place_of_worship=sacred_tree (es. i rag tree di Irlanda e Scozia)."""
+    return "ref:zapis" in t or t.get("place_of_worship") == "sacred_tree"
 
 
 def sizes(t):
@@ -1249,6 +1264,8 @@ def to_feature(el):
     t = el.get("tags", {})
     p = {k: t[k] for k in KEEP if k in t}
     p["id"] = el["id"]
+    if is_sacred(t):   # contorno azzurro sulla mappa
+        p["sacred"] = 1
     pano = panoramax_ids(t)
     if pano:
         p["panoramax"] = ";".join(pano)
