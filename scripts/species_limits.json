@@ -6,7 +6,7 @@
   "Aesculus hippocastanum": {"height": 36, "circumference": 7.33, "height_circ_ratio": 10.88},
   "Fraxinus excelsior": {"height": 50.6, "circumference": 9.82, "height_circ_ratio": 14.73},
   "Acer pseudoplatanus": {"height": 40.7, "circumference": 9.19, "height_circ_ratio": 13.21},
-  "Castanea sativa": {"height": 36.6, "circumference": 14.8, "height_circ_ratio": 0.55},
+  "Castanea sativa": {"height": 36.6, "circumference": 14.8},
   "Juglans regia": {"height": 29.2, "circumference": 9.05},
   "Olea europaea": {"height": 16.4, "circumference": 15.5, "height_circ_ratio": 2.74, "crown_circ_ratio": 1.78},
   "Celtis australis": {"height": 34.0, "height_source": "MASAF", "circumference": 5.5, "height_circ_ratio": 14.40, "crown_circ_ratio": 6.91}
