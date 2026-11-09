@@ -7,7 +7,16 @@
   "Fraxinus excelsior": {"height": 50.6, "circumference": 9.82, "height_circ_ratio": 14.73},
   "Acer pseudoplatanus": {"height": 40.7, "circumference": 9.19, "height_circ_ratio": 13.21},
   "Castanea sativa": {"height": 36.6, "circumference": 14.8, "height_circ_ratio": 14.29, "crown_circ_ratio": 7.95},
-  "Juglans regia": {"height": 29.2, "circumference": 9.05},
+  "Robinia pseudoacacia": {"height": 52.36, "circumference": 7.11, "height_circ_ratio": 11.37, "crown_circ_ratio": 6.34},
+  "Juglans regia": {"height": 29.2, "circumference": 9.05, "height_circ_ratio": 10.0, "crown_circ_ratio": 7.64},
   "Olea europaea": {"height": 16.4, "circumference": 15.5, "height_circ_ratio": 2.74, "crown_circ_ratio": 1.78},
-  "Celtis australis": {"height": 34.0, "height_source": "MASAF", "circumference": 5.5, "height_circ_ratio": 14.40, "crown_circ_ratio": 6.91}
+  "Celtis australis": {"height": 34.0, "height_source": "MASAF", "circumference": 5.5, "height_circ_ratio": 14.40, "crown_circ_ratio": 6.91},
+  "Acer campestre": {"height": 31.4, "circumference": 5.5, "height_circ_ratio": 15.23, "crown_circ_ratio": 7.41},
+  "Betula pendula": {"height": 36.4, "circumference": 5.2, "height_circ_ratio": 14.07, "crown_circ_ratio": 6.67},
+  "Carpinus betulus": {"height": 35.2, "circumference": 6.85, "height_circ_ratio": 16.25, "crown_circ_ratio": 7.69},
+  "Gleditsia triacanthos": {"height": 31.3, "circumference": 6.27, "height_circ_ratio": 15.79, "crown_circ_ratio": 8.93},
+  "Pinus mugo": {"height": 26.0, "circumference": 3.43, "height_circ_ratio": 7.21, "crown_circ_ratio": 7.39},
+  "Quercus rubra": {"height": 50.9, "circumference": 8.56, "height_circ_ratio": 12.67, "crown_circ_ratio": 7.56},
+  "Tilia platyphyllos": {"height": 41.6, "circumference": 15.72, "height_circ_ratio": 10.6, "crown_circ_ratio": 6.34},
+  "Tilia tomentosa": {"height": 37.0, "circumference": 6.54, "height_circ_ratio": 10.71, "crown_circ_ratio": 6.56}
 }
