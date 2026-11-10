@@ -2412,6 +2412,10 @@
 "taxon": true
 },
 "Q11896943": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Salix euxina 'Bullata'",
 "it": "Salix fragilis 'Bullata'",
 "names": [
@@ -7791,6 +7795,14 @@
 "taxon": true
 },
 "Q15545507": {
+"alias": {
+"en": [
+"almond tree",
+"almond",
+"Prunus dulcis"
+],
+"it": []
+},
 "en": "Prunus amygdalus",
 "it": "Prunus amygdalus",
 "names": [
@@ -14993,6 +15005,10 @@
 "taxon": true
 },
 "Q26790870": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Alley of Oaks in Raduň",
 "it": "Quercus robur",
 "names": [],

@@ -2399,6 +2399,14 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Christmas tree with paper decorations, Zagreb.jpeg": {
+"c": [
+45.79669933,
+15.92055073,
+"camera"
+],
+"d": "2026-11-10"
+},
 "geo:File:Dobrinishte Railway Station 16.JPG": {
 "c": [],
 "d": "2026-11-10"
@@ -2411,10 +2419,50 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Erazmova lipa v Predjami 1.jpg": {
+"c": [
+45.81407,
+14.12836,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Erazmova lipa v Predjami 3.jpg": {
+"c": [
+45.81407,
+14.12837,
+"camera"
+],
+"d": "2026-11-10"
+},
 "geo:File:Eucalipto de contige 03.jpg": {
 "c": [
 40.7366323,
 -7.7522386,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Gasperjev kostanj IMG 5914.JPG": {
+"c": [
+46.05380833,
+15.13855,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Hrast-Trdkova.JPG": {
+"c": [
+46.8530959,
+16.128186,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Kočevska reka oreh.jpg": {
+"c": [
+45.5751901,
+14.800774,
 "object"
 ],
 "d": "2026-11-10"
@@ -2431,6 +2479,30 @@
 "c": [
 49.94765,
 6.12761,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Lipa 500 let, Sveto 1.jpg": {
+"c": [
+45.824334,
+13.731499,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Napoleonov hrast 1.jpg": {
+"c": [
+45.6689301,
+13.8629352,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:NovaStifta-Lipa1.JPG": {
+"c": [
+45.7451016,
+14.664188,
 "object"
 ],
 "d": "2026-11-10"
@@ -2483,10 +2555,42 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Pääsküla raba mänd.jpg": {
+"c": [
+59.3634519,
+24.7007606,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Ramoninės ąžuolas 2.JPG": {
 "c": [
 55.928243,
 24.411095,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Smolarjenje.jpg": {
+"c": [
+45.8246407,
+13.8106675,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Strane, najstarejša Tisa v Sloveniji.jpg": {
+"c": [
+45.787131,
+14.089256,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Tisi v Stranah.jpg": {
+"c": [
+45.787039,
+14.088725,
 "camera"
 ],
 "d": "2026-11-10"
@@ -2500,6 +2604,14 @@
 49.7157862,
 6.3311075,
 "object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Zügelbaum (Roč).jpg": {
+"c": [
+45.3918,
+14.04764,
+"camera"
 ],
 "d": "2026-11-10"
 },
