@@ -3,16 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Monumental trees – DendrOSM</title>
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<title>DendrOSM – Monumental trees</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
 </head>
 <body>
 <script>
 // Mappa mondiale degli alberi monumentali: carica la pagina del tool (../index.html) in modalità "monumental"
 // (window.DENDROSM_MODE, vedi MODE in index.html), così il codice è uno solo. L'indirizzo resta questo.
+// Le icone (href="favicon.…") restano relative a questa cartella: sono quelle dorate dei monumentali.
 fetch("../index.html").then(r => r.text()).then(html => {
-  html = html.replace(/href="favicon\./g, 'href="../favicon.')
-    .replace("<head>", '<head><script>window.DENDROSM_MODE = "monumental";<\/script>');
+  html = html.replace("<head>", '<head><script>window.DENDROSM_MODE = "monumental";<\/script>');
   document.open(); document.write(html); document.close();
 });
 </script>

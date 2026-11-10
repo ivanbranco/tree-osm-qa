@@ -37,7 +37,6 @@
   body.world .leg li.world-only{display:flex}
   body.world .qa-only,body.world #region,body.world #overview,body.world #issue-row,body.world #scale,
   body.world #rank-box,body.world #chart-box{display:none!important}
-  #back-qa{margin:0 0 6px;text-decoration:none;color:#1a5fb4;font-size:13px}
   /* icona del globo nella legenda: apre la mappa mondiale */
   .leg .globe{margin-left:auto;color:#888;display:flex}
   .leg .globe:hover{color:#1a5fb4}
@@ -65,7 +64,7 @@
   .leg .why{flex:none}
   .leg .why .tip{position:fixed;right:auto;box-sizing:border-box}   /* posizione e larghezza dallo script */
   #tip{position:absolute;z-index:3;display:none;pointer-events:none;background:#fff;padding:4px 8px;border-radius:4px;box-shadow:0 1px 6px #0004;font-size:12px}
-  #overview{margin:0 0 6px;width:100%;padding:3px 6px;cursor:pointer}
+  #overview,#back-qa{margin:0 0 6px;width:100%;padding:3px 6px;cursor:pointer}   /* "← Torna al tool QA": stesso pulsante */
   .note{font-size:11px;color:#777;margin-top:6px}
   #subtitle{font-size:12px;color:#666;margin:-4px 0 8px}
   #panel h1{font-size:15px;margin:0 0 6px;display:flex;justify-content:space-between;align-items:baseline}
@@ -117,7 +116,7 @@
 <div id="panel" class="box">
   <h1><span data-i18n="title">DendrOSM</span><span class="hdr"><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a></span><a id="gh" href="https://github.com/ivanbranco/tree-osm-qa" target="_blank" rel="noopener"><svg width="16" height="14" viewBox="0 0 18 16" aria-hidden="true"><path d="M5.5 3.5L1.5 8l4 4.5M12.5 3.5l4 4.5-4 4.5M10.5 2L7.5 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></span></h1>
   <div id="subtitle" data-i18n="subtitle">Controllo qualità degli alberi di OpenStreetMap</div>
-  <a id="back-qa" class="world-only" href="../" data-i18n="backToQa">← Torna al tool QA</a>
+  <button id="back-qa" class="world-only" type="button" data-i18n="backToQa">← Torna al tool QA</button>
   <select id="region" autocomplete="off"></select>
   <button id="overview" type="button" hidden data-i18n="allRegions">← Tutte le regioni</button>
   <select id="taxon" autocomplete="off"><option value="" data-i18n="allTaxa">Tutti i genus e le specie</option></select>
@@ -671,8 +670,9 @@ SIDE_BOXES.forEach(b => b.addEventListener("toggle", () => {
 // icone del globo nella legenda (mappe mondiali) e, nelle mappe mondiali, titolo della mappa al posto del sottotitolo
 document.querySelectorAll(".leg .globe").forEach(a => { a.title = L.worldLink[a.dataset.world]; a.setAttribute("aria-label", a.title); });
 if (WORLD) {
+  document.getElementById("back-qa").onclick = () => { location.href = BASE; };   // la pagina del tool QA
   document.getElementById("subtitle").textContent = L.worldTitle[MODE];
-  document.title = `${L.worldTitle[MODE]} – DendrOSM`;
+  document.title = `DendrOSM – ${L.worldTitle[MODE]}`;   // come il tool: "DendrOSM – …"
 }
 document.querySelectorAll("#lang a").forEach(a => {
   a.classList.toggle("on", a.dataset.lang === LANG);

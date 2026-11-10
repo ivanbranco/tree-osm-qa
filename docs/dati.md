@@ -49,7 +49,7 @@ La pagina nella cartella carica `index.html` impostando la modalità (`window.DE
 * `.github/workflows/update-species-list.yml` – Action "Aggiorna liste di riferimento": specie, generi e valori di `denotation` (solo a mano)
 * `.github/workflows/update-world.yml` – Action "Aggiorna mappa monumentale" (solo a mano)
 * `index.html` – il sito
-* `monumental-trees/index.html` – la mappa mondiale degli alberi monumentali (carica `index.html`)
+* `monumental-trees/index.html` – la mappa mondiale degli alberi monumentali (carica `index.html`); `monumental-trees/favicon.svg` e `favicon.png` sono la sua icona, la stessa del tool ma dorata
 * `taginfo.json` – i tag OSM usati dal progetto, nel [formato di Taginfo](https://wiki.openstreetmap.org/wiki/Taginfo/Projects); se si aggiunge o si toglie un tag in `fetch_trees.py`, va aggiornato anche qui
 
 Per pubblicare, attiva GitHub Pages dal branch `main`, cartella root.
