@@ -347,6 +347,10 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:Beaucarnea recurvata on Avenida da Liberdade 03.jpg": {
+"d": "2026-11-10",
+"s": "ok"
+},
 "commons:File:Beniowa - drzewo.jpg": {
 "d": "2026-11-08",
 "s": "ok"
@@ -987,6 +991,10 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:Eucalipto de contige 03.jpg": {
+"d": "2026-11-10",
+"s": "ok"
+},
 "commons:File:Eucommia dans le parc Napoléon-III (Vichy) 2023-05-13.JPG": {
 "d": "2026-11-08",
 "s": "ok"
@@ -1259,6 +1267,10 @@
 "d": "2026-11-09",
 "s": "ok"
 },
+"commons:File:Linde in Nachtmanderscheid 01.jpg": {
+"d": "2026-11-10",
+"s": "ok"
+},
 "commons:File:Lipa 500 let, Sveto 1.jpg": {
 "d": "2026-11-08",
 "s": "ok"
@@ -1431,6 +1443,10 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:Olaia Estação de Benfica.jpg": {
+"d": "2026-11-10",
+"s": "ok"
+},
 "commons:File:Olivier Léon Gautier.jpg": {
 "d": "2026-11-08",
 "s": "ok"
@@ -1463,6 +1479,10 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:PORTO - 201408 -2 - 2 (15663529306).jpg": {
+"d": "2026-11-10",
+"s": "ok"
+},
 "commons:File:Palazzo Boncompagni - Giornata nazionale delle dimore storiche e WP25BO 14.jpg": {
 "d": "2026-11-08",
 "s": "ok"
@@ -1475,6 +1495,10 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:Paranhos Lemon Tree.jpg": {
+"d": "2026-11-10",
+"s": "ok"
+},
 "commons:File:Parc Fenestre (Araucaria).jpg": {
 "d": "2026-11-08",
 "s": "ok"
@@ -1485,6 +1509,10 @@
 },
 "commons:File:Park Chemiczna Sosnowiec640.jpg": {
 "d": "2026-11-08",
+"s": "ok"
+},
+"commons:File:Parque da Liberdade Sintra 36.jpg": {
+"d": "2026-11-10",
 "s": "ok"
 },
 "commons:File:Paulownia dans le parc du Soleil (Vichy) 2023-07-01.JPG": {
@@ -1605,6 +1633,14 @@
 },
 "commons:File:Populus nigra (Dormelletto).jpg": {
 "d": "2026-11-08",
+"s": "ok"
+},
+"commons:File:Porto DSC 0124 (16846438387).jpg": {
+"d": "2026-11-10",
+"s": "ok"
+},
+"commons:File:Porto DSC 0749 (17114206268).jpg": {
+"d": "2026-11-10",
 "s": "ok"
 },
 "commons:File:Przeworsk (zespół pałacowo-parkowy) - lipa Sobieskiego.jpg": {
@@ -2043,6 +2079,10 @@
 "d": "2026-11-09",
 "s": "ok"
 },
+"commons:File:Weydig oak 2012-08.JPG": {
+"d": "2026-11-10",
+"s": "ok"
+},
 "commons:File:Wien 07 Burggasse 041.jpg": {
 "d": "2026-11-09",
 "s": "ok"
@@ -2339,10 +2379,74 @@
 "d": "2026-11-09",
 "s": "ok"
 },
+"geo:File:Beaucarnea recurvata on Avenida da Liberdade 03.jpg": {
+"c": [
+38.719947,
+-9.145164,
+"camera"
+],
+"d": "2026-11-10"
+},
 "geo:File:Bird nest box in Biķernieku forest, Riga.jpg": {
 "c": [
 56.9680418,
 24.2056163,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Eucalipto de contige 03.jpg": {
+"c": [
+40.7366323,
+-7.7522386,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Linde in Nachtmanderscheid 01.jpg": {
+"c": [
+49.94765,
+6.12761,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Olaia Estação de Benfica.jpg": {
+"c": [],
+"d": "2026-11-10"
+},
+"geo:File:PORTO - 201408 -2 - 2 (15663529306).jpg": {
+"c": [],
+"d": "2026-11-10"
+},
+"geo:File:Paranhos Lemon Tree.jpg": {
+"c": [
+41.180166,
+-8.594929,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Parque da Liberdade Sintra 36.jpg": {
+"c": [
+38.795708,
+-9.385975,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Porto DSC 0124 (16846438387).jpg": {
+"c": [],
+"d": "2026-11-10"
+},
+"geo:File:Porto DSC 0749 (17114206268).jpg": {
+"c": [],
+"d": "2026-11-10"
+},
+"geo:File:Weydig oak 2012-08.JPG": {
+"c": [
+49.7157862,
+6.3311075,
 "object"
 ],
 "d": "2026-11-10"
@@ -2819,6 +2923,10 @@
 "d": "2026-11-08",
 "s": "503"
 },
+"http://www2.icnf.pt/portal/florestas/ArvoresFicha?Processo=KNJ1/543&Concelho=&Freguesia=&Distrito=": {
+"d": "2026-11-10",
+"s": "200"
+},
 "http://yaese-station.jp/about.php": {
 "d": "2026-11-09",
 "s": "404"
@@ -2897,6 +3005,26 @@
 },
 "https://archive.org/details/ticknall-2022-04-16/PXL_20220416_133337742.jpg": {
 "d": "2026-11-08",
+"s": "200"
+},
+"https://arvoredoanoportugal.pt/detalhe-da-arvore?year=2026&treeId=74": {
+"d": "2026-11-10",
+"s": "200"
+},
+"https://arvoredoanoportugal.pt/detalhe-da-arvore?year=2026&treeId=76&showRestricted=false": {
+"d": "2026-11-10",
+"s": "200"
+},
+"https://arvoredoanoportugal.pt/detalhe-da-arvore?year=2026&treeId=78&showRestricted=false": {
+"d": "2026-11-10",
+"s": "200"
+},
+"https://arvoredoanoportugal.pt/detalhe-da-arvore?year=2026&treeId=79&showRestricted=false": {
+"d": "2026-11-10",
+"s": "200"
+},
+"https://arvoredoanoportugal.pt/detalhe-da-arvore?year=2026&treeId=80&showRestricted=false": {
+"d": "2026-11-10",
 "s": "200"
 },
 "https://ati.woodlandtrust.org.uk/tree-search/tree/?treeId=198893#/": {
@@ -38183,6 +38311,10 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://florestas.pt/descobrir/carvalho-de-calvos-a-arvore-centenaria-que-inspira-educacao-ambiental/": {
+"d": "2026-11-10",
+"s": "200"
+},
 "https://fotopolska.eu/25414,obiekt.html": {
 "d": "2026-11-08",
 "s": "conn"
@@ -41771,6 +41903,74 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://portugal.treeoftheyear.eu/Previous-years/2019/Oliveira-do-Mouchao": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Aroeira-A-Fazedora-de-Chuva": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Azinheira-Secular-do-Monte-do-Barbeiro": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Carvalho-do-Padre-Ze": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Cedrus-Deodara": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Dragoeiro": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Figueira-da-Quinta-Deao": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Figueira-dos-Amores": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Oliveira": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Platano-do-Rossio": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Quercus-do-ISA": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Sobreiro": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Sobreiro-Centenario": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Tree-3": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Tuia-gigante": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/Zambujeiro-Milenar": {
+"d": "2026-11-10",
+"s": "conn"
+},
+"https://portugal.treeoftheyear.eu/Trees/gh": {
+"d": "2026-11-10",
+"s": "conn"
+},
 "https://rapla.ee/meil-siin-raplas#priiusetamm": {
 "d": "2026-11-08",
 "s": "timeout"
@@ -42599,6 +42799,10 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://visitartavira.pt/patrimonio-natural/oliveira-bimilenaria/": {
+"d": "2026-11-10",
+"s": "200"
+},
 "https://vivaiguagno.com/alberi-piante-coltivate/pyrus-pyraster/": {
 "d": "2026-11-08",
 "s": "200"
@@ -42730,6 +42934,10 @@
 "https://www.bernardkproject.com/2017/11/paris-le-jardin-des-tuileries-le-terrasse-de-feuillants-et-l-esplanade-des-feuillants.html": {
 "d": "2026-11-08",
 "s": "404"
+},
+"https://www.capelaincomum.pt/": {
+"d": "2026-11-10",
+"s": "200"
 },
 "https://www.casaegiardino.it/giardinaggio/frutteto/giuggiolo-ziziphus-jujuba.php": {
 "d": "2026-11-08",
@@ -43451,6 +43659,18 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://www.monumentaltrees.com/en/map/prt/centro/coimbra/4104_valledecanas/8314/": {
+"d": "2026-11-10",
+"s": "403"
+},
+"https://www.monumentaltrees.com/en/prt/centro/coimbra/4104_valledecanas/8315/": {
+"d": "2026-11-10",
+"s": "403"
+},
+"https://www.monumentaltrees.com/en/prt/centro/leiria/29958_matadacurvachia/": {
+"d": "2026-11-10",
+"s": "403"
+},
 "https://www.monumentaltrees.com/en/svn/osrednjeslovenska/ljubljana/37687_strelikaulica/": {
 "d": "2026-11-08",
 "s": "403"
@@ -44055,6 +44275,10 @@
 "d": "2026-11-08",
 "s": "404"
 },
+"https://www.treeoftheyear.org/previous-years/2018/Svitorici-korkovy-dub": {
+"d": "2026-11-10",
+"s": "200"
+},
 "https://www.untersberger-kerschbaumer.at/": {
 "d": "2026-11-09",
 "s": "dns"
@@ -44082,6 +44306,10 @@
 "https://www.vill.achi.lg.jp/soshiki/5/2009-11-post-83.html": {
 "d": "2026-11-09",
 "s": "200"
+},
+"https://www.visitarportugal.pt/d-faro/c-sao-bras-alportel/sao-bras-alportel/azinheira": {
+"d": "2026-11-10",
+"s": "404"
 },
 "https://www.visitlimbazi.lv/lv/klintis-un-alas?1307700577": {
 "d": "2026-11-08",
