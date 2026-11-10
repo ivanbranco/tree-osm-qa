@@ -257,7 +257,8 @@ def denotation_problems(t):
 # seguono.
 # data/wikidata_items.json, elementi di wikidata=* (i singoli alberi): {"Q…": {"taxon": bool, "coords": [[lon, lat]…]
 #   (P625), "image": file di Commons (P18), "taxa": [QID di P10241 "individuo del taxon"], "heritage": [[etichetta it,
-#   etichetta en] di P1435 "tutela"], "wp": {"it": url, "en": url} (voci di Wikipedia)}}
+#   etichetta en] di P1435 "tutela"], "wp": {"it": url, "en": url} (voci di Wikipedia), "mt": id di monumentaltrees.com
+#   (P9704), "mon": true se è istanza diretta (P31) di "pianta monumentale" (Q811534)}}
 # data/wikidata_taxa.json, elementi di species:wikidata, genus:wikidata e delle specie di P10241: {"Q…": {"taxon": bool,
 #   "names": [P225 nome scientifico], "ranks": [QID di P105 rango], "it": etichetta, "en": etichetta,
 #   "alias": {"it": [alias nell'ordine di Wikidata], "en": […]}}}; ci sono anche le specie di species_list.json usate
@@ -340,6 +341,10 @@ def store_items(batch, rows):
         for lang in WP_SITES:
             if "wp" + lang in b:
                 e["wp"][lang] = b["wp" + lang]["value"]
+        if "mt" in b:
+            e["mt"] = b["mt"]["value"]
+        if "mon" in b:
+            e["mon"] = True
     WD_ITEMS.update(found)
 
 
@@ -407,15 +412,18 @@ def wd_prop(p):
 
 def update_wikidata_cache(elements):
     """Chiede a Wikidata i dati dei QID usati dalla regione: per wikidata=* (alberi) se è un taxon,
-    coordinate, immagine, specie (P10241), tutela (P1435) e voci di Wikipedia; per species:wikidata, genus:wikidata e
+    coordinate, immagine, specie (P10241), tutela (P1435), voci di Wikipedia, id di monumentaltrees.com (P9704) e se è
+    una pianta monumentale (P31 = Q811534); per species:wikidata, genus:wikidata e
     le specie di P10241 nome scientifico, rango ed etichette. Aggiorna e salva le due cache.
     I QID si rileggono a ogni aggiornamento, anche se sono già in cache: così le correzioni fatte su Wikidata
     arrivano nei check (le cache sono piccole, poche richieste). Se Wikidata non risponde resta la cache."""
     tags = [el.get("tags", {}) for el in elements]
     wd = {q for t in tags for q in qids(t, "wikidata")}
     todo_items = sorted(wd)
-    ask_wikidata(todo_items, lambda v: "SELECT ?item ?name ?coord ?img ?taxon ?her ?herIt ?herEn ?wpit ?wpen WHERE { "
+    ask_wikidata(todo_items, lambda v: "SELECT ?item ?name ?coord ?img ?taxon ?her ?herIt ?herEn ?wpit ?wpen ?mt ?mon WHERE { "
                  "VALUES ?item { " + v + " } "
+                 # monumentali: id di monumentaltrees.com (P9704) e "istanza di" (solo diretta) pianta monumentale
+                 "OPTIONAL { ?item wdt:P9704 ?mt } OPTIONAL { ?item wdt:P31 ?mon FILTER(?mon = wd:Q811534) } "
                  f"OPTIONAL {{ ?item {wd_prop('P225')} ?name }} OPTIONAL {{ ?item {wd_prop('P625')} ?coord }} "
                  f"OPTIONAL {{ ?item {wd_prop('P18')} ?img }} OPTIONAL {{ ?item wdt:P10241 ?taxon }} "
                  "OPTIONAL { ?item wdt:P1435 ?her . OPTIONAL { ?her rdfs:label ?herIt FILTER(LANG(?herIt) = 'it') } "
@@ -1015,10 +1023,14 @@ HERITAGE_OPERATORS = ("icnf", "anf")
 
 def monument_sources(t):
     """Fonti che indicano un albero monumentale: ref:masaf, ref:rami, heritage:operator di HERITAGE_OPERATORS,
-    link a monumentaltrees.com."""
+    elemento di wikidata=* con P9704 o istanza di Q811534, link a monumentaltrees.com."""
     src = [k for k in ("ref:masaf", "ref:rami") if t.get(k)]
     src += [f"heritage:operator={v}" for v in (x.strip().lower() for x in str(t.get("heritage:operator", "")).split(";"))
             if v in HERITAGE_OPERATORS]
+    # elemento Wikidata dell'albero con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534)
+    for q in qids(t, "wikidata"):
+        item = WD_ITEMS.get(q, {})
+        src += [f"wikidata={q} ({p})" for p, ok in (("P9704", item.get("mt")), ("Q811534", item.get("mon"))) if ok]
     if is_monumentaltrees(t.get("website")) or is_monumentaltrees(t.get("url")):
         src.append("monumentaltrees.com")
     return src

@@ -1,0 +1,55 @@
+[← DendrOSM](../README.md)
+
+# Dati e aggiornamento
+
+Da dove arrivano i dati, come sono organizzati, come si aggiornano e com'è fatto il repository.
+
+## Regioni e dati
+
+I dati arrivano da Overpass (`natural=tree` e `natural=tree_stump`) e sono divisi per regione. All'apertura non è caricata nessuna regione: la mappa mostra le nazioni, colorate dal verde al rosso secondo la posizione in classifica per quota di alberi con errori (grigie se i dati o i conteggi mancano). Le nazioni divise in regioni (Italia, Polonia, Francia, Regno Unito, Irlanda, Austria) hanno il confine nazionale: toccandole si vedono le loro regioni, colorate in classifica solo tra loro. Le altre (Bulgaria, Lettonia) si caricano direttamente. Una regione si può scegliere anche dal menu, dove le regioni sono raggruppate per nazione. "← Tutte le nazioni" riporta alla vista d'insieme. Indirizzo diretto: `#region=lombardia`. All'apertura la mappa inquadra il gruppo più numeroso di regioni vicine (l'Europa); le regioni lontane, come il Giappone, si raggiungono dal menu.
+
+* `data/regions/<regione>.geojson.gz` – gli alberi di una regione, con i check già calcolati (compressi: il browser li decomprime)
+* `data/regions/<regione>.min.geojson.gz` – la parte ridotta dello stesso file: solo gli alberi con errori e i monumentali (`denotation=natural_monument`), gli unici visibili sotto zoom 10. Il sito carica prima questa, che compare subito, e intanto il file completo, che per le regioni grandi (es. Lombardia, quasi 400.000 alberi) richiede alcuni secondi; finché non è pronto il conteggio indica "caricamento di tutti gli alberi…". Se il file ridotto manca, il sito lo ricava dal completo
+* `data/wikidata_items.json` – cache Wikidata degli elementi di `wikidata=*` (i singoli alberi): se è un taxon (ha un nome scientifico, P225), coordinate (P625), immagine (P18), specie (P10241), tutela (P1435), voci di Wikipedia, id di monumentaltrees.com (P9704) e se è istanza di pianta monumentale (P31 = Q811534). A ogni aggiornamento di una regione lo script rilegge tutti i QID che la regione usa, così le correzioni fatte su Wikidata arrivano nei check; se Wikidata non risponde resta il dato in cache, e i check su Wikidata non scattano per i QID mai verificati
+* `data/wikidata_taxa.json` – cache Wikidata delle specie e dei generi (da `species:wikidata`, `genus:wikidata`, P10241 e, per i valori di `species` presenti nei dati, la lista della wiki): se è un taxon, nome scientifico (P225), rango (P105), etichette e alias in italiano e inglese (per il nome comune); aggiornata allo stesso modo, tranne gli alias, che si chiedono una volta sola per specie
+* `data/fotoshi.json` – autore e licenza delle foto di Fotoshi (`image:fotoshi`), letti dalla pagina di ogni foto una volta sola
+* `data/url_status.json` – stato dei link e dei file di Commons già controllati, con la data del controllo
+* `data/index.json` – elenco delle regioni disponibili, numero di alberi, numero di alberi con errori (`errors`) e data dell'ultimo cambiamento dei dati
+* `data/history.json` – storico per l'andamento degli errori e per i movimenti nella classifica: per ogni regione, righe `[data, alberi, alberi con errori]`, una al giorno (se una regione si aggiorna più volte nello stesso giorno resta l'ultimo valore, così l'ultima riga coincide sempre con `data/index.json`). Lo scrive `fetch_trees.py` a ogni aggiornamento, anche quando i dati non cambiano; le date fino al 10/11/2026 sono state ricostruite dalle versioni precedenti di `data/index.json`
+* `scripts/regions.json` – regioni: nome, nome inglese (`name_en`, usato quando il sito è in inglese), `group` (con `group_en`) (es. "Italia": le regioni con lo stesso gruppo compaiono insieme nel menu) e `group_rel` (la relation OSM della nazione, per il confine nazionale sulla mappa), codice ISO 3166-2 (se esiste: le regioni dell'Inghilterra non lo hanno), id della relation OSM (`rel`), bbox approssimativa e, se serve, `split` (livelli iniziali di suddivisione in tile: 0 per i paesi con pochi alberi)
+* `data/regions_boundaries.geojson` – confini semplificati delle regioni e delle nazioni divise in regioni, per sceglierle sulla mappa; si genera dall'Action "Aggiorna confini regioni" (da Nominatim)
+
+**Aggiornamento**: da GitHub, Actions → "Aggiorna dati alberi" → Run workflow, scegliendo dal menu `all`, un gruppo (`italia`, `polonia`, `regno-unito`, `francia` = tutte le regioni del paese che ci sono in `regions.json`) o una singola regione. Per aggiornare più regioni insieme si scrivono invece nel campo di testo sotto il menu, separate da spazi o virgole (es. `liguria veneto lettonia`): se il campo è compilato, il menu è ignorato. Non ci sono esecuzioni automatiche: l'aggiornamento parte solo a mano. Se il download di una regione fallisce restano i suoi dati precedenti; se i dati non cambiano, i file non vengono modificati.
+
+Server Overpass: se è impostato il secret `FAIRWAYMAPPER_KEY` (Settings → Secrets and variables → Actions), lo script usa per primo il mirror di [FairwayMapper](https://www.fairwaymapper.com/api/overpass) con quella chiave (nell'indirizzo `https://api.fairwaymapper.com/k/<chiave>/api/interpreter`, come in overpass-turbo; il secret può contenere la sola chiave `fm_…` o l'indirizzo intero, e nei log la chiave non compare), al massimo 10 richieste al minuto; se la chiave viene rifiutata o il limite è esaurito, passa ai server pubblici (overpass-api.de e gli altri in `ENDPOINTS`). Per non consumare la quota della chiave, al lancio dell'Action si toglie la spunta "Usa FairwayMapper". In locale la chiave si passa con la variabile d'ambiente omonima. Senza chiave si usano solo i server pubblici.
+
+In locale: `python scripts/fetch_trees.py lombardia` (oppure `all`, `italia`, `liguria veneto`). Una nuova regione si aggiunge in `scripts/regions.json` e nel menu di `.github/workflows/update.yml`; poi si lanciano "Aggiorna confini regioni" e "Aggiorna dati alberi".
+
+Le regioni grandi vengono scaricate a pezzi (tile) e unite. Il confine esatto lo decide l'area amministrativa OSM; la bbox serve solo a dividere il lavoro, quindi se mancano alberi ai margini di una regione basta allargarla in `regions.json`.
+
+## Mappa mondiale degli alberi monumentali
+
+[`monumental-trees/`](https://ivanbranco.github.io/tree-osm-qa/monumental-trees/) è una mappa da condividere senza la parte QA, con tutti gli alberi monumentali (`denotation=natural_monument`) del mondo e non solo quelli delle regioni del tool.
+
+Si apre dall'icona del globo accanto ad "Albero monumentale" nella legenda. All'apertura la mappa mostra l'Europa. Sotto zoom 7 si vede solo un albero per zona e gli altri compaiono avvicinandosi: per ogni zoom il mondo è diviso in celle di 48 pixel e in ogni cella si mostra un albero, scelto in quest'ordine: prima quelli con una foto nella scheda, poi il più grande (circonferenza misurata o dal diametro, poi altezza; le misure segnalate come errore non contano), poi quelli con nome o `wikidata`. Sono circa 3.000 alberi su 90.000, in un file a parte di meno di 200 KB, e ogni cambio di zoom richiede pochi decimi di secondo; con tutti gli alberi anche a zoom bassi la mappa restava vuota per diversi secondi (12 s a zoom 3 sull'Europa). Da zoom 7 si vedono tutti. Il conteggio sotto zoom 7 dice "avvicinati per vederli tutti", e il filtro per genere e specie mostra, sotto zoom 7, solo gli alberi scelti per le loro zone. Ha solo il pannello con il titolo della mappa, "← Torna al tool QA", il filtro per genere e specie, il conteggio degli alberi in vista e la data dei dati; gli alberi non hanno il contorno rosso degli errori. La legenda non ha le voci che lì non possono comparire (con problemi, landmark, ceppo) e, al posto di "Albero sacro", ha "Monumentale e sacro" con il contorno metà giallo e metà azzurro. Nella scheda, al posto degli errori, c'è solo "⚠ vedi nel tool QA", che apre l'albero nel tool, se l'albero ha errori e sta in una regione del tool.
+
+La pagina nella cartella carica `index.html` impostando la modalità (`window.DENDROSM_MODE`, vedi `MODE` nello script): il codice è uno solo. I dati sono in `data/world/monumental.geojson.gz` (stessi check del tool; la proprietà `qa` è la regione del tool in cui cade l'albero, dai confini di `data/regions_boundaries.geojson`; `mz` è lo zoom da cui l'albero compare, solo per quelli visibili sotto zoom 7), `data/world/monumental.low.geojson.gz` (solo gli alberi con `mz`) e `data/world/index.json`. Si aggiornano a mano dall'Action "Aggiorna mappa monumentale" (`scripts/fetch_world.py`, in locale `python scripts/fetch_world.py`). I link (`image`, `website`, `url`) non si ricontrollano: il check sui link rotti usa la cache del tool.
+
+## Struttura
+
+* `scripts/fetch_trees.py` – scarica da Overpass, calcola i check, scrive i dati
+* `scripts/fetch_world.py` – dati della mappa mondiale (alberi monumentali di tutto il mondo)
+* `scripts/regions.json` – elenco delle regioni
+* `scripts/update_boundaries.py` – scarica i confini delle regioni in `data/regions_boundaries.geojson`
+* `scripts/update_reference_lists.py` – scarica le liste di specie e generi dalla wiki OSM in `scripts/species_list.json` e `scripts/genus_list.json`, e i valori di `denotation` con il numero di usi da Taginfo in `scripts/denotation_values.json`
+* `scripts/species_limits.json` – per specie: limiti di altezza e circonferenza, rapporti usati per stimare le dimensioni mancanti
+* `scripts/whitelist.json` – eccezioni ai check: `species:wikidata` accettati per specie (`wikidata_mismatch`) e specie da non segnalare come scritte male (`species_typo`)
+* `.github/workflows/update.yml` – aggiornamento dei dati
+* `.github/workflows/update-boundaries.yml` – aggiornamento dei confini (solo a mano)
+* `.github/workflows/update-species-list.yml` – Action "Aggiorna liste di riferimento": specie, generi e valori di `denotation` (solo a mano)
+* `.github/workflows/update-world.yml` – Action "Aggiorna mappa monumentale" (solo a mano)
+* `index.html` – il sito
+* `monumental-trees/index.html` – la mappa mondiale degli alberi monumentali (carica `index.html`)
+* `taginfo.json` – i tag OSM usati dal progetto, nel [formato di Taginfo](https://wiki.openstreetmap.org/wiki/Taginfo/Projects); se si aggiunge o si toglie un tag in `fetch_trees.py`, va aggiornato anche qui
+
+Per pubblicare, attiva GitHub Pages dal branch `main`, cartella root.
