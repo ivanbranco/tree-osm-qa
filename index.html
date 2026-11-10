@@ -12,6 +12,9 @@
 <style>
   html,body{margin:0;height:100%;font:14px system-ui,sans-serif}
   #map{position:absolute;inset:0}
+  /* la mappa si mostra solo quando è nella posizione iniziale (vista d'insieme, regione o indirizzo): prima sarebbe
+     centrata sull'Italia, la posizione con cui nasce, e poi salterebbe altrove */
+  #map.wait .maplibregl-canvas{visibility:hidden}
   #side{position:absolute;top:10px;left:10px;z-index:2;display:flex;flex-direction:column;gap:8px;width:230px}
   .box{background:#fff;padding:10px 12px;border-radius:6px;box-shadow:0 1px 6px #0004}
   #legend-box summary,#rank-box>summary,#chart-box>summary{font-weight:600;cursor:pointer}
@@ -26,6 +29,8 @@
   /* mappe mondiali (body.world): niente parte QA, un link per tornare al tool */
   .world-only{display:none}
   body.world .world-only{display:block}
+  .leg li.world-only{display:none}   /* più specifico di .leg li, che le mostrerebbe */
+  body.world .leg li.world-only{display:flex}
   body.world .qa-only,body.world #region,body.world #overview,body.world #issue-row,body.world #scale,
   body.world #rank-box,body.world #chart-box{display:none!important}
   #back-qa{margin:0 0 6px;text-decoration:none;color:#1a5fb4;font-size:13px}
@@ -117,8 +122,10 @@
     <summary data-i18n="legend">Legenda</summary>
     <ul class="leg">
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#e6a800" stroke-width="3"/></svg> <span data-i18n="legMonument">Albero monumentale</span><a class="globe qa-only" href="monumental-trees/" data-world="monumental"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="8" r="6.5"/><ellipse cx="8" cy="8" rx="2.8" ry="6.5"/><path d="M1.5 8h13M2.6 4.6h10.8M2.6 11.4h10.8"/></g></svg></a></li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1a9fe0" stroke-width="3"/></svg> <span data-i18n="legSacred">Albero sacro</span></li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#7b3fc4" stroke-width="2"/></svg> <span data-i18n="legLandmark">Landmark</span></li>
+      <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1a9fe0" stroke-width="3"/></svg> <span data-i18n="legSacred">Albero sacro</span></li>
+      <!-- mappa dei monumentali: gli alberi sacri si vedono solo come monumentali e sacri insieme (contorno metà e metà) -->
+      <li class="world-only"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 3A8 8 0 0 0 11 19" fill="none" stroke="#e6a800" stroke-width="3"/><path d="M11 3A8 8 0 0 1 11 19" fill="none" stroke="#1a9fe0" stroke-width="3"/></svg> <span data-i18n="legMonSacred">Monumentale e sacro</span></li>
+      <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#7b3fc4" stroke-width="2"/></svg> <span data-i18n="legLandmark">Landmark</span></li>
       <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#d00020" stroke-width="2"/></svg> <span data-i18n="legIssues">Con problemi</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#a5d64c" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legDeciduous">Caducifoglia</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#1f6b35" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legEvergreen">Sempreverde</span></li>
@@ -128,7 +135,7 @@
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="7" r="3" fill="#7b4a1e"/><circle cx="7" cy="14" r="3" fill="#7b4a1e"/><circle cx="15" cy="14" r="3" fill="#7b4a1e"/></svg> <span data-i18n="legStems">Più tronchi</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e"/><g fill="#2e5e1a" stroke="#d9efb0" stroke-width=".5"><circle cx="18" cy="11" r="1.4"/><circle cx="16" cy="16" r="1.4"/><circle cx="11" cy="18" r="1.4"/><circle cx="6" cy="16" r="1.4"/><circle cx="4" cy="11" r="1.4"/><circle cx="6" cy="6" r="1.4"/><circle cx="11" cy="4" r="1.4"/><circle cx="16" cy="6" r="1.4"/></g></svg> <span data-i18n="legIvy">Coperto d'edera</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1b6b2c" stroke-width="1"/><g fill="#d63a2f"><circle cx="7" cy="8" r="1.8"/><circle cx="15" cy="7" r="1.8"/><circle cx="16" cy="14" r="1.8"/><circle cx="8" cy="15" r="1.8"/></g></svg> <span data-i18n="legFruit">Albero da frutto</span></li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><path d="M5 5L17 17M17 5L5 17" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/></svg> <span data-i18n="legStump">Ceppo</span></li>
+      <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M5 5L17 17M17 5L5 17" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/></svg> <span data-i18n="legStump">Ceppo</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.0,11.0 19.3,10.1 19.4,9.1 19.1,8.2 18.5,7.4 17.8,6.8 16.9,6.3 16.3,5.7 16.0,4.7 15.5,3.9 14.7,3.3 13.8,2.9 12.9,2.8 11.9,3.1 11.0,3.5 10.2,3.5 9.2,3.2 8.2,3.1 7.3,3.3 6.4,3.7 5.8,4.5 5.4,5.4 5.1,6.3 4.6,7.0 3.8,7.5 3.1,8.2 2.6,9.1 2.5,10.0 2.6,11.0 3.1,11.9 3.7,12.7 3.9,13.5 3.8,14.5 3.9,15.5 4.3,16.4 4.9,17.1 5.8,17.5 6.8,17.8 7.8,17.7 8.5,18.1 9.2,18.8 10.1,19.3 11.0,19.6 12.0,19.5 12.9,19.2 13.6,18.5 14.2,17.7 15.0,17.4 16.0,17.3 16.9,16.9 17.7,16.4 18.3,15.6 18.5,14.6 18.5,13.6 18.3,12.7 18.5,11.8" stroke-linejoin="round" fill="none" stroke="#1b6b2c" stroke-width="1.5"/></svg> <span data-i18n="legBroad">Latifoglia o palma</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.3,8.8 13.2,2.7 4.9,4.9 2.7,13.2 8.8,19.3 17.1,17.1" stroke-linejoin="round" fill="none" stroke="#1b6b2c" stroke-width="1.5"/></svg> <span data-i18n="legNeedle">Aghifoglia</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1b6b2c" stroke-width="1.5"/></svg> <span data-i18n="legNoLeaf">Tipo di foglia non specificato</span></li>
@@ -145,7 +152,7 @@
     <div class="note" data-i18n="chartNote">Quota di alberi con almeno un errore, a ogni aggiornamento.</div>
   </details>
 </div>
-<div id="map"></div>
+<div id="map" class="wait"></div>
 <div id="tip"></div>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
@@ -206,12 +213,14 @@ const I18N = {
     issueGroups: { size: "Misure", name: "Nome della specie e del genere", wikidata: "Wikidata",
       links: "Link, fonti e monumentali", other: "Altri tag" },
     legend: "Legenda", legMonument: "Albero monumentale", legSacred: "Albero sacro", legLandmark: "Landmark", legIssues: "Con problemi",
+    legMonSacred: "Monumentale e sacro",
     legTrunk: "Tronco", legTrunkEst: "Tronco stimato", legStump: "Ceppo",
     legStems: "Più tronchi", legIvy: "Coperto d'edera", legFruit: "Albero da frutto",
     // pop-up sulle icone della legenda: i tag che le producono (chiave = data-i18n della voce)
     legTips: {
       legMonument: "denotation=natural_monument",
       legSacred: "ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree o religion=shinto",
+      legMonSacred: "denotation=natural_monument e anche ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree o religion=shinto (da zoom 16)",
       legLandmark: "denotation=landmark",
       legIssues: "Almeno un errore",
       legDeciduous: "leaf_cycle=deciduous o semi_deciduous, o stimato",
@@ -418,11 +427,13 @@ const I18N = {
     issueGroups: { size: "Measurements", name: "Species and genus name", wikidata: "Wikidata",
       links: "Links, sources and monumental trees", other: "Other tags" },
     legend: "Legend", legMonument: "Monumental tree", legSacred: "Sacred tree", legLandmark: "Landmark", legIssues: "With errors",
+    legMonSacred: "Monumental and sacred",
     legTrunk: "Trunk", legTrunkEst: "Estimated trunk", legStump: "Stump",
     legStems: "Multiple trunks", legIvy: "Covered in ivy", legFruit: "Fruit tree",
     legTips: {
       legMonument: "denotation=natural_monument",
       legSacred: "ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree or religion=shinto",
+      legMonSacred: "denotation=natural_monument and also ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree or religion=shinto (from zoom 16)",
       legLandmark: "denotation=landmark",
       legIssues: "At least one error",
       legDeciduous: "leaf_cycle=deciduous or semi_deciduous, or estimated",
@@ -700,7 +711,8 @@ const boundsP = WORLD ? Promise.resolve(null) : getJSON("data/regions_boundaries
 const historyP = WORLD ? Promise.resolve(null) : getJSON("data/history.json").catch(() => null);   // storico degli errori
 
 const map = new maplibregl.Map({
-  container: "map", center: [12.5, 42.0], zoom: 5, maxZoom: 21,
+  // zoom massimo 19: le tessere di openstreetmap.org arrivano a 19, oltre lo sfondo è solo ingrandito e sfocato
+  container: "map", center: [12.5, 42.0], zoom: 5, maxZoom: 19,
   // sfondo: tessere standard di openstreetmap.org. Quelle di Wikimedia Italia (tile.osmit.it) non si possono usare:
   // il server non invia Access-Control-Allow-Origin e il browser le blocca (MapLibre le legge con WebGL)
   style: { version: 8, sources: { osm: { type: "raster", tileSize: 256, maxzoom: 19,
@@ -710,6 +722,9 @@ const map = new maplibregl.Map({
 });
 // solo + e −: niente bussola, e la mappa non si ruota (senza bussola non si potrebbe raddrizzare)
 map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
+// mostra la mappa (nascosta finché non è nella posizione iniziale); in ogni caso entro 8 s, anche se qualcosa va storto
+const revealMap = () => document.getElementById("map").classList.remove("wait");
+setTimeout(revealMap, 8000);
 // Mappa mondiale: sotto FULL_Z solo alcuni alberi, uno per zona (il più grande: "mz" = zoom da cui compare, calcolato
 // da fetch_world.py), presi dal file ridotto <mappa>.low.geojson.gz; da FULL_Z tutti, dal file completo. Con tutti gli
 // alberi anche a zoom bassi MapLibre impiegava diversi secondi a ridisegnarli a ogni cambio di zoom (12 s a zoom 3
@@ -721,7 +736,7 @@ map.keyboard.disableRotation();
 map.on("load", async () => {
   let idx;
   try { idx = (await indexP).regions; }
-  catch (e) { document.getElementById("count").textContent = L.loadError; return; }
+  catch (e) { document.getElementById("count").textContent = L.loadError; revealMap(); return; }
   const meta = await regionsP.catch(() => []);
   const boundaries = await boundsP;
   const metaBy = Object.fromEntries(meta.map(m => [m.slug, m]));
@@ -1227,7 +1242,7 @@ map.on("load", async () => {
   const regSel = document.getElementById("region"), info = document.getElementById("updated");
   const overviewBtn = document.getElementById("overview"), tip = document.getElementById("tip");
   const entries = Object.keys(idx).map(slug => ({ slug, name: regionName(slug), group: regionGroup(slug) }));
-  if (!entries.length) { document.getElementById("count").textContent = L.noData; return; }
+  if (!entries.length) { document.getElementById("count").textContent = L.noData; revealMap(); return; }
   const byName = (a, b) => a.name.localeCompare(b.name, LOC);
   const mkOpt = e => {
     const o = document.createElement("option");
@@ -1580,7 +1595,10 @@ map.on("load", async () => {
     if (!WORLD) hashSlug = fromHash;   // nelle mappe mondiali l'indirizzo non ha la regione
     // mappa mondiale: non si inquadrano tutti gli alberi (servirebbe uno zoom sotto il minimo), si parte dall'Europa
     if (WORLD && !startView && !nodeFromHash) map.jumpTo(WORLD_START);
-    await loadRegion(fromHash, !WORLD && !startView && !nodeFromHash);
+    // senza "map" si inquadra subito la regione (dal confine), anche con #node: poi la vista si avvicina all'albero
+    const loading = loadRegion(fromHash, !WORLD && !startView);
+    revealMap();                       // la posizione iniziale è già impostata (loadRegion inquadra prima di caricare)
+    await loading;
     const f = nodeFromHash && ALL.find(x => x.properties.id === nodeFromHash);
     if (f) {
       if (!startView) map.jumpTo({ center: f.geometry.coordinates, zoom: 19 });
@@ -1590,7 +1608,7 @@ map.on("load", async () => {
       if (box) map.fitBounds(box, { padding: 30, duration: 0 });
     }
   }
-  else { if (!startView) fitAll(); update(); }
+  else { if (!startView) fitAll(); revealMap(); update(); }
   let hashTimer;   // a ogni spostamento la posizione finisce nell'indirizzo (pronto da condividere)
   map.on("moveend", () => { clearTimeout(hashTimer); hashTimer = setTimeout(() => setHash(), 300); });
   setHash();
