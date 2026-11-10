@@ -8,6 +8,7 @@ scheda della mappa mondiale mostra allora, se l'albero ha errori, il solo link �
 
 Uso: python scripts/fetch_world.py [monumental]   (senza argomenti: tutte le mappe di MAPS)
 I link (image, website, url) non si ricontrollano qui: il check broken_link usa solo la cache dei link del tool QA."""
+import gzip
 import hashlib
 import json
 import math
@@ -79,6 +80,56 @@ def add_min_zoom(fc):
         for _, p in best.values():
             p.setdefault("mz", z)
     return sum(1 for *_, p in pos if "mz" in p)
+
+
+# Alberi dell'elenco MASAF (scripts/masaf_trees.json, da update_masaf.py) non ancora su OpenStreetMap: la mappa dei
+# monumentali li mostra con il contorno tratteggiato. Un albero dell'elenco è già su OSM se un nodo (in Italia, anche
+# non monumentale) ha il suo codice in ref:masaf, oppure se un albero OSM monumentale dello stesso genere è entro
+# MASAF_NEAR metri (mappato senza ref:masaf).
+MASAF_TREES = ft.HERE / "masaf_trees.json"
+MASAF_NEAR = 25
+
+
+def masaf_missing(fc):
+    """FeatureCollection degli alberi MASAF non ancora su OSM (vuota se manca scripts/masaf_trees.json)."""
+    data = ft.load_json(MASAF_TREES)
+    if not data.get("trees"):
+        return {"type": "FeatureCollection", "features": []}
+    codes, mon = set(), []
+    italy = [r["slug"] for r in ft.REGIONS if r.get("group") == "Italia"]
+    for slug in italy:                     # ref:masaf anche sugli alberi non monumentali
+        path = ft.OUT_DIR / f"{slug}.geojson.gz"
+        if path.exists():
+            for f in json.loads(gzip.decompress(path.read_bytes()))["features"]:
+                codes.update(ft.masaf_code(r) for r in str(f["properties"].get("ref:masaf", "")).split(";") if r.strip())
+    for f in fc["features"]:
+        p = f["properties"]
+        codes.update(ft.masaf_code(r) for r in str(p.get("ref:masaf", "")).split(";") if r.strip())
+        genus = (p.get("genus") or str(p.get("species", "")).split(" ")[0]).lower()
+        mon.append((f["geometry"]["coordinates"], genus))
+    grid = {}
+    for (lon, lat), g in mon:
+        grid.setdefault((int(lat * 1000), int(lon * 1000)), []).append(([lon, lat], g))   # celle di ~100 m
+
+    def near_same_genus(t):
+        cx, cy = int(t["lat"] * 1000), int(t["lon"] * 1000)
+        return any(g and g == t.get("g", "").lower() and ft.distance_m(pos, [t["lon"], t["lat"]]) <= MASAF_NEAR
+                   for dx in (-1, 0, 1) for dy in (-1, 0, 1) for pos, g in grid.get((cx + dx, cy + dy), []))
+
+    feats = []
+    for t in data["trees"]:
+        if t["c"] in codes or near_same_genus(t):
+            continue
+        words = t.get("s", "").split()
+        sp = " ".join(words[:2]) if len(words) > 1 and words[1][:1].islower() else ""   # senza l'autore
+        props = {"masaf": t["c"], **{k: t[k] for k in ("v", "co", "pr", "lo", "t", "h", "ci") if k in t},
+                 "genus": t.get("g", ""), "sp_full": t.get("s", ""), "cr": ",".join(t.get("cr", []))}
+        if sp:
+            props["species"] = sp
+        feats.append({"type": "Feature", "properties": props,
+                      "geometry": {"type": "Point", "coordinates": [t["lon"], t["lat"]]}})
+    print(f"MASAF: {len(data['trees'])} alberi iscritti, {len(feats)} non ancora su OSM")
+    return {"type": "FeatureCollection", "features": feats}
 
 
 def in_ring(x, y, ring):
@@ -154,10 +205,16 @@ def update_map(key, index):
     low_path = WORLD_DIR / f"{key}.low.geojson.gz"
     ft.write_gz(low_path, json.dumps(low, separators=(",", ":"), ensure_ascii=False).encode("utf-8"))
     print(f"{key}: {n_low} alberi visibili sotto zoom {FULL_Z} -> {low_path} ({low_path.stat().st_size / 1e3:.0f} KB)")
+    masaf = masaf_missing(fc) if key == "monumental" else None   # alberi dell'elenco MASAF non ancora su OSM
+    if masaf is not None:
+        ft.write_gz(WORLD_DIR / "masaf.geojson.gz", json.dumps(masaf, separators=(",", ":"), ensure_ascii=False).encode("utf-8"))
     errors = sum(1 for f in fc["features"] if f["properties"]["issues"] != "|")
     index[key] = {"name": spec["name"], "count": len(fc["features"]), "errors": errors, "diam": "mm",
                   "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                   "sha1": hashlib.sha1(raw).hexdigest()}
+    if masaf is not None:
+        index[key]["masaf"] = len(masaf["features"])
+        index[key]["masaf_version"] = ft.load_json(MASAF_TREES).get("version", "")
     print(f"{key}: {len(fc['features'])} alberi ({sum(1 for f in fc['features'] if 'qa' in f['properties'])} "
           f"nelle regioni del tool QA) -> {path} ({path.stat().st_size / 1e6:.1f} MB)")
     return True

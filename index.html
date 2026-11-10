@@ -132,6 +132,8 @@
       <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1a9fe0" stroke-width="3"/></svg> <span data-i18n="legSacred">Albero sacro</span></li>
       <!-- mappa dei monumentali: gli alberi sacri si vedono solo come monumentali e sacri insieme (contorno metà e metà) -->
       <li class="world-only"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 3A8 8 0 0 0 11 19" fill="none" stroke="#e6a800" stroke-width="3"/><path d="M11 3A8 8 0 0 1 11 19" fill="none" stroke="#1a9fe0" stroke-width="3"/></svg> <span data-i18n="legMonSacred">Monumentale e sacro</span></li>
+      <!-- mappa dei monumentali: alberi dell'elenco MASAF non ancora su OSM -->
+      <li class="world-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#f2c14e" fill-opacity=".25" stroke="#e6a800" stroke-width="2.5" stroke-dasharray="4 2.5"/></svg> <span data-i18n="legMasaf">Elenco MASAF, non ancora su OSM</span></li>
       <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#7b3fc4" stroke-width="2"/></svg> <span data-i18n="legLandmark">Landmark</span></li>
       <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#d00020" stroke-width="2"/></svg> <span data-i18n="legIssues">Con problemi</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#a5d64c" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legDeciduous">Caducifoglia</span></li>
@@ -220,7 +222,7 @@ const I18N = {
     issueGroups: { size: "Misure", name: "Nome della specie e del genere", wikidata: "Wikidata",
       links: "Link, fonti e monumentali", other: "Altri tag" },
     legend: "Legenda", legMonument: "Albero monumentale", legSacred: "Albero sacro", legLandmark: "Landmark", legIssues: "Con problemi",
-    legMonSacred: "Monumentale e sacro",
+    legMonSacred: "Monumentale e sacro", legMasaf: "Elenco MASAF, non ancora su OSM",
     legTrunk: "Tronco", legTrunkEst: "Tronco stimato", legStump: "Ceppo",
     legStems: "Più tronchi", legIvy: "Coperto d'edera", legFruit: "Albero da frutto",
     // pop-up sulle icone della legenda: i tag che le producono (chiave = data-i18n della voce)
@@ -228,6 +230,7 @@ const I18N = {
       legMonument: "denotation=natural_monument",
       legSacred: "ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree o religion=shinto",
       legMonSacred: "denotation=natural_monument e anche ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree o religion=shinto (da zoom 16)",
+      legMasaf: "Alberi dell'elenco degli alberi monumentali d'Italia del MASAF che su OpenStreetMap non hanno ancora un nodo con il loro ref:masaf né un albero monumentale dello stesso genere entro 25 m (da zoom 7)",
       legLandmark: "denotation=landmark",
       legIssues: "Almeno un errore",
       legDeciduous: "leaf_cycle=deciduous o semi_deciduous, o stimato",
@@ -259,6 +262,10 @@ const I18N = {
     worldTitle: { monumental: "Mappa degli alberi monumentali" },
     worldLink: { monumental: "Mappa mondiale degli alberi monumentali" },
     backToQa: "← Torna al tool QA", seeInQa: "vedi nel tool QA",
+    // alberi dell'elenco MASAF non ancora su OpenStreetMap (mappa dei monumentali)
+    masafRows: { place: "Luogo", type: "Tipologia", criteria: "Criteri" },
+    masafNote: (l, code) => `Dall’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${code}): non ancora su OpenStreetMap.`,
+    masafSource: "Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0)",
     tipTrees: (name, n) => `${name} · ${fmtN(n)} alberi`, tipNoData: name => `${name} · dati non ancora disponibili`,
     issueOpts: {
       circumference: "Circonferenza > 43 m", height: "Altezza > 116,22 m", crown: "Diametro chioma > 60,4 m",
@@ -443,13 +450,14 @@ const I18N = {
     issueGroups: { size: "Measurements", name: "Species and genus name", wikidata: "Wikidata",
       links: "Links, sources and monumental trees", other: "Other tags" },
     legend: "Legend", legMonument: "Monumental tree", legSacred: "Sacred tree", legLandmark: "Landmark", legIssues: "With errors",
-    legMonSacred: "Monumental and sacred",
+    legMonSacred: "Monumental and sacred", legMasaf: "MASAF list, not on OSM yet",
     legTrunk: "Trunk", legTrunkEst: "Estimated trunk", legStump: "Stump",
     legStems: "Multiple trunks", legIvy: "Covered in ivy", legFruit: "Fruit tree",
     legTips: {
       legMonument: "denotation=natural_monument",
       legSacred: "ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree or religion=shinto",
       legMonSacred: "denotation=natural_monument and also ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree or religion=shinto (from zoom 16)",
+      legMasaf: "Trees of the MASAF list of monumental trees of Italy that on OpenStreetMap have no node with their ref:masaf yet, nor a monumental tree of the same genus within 25 m (from zoom 7)",
       legLandmark: "denotation=landmark",
       legIssues: "At least one error",
       legDeciduous: "leaf_cycle=deciduous or semi_deciduous, or estimated",
@@ -481,6 +489,9 @@ const I18N = {
     worldTitle: { monumental: "Map of monumental trees" },
     worldLink: { monumental: "World map of monumental trees" },
     backToQa: "← Back to the QA tool", seeInQa: "see in the QA tool",
+    masafRows: { place: "Place", type: "Type", criteria: "Criteria" },
+    masafNote: (l, code) => `From the MASAF ${l("list of monumental trees of Italy")} (${code}): not on OpenStreetMap yet.`,
+    masafSource: "Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0)",
     tipTrees: (name, n) => `${name} · ${fmtN(n)} trees`, tipNoData: name => `${name} · no data yet`,
     issueOpts: {
       circumference: "Circumference > 43 m", height: "Height > 116.22 m", crown: "Crown diameter > 60.4 m",
@@ -1090,6 +1101,7 @@ map.on("load", async () => {
     map.setFilter("crown-issues", ["all", ISSUE, ...rest]);
     map.setFilter("crown-issues-mid", ["all", ISSUE_MID, ...rest]);
     map.setFilter("crown-issues-wait", ["all", ISSUE_MID, ...rest]);
+    if (map.getLayer("masaf")) map.setFilter("masaf", rest.length ? ["all", ...rest] : null);   // alberi MASAF: genere e specie
     update();
   };
   const update = () => {
@@ -1275,6 +1287,31 @@ map.on("load", async () => {
     });
     map.on("mouseenter", id, () => map.getCanvas().style.cursor = "pointer");
     map.on("mouseleave", id, () => map.getCanvas().style.cursor = "");
+  }
+
+  // Mappa dei monumentali: alberi dell'elenco MASAF non ancora su OpenStreetMap (data/world/masaf.geojson.gz, da
+  // fetch_world.py), da FULL_Z, con il contorno dorato tratteggiato (un'immagine disegnata al volo, come la X dei ceppi)
+  if (MODE === "monumental") {
+    const c = document.createElement("canvas"); c.width = c.height = 64;
+    const g = c.getContext("2d");
+    g.beginPath(); g.arc(32, 32, 26, 0, 2 * Math.PI);
+    g.fillStyle = "rgba(242,193,78,0.25)"; g.fill();
+    g.setLineDash([9, 6]); g.lineWidth = 5; g.strokeStyle = "#e6a800"; g.stroke();
+    map.addImage("masaf-ring", g.getImageData(0, 0, 64, 64));
+    map.addSource("masaf", { type: "geojson", data: EMPTY });
+    map.addLayer({ id: "masaf", type: "symbol", source: "masaf", minzoom: FULL_Z,
+      layout: { "icon-image": "masaf-ring", "icon-allow-overlap": true, "icon-ignore-placement": true,
+        "icon-size": ["interpolate", ["linear"], ["zoom"], FULL_Z, 0.3, 12, 0.4, 16, 0.6, 19, 0.9] } });
+    getGz(`${BASE}data/world/masaf.geojson.gz`).then(fc => map.getSource("masaf").setData(fc)).catch(() => {});
+    map.on("click", "masaf", e => {
+      const f = e.features[0];
+      if (map.queryRenderedFeatures(e.point, { layers: CROWN_IDS }).length) return;   // un albero OSM ha la precedenza
+      closeCard();
+      cardPopup = new maplibregl.Popup({ maxWidth: "280px", focusAfterOpen: false })
+        .setLngLat(f.geometry.coordinates).setHTML(masafCard(f.properties)).addTo(map);
+    });
+    map.on("mouseenter", "masaf", () => map.getCanvas().style.cursor = "pointer");
+    map.on("mouseleave", "masaf", () => map.getCanvas().style.cursor = "");
   }
 
   // Regioni: ogni regione è un file data/regions/<slug>.geojson.gz elencato in data/index.json.
@@ -1914,6 +1951,21 @@ function osmMenu(p, pos) {
       + `&changeset_hashtags=${CHANGESET_HASHTAG}&changeset_source=${encodeURIComponent(changesetSource())}`, L.editJosm],
     [`https://mapcomplete.org/trees.html?z=19&lat=${lat}&lon=${lon}#node/${p.id}`, L.editMapComplete]];
   return `<details class="osm-menu"><summary>${L.editMenu} ▾</summary><div>${items.map(([u, t]) => link(u, t)).join("")}</div></details>`;
+}
+
+// Scheda di un albero dell'elenco MASAF non ancora su OpenStreetMap (mappa dei monumentali): i dati dell'elenco, la
+// nota sulla provenienza e la citazione richiesta dalla licenza (CC BY 4.0)
+function masafCard(p) {
+  const name = p.v || p.species || p.genus || L.unknownSpecies;
+  const crit = String(p.cr || "").split(",").filter(Boolean).map(c => L.masafCriteria[c] || c).join(", ");
+  const rows = [[L.rows.species, p.sp_full ? `<i>${esc(p.sp_full)}</i>` : ""],
+    [L.masafRows.place, esc([p.co && `${p.co}${p.pr && p.pr !== p.co ? ` (${p.pr})` : ""}`, p.lo].filter(Boolean).join(", "))],
+    [L.masafRows.type, esc(p.t || "")],
+    [L.rows.height, p.h ? esc(fmtM(p.h)) : ""], [L.rows.circumference, p.ci ? esc(fmtM(p.ci)) : ""],
+    [L.masafRows.criteria, esc(crit)]].filter(([, v]) => v).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+  return `<div class="card"><h3>${esc(name)}</h3><dl>${rows}</dl>
+    <div class="rec">${L.masafNote(t => link(MASAF_URL, t), esc(p.masaf))}</div>
+    <div class="note">${esc(L.masafSource)}</div></div>`;
 }
 
 function card(p, pos) {
