@@ -336,11 +336,12 @@
    "updated": "2026-11-10T16:56:32Z"
   },
   "marche": {
-   "count": 32303,
-   "errors": 543,
+   "count": 32330,
+   "diam": "mm",
+   "errors": 164,
    "name": "Marche",
-   "sha1": "0aef0f091d037f8727b93a42c2b547565e9f1843",
-   "updated": "2026-11-08T22:04:25Z"
+   "sha1": "88d1a3d5db0e871d669fca0cbd91cc864d6d93a7",
+   "updated": "2026-11-10T23:27:26Z"
   },
   "mazowieckie": {
    "count": 344316,
