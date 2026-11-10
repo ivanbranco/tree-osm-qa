@@ -10,6 +10,7 @@ Uso: python scripts/fetch_world.py [monumental]   (senza argomenti: tutte le map
 I link (image, website, url) non si ricontrollano qui: il check broken_link usa solo la cache dei link del tool QA."""
 import hashlib
 import json
+import math
 import sys
 import time
 
@@ -27,6 +28,57 @@ node["denotation"~"(^|;)natural_monument(;|$)"]["natural"="tree"];
 out body qt;""",
     },
 }
+
+
+# Sfoltimento per zoom: sotto FULL_Z la pagina mostra solo alcuni alberi, uno per zona. Per ogni zoom z < FULL_Z il
+# mondo si divide in celle di CELL_PX pixel (tile da 512 px, come MapLibre) e in ogni cella si sceglie un albero
+# (rank: prima quelli con una foto, poi il più grande); "mz" = il primo zoom in cui un albero è scelto. Le celle di uno
+# zoom contengono esattamente quattro celle dello zoom dopo, quindi un albero visibile a uno zoom resta visibile
+# avvicinandosi. Gli alberi con mz vanno anche nel file ridotto <mappa>.low.geojson.gz, l'unico usato sotto FULL_Z.
+FULL_Z = 7
+CELL_PX = 48
+# errori che rendono inaffidabili le misure: quegli alberi contano come senza misura nella scelta
+BAD_CIRC = {"circumference", "circumference_species", "diameter_unit", "circ_diam_mismatch", "number_invalid",
+            "comma", "too_slender", "too_slender_species", "too_stocky"}
+BAD_HEIGHT = {"height", "height_species", "number_invalid", "comma", "too_slender", "too_slender_species", "too_stocky"}
+
+
+def has_photo(p):
+    """Vero se la scheda dell'albero mostra una foto: le stesse fonti di imageInfo in index.html (wikimedia_commons,
+    panoramax, image:fotoshi, image con un indirizzo, immagine dell'elemento Wikidata)."""
+    return bool(p.get("wikimedia_commons") or ft.panoramax_ids(p) or p.get("image:fotoshi")
+                or str(p.get("image", "")).startswith(("http://", "https://")) or p.get("wd_img"))
+
+
+def rank(p):
+    """Chiave di scelta (più grande = prima): con una foto prima di tutto (la mappa a zoom bassi mostra soprattutto
+    alberi con la foto), poi circonferenza misurata (o dal diametro), altezza, nome o wikidata, infine l'id più basso
+    (ordine fisso tra un aggiornamento e l'altro)."""
+    issues = set(p["issues"].strip("|").split("|"))
+    circ = 2 * math.pi * p["tr"] if p.get("tr") and not p.get("tr_est") and not BAD_CIRC & issues else 0
+    h = ft.num(p.get("height")) if not BAD_HEIGHT & issues else None
+    return (has_photo(p), circ, h or 0, bool(p.get("name") or p.get("wikidata")), -p["id"])
+
+
+def add_min_zoom(fc):
+    """Scrive "mz" negli alberi scelti per gli zoom sotto FULL_Z; restituisce il numero di alberi con mz."""
+    pos = []
+    for f in fc["features"]:
+        lon, lat = f["geometry"]["coordinates"]
+        lat = max(-85.0, min(85.0, lat))
+        x = (lon + 180) / 360
+        y = (1 - math.log(math.tan(math.radians(lat)) + 1 / math.cos(math.radians(lat))) / math.pi) / 2
+        pos.append((x, y, rank(f["properties"]), f["properties"]))
+    for z in range(FULL_Z):
+        n = 512 * 2 ** z / CELL_PX           # celle per lato
+        best = {}
+        for x, y, r, p in pos:
+            cell = (int(x * n), int(y * n))
+            if cell not in best or r > best[cell][0]:
+                best[cell] = (r, p)
+        for _, p in best.values():
+            p.setdefault("mz", z)
+    return sum(1 for *_, p in pos if "mz" in p)
 
 
 def in_ring(x, y, ring):
@@ -94,9 +146,14 @@ def update_map(key, index):
         slug = region_of(*f["geometry"]["coordinates"], regions)
         if slug:
             f["properties"]["qa"] = slug
+    n_low = add_min_zoom(fc)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     path = WORLD_DIR / f"{key}.geojson.gz"
     ft.write_gz(path, raw)
+    low = {"type": "FeatureCollection", "features": [f for f in fc["features"] if "mz" in f["properties"]]}
+    low_path = WORLD_DIR / f"{key}.low.geojson.gz"
+    ft.write_gz(low_path, json.dumps(low, separators=(",", ":"), ensure_ascii=False).encode("utf-8"))
+    print(f"{key}: {n_low} alberi visibili sotto zoom {FULL_Z} -> {low_path} ({low_path.stat().st_size / 1e3:.0f} KB)")
     errors = sum(1 for f in fc["features"] if f["properties"]["issues"] != "|")
     index[key] = {"name": spec["name"], "count": len(fc["features"]), "errors": errors, "diam": "mm",
                   "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),

@@ -81,6 +81,7 @@
   .card .credit{position:absolute;right:4px;bottom:4px;max-width:calc(100% - 8px);box-sizing:border-box;background:#000a;color:#fff;
     font-size:10px;line-height:1.5;padding:0 5px;border-radius:3px;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .card .credit:empty{display:none}
+  .card .photo:not(.loaded) .credit{display:none}   /* il credito compare insieme alla foto, non prima */
   .card dl{margin:4px 0;display:grid;grid-template-columns:auto 1fr;gap:1px 8px}
   .card dt{color:#666}.card dd{margin:0}
   .bad{color:#b00020;font-weight:600;position:relative}
@@ -237,6 +238,7 @@ const I18N = {
     countIssues: n => `Alberi problematici in vista: ${n} (ingrandisci per vedere i monumentali)`,
     countMid: n => `Problematici e monumentali in vista: ${n} (ingrandisci per vedere tutti)`,
     countAll: n => `Alberi in vista: ${n}`,
+    countWorldLow: n => `Alberi in vista: ${n} (avvicinati per vederli tutti)`,
     updated: d => `Dati aggiornati al ${d}`,
     worldTitle: { monumental: "Mappa degli alberi monumentali" },
     worldLink: { monumental: "Mappa mondiale degli alberi monumentali" },
@@ -397,7 +399,7 @@ const I18N = {
     recCriteria: list => `Criteri di monumentalità MASAF: ${list}`,
     masafCriteria: { a: "età e/o dimensioni", a1: "età", a2: "dimensioni", "a2.1": "circonferenza", "a2.2": "altezza",
       "a2.3": "ampiezza chioma", b: "forma o portamento particolari", c: "valore ecologico", d: "rarità botanica",
-      e: "architettura vegetale", f: "pregio/valore paesaggistico", g: "valore storico, culturale, religioso" },
+      e: "architettura vegetale", f: "pregio/valore paesaggistico", g: "valore storico-culturale o religioso" },
     recMt: l => `Censito su ${l}`,
     stump: "Ceppo", stumpOf: b => `${b} (ceppo)`, unknownSpecies: "Specie sconosciuta",
   },
@@ -447,6 +449,7 @@ const I18N = {
     countIssues: n => `Trees with errors in view: ${n} (zoom in to see monumental trees)`,
     countMid: n => `Trees with errors and monumental trees in view: ${n} (zoom in to see all)`,
     countAll: n => `Trees in view: ${n}`,
+    countWorldLow: n => `Trees in view: ${n} (zoom in to see all)`,
     updated: d => `Data updated on ${d}`,
     worldTitle: { monumental: "Map of monumental trees" },
     worldLink: { monumental: "World map of monumental trees" },
@@ -603,7 +606,7 @@ const I18N = {
     recCriteria: list => `MASAF monumentality criteria: ${list}`,
     masafCriteria: { a: "age and/or size", a1: "age", a2: "size", "a2.1": "circumference", "a2.2": "height",
       "a2.3": "crown width", b: "particular shape or habit", c: "ecological value", d: "botanical rarity",
-      e: "plant architecture", f: "landscape value", g: "historical, cultural or religious value" },
+      e: "plant architecture", f: "landscape value", g: "historical-cultural or religious value" },
     recMt: l => `Recorded on ${l}`,
     stump: "Stump", stumpOf: b => `${b} (stump)`, unknownSpecies: "Unknown species",
   },
@@ -707,6 +710,11 @@ const map = new maplibregl.Map({
 });
 // solo + e −: niente bussola, e la mappa non si ruota (senza bussola non si potrebbe raddrizzare)
 map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
+// Mappa mondiale: sotto FULL_Z solo alcuni alberi, uno per zona (il più grande: "mz" = zoom da cui compare, calcolato
+// da fetch_world.py), presi dal file ridotto <mappa>.low.geojson.gz; da FULL_Z tutti, dal file completo. Con tutti gli
+// alberi anche a zoom bassi MapLibre impiegava diversi secondi a ridisegnarli a ogni cambio di zoom (12 s a zoom 3
+// sull'Europa). Vista iniziale: l'Europa.
+const FULL_Z = 7, WORLD_START = { center: [11, 48], zoom: 4 };
 map.dragRotate.disable();
 map.touchZoomRotate.disableRotation();
 map.keyboard.disableRotation();
@@ -758,8 +766,8 @@ map.on("load", async () => {
   // Forme: da SHAPE_Z in poi le chiome con leaf_type diventano poligoni (a dimensione reale)
   const SHAPE_Z = 16, SHAPE_CAP = 30000;
   // Visibilità per zoom: problematici sempre; da MON_Z (9) anche i monumentali; da ALL_Z (10) tutti gli alberi.
-  // Nelle mappe mondiali tutti gli alberi a ogni zoom.
-  const MON_Z = WORLD ? 0 : 9, ALL_Z = WORLD ? 0 : 10;
+  // Mappa mondiale: sotto FULL_Z gli alberi del file ridotto, ognuno dal suo zoom "mz"; da FULL_Z tutti.
+  const MON_Z = WORLD ? FULL_Z : 9, ALL_Z = WORLD ? 0 : 10;
   const BLOB = new Set(["broadleaved", "palm"]), SPIKY = new Set(["needleleaved"]);
   const NOSHAPE = ["!", ["in", ["coalesce", ["get", "lt"], ["get", "leaf_type"], ""], ["literal", ["broadleaved", "palm", "needleleaved"]]]];
   const isShaped = ft => !ft.properties.stump && (BLOB.has(leafOf(ft.properties)) || SPIKY.has(leafOf(ft.properties)));
@@ -871,7 +879,9 @@ map.on("load", async () => {
   const TREE = ["!", ["has", "stump"]];   // i ceppi (natural=tree_stump) hanno un layer a parte
   const MON = hasDen("natural_monument");
   // i monumentali (livello "-top") stanno tutti nella sorgente ridotta
-  const TIERS = [{ suf: "", cond: ["all", TREE, ["!", MON]], minZ: ALL_Z, src: "trees" },
+  // mappa mondiale: il livello di base disegna, sotto FULL_Z, il file ridotto (sorgente "trees") secondo "mz"
+  const TIERS = [{ suf: "", cond: WORLD ? ["all", TREE, ["<", ["zoom"], FULL_Z], [">=", ["zoom"], ["coalesce", ["get", "mz"], 99]]]
+      : ["all", TREE, ["!", MON]], minZ: ALL_Z, src: "trees" },
     { suf: "-top", cond: ["all", TREE, MON], minZ: MON_Z, src: "trees-min" }];
   const DEFS = [
     { id: "crown", spec: tier => ({ type: "circle", source: tier.src, minzoom: tier.minZ, maxzoom: SHAPE_Z, paint: circlePaint() }) },
@@ -1030,6 +1040,11 @@ map.on("load", async () => {
   const update = () => {
     if (!current) { document.getElementById("count").textContent = L.pickRegion; return; }
     const z = map.getZoom();
+    if (WORLD) {                                      // sotto FULL_Z si vede solo una parte degli alberi
+      const n = new Set(map.queryRenderedFeatures({ layers: CROWN_IDS }).map(f => f.properties.id)).size;
+      document.getElementById("count").textContent = (z < FULL_Z ? L.countWorldLow : L.countAll)(fmtN(n));
+      return;
+    }
     const layers = z < MON_Z ? ["crown-issues"] : z < ALL_Z ? ["crown-issues-mid", "crown-top"] : [...CROWN_IDS, "crown-issues-wait"];
     const n = new Set(map.queryRenderedFeatures({ layers }).map(f => f.properties.id)).size;
     document.getElementById("count").textContent = (z < MON_Z ? L.countIssues : z < ALL_Z ? L.countMid : L.countAll)(fmtN(n))
@@ -1075,6 +1090,7 @@ map.on("load", async () => {
       const p = ft.properties;
       // fuori da zoom 10 si vedono solo i problematici e, da zoom 9, i monumentali
       if (z < ALL_Z && (p.stump || (p.issues === "|" && !(z >= MON_Z && isMon(p))))) continue;
+      if (WORLD && z < FULL_Z && !(p.mz <= Math.floor(z))) continue;   // mappa mondiale: solo gli alberi mostrati
       const codes = p.issues.split("|").filter(Boolean);
       codes.forEach(i => I.set(i, (I.get(i) || 0) + 1));
       new Set(codes.map(issueGroupOf)).forEach(g => GI.set(g, (GI.get(g) || 0) + 1));
@@ -1264,9 +1280,11 @@ map.on("load", async () => {
       if (box) { map.fitBounds(box, { padding: 30, duration: 0 }); fitted = true; }
     };
     fitTo([]);                                        // col confine noto si inquadra subito, senza aspettare i dati
-    // le mappe mondiali hanno un file solo (data/world/<mappa>.geojson.gz): la parte ridotta la ricava reduce()
+    // mappa mondiale: il file completo (data/world/<mappa>.geojson.gz) e quello ridotto per gli zoom bassi (.low)
     const fullP = getGz(WORLD ? `${BASE}data/world/${slug}.geojson.gz` : `data/regions/${slug}.geojson.gz`);
     fullP.catch(() => {});
+    if (WORLD) getGz(`${BASE}data/world/${slug}.low.geojson.gz`)
+      .then(low => { if (seq === loadSeq) { map.getSource("trees").setData(low); update(); } }).catch(() => {});
     const min = WORLD ? null : await getGz(`data/regions/${slug}.min.geojson.gz`).catch(() => null);
     if (seq !== loadSeq) return;                      // nel frattempo è stata scelta un'altra regione
     taxSel.value = ""; taxSig = "";                   // l'elenco genus/specie dipende dalla regione
@@ -1279,6 +1297,9 @@ map.on("load", async () => {
     catch (e) { if (seq === loadSeq) { partial = false; document.getElementById("count").textContent = L.loadError; } return; }
     if (seq !== loadSeq) return;
     partial = false;
+    // mappa mondiale: gli alberi sono tutti monumentali, cioè tutti nella sorgente ridotta; caricarli anche nella
+    // completa raddoppierebbe il lavoro di MapLibre a ogni cambio di zoom
+    if (WORLD) { apply(); fitTo(fc.features); show(fc, "trees-min"); return; }
     if (!min) { apply(); if (r.diam !== "mm") fixDiameter(fc); map.getSource("trees-min").setData(reduce(fc)); }
     fitTo(fc.features);
     show(fc, "trees");
@@ -1557,7 +1578,9 @@ map.on("load", async () => {
   const nodeFromHash = Number(hashParams().get("node")) || null;
   if (idx[fromHash]) {
     if (!WORLD) hashSlug = fromHash;   // nelle mappe mondiali l'indirizzo non ha la regione
-    await loadRegion(fromHash, !startView && !nodeFromHash);
+    // mappa mondiale: non si inquadrano tutti gli alberi (servirebbe uno zoom sotto il minimo), si parte dall'Europa
+    if (WORLD && !startView && !nodeFromHash) map.jumpTo(WORLD_START);
+    await loadRegion(fromHash, !WORLD && !startView && !nodeFromHash);
     const f = nodeFromHash && ALL.find(x => x.properties.id === nodeFromHash);
     if (f) {
       if (!startView) map.jumpTo({ center: f.geometry.coordinates, zoom: 19 });
@@ -1697,9 +1720,9 @@ const link = (href, text) => `<a href="${esc(href)}" target="_blank" rel="noopen
 function recognitions(p) {
   const r = [];
   if (p["ref:masaf"]) r.push(L.recMasaf(t => link(MASAF_URL, t), esc(p["ref:masaf"])));
-  if (p["masaf:criteria"]) {   // es. "a,b,g" -> "a) età e/o dimensioni; b) …"; i codici sconosciuti restano come sono
+  if (p["masaf:criteria"]) {   // es. "a2.1,a2.2" -> "circonferenza, altezza", senza i codici; i codici sconosciuti restano come sono
     const codes = String(p["masaf:criteria"]).split(/[,;]/).map(c => c.trim().toLowerCase().replace(/\)$/, "")).filter(Boolean);
-    r.push(esc(L.recCriteria(codes.map(c => L.masafCriteria[c] ? `${c}) ${L.masafCriteria[c]}` : c).join("; "))));
+    r.push(esc(L.recCriteria(codes.map(c => L.masafCriteria[c] || c).join(", "))));
   }
   if (p["ref:rami"]) r.push(L.recRami(t => link(RAMI_URL, t), esc(p["ref:rami"])));
   const ops = String(p["heritage:operator"] || "").split(";").map(x => x.trim().toLowerCase());
@@ -1739,6 +1762,15 @@ function imageInfo(p) {
 
 const COMMONS_API = "https://commons.wikimedia.org/w/api.php?format=json&formatversion=2&origin=*&action=query";
 const plain = html => new DOMParser().parseFromString(html || "", "text/html").body.textContent.replace(/\s+/g, " ").trim();
+// Nome da mostrare nel credito: l'attribuzione richiesta dall'autore (|attribution= nel template della licenza), se
+// c'è; altrimenti il campo autore. Se il campo autore ha dei link (es. un riquadro con nome, contatti e istruzioni,
+// come {{User:…/Credit}}), conta solo il testo del primo link, di solito il nome dell'autore.
+function creditName(md) {
+  if (plain(md.Attribution?.value)) return plain(md.Attribution.value);
+  const doc = new DOMParser().parseFromString(md.Artist?.value || "", "text/html");
+  const a = [...doc.querySelectorAll("a")].map(x => x.textContent.replace(/\s+/g, " ").trim()).find(Boolean);
+  return a || doc.body.textContent.replace(/\s+/g, " ").trim();
+}
 
 // Completa la foto della scheda già aperta: per una categoria di Commons cerca il primo file; per i file di Commons
 // chiede autore e licenza e li scrive in sovrimpressione ("Autore (CC BY-SA 4.0)", con il link alla pagina del file)
@@ -1758,7 +1790,7 @@ async function fillPhoto(root) {
     if (box.dataset.commons) {
       const r = await fetch(`${COMMONS_API}&prop=imageinfo&iiprop=extmetadata&titles=${encodeURIComponent("File:" + box.dataset.commons)}`).then(r => r.json());
       const md = r.query.pages[0].imageinfo?.[0]?.extmetadata || {};
-      const author = plain(md.Artist?.value), lic = plain(md.LicenseShortName?.value);
+      const author = creditName(md), lic = plain(md.LicenseShortName?.value);
       const a = box.querySelector(".credit");
       a.textContent = author ? `${author}${lic ? ` (${lic})` : ""}` : lic;
       a.href = "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(box.dataset.commons);
@@ -1804,7 +1836,7 @@ function card(p, pos) {
   const cat = !img && /^Category:/.test(p.wikimedia_commons || "") ? p.wikimedia_commons : null;
   // foto con i crediti in sovrimpressione (riempiti subito, o da fillPhoto per Commons); se non si carica sparisce
   const photo = img || cat ? `<div class="photo"${img?.commons ? ` data-commons="${esc(img.commons)}"` : ""}${cat ? ` data-cat="${esc(cat)}"` : ""}>
-      <img ${img ? `src="${esc(img.src)}"` : "hidden"} alt="" loading="lazy" onerror="this.parentNode.remove()">
+      <img ${img ? `src="${esc(img.src)}"` : "hidden"} alt="" loading="lazy" onerror="this.parentNode.remove()" onload="this.parentNode.classList.add('loaded')">
       <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}>${esc(img?.credit || "")}</a></div>` : "";
   const genusIssue = !WORLD && ["genus", "genus_lowercase", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
   const rows = ROWS.filter(([k]) => p[k] && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
