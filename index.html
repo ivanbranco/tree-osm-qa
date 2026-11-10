@@ -276,6 +276,7 @@ const I18N = {
       leaf_type_mismatch: "leaf_type diverso da quello della specie", leaf_cycle_mismatch: "leaf_cycle diverso da quello della specie",
       monument_denotation: "Fonte monumentale senza natural_monument",
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
+      masaf_removed: "Albero rimosso dall'elenco MASAF",
       undocumented_tag: "Tag non documentato (tree, type)", circumference_species: "Circonferenza > limite della specie",
       height_species: "Altezza > limite della specie", species_typo: "Species forse scritta male",
       species_epithet_case: "Species con l'epiteto maiuscolo", species_common_name: "Species non scientifica (nome comune?)",
@@ -337,6 +338,7 @@ const I18N = {
       commons_far: "Le coordinate del file di Commons collegato (wikimedia_commons o image) distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
       monument_denotation: "ref:masaf, ref:rami, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) indicano un albero monumentale, che in OSM ha denotation=natural_monument.",
       masaf_criteria: "Codici ammessi: a–g, a1, a2, a2.1, a2.2, a2.3, separati da virgole senza spazi.",
+      masaf_removed: "Il codice ref:masaf corrisponde a un albero che l'elenco degli alberi monumentali d'Italia dà come rimosso. Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       denotation_value: "Confronto con gli usi su Taginfo: segnalati i valori usati al massimo 10 volte, quelli con un formato non valido e quelli comuni con altro testo attaccato.",
       undocumented_tag: "tree=* e type=* non sono documentati per gli alberi nella wiki OSM.",
       wikidata_mismatch: "Confronto con il QID che la lista delle specie della wiki OSM associa a species=*.",
@@ -395,6 +397,9 @@ const I18N = {
       too_slender_species: (h, c, r, sp, r0) => `albero troppo slanciato per ${sp}: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}, tipico ${r0})`,
       too_stocky: (h, c, r) => `albero troppo tozzo: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "codici non validi" : "codice non valido"} ${bad.join(", ")} (ammessi a–g, a1, a2, a2.1–a2.3, separati da virgole senza spazi)`,
+      masaf_removed: (code, why, decree) => `ref:masaf=${code}: l'albero è stato rimosso dall'elenco MASAF ${why}${decree ? ` (${decree})` : ""}`,
+      masafRemovedWhy: { death: "per morte naturale", felled: "per abbattimento", requirements: "per perdita dei requisiti",
+        downgraded: "per declassamento", other: "" },
       empty: "(vuoto)",
       den_format: v => `denotation=${v}: formato non valido`,
       den_glued: (v, pre) => `denotation=${v}: sembra "${pre}" con altro testo attaccato`,
@@ -493,6 +498,7 @@ const I18N = {
       leaf_type_mismatch: "leaf_type differs from the species", leaf_cycle_mismatch: "leaf_cycle differs from the species",
       monument_denotation: "Monumental source without natural_monument",
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
+      masaf_removed: "Tree removed from the MASAF list",
       undocumented_tag: "Undocumented tag (tree, type)", circumference_species: "Circumference > species limit",
       height_species: "Height > species limit", species_typo: "Possibly misspelled species",
       species_epithet_case: "Species with uppercase epithet", species_common_name: "Non-scientific species (common name?)",
@@ -552,6 +558,7 @@ const I18N = {
       commons_far: "The coordinates of the linked Commons file (wikimedia_commons or image) are more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
       monument_denotation: "ref:masaf, ref:rami, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) indicate a monumental tree, which in OSM has denotation=natural_monument.",
       masaf_criteria: "Allowed codes: a–g, a1, a2, a2.1, a2.2, a2.3, separated by commas without spaces.",
+      masaf_removed: "The ref:masaf code belongs to a tree that the list of monumental trees of Italy reports as removed. Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format and common values with other text attached.",
       undocumented_tag: "tree=* and type=* are not documented for trees on the OSM wiki.",
       wikidata_mismatch: "Compared with the QID that the OSM wiki species list gives for species=*.",
@@ -608,6 +615,9 @@ const I18N = {
       too_slender_species: (h, c, r, sp, r0) => `tree too slender for ${sp}: height ${h}, circumference ${c} (height/circumference = ${r}, typical ${r0})`,
       too_stocky: (h, c, r) => `tree too stocky: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "invalid codes" : "invalid code"} ${bad.join(", ")} (allowed a–g, a1, a2, a2.1–a2.3, comma-separated without spaces)`,
+      masaf_removed: (code, why, decree) => `ref:masaf=${code}: the tree was removed from the MASAF list ${why}${decree ? ` (${decree})` : ""}`,
+      masafRemovedWhy: { death: "after its natural death", felled: "after being felled", requirements: "for loss of requirements",
+        downgraded: "after being downgraded", other: "" },
       empty: "(empty)",
       den_format: v => `denotation=${v}: invalid format`,
       den_glued: (v, pre) => `denotation=${v}: looks like "${pre}" with extra text attached`,
@@ -1118,7 +1128,7 @@ map.on("load", async () => {
       "not_latin", "genus", "genus_lowercase", "genus_mismatch"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
       "wikidata_is_taxon", "wikidata_tree_species", "wikidata_heritage", "wikidata_far"]],
-    ["links", ["link_format", "broken_link", "commons_far", "monument_denotation", "masaf_criteria"]],
+    ["links", ["link_format", "broken_link", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed"]],
   ];
   const issueGroupOf = code => (ISSUE_GROUPS.find(([, codes]) => codes.includes(code)) || ["other"])[0];
   // filtro di MapLibre per una voce del menu: un errore, oppure (g:<gruppo>) uno qualsiasi degli errori del gruppo
@@ -1728,6 +1738,9 @@ const issueBase = (i, p) => {
     case "too_slender": case "too_stocky":   // hc_ratio, hc_circ: rapporto e circonferenza usata (fetch_trees.py)
       return T[i](fmtM(p.height), fmtM(p.hc_circ) + (p.diam_used ? L.fromDiameter : ""),
         Number(p.hc_ratio).toLocaleString(LOC, { maximumSignificantDigits: 3 }));
+    case "masaf_removed":        // masaf_rm: righe "codice|motivo|decreto" (fetch_trees.py)
+      return String(p.masaf_rm || "").split("\n").filter(Boolean).map(x => { const [c, r, d] = x.split("|");
+        return T[i](c, T.masafRemovedWhy[r] ?? "", d).replace(/ +\(/, " (").replace(/ $/, ""); }).join("\n");
     case "masaf_criteria":       // masaf_bad: parti non valide separate da "," (fetch_trees.py)
       return T[i](p["masaf:criteria"] ?? "", String(p.masaf_bad ?? "").split(",").map(x => x === "" ? T.empty : `"${x}"`));
     case "denotation_value": {    // den_bad, den_why, den_n: valori, motivi e usi, separati da ";" (fetch_trees.py)

@@ -2,3 +2,5 @@
 .claude/
 # File generati da Python in locale
 __pycache__/
+# KML dell'elenco MASAF (circa 30 MB): nel repository va solo scripts/masaf_list.json (vedi scripts/update_masaf.py)
+*.kml

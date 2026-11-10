@@ -38,3 +38,5 @@ Il sito è statico (GitHub Pages, MapLibre GL JS); i dati si scaricano da Overpa
 Dati e confini © contributori di [OpenStreetMap](https://www.openstreetmap.org/copyright), disponibili con licenza ODbL. Anche lo sfondo dell'immagine qui sopra è © contributori di OpenStreetMap.
 
 Le liste di riferimento (`scripts/species_list.json` e `scripts/genus_list.json`) derivano dalle pagine [List of Species](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species) e [List of Genus, Leaf cycle, Leaf type](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Genus,_Leaf_cycle,_Leaf_type) dell'OpenStreetMap Wiki, sotto licenza [CC BY-SA 2.0](https://wiki.openstreetmap.org/wiki/Wiki_content_license).
+
+L'elenco dei codici degli alberi monumentali d'Italia (`scripts/masaf_list.json`) deriva dall'elenco del MASAF, con licenza [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - "dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024".

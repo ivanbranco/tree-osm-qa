@@ -1047,6 +1047,24 @@ def masaf_criteria_bad(t):
     return [x for x in t["masaf:criteria"].split(",") if x not in MASAF_CRITERIA]
 
 
+# Elenco MASAF (scripts/masaf_list.json, da update_masaf.py): codice -> null se iscritto, [motivo, decreto] se rimosso
+from update_masaf import masaf_code   # noqa: E402 (stessa normalizzazione dei codici della lista)
+MASAF_LIST = load_json(HERE / "masaf_list.json", "codes")
+
+
+def masaf_removed(t):
+    """[(ref:masaf, motivo, decreto)] dei codici di un albero (non di un ceppo) che l'elenco MASAF dà come rimossi
+    (morte naturale, abbattimento, perdita di requisiti, declassamento). Per un ceppo il codice di un albero rimosso
+    è normale."""
+    if t.get("natural") == "tree_stump":
+        return []
+    out = []
+    for raw in (x.strip() for x in str(t.get("ref:masaf", "")).split(";")):
+        if raw and (rm := MASAF_LIST.get(masaf_code(raw))):
+            out.append((raw, rm[0], rm[1]))
+    return out
+
+
 # --- Forma di species: specie non identificata (sp., spp.) e autore del nome (L., (L.) Kuntze, Merr.…) ---
 UNIDENTIFIED = re.compile(r"^\s*(×\s*)?(\S+)\s+(sp|spp)\.?\s*$", re.I)
 INFRA = {"subsp.", "ssp.", "var.", "subvar.", "f.", "forma", "cv.", "nothosubsp.", "nothovar."}
@@ -1303,6 +1321,8 @@ def checks(t, pos):
              den_n=";".join(str(n) for _, _, n in den))
     if bad := masaf_criteria_bad(t):    # parti separate da "," come nel tag (non possono contenerne)
         flag("masaf_criteria", masaf_bad=",".join(bad))
+    if rm := masaf_removed(t):          # righe "codice|motivo|decreto" separate da "\n"
+        flag("masaf_removed", masaf_rm="\n".join(f"{c}|{r}|{d}" for c, r, d in rm))
     if undoc := undocumented_tags(t):  # i tag non sono in KEEP: il valore va nella proprietà tag_<chiave>
         flag("undocumented_tag", **{"tag_" + k: v for k, v in undoc})
     return issues, props
