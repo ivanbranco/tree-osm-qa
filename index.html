@@ -86,6 +86,8 @@
   #dl[hidden]{display:none}
   #count{color:#555;margin-top:6px;font-size:12px}
   .card{max-width:260px}
+  /* i valori lunghi senza spazi (es. denotation=urbanécole_…) vanno a capo invece di uscire dalla scheda; le etichette no */
+  .card dd,.card .bad,.card h3{overflow-wrap:anywhere}
   .card h3{margin:0 0 4px;font-size:15px}
   .card .photo{position:relative;margin:4px 0}
   .card img{width:100%;border-radius:4px;display:block}
@@ -94,7 +96,7 @@
   .card .credit:empty{display:none}
   .card .photo:not(.loaded) .credit{display:none}   /* il credito compare insieme alla foto, non prima */
   .card dl{margin:4px 0;display:grid;grid-template-columns:auto 1fr;gap:1px 8px}
-  .card dt{color:#666}.card dd{margin:0}
+  .card dt{color:#666}.card dd{margin:0;min-width:0}
   .bad{color:#b00020;font-weight:600;position:relative}
   /* pop-up con la spiegazione del check: passando il mouse sul ⚠, o toccandolo (focus) da telefono */
   .why{cursor:help;outline:none}
