@@ -1236,6 +1236,10 @@
 "taxon": true
 },
 "Q10935845": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Zelkova sinica",
 "it": "Zelkova sinica",
 "names": [
@@ -2308,6 +2312,12 @@
 "taxon": true
 },
 "Q1166864": {
+"alias": {
+"en": [
+"Nikko fir"
+],
+"it": []
+},
 "en": "Abies homolepis",
 "it": "Abies homolepis",
 "names": [
@@ -2724,7 +2734,7 @@
 "Laburnum ×watereri"
 ],
 "ranks": [
-"Q7432"
+"Q1306176"
 ],
 "taxon": true
 },
@@ -7277,6 +7287,15 @@
 "taxon": true
 },
 "Q1529852": {
+"alias": {
+"en": [
+"sugarberry",
+"Southern hackberry",
+"sugar hackberry",
+"hackberry"
+],
+"it": []
+},
 "en": "Celtis laevigata",
 "it": "Celtis laevigata",
 "names": [
@@ -8605,6 +8624,23 @@
 "it": "Betula pubescens",
 "names": [
 "Betula pubescens"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q157628": {
+"alias": {
+"en": [
+"dwarf birch"
+],
+"it": []
+},
+"en": "Betula nana",
+"it": "Betula nana",
+"names": [
+"Betula nana"
 ],
 "ranks": [
 "Q7432"
@@ -10747,6 +10783,17 @@
 "taxon": true
 },
 "Q162440": {
+"alias": {
+"en": [
+"Bottlebrush buckeye",
+"Small-flowered buckeye",
+"Aesculus alba",
+"Aesculus macrostachya",
+"Aesculus macrostachys",
+"Aesculus odorata"
+],
+"it": []
+},
 "names": [
 "Aesculus parviflora"
 ],
@@ -10794,6 +10841,16 @@
 "taxon": true
 },
 "Q162829": {
+"alias": {
+"en": [
+"bitterberry",
+"chokecherry",
+"Virginia bird cherry",
+"western chokecherry",
+"black chokecherry"
+],
+"it": []
+},
 "en": "Prunus virginiana",
 "it": "Prunus virginiana",
 "names": [
@@ -11185,6 +11242,32 @@
 "it": "Phoenix roebelenii",
 "names": [
 "Phoenix roebelenii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q164130": {
+"alias": {
+"en": [
+"red osier",
+"red-osier dogwood",
+"red brush",
+"red willow",
+"redstem dogwood",
+"redtwig dogwood",
+"red-rood",
+"American dogwood",
+"creek dogwood",
+"western dogwood"
+],
+"it": []
+},
+"en": "Cornus sericea",
+"it": "Cornus sericea",
+"names": [
+"Cornus sericea"
 ],
 "ranks": [
 "Q7432"
@@ -11599,6 +11682,14 @@
 "taxon": true
 },
 "Q1655870": {
+"alias": {
+"en": [
+"Juglans ailanthifolia"
+],
+"it": [
+"Juglans ailanthifolia"
+]
+},
 "en": "Juglans ailantifolia",
 "it": "Juglans ailantifolia",
 "names": [
@@ -11870,6 +11961,14 @@
 "taxon": true
 },
 "Q1723511": {
+"alias": {
+"en": [
+"American yew",
+"Canada yew",
+"Canadian yew"
+],
+"it": []
+},
 "en": "Taxus canadensis",
 "it": "Taxus canadensis",
 "names": [
@@ -13335,6 +13434,21 @@
 "it": "Crataegus submollis",
 "names": [
 "Crataegus submollis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2081304": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Crataegus flabellata",
+"it": "Crataegus flabellata",
+"names": [
+"Crataegus flabellata"
 ],
 "ranks": [
 "Q7432"
@@ -18117,6 +18231,21 @@
 ],
 "taxon": true
 },
+"Q4095584": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Crataegus succulenta",
+"it": "Crataegus succulenta",
+"names": [
+"Crataegus succulenta"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q4095586": {
 "alias": {
 "en": [],
@@ -20052,6 +20181,10 @@
 "taxon": true
 },
 "Q5182556": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Crataegus coccinioides",
 "it": "Crataegus coccinioides",
 "names": [
@@ -21304,6 +21437,15 @@
 "taxon": true
 },
 "Q6292155": {
+"alias": {
+"en": [
+"Taxus media",
+"Taxus x media"
+],
+"it": [
+"Taxus media"
+]
+},
 "en": "Taxus × media",
 "it": "Taxus ×media",
 "names": [

@@ -597,10 +597,11 @@
   },
   "wielkopolskie": {
    "count": 109503,
-   "errors": 10011,
+   "diam": "mm",
+   "errors": 10318,
    "name": "Grande Polonia",
-   "sha1": "7895c9e6bc66ce4250b5d65d69b1a850c1c36c91",
-   "updated": "2026-11-08T21:53:27Z"
+   "sha1": "430cfb5b708e56fe82e01f170865ba37839b2c9b",
+   "updated": "2026-11-10T21:21:10Z"
   },
   "yorkshire-e-humber": {
    "count": 76047,

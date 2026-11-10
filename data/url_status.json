@@ -2435,6 +2435,30 @@
 "c": [],
 "d": "2026-11-10"
 },
+"geo:File:Dolne Pole 04 2025.jpg": {
+"c": [
+52.49781,
+16.62459,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Drzewo pomnik przyrody w użytku ekologicznym Dębina w Poznaniu - maj 2018 - 1.jpg": {
+"c": [],
+"d": "2026-11-10"
+},
+"geo:File:Drzewo pomnik przyrody w użytku ekologicznym Dębina w Poznaniu - maj 2018.jpg": {
+"c": [],
+"d": "2026-11-10"
+},
+"geo:File:Dąb Rogaty.jpg": {
+"c": [
+52.512073,
+17.073409,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Dąb pamięci – kleryk kpt. Ignacy Drabczyński.jpg": {
 "c": [
 49.6374554,
@@ -2699,6 +2723,22 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Dąbrówka szkoła ul. Parkowa 2023.jpg": {
+"c": [
+52.38298,
+16.74764,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dębina pomnik Dąb szypułkowy 81.jpg": {
+"c": [
+52.366214,
+16.919083,
+"camera"
+],
+"d": "2026-11-10"
+},
 "geo:File:Elmės šešiakamienis ąžuolas, kamienai.JPG": {
 "c": [
 55.570194,
@@ -2771,6 +2811,14 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:KrolowaSniegu SrodaWlkp 2024.jpg": {
+"c": [
+52.22291,
+17.275947,
+"camera"
+],
+"d": "2026-11-10"
+},
 "geo:File:Leszcze - dąb szypułkowy.jpg": {
 "c": [
 50.182266,
@@ -2791,6 +2839,22 @@
 "c": [
 45.824334,
 13.731499,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:MP 3 36514 05 Pseudotsuga menziesii.jpg": {
+"c": [
+52.667085,
+17.011441,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:MP 3 36515 05 Pseudotsuga menziesii.jpg": {
+"c": [
+52.667085,
+17.011441,
 "camera"
 ],
 "d": "2026-11-10"
@@ -2859,6 +2923,10 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Platanus hispanica, Poznan, Libelta street (II).JPG": {
+"c": [],
+"d": "2026-11-10"
+},
 "geo:File:Polana pod Wysoką - Jawor strażaków.jpg": {
 "c": [
 49.384625,
@@ -2923,11 +2991,27 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Stramnica 01 przed-before 2025.jpg": {
+"c": [
+52.48305,
+16.47865,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Strane, najstarejša Tisa v Sloveniji.jpg": {
 "c": [
 45.787131,
 14.089256,
 "camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Swarzędz - Dęby Katyńskie.jpg": {
+"c": [
+52.4178117,
+17.07689,
+"object"
 ],
 "d": "2026-11-10"
 },
@@ -2963,6 +3047,14 @@
 "c": [
 49.7157862,
 6.3311075,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Wyspa Edwarda - Dąb Edward Raczyński.jpg": {
+"c": [
+52.147232,
+17.1646454,
 "object"
 ],
 "d": "2026-11-10"
