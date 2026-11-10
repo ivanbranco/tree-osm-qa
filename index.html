@@ -394,7 +394,8 @@ const I18N = {
         missing: "file inesistente su Commons" },
       wikidata_name_mismatch: (kq, name, val) => `${kq} su Wikidata è ${name}, non ${val}`,
       wikidata_tree_species: (q, name) => `su Wikidata l'albero (wikidata=${q}) è ${name}`,
-      wikidata_heritage: (q, label) => `su Wikidata l'albero (wikidata=${q}) è tutelato (${label}) ma manca denotation=natural_monument`,
+      // senza il QID: il link all'elemento Wikidata è già in fondo alla scheda
+      wikidata_heritage: (q, label) => `Su Wikidata l'albero è tutelato (${label}), ma manca denotation=natural_monument`,
       rankSpecies: "specie", rankGenus: "genere",
       ranks: { Q7432: "specie", Q34740: "genere", Q35409: "famiglia", Q68947: "sottospecie", Q767728: "varietà", Q279749: "forma",
         Q36602: "ordine", Q3238261: "sottogenere", Q3181348: "sezione", Q5998839: "sottosezione", Q3025161: "serie",
@@ -404,7 +405,8 @@ const I18N = {
       too_slender_species: (h, c, r, sp, r0) => `albero troppo slanciato per ${sp}: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}, tipico ${r0})`,
       too_stocky: (h, c, r) => `albero troppo tozzo: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "codici non validi" : "codice non valido"} ${bad.join(", ")} (ammessi a–g, a1, a2, a2.1–a2.3, separati da virgole senza spazi)`,
-      masaf_removed: (code, why, decree) => `ref:masaf=${code}: l'albero è stato rimosso dall'elenco MASAF ${why}${decree ? ` (${decree})` : ""}`,
+      // senza il codice: compare già nella riga «Albero inserito nell'elenco…» della scheda
+      masaf_removed: (code, why) => `L'albero è stato rimosso dall'elenco MASAF ${why}`,
       masafRemovedWhy: { death: "per morte naturale", felled: "per abbattimento", requirements: "per perdita dei requisiti",
         downgraded: "per declassamento", other: "" },
       empty: "(vuoto)",
@@ -422,6 +424,7 @@ const I18N = {
       genus: "genus con più parole", leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" },
     genusOf: g => `il genere ${g}`, or: " o ",
     recMasaf: (l, ref) => `Albero inserito nell’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${ref})`,
+    recMasafRemoved: (l, ref) => `Albero un tempo inserito nell’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${ref})`,
     recRami: (l, ref) => `Albero inserito nel ${l("registro RAMI")} (${ref})`,
     recIcnf: (l, ref) => `Albero di interesse pubblico, tutelato in Portogallo dall’${l("ICNF")}${ref ? ` (${ref})` : ""}`,
     recAnf: l => `Albero tutelato in Lussemburgo dall’${l("ANF")}`,
@@ -616,7 +619,7 @@ const I18N = {
         missing: "file not found on Commons" },
       wikidata_name_mismatch: (kq, name, val) => `${kq} is ${name} on Wikidata, not ${val}`,
       wikidata_tree_species: (q, name) => `on Wikidata the tree (wikidata=${q}) is ${name}`,
-      wikidata_heritage: (q, label) => `on Wikidata the tree (wikidata=${q}) is protected (${label}) but denotation=natural_monument is missing`,
+      wikidata_heritage: (q, label) => `On Wikidata the tree is protected (${label}), but denotation=natural_monument is missing`,
       rankSpecies: "species", rankGenus: "genus",
       ranks: { Q7432: "species", Q34740: "genus", Q35409: "family", Q68947: "subspecies", Q767728: "variety", Q279749: "form",
         Q36602: "order", Q3238261: "subgenus", Q3181348: "section", Q5998839: "subsection", Q3025161: "series",
@@ -626,7 +629,7 @@ const I18N = {
       too_slender_species: (h, c, r, sp, r0) => `tree too slender for ${sp}: height ${h}, circumference ${c} (height/circumference = ${r}, typical ${r0})`,
       too_stocky: (h, c, r) => `tree too stocky: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "invalid codes" : "invalid code"} ${bad.join(", ")} (allowed a–g, a1, a2, a2.1–a2.3, comma-separated without spaces)`,
-      masaf_removed: (code, why, decree) => `ref:masaf=${code}: the tree was removed from the MASAF list ${why}${decree ? ` (${decree})` : ""}`,
+      masaf_removed: (code, why) => `The tree was removed from the MASAF list ${why}`,
       masafRemovedWhy: { death: "after its natural death", felled: "after being felled", requirements: "for loss of requirements",
         downgraded: "after being downgraded", other: "" },
       empty: "(empty)",
@@ -644,6 +647,7 @@ const I18N = {
       genus: "genus with more than one word", leaf_type: "invalid leaf_type", leaf_cycle: "invalid leaf_cycle" },
     genusOf: g => `the genus ${g}`, or: " or ",
     recMasaf: (l, ref) => `Listed in the MASAF ${l("list of monumental trees of Italy")} (${ref})`,
+    recMasafRemoved: (l, ref) => `Formerly listed in the MASAF ${l("list of monumental trees of Italy")} (${ref})`,
     recRami: (l, ref) => `Listed in the ${l("RAMI register")} (${ref})`,
     recIcnf: (l, ref) => `Tree of public interest, protected in Portugal by the ${l("ICNF")}${ref ? ` (${ref})` : ""}`,
     recAnf: l => `Tree protected in Luxembourg by the ${l("ANF")}`,
@@ -773,6 +777,13 @@ const map = new maplibregl.Map({
 });
 // solo + e −: niente bussola, e la mappa non si ruota (senza bussola non si potrebbe raddrizzare)
 map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
+// rotellina sopra una scheda (popup): la scheda è un elemento sopra la mappa e si "mangerebbe" lo zoom; la si passa
+// alla mappa, così si continua a zoomare anche quando il cursore finisce sopra la scheda
+map.getContainer().addEventListener("wheel", e => {
+  if (!e.target.closest || !e.target.closest(".maplibregl-popup")) return;
+  e.preventDefault();
+  map.getCanvas().dispatchEvent(new WheelEvent("wheel", e));
+}, { passive: false });
 // mostra la mappa (nascosta finché non è nella posizione iniziale); in ogni caso entro 8 s, anche se qualcosa va storto
 const revealMap = () => document.getElementById("map").classList.remove("wait");
 setTimeout(revealMap, 8000);
@@ -1829,7 +1840,8 @@ const link = (href, text) => `<a href="${esc(href)}" target="_blank" rel="noopen
 
 function recognitions(p) {
   const r = [];
-  if (p["ref:masaf"]) r.push(L.recMasaf(t => link(MASAF_URL, t), esc(p["ref:masaf"])));
+  // albero rimosso dall'elenco (check masaf_removed): "un tempo inserito", per non contraddire l'avviso sotto
+  if (p["ref:masaf"]) r.push((String(p.issues || "").includes("|masaf_removed|") ? L.recMasafRemoved : L.recMasaf)(t => link(MASAF_URL, t), esc(p["ref:masaf"])));
   if (p["masaf:criteria"]) {   // es. "a2.1,a2.2" -> "circonferenza, altezza", senza i codici; i codici sconosciuti restano come sono
     const codes = String(p["masaf:criteria"]).split(/[,;]/).map(c => c.trim().toLowerCase().replace(/\)$/, "")).filter(Boolean);
     r.push(esc(L.recCriteria(codes.map(c => L.masafCriteria[c] || c).join(", "))));
