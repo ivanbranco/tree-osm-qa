@@ -84,10 +84,27 @@ def add_min_zoom(fc):
 
 # Alberi dell'elenco MASAF (scripts/masaf_trees.json, da update_masaf.py) non ancora su OpenStreetMap: la mappa dei
 # monumentali li mostra con il contorno tratteggiato. Un albero dell'elenco è già su OSM se un nodo (in Italia, anche
-# non monumentale) ha il suo codice in ref:masaf, oppure se un albero OSM monumentale dello stesso genere è entro
-# MASAF_NEAR metri (mappato senza ref:masaf).
+# non monumentale), una via o una relazione (es. una coppia di glicini mappata come relazione) ha il suo codice in
+# ref:masaf, oppure se un albero OSM monumentale dello stesso genere è entro MASAF_NEAR metri (mappato senza ref:masaf).
 MASAF_TREES = ft.HERE / "masaf_trees.json"
 MASAF_NEAR = 25
+# ref:masaf su vie e relazioni (i dati del tool hanno solo i nodi): una query leggera, solo i tag
+MASAF_OTHER_QUERY = """[out:json][timeout:300];
+(
+  way["ref:masaf"];
+  relation["ref:masaf"];
+);
+out tags;"""
+
+
+def masaf_codes_other():
+    """Codici di ref:masaf su vie e relazioni; insieme vuoto (con un avviso) se Overpass non risponde."""
+    data = ft.run_overpass(MASAF_OTHER_QUERY, "ref:masaf su vie e relazioni", False)
+    if not data:
+        ft.warn("MASAF: Overpass non risponde, i ref:masaf su vie e relazioni non sono stati letti")
+        return set()
+    return {ft.masaf_code(r) for el in data["elements"] for r in str(el.get("tags", {}).get("ref:masaf", "")).split(";")
+            if r.strip()}
 
 
 def masaf_missing(fc):
@@ -95,7 +112,8 @@ def masaf_missing(fc):
     data = ft.load_json(MASAF_TREES)
     if not data.get("trees"):
         return {"type": "FeatureCollection", "features": []}
-    codes, mon = set(), []
+    codes, mon = masaf_codes_other(), []
+    print(f"MASAF: {len(codes)} codici su vie e relazioni")
     italy = [r["slug"] for r in ft.REGIONS if r.get("group") == "Italia"]
     for slug in italy:                     # ref:masaf anche sugli alberi non monumentali
         path = ft.OUT_DIR / f"{slug}.geojson.gz"
@@ -122,8 +140,11 @@ def masaf_missing(fc):
             continue
         words = t.get("s", "").split()
         sp = " ".join(words[:2]) if len(words) > 1 and words[1][:1].islower() else ""   # senza l'autore
+        # specie da mostrare senza l'autore (es. "Wisteria sinensis (Sims) Sweet" -> "Wisteria sinensis"), con i ranghi
+        # infraspecifici (subsp., var.) come in species_without_author di fetch_trees.py
         props = {"masaf": t["c"], **{k: t[k] for k in ("v", "co", "pr", "lo", "t", "h", "ci") if k in t},
-                 "genus": t.get("g", ""), "sp_full": t.get("s", ""), "cr": ",".join(t.get("cr", []))}
+                 "genus": t.get("g", ""), "sp_full": ft.species_without_author(t.get("s", "")) or t.get("s", ""),
+                 "cr": ",".join(t.get("cr", []))}
         if sp:
             props["species"] = sp
         feats.append({"type": "Feature", "properties": props,
