@@ -1347,6 +1347,8 @@ map.on("load", async () => {
   const inPolygon = (pt, rings) => inRing(pt, rings[0]) && !rings.slice(1).some(h => inRing(pt, h));
   const inGeometry = (pt, g) => g.type === "Polygon" ? inPolygon(pt, g.coordinates)
     : g.type === "MultiPolygon" ? g.coordinates.some(p => inPolygon(pt, p)) : false;
+  // paesi con almeno una regione con dati, dal codice ISO 3166 delle regioni (IT-25 → IT, GB-WLS → GB, JP → JP)
+  const COVERED = new Set(meta.filter(m => idx[m.slug] && m.iso).map(m => m.iso.slice(0, 2).toUpperCase()));
   let requestPopup = null;
   map.on("click", async e => {
     if (map.getZoom() >= ALL_Z) return;
@@ -1359,9 +1361,13 @@ map.on("load", async () => {
     let country = null;
     try {
       const u = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=3&lat=${e.lngLat.lat.toFixed(4)}&lon=${e.lngLat.lng.toFixed(4)}&accept-language=${LANG}`;
-      country = (await fetch(u).then(r => r.json())).address?.country || null;
+      const addr = (await fetch(u).then(r => r.json())).address || {};
+      // paese già coperto (es. clic nelle acque territoriali italiane, fuori dai confini delle regioni, che si fermano
+      // alla costa): nessun invito
+      if (COVERED.has(String(addr.country_code || "").toUpperCase())) return;
+      country = addr.country || null;
     } catch (err) { country = ""; }    // Nominatim non risponde: invito generico
-    if (country === null) return;      // nessun paese (mare)
+    if (country === null) return;      // nessun paese (mare aperto)
     requestPopup = new maplibregl.Popup({ maxWidth: "260px", focusAfterOpen: false }).setLngLat(e.lngLat)
       // nome del paese come titolo, poi la domanda: niente articoli da accordare («la Spagna», «il Belgio»…)
       .setHTML(`<div class="card">${country ? `<h3>${esc(country)}</h3>` : ""}${esc(L.reqAsk)}<br>${link(CONTACT_URL, L.reqContact)}</div>`).addTo(map);
