@@ -598,6 +598,12 @@
 "taxon": false
 },
 "Q1070845": {
+"alias": {
+"en": [],
+"it": [
+"Fotinia"
+]
+},
 "en": "Photinia",
 "it": "Photinia",
 "names": [
@@ -1502,6 +1508,10 @@
 "taxon": true
 },
 "Q110766055": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Carpinus betulus 'Quercifolia'",
 "it": "Carpinus betulus ʽQuercifolia’",
 "names": [
@@ -1576,6 +1586,10 @@
 "taxon": true
 },
 "Q11083662": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Populus alba var. pyramidalis",
 "it": "Populus alba var. pyramidalis",
 "names": [
@@ -1703,6 +1717,10 @@
 "taxon": true
 },
 "Q111333964": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Quercus alba var. gunnisonii",
 "it": "Quercus alba var. gunnisonii",
 "names": [
@@ -1953,6 +1971,13 @@
 "taxon": true
 },
 "Q1137001": {
+"alias": {
+"en": [
+"big-cone pine",
+"Coulter Pine"
+],
+"it": []
+},
 "en": "Pinus coulteri",
 "it": "Pinus coulteri",
 "names": [
@@ -2502,6 +2527,13 @@
 "taxon": true
 },
 "Q1196240": {
+"alias": {
+"en": [
+"Galcham oak",
+"Oriental white oak"
+],
+"it": []
+},
 "en": "Quercus aliena",
 "it": "Quercus aliena",
 "names": [
@@ -2865,6 +2897,17 @@
 "taxon": true
 },
 "Q125337": {
+"alias": {
+"en": [
+"mandarine",
+"tangerina",
+"mandarin",
+"mandarin orange"
+],
+"it": [
+"mandarino"
+]
+},
 "en": "Citrus reticulata",
 "it": "Citrus reticulata",
 "names": [
@@ -4402,6 +4445,10 @@
 "taxon": true
 },
 "Q132970": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Musa acuminata",
 "it": "Musa acuminata",
 "names": [
@@ -4960,6 +5007,10 @@
 "taxon": true
 },
 "Q137046": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Magnolia cylindrica",
 "it": "Magnolia cylindrica",
 "names": [
@@ -5565,6 +5616,10 @@
 "taxon": true
 },
 "Q145672": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Trachycarpus martianus",
 "it": "Trachycarpus martianus",
 "names": [
@@ -5733,6 +5788,12 @@
 "taxon": true
 },
 "Q146037": {
+"alias": {
+"en": [],
+"it": [
+"Cupressacee"
+]
+},
 "en": "Cupressaceae",
 "it": "Cupressaceae",
 "names": [
@@ -6122,6 +6183,13 @@
 "taxon": true
 },
 "Q147392": {
+"alias": {
+"en": [],
+"it": [
+"Cipresso delle paludi",
+"Cipresso calvo"
+]
+},
 "en": "Taxodium",
 "it": "Taxodium",
 "names": [
@@ -6517,6 +6585,10 @@
 "taxon": true
 },
 "Q148723": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Mespilus",
 "it": "Mespilus",
 "names": [
@@ -8039,6 +8111,15 @@
 "taxon": true
 },
 "Q156064": {
+"alias": {
+"en": [
+"Betulaceas",
+"Betuláceas"
+],
+"it": [
+"Betulacee"
+]
+},
 "en": "Betulaceae",
 "it": "Betulaceae",
 "names": [
@@ -8101,6 +8182,12 @@
 "taxon": true
 },
 "Q15634290": {
+"alias": {
+"en": [
+"Amur Maple"
+],
+"it": []
+},
 "en": "Acer ginnala",
 "it": "Acer ginnala",
 "names": [
@@ -8273,6 +8360,23 @@
 "taxon": true
 },
 "Q156928": {
+"alias": {
+"en": [
+"Vibernum opulus",
+"guelder-rose",
+"guelder rose",
+"kalyna",
+"cranberry-tree",
+"water elder",
+"cramp bark",
+"snowball tree",
+"common snowball",
+"European cranberrybush"
+],
+"it": [
+"Oppio"
+]
+},
 "en": "Viburnum opulus",
 "it": "Viburnum opulus",
 "names": [
@@ -8325,6 +8429,17 @@
 "taxon": true
 },
 "Q156969": {
+"alias": {
+"en": [
+"Areca palm",
+"Areca-nut palm",
+"betel nut palm",
+"betel palm"
+],
+"it": [
+"Noce di betel"
+]
+},
 "en": "Areca catechu",
 "it": "Areca catechu",
 "names": [
@@ -8918,6 +9033,12 @@
 "taxon": false
 },
 "Q158029": {
+"alias": {
+"en": [
+"Sweetshrub"
+],
+"it": []
+},
 "en": "Calycanthus",
 "it": "Calycanthus",
 "names": [
@@ -9478,6 +9599,10 @@
 "taxon": true
 },
 "Q15889125": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Pinus sylvestris var. sylvestriformis",
 "it": "Pinus sylvestris var. sylvestriformis",
 "names": [
@@ -10044,6 +10169,18 @@
 "taxon": true
 },
 "Q160580": {
+"alias": {
+"en": [
+"Ailantus",
+"Chinese cumach"
+],
+"it": [
+"Ailanti",
+"Albero del paradiso",
+"Ailanto",
+"albero del cielo"
+]
+},
 "en": "Ailanthus",
 "it": "Ailanthus",
 "names": [
@@ -11234,6 +11371,17 @@
 "taxon": true
 },
 "Q164097": {
+"alias": {
+"en": [
+"Bamboo palm",
+"Slender lady palm",
+"Lady palm",
+"Miniature fan palm",
+"Fern rhapis",
+"Broad-leaved slender lady palm"
+],
+"it": []
+},
 "en": "Rhapis excelsa",
 "it": "Rhapis excelsa",
 "names": [
@@ -11494,6 +11642,10 @@
 "taxon": true
 },
 "Q164545": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "10th Mechanized Infantry Division",
 "names": [],
 "ranks": [],
@@ -11869,6 +12021,13 @@
 "taxon": true
 },
 "Q1711441": {
+"alias": {
+"en": [
+"Arizona walnut",
+"black walnut"
+],
+"it": []
+},
 "names": [
 "Juglans major"
 ],
@@ -12590,6 +12749,10 @@
 "taxon": true
 },
 "Q183543": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Liquidambar",
 "it": "Liquidambar",
 "names": [
@@ -13587,6 +13750,10 @@
 "taxon": true
 },
 "Q2110146": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Ulmus serotina",
 "it": "Ulmus serotina",
 "names": [
@@ -14882,6 +15049,16 @@
 "taxon": true
 },
 "Q259318": {
+"alias": {
+"en": [
+"monk's pepper",
+"lilac chastetree",
+"lilac chaste tree",
+"chaste tree",
+"chasteberry"
+],
+"it": []
+},
 "en": "Vitex agnus-castus",
 "it": "Vitex agnus-castus",
 "names": [
@@ -15185,6 +15362,16 @@
 "taxon": true
 },
 "Q26782": {
+"alias": {
+"en": [
+"spruce",
+"Spruce"
+],
+"it": [
+"Peccio",
+"Pecci"
+]
+},
 "en": "Picea",
 "it": "Picea",
 "names": [
@@ -15286,6 +15473,10 @@
 "taxon": true
 },
 "Q2700622": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Parajubaea",
 "it": "Parajubaea",
 "names": [
@@ -16183,6 +16374,14 @@
 "taxon": true
 },
 "Q2964355": {
+"alias": {
+"en": [
+"Mexican orange blossom",
+"Mexican orange",
+"Mexican mock orange"
+],
+"it": []
+},
 "en": "Choisya ternata",
 "it": "Choisya ternata",
 "names": [
@@ -17105,6 +17304,14 @@
 "taxon": true
 },
 "Q3297849": {
+"alias": {
+"en": [
+"downy poplar",
+"swamp poplar",
+"swamp cottonwood"
+],
+"it": []
+},
 "en": "Populus heterophylla",
 "it": "Populus heterophylla",
 "names": [
@@ -17377,6 +17584,10 @@
 "taxon": true
 },
 "Q3392902": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Corylus avellana 'Contorta'",
 "it": "Corylus avellana ‘Contorta’",
 "names": [
@@ -19592,6 +19803,10 @@
 "taxon": true
 },
 "Q472943": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Robinia",
 "it": "Robinia",
 "names": [
@@ -19859,6 +20074,13 @@
 "taxon": true
 },
 "Q4959355": {
+"alias": {
+"en": [],
+"it": [
+"Melograna",
+"Melograni"
+]
+},
 "en": "Punica",
 "it": "Punica",
 "names": [
@@ -19892,6 +20114,20 @@
 "taxon": true
 },
 "Q500": {
+"alias": {
+"en": [
+"Citrus limon",
+"Citrus ×limon",
+"lemon",
+"Citrus x limon",
+"lemon tree"
+],
+"it": [
+"limone",
+"Citrus x limon",
+"Citrus limon"
+]
+},
 "en": "Citrus × limon",
 "it": "Citrus × limon",
 "names": [
@@ -20719,6 +20955,10 @@
 "taxon": true
 },
 "Q55741369": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Gelso Bianco",
 "it": "gelso bianco",
 "names": [],
@@ -20767,12 +21007,20 @@
 "taxon": false
 },
 "Q55741788": {
+"alias": {
+"en": [],
+"it": []
+},
 "it": "magnolia sempreverde",
 "names": [],
 "ranks": [],
 "taxon": false
 },
 "Q55741837": {
+"alias": {
+"en": [],
+"it": []
+},
 "it": "ciliegio selvatico",
 "names": [],
 "ranks": [],
@@ -20799,6 +21047,10 @@
 "taxon": false
 },
 "Q55743376": {
+"alias": {
+"en": [],
+"it": []
+},
 "it": "quercia rossa",
 "names": [],
 "ranks": [],
@@ -20928,6 +21180,18 @@
 "taxon": true
 },
 "Q573791": {
+"alias": {
+"en": [
+"burflower tree",
+"laran",
+"Leichhardt pine",
+"kadam",
+"cadamba"
+],
+"it": [
+"Neolamarkia cadamba"
+]
+},
 "en": "Neolamarckia cadamba",
 "it": "Neolamarckia cadamba",
 "names": [
@@ -21141,6 +21405,14 @@
 "taxon": false
 },
 "Q59798": {
+"alias": {
+"en": [
+"the fig genus",
+"fig",
+"figs"
+],
+"it": []
+},
 "en": "Ficus",
 "it": "Ficus",
 "names": [
@@ -21590,6 +21862,15 @@
 "taxon": true
 },
 "Q63045": {
+"alias": {
+"en": [
+"Terebinth",
+"Turpentine tree"
+],
+"it": [
+"terebinto"
+]
+},
 "en": "Pistacia terebinthus",
 "it": "Pistacia terebinthus",
 "names": [
@@ -21708,6 +21989,14 @@
 "taxon": true
 },
 "Q657812": {
+"alias": {
+"en": [
+"Sicilian Fir"
+],
+"it": [
+"Abete dei Nèbrodi"
+]
+},
 "en": "Abies nebrodensis",
 "it": "Abies nebrodensis",
 "names": [
@@ -21848,6 +22137,10 @@
 "taxon": true
 },
 "Q67188210": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Prunus domestica var. domestica",
 "it": "Prunus domestica var. domestica",
 "names": [
@@ -22529,6 +22822,12 @@
 "taxon": true
 },
 "Q744244": {
+"alias": {
+"en": [
+"Northern rātā"
+],
+"it": []
+},
 "en": "Metrosideros robusta",
 "it": "Metrosideros robusta",
 "names": [
@@ -23635,6 +23934,16 @@
 "taxon": true
 },
 "Q855853": {
+"alias": {
+"en": [
+"Chinese Toon",
+"Xiangchun",
+"Beef and onion plant"
+],
+"it": [
+"Xiangchun"
+]
+},
 "en": "Toona sinensis",
 "it": "Toona sinensis",
 "names": [
@@ -24554,6 +24863,18 @@
 "taxon": true
 },
 "Q948827": {
+"alias": {
+"en": [
+"pawpaw",
+"paw paw",
+"dog-banana",
+"Indian-banana",
+"American papaw"
+],
+"it": [
+"Paw paw"
+]
+},
 "en": "Asimina triloba",
 "it": "Asimina triloba",
 "names": [
@@ -24841,6 +25162,13 @@
 "taxon": true
 },
 "Q978755": {
+"alias": {
+"en": [
+"subalpine fir",
+"alpine fir"
+],
+"it": []
+},
 "en": "Abies lasiocarpa",
 "it": "Abies lasiocarpa",
 "names": [
