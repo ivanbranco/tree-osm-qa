@@ -1335,11 +1335,26 @@ map.on("load", async () => {
 
   // Vista d'insieme: un clic fuori dalle regioni coperte chiede il nome del paese a Nominatim e propone di chiederne
   // l'aggiunta (messaggio su OSM). Sul mare Nominatim non trova un paese e non compare niente.
+  // punto dentro un Polygon o MultiPolygon GeoJSON (ray casting; i buchi interni escludono)
+  const inRing = ([x, y], ring) => {
+    let inside = false;
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      const [xi, yi] = ring[i], [xj, yj] = ring[j];
+      if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside;
+    }
+    return inside;
+  };
+  const inPolygon = (pt, rings) => inRing(pt, rings[0]) && !rings.slice(1).some(h => inRing(pt, h));
+  const inGeometry = (pt, g) => g.type === "Polygon" ? inPolygon(pt, g.coordinates)
+    : g.type === "MultiPolygon" ? g.coordinates.some(p => inPolygon(pt, p)) : false;
   let requestPopup = null;
   map.on("click", async e => {
     if (map.getZoom() >= ALL_Z) return;
     const layers = ["regions-fill", ...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"].filter(l => map.getLayer(l));
     if (map.queryRenderedFeatures(e.point, { layers }).length) return;
+    // la regione aperta non è disegnata come zona cliccabile: un clic al suo interno non è fuori dalle regioni coperte
+    const open = current && boundaries && boundaries.features.find(f => f.properties.key === current);
+    if (open && inGeometry([e.lngLat.lng, e.lngLat.lat], open.geometry)) return;
     if (requestPopup) requestPopup.remove();
     let country = null;
     try {
