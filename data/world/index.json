@@ -1,0 +1,12 @@
+{
+ "regions": {
+  "monumental": {
+   "count": 89944,
+   "diam": "mm",
+   "errors": 5047,
+   "name": "Alberi monumentali",
+   "sha1": "770762cd24bf48a98206b1cf93a08a94b1bd1e98",
+   "updated": "2026-11-10T13:18:08Z"
+  }
+ }
+}
