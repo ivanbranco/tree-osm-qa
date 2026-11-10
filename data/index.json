@@ -156,11 +156,12 @@
    "updated": "2026-11-10T18:13:49Z"
   },
   "friuli-venezia-giulia": {
-   "count": 29916,
-   "errors": 321,
+   "count": 29930,
+   "diam": "mm",
+   "errors": 325,
    "name": "Friuli-Venezia Giulia",
-   "sha1": "fb9f5b875dbcfe81d8c1a6adeafd4f3daf887272",
-   "updated": "2026-11-08T22:01:44Z"
+   "sha1": "d18933c6d15f317eeb2e529d5a73f70e17e77797",
+   "updated": "2026-11-10T20:19:56Z"
   },
   "galles": {
    "count": 59130,
