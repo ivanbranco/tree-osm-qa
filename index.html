@@ -57,11 +57,13 @@
   #rank li{cursor:pointer}
   #rank li:hover,#rank .solo:hover{background:#f2f2f2}
   #rank .solo{cursor:pointer;display:flex;padding-left:16px}
-  .leg{list-style:none;margin:8px 0 0;padding:0;font-size:13px}
+  /* legenda: se le voci non entrano in 40vh scorre solo l'elenco, non tutto il pannello */
+  .leg{list-style:none;margin:8px 0 0;padding:0;font-size:13px;max-height:40vh;overflow-y:auto;scrollbar-width:thin}
   .leg li{display:flex;align-items:center;gap:8px;margin:2px 0}
   .leg svg{flex:none;display:block}
   .leg li{position:relative}
   .leg .why{flex:none}
+  .leg .why .tip{position:fixed;right:auto;box-sizing:border-box}   /* posizione e larghezza dallo script */
   #tip{position:absolute;z-index:3;display:none;pointer-events:none;background:#fff;padding:4px 8px;border-radius:4px;box-shadow:0 1px 6px #0004;font-size:12px}
   #overview{margin:0 0 6px;width:100%;padding:3px 6px;cursor:pointer}
   .note{font-size:11px;color:#777;margin-top:6px}
@@ -646,6 +648,16 @@ document.querySelectorAll(".leg li").forEach(li => {
   const t = document.createElement("span");
   t.className = "tip"; t.textContent = tip;
   w.append(svg, t);
+  // l'elenco scorre: il pop-up si posiziona rispetto alla finestra (altrimenti sarebbe tagliato dal bordo
+  // dell'elenco), largo quanto la legenda, sotto la voce o sopra se sotto non c'è spazio
+  const place = () => {
+    const ul = li.closest(".leg").getBoundingClientRect(), r = li.getBoundingClientRect();
+    t.style.left = ul.left + "px"; t.style.width = ul.width + "px"; t.style.top = (r.bottom + 2) + "px";
+    requestAnimationFrame(() => {
+      if (r.bottom + 2 + t.offsetHeight > innerHeight) t.style.top = (r.top - 2 - t.offsetHeight) + "px";
+    });
+  };
+  w.addEventListener("mouseenter", place); w.addEventListener("focus", place);
 });
 document.getElementById("gh").title = L.github;
 // riquadri chiudibili del pannello (legenda, classifica, andamento): uno aperto alla volta, così il pannello non
@@ -1400,7 +1412,11 @@ map.on("load", async () => {
         .forEach((x, i) => pos.set(x, i + 1));
       return pos;
     };
-    const moves = items => {
+    // movimenti: posizioni confrontate solo tra le righe che hanno sia il valore attuale sia quello precedente, così
+    // una nazione o regione appena aggiunta non fa "scendere" quelle sotto di lei
+    const moves = all => {
+      const items = all.filter(x => val(x.cur) != null && val(x.prev) != null);
+      all.forEach(x => { x.was = null; x.mv = null; });
       const now = positions(items, "cur"), before = positions(items, "prev");
       for (const x of items) x.was = before.get(x) ?? null, x.mv = x.was == null || !now.has(x) ? null
         : x.was > now.get(x) ? "up" : x.was < now.get(x) ? "down" : "same";
