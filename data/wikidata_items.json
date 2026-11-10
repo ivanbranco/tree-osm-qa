@@ -1354,6 +1354,7 @@
 ],
 "heritage": [],
 "image": "Olive tree (Kavousi - Azorias), Crete 03(js).jpg",
+"mon": true,
 "taxa": [
 "Q37083"
 ],
@@ -9946,6 +9947,17 @@
 "taxon": false,
 "wp": {}
 },
+"Q121816267": {
+"coords": [],
+"heritage": [],
+"image": "Stejarul lui Avram Iancu din Blaj (4).jpg",
+"mon": true,
+"taxa": [
+"Q12004"
+],
+"taxon": false,
+"wp": {}
+},
 "Q121863513": {
 "coords": [
 [
@@ -10183,6 +10195,22 @@
 "image": "Dąb Franciszek, Park Żywiecki, Żywiec 01.jpg",
 "taxa": [
 "Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q123248332": {
+"coords": [
+[
+24.9467436,
+35.0637396
+]
+],
+"heritage": [],
+"image": "Gortys Plane Tree (5217013928).jpg",
+"mon": true,
+"taxa": [
+"Q161105"
 ],
 "taxon": false,
 "wp": {}
@@ -13233,6 +13261,22 @@
 "taxa": [],
 "taxon": false,
 "wp": {}
+},
+"Q12742008": {
+"coords": [
+[
+27.566722222,
+47.178388888
+]
+],
+"heritage": [],
+"image": "Eminescu's Linden Tree (arhival image).jpg",
+"mon": true,
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Eminescu%27s_Linden_Tree"
+}
 },
 "Q12752589": {
 "coords": [
@@ -16332,6 +16376,14 @@
 "en": "https://en.wikipedia.org/wiki/Platanus",
 "it": "https://it.wikipedia.org/wiki/Platanus"
 }
+},
+"Q16332808": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q16408919": {
 "coords": [
@@ -25708,6 +25760,7 @@
 ],
 "heritage": [],
 "image": "Rrapi Prizren1.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -25867,6 +25920,25 @@
 "taxa": [],
 "taxon": true,
 "wp": {}
+},
+"Q3497092": {
+"coords": [
+[
+19.1294,
+42.08
+]
+],
+"heritage": [],
+"image": "\"Olea europea”, which is over 2000 years old. Full view..jpg",
+"mon": true,
+"taxa": [
+"Q37083"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Stara_Maslina",
+"it": "https://it.wikipedia.org/wiki/Stara_Maslina"
+}
 },
 "Q3528519": {
 "coords": [
@@ -26148,6 +26220,7 @@
 ],
 "heritage": [],
 "image": "The Plane Tree of Arta 2017.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -36559,6 +36632,7 @@
 ],
 "heritage": [],
 "image": "Olive tree of Vouves.jpg",
+"mon": true,
 "taxa": [
 "Q37083"
 ],

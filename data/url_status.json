@@ -315,6 +315,10 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:Athen Pandroseion sacred-olive-tree 20230921 131241.jpg": {
+"d": "2026-11-10",
+"s": "ok"
+},
 "commons:File:Aubépine sur le tour du plan d'eau de Saint-Clément 2025-05-02 17-30-27.JPG": {
 "d": "2026-11-08",
 "s": "ok"
@@ -1075,6 +1079,14 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:Gortys Olive tree 20230607 105956.jpg": {
+"d": "2026-11-10",
+"s": "ok"
+},
+"commons:File:Gortys Olive tree 20230607 110023.jpg": {
+"d": "2026-11-10",
+"s": "ok"
+},
 "commons:File:Great_camphor_tree_in_Nara_Park.JPG": {
 "d": "2026-11-09",
 "s": "ok"
@@ -1444,6 +1456,10 @@
 "s": "ok"
 },
 "commons:File:Olaia Estação de Benfica.jpg": {
+"d": "2026-11-10",
+"s": "ok"
+},
+"commons:File:Oliva in Bar.jpg": {
 "d": "2026-11-10",
 "s": "ok"
 },
@@ -2023,6 +2039,10 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:Tsagkarada.jpg": {
+"d": "2026-11-10",
+"s": "ok"
+},
 "commons:File:Tulipier de Virginie dans le parc floral de Lapalisse 2026-04-26.JPG": {
 "d": "2026-11-08",
 "s": "ok"
@@ -2037,6 +2057,10 @@
 },
 "commons:File:Ulivo_della_Riconciliazione_e_del_Dialogo.jpg": {
 "d": "2026-11-08",
+"s": "ok"
+},
+"commons:File:Underground parking access.jpg": {
+"d": "2026-11-10",
 "s": "ok"
 },
 "commons:File:Varniškių Ąžuolas.webp": {
@@ -2168,6 +2192,10 @@
 "s": "ok"
 },
 "commons:File:Šaukėnų pušis.JPG": {
+"d": "2026-11-10",
+"s": "ok"
+},
+"commons:File:Ξηροκρήνη_Θεσσαλονίκης_το_παλαιότερο_δέντρο_της_πόλης.jpg": {
 "d": "2026-11-10",
 "s": "ok"
 },
@@ -2387,6 +2415,14 @@
 "c": [
 49.8686961,
 21.6441391,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Athen Pandroseion sacred-olive-tree 20230921 131241.jpg": {
+"c": [
+37.9720628,
+23.7263073,
 "object"
 ],
 "d": "2026-11-10"
@@ -2779,6 +2815,22 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Gortys Olive tree 20230607 105956.jpg": {
+"c": [
+35.0625093,
+24.9469987,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Gortys Olive tree 20230607 110023.jpg": {
+"c": [
+35.0623309,
+24.9470618,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Grusza Tree Zagorz.jpg": {
 "c": [
 49.5012501,
@@ -2885,6 +2937,14 @@
 },
 "geo:File:Olaia Estação de Benfica.jpg": {
 "c": [],
+"d": "2026-11-10"
+},
+"geo:File:Oliva in Bar.jpg": {
+"c": [
+42.0801656,
+19.1294078,
+"object"
+],
 "d": "2026-11-10"
 },
 "geo:File:PORTO - 201408 -2 - 2 (15663529306).jpg": {
@@ -3039,6 +3099,22 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Tsagkarada.jpg": {
+"c": [
+39.3868353,
+23.1744874,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Underground parking access.jpg": {
+"c": [
+41.3281369,
+19.8171244,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Varniškių Ąžuolas.webp": {
 "c": [],
 "d": "2026-11-10"
@@ -3073,6 +3149,10 @@
 22.9036,
 "camera"
 ],
+"d": "2026-11-10"
+},
+"geo:File:Ξηροκρήνη Θεσσαλονίκης το παλαιότερο δέντρο της πόλης.jpg": {
+"c": [],
 "d": "2026-11-10"
 },
 "http://bdd.oratoires.com/Fiche.html?id=10263": {
@@ -38891,6 +38971,10 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://es.wikipedia.org/wiki/Olivo_de_Vouves#/media/Archivo:Olive_tree_of_Vouves.jpg": {
+"d": "2026-11-10",
+"s": "200"
+},
 "https://europadonna.si/novice/poziv-obcinam/": {
 "d": "2026-11-08",
 "s": "200"
@@ -40723,6 +40807,10 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://photos.app.goo.gl/FF4cq2bXFUUDkVDRA": {
+"d": "2026-11-10",
+"s": "200"
+},
 "https://photos.app.goo.gl/FFMHbjpZdaodi2ug6": {
 "d": "2026-11-08",
 "s": "200"
@@ -40801,6 +40889,10 @@
 },
 "https://photos.app.goo.gl/HbnBC1j4BTiFAJcD9": {
 "d": "2026-11-08",
+"s": "200"
+},
+"https://photos.app.goo.gl/HcrC4M2f3iucb3Ei6": {
+"d": "2026-11-10",
 "s": "200"
 },
 "https://photos.app.goo.gl/HgT48GjnNLCvEACB7": {
@@ -42271,6 +42363,10 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://photos.app.goo.gl/yajkCMDxdaBrHoCE7": {
+"d": "2026-11-10",
+"s": "200"
+},
 "https://photos.app.goo.gl/yb1xKroDAQ5a9me99": {
 "d": "2026-11-08",
 "s": "200"
@@ -43643,6 +43739,10 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://www.cretanbeaches.com/en/flora/monumental-trees/monumental-ancient-olive-trees/ancient-olive-tree-panasos": {
+"d": "2026-11-10",
+"s": "200"
+},
 "https://www.czystabydgoszcz.pl/wp-content/uploads/2017/11/Pomniki-Bydgoszczy_internet.pdf": {
 "d": "2026-11-08",
 "s": "200"
@@ -44339,6 +44439,14 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://www.morias21.com/nature/molaoi-sykea-elies/": {
+"d": "2026-11-10",
+"s": "200"
+},
+"https://www.morias21.com/nature/platanos-arnas/": {
+"d": "2026-11-10",
+"s": "200"
+},
 "https://www.morlaix-communaute.bzh/fileadmin/mediatheque/L_agglo/Documents_de_planification/PLUiH/En_vigueur/Orientations_Amenagement_Programmation/OAP_sectorielles.pdf": {
 "d": "2026-11-08",
 "s": "404"
@@ -44426,6 +44534,10 @@
 "https://www.pref.osaka.lg.jp/bunkazaihogo/bunkazai/raigouji_ibuki.html": {
 "d": "2026-11-09",
 "s": "200"
+},
+"https://www.ramnic.ro/articole/pstejarul-lui-tudor-vladimirescu-a-fost-inclus-in-categoria-arborilor-ocrotiti-de-catre-comisia-pentru-ocrotire-monumentelor-naturiip-32791/2010-11-02": {
+"d": "2026-11-10",
+"s": "404"
 },
 "https://www.researchgate.net/publication/273448033_I_grandi_alberi_dei_boschi_della_Val_Taleggio": {
 "d": "2026-11-08",
@@ -44957,6 +45069,10 @@
 },
 "https://www.wroclaw.pl/srodowisko/files/news/24858/__thumb/800x640/img_20190531_130056.jpg": {
 "d": "2026-11-08",
+"s": "200"
+},
+"https://www.youtube.com/watch?v=6RjE0X4-sA0": {
+"d": "2026-11-10",
 "s": "200"
 },
 "https://www.youtube.com/watch?v=uZjx69k8EEw": {

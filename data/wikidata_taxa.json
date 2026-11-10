@@ -5346,6 +5346,18 @@
 "taxon": true
 },
 "Q14080": {
+"alias": {
+"en": [
+"palm family",
+"palm trees",
+"palm tree family",
+"palms"
+],
+"it": [
+"albero di palma",
+"palme"
+]
+},
 "it": "palma",
 "names": [
 "Arecaceae"
@@ -6992,6 +7004,10 @@
 "taxon": true
 },
 "Q15043561": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Chamaecyparis nootkatensis",
 "it": "Chamaecyparis nootkatensis",
 "names": [
@@ -11328,6 +11344,19 @@
 "taxon": true
 },
 "Q164163": {
+"alias": {
+"en": [
+"tamarisk",
+"salt cedar"
+],
+"it": [
+"tamerice",
+"tamarisco",
+"tamaricio",
+"tamerici",
+"mirice"
+]
+},
 "en": "Tamarix",
 "it": "Tamarix",
 "names": [
@@ -13440,6 +13469,23 @@
 ],
 "taxon": true
 },
+"Q2081123": {
+"alias": {
+"en": [
+"Small-flowered Black Hawthorn"
+],
+"it": []
+},
+"en": "Crataegus pentagyna",
+"it": "Crataegus pentagyna",
+"names": [
+"Crataegus pentagyna"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q2081304": {
 "alias": {
 "en": [],
@@ -14299,6 +14345,21 @@
 "it": "Magnolia obovata",
 "names": [
 "Magnolia obovata"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2391288": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Tamarix smyrnensis",
+"it": "Tamarix smyrnensis",
+"names": [
+"Tamarix smyrnensis"
 ],
 "ranks": [
 "Q7432"
@@ -19530,6 +19591,15 @@
 "taxon": true
 },
 "Q4730748": {
+"alias": {
+"en": [
+"Pinus nigra ssp. nigra",
+"Pinus nigra subsp. nigra"
+],
+"it": [
+"Pinus nigra subsp. nigra"
+]
+},
 "en": "Austrian pine",
 "it": "pino nero d'Austria",
 "names": [
@@ -19974,6 +20044,21 @@
 "it": "Hesperocyparis lusitanica",
 "names": [
 "Hesperocyparis lusitanica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q50844810": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Magnolia yulan",
+"it": "Magnolia yulan",
+"names": [
+"Magnolia yulan"
 ],
 "ranks": [
 "Q7432"

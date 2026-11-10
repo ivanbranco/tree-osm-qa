@@ -7,6 +7,14 @@
    "sha1": "849b1a7898cb225f76654805efe753f5efa1e089",
    "updated": "2026-11-08T22:06:13Z"
   },
+  "albania": {
+   "count": 18013,
+   "diam": "mm",
+   "errors": 1681,
+   "name": "Albania",
+   "sha1": "a759e00c6ada7226e5eec14dcac1df40d1aee882",
+   "updated": "2026-11-10T21:43:45Z"
+  },
   "alta-austria": {
    "count": 97944,
    "diam": "mm",
@@ -50,6 +58,14 @@
    "name": "Borgogna-Franca Contea",
    "sha1": "808f68e81f55eca14c0f28de743730e2c2450aa0",
    "updated": "2026-11-08T18:45:52Z"
+  },
+  "bosnia-erzegovina": {
+   "count": 35880,
+   "diam": "mm",
+   "errors": 45,
+   "name": "Bosnia ed Erzegovina",
+   "sha1": "acff7c043a1e27ccf2806597d61c4e61ae775ce7",
+   "updated": "2026-11-10T21:44:24Z"
   },
   "bretagna": {
    "count": 135240,
@@ -185,6 +201,14 @@
    "sha1": "9afb061f144069eb58e21309ea4a20719fb4ae9d",
    "updated": "2026-11-08T18:49:29Z"
   },
+  "grecia": {
+   "count": 62663,
+   "diam": "mm",
+   "errors": 522,
+   "name": "Grecia",
+   "sha1": "e2bab3bd8f07dd38979eb5c55b9bba8b08eae68a",
+   "updated": "2026-11-10T21:42:17Z"
+  },
   "ile-de-france": {
    "count": 405591,
    "errors": 10049,
@@ -198,6 +222,14 @@
    "name": "Irlanda del Nord",
    "sha1": "9c99575ba8bb62e4ffc46b140c5fddc5e67ead2a",
    "updated": "2026-11-08T23:28:02Z"
+  },
+  "kosovo": {
+   "count": 5569,
+   "diam": "mm",
+   "errors": 38,
+   "name": "Kosovo",
+   "sha1": "bd99115b71bf73f377477b2704493496ed715b14",
+   "updated": "2026-11-10T21:45:09Z"
   },
   "kujawsko-pomorskie": {
    "count": 53407,
@@ -287,6 +319,14 @@
    "sha1": "600d1658916efcd230017aac73145a1392137d88",
    "updated": "2026-11-10T15:27:50Z"
   },
+  "macedonia-del-nord": {
+   "count": 2186,
+   "diam": "mm",
+   "errors": 0,
+   "name": "Macedonia del Nord",
+   "sha1": "611075ac6f962b868d644c299f9a3951fa6f5d58",
+   "updated": "2026-11-10T21:45:42Z"
+  },
   "malopolskie": {
    "count": 257409,
    "diam": "mm",
@@ -329,6 +369,14 @@
    "name": "Molise",
    "sha1": "c90e9a2fede4c19929fdb71375da647916bf2821",
    "updated": "2026-11-08T22:06:25Z"
+  },
+  "montenegro": {
+   "count": 5797,
+   "diam": "mm",
+   "errors": 44,
+   "name": "Montenegro",
+   "sha1": "5310ff615039bd0eb86e67706247f7c0b213342a",
+   "updated": "2026-11-10T21:44:59Z"
   },
   "munster": {
    "count": 245356,
@@ -438,6 +486,14 @@
    "name": "Puglia",
    "sha1": "5e015995024543fff8cd2a4328c56f02dcbe2e35",
    "updated": "2026-11-08T22:07:42Z"
+  },
+  "romania": {
+   "count": 77703,
+   "diam": "mm",
+   "errors": 1596,
+   "name": "Romania",
+   "sha1": "92165224e3742f9e609012bae660dd85e351d9e4",
+   "updated": "2026-11-10T21:43:11Z"
   },
   "salisburgo": {
    "count": 22164,
