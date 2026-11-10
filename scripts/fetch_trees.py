@@ -86,9 +86,10 @@ def query(region, bbox):
 out body qt;"""
 
 
-def run_overpass(q, label, can_split):
+def run_overpass(q, label, can_split, http_timeout=420):
     """Prova gli endpoint; restituisce il JSON solo se completo. Se la query è troppo pesante
-    (timeout, errore di memoria, 504) e si può dividere, restituisce subito None."""
+    (timeout, errore di memoria, 504) e si può dividere, restituisce subito None. http_timeout: secondi di attesa
+    della risposta (le query mondiali di fetch_world.py ne chiedono di più)."""
     global _fm_last
     for url in list(ENDPOINTS):
         for attempt in range(2):
@@ -100,7 +101,7 @@ def run_overpass(q, label, can_split):
                     time.sleep(max(0.0, _fm_last + FM_INTERVAL - time.time()))
                     _fm_last = time.time()
                     real = f"https://api.fairwaymapper.com/k/{FM_KEY}/api/interpreter"
-                r = requests.post(real, data={"data": q}, headers=HEADERS, timeout=420)
+                r = requests.post(real, data={"data": q}, headers=HEADERS, timeout=http_timeout)
                 if url == FM_URL and r.status_code in (401, 403):
                     fm_disable(f"chiave rifiutata (HTTP {r.status_code}): {hide_key(r.text[:150])}")
                     break

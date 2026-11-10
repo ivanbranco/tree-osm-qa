@@ -23,6 +23,15 @@
   .rk .mv{display:inline-block;width:12px;text-align:center;font-size:10px}
   .mv.up{color:#d00020}.mv.down{color:#2e9e45}.mv.same{color:#999}
   #chart-box[hidden]{display:none}
+  /* mappe mondiali (body.world): niente parte QA, un link per tornare al tool */
+  .world-only{display:none}
+  body.world .world-only{display:block}
+  body.world .qa-only,body.world #region,body.world #overview,body.world #issue-row,body.world #scale,
+  body.world #rank-box,body.world #chart-box{display:none!important}
+  #back-qa{margin:0 0 6px;text-decoration:none;color:#1a5fb4;font-size:13px}
+  /* icona del globo nella legenda: apre la mappa mondiale */
+  .leg .globe{margin-left:auto;color:#888;display:flex}
+  .leg .globe:hover{color:#1a5fb4}
   #chart-title{font-size:12px;color:#666;margin:6px 0 2px}
   #chart svg{display:block}
   #rank{margin-top:8px;font-size:13px;max-height:50vh;overflow:auto}
@@ -94,6 +103,7 @@
 <div id="panel" class="box">
   <h1><span data-i18n="title">DendrOSM</span><span class="hdr"><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a></span><a id="gh" href="https://github.com/ivanbranco/tree-osm-qa" target="_blank" rel="noopener"><svg width="16" height="14" viewBox="0 0 18 16" aria-hidden="true"><path d="M5.5 3.5L1.5 8l4 4.5M12.5 3.5l4 4.5-4 4.5M10.5 2L7.5 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></span></h1>
   <div id="subtitle" data-i18n="subtitle">Controllo qualità degli alberi di OpenStreetMap</div>
+  <a id="back-qa" class="world-only" href="../" data-i18n="backToQa">← Torna al tool QA</a>
   <select id="region" autocomplete="off"></select>
   <button id="overview" type="button" hidden data-i18n="allRegions">← Tutte le regioni</button>
   <select id="taxon" autocomplete="off"><option value="" data-i18n="allTaxa">Tutti i genus e le specie</option></select>
@@ -105,10 +115,10 @@
   <details id="legend-box" class="box">
     <summary data-i18n="legend">Legenda</summary>
     <ul class="leg">
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#e6a800" stroke-width="3"/></svg> <span data-i18n="legMonument">Albero monumentale</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#e6a800" stroke-width="3"/></svg> <span data-i18n="legMonument">Albero monumentale</span><a class="globe qa-only" href="monumental-trees/" data-world="monumental"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="8" r="6.5"/><ellipse cx="8" cy="8" rx="2.8" ry="6.5"/><path d="M1.5 8h13M2.6 4.6h10.8M2.6 11.4h10.8"/></g></svg></a></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1a9fe0" stroke-width="3"/></svg> <span data-i18n="legSacred">Albero sacro</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#7b3fc4" stroke-width="2"/></svg> <span data-i18n="legLandmark">Landmark</span></li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#d00020" stroke-width="2"/></svg> <span data-i18n="legIssues">Con problemi</span></li>
+      <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#d00020" stroke-width="2"/></svg> <span data-i18n="legIssues">Con problemi</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#a5d64c" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legDeciduous">Caducifoglia</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#1f6b35" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legEvergreen">Sempreverde</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#5fa36f" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legNoCycle">Ciclo fogliare non specificato</span></li>
@@ -139,6 +149,11 @@
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
 // ---- Lingua: #lang=it|en nell'indirizzo, poi la scelta salvata, poi la lingua del browser (it → italiano, altro → inglese)
+// ---- Modalità: "qa" (il tool, questa pagina) o la mappa mondiale "monumental". La mappa mondiale
+// (monumental-trees/) carica questa pagina impostando window.DENDROSM_MODE: tutti gli alberi monumentali del mondo
+// (data/world/), senza regioni né parte QA. BASE: dalla sottocartella i file stanno una cartella più su.
+const MODE = window.DENDROSM_MODE || "qa", WORLD = MODE !== "qa", BASE = WORLD ? "../" : "";
+if (WORLD) document.body.classList.add("world");
 const LANGS = ["it", "en"];
 const hashParams = () => new URLSearchParams(location.hash.slice(1));
 const storedLang = () => { try { return localStorage.getItem("lang"); } catch (e) { return null; } };
@@ -157,7 +172,7 @@ const setHash = (slug = hashSlug) => {
   hashSlug = slug;
   const h = new URLSearchParams();
   if (slug) h.set("region", slug);
-  if (slug && hashNode) h.set("node", hashNode);
+  if ((slug || WORLD) && hashNode) h.set("node", hashNode);   // mappe mondiali: il nodo senza regione
   if (typeof map !== "undefined") {
     const c = map.getCenter();
     h.set("map", `${map.getZoom().toFixed(2)}/${c.lat.toFixed(5)}/${c.lng.toFixed(5)}`);
@@ -223,6 +238,9 @@ const I18N = {
     countMid: n => `Problematici e monumentali in vista: ${n} (ingrandisci per vedere tutti)`,
     countAll: n => `Alberi in vista: ${n}`,
     updated: d => `Dati aggiornati al ${d}`,
+    worldTitle: { monumental: "Mappa degli alberi monumentali" },
+    worldLink: { monumental: "Mappa mondiale degli alberi monumentali" },
+    backToQa: "← Torna al tool QA", seeInQa: "vedi nel tool QA",
     tipTrees: (name, n) => `${name} · ${fmtN(n)} alberi`, tipNoData: name => `${name} · dati non ancora disponibili`,
     issueOpts: {
       circumference: "Circonferenza > 43 m", height: "Altezza > 116,22 m", crown: "Diametro chioma > 60,4 m",
@@ -430,6 +448,9 @@ const I18N = {
     countMid: n => `Trees with errors and monumental trees in view: ${n} (zoom in to see all)`,
     countAll: n => `Trees in view: ${n}`,
     updated: d => `Data updated on ${d}`,
+    worldTitle: { monumental: "Map of monumental trees" },
+    worldLink: { monumental: "World map of monumental trees" },
+    backToQa: "← Back to the QA tool", seeInQa: "see in the QA tool",
     tipTrees: (name, n) => `${name} · ${fmtN(n)} trees`, tipNoData: name => `${name} · no data yet`,
     issueOpts: {
       circumference: "Circumference > 43 m", height: "Height > 116.22 m", crown: "Crown diameter > 60.4 m",
@@ -603,6 +624,12 @@ document.querySelectorAll(".leg li").forEach(li => {
   w.append(svg, t);
 });
 document.getElementById("gh").title = L.github;
+// icone del globo nella legenda (mappe mondiali) e, nelle mappe mondiali, titolo della mappa al posto del sottotitolo
+document.querySelectorAll(".leg .globe").forEach(a => { a.title = L.worldLink[a.dataset.world]; a.setAttribute("aria-label", a.title); });
+if (WORLD) {
+  document.getElementById("subtitle").textContent = L.worldTitle[MODE];
+  document.title = `${L.worldTitle[MODE]} – DendrOSM`;
+}
 document.querySelectorAll("#lang a").forEach(a => {
   a.classList.toggle("on", a.dataset.lang === LANG);
   a.onclick = ev => {          // cambia lingua: la ricorda e ricarica la pagina (la regione resta nell'indirizzo)
@@ -662,12 +689,12 @@ function fixDiameter(fc) {
   }
   return fc;
 }
-const indexP = getJSON("data/index.json");
+const indexP = getJSON(BASE + (WORLD ? "data/world/index.json" : "data/index.json"));
 indexP.catch(() => {});
-const regionsP = getJSON("scripts/regions.json");   // nome e gruppo (es. "Italia") di ogni regione
+const regionsP = WORLD ? Promise.resolve([]) : getJSON("scripts/regions.json");   // nome e gruppo (es. "Italia") di ogni regione
 regionsP.catch(() => {});
-const boundsP = getJSON("data/regions_boundaries.geojson").catch(() => null);
-const historyP = getJSON("data/history.json").catch(() => null);   // storico degli errori, per il grafico
+const boundsP = WORLD ? Promise.resolve(null) : getJSON("data/regions_boundaries.geojson").catch(() => null);
+const historyP = WORLD ? Promise.resolve(null) : getJSON("data/history.json").catch(() => null);   // storico degli errori
 
 const map = new maplibregl.Map({
   container: "map", center: [12.5, 42.0], zoom: 5, maxZoom: 21,
@@ -703,14 +730,16 @@ map.on("load", async () => {
   // denotation può avere più valori (natural_monument;landmark): si cerca ";valore;" in ";denotation;", come fa
   // fetch_trees.py dividendo sui ";"
   const hasDen = v => ["in", `;${v};`, ["concat", ";", ["coalesce", ["get", "denotation"], ""], ";"]];
+  // errore: precedenza massima (non nelle mappe mondiali, che non mostrano la parte QA)
+  const HAS_ISSUE = WORLD ? false : ["!=", ["get", "issues"], "|"];
   const STROKE_COLOR = ["case",
-    ["!=", ["get", "issues"], "|"], "#d00020",                 // errore: precedenza massima
+    HAS_ISSUE, "#d00020",
     hasDen("natural_monument"), "#e6a800",                      // monumentale: oro
     ["has", "sacred"], "#1a9fe0",                                 // albero sacro (ref:zapis, sacred_tree): azzurro
     hasDen("landmark"), "#7b3fc4",                              // landmark: viola
     "#1b6b2c"];
   const STROKE_W = ["case",
-    ["!=", ["get", "issues"], "|"], 2,
+    HAS_ISSUE, 2,
     hasDen("natural_monument"), 3,
     ["has", "sacred"], 3,
     hasDen("landmark"), 2,
@@ -728,8 +757,9 @@ map.on("load", async () => {
 
   // Forme: da SHAPE_Z in poi le chiome con leaf_type diventano poligoni (a dimensione reale)
   const SHAPE_Z = 16, SHAPE_CAP = 30000;
-  // Visibilità per zoom: problematici sempre; da MON_Z (9) anche i monumentali; da ALL_Z (10) tutti gli alberi
-  const MON_Z = 9, ALL_Z = 10;
+  // Visibilità per zoom: problematici sempre; da MON_Z (9) anche i monumentali; da ALL_Z (10) tutti gli alberi.
+  // Nelle mappe mondiali tutti gli alberi a ogni zoom.
+  const MON_Z = WORLD ? 0 : 9, ALL_Z = WORLD ? 0 : 10;
   const BLOB = new Set(["broadleaved", "palm"]), SPIKY = new Set(["needleleaved"]);
   const NOSHAPE = ["!", ["in", ["coalesce", ["get", "lt"], ["get", "leaf_type"], ""], ["literal", ["broadleaved", "palm", "needleleaved"]]]];
   const isShaped = ft => !ft.properties.stump && (BLOB.has(leafOf(ft.properties)) || SPIKY.has(leafOf(ft.properties)));
@@ -760,7 +790,7 @@ map.on("load", async () => {
   map.addSource("shapes", { type: "geojson", data: EMPTY });
   map.addSource("deco", { type: "geojson", data: EMPTY });
   // monumentale e sacro insieme, senza errori: contorno metà giallo (sinistra) e metà azzurro (destra)
-  const isDual = p => p.sacred && isMon(p) && p.issues === "|";
+  const isDual = p => p.sacred && isMon(p) && (WORLD || p.issues === "|");
   // Decorazioni da zoom 16, punti con le proprietà dell'albero più dk (tipo), dr (raggio in m) e dc (colore):
   // tronchi di multi_stemmed (stems: raggi da fetch_trees.py), puntini verdi intorno al tronco per ivyclad=yes,
   // frutti sulla chioma (fruit: colore). Posizioni fisse per albero, ricavate dall'id come i lobi della chioma.
@@ -979,7 +1009,9 @@ map.on("load", async () => {
   // livello dal file ridotto, con l'aspetto definitivo; poi si nasconde (regioni piccole come Vienna si aprono già da zoom 10)
   map.addLayer({ id: "crown-issues-wait", type: "circle", source: "trees-min", minzoom: ALL_Z, filter: ISSUE_MID,
     layout: { visibility: "none" }, paint: circlePaint() });
-  const setWait = on => map.setLayoutProperty("crown-issues-wait", "visibility", on ? "visible" : "none");
+  const setWait = on => map.setLayoutProperty("crown-issues-wait", "visibility", on && !WORLD ? "visible" : "none");
+  // mappe mondiali: niente livelli degli errori
+  if (WORLD) for (const id of ["crown-issues", "crown-issues-mid"]) map.setLayoutProperty(id, "visibility", "none");
 
   const apply = () => {
     const f = ["all"];
@@ -1232,9 +1264,10 @@ map.on("load", async () => {
       if (box) { map.fitBounds(box, { padding: 30, duration: 0 }); fitted = true; }
     };
     fitTo([]);                                        // col confine noto si inquadra subito, senza aspettare i dati
-    const fullP = getGz(`data/regions/${slug}.geojson.gz`);
+    // le mappe mondiali hanno un file solo (data/world/<mappa>.geojson.gz): la parte ridotta la ricava reduce()
+    const fullP = getGz(WORLD ? `${BASE}data/world/${slug}.geojson.gz` : `data/regions/${slug}.geojson.gz`);
     fullP.catch(() => {});
-    const min = await getGz(`data/regions/${slug}.min.geojson.gz`).catch(() => null);
+    const min = WORLD ? null : await getGz(`data/regions/${slug}.min.geojson.gz`).catch(() => null);
     if (seq !== loadSeq) return;                      // nel frattempo è stata scelta un'altra regione
     taxSel.value = ""; taxSig = "";                   // l'elenco genus/specie dipende dalla regione
     info.textContent = r.updated ? L.updated(new Date(r.updated).toLocaleDateString(LOC)) : "";
@@ -1516,13 +1549,14 @@ map.on("load", async () => {
     showRequest(e.lngLat, country);
   });
 
-  // avvio dall'indirizzo: regione e, se c'è, posizione della mappa (altrimenti la vista della regione o d'insieme)
-  const fromHash = hashParams().get("region"), startView = parseMapHash(hashParams().get("map"));
+  // avvio dall'indirizzo: regione e, se c'è, posizione della mappa (altrimenti la vista della regione o d'insieme).
+  // Mappa mondiale: si carica subito il suo unico file (la "regione" monumental di data/world/index.json).
+  const fromHash = WORLD ? MODE : hashParams().get("region"), startView = parseMapHash(hashParams().get("map"));
   if (startView) map.jumpTo(startView);
   // #node=<id>: la scheda dell'albero si apre appena la regione è caricata (senza "map", la vista lo centra)
   const nodeFromHash = Number(hashParams().get("node")) || null;
   if (idx[fromHash]) {
-    hashSlug = fromHash;
+    if (!WORLD) hashSlug = fromHash;   // nelle mappe mondiali l'indirizzo non ha la regione
     await loadRegion(fromHash, !startView && !nodeFromHash);
     const f = nodeFromHash && ALL.find(x => x.properties.id === nodeFromHash);
     if (f) {
@@ -1772,7 +1806,7 @@ function card(p, pos) {
   const photo = img || cat ? `<div class="photo"${img?.commons ? ` data-commons="${esc(img.commons)}"` : ""}${cat ? ` data-cat="${esc(cat)}"` : ""}>
       <img ${img ? `src="${esc(img.src)}"` : "hidden"} alt="" loading="lazy" onerror="this.parentNode.remove()">
       <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}>${esc(img?.credit || "")}</a></div>` : "";
-  const genusIssue = ["genus", "genus_lowercase", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
+  const genusIssue = !WORLD && ["genus", "genus_lowercase", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
   const rows = ROWS.filter(([k]) => p[k] && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
   const rec = recognitions(p);
@@ -1790,7 +1824,9 @@ function card(p, pos) {
     ${photo}
     <dl>${rows}</dl>
     ${rec.map(x => `<div class="rec">${x}</div>`).join("")}
-    ${issues.flatMap(([i, x]) => { const w = L.why[i]; return x.split("\n").map(line => [typeof w === "function" ? w(p) : w, line]); }).map(([why, x]) =>
+    ${WORLD ? (issues.length && p.qa   // mappa mondiale: solo un link al tool QA, se l'albero è in una regione coperta
+      ? `<div class="bad">⚠ <a href="${esc(`${BASE}#region=${p.qa}&node=${p.id}`)}">${esc(L.seeInQa)}</a></div>` : "")
+    : issues.flatMap(([i, x]) => { const w = L.why[i]; return x.split("\n").map(line => [typeof w === "function" ? w(p) : w, line]); }).map(([why, x]) =>
       `<div class="bad">${why ? `<span class="why" tabindex="0">⚠<span class="tip">${esc(why)}</span></span>` : "⚠"} ${esc(x)}</div>`).join("")}
     <div>${links.join(" · ")}</div></div>`;
 }

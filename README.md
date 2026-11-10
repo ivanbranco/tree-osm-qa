@@ -123,9 +123,18 @@ In locale: `python scripts/fetch_trees.py lombardia` (oppure `all`, `italia`, `l
 
 Le regioni grandi vengono scaricate a pezzi (tile) e unite. Il confine esatto lo decide l'area amministrativa OSM; la bbox serve solo a dividere il lavoro, quindi se mancano alberi ai margini di una regione basta allargarla in `regions.json`.
 
+## Mappa mondiale degli alberi monumentali
+
+[`monumental-trees/`](https://ivanbranco.github.io/tree-osm-qa/monumental-trees/) è una mappa da condividere senza la parte QA, con tutti gli alberi monumentali (`denotation=natural_monument`) del mondo e non solo quelli delle regioni del tool.
+
+Si apre dall'icona del globo accanto ad "Albero monumentale" nella legenda. Ha solo il pannello con il titolo della mappa, "← Torna al tool QA", il filtro per genere e specie, il conteggio degli alberi in vista e la data dei dati; tutti gli alberi si vedono a ogni zoom, senza il contorno rosso degli errori. Nella scheda, al posto degli errori, c'è solo "⚠ vedi nel tool QA", che apre l'albero nel tool, se l'albero ha errori e sta in una regione del tool.
+
+La pagina nella cartella carica `index.html` impostando la modalità (`window.DENDROSM_MODE`, vedi `MODE` nello script): il codice è uno solo. I dati sono in `data/world/monumental.geojson.gz` (stessi check del tool; la proprietà `qa` è la regione del tool in cui cade l'albero, dai confini di `data/regions_boundaries.geojson`) e `data/world/index.json`. Si aggiornano a mano dall'Action "Aggiorna mappa mondiale" (`scripts/fetch_world.py`, in locale `python scripts/fetch_world.py`). I link (`image`, `website`, `url`) non si ricontrollano: il check sui link rotti usa la cache del tool.
+
 ## Struttura
 
 * `scripts/fetch_trees.py` – scarica da Overpass, calcola i check, scrive i dati
+* `scripts/fetch_world.py` – dati della mappa mondiale (alberi monumentali di tutto il mondo)
 * `scripts/regions.json` – elenco delle regioni
 * `scripts/update_boundaries.py` – scarica i confini delle regioni in `data/regions_boundaries.geojson`
 * `scripts/update_reference_lists.py` – scarica le liste di specie e generi dalla wiki OSM in `scripts/species_list.json` e `scripts/genus_list.json`, e i valori di `denotation` con il numero di usi da Taginfo in `scripts/denotation_values.json`
@@ -134,7 +143,9 @@ Le regioni grandi vengono scaricate a pezzi (tile) e unite. Il confine esatto lo
 * `.github/workflows/update.yml` – aggiornamento dei dati
 * `.github/workflows/update-boundaries.yml` – aggiornamento dei confini (solo a mano)
 * `.github/workflows/update-species-list.yml` – Action "Aggiorna liste di riferimento": specie, generi e valori di `denotation` (solo a mano)
+* `.github/workflows/update-world.yml` – Action "Aggiorna mappa mondiale" (solo a mano)
 * `index.html` – il sito
+* `monumental-trees/index.html` – la mappa mondiale degli alberi monumentali (carica `index.html`)
 * `taginfo.json` – i tag OSM usati dal progetto, nel [formato di Taginfo](https://wiki.openstreetmap.org/wiki/Taginfo/Projects); se si aggiunge o si toglie un tag in `fetch_trees.py`, va aggiornato anche qui
 
 Per pubblicare, attiva GitHub Pages dal branch `main`, cartella root.

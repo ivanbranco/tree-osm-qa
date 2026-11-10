@@ -26,7 +26,7 @@
     {"key": "height", "object_types": ["node"], "description": "Used for QA checks and to estimate the trunk size."},
     {"key": "diameter_crown", "object_types": ["node"], "description": "Used to render the 2D crown and for QA checks."},
     {"key": "denotation", "object_types": ["node"], "description": "Used for QA checks."},
-    {"key": "denotation", "value": "natural_monument", "object_types": ["node"], "description": "Used to render the trees and for QA checks."},
+    {"key": "denotation", "value": "natural_monument", "object_types": ["node"], "description": "Used to render the trees, for QA checks and for the world map of monumental trees."},
     {"key": "denotation", "value": "landmark", "object_types": ["node"], "description": "Used to render the trees."},
     {"key": "denotation", "value": "parking", "object_types": ["node"], "description": "Used to estimate diameter_crown when missing."},
     {"key": "denotation", "value": "decoration", "object_types": ["node"], "description": "Used to estimate diameter_crown when missing."},
