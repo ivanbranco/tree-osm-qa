@@ -2167,6 +2167,10 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:Šaukėnų pušis.JPG": {
+"d": "2026-11-10",
+"s": "ok"
+},
 "commons:File:おまき桜（開花状況）.jpg": {
 "d": "2026-11-09",
 "s": "ok"
@@ -2395,10 +2399,30 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Dobrinishte Railway Station 16.JPG": {
+"c": [],
+"d": "2026-11-10"
+},
+"geo:File:Elmės šešiakamienis ąžuolas, kamienai.JPG": {
+"c": [
+55.570194,
+25.152827,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Eucalipto de contige 03.jpg": {
 "c": [
 40.7366323,
 -7.7522386,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Kościół w Zbylitowskiej Górze, fot. K. Fidyk MIK 2017 (27) (39087129705).jpg": {
+"c": [
+49.99227,
+20.89842,
 "object"
 ],
 "d": "2026-11-10"
@@ -2435,6 +2459,14 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Polana pod Wysoką - Jawor strażaków.jpg": {
+"c": [
+49.384625,
+20.5571449,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Porto DSC 0124 (16846438387).jpg": {
 "c": [],
 "d": "2026-11-10"
@@ -2443,11 +2475,39 @@
 "c": [],
 "d": "2026-11-10"
 },
+"geo:File:Pypliai. Karvelių ąžuolas 2.JPG": {
+"c": [
+54.9074184,
+23.7881749,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Ramoninės ąžuolas 2.JPG": {
+"c": [
+55.928243,
+24.411095,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Varniškių Ąžuolas.webp": {
+"c": [],
+"d": "2026-11-10"
+},
 "geo:File:Weydig oak 2012-08.JPG": {
 "c": [
 49.7157862,
 6.3311075,
 "object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Šaukėnų pušis.JPG": {
+"c": [
+55.81003,
+22.9036,
+"camera"
 ],
 "d": "2026-11-10"
 },

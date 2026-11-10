@@ -60,10 +60,11 @@
   },
   "bulgaria": {
    "count": 29077,
-   "errors": 12,
+   "diam": "mm",
+   "errors": 25,
    "name": "Bulgaria",
-   "sha1": "58c7a0f3095d2d6d3b598217cbd065ab94f12c46",
-   "updated": "2026-11-08T18:28:34Z"
+   "sha1": "e40601c132867d6b4333ee57f1bb833086388b1c",
+   "updated": "2026-11-10T16:56:51Z"
   },
   "burgenland": {
    "count": 15024,
@@ -233,11 +234,12 @@
    "updated": "2026-11-08T22:02:00Z"
   },
   "lituania": {
-   "count": 89235,
-   "errors": 78,
+   "count": 89230,
+   "diam": "mm",
+   "errors": 115,
    "name": "Lituania",
-   "sha1": "deda3223fe4bcf5a8faf83ce7ff1780e4ffbea56",
-   "updated": "2026-11-08T18:35:09Z"
+   "sha1": "571f94ba3e36f8d87e690ffcd0c4fdee2f62054c",
+   "updated": "2026-11-10T16:57:37Z"
   },
   "lodzkie": {
    "count": 105029,
@@ -283,11 +285,12 @@
    "updated": "2026-11-10T15:27:50Z"
   },
   "malopolskie": {
-   "count": 257334,
-   "errors": 2270,
+   "count": 257409,
+   "diam": "mm",
+   "errors": 2301,
    "name": "Piccola Polonia",
-   "sha1": "bebe2aa6e51be7dd0c2ea5c832aeab6090c052cd",
-   "updated": "2026-11-08T18:19:47Z"
+   "sha1": "068600f938699a622fa839287fc819792cd5d5e5",
+   "updated": "2026-11-10T16:56:32Z"
   },
   "marche": {
    "count": 32303,

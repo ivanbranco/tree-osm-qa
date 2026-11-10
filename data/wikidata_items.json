@@ -2702,6 +2702,7 @@
 ],
 "heritage": [],
 "image": "St. Vrach park, Sandanski, Bulgaria 2015 11.JPG",
+"mon": true,
 "taxa": [
 "Q161105"
 ],
@@ -2717,6 +2718,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q161105"
 ],
@@ -2732,6 +2734,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q161105"
 ],
@@ -2747,6 +2750,7 @@
 ],
 "heritage": [],
 "image": "Карцов бук Беклемето.jpg",
+"mon": true,
 "taxa": [
 "Q146149"
 ],
@@ -2762,6 +2766,7 @@
 ],
 "heritage": [],
 "image": "Morus in Sofia.jpg",
+"mon": true,
 "taxa": [
 "Q44789"
 ],
@@ -2777,6 +2782,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q163025"
 ],
@@ -2792,6 +2798,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -2989,6 +2996,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -3004,6 +3012,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q161105"
 ],
@@ -4597,6 +4606,7 @@
 ],
 "heritage": [],
 "image": "Laumių miškas, 4-kamienė eglė 2.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -4773,6 +4783,7 @@
 ],
 "heritage": [],
 "image": "Asalnai 2022a.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -4858,6 +4869,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -8330,6 +8342,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -12884,6 +12897,7 @@
 ],
 "heritage": [],
 "image": "Atkočių tuopa.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -12917,6 +12931,7 @@
 ],
 "heritage": [],
 "image": "Vaineikių gumbuotasis ąžuolas, kamienas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -12988,6 +13003,8 @@
 ],
 "heritage": [],
 "image": "Pypliai. Karvelių ąžuolas 3.JPG",
+"mon": true,
+"mt": "ltu/kaunas/kaunas/8147_pypliai/16268",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -13021,6 +13038,7 @@
 ],
 "heritage": [],
 "image": "Nykio vinkšna.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -13069,6 +13087,7 @@
 ],
 "heritage": [],
 "image": "65 - Raganos uosis.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -13110,6 +13129,7 @@
 ],
 "heritage": [],
 "image": "Rykantu azuolas.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -13136,6 +13156,7 @@
 ],
 "heritage": [],
 "image": "Saravu azuolas.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -14805,6 +14826,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -14820,6 +14842,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -14835,6 +14858,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -14850,6 +14874,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -14865,6 +14890,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -14880,6 +14906,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -14895,6 +14922,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -14910,6 +14938,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -14925,6 +14954,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -14940,6 +14970,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -14955,6 +14986,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -16345,6 +16377,7 @@
 ],
 "heritage": [],
 "image": "Alkūnų ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16358,6 +16391,7 @@
 ],
 "heritage": [],
 "image": "2022, Andriejaičių ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16371,6 +16405,7 @@
 ],
 "heritage": [],
 "image": "Dešimtkamienė liepa.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16384,6 +16419,7 @@
 ],
 "heritage": [],
 "image": "Antakalnio pušis.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16397,6 +16433,7 @@
 ],
 "heritage": [],
 "image": "2011 04 24PurviškiaiBielinio03.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16410,6 +16447,7 @@
 ],
 "heritage": [],
 "image": "Bradesių ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16423,6 +16461,7 @@
 ],
 "heritage": [],
 "image": "Buivėnų ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16449,6 +16488,8 @@
 ],
 "heritage": [],
 "image": "Glitiškės. Ąžuolas.JPG",
+"mon": true,
+"mt": "ltu/vilnius/vilnius/8103_glitikesmanor/16186",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16457,6 +16498,7 @@
 "coords": [],
 "heritage": [],
 "image": "Ilzenbergo Azuolas 2012.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16470,6 +16512,7 @@
 ],
 "heritage": [],
 "image": "Karčiupio ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16483,6 +16526,7 @@
 ],
 "heritage": [],
 "image": "Kiaunorių ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16496,6 +16540,8 @@
 ],
 "heritage": [],
 "image": "Braziūkai, liepa.JPG",
+"mon": true,
+"mt": "ltu/kaunas/kaunas/8003_alongthemainstreetinvillage/15999",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16526,6 +16572,7 @@
 ],
 "heritage": [],
 "image": "2022, Molavėnai. Ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16539,6 +16586,7 @@
 ],
 "heritage": [],
 "image": "Napoleonopušis1.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16552,6 +16600,7 @@
 ],
 "heritage": [],
 "image": "Panūdžiai, ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16565,6 +16614,7 @@
 ],
 "heritage": [],
 "image": "Paupio ąžuolas.JPG",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -16580,6 +16630,7 @@
 ],
 "heritage": [],
 "image": "Neveravičiaus uosis.JPG",
+"mon": true,
 "taxa": [
 "Q156907"
 ],
@@ -16595,6 +16646,8 @@
 ],
 "heritage": [],
 "image": "Prie Rumšiškių pušies.JPG",
+"mon": true,
+"mt": "ltu/kaunas/kaisiadorys/8212_museumintheforest/16358",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16608,6 +16661,7 @@
 ],
 "heritage": [],
 "image": "Senoji obelis kieme.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16621,6 +16675,7 @@
 ],
 "heritage": [],
 "image": "Geisciunu guoba.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16634,6 +16689,7 @@
 ],
 "heritage": [],
 "image": "Senoji kriause.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16647,6 +16703,7 @@
 ],
 "heritage": [],
 "image": "Klaipėda, Paupių storasis uosis.JPG",
+"mon": true,
 "taxa": [
 "Q156907"
 ],
@@ -16662,6 +16719,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16675,6 +16733,7 @@
 ],
 "heritage": [],
 "image": "Taikos kalno ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16688,6 +16747,7 @@
 ],
 "heritage": [],
 "image": "Uogintų ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16701,6 +16761,7 @@
 ],
 "heritage": [],
 "image": "Vaigeliškių ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16714,6 +16775,7 @@
 ],
 "heritage": [],
 "image": "Viškonių ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16727,6 +16789,7 @@
 ],
 "heritage": [],
 "image": "Mažalapė liepa Kaune ant Parodos kalno.JPG",
+"mon": true,
 "taxa": [
 "Q127849"
 ],
@@ -16742,6 +16805,7 @@
 ],
 "heritage": [],
 "image": "Ąžuolas Galiūnas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16768,6 +16832,7 @@
 ],
 "heritage": [],
 "image": "Ąžuolas Karalienė.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -16781,6 +16846,7 @@
 ],
 "heritage": [],
 "image": "Žažumbrio ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -17809,6 +17875,7 @@
 ],
 "heritage": [],
 "image": "Alkų ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -17822,6 +17889,7 @@
 ],
 "heritage": [],
 "image": "Antakalnis, kedrinė pušis.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -17835,6 +17903,7 @@
 ],
 "heritage": [],
 "image": "Austakynės ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -17861,6 +17930,7 @@
 ],
 "heritage": [],
 "image": "Buivydų uosis, kamienas.JPG",
+"mon": true,
 "taxa": [
 "Q156907"
 ],
@@ -17876,6 +17946,7 @@
 ],
 "heritage": [],
 "image": "Dapšionių ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -17889,6 +17960,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q12024"
 ],
@@ -17904,6 +17976,7 @@
 ],
 "heritage": [],
 "image": "Elmės šešiakamienis ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -17917,6 +17990,7 @@
 ],
 "heritage": [],
 "image": "Felinkos ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -17930,6 +18004,7 @@
 ],
 "heritage": [],
 "image": "Gedučių ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -17943,6 +18018,7 @@
 ],
 "heritage": [],
 "image": "Gegutės uosis. stendas.JPG",
+"mon": true,
 "taxa": [
 "Q156907"
 ],
@@ -17958,6 +18034,7 @@
 ],
 "heritage": [],
 "image": "Girelės ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -17971,6 +18048,7 @@
 ],
 "heritage": [],
 "image": "Girsūdų ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -17984,6 +18062,7 @@
 ],
 "heritage": [],
 "image": "Gojaus miško ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -18644,6 +18723,7 @@
 ],
 "heritage": [],
 "image": "Obelų Rago kadagys.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -18657,6 +18737,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -18672,6 +18753,7 @@
 ],
 "heritage": [],
 "image": "Paneriškių ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -18685,6 +18767,7 @@
 ],
 "heritage": [],
 "image": "Svirplionių ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -18698,6 +18781,7 @@
 ],
 "heritage": [],
 "image": "Mataučiznos guoba.JPG",
+"mon": true,
 "taxa": [
 "Q147492"
 ],
@@ -18713,6 +18797,7 @@
 ],
 "heritage": [],
 "image": "Pasvalio ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -18726,6 +18811,7 @@
 ],
 "heritage": [],
 "image": "Pavarių liepa.JPG",
+"mon": true,
 "taxa": [
 "Q127849"
 ],
@@ -18741,6 +18827,7 @@
 ],
 "heritage": [],
 "image": "Paveisiejai, pušis.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -18754,6 +18841,7 @@
 ],
 "heritage": [],
 "image": "Sapiegų parko liepa.JPG",
+"mon": true,
 "taxa": [
 "Q158746"
 ],
@@ -18769,6 +18857,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -18782,6 +18871,7 @@
 ],
 "heritage": [],
 "image": "Šaukėnų pušis.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -18795,6 +18885,7 @@
 ],
 "heritage": [],
 "image": "Balkasodis, eglė, kamienas.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -18808,6 +18899,7 @@
 ],
 "heritage": [],
 "image": "Varkališkių miško pušis.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -18821,6 +18913,7 @@
 ],
 "heritage": [],
 "image": "Šlamų ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -18834,6 +18927,7 @@
 ],
 "heritage": [],
 "image": "Lentvorų ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -18847,6 +18941,7 @@
 ],
 "heritage": [],
 "image": "VU liepa.JPG",
+"mon": true,
 "taxa": [
 "Q158746"
 ],
@@ -18875,6 +18970,7 @@
 ],
 "heritage": [],
 "image": "Žadeikonių ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -20390,6 +20486,8 @@
 ],
 "heritage": [],
 "image": "Raudonė, parko liepa.JPG",
+"mon": true,
+"mt": "ltu/taurage/jurbarkas/21155_castle/42492",
 "taxa": [
 "Q158746"
 ],
@@ -20405,6 +20503,7 @@
 ],
 "heritage": [],
 "image": "Liaudiškių pušis.JPG",
+"mon": true,
 "taxa": [
 "Q12024"
 ],
@@ -20420,6 +20519,7 @@
 ],
 "heritage": [],
 "image": "Zervynų ąžuolas ruduo.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -20433,6 +20533,7 @@
 ],
 "heritage": [],
 "image": "Papilė. 15 kamienų liepa.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -20446,6 +20547,7 @@
 ],
 "heritage": [],
 "image": "Lietuvio liepa Margionyse.JPG",
+"mon": true,
 "taxa": [
 "Q127849"
 ],
@@ -20461,6 +20563,7 @@
 ],
 "heritage": [],
 "image": "2024 Kurpiko kadagys.JPEG",
+"mon": true,
 "taxa": [
 "Q26325"
 ],
@@ -20476,6 +20579,7 @@
 ],
 "heritage": [],
 "image": "Stakų ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -20489,6 +20593,7 @@
 ],
 "heritage": [],
 "image": "Rumšiškių miško ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -20502,6 +20607,7 @@
 ],
 "heritage": [],
 "image": "Mickevičiaus ąžuolas, Aukštadvaris.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -20515,6 +20621,7 @@
 ],
 "heritage": [],
 "image": "Daujėnai, liepa šventoriuje.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -20528,6 +20635,7 @@
 ],
 "heritage": [],
 "image": "Veprių ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -20556,6 +20664,7 @@
 ],
 "heritage": [],
 "image": "Grybiškių ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -20569,6 +20678,7 @@
 ],
 "heritage": [],
 "image": "Grybiškių pušis.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -20582,6 +20692,7 @@
 ],
 "heritage": [],
 "image": "Perkūno ąžuolas (3).jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -23991,6 +24102,7 @@
 ],
 "heritage": [],
 "image": "Quercus robur in Granit, Bulgaria 03.JPG",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -24054,6 +24166,8 @@
 ],
 "heritage": [],
 "image": "2017 Stelmuže oak LT.jpg",
+"mon": true,
+"mt": "ltu/utena/zarasai/7859_stelmuz279manorpark/15744",
 "taxa": [
 "Q12004"
 ],
@@ -25451,6 +25565,8 @@
 ],
 "heritage": [],
 "image": "Švenčionių sen., Lithuania - panoramio (29).jpg",
+"mon": true,
+"mt": "ltu/vilnius/svencionys/8100_sirvetasregionalpark/16184",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -25464,6 +25580,7 @@
 ],
 "heritage": [],
 "image": "Raudonė, Gediminaičio ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -25477,6 +25594,8 @@
 ],
 "heritage": [],
 "image": "Raudonė. Juodoji tuopa.JPG",
+"mon": true,
+"mt": "ltu/taurage/jurbarkas/22690_raudonecastle/42491",
 "taxa": [
 "Q147064"
 ],
@@ -25492,6 +25611,7 @@
 ],
 "heritage": [],
 "image": "Abejučių ąžuolas 2.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32635,6 +32755,7 @@
 ],
 "heritage": [],
 "image": "Reliktowa sosna na Sokolicy.jpg",
+"mon": true,
 "taxa": [
 "Q133128"
 ],
@@ -33102,6 +33223,7 @@
 ],
 "heritage": [],
 "image": "Вековното дърво до Белинташ.jpg",
+"mon": true,
 "taxa": [
 "Q25403"
 ],
@@ -35585,6 +35707,7 @@
 ],
 "heritage": [],
 "image": "Ramoninės ąžuolas 2.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -35598,6 +35721,7 @@
 ],
 "heritage": [],
 "image": "Bernardo Brazdžionio ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -35611,6 +35735,7 @@
 ],
 "heritage": [],
 "image": "Griniai, ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -35624,6 +35749,7 @@
 ],
 "heritage": [],
 "image": "Juodalksnis Gumbulis.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -35637,6 +35763,7 @@
 ],
 "heritage": [],
 "image": "Peršokšnos piramidinė eglė.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -35650,6 +35777,7 @@
 ],
 "heritage": [],
 "image": "Lūšnios pušis.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -35663,6 +35791,7 @@
 ],
 "heritage": [],
 "image": "Palūšės ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -35676,6 +35805,7 @@
 ],
 "heritage": [],
 "image": "Laužėnų ąžuolas.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -35689,6 +35819,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -35985,6 +36116,7 @@
 ],
 "heritage": [],
 "image": "Bliūdašilio eglė 2019 m.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -36011,6 +36143,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -36843,6 +36976,7 @@
 ],
 "heritage": [],
 "image": "BaikushevaMura1300.jpg",
+"mon": true,
 "taxa": [
 "Q460531"
 ],
@@ -37424,6 +37558,7 @@
 ],
 "heritage": [],
 "image": "Dąb Jagielloński OB10.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
