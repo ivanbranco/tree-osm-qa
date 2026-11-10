@@ -8855,6 +8855,10 @@
 "taxon": true
 },
 "Q158010": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Mamadış",
 "it": "Mamadyš",
 "names": [],
@@ -16329,6 +16333,12 @@
 "taxon": true
 },
 "Q309213": {
+"alias": {
+"en": [],
+"it": [
+"Sofora"
+]
+},
 "en": "Sophora",
 "it": "Sophora",
 "names": [
