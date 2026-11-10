@@ -5427,6 +5427,21 @@
 "it": "https://it.wikipedia.org/wiki/Capsicum"
 }
 },
+"Q20401128": {
+"coords": [
+[
+24.0987,
+56.9053
+]
+],
+"heritage": [],
+"image": "Rīga, Ēbeļmuižas ozols. 2009-03-01.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
 "Q20401995": {
 "coords": [
 [
@@ -5914,7 +5929,7 @@
 "heritage": [],
 "image": "Īvande manor.jpg",
 "taxa": [
-"Q25350"
+"Q146992"
 ],
 "taxon": false,
 "wp": {}
