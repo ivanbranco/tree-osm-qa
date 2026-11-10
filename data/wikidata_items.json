@@ -19354,6 +19354,7 @@
 ],
 "heritage": [],
 "image": "L'olivastro (Olea europea var. sylvatica) plurimillenario di Luras.JPG",
+"mon": true,
 "taxa": [
 "Q37083"
 ],
@@ -31875,6 +31876,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31893,7 +31895,10 @@
 ]
 ],
 "image": "Laconi - Cedro del Libano - 2023-09-15 22-23-14 001.jpg",
-"taxa": [],
+"mon": true,
+"taxa": [
+"Q61105"
+],
 "taxon": false,
 "wp": {}
 },

@@ -448,11 +448,12 @@
    "updated": "2026-11-09T22:01:49Z"
   },
   "sardegna": {
-   "count": 5428,
-   "errors": 18,
+   "count": 5433,
+   "diam": "mm",
+   "errors": 20,
    "name": "Sardegna",
-   "sha1": "2e4de9149aa0dd8ee32514e63c8523716f5a501f",
-   "updated": "2026-11-08T22:09:53Z"
+   "sha1": "2a930494a4ff718e6812766c19ffce3506813822",
+   "updated": "2026-11-10T20:46:30Z"
   },
   "scozia": {
    "count": 236653,
