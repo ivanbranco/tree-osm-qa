@@ -14,7 +14,17 @@
   #map{position:absolute;inset:0}
   #side{position:absolute;top:10px;left:10px;z-index:2;display:flex;flex-direction:column;gap:8px;width:230px}
   .box{background:#fff;padding:10px 12px;border-radius:6px;box-shadow:0 1px 6px #0004}
-  #legend-box summary,#rank-box>summary{font-weight:600;cursor:pointer}
+  #legend-box summary,#rank-box>summary,#chart-box>summary{font-weight:600;cursor:pointer}
+  /* scelta dell'ordine della classifica: numero di alberi con errori o percentuale */
+  #rank-mode{float:right;display:flex;gap:2px}
+  #rank-mode button{font:600 11px system-ui,sans-serif;min-width:22px;padding:1px 4px;border:1px solid #ccc;border-radius:3px;background:#fff;color:#777;cursor:pointer}
+  #rank-mode button.on{background:#555;border-color:#555;color:#fff}
+  /* posizione rispetto all'aggiornamento precedente: ▲ sale (più errori delle altre), ▼ scende, = stessa posizione */
+  .rk .mv{display:inline-block;width:12px;text-align:center;font-size:10px}
+  .mv.up{color:#d00020}.mv.down{color:#2e9e45}.mv.same{color:#999}
+  #chart-box[hidden]{display:none}
+  #chart-title{font-size:12px;color:#666;margin:6px 0 2px}
+  #chart svg{display:block}
   #rank{margin-top:8px;font-size:13px;max-height:50vh;overflow:auto}
   #rank details{margin:2px 0}
   /* tutte le righe larghe uguali: a sinistra 16 px per il triangolo (o vuoti), i numeri allineati a destra */
@@ -115,9 +125,13 @@
     <div class="note" data-i18n="legNote">Tronco e forme da zoom 16</div>
   </details>
   <details id="rank-box" class="box">
-    <summary data-i18n="rank">Classifica errori</summary>
-    <div id="rank"></div>
-    <div class="note" data-i18n="rankNote">Alberi con almeno un errore; tra parentesi la quota sul totale. Tocca una regione per aprirla.</div>
+    <summary><span data-i18n="rank">Classifica errori</span><span id="rank-mode"><button type="button" data-mode="n">#</button><button type="button" data-mode="p">%</button></span></summary>
+    <div id="rank"></div>  </details>
+  <details id="chart-box" class="box" hidden>
+    <summary data-i18n="chart">Andamento errori</summary>
+    <div id="chart-title"></div>
+    <div id="chart"></div>
+    <div class="note" data-i18n="chartNote">Quota di alberi con almeno un errore, a ogni aggiornamento.</div>
   </details>
 </div>
 <div id="map"></div>
@@ -132,6 +146,7 @@ const LANG = [hashParams().get("lang"), storedLang(), (navigator.language || "")
   .find(l => LANGS.includes(l));
 const LOC = LANG === "it" ? "it-IT" : "en-GB";
 const fmtN = n => Number(n).toLocaleString(LOC);
+const fmtDay = d => new Date(d + "T00:00:00").toLocaleDateString(LOC, { day: "numeric", month: "short" });   // "9 nov"
 // quota di alberi con errori: "1,6%", "<0,1%", "0%"
 const fmtPct = (e, c) => !c || !e ? "0%" : 100 * e / c < 0.05 ? `<${(0.1).toLocaleString(LOC)}%`
   : (100 * e / c).toLocaleString(LOC, { maximumFractionDigits: 1 }) + "%";
@@ -197,7 +212,10 @@ const I18N = {
       legNoLeaf: "leaf_type mancante e non stimato" }, legBroad: "Latifoglia o palma",
     legNeedle: "Aghifoglia", legNoLeaf: "Tipo di foglia non specificato",
     legDeciduous: "Caducifoglia", legEvergreen: "Sempreverde", legNoCycle: "Ciclo fogliare non specificato", legNote: "Tronco e forme da zoom 16",
-    rank: "Classifica errori", rankNote: "Alberi con almeno un errore; tra parentesi la quota sul totale. Tocca una regione per aprirla.",
+    rank: "Classifica errori", rankWas: (n, d) => `${n}ª posizione il ${d}`,
+    rankByN: "Ordina per numero di alberi con errori", rankByP: "Ordina per percentuale di alberi con errori",
+    chart: "Andamento errori", chartAll: "Tutte le regioni", chartNote: "Quota di alberi con almeno un errore, a ogni aggiornamento.",
+    chartTip: (d, p, e, c) => `${d}: ${p} (${e} alberi con errori su ${c})`,
     rankEmpty: "Conteggi non ancora disponibili: lancia l'Action \"Aggiorna dati alberi\".",
     loadError: "Errore nel caricamento dei dati", noData: "Nessun dato: lancia l'Action di aggiornamento",
     pickRegion: "Scegli una regione sulla mappa o dal menu", loadingAll: "caricamento di tutti gli alberi…", loading: name => `Caricamento di ${name}…`,
@@ -401,7 +419,10 @@ const I18N = {
       legNoLeaf: "leaf_type missing and not estimated" }, legBroad: "Broadleaved or palm",
     legNeedle: "Needleleaved", legNoLeaf: "Leaf type not specified",
     legDeciduous: "Deciduous", legEvergreen: "Evergreen", legNoCycle: "Leaf cycle not specified", legNote: "Trunks and shapes from zoom 16",
-    rank: "Error ranking", rankNote: "Trees with at least one error; in brackets the share of the total. Tap a region to open it.",
+    rank: "Error ranking", rankWas: (n, d) => `Position ${n} on ${d}`,
+    rankByN: "Sort by number of trees with errors", rankByP: "Sort by share of trees with errors",
+    chart: "Error trend", chartAll: "All regions", chartNote: "Share of trees with at least one error, at each update.",
+    chartTip: (d, p, e, c) => `${d}: ${p} (${e} trees with errors out of ${c})`,
     rankEmpty: "Counts not available yet: run the \"Aggiorna dati alberi\" Action.",
     loadError: "Error loading data", noData: "No data: run the update Action",
     pickRegion: "Choose a region on the map or from the menu", loadingAll: "loading all trees…", loading: name => `Loading ${name}…`,
@@ -646,6 +667,7 @@ indexP.catch(() => {});
 const regionsP = getJSON("scripts/regions.json");   // nome e gruppo (es. "Italia") di ogni regione
 regionsP.catch(() => {});
 const boundsP = getJSON("data/regions_boundaries.geojson").catch(() => null);
+const historyP = getJSON("data/history.json").catch(() => null);   // storico degli errori, per il grafico
 
 const map = new maplibregl.Map({
   container: "map", center: [12.5, 42.0], zoom: 5, maxZoom: 21,
@@ -672,6 +694,7 @@ map.on("load", async () => {
   const regionName = slug => { const m = metaBy[slug] || {}; return m["name_" + LANG] || m.name || (idx[slug] || {}).name || slug; };
   const regionGroup = slug => { const m = metaBy[slug] || {}; return m["group_" + LANG] || m.group; };
   let ALL = [], SHAPED = [], current = null;       // current = regione caricata (nessuna all'avvio)
+  let onContextChange = () => {};                  // cambio di regione o nazione aperta (andamento errori)
   let partial = false;                              // true finché del file della regione c'è solo la parte ridotta
   // due sorgenti: "trees-min" con i soli alberi visibili a zoom basso (con errori e monumentali), che MapLibre prepara in
   // un attimo, e "trees" con tutti gli alberi, che per le regioni grandi richiede decine di secondi e serve da zoom 10
@@ -903,6 +926,7 @@ map.on("load", async () => {
   };
   const refreshBoundaries = () => {
     document.getElementById("scale").hidden = !boundaries || !!current;
+    onContextChange();
     if (!boundaries) return;
     const nationLevel = [], regionLevel = [];
     for (const f of boundaries.features) {
@@ -1267,46 +1291,84 @@ map.on("load", async () => {
   };
   overviewBtn.onclick = unloadRegion;
 
+  const HIST = (await historyP) || {};   // storico degli errori: classifica (posizione precedente) e grafico
+
   // Classifica errori: nazioni (gruppo di regions.json, o la regione stessa se non ha gruppo) e, dentro,
-  // le regioni, in ordine di alberi con errori (campo "errors" di data/index.json)
+  // le regioni, in ordine di alberi con errori (campo "errors" di data/index.json) o di percentuale (i pulsanti
+  // # e %). Accanto, la posizione rispetto all'aggiornamento precedente (data/history.json): l'ultimo valore di ogni
+  // regione prima dell'ultima data dello storico. ▲ = sale verso il primo posto (più errori delle altre), ▼ = scende,
+  // = stessa posizione; niente se la regione non ha un valore precedente.
+  const histDates = [...new Set(Object.values(HIST).flat().map(r => r[0]))].sort();
+  const lastDate = histDates[histDates.length - 1], prevDate = histDates[histDates.length - 2];
+  const prevOf = slug => { const r = (HIST[slug] || []).filter(x => x[0] < lastDate).pop(); return r ? { count: r[1], errors: r[2] } : null; };
+  let rankMode = "n";
+  try { if (localStorage.getItem("rankMode") === "p") rankMode = "p"; } catch (e) {}
   const renderRank = () => {
     const box = document.getElementById("rank");
     const fmt = fmtN, pct = fmtPct;
-    const row = (name, e, c, strong) => {
+    const val = x => x == null || x.errors == null ? null : rankMode === "p" ? (x.count ? x.errors / x.count : 0) : x.errors;
+    // posizione (1 = più errori) di ogni elemento con un valore, per il valore attuale (cur) o precedente (prev)
+    const positions = (items, key) => {
+      const pos = new Map();
+      items.filter(x => val(x[key]) != null)
+        .sort((a, b) => val(b[key]) - val(a[key]) || a.name.localeCompare(b.name, LOC))
+        .forEach((x, i) => pos.set(x, i + 1));
+      return pos;
+    };
+    const moves = items => {
+      const now = positions(items, "cur"), before = positions(items, "prev");
+      for (const x of items) x.was = before.get(x) ?? null, x.mv = x.was == null || !now.has(x) ? null
+        : x.was > now.get(x) ? "up" : x.was < now.get(x) ? "down" : "same";
+    };
+    const row = (x, strong) => {
       const s = document.createElement("span"); s.className = "rk";
-      const a = document.createElement(strong ? "b" : "span"); a.textContent = name;
+      const a = document.createElement(strong ? "b" : "span"); a.textContent = x.name;
       const n = document.createElement("span"); n.className = "n";
-      n.textContent = e == null ? "—" : `${fmt(e)} (${pct(e, c)})`;
+      const { errors: e, count: c } = x.cur;
+      n.textContent = e == null ? "—" : rankMode === "p" ? `${pct(e, c)} (${fmt(e)})` : `${fmt(e)} (${pct(e, c)})`;
+      const m = document.createElement("span"); m.className = "mv" + (x.mv ? " " + x.mv : "");
+      if (x.mv) { m.textContent = { up: "▲", down: "▼", same: "=" }[x.mv]; m.title = L.rankWas(x.was, fmtDay(prevDate)); }
+      n.append(" ", m);
       s.append(a, n);
       return s;
     };
-    const byErr = (a, b) => (b.errors ?? -1) - (a.errors ?? -1) || a.name.localeCompare(b.name, LOC);
+    const sum = rs => rs.reduce((t, r) => r == null || r.errors == null ? t
+      : { count: (t?.count || 0) + r.count, errors: (t?.errors || 0) + r.errors }, null);
     const nations = {};
     for (const e of entries) {
       const r = idx[e.slug], key = e.group || e.name;
-      const nat = nations[key] = nations[key] || { name: key, grouped: !!e.group, regions: [], count: 0, errors: null };
-      nat.regions.push({ slug: e.slug, name: e.name, count: r.count, errors: r.errors ?? null });
-      if (r.errors != null) { nat.errors = (nat.errors || 0) + r.errors; nat.count += r.count; }
+      const nat = nations[key] = nations[key] || { name: key, grouped: !!e.group, regions: [] };
+      nat.regions.push({ slug: e.slug, name: e.name, cur: { count: r.count, errors: r.errors ?? null }, prev: prevDate ? prevOf(e.slug) : null });
     }
-    const list = Object.values(nations).sort(byErr);
-    if (list.every(n => n.errors == null)) {
+    const list = Object.values(nations);
+    for (const nat of list) { nat.cur = sum(nat.regions.map(r => r.cur)) || { errors: null }; nat.prev = sum(nat.regions.map(r => r.prev)); moves(nat.regions); }
+    moves(list);
+    const order = (a, b) => (val(b.cur) ?? -1) - (val(a.cur) ?? -1) || a.name.localeCompare(b.name, LOC);
+    list.sort(order);
+    document.querySelectorAll("#rank-mode button").forEach(b => {
+      b.classList.toggle("on", b.dataset.mode === rankMode);
+      b.title = b.dataset.mode === "p" ? L.rankByP : L.rankByN;
+    });
+    if (list.every(n => n.cur.errors == null)) {
       box.textContent = L.rankEmpty;
       return;
     }
     box.replaceChildren(...list.map(nat => {
       if (!nat.grouped) {               // nazione senza suddivisione (es. Bulgaria): una riga sola
         const d = document.createElement("div"); d.className = "solo";
-        d.appendChild(row(nat.name, nat.errors, nat.count, true));
+        d.appendChild(row(nat, true));
         d.onclick = () => selectRegion(nat.regions[0].slug);
         return d;
       }
       const d = document.createElement("details");
+      d.open = openNations.has(nat.name);
+      d.ontoggle = () => d.open ? openNations.add(nat.name) : openNations.delete(nat.name);
       const sm = document.createElement("summary");
-      sm.appendChild(row(nat.name, nat.errors, nat.count, true));
+      sm.appendChild(row(nat, true));
       const ol = document.createElement("ol");
-      nat.regions.sort(byErr).forEach(r => {
+      nat.regions.sort(order).forEach(r => {
         const li = document.createElement("li");
-        li.appendChild(row(r.name, r.errors, r.count));
+        li.appendChild(row(r));
         li.onclick = () => selectRegion(r.slug);
         ol.appendChild(li);
       });
@@ -1314,7 +1376,72 @@ map.on("load", async () => {
       return d;
     }));
   };
+  const openNations = new Set();   // nazioni aperte nella classifica: restano aperte cambiando ordine
+  document.querySelectorAll("#rank-mode button").forEach(b => b.onclick = ev => {
+    ev.preventDefault(); ev.stopPropagation();   // il clic non apre e non chiude il riquadro
+    rankMode = b.dataset.mode;
+    try { localStorage.setItem("rankMode", rankMode); } catch (e) {}
+    renderRank();
+  });
   renderRank();
+
+  // Andamento errori: quota di alberi con almeno un errore nel tempo (data/history.json, una riga al giorno per
+  // regione) per la regione caricata, la nazione aperta o tutte le regioni. Per una nazione o per tutte, a ogni data
+  // si somma l'ultimo valore noto di ogni regione. Compare solo con almeno due date.
+  const chartBox = document.getElementById("chart-box");
+  const renderChart = () => {
+    let slugs, title;
+    if (current) { slugs = [current]; title = regionName(current); }
+    else if (openGroup) { slugs = meta.filter(m => m.group === openGroup).map(m => m.slug); title = groupName(openGroup); }
+    else { slugs = Object.keys(idx); title = L.chartAll; }
+    const rows = slugs.map(s => HIST[s] || []).filter(r => r.length);
+    const dates = [...new Set(rows.flat().map(r => r[0]))].sort();
+    const pts = dates.map(d => {
+      let c = 0, e = 0;
+      for (const r of rows) {
+        const last = r.filter(x => x[0] <= d).pop();
+        if (last) { c += last[1]; e += last[2]; }
+      }
+      return { d, c, e, p: c ? 100 * e / c : 0 };
+    });
+    chartBox.hidden = pts.length < 2;
+    if (chartBox.hidden) return;
+    document.getElementById("chart-title").textContent = title;
+    // asse verticale stretto attorno ai valori (0,2% → da 0,1 a 0,3), mai sotto lo zero
+    const ps = pts.map(x => x.p), lo = Math.min(...ps), hi = Math.max(...ps);
+    const pad = hi > lo ? (hi - lo) * 0.25 : (hi / 2 || 0.1);
+    const y0 = Math.max(0, lo - pad), y1 = hi + pad;
+    const W = 206, H = 110, L0 = 34, R0 = 6, T0 = 8, B0 = 18;
+    const t = d => Date.parse(d), tA = t(dates[0]), tB = t(dates[dates.length - 1]);
+    const X = d => L0 + (W - L0 - R0) * (t(d) - tA) / (tB - tA);
+    const Y = p => T0 + (H - T0 - B0) * (1 - (p - y0) / (y1 - y0));
+    const digits = Math.max(0, Math.min(3, 1 - Math.floor(Math.log10(y1 - y0))));
+    const fp = p => p.toLocaleString(LOC, { minimumFractionDigits: digits, maximumFractionDigits: digits }) + "%";
+    const fd = fmtDay;
+    const ns = "http://www.w3.org/2000/svg", el = (n, a, txt) => {
+      const x = document.createElementNS(ns, n);
+      for (const k in a) x.setAttribute(k, a[k]);
+      if (txt != null) x.textContent = txt;
+      return x;
+    };
+    const svg = el("svg", { width: W, height: H, viewBox: `0 0 ${W} ${H}` });
+    for (const v of [y0, (y0 + y1) / 2, y1]) {       // linee guida con i valori
+      svg.append(el("line", { x1: L0, x2: W - R0, y1: Y(v), y2: Y(v), stroke: "#e4e4e4" }),
+        el("text", { x: L0 - 4, y: Y(v) + 3, "text-anchor": "end", "font-size": 9, fill: "#777" }, fp(v)));
+    }
+    svg.append(el("text", { x: L0, y: H - 4, "font-size": 9, fill: "#777" }, fd(dates[0])),
+      el("text", { x: W - R0, y: H - 4, "text-anchor": "end", "font-size": 9, fill: "#777" }, fd(dates[dates.length - 1])));
+    svg.append(el("polyline", { points: pts.map(x => `${X(x.d)},${Y(x.p)}`).join(" "), fill: "none",
+      stroke: "#b00020", "stroke-width": 1.5, "stroke-linejoin": "round" }));
+    for (const x of pts) {
+      const c = el("circle", { cx: X(x.d), cy: Y(x.p), r: 2.5, fill: "#b00020" });
+      c.append(el("title", {}, L.chartTip(new Date(x.d + "T00:00:00").toLocaleDateString(LOC), fp(x.p), fmtN(x.e), fmtN(x.c))));
+      svg.append(c);
+    }
+    document.getElementById("chart").replaceChildren(svg);
+  };
+  onContextChange = renderChart;
+  renderChart();
 
   if (boundaries) {
     let hovered = null;

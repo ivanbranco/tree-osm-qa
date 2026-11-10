@@ -1550,6 +1550,7 @@ def update_region(region, regions_index):
         regions_index[slug]["diam"] = "mm"      # vedi sotto
         if not min_path.exists():               # regioni scaricate prima che esistesse il file ridotto
             write_gz(min_path, minimal(fc))
+        record_history(slug, len(fc["features"]), errors)
         print(f"{slug}: nessuna modifica ({len(fc['features'])} alberi)")
         return True
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -1559,8 +1560,27 @@ def update_region(region, regions_index):
     # vecchi (fixDiameter in index.html)
     regions_index[slug] = {"name": region["name"], "count": len(fc["features"]), "errors": errors,
                            "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "sha1": digest, "diam": "mm"}
+    record_history(slug, len(fc["features"]), errors)
     print(f"{slug}: {len(fc['features'])} alberi -> {path} ({path.stat().st_size / 1e6:.1f} MB)")
     return True
+
+
+# Storico degli errori per il grafico del sito: data/history.json = {"<regione>": [["AAAA-MM-GG", alberi, alberi
+# con errori], …]}, in ordine di data. Una riga al giorno: se la regione si aggiorna più volte nello stesso giorno
+# resta l'ultimo valore, così l'ultima riga coincide sempre con data/index.json (anche quando cambiano solo i check).
+HISTORY = DATA / "history.json"
+
+
+def record_history(slug, count, errors):
+    hist = load_json(HISTORY)
+    rows = hist.setdefault(slug, [])
+    today = time.strftime("%Y-%m-%d", time.gmtime())
+    if rows and rows[-1][0] == today:
+        rows[-1] = [today, count, errors]
+    else:
+        rows.append([today, count, errors])
+    HISTORY.write_text("{\n" + ",\n".join(f"{json.dumps(k)}: {json.dumps(v, separators=(',', ':'))}"
+                                          for k, v in sorted(hist.items())) + "\n}\n", encoding="utf-8")
 
 
 def save_index(regions_index):
