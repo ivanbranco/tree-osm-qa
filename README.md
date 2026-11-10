@@ -1,4 +1,4 @@
-# <img src="favicon.svg" alt="" width="32" height="32"> DendrOSM
+# DendrOSM <img src="favicon.svg" alt="" width="32" height="32">
 
 Mappa degli alberi di OpenStreetMap (`natural=tree`, e i ceppi `natural=tree_stump`), divisa per regioni e pensata per il controllo di qualità dei dati.
 

@@ -2725,6 +2725,12 @@
 "taxon": true
 },
 "Q12323064": {
+"alias": {
+"en": [
+"Sugi"
+],
+"it": []
+},
 "en": "Cryptomeria",
 "it": "Cryptomeria",
 "names": [
@@ -5515,6 +5521,23 @@
 ],
 "taxon": true
 },
+"Q144112": {
+"alias": {
+"en": [
+"Queensland kauri"
+],
+"it": []
+},
+"en": "Agathis robusta",
+"it": "Agathis robusta",
+"names": [
+"Agathis robusta"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q145672": {
 "en": "Trachycarpus martianus",
 "it": "Trachycarpus martianus",
@@ -5854,6 +5877,15 @@
 "taxon": true
 },
 "Q146911": {
+"alias": {
+"en": [
+"cypress"
+],
+"it": [
+"cipressi",
+"cipresso"
+]
+},
 "en": "Cupressus",
 "it": "Cupressus",
 "names": [
@@ -7618,6 +7650,16 @@
 "taxon": true
 },
 "Q15507520": {
+"alias": {
+"en": [
+"Yucca elephantipes",
+"Yucca guatemalensis",
+"giant yucca",
+"spineless yucca",
+"izote"
+],
+"it": []
+},
 "en": "Yucca gigantea",
 "it": "Yucca gigantea",
 "names": [
@@ -9077,6 +9119,16 @@
 ],
 "taxon": true
 },
+"Q158620": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "-by",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q158642": {
 "alias": {
 "en": [
@@ -10019,6 +10071,29 @@
 ],
 "taxon": true
 },
+"Q161115": {
+"alias": {
+"en": [
+"agave",
+"century plant",
+"American aloe",
+"maguey",
+"yellow agave"
+],
+"it": [
+"Maguey"
+]
+},
+"en": "Agave americana",
+"it": "Agave americana",
+"names": [
+"Agave americana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q161116": {
 "alias": {
 "en": [
@@ -10400,6 +10475,21 @@
 "it": "Tilia japonica",
 "names": [
 "Tilia japonica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q161468": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Eucalyptus leucoxylon",
+"it": "Eucalyptus leucoxylon",
+"names": [
+"Eucalyptus leucoxylon"
 ],
 "ranks": [
 "Q7432"
@@ -11086,6 +11176,23 @@
 "taxon": true
 },
 "Q164135": {
+"alias": {
+"en": [
+"Adam's needle",
+"Glorious yucca",
+"Lord's candlestick",
+"Mound lily",
+"Moundlily yucca",
+"Palm lily",
+"Roman candle",
+"Sea Islands yucca",
+"Soft-tipped yucca",
+"Spanish bayonet",
+"Spanish dagger",
+"Tree lily"
+],
+"it": []
+},
 "en": "Yucca gloriosa",
 "it": "Yucca gloriosa",
 "names": [
@@ -12408,6 +12515,12 @@
 "taxon": true
 },
 "Q1848856": {
+"alias": {
+"en": [
+"Wild Privet"
+],
+"it": []
+},
 "en": "Ligustrum vulgare",
 "it": "Ligustrum vulgare",
 "names": [
@@ -13066,6 +13179,17 @@
 ],
 "taxon": true
 },
+"Q2064902": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Limoeiro",
+"it": "Limoeiro",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2065540": {
 "alias": {
 "en": [
@@ -13406,6 +13530,17 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q212815": {
+"en": "Camellia",
+"it": "Camellia",
+"names": [
+"Camellia"
+],
+"ranks": [
+"Q34740"
 ],
 "taxon": true
 },
@@ -14150,6 +14285,21 @@
 "it": "Pinus sabiniana",
 "names": [
 "Pinus sabiniana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2484889": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Eucalyptus botryoides",
+"it": "Eucalyptus botryoides",
+"names": [
+"Eucalyptus botryoides"
 ],
 "ranks": [
 "Q7432"
@@ -16198,6 +16348,23 @@
 ],
 "taxon": true
 },
+"Q310251": {
+"alias": {
+"en": [
+"Lebombo cycad"
+],
+"it": []
+},
+"en": "Encephalartos lebomboensis",
+"it": "Encephalartos lebomboensis",
+"names": [
+"Encephalartos lebomboensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q310331": {
 "alias": {
 "en": [],
@@ -17788,6 +17955,21 @@
 ],
 "taxon": true
 },
+"Q3927703": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Quercus lusitanica",
+"it": "Quercus lusitanica",
+"names": [
+"Quercus lusitanica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q39529": {
 "alias": {
 "en": [],
@@ -18422,6 +18604,23 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q42295": {
+"alias": {
+"en": [
+"bush"
+],
+"it": [
+"arbusteto",
+"arbusti",
+"cespuglio"
+]
+},
+"en": "shrub",
+"it": "arbusto",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q42418813": {
 "alias": {
@@ -19200,6 +19399,23 @@
 "it": "Picea breweriana",
 "names": [
 "Picea breweriana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q47685": {
+"alias": {
+"en": [
+"Arabic coffe"
+],
+"it": []
+},
+"en": "Coffea arabica",
+"it": "Coffea arabica",
+"names": [
+"Coffea arabica"
 ],
 "ranks": [
 "Q7432"
@@ -20538,6 +20754,21 @@
 "it": "Ternstroemia gymnanthera",
 "names": [
 "Ternstroemia gymnanthera"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q5837303": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Erythrina americana",
+"it": "Erythrina americana",
+"names": [
+"Erythrina americana"
 ],
 "ranks": [
 "Q7432"
@@ -21941,6 +22172,21 @@
 ],
 "taxon": true
 },
+"Q732394": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Tipuana",
+"it": "Tipuana",
+"names": [
+"Tipuana"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q732933": {
 "alias": {
 "en": [],
@@ -21986,6 +22232,17 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q739430": {
+"en": "Tsuga",
+"it": "Tsuga",
+"names": [
+"Tsuga"
+],
+"ranks": [
+"Q34740"
 ],
 "taxon": true
 },
@@ -22641,6 +22898,25 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q81513": {
+"alias": {
+"en": [
+"Papeda (citrus)"
+],
+"it": [
+"agrume"
+]
+},
+"en": "Citrus",
+"it": "Citrus",
+"names": [
+"Citrus"
+],
+"ranks": [
+"Q34740"
 ],
 "taxon": true
 },
@@ -23440,6 +23716,13 @@
 "taxon": true
 },
 "Q899179": {
+"alias": {
+"en": [
+"Parana pine",
+"Parana Araucaria"
+],
+"it": []
+},
 "en": "Araucaria angustifolia",
 "it": "Araucaria angustifolia",
 "names": [

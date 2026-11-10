@@ -274,6 +274,14 @@
    "sha1": "5273f3496b08e8cf517461a65616e2c247cc5bd1",
    "updated": "2026-11-08T20:11:19Z"
   },
+  "lussemburgo": {
+   "count": 78264,
+   "diam": "mm",
+   "errors": 78,
+   "name": "Lussemburgo",
+   "sha1": "600d1658916efcd230017aac73145a1392137d88",
+   "updated": "2026-11-10T15:27:50Z"
+  },
   "malopolskie": {
    "count": 257334,
    "errors": 2270,
@@ -401,6 +409,14 @@
    "name": "Pomerania",
    "sha1": "d909a27ab6be9d6aec771fa355c74ef2a695ee02",
    "updated": "2026-11-08T21:17:26Z"
+  },
+  "portogallo": {
+   "count": 253473,
+   "diam": "mm",
+   "errors": 1899,
+   "name": "Portogallo",
+   "sha1": "48e9cdc6b9bd6b10d79aa571a5a63c409df9d7c8",
+   "updated": "2026-11-10T15:27:35Z"
   },
   "provenza-alpi-costa-azzurra": {
    "count": 185718,

@@ -25,6 +25,7 @@
 ],
 "heritage": [],
 "image": "Luxembourg, Arbre du prince Charles de Luxembourg (102).jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -131,6 +132,7 @@
 ]
 ],
 "image": "2021 Plane tree of Rossio PT.jpg",
+"mon": true,
 "taxa": [
 "Q161374"
 ],
@@ -4515,6 +4517,19 @@
 "taxa": [
 "Q145954"
 ],
+"taxon": false,
+"wp": {}
+},
+"Q111732392": {
+"coords": [
+[
+-16.91659,
+32.64587
+]
+],
+"heritage": [],
+"image": "Quinta do Jasmineiro, 1880.png",
+"taxa": [],
 "taxon": false,
 "wp": {}
 },
@@ -17075,6 +17090,21 @@
 "taxon": false,
 "wp": {}
 },
+"Q16763940": {
+"coords": [
+[
+5.880833,
+49.595417
+]
+],
+"heritage": [],
+"image": "Wëll Lann.jpg",
+"taxa": [
+"Q158746"
+],
+"taxon": false,
+"wp": {}
+},
 "Q1678453": {
 "coords": [
 [
@@ -25619,6 +25649,17 @@
 "it": "https://it.wikipedia.org/wiki/Tiglio_di_Macugnaga"
 }
 },
+"Q3355098": {
+"coords": [],
+"heritage": [],
+"image": "OrangeBloss wb.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Citrus_%C3%97_sinensis",
+"it": "https://it.wikipedia.org/wiki/Citrus_%C3%97_sinensis"
+}
+},
 "Q3391801": {
 "coords": [
 [
@@ -29031,6 +29072,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [
 "Q16034755"
 ],
@@ -36136,8 +36178,49 @@
 ]
 ],
 "image": "Metrosidero tree - Ponta Delgada, Azores - panoramio.jpg",
+"mon": true,
 "taxa": [
 "Q311747"
+],
+"taxon": false,
+"wp": {}
+},
+"Q66815856": {
+"coords": [
+[
+-25.6755293,
+37.7434267
+]
+],
+"heritage": [
+[
+"Immovable Cultural Heritage of Municipal Interest",
+"Immovable Cultural Heritage of Municipal Interest"
+]
+],
+"image": "Árvore-da-borracha.jpg",
+"mon": true,
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q66815867": {
+"coords": [
+[
+-25.3343815,
+37.7426019
+]
+],
+"heritage": [
+[
+"Immovable Cultural Heritage of Municipal Interest",
+"Immovable Cultural Heritage of Municipal Interest"
+]
+],
+"image": "2019-05-24 12-46-53 PT Sao Miguel JHe K70 (54509873518).jpg",
+"mon": true,
+"taxa": [
+"Q150129"
 ],
 "taxon": false,
 "wp": {}
@@ -36151,6 +36234,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -37928,6 +38012,21 @@
 "taxon": false,
 "wp": {}
 },
+"Q98443740": {
+"coords": [
+[
+-8.6026,
+41.1459
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q161116"
+],
+"taxon": false,
+"wp": {}
+},
 "Q98443791": {
 "coords": [
 [
@@ -37939,6 +38038,37 @@
 "image": "Lissabon (9963878514).jpg",
 "taxa": [
 "Q25292"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98443908": {
+"coords": [
+[
+-7.939159,
+40.228193
+]
+],
+"heritage": [],
+"image": "",
+"mon": true,
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98443916": {
+"coords": [
+[
+-8.4200218,
+40.2062887
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q782275"
 ],
 "taxon": false,
 "wp": {}
@@ -37958,6 +38088,21 @@
 "taxon": false,
 "wp": {}
 },
+"Q98443938": {
+"coords": [
+[
+-8.848378,
+41.864936
+]
+],
+"heritage": [],
+"image": "Eucalipto na Casa de Esteiró, Caminha - 03.jpg",
+"taxa": [
+"Q159528"
+],
+"taxon": false,
+"wp": {}
+},
 "Q98443939": {
 "coords": [
 [
@@ -37969,6 +38114,132 @@
 "image": "",
 "taxa": [
 "Q22699"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98443940": {
+"coords": [
+[
+-8.848841,
+41.864861
+]
+],
+"heritage": [],
+"image": "Araucária na Casa de Esteiró, Caminha - 06.jpg",
+"taxa": [
+"Q161070"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98443941": {
+"coords": [
+[
+-8.729511,
+41.790683
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q147525"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98443943": {
+"coords": [
+[
+-8.8468,
+41.7733
+]
+],
+"heritage": [],
+"image": "Magnólia do Convento das Cabanas - Afife, Viana do Castelo - 13.jpg",
+"taxa": [
+"Q161116"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98443944": {
+"coords": [
+[
+-8.864454,
+41.815069
+]
+],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest"
+]
+],
+"image": "Casa da Rua 5 de Outubro, Vila Praia de Âncora - 10.jpg",
+"mon": true,
+"taxa": [
+"Q161070"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98443948": {
+"coords": [
+[
+-8.747,
+41.7209
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98443949": {
+"coords": [
+[
+-8.729,
+41.791
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q22699"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98443951": {
+"coords": [
+[
+-8.7469,
+41.7205
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q156137"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98443954": {
+"coords": [
+[
+-7.4658,
+41.7368
+]
+],
+"heritage": [],
+"image": "Árvore isolada em Jardim Público.jpg",
+"taxa": [
+"Q623489"
 ],
 "taxon": false,
 "wp": {}
@@ -38003,6 +38274,21 @@
 "taxon": false,
 "wp": {}
 },
+"Q98444112": {
+"coords": [
+[
+-7.4593,
+41.4012
+]
+],
+"heritage": [],
+"image": "Árvore de grande porte no Largo das Árvores, Murça - 15.jpg",
+"taxa": [
+"Q159528"
+],
+"taxon": false,
+"wp": {}
+},
 "Q98444116": {
 "coords": [
 [
@@ -38018,6 +38304,21 @@
 "taxon": false,
 "wp": {}
 },
+"Q98444123": {
+"coords": [
+[
+-7.9105,
+40.652652
+]
+],
+"heritage": [],
+"image": "Árvore isolada em No cruzamento da Rua do Cerrado com a Rua Três do Cerrado - IMG 20251120 164351.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
 "Q98444129": {
 "coords": [
 [
@@ -38029,6 +38330,36 @@
 "image": "",
 "taxa": [
 "Q159127"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444130": {
+"coords": [
+[
+-7.910366,
+40.652683
+]
+],
+"heritage": [],
+"image": "Árvore isolada em No cruzamento da Rua do Cerrado com a Rua Três do Cerrado - IMG 20251120 164351.jpg",
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444136": {
+"coords": [
+[
+-8.180438,
+40.06391
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
 ],
 "taxon": false,
 "wp": {}
@@ -38072,6 +38403,21 @@
 "image": "",
 "taxa": [
 "Q59420135"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444182": {
+"coords": [
+[
+-7.598395,
+40.468781
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q165145"
 ],
 "taxon": false,
 "wp": {}
@@ -38121,6 +38467,36 @@
 "taxon": false,
 "wp": {}
 },
+"Q98444305": {
+"coords": [
+[
+-8.41,
+41.0621
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q156137"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444309": {
+"coords": [
+[
+-7.773529,
+38.683015
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q37083"
+],
+"taxon": false,
+"wp": {}
+},
 "Q98444329": {
 "coords": [
 [
@@ -38132,6 +38508,66 @@
 "image": "",
 "taxa": [
 "Q3351769"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444338": {
+"coords": [
+[
+-8.0586,
+38.9767
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q156137"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444339": {
+"coords": [
+[
+-8.2456,
+38.9001
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q156137"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444342": {
+"coords": [
+[
+-7.600055,
+37.943156
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q37083"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444344": {
+"coords": [
+[
+-8.635982,
+37.677806
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q156137"
 ],
 "taxon": false,
 "wp": {}
@@ -38161,6 +38597,21 @@
 "heritage": [],
 "image": "Freixo Duarte de Armas - Freixo de Espada à Cinta - 02.jpg",
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q98444372": {
+"coords": [
+[
+-8.502806,
+41.440776
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q156687"
+],
 "taxon": false,
 "wp": {}
 },
@@ -38194,6 +38645,21 @@
 "taxon": false,
 "wp": {}
 },
+"Q98444395": {
+"coords": [
+[
+-8.2465,
+39.4541
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q156907"
+],
+"taxon": false,
+"wp": {}
+},
 "Q98444399": {
 "coords": [
 [
@@ -38208,6 +38674,7 @@
 ]
 ],
 "image": "Oliveira de Mouchão.jpg",
+"mon": true,
 "taxa": [
 "Q37083"
 ],
@@ -38225,6 +38692,81 @@
 "image": "",
 "taxa": [
 "Q518949"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444528": {
+"coords": [
+[
+-8.8698,
+39.0682
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q161070"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444537": {
+"coords": [
+[
+-9.097949,
+38.803031
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q37083"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444540": {
+"coords": [
+[
+-9.299145,
+38.795577
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q128887"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444542": {
+"coords": [
+[
+-9.2976,
+38.7967
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q2432250"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444544": {
+"coords": [
+[
+-9.297802,
+38.796472
+]
+],
+"heritage": [],
+"image": "",
+"taxa": [
+"Q2432250"
 ],
 "taxon": false,
 "wp": {}
@@ -38273,6 +38815,7 @@
 ]
 ],
 "image": "Olivais - Árvore isolada em Quinta do Conde D`Arcos - 2025-10-15 18-55-11 001.jpeg",
+"mon": true,
 "taxa": [
 "Q157952"
 ],
@@ -38290,6 +38833,27 @@
 "image": "EUROPA - PORTUGAL - SETUBAL - CANHA - SOBREIRO 03.jpg",
 "taxa": [
 "Q156137"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444557": {
+"coords": [
+[
+-9.1587,
+38.7653
+]
+],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest"
+]
+],
+"image": "Plátano Hospital Pulido Valente 003.jpeg",
+"mon": true,
+"taxa": [
+"Q59420135"
 ],
 "taxon": false,
 "wp": {}
@@ -38353,8 +38917,30 @@
 ]
 ],
 "image": "Santa Maria Maior - Árvore isolada em Largo do Limoeiro - 20120528172947.jpg",
+"mon": true,
 "taxa": [
 "Q937654"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444591": {
+"coords": [
+[
+-9.1437,
+38.7058
+]
+],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest"
+]
+],
+"image": "Jardim Roque Gameiro-2.jpg",
+"mon": true,
+"taxa": [
+"Q2716902"
 ],
 "taxon": false,
 "wp": {}
@@ -38373,8 +38959,24 @@
 ]
 ],
 "image": "Árvore Parque dos Moinhos Santana 5.jpg",
+"mon": true,
 "taxa": [
 "Q1137183"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444598": {
+"coords": [
+[
+-9.3494,
+38.6857
+]
+],
+"heritage": [],
+"image": "Plano geral do Dragoeiro no interior do Hospital de Santa Ana.jpg",
+"taxa": [
+"Q157952"
 ],
 "taxon": false,
 "wp": {}
@@ -38393,6 +38995,7 @@
 ]
 ],
 "image": "Bela-sombra Restelo 1.jpg",
+"mon": true,
 "taxa": [
 "Q937654"
 ],
@@ -38413,8 +39016,24 @@
 ]
 ],
 "image": "Árvore Jerónimos 1.jpg",
+"mon": true,
 "taxa": [
 "Q15360169"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444712": {
+"coords": [
+[
+-9.421538,
+38.694648
+]
+],
+"heritage": [],
+"image": "Base dos troncos.jpg",
+"taxa": [
+"Q1439079"
 ],
 "taxon": false,
 "wp": {}
@@ -38448,6 +39067,7 @@
 ]
 ],
 "image": "Plátano Travessa do Arco da Torre 1.jpg",
+"mon": true,
 "taxa": [
 "Q59420135"
 ],
@@ -38530,8 +39150,54 @@
 ]
 ],
 "image": "Eucalipto de contige 03.jpg",
+"mon": true,
 "taxa": [
 "Q159528"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444768": {
+"coords": [
+[
+-7.9138,
+40.6563
+]
+],
+"heritage": [],
+"image": "Árvore do Hotel Grão Vasco light.jpg",
+"taxa": [
+"Q623489"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444769": {
+"coords": [
+[
+-8.6527,
+40.6362
+]
+],
+"heritage": [],
+"image": "Árvore isolada no Jardim Infante D. Pedro em Aveiro.jpg",
+"taxa": [
+"Q161070"
+],
+"taxon": false,
+"wp": {}
+},
+"Q98444792": {
+"coords": [
+[
+-7.7024,
+40.4188
+]
+],
+"heritage": [],
+"image": "Casa da Cerca de Santa Rita Árvore anexa.jpg",
+"taxa": [
+"Q179729"
 ],
 "taxon": false,
 "wp": {}
