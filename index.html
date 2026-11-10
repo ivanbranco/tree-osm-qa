@@ -357,6 +357,10 @@ const I18N = {
       number_invalid: t => `valore non numerico, intervallo o zero in ${t}`,
       link_format: t => `formato non valido in ${t}`,
       monument_denotation: t => `${t} senza denotation=natural_monument`,
+      // fonti da Wikidata (mon_src "wikidata=Q… (P9704)" o "(Q811534)"): una riga ciascuna, senza codici (il link
+      // all'elemento Wikidata è già in fondo alla scheda)
+      monWd: { Q811534: () => "Su Wikidata è una pianta monumentale, ma manca denotation=natural_monument",
+        P9704: () => "Su Wikidata ha una scheda su monumentaltrees.com, ma manca denotation=natural_monument" },
       crown: v => `diametro chioma ${v} > 60,4 m (record per un albero vivo a tronco singolo)`,
       species_typo: (sp, s) => `species=${sp} non è nella lista delle specie: forse ${s}?`,
       species_unidentified: (sp, g) => `species=${sp} indica una specie non identificata: usare genus=${g} senza species`,
@@ -568,6 +572,8 @@ const I18N = {
       number_invalid: t => `non-numeric value, range or zero in ${t}`,
       link_format: t => `invalid format in ${t}`,
       monument_denotation: t => `${t} without denotation=natural_monument`,
+      monWd: { Q811534: () => "On Wikidata it is a remarkable tree, but denotation=natural_monument is missing",
+        P9704: () => "On Wikidata it has a monumentaltrees.com page, but denotation=natural_monument is missing" },
       crown: v => `crown diameter ${v} > 60.4 m (record for a living single-trunk tree)`,
       species_typo: (sp, s) => `species=${sp} is not in the species list: did you mean ${s}?`,
       species_unidentified: (sp, g) => `species=${sp} means an unidentified species: use genus=${g} without species`,
@@ -1662,7 +1668,12 @@ const issueBase = (i, p) => {
     case "same_point": return T[i](String(p.sp_nodes || "").split(";").filter(Boolean));   // sp_nodes: id degli altri alberi
     case "number_invalid": return T[i](list(p.bad_num));
     case "link_format": return T[i](list(p.bad_links));
-    case "monument_denotation": return T[i](list(p.mon_src));
+    case "monument_denotation": {   // mon_src: fonti separate da ";" (fetch_trees.py); quelle da Wikidata a parte
+      const src = String(p.mon_src || "").split(";").filter(Boolean), wd = /^wikidata=(Q\d+) \((P9704|Q811534)\)$/;
+      const tags = src.filter(s => !wd.test(s)), lines = tags.length ? [T[i](tags.join(", "))] : [];
+      src.forEach(s => { const m = wd.exec(s); if (m) lines.push(T.monWd[m[2]](m[1])); });
+      return lines.join("\n");
+    }
     case "crown": return T[i](fmtM(p.diameter_crown));
     case "species_typo": return T[i](p.species, p.sp_sugg);   // sp_sugg: fetch_trees.py
     case "species_unidentified": return T[i](p.species, p.sp_genus);   // sp_genus, sp_clean, und_keys: fetch_trees.py
