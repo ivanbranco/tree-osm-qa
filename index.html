@@ -150,7 +150,7 @@
     <div class="note" data-i18n="legNote">Tronco e forme da zoom 16</div>
   </details>
   <details id="rank-box" class="box">
-    <summary><span data-i18n="rank">Classifica errori</span><span id="rank-mode"><button type="button" data-mode="n">#</button><button type="button" data-mode="p">%</button></span></summary>
+    <summary><span data-i18n="rank">Classifica errori</span><span id="rank-mode"><button type="button" data-mode="p">%</button><button type="button" data-mode="n">#</button></span></summary>
     <div id="rank"></div>  </details>
   <details id="chart-box" class="box" hidden>
     <summary data-i18n="chart">Andamento errori</summary>
@@ -1400,8 +1400,8 @@ map.on("load", async () => {
   const histDates = [...new Set(Object.values(HIST).flat().map(r => r[0]))].sort();
   const lastDate = histDates[histDates.length - 1], prevDate = histDates[histDates.length - 2];
   const prevOf = slug => { const r = (HIST[slug] || []).filter(x => x[0] < lastDate).pop(); return r ? { count: r[1], errors: r[2] } : null; };
-  let rankMode = "n";
-  try { if (localStorage.getItem("rankMode") === "p") rankMode = "p"; } catch (e) {}
+  let rankMode = "p";                 // predefinita: per percentuale (la scelta fatta con i pulsanti resta salvata)
+  try { if (localStorage.getItem("rankMode") === "n") rankMode = "n"; } catch (e) {}
   const renderRank = () => {
     const box = document.getElementById("rank");
     const fmt = fmtN, pct = fmtPct;
@@ -1804,7 +1804,8 @@ function imageInfo(p) {
   const c = p.wikimedia_commons;
   if (c && /^File:/.test(c)) return { src: commonsFile(c.slice(5)), commons: c.slice(5) };
   const pid = panoramaxIds(p)[0];
-  if (pid) return { src: `https://api.panoramax.xyz/api/pictures/${pid}/sd.jpg` };
+  if (pid) return { src: `https://api.panoramax.xyz/api/pictures/${pid}/sd.jpg`, pano: pid,
+    href: `https://api.panoramax.xyz/#focus=pic&pic=${pid}` };   // autore e licenza: fillPhoto
   const fid = fotoshiId(p);
   if (fid) return { src: `https://cdn.fotoshi.com/thumbnails/${fid}.jpeg`, href: `https://www.fotoshi.com/photo/${fid}`,
     credit: p.fs_author ? `${p.fs_author}${p.fs_license ? ` (${p.fs_license})` : ""}` : "" };
@@ -1825,12 +1826,15 @@ const plain = html => new DOMParser().parseFromString(html || "", "text/html").b
 function creditName(md) {
   if (plain(md.Attribution?.value)) return plain(md.Attribution.value);
   const doc = new DOMParser().parseFromString(md.Artist?.value || "", "text/html");
+  // parti nascoste dai template di Commons (es. "Unknown author<span style="display: none;">Unknown author</span>")
+  doc.querySelectorAll('[style*="display:none"], [style*="display: none"]').forEach(e => e.remove());
   const a = [...doc.querySelectorAll("a")].map(x => x.textContent.replace(/\s+/g, " ").trim()).find(Boolean);
   return a || doc.body.textContent.replace(/\s+/g, " ").trim();
 }
 
 // Completa la foto della scheda già aperta: per una categoria di Commons cerca il primo file; per i file di Commons
-// chiede autore e licenza e li scrive in sovrimpressione ("Autore (CC BY-SA 4.0)", con il link alla pagina del file)
+// chiede autore e licenza e li scrive in sovrimpressione ("Autore (CC BY-SA 4.0)", con il link alla pagina del file);
+// lo stesso per le foto di Panoramax (API di Panoramax, link alla foto)
 async function fillPhoto(root) {
   const box = root && root.querySelector(".photo");
   if (!box) return;
@@ -1852,6 +1856,20 @@ async function fillPhoto(root) {
       a.textContent = author ? `${author}${lic ? ` (${lic})` : ""}` : lic;
       a.href = "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(box.dataset.commons);
       a.title = a.textContent;
+    }
+    if (box.dataset.pano) {   // Panoramax: autore (dai "providers") e licenza della foto
+      const r = await fetch(`https://api.panoramax.xyz/api/search?ids=${encodeURIComponent(box.dataset.pano)}`).then(r => r.json());
+      const f = r.features?.[0];
+      if (f) {
+        // providers: l'account che ha caricato la foto (con id, es. "mapcomplete") e, se la foto lo indica, l'autore
+        // (senza id, dai dati EXIF): si mostra l'autore, altrimenti l'account
+        const prov = f.providers || [], who = prov.filter(p => !p.id).map(p => p.name).filter(Boolean);
+        const author = (who.length ? who : prov.map(p => p.name).filter(Boolean).slice(0, 1)).join(", ");
+        const lic = String(f.properties?.license || "").replace(/^CC-/, "CC ").replace(/-(\d)/, " $1");   // CC-BY-SA-4.0 -> CC BY-SA 4.0
+        const a = box.querySelector(".credit");
+        a.textContent = author ? `${author}${lic ? ` (${lic})` : ""}` : lic;
+        a.title = a.textContent;
+      }
     }
   } catch (e) { if (box.dataset.cat && box.querySelector("img").hidden) box.remove(); }
 }
@@ -1892,7 +1910,7 @@ function card(p, pos) {
   const img = imageInfo(p);
   const cat = !img && /^Category:/.test(p.wikimedia_commons || "") ? p.wikimedia_commons : null;
   // foto con i crediti in sovrimpressione (riempiti subito, o da fillPhoto per Commons); se non si carica sparisce
-  const photo = img || cat ? `<div class="photo"${img?.commons ? ` data-commons="${esc(img.commons)}"` : ""}${cat ? ` data-cat="${esc(cat)}"` : ""}>
+  const photo = img || cat ? `<div class="photo"${img?.commons ? ` data-commons="${esc(img.commons)}"` : ""}${img?.pano ? ` data-pano="${esc(img.pano)}"` : ""}${cat ? ` data-cat="${esc(cat)}"` : ""}>
       <img ${img ? `src="${esc(img.src)}"` : "hidden"} alt="" loading="lazy" onerror="this.parentNode.remove()" onload="this.parentNode.classList.add('loaded')">
       <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}>${esc(img?.credit || "")}</a></div>` : "";
   const genusIssue = !WORLD && ["genus", "genus_lowercase", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
@@ -1907,7 +1925,8 @@ function card(p, pos) {
   const shownCommons = img?.commons && /^File:/.test(p.wikimedia_commons || "");
   if (p.wikimedia_commons && !shownCommons) links.push(link(`https://commons.wikimedia.org/wiki/${p.wikimedia_commons}`, "Commons"));
   const pano = panoramaxIds(p);
-  pano.forEach((id, i) => links.push(link(`https://api.panoramax.xyz/#focus=pic&pic=${id}`, pano.length > 1 ? `Panoramax ${i + 1}` : "Panoramax")));
+  // come Commons: la foto Panoramax mostrata ha già il link nel credito
+  pano.forEach((id, i) => { if (id !== img?.pano) links.push(link(`https://api.panoramax.xyz/#focus=pic&pic=${id}`, pano.length > 1 ? `Panoramax ${i + 1}` : "Panoramax")); });
   if (fotoshiId(p) && !img?.href?.includes(fotoshiId(p))) links.push(link(`https://www.fotoshi.com/photo/${fotoshiId(p)}`, "Fotoshi"));
   return `<div class="card"><h3>${titleHtml}</h3>
     ${photo}
