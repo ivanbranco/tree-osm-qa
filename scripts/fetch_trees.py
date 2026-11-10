@@ -270,6 +270,8 @@ WD_TAXA = {q: v for q, v in load_json(WD_TAXA_FILE).items() if "taxon" in v}
 WDQS_URL = "https://query.wikidata.org/sparql"
 WD_BATCH = 200
 WD_MAX_DIST = 1000   # m: oltre, l'albero è "lontano" dall'elemento Wikidata collegato (nei dati il massimo è ~0,7 km)
+COMMONS_MAX_DIST = 500   # m: oltre, l'albero è "lontano" dalle coordinate del file di Commons collegato (la
+                         # posizione di scatto può distare qualche decina di metri dall'albero)
 POINT = re.compile(r"Point\(([-\d.eE]+) ([-\d.eE]+)\)")
 WP_SITES = {"it": "https://it.wikipedia.org/", "en": "https://en.wikipedia.org/"}
 # ranghi (P105): species:wikidata non deve puntare a un genere o più su, genus:wikidata non a una specie o più giù
@@ -546,6 +548,21 @@ def commons_files(t):
     return [x.strip() for x in str(t.get("wikimedia_commons", "")).split(";") if x.strip().startswith("File:")]
 
 
+# Pagina di un file su Commons in image=* (https://commons.wikimedia.org/wiki/File:…, anche con il prefisso
+# File: in un'altra lingua)
+COMMONS_FILE_URL = re.compile(r"^https?://commons\.(?:m\.)?wikimedia\.org/wiki/[^/:?#]+:([^?#]+)", re.I)
+
+
+def commons_photo_files(t):
+    """File di Commons collegati all'albero: wikimedia_commons=File:… e image=* che punta alla pagina di un file
+    su Commons; titoli "File:…" con gli spazi al posto dei trattini bassi, senza doppioni."""
+    out = [f.replace("_", " ") for f in commons_files(t)]
+    for u in str(t.get("image", "")).split(";"):
+        if m := COMMONS_FILE_URL.match(u.strip()):
+            out.append("File:" + unquote(m.group(1)).replace("_", " ").strip())
+    return list(dict.fromkeys(out))
+
+
 def url_state(u):
     """Stato di un indirizzo: il codice HTTP finale, "dns" se il dominio non esiste, oppure timeout/conn/err."""
     try:
@@ -600,7 +617,33 @@ def update_url_cache(elements):
         except Exception as e:
             warn(f"Commons non risponde ({str(e)[:150]}): {len(files) - i} file restano da verificare")
             break
-    if urls or files:
+    # coordinate dei file di Commons collegati (check commons_far): "geo:File:…" → {"c": [lat, lon, tipo] o
+    # [], "d": data}; tipo "object" (posizione del soggetto, se c'è) o "camera" (posizione di scatto)
+    geo = sorted({f for t in tags for f in commons_photo_files(t) if stale("geo:" + f)})
+    for i in range(0, len(geo), 50):
+        batch = geo[i:i + 50]
+        try:
+            r = requests.get(COMMONS_API, headers=HEADERS, timeout=60, params={
+                "action": "query", "titles": "|".join(batch), "prop": "coordinates", "coprimary": "all",
+                "colimit": "max", "format": "json", "formatversion": 2})
+            r.raise_for_status()
+            q = r.json()["query"]
+            back = {n["to"]: n["from"] for n in q.get("normalized", [])}
+            found = {}
+            for pg in q.get("pages", []):
+                cs = pg.get("coordinates", [])
+                c = next((x for x in cs if not x.get("primary")), None) or next(iter(cs), None)
+                if c:
+                    found[back.get(pg["title"], pg["title"])] = [c["lat"], c["lon"], "camera" if c.get("primary") else "object"]
+            for f in batch:
+                URL_STATUS["geo:" + f] = {"c": found.get(f, []), "d": today.isoformat()}
+        except Exception as e:
+            warn(f"Commons non risponde ({str(e)[:150]}): coordinate di {len(geo) - i} file restano da leggere")
+            break
+        time.sleep(URL_PAUSE)
+    if geo:
+        print(f" coordinate lette per {len(geo)} file di Commons")
+    if urls or files or geo:
         broken = sum(1 for k in urls + ["commons:" + f for f in files] if URL_STATUS.get(k, {}).get("s") in URL_BROKEN)
         print(f" link controllati: {len(urls)} indirizzi, {len(files)} file di Commons ({broken} rotti)")
         URL_FILE.write_text(json.dumps(URL_STATUS, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -670,6 +713,17 @@ def wikidata_far(t, pos):
         d = min(distance_m(pos, c) for c in coords)
         if d > WD_MAX_DIST:
             out.append((q, round(d / 1000, 2)))
+    return out
+
+
+def commons_far(t, pos):
+    """[(file, distanza in m, tipo)] dei file di Commons collegati (commons_photo_files) le cui coordinate
+    distano più di COMMONS_MAX_DIST dall'albero; tipo "object" o "camera" (vedi update_url_cache)."""
+    out = []
+    for f in commons_photo_files(t):
+        c = URL_STATUS.get("geo:" + f, {}).get("c")
+        if c and (d := distance_m(pos, [c[1], c[0]])) > COMMONS_MAX_DIST:
+            out.append((f, round(d), c[2]))
     return out
 
 
@@ -953,9 +1007,17 @@ def is_monumentaltrees(v):
     return False
 
 
+# heritage:operator degli enti che tutelano gli alberi monumentali: ICNF (Portogallo, árvores de interesse público)
+# e ANF (Lussemburgo, Administration de la nature et des forêts)
+HERITAGE_OPERATORS = ("icnf", "anf")
+
+
 def monument_sources(t):
-    """Fonti che indicano un albero monumentale: ref:masaf, ref:rami, link a monumentaltrees.com."""
+    """Fonti che indicano un albero monumentale: ref:masaf, ref:rami, heritage:operator di HERITAGE_OPERATORS,
+    link a monumentaltrees.com."""
     src = [k for k in ("ref:masaf", "ref:rami") if t.get(k)]
+    src += [f"heritage:operator={v}" for v in (x.strip().lower() for x in str(t.get("heritage:operator", "")).split(";"))
+            if v in HERITAGE_OPERATORS]
     if is_monumentaltrees(t.get("website")) or is_monumentaltrees(t.get("url")):
         src.append("monumentaltrees.com")
     return src
@@ -1219,6 +1281,8 @@ def checks(t, pos):
         flag("link_format", bad_links=";".join(bad))
     if bl := broken_links(t):           # righe "chiave=valore (stato)" separate da "\n" (i valori possono contenere ";")
         flag("broken_link", bad_url="\n".join(f"{k}={v} ({s})" for k, v, s in bl))
+    if cf := commons_far(t, pos):       # righe "metri|tipo|File:…" separate da "\n" (i nomi possono contenere ";")
+        flag("commons_far", cm_far="\n".join(f"{m}|{k}|{f}" for f, m, k in cf))
     if (src := monument_sources(t)) and "natural_monument" not in t.get("denotation", "").split(";"):
         flag("monument_denotation", mon_src=";".join(src))
     if den := denotation_problems(t):   # valori, motivi e usi, nello stesso ordine
@@ -1234,7 +1298,8 @@ def checks(t, pos):
 KEEP = ["name", "species", "genus", "taxon",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
-        "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion", "multi_stemmed"]
+        "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion", "multi_stemmed",
+        "heritage:operator", "ref:icnf"]
 
 # Alberi da frutto (rendering: puntini colorati sulla chioma): per ora solo Malus domestica (le mele). Solo specie
 # coltivate per i frutti, non i generi interi (molti Malus e Prunus sono ornamentali). Colore del frutto per specie.

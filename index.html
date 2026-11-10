@@ -213,7 +213,8 @@ const I18N = {
       circ_diam_mismatch: "circumference e diameter non coincidono",
       trunk_overlap: "Tronco sovrapposto a quello di un altro albero", same_point: "Nello stesso punto di un altro albero",
       number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
-      link_format: "Link con formato non valido", broken_link: "Link non raggiungibile", wikidata_mismatch: "species:wikidata incoerente con la species",
+      link_format: "Link con formato non valido", broken_link: "Link non raggiungibile",
+      commons_far: "Foto di Commons a più di 500 m", wikidata_mismatch: "species:wikidata incoerente con la species",
       wikidata_not_taxon: "species/genus:wikidata non è un taxon", wikidata_is_taxon: "wikidata è un taxon",
       wikidata_far: "Elemento wikidata a più di 1 km",
       wikidata_rank: "species/genus:wikidata con il rango sbagliato", wikidata_name_mismatch: "Nome su Wikidata diverso da species/genus",
@@ -279,7 +280,8 @@ const I18N = {
       leaf_cycle_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. I valori semi_ valgono come quelli pieni.",
       link_format: "wikidata vuole un QID (Q…), wikimedia_commons il prefisso File: o Category:, panoramax un UUID, image un indirizzo http(s).",
       broken_link: "Segnalati: pagine 404 o 410, siti che non esistono più e file assenti su Commons. Non sono segnalati 403, 429, errori del server e timeout, che spesso sono blocchi verso i programmi automatici.",
-      monument_denotation: "ref:masaf, ref:rami e le schede di monumentaltrees.com indicano un albero monumentale, che in OSM ha denotation=natural_monument.",
+      commons_far: "Le coordinate del file di Commons collegato (wikimedia_commons o image) distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
+      monument_denotation: "ref:masaf, ref:rami, heritage:operator=icnf o anf e le schede di monumentaltrees.com indicano un albero monumentale, che in OSM ha denotation=natural_monument.",
       masaf_criteria: "Codici ammessi: a–g, a1, a2, a2.1, a2.2, a2.3, separati da virgole senza spazi.",
       denotation_value: "Confronto con gli usi su Taginfo: segnalati i valori usati al massimo 10 volte, quelli con un formato non valido e quelli comuni con altro testo attaccato.",
       undocumented_tag: "tree=* e type=* non sono documentati per gli alberi nella wiki OSM.",
@@ -320,6 +322,7 @@ const I18N = {
       wikidata_far: (q, km) => `wikidata=${q}: le coordinate dell'elemento su Wikidata sono a ${km} km da questo albero`,
       wikidata_rank: (kq, rank, want) => `${kq} su Wikidata ha rango «${rank}», non ${want}`,
       broken_link: (kv, why) => `${kv}: ${why}`,
+      commons_far: (f, m, obj) => `${f}: la ${obj ? "posizione del soggetto" : "posizione di scatto"} indicata su Commons è a ${m} m da questo albero`,
       linkWhy: { "404": "pagina inesistente (404)", "410": "pagina rimossa (410)", dns: "il sito non esiste più",
         missing: "file inesistente su Commons" },
       wikidata_name_mismatch: (kq, name, val) => `${kq} su Wikidata è ${name}, non ${val}`,
@@ -350,6 +353,8 @@ const I18N = {
     genusOf: g => `il genere ${g}`, or: " o ",
     recMasaf: (l, ref) => `Albero inserito nell’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${ref})`,
     recRami: (l, ref) => `Albero inserito nel ${l("registro RAMI")} (${ref})`,
+    recIcnf: (l, ref) => `Albero di interesse pubblico, tutelato in Portogallo dall’${l("ICNF")}${ref ? ` (${ref})` : ""}`,
+    recAnf: l => `Albero tutelato in Lussemburgo dall’${l("ANF")}`,
     // l(url, testo): link; kind = "zapis" (ref:zapis; il numero, di una lista non ufficiale, non si mostra),
     // "rag_tree" (sacred_tree=rag_tree), "goshinboku" (religion=shinto) o null
     recSacred: (l, kind) => kind ? `Albero sacro: ${l(SACRED_WP[kind], SACRED_NAME[kind])}` : "Albero sacro",
@@ -412,7 +417,8 @@ const I18N = {
       circ_diam_mismatch: "circumference and diameter do not match",
       trunk_overlap: "Trunk overlapping another tree's trunk", same_point: "At the same point as another tree",
       number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
-      link_format: "Link with invalid format", broken_link: "Broken link", wikidata_mismatch: "species:wikidata inconsistent with species",
+      link_format: "Link with invalid format", broken_link: "Broken link",
+      commons_far: "Commons photo more than 500 m away", wikidata_mismatch: "species:wikidata inconsistent with species",
       wikidata_not_taxon: "species/genus:wikidata is not a taxon", wikidata_is_taxon: "wikidata is a taxon",
       wikidata_far: "wikidata item more than 1 km away",
       wikidata_rank: "species/genus:wikidata with the wrong rank", wikidata_name_mismatch: "Name on Wikidata differs from species/genus",
@@ -476,7 +482,8 @@ const I18N = {
       leaf_cycle_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. semi_ values count as the full ones.",
       link_format: "wikidata needs a QID (Q…), wikimedia_commons the File: or Category: prefix, panoramax a UUID, image an http(s) address.",
       broken_link: "Reported: 404 or 410 pages, sites that no longer exist and files missing on Commons. 403, 429, server errors and timeouts are not reported, as they are often blocks against automated tools.",
-      monument_denotation: "ref:masaf, ref:rami and monumentaltrees.com pages indicate a monumental tree, which in OSM has denotation=natural_monument.",
+      commons_far: "The coordinates of the linked Commons file (wikimedia_commons or image) are more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
+      monument_denotation: "ref:masaf, ref:rami, heritage:operator=icnf or anf and monumentaltrees.com pages indicate a monumental tree, which in OSM has denotation=natural_monument.",
       masaf_criteria: "Allowed codes: a–g, a1, a2, a2.1, a2.2, a2.3, separated by commas without spaces.",
       denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format and common values with other text attached.",
       undocumented_tag: "tree=* and type=* are not documented for trees on the OSM wiki.",
@@ -517,6 +524,7 @@ const I18N = {
       wikidata_far: (q, km) => `wikidata=${q}: the coordinates of the Wikidata item are ${km} km from this tree`,
       wikidata_rank: (kq, rank, want) => `${kq} has rank "${rank}" on Wikidata, not ${want}`,
       broken_link: (kv, why) => `${kv}: ${why}`,
+      commons_far: (f, m, obj) => `${f}: the ${obj ? "object location" : "camera location"} given on Commons is ${m} m from this tree`,
       linkWhy: { "404": "page not found (404)", "410": "page removed (410)", dns: "the website no longer exists",
         missing: "file not found on Commons" },
       wikidata_name_mismatch: (kq, name, val) => `${kq} is ${name} on Wikidata, not ${val}`,
@@ -547,6 +555,8 @@ const I18N = {
     genusOf: g => `the genus ${g}`, or: " or ",
     recMasaf: (l, ref) => `Listed in the MASAF ${l("list of monumental trees of Italy")} (${ref})`,
     recRami: (l, ref) => `Listed in the ${l("RAMI register")} (${ref})`,
+    recIcnf: (l, ref) => `Tree of public interest, protected in Portugal by the ${l("ICNF")}${ref ? ` (${ref})` : ""}`,
+    recAnf: l => `Tree protected in Luxembourg by the ${l("ANF")}`,
     recSacred: (l, kind) => kind ? `Sacred tree: ${l(SACRED_WP[kind], SACRED_NAME[kind])}` : "Sacred tree",
     recCriteria: list => `MASAF monumentality criteria: ${list}`,
     masafCriteria: { a: "age and/or size", a1: "age", a2: "size", "a2.1": "circumference", "a2.2": "height",
@@ -992,7 +1002,7 @@ map.on("load", async () => {
       "not_latin", "genus", "genus_lowercase", "genus_mismatch"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
       "wikidata_is_taxon", "wikidata_tree_species", "wikidata_heritage", "wikidata_far"]],
-    ["links", ["link_format", "broken_link", "monument_denotation", "masaf_criteria"]],
+    ["links", ["link_format", "broken_link", "commons_far", "monument_denotation", "masaf_criteria"]],
   ];
   const issueGroupOf = code => (ISSUE_GROUPS.find(([, codes]) => codes.includes(code)) || ["other"])[0];
   // filtro di MapLibre per una voce del menu: un errore, oppure (g:<gruppo>) uno qualsiasi degli errori del gruppo
@@ -1320,7 +1330,7 @@ map.on("load", async () => {
       tip.textContent = p.has_data ? L.tipTrees(nm, p.count) + (p.errors != null ? L.tipErr(fmtPct(p.errors, p.count)) : "")
         : L.tipNoData(nm);
       tip.style.left = (e.point.x + 12) + "px"; tip.style.top = (e.point.y + 12) + "px"; tip.style.display = "block";
-      map.getCanvas().style.cursor = p.has_data || p.country ? "pointer" : "";
+      map.getCanvas().style.cursor = "pointer";   // anche senza dati: il clic apre l'invito a chiedere la regione
     });
     map.on("mouseleave", "regions-fill", () => { hover(null); tip.style.display = "none"; map.getCanvas().style.cursor = ""; });
     map.on("click", "regions-fill", e => {
@@ -1330,6 +1340,7 @@ map.on("load", async () => {
       hover(null); tip.style.display = "none";
       if (p.country) openCountry(p.group);
       else if (p.has_data) selectRegion(p.key);
+      else showRequest(e.lngLat, metaBy[p.key] ? regionName(p.key) : p.name);   // regione senza dati: invito a chiederla
     });
   }
 
@@ -1350,6 +1361,13 @@ map.on("load", async () => {
   // paesi con almeno una regione con dati, dal codice ISO 3166 delle regioni (IT-25 → IT, GB-WLS → GB, JP → JP)
   const COVERED = new Set(meta.filter(m => idx[m.slug] && m.iso).map(m => m.iso.slice(0, 2).toUpperCase()));
   let requestPopup = null;
+  // invito a chiedere l'aggiunta di un paese o di una regione: il nome come titolo, poi la domanda (niente articoli
+  // da accordare, «la Spagna», «il Belgio»…)
+  function showRequest(lngLat, title) {
+    if (requestPopup) requestPopup.remove();
+    requestPopup = new maplibregl.Popup({ maxWidth: "260px", focusAfterOpen: false }).setLngLat(lngLat)
+      .setHTML(`<div class="card">${title ? `<h3>${esc(title)}</h3>` : ""}${esc(L.reqAsk)}<br>${link(CONTACT_URL, L.reqContact)}</div>`).addTo(map);
+  }
   map.on("click", async e => {
     if (map.getZoom() >= ALL_Z) return;
     const layers = ["regions-fill", ...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"].filter(l => map.getLayer(l));
@@ -1368,9 +1386,7 @@ map.on("load", async () => {
       country = addr.country || null;
     } catch (err) { country = ""; }    // Nominatim non risponde: invito generico
     if (country === null) return;      // nessun paese (mare aperto)
-    requestPopup = new maplibregl.Popup({ maxWidth: "260px", focusAfterOpen: false }).setLngLat(e.lngLat)
-      // nome del paese come titolo, poi la domanda: niente articoli da accordare («la Spagna», «il Belgio»…)
-      .setHTML(`<div class="card">${country ? `<h3>${esc(country)}</h3>` : ""}${esc(L.reqAsk)}<br>${link(CONTACT_URL, L.reqContact)}</div>`).addTo(map);
+    showRequest(e.lngLat, country);
   });
 
   // avvio dall'indirizzo: regione e, se c'è, posizione della mappa (altrimenti la vista della regione o d'insieme)
@@ -1457,6 +1473,9 @@ const issueBase = (i, p) => {
     case "broken_link":          // bad_url: righe "chiave=valore (stato)" (fetch_trees.py)
       return String(p.bad_url || "").split("\n").filter(Boolean).map(x => { const m = /^(.*) \((\w+)\)$/.exec(x);
         return m ? T[i](m[1], T.linkWhy[m[2]] || m[2]) : x; }).join("\n");
+    case "commons_far":          // cm_far: righe "metri|tipo|File:…" (fetch_trees.py)
+      return String(p.cm_far || "").split("\n").filter(Boolean).map(x => { const [m, k, ...f] = x.split("|");
+        return T[i](f.join("|"), Number(m).toLocaleString(LOC), k === "object"); }).join("\n");
     case "wikidata_heritage": return T[i](p.wd_her_q, LANG === "it" ? p.wd_her_it : p.wd_her_en);
     case "wikidata_far":         // wd_far: "QID:km;…" (fetch_trees.py)
       return String(p.wd_far || "").split(";").map(x => { const [q, km] = x.split(":"); return T[i](q, Number(km).toLocaleString(LOC)); }).join("\n");
@@ -1487,7 +1506,9 @@ const issueBase = (i, p) => {
 
 const MASAF_URL = "https://www.masaf.gov.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/11260";
 const RAMI_URL = "https://ilregistrodeglialberi.it/cerca";
-const CONTACT_URL = "https://www.openstreetmap.org/messages/new/ivanbranco";   // richieste di nuove regioni
+const ICNF_URL = "https://www.icnf.pt/";            // heritage:operator=icnf (Portogallo)
+const ANF_URL = "https://anf.gouvernement.lu/";     // heritage:operator=anf (Lussemburgo)
+const CONTACT_URL ="https://www.openstreetmap.org/messages/new/ivanbranco";   // richieste di nuove regioni
 // tipi di albero sacro: nome e voce di Wikipedia in inglese (in italiano non ci sono). Per i rag tree non c'è una
 // voce propria (Wikidata Q107257053): la più vicina è quella sui clootie well. Goshinboku: religion=shinto
 const SACRED_NAME = { zapis: "zapis", rag_tree: "rag tree", goshinboku: "goshinboku" };
@@ -1520,6 +1541,9 @@ function recognitions(p) {
     r.push(esc(L.recCriteria(codes.map(c => L.masafCriteria[c] ? `${c}) ${L.masafCriteria[c]}` : c).join("; "))));
   }
   if (p["ref:rami"]) r.push(L.recRami(t => link(RAMI_URL, t), esc(p["ref:rami"])));
+  const ops = String(p["heritage:operator"] || "").split(";").map(x => x.trim().toLowerCase());
+  if (ops.includes("icnf")) r.push(L.recIcnf(t => link(ICNF_URL, t), p["ref:icnf"] ? esc(p["ref:icnf"]) : ""));
+  if (ops.includes("anf")) r.push(L.recAnf(t => link(ANF_URL, t)));
   if (p.sacred) r.push(L.recSacred(link, sacredKind(p)));
   const mt = monumentalTreesUrl(p);
   if (mt) r.push(L.recMt(link(mt, "monumentaltrees.com")));

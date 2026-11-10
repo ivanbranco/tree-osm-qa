@@ -16,6 +16,8 @@
   {"slug": "burgenland", "name": "Burgenland", "name_en": "Burgenland", "group": "Austria", "group_en": "Austria", "group_rel": 16239, "iso": "AT-1", "rel": 76909, "bbox": [46.78, 15.95, 48.17, 17.21]},
   {"slug": "giappone", "name": "Giappone", "name_en": "Japan", "iso": "JP", "rel": 382313, "bbox": [24.0, 122.9, 45.6, 146.0]},
   {"slug": "serbia", "name": "Serbia", "name_en": "Serbia", "iso": "RS", "rel": 1741311, "bbox": [42.1, 18.7, 46.3, 23.1]},
+  {"slug": "portogallo", "name": "Portogallo", "name_en": "Portugal", "iso": "PT", "rel": 295480, "bbox": [30.0, -31.3, 42.2, -6.2]},
+  {"slug": "lussemburgo", "name": "Lussemburgo", "name_en": "Luxembourg", "iso": "LU", "rel": 2171347, "bbox": [49.4, 5.7, 50.2, 6.6]},
   {"slug": "leinster", "name": "Leinster", "name_en": "Leinster", "group": "Irlanda", "group_en": "Ireland", "group_rel": 62273, "iso": "IE-L", "rel": 278746, "bbox": [52.0, -8.2, 54.2, -5.9]},
   {"slug": "munster", "name": "Munster", "name_en": "Munster", "group": "Irlanda", "group_en": "Ireland", "group_rel": 62273, "iso": "IE-M", "rel": 278750, "bbox": [51.3, -10.8, 53.3, -6.8]},
   {"slug": "connacht", "name": "Connacht", "name_en": "Connacht", "group": "Irlanda", "group_en": "Ireland", "group_rel": 62273, "iso": "IE-C", "rel": 278721, "bbox": [52.9, -10.4, 54.6, -7.5]},
