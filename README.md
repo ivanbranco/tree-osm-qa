@@ -1,8 +1,10 @@
-# DendrOSM
+# <img src="favicon.svg" alt="" width="32" height="32"> DendrOSM
 
 Mappa degli alberi di OpenStreetMap (`natural=tree`, e i ceppi `natural=tree_stump`), divisa per regioni e pensata per il controllo di qualità dei dati.
 
-**Sito**: https://ivanbranco.github.io/tree-osm-qa/ · **Mappa degli alberi monumentali del mondo**: https://ivanbranco.github.io/tree-osm-qa/monumental-trees/
+**Sito**: https://ivanbranco.github.io/tree-osm-qa/
+
+**Mappa degli alberi monumentali del mondo**: https://ivanbranco.github.io/tree-osm-qa/monumental-trees/
 
 ![Alberi su DendrOSM: chiome a lobi e poligonali, tronchi, monumentali con il contorno giallo, ceppi](docs/img/mappa-esempio.png)
 
