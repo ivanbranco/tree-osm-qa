@@ -10,12 +10,16 @@
 <link rel="me" href="https://en.osm.town/@ivanbranco">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
 <style>
-  html,body{margin:0;height:100%;font:14px system-ui,sans-serif}
+  html,body{margin:0;height:100%;font:14px system-ui,sans-serif;overflow:hidden}
   #map{position:absolute;inset:0}
   /* la mappa si mostra solo quando è nella posizione iniziale (vista d'insieme, regione o indirizzo): prima sarebbe
      centrata sull'Italia, la posizione con cui nasce, e poi salterebbe altrove */
   #map.wait .maplibregl-canvas{visibility:hidden}
-  #side{position:absolute;top:10px;left:10px;z-index:2;display:flex;flex-direction:column;gap:8px;width:230px}
+  /* pannello a sinistra: se con legenda e classifica aperte è più alto della finestra, scorre lui (non la pagina, che
+     sotto la mappa mostrerebbe una zona bianca). Il margine interno di 6 px lascia vedere le ombre dei riquadri. */
+  #side{position:absolute;top:4px;left:4px;z-index:2;display:flex;flex-direction:column;gap:8px;width:230px;padding:6px;
+    max-height:calc(100% - 20px);box-sizing:content-box;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+  #side>*{flex:none}
   .box{background:#fff;padding:10px 12px;border-radius:6px;box-shadow:0 1px 6px #0004}
   #legend-box summary,#rank-box>summary,#chart-box>summary{font-weight:600;cursor:pointer}
   /* scelta dell'ordine della classifica: numero di alberi con errori o percentuale */
@@ -638,6 +642,12 @@ document.querySelectorAll(".leg li").forEach(li => {
   w.append(svg, t);
 });
 document.getElementById("gh").title = L.github;
+// riquadri chiudibili del pannello (legenda, classifica, andamento): uno aperto alla volta, così il pannello non
+// diventa più alto della finestra
+const SIDE_BOXES = ["legend-box", "rank-box", "chart-box"].map(id => document.getElementById(id));
+SIDE_BOXES.forEach(b => b.addEventListener("toggle", () => {
+  if (b.open) SIDE_BOXES.forEach(o => { if (o !== b) o.open = false; });
+}));
 // icone del globo nella legenda (mappe mondiali) e, nelle mappe mondiali, titolo della mappa al posto del sottotitolo
 document.querySelectorAll(".leg .globe").forEach(a => { a.title = L.worldLink[a.dataset.world]; a.setAttribute("aria-label", a.title); });
 if (WORLD) {
