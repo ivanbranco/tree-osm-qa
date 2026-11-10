@@ -5512,6 +5512,7 @@
 "cedro gigante"
 ]
 },
+"it": "Cedro gigante",
 "names": [
 "Thuja plicata"
 ],
@@ -7553,6 +7554,7 @@
 "Cerri"
 ]
 },
+"it": "Cerro",
 "names": [
 "Quercus cerris"
 ],
@@ -8473,6 +8475,7 @@
 "Acero oppio"
 ]
 },
+"it": "Acero campestre",
 "names": [
 "Acer campestre"
 ],
@@ -9312,6 +9315,7 @@
 "Aceri minori"
 ]
 },
+"it": "Acero minore",
 "names": [
 "Acer monspessulanum"
 ],
@@ -9346,6 +9350,7 @@
 ]
 },
 "en": "Quercus pubescens",
+"it": "Roverella",
 "names": [
 "Quercus pubescens"
 ],
@@ -18528,6 +18533,7 @@
 "Cedri dell'Atlante"
 ]
 },
+"it": "Cedro dell'Atlante",
 "names": [
 "Cedrus atlantica"
 ],

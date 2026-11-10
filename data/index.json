@@ -10,10 +10,10 @@
   "alta-austria": {
    "count": 97944,
    "diam": "mm",
-   "errors": 1527,
+   "errors": 1533,
    "name": "Alta Austria",
-   "sha1": "e9aa6aacd4204a209397b83e1b016dca454cdb87",
-   "updated": "2026-11-09T21:59:55Z"
+   "sha1": "2ddf2ba173c6a9af19a4c3491ef6d75ecb4dc74d",
+   "updated": "2026-11-10T01:28:00Z"
   },
   "alta-francia": {
    "count": 126924,
