@@ -10569,6 +10569,7 @@
 ]
 ],
 "image": "Arbimäe mänd.jpg",
+"mon": true,
 "taxa": [
 "Q133128"
 ],
@@ -10589,6 +10590,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [
 "Q163760"
 ],
@@ -10604,6 +10606,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -10622,6 +10625,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [
 "Q18674606"
 ],
@@ -10657,6 +10661,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [
 "Q133128"
 ],
@@ -10677,6 +10682,7 @@
 ]
 ],
 "image": "Porkuni mänd.jpg",
+"mon": true,
 "taxa": [
 "Q133128"
 ],
@@ -10697,6 +10703,7 @@
 ]
 ],
 "image": "Pühajärve sõjatamm udus.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -10717,6 +10724,7 @@
 ]
 ],
 "image": "Hõlmikpuu 1.jpg",
+"mon": true,
 "taxa": [
 "Q43284"
 ],
@@ -10741,6 +10749,7 @@
 ]
 ],
 "image": "Tüliveretamm.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -13328,6 +13337,7 @@
 "coords": [],
 "heritage": [],
 "image": "Maroltova jelka.jpg",
+"mon": true,
 "taxa": [
 "Q146992"
 ],
@@ -13343,6 +13353,7 @@
 ],
 "heritage": [],
 "image": "NajevskaLipa1.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -13356,6 +13367,7 @@
 ],
 "heritage": [],
 "image": "Rog (3).jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -13369,6 +13381,7 @@
 ],
 "heritage": [],
 "image": "Kraljica Roga 2023.jpg",
+"mon": true,
 "taxa": [
 "Q25350"
 ],
@@ -13849,6 +13862,7 @@
 ],
 "heritage": [],
 "image": "Drevo z večjo udolbino na sredini in človekom za perspektivo.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -15049,6 +15063,8 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
+"mt": "svn/podravska/maribor/19820_familiedolar",
 "taxa": [
 "Q22699"
 ],
@@ -15064,6 +15080,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -15133,6 +15150,8 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
+"mt": "svn/koroska/ribnicanapohorju/4254_sgermovakmetija/8569",
 "taxa": [
 "Q17358067"
 ],
@@ -15461,6 +15480,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [
 "Q133128"
 ],
@@ -15516,6 +15536,7 @@
 ]
 ],
 "image": "Viiralti tamm.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -17510,6 +17531,7 @@
 ],
 "heritage": [],
 "image": "2019 Gubec linden HR.jpg",
+"mon": true,
 "taxa": [
 "Q127849"
 ],
@@ -17810,6 +17832,7 @@
 ]
 ],
 "image": "Laudsi pettäi.jpg",
+"mon": true,
 "taxa": [
 "Q133128"
 ],
@@ -17845,6 +17868,7 @@
 ]
 ],
 "image": "Mäe-Lehtsoo tamm.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -18157,6 +18181,7 @@
 ],
 "heritage": [],
 "image": "Orissaare staadioni tamm.JPG",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -18989,6 +19014,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -20649,6 +20675,7 @@
 ],
 "heritage": [],
 "image": "Jela car.JPG",
+"mon": true,
 "taxa": [
 "Q146992"
 ],
@@ -25630,6 +25657,7 @@
 ]
 ],
 "image": "Upsi tamm, 2020 03.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -25723,6 +25751,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [
 "Q26325"
 ],
@@ -25955,6 +25984,7 @@
 ]
 ],
 "image": "Tamme-Lauri tamm2.JPG",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -28941,6 +28971,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -28961,6 +28992,7 @@
 ]
 ],
 "image": "Ruuga tamm.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -28981,6 +29013,7 @@
 ]
 ],
 "image": "Kadeni mänd 2014.jpg",
+"mon": true,
 "taxa": [
 "Q133128"
 ],
@@ -29001,6 +29034,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -37517,6 +37551,8 @@
 ],
 "heritage": [],
 "image": "Älteste Winrebe (18982947223).jpg",
+"mon": true,
+"mt": "svn/podravska/maribor/39178_drau",
 "taxa": [
 "Q191019"
 ],

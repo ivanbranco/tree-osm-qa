@@ -120,10 +120,11 @@
   },
   "croazia": {
    "count": 88758,
-   "errors": 194,
+   "diam": "mm",
+   "errors": 198,
    "name": "Croazia",
-   "sha1": "b5a323716139734d80ee32f5389b16378550f741",
-   "updated": "2026-11-08T18:38:58Z"
+   "sha1": "390a8f494baad4ca815c6a962e94fd5e7dbea8ab",
+   "updated": "2026-11-10T18:15:24Z"
   },
   "dolnoslaskie": {
    "count": 127589,
@@ -147,11 +148,12 @@
    "updated": "2026-11-08T23:33:55Z"
   },
   "estonia": {
-   "count": 80759,
-   "errors": 140,
+   "count": 80795,
+   "diam": "mm",
+   "errors": 163,
    "name": "Estonia",
-   "sha1": "f54529f604e35a5d3b68b366c46651cd77ca4f33",
-   "updated": "2026-11-08T18:36:06Z"
+   "sha1": "6d75452d95dd1628c32a66652c77e04388a187a8",
+   "updated": "2026-11-10T18:13:49Z"
   },
   "friuli-venezia-giulia": {
    "count": 29916,
@@ -481,10 +483,11 @@
   },
   "slovenia": {
    "count": 51263,
-   "errors": 67,
+   "diam": "mm",
+   "errors": 68,
    "name": "Slovenia",
-   "sha1": "36635ac41983cac8f04028870f1efc5f011f724f",
-   "updated": "2026-11-08T18:38:10Z"
+   "sha1": "b03ad98546611f6dd363b400a1e151542266e61d",
+   "updated": "2026-11-10T18:14:35Z"
   },
   "stiria": {
    "count": 42083,
