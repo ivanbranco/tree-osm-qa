@@ -2383,6 +2383,14 @@
 "d": "2026-11-09",
 "s": "ok"
 },
+"geo:File:2017 Josef Oak.jpg": {
+"c": [
+49.8686961,
+21.6441391,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Beaucarnea recurvata on Avenida da Liberdade 03.jpg": {
 "c": [
 38.719947,
@@ -2391,10 +2399,26 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Beniowa - drzewo.jpg": {
+"c": [
+49.0569662,
+22.8653558,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Bird nest box in Biķernieku forest, Riga.jpg": {
 "c": [
 56.9680418,
 24.2056163,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Bukowiec, powiat kolbuszowski (Dąb Wolności).jpg": {
+"c": [
+50.1996017,
+21.7750216,
 "object"
 ],
 "d": "2026-11-10"
@@ -2409,6 +2433,270 @@
 },
 "geo:File:Dobrinishte Railway Station 16.JPG": {
 "c": [],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – kleryk kpt. Ignacy Drabczyński.jpg": {
+"c": [
+49.6374554,
+22.7055956,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – kleryk por. Andrzej Szeptycki.jpg": {
+"c": [
+49.6375342,
+22.7054411,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. gen. bryg. Czesław Wojtyniak.jpg": {
+"c": [
+49.6371028,
+22.7053287,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. gen. bryg. Kazimierz Suchcicki.jpg": {
+"c": [
+49.637085,
+22.7054955,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. gen. bryg. Ryszard Paszko.jpg": {
+"c": [
+49.6375828,
+22.7056359,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. kpt. Józef Czemerajda.jpg": {
+"c": [
+49.6374661,
+22.7054192,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. kpt. Michał Tyszka.jpg": {
+"c": [
+49.6374868,
+22.7056011,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. kpt. Władysław Plewik.jpg": {
+"c": [
+49.6375028,
+22.7054316,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. mjr Aleksander Dubiel.jpg": {
+"c": [
+49.637297,
+22.7055492,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. mjr Bronisław Szwed.jpg": {
+"c": [
+49.6373917,
+22.7055805,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. mjr Franciszek Zakrzewski.jpg": {
+"c": [
+49.6374231,
+22.7055861,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. mjr Ignacy Drozdowicz.jpg": {
+"c": [
+49.6372772,
+22.7053796,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. mjr Jan Mioduszewski.jpg": {
+"c": [
+49.637386,
+22.7054015,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. mjr Jerzy Wrazidło.jpg": {
+"c": [
+49.6374263,
+22.7054118,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. mjr Józef Kacprzak.jpg": {
+"c": [
+49.6373307,
+22.7055621,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. mjr Józef Mikuczewski.jpg": {
+"c": [
+49.6373621,
+22.7055676,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. mjr Mieczysław Janas.jpg": {
+"c": [
+49.6373086,
+22.7053851,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. mjr Mikołaj Cichowicz.jpg": {
+"c": [
+49.6372657,
+22.7055436,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. mjr Stanisław Matzner.jpg": {
+"c": [
+49.637348,
+22.7053933,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. mjr Włodzimierz Ochab.jpg": {
+"c": [
+49.6375531,
+22.7056229,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. ppłk Andrzej Niwa.jpg": {
+"c": [
+49.6371971,
+22.7055245,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. ppłk Antoni Aleksandrowicz.jpg": {
+"c": [
+49.6371414,
+22.7053414,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. ppłk Edward Choma.jpg": {
+"c": [
+49.6371612,
+22.7055109,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. ppłk Jan Józefat Potocki.jpg": {
+"c": [
+49.6376275,
+22.7054609,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. ppłk Jan Leon Ziółkowski.jpg": {
+"c": [
+49.6372502,
+22.7053722,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. ppłk Józef Skorel.jpg": {
+"c": [
+49.6372131,
+22.7053618,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. ppłk Mikołaj Ilków.jpg": {
+"c": [
+49.6375961,
+22.7054554,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. ppłk Stanisław Kontek.jpg": {
+"c": [
+49.6371772,
+22.7053496,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. ppłk Wiktor Romanowski.jpg": {
+"c": [
+49.6375656,
+22.7054466,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. ppłk Władysław Urban.jpg": {
+"c": [
+49.6372285,
+22.70553,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. płk Szymon Fedorońko.jpg": {
+"c": [
+49.6375218,
+22.7056174,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – ks. płk dr Edmund Nowak.jpg": {
+"c": [
+49.6371299,
+22.7055054,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Dąb pamięci – rabin ppłk Baruch Steinberg.jpg": {
+"c": [
+49.6376142,
+22.7056414,
+"object"
+],
 "d": "2026-11-10"
 },
 "geo:File:Elmės šešiakamienis ąžuolas, kamienai.JPG": {
@@ -2451,6 +2739,14 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Grusza Tree Zagorz.jpg": {
+"c": [
+49.5012501,
+22.2719321,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Hrast-Trdkova.JPG": {
 "c": [
 46.8530959,
@@ -2471,6 +2767,14 @@
 "c": [
 49.99227,
 20.89842,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Leszcze - dąb szypułkowy.jpg": {
+"c": [
+50.182266,
+21.6684003,
 "object"
 ],
 "d": "2026-11-10"
@@ -2504,6 +2808,14 @@
 45.7451016,
 14.664188,
 "object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Nowa Dęba (plac majora Jana Gryczmana) - Dąb Pamięci aspiranta Józefa Jadacha.jpg": {
+"c": [
+50.415864,
+21.750813,
+"camera"
 ],
 "d": "2026-11-10"
 },
@@ -2545,6 +2857,14 @@
 },
 "geo:File:Porto DSC 0749 (17114206268).jpg": {
 "c": [],
+"d": "2026-11-10"
+},
+"geo:File:Przeworsk (zespół pałacowo-parkowy) - lipa Sobieskiego.jpg": {
+"c": [
+50.060746,
+22.486437,
+"camera"
+],
 "d": "2026-11-10"
 },
 "geo:File:Pypliai. Karvelių ąžuolas 2.JPG": {
@@ -2592,6 +2912,22 @@
 45.787039,
 14.088725,
 "camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Tree in Pełkinie 2.jpg": {
+"c": [
+50.0454123,
+22.6098683,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Tree in Pełkinie.jpg": {
+"c": [
+50.0452235,
+22.6099256,
+"object"
 ],
 "d": "2026-11-10"
 },
