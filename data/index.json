@@ -681,6 +681,14 @@
    "sha1": "05b3f1ef2be8581022b158c2cb06356e07024499",
    "updated": "2026-11-08T21:30:57Z"
   },
+  "washington": {
+   "count": 128345,
+   "diam": "mm",
+   "errors": 147,
+   "name": "Stato di Washington",
+   "sha1": "d7d8cdf7b5ab384d1e5bf521aeb8e45f92341fc0",
+   "updated": "2026-11-11T22:01:10Z"
+  },
   "wielkopolskie": {
    "count": 109503,
    "diam": "mm",

@@ -1099,6 +1099,10 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:Guy-wired tree in Yacolt, Washington, July 2020.jpg": {
+"d": "2026-11-11",
+"s": "ok"
+},
 "commons:File:Hardy_Tree_Fallen_Feb_2025.jpg": {
 "d": "2026-11-08",
 "s": "ok"
@@ -4315,6 +4319,14 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Guy-wired tree in Yacolt, Washington, July 2020.jpg": {
+"c": [
+45.86647,
+-122.406879,
+"object"
+],
+"d": "2026-11-11"
+},
 "geo:File:Hawthorn St Mars 2.jpg": {
 "c": [],
 "d": "2026-11-11"
@@ -6861,6 +6873,10 @@
 },
 "https://buch.stadt-salzburg.at/Fakten/B%C3%BCcherbus": {
 "d": "2026-11-09",
+"s": "200"
+},
+"https://capitol.wa.gov/discover/trees/moon-trees": {
+"d": "2026-11-11",
 "s": "200"
 },
 "https://chikuma-kentei.com/encyclopedia/125/": {
@@ -42859,6 +42875,10 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://letsmapbainbridge.org/id/K475": {
+"d": "2026-11-11",
+"s": "404"
+},
 "https://lh3.googleusercontent.com/Cs1t1EUkU2Qm1UavMql8vinJwMsf5S7kZRgx9nTtANM4eCH4eZ8hbMJQjJeF_cErWhCSIqcKXrq3soCQNr6knTFQ0CPUKLexWTL8voZkTA=s0": {
 "d": "2026-11-08",
 "s": "200"
@@ -45767,6 +45787,10 @@
 "d": "2026-11-10",
 "s": "conn"
 },
+"https://prod.portal.es.fs.washington.edu/federated/rest/services/Federated/PUBLIC/MapServer/37/2209962/attachments/536699": {
+"d": "2026-11-11",
+"s": "conn"
+},
 "https://rapla.ee/meil-siin-raplas#priiusetamm": {
 "d": "2026-11-08",
 "s": "timeout"
@@ -46623,6 +46647,10 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://web.archive.org/web/20221207183402/https://clubrunner.blob.core.windows.net/00000000730/en-us/files/homepage/history-of-the-silverdale-christmas-tree/Silv-Xmas-Tree-History-15-Apr-21.pdf": {
+"d": "2026-11-11",
+"s": "200"
+},
 "https://web.archive.org/web/20230104134945/https://westnordost.de/p/125532.jpg": {
 "d": "2026-11-08",
 "s": "200"
@@ -46827,6 +46855,10 @@
 "d": "2026-11-09",
 "s": "200"
 },
+"https://www.davis-meeker-oak.org/": {
+"d": "2026-11-11",
+"s": "200"
+},
 "https://www.ecomuseomontagnafiorentina.it/luoghi-di-interesse/vallombrosa/albero-pi%C3%B9-alto-d-italia/": {
 "d": "2026-11-08",
 "s": "404"
@@ -47002,6 +47034,10 @@
 "https://www.kew.org/read-and-watch/verdun-bench-kew-world-war-one": {
 "d": "2026-11-08",
 "s": "403"
+},
+"https://www.kitsapsun.com/story/news/2022/05/02/wsdot-bainbridge-ok-funding-preserve-300-year-old-douglas-fir/9561161002/": {
+"d": "2026-11-11",
+"s": "200"
 },
 "https://www.kocevsko.com/sl/poi/najdebelejsi-slovenski-oreh/": {
 "d": "2026-11-08",
@@ -47431,6 +47467,10 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://www.monumentaltrees.com/db/170/600/170893.jpg": {
+"d": "2026-11-11",
+"s": "403"
+},
 "https://www.monumentaltrees.com/de/fra/charentemaritime/saintdenisdoleron/24852_pharedechassiron/": {
 "d": "2026-11-08",
 "s": "403"
@@ -47473,6 +47513,14 @@
 },
 "https://www.monumentaltrees.com/en/svn/osrednjeslovenska/ljubljana/37687_strelikaulica/": {
 "d": "2026-11-08",
+"s": "403"
+},
+"https://www.monumentaltrees.com/en/usa/washington/graysharborcounty/2549_lakequinaultresort/7019/": {
+"d": "2026-11-11",
+"s": "403"
+},
+"https://www.monumentaltrees.com/en/usa/washington/piercecounty/4830_jeffersonpark/": {
+"d": "2026-11-11",
 "s": "403"
 },
 "https://www.monumentaltrees.com/es/fotos/41332/": {
@@ -47575,6 +47623,10 @@
 "d": "2026-11-08",
 "s": "404"
 },
+"https://www.nps.gov/places/000/kalaloch-big-cedar-tree-parking-area.htm": {
+"d": "2026-11-11",
+"s": "200"
+},
 "https://www.oldknobbley.com/": {
 "d": "2026-11-08",
 "s": "200"
@@ -47585,6 +47637,10 @@
 },
 "https://www.parks.it/news/dettaglio.php?id=36262": {
 "d": "2026-11-08",
+"s": "200"
+},
+"https://www.peaksandpints.com/tacoma-silent-trees-mountaineer-tree-breaking-silence/": {
+"d": "2026-11-11",
 "s": "200"
 },
 "https://www.perchenormand.fr/tourisme/%C3%A0-voir-%C3%A0-faire/le-ch%C3%AAne-des-canadiens/": {
@@ -48046,6 +48102,10 @@
 "https://www.tela-botanica.org/bdtfx-nn-49309-illustrations": {
 "d": "2026-11-08",
 "s": "timeout"
+},
+"https://www.thekalalochlodge.com/explore/olympic-national-park/tree-of-life": {
+"d": "2026-11-11",
+"s": "200"
 },
 "https://www.theorchardproject.org.uk/what-we-do/project-a-celebration-of-orchards/orchard-profiles/waltham-abbey-orchard/": {
 "d": "2026-11-08",
