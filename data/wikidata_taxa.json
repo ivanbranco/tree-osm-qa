@@ -1335,6 +1335,21 @@
 ],
 "taxon": true
 },
+"Q10939476": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Sorbus tianschanica",
+"it": "Sorbus tianschanica",
+"names": [
+"Sorbus tianschanica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q10940530": {
 "alias": {
 "en": [],
@@ -1465,6 +1480,23 @@
 ],
 "ranks": [
 "Q767728"
+],
+"taxon": true
+},
+"Q11037177": {
+"alias": {
+"en": [
+"Ulmus davidiana var. japonica"
+],
+"it": []
+},
+"en": "Ulmus propinqua",
+"it": "Ulmus propinqua",
+"names": [
+"Ulmus propinqua"
+],
+"ranks": [
+"Q7432"
 ],
 "taxon": true
 },
@@ -5013,6 +5045,24 @@
 ],
 "taxon": true
 },
+"Q13223298": {
+"alias": {
+"en": [
+"zwetschge",
+"prune plum"
+],
+"it": []
+},
+"en": "Prunus domestica subsp. domestica",
+"it": "Prunus domestica subsp. domestica",
+"names": [
+"Prunus domestica subsp. domestica"
+],
+"ranks": [
+"Q68947"
+],
+"taxon": true
+},
 "Q132290504": {
 "alias": {
 "en": [
@@ -5479,6 +5529,24 @@
 ],
 "ranks": [
 "Q4886"
+],
+"taxon": true
+},
+"Q134804": {
+"alias": {
+"en": [
+"spreading-leaved pine",
+"Mexican weeping pine"
+],
+"it": []
+},
+"en": "Pinus patula",
+"it": "Pinus patula",
+"names": [
+"Pinus patula"
+],
+"ranks": [
+"Q7432"
 ],
 "taxon": true
 },
@@ -8530,6 +8598,17 @@
 ],
 "taxon": true
 },
+"Q1539986": {
+"en": "Phellodendron",
+"it": "Phellodendron",
+"names": [
+"Phellodendron"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q1542486": {
 "en": "Eucalyptus regnans",
 "it": "Eucalyptus regnans",
@@ -10975,6 +11054,17 @@
 ],
 "taxon": true
 },
+"Q159545": {
+"en": "Cornus",
+"it": "Cornus",
+"names": [
+"Cornus"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q159553": {
 "alias": {
 "en": [
@@ -12410,8 +12500,8 @@
 "Aesculus × carnea"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -15627,6 +15717,23 @@
 ],
 "taxon": true
 },
+"Q21877190": {
+"alias": {
+"en": [
+"chestnut oak"
+],
+"it": []
+},
+"en": "Quercus prinus",
+"it": "Quercus prinus",
+"names": [
+"Quercus prinus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q21877280": {
 "alias": {
 "en": [
@@ -16451,6 +16558,25 @@
 ],
 "ranks": [
 "Q34740"
+],
+"taxon": true
+},
+"Q2549523": {
+"alias": {
+"en": [
+"Lemon eucalyptus"
+],
+"it": [
+"Corymbia citriodora"
+]
+},
+"en": "Corymbia citriodora",
+"it": "Eucalyptus citriodora",
+"names": [
+"Corymbia citriodora"
+],
+"ranks": [
+"Q7432"
 ],
 "taxon": true
 },
@@ -17971,6 +18097,21 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q2946680": {
+"alias": {
+"en": [
+"Common red Kentish"
+],
+"it": [
+"ciliegio di Montmorency"
+]
+},
+"en": "Montmorency cherry",
+"it": "Prunus cerasus \"Montmorency\"",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q2946681": {
 "alias": {
@@ -20002,6 +20143,17 @@
 ],
 "taxon": true
 },
+"Q388277": {
+"en": "Stewartia",
+"it": "Stewartia",
+"names": [
+"Stewartia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q3886573": {
 "alias": {
 "en": [
@@ -21747,6 +21899,26 @@
 ],
 "taxon": true
 },
+"Q469151": {
+"alias": {
+"en": [
+"Picea rubra",
+"red spruce"
+],
+"it": [
+"Peccio rosso"
+]
+},
+"en": "Picea rubens",
+"it": "Picea rubens",
+"names": [
+"Picea rubens"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q469382": {
 "alias": {
 "en": [
@@ -21760,6 +21932,24 @@
 "it": "Ulmus americana",
 "names": [
 "Ulmus americana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q469524": {
+"alias": {
+"en": [
+"American plum tree",
+"American plum"
+],
+"it": []
+},
+"en": "Prunus americana",
+"it": "Prunus americana",
+"names": [
+"Prunus americana"
 ],
 "ranks": [
 "Q7432"
@@ -21830,6 +22020,27 @@
 "it": "Liquidambar styraciflua",
 "names": [
 "Liquidambar styraciflua"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q469695": {
+"alias": {
+"en": [
+"Pacific madrone",
+"arbutus",
+"madrona",
+"madrone",
+"bearberry"
+],
+"it": []
+},
+"en": "Arbutus menziesii",
+"it": "Arbutus menziesii",
+"names": [
+"Arbutus menziesii"
 ],
 "ranks": [
 "Q7432"

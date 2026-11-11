@@ -201,6 +201,22 @@
 "taxon": false,
 "wp": {}
 },
+"Q104861421": {
+"coords": [
+[
+-124.315055555,
+47.719583333
+]
+],
+"heritage": [],
+"image": "Duncan Memorial Big Cedar Tree, 002.jpg",
+"mon": true,
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Duncan_Cedar"
+}
+},
 "Q104919716": {
 "coords": [
 [
@@ -36985,6 +37001,28 @@
 "mon": true,
 "taxa": [
 "Q22699"
+],
+"taxon": false,
+"wp": {}
+},
+"Q69716290": {
+"coords": [
+[
+-124.392287,
+47.674996
+],
+[
+-124.39218,
+47.67499
+]
+],
+"heritage": [],
+"image": "Big Thuja plicata - Olympic National Park.jpg",
+"mon": true,
+"mt": "usa/washington/jeffersoncounty/2420_olympicnationalpark/3808",
+"taxa": [
+"Q147417",
+"Q128550"
 ],
 "taxon": false,
 "wp": {}
