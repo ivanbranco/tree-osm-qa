@@ -72,7 +72,8 @@ Oltre agli errori, la scheda dell'albero può mostrare dei consigli: informazion
 * Nessun `species` né `genus`, ma l'elemento Wikidata dell'albero (`wikidata=*`) indica la specie ([P10241](https://www.wikidata.org/wiki/Property:P10241)): si potrebbe aggiungere `species` con quel nome
 * `species:wikidata=*` (un taxon) senza `species`: si potrebbe aggiungere `species` con il nome scientifico dell'elemento (P225)
 * `species` nella lista delle specie della wiki, senza `species:wikidata`: si potrebbe aggiungere il QID della lista
+* `species:it=*` con l'iniziale minuscola (ogni valore, se sono più separati da `;`): su OSM il 98% dei valori la ha maiuscola (per esempio `Platano comune`), quindi si propone la maiuscola. È un consiglio e non un errore perché non è una regola scritta nella wiki
 * `leaf_type` o `leaf_cycle` mancanti, con la specie o il genere nelle liste della wiki: si potrebbero aggiungere i valori delle liste (quelli sbagliati sono già errori)
 * `wikidata=*` senza `denotation=natural_monument` né `landmark`: un albero con un elemento Wikidata è notevole, e potrebbe avere uno dei due (non compare se un errore lo dice già, per esempio la tutela su Wikidata)
 
-I primi tre si calcolano in `hint_props` di `scripts/fetch_trees.py` (proprietà `hint_sp`, `hint_sn`, `hint_sw`), gli ultimi due nella pagina (`hints` in `index.html`) dai dati dell'albero.
+I primi quattro si calcolano in `hint_props` di `scripts/fetch_trees.py` (proprietà `hint_sp`, `hint_sn`, `hint_sw`, `hint_it`), gli ultimi due nella pagina (`hints` in `index.html`) dai dati dell'albero.

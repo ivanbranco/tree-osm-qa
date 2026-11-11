@@ -23,7 +23,7 @@ Mappa degli alberi di OpenStreetMap (`natural=tree`, e i ceppi `natural=tree_stu
 
 Italia, Polonia, Francia metropolitana, Regno Unito e Irlanda (divisi in regioni), Austria (nei nove Länder); Portogallo, Lussemburgo, Paesi baltici, Slovenia, Croazia, Bosnia ed Erzegovina, Serbia, Montenegro, Kosovo, Albania, Macedonia del Nord, Grecia, Bulgaria, Romania e Giappone (una regione ciascuno).
 
-Una nuova regione si può chiedere dal menu («+ Richiedi una nuova regione…») o cliccando sulla mappa un paese non coperto.
+Una nuova regione si può chiedere dal menu («+ Richiedi una nuova regione…») o cliccando sulla mappa un paese non coperto. Si può anche chiedere una regione nuova o l'aggiornamento di una esistente aprendo una [issue su GitHub](https://github.com/ivanbranco/tree-osm-qa/issues/new?template=region.yml).
 
 ## Documentazione
 

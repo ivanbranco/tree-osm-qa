@@ -1,0 +1,26 @@
+name: Request a region
+description: Request a new region, or an update of an existing one.
+title: "Region: "
+labels: ["request region/update"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Request
+      options:
+        - New region
+        - Update of an existing region
+    validations:
+      required: true
+  - type: input
+    id: region
+    attributes:
+      label: Region or country
+      placeholder: e.g. Slovenia
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Anything else useful (optional).

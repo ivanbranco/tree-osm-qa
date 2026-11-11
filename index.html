@@ -101,7 +101,8 @@
   .card dt{color:#666}.card dd{margin:0;min-width:0}
   .bad{color:#b00020;font-weight:600;position:relative}
   .card .hint{color:#555;margin:2px 0}   /* consigli (ⓘ): informazioni, non errori */
-  .card h3 .sex{color:#888;font-weight:400;cursor:help}   /* ♂ / ♀ accanto al titolo (sex=male/female) */
+  .card h3 .sex{color:#555;cursor:help;white-space:nowrap}
+  .card h3 .sex svg{width:.85em;height:.85em;vertical-align:-.1em;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}   /* ♂ / ♀ accanto al titolo (sex=male/female) */
   /* pop-up con la spiegazione del check: passando il mouse sul ⚠, o toccandolo (focus) da telefono */
   .why{cursor:help;outline:none}
   .why .tip{display:none;position:absolute;left:0;right:0;top:100%;z-index:6;background:#fff;color:#222;font-weight:400;
@@ -274,6 +275,7 @@ const I18N = {
       wdSpecies: n => `Su Wikidata questo albero è un ${n}: si potrebbe aggiungere species=${n}`,
       speciesFromWd: n => `species:wikidata indica ${n}: si potrebbe aggiungere species=${n}`,
       speciesWikidata: q => `Si potrebbe aggiungere species:wikidata=${q}`,
+      speciesIt: v => `Su OSM quasi tutti i valori di species:it iniziano con la maiuscola: species:it=${v}`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,
       notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
     },
@@ -511,6 +513,7 @@ const I18N = {
       wdSpecies: n => `On Wikidata this tree is a ${n}: species=${n} could be added`,
       speciesFromWd: n => `species:wikidata points to ${n}: species=${n} could be added`,
       speciesWikidata: q => `species:wikidata=${q} could be added`,
+      speciesIt: v => `On OSM almost all species:it values start with a capital letter: species:it=${v}`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,
       notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
     },
@@ -993,7 +996,11 @@ map.on("load", async () => {
   // bianca come carta, con un sottile bordo grigio perché si veda anche sulle chiome chiare
   const WHITE_BARK = ["==", ["slice", ["coalesce", ["get", "species"], ""], 0, 13], "Betula utilis"];
   const TRUNK_COLOR = ["case", WHITE_BARK, "#f4f1e8", "#7b4a1e"];
-  const TRUNK_STROKE = { "circle-stroke-color": "#8a8a8a", "circle-stroke-width": ["case", WHITE_BARK, 0.8, 0] };
+  // tronco più grande della chioma su un albero con errori (di solito una misura sbagliata): il tronco, disegnato
+  // della sua grandezza reale, coprirebbe la chioma e il suo contorno rosso; il contorno rosso va allora sul tronco
+  const BIG_TRUNK_ISSUE = ["all", HAS_ISSUE, [">", ["coalesce", ["get", "tr"], 0], ["coalesce", ["get", "cr"], 0]]];
+  const TRUNK_STROKE = { "circle-stroke-color": ["case", BIG_TRUNK_ISSUE, "#d00020", "#8a8a8a"],
+    "circle-stroke-width": ["case", BIG_TRUNK_ISSUE, 2, WHITE_BARK, 0.8, 0] };
 
   // Due livelli di layer: prima tutti gli alberi, poi i monumentali, che restano sopra agli altri
   const TREE = ["!", ["has", "stump"]];   // i ceppi (natural=tree_stump) hanno un layer a parte
@@ -1355,7 +1362,9 @@ map.on("load", async () => {
     });
   };
   const closeCard = () => { if (cardPopup) cardPopup.remove(); };
-  for (const id of [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"]) {
+  // anche i tronchi (singoli e multipli) aprono la scheda: da zoom 16 sono disegnati sopra la chioma
+  for (const id of [...CROWN_IDS, ...TIERS.map(t => "trunk" + t.suf), ...TIERS.map(t => "stem" + t.suf),
+    "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"]) {
     map.on("click", id, e => {
       const g = e.features[0].geometry, pos = g.type === "Point" ? g.coordinates : [e.lngLat.lng, e.lngLat.lat];
       openCard(e.features[0].properties, pos);
@@ -1776,6 +1785,25 @@ map.on("load", async () => {
   let hashTimer;   // a ogni spostamento la posizione finisce nell'indirizzo (pronto da condividere)
   map.on("moveend", () => { clearTimeout(hashTimer); hashTimer = setTimeout(() => setHash(), 300); });
   setHash();
+
+  // Indirizzo cambiato a mano (es. un altro #node e Invio): il browser non ricarica la pagina, quindi la si segue qui.
+  // setHash usa replaceState, che non fa scattare "hashchange": arrivano solo i cambiamenti fatti da chi usa il sito.
+  addEventListener("hashchange", async () => {
+    const h = hashParams();
+    if ((h.get("lang") || LANG) !== LANG) { location.reload(); return; }   // la lingua si applica solo ricaricando
+    const slug = WORLD ? MODE : h.get("region"), view = parseMapHash(h.get("map")), node = Number(h.get("node")) || null;
+    if (!WORLD && slug && idx[slug] && slug !== current) {
+      closeCard();
+      hashSlug = slug;
+      await loadRegion(slug, !view && !node);
+    }
+    if (view) map.jumpTo(view);
+    const f = node && ALL.find(x => x.properties.id === node);
+    if (f) {
+      if (!view) map.jumpTo({ center: f.geometry.coordinates, zoom: 19 });
+      openCard(f.properties, f.geometry.coordinates);
+    } else if (!node) closeCard();
+  });
 });
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -1791,8 +1819,13 @@ const ROW_FMT = { denotation: v => tr(L.denotation, v), leaf_type: v => tr(L.lea
   leaf_cycle: v => tr(L.leafCycle, v), lc: v => tr(L.leafCycle, v), circumference: fmtM, diameter: fmtD, height: fmtM, diameter_crown: fmtM };
 // sex=male/female (piante dioiche, es. ginkgo, tasso): ♂ / ♀ accanto al titolo della scheda, in grigio, con il nome
 // per esteso al passaggio del mouse; altri valori non si mostrano
-const sexMark = p => { const s = { male: "♂", female: "♀" }[p.sex];
-  return s ? ` <span class="sex" title="${esc(L.sex[p.sex])}">${s}</span>` : ""; };
+// icone ♂ / ♀ disegnate in SVG: il carattere Unicode ha un tratto troppo sottile in molti font
+const SEX_SVG = {
+  male: '<circle cx="9" cy="15" r="6"/><path d="M13.5 10.5 21 3M15 3h6v6"/>',
+  female: '<circle cx="12" cy="9" r="6"/><path d="M12 15v8M8 19.5h8"/>'
+};
+const sexMark = p => { const s = SEX_SVG[p.sex];
+  return s ? ` <span class="sex" title="${esc(L.sex[p.sex])}"><svg viewBox="0 0 24 24" aria-hidden="true">${s}</svg></span>` : ""; };
 const ROWS = ROW_KEYS.map(k => [k, L.rows[k], ROW_FMT[k]]);
 const list = v => String(v || "").split(";").join(", ");
 const fromD = (i, p) => p.diam_used && i.startsWith("circumference") ? L.fromDiameter : "";
@@ -2106,6 +2139,7 @@ function hints(p) {
   if (p.hint_sp) out.push(H.wdSpecies(p.hint_sp));
   if (p.hint_sn) out.push(H.speciesFromWd(p.hint_sn));
   if (p.hint_sw) out.push(H.speciesWikidata(p.hint_sw));
+  if (p.hint_it) out.push(H.speciesIt(p.hint_it));
   // leaf_type / leaf_cycle mancanti (non sbagliati: quelli sono errori), stimati dalle liste della wiki
   const name = p.sp_clean || p.species || p.genus, lt = !p.leaf_type && p.lt, lc = !p.leaf_cycle && p.lc;   // sp_clean: senza autore
   if (name && (lt || lc)) out.push(H.leaf(name, [lt && `leaf_type=${lt}`, lc && `leaf_cycle=${lc}`].filter(Boolean)));

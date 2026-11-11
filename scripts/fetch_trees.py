@@ -519,8 +519,13 @@ def hint_props(t):
     mappa). Solo quelli che la pagina non può ricavare da sola:
     hint_sp: nessun species né genus, ma l'elemento di wikidata=* indica la specie (P10241) -> nome scientifico;
     hint_sw: species (dalla lista wiki) senza species:wikidata -> QID della specie nella lista;
-    hint_sn: species:wikidata (un taxon) senza species -> nome scientifico dell'elemento (P225)."""
+    hint_sn: species:wikidata (un taxon) senza species -> nome scientifico dell'elemento (P225);
+    hint_it: species:it con l'iniziale minuscola -> lo stesso valore con la maiuscola (su OSM il 98% dei valori la ha,
+    ma non è una regola scritta: per questo è un consiglio e non un errore), ogni parte separata da ";"."""
     out = {}
+    sit = [x.strip() for x in str(t.get("species:it", "")).split(";") if x.strip()]
+    if any(x[:1].islower() for x in sit):
+        out["hint_it"] = ";".join(x[:1].upper() + x[1:] for x in sit)
     sp = (t.get("species") or "").strip()
     if not sp and not t.get("genus"):
         for q in qids(t, "wikidata"):
