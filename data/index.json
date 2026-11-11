@@ -543,12 +543,12 @@
    "updated": "2026-11-08T23:28:59Z"
   },
   "serbia": {
-   "count": 40023,
+   "count": 40037,
    "diam": "mm",
-   "errors": 368,
+   "errors": 370,
    "name": "Serbia",
-   "sha1": "08aacceb803901b920f35d5dec0e3d542dcd0a19",
-   "updated": "2026-11-09T16:04:20Z"
+   "sha1": "b8947fa2180bd32380cdac36cb965249e72a5587",
+   "updated": "2026-11-11T17:35:45Z"
   },
   "sicilia": {
    "count": 49245,
