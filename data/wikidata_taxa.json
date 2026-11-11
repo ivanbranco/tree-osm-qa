@@ -2192,6 +2192,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pinus canadensis"
+],
 "en": "Tsuga canadensis",
 "it": "Tsuga canadensis",
 "names": [
@@ -2267,6 +2270,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Hamamelis persica"
+],
 "en": "Parrotia persica",
 "it": "Parrotia persica",
 "names": [
@@ -2924,6 +2930,9 @@
 "Noce del Caucaso"
 ]
 },
+"basionyms": [
+"Juglans fraxinifolia"
+],
 "en": "Pterocarya fraxinifolia",
 "it": "Pterocarya fraxinifolia",
 "names": [
@@ -3109,6 +3118,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Magnolia virginiana var. acuminata"
+],
 "en": "Magnolia acuminata",
 "it": "Magnolia acuminata",
 "names": [
@@ -3299,6 +3311,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pinus glauca"
+],
 "en": "Picea glauca",
 "it": "Picea glauca",
 "names": [
@@ -4988,6 +5003,9 @@
 "pesco"
 ]
 },
+"basionyms": [
+"Amygdalus persica"
+],
 "en": "Prunus persica",
 "it": "Prunus persica",
 "names": [
@@ -6600,6 +6618,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Picea concolor"
+],
 "en": "Abies concolor",
 "it": "Abies concolor",
 "names": [
@@ -6644,6 +6665,9 @@
 "Picea excelsa"
 ]
 },
+"basionyms": [
+"Pinus abies"
+],
 "en": "Picea abies",
 "it": "Picea abies",
 "names": [
@@ -6901,6 +6925,9 @@
 "Cedri dell'Himalaya"
 ]
 },
+"basionyms": [
+"Pinus deodara"
+],
 "en": "Cedrus deodara",
 "it": "Cedrus deodara",
 "names": [
@@ -7086,6 +7113,9 @@
 "Criptomeria"
 ]
 },
+"basionyms": [
+"Cupressus japonica"
+],
 "en": "Cryptomeria japonica",
 "it": "Cryptomeria",
 "names": [
@@ -7148,6 +7178,9 @@
 "Peccio di Sitka"
 ]
 },
+"basionyms": [
+"Pinus sitchensis"
+],
 "en": "Picea sitchensis",
 "it": "Picea sitchensis",
 "names": [
@@ -7193,6 +7226,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pinus kaempferi"
+],
 "en": "Larix kaempferi",
 "it": "Larix kaempferi",
 "names": [
@@ -7419,6 +7455,9 @@
 "Abete di Serbia"
 ]
 },
+"basionyms": [
+"Pinus omorika"
+],
 "en": "Picea omorika",
 "it": "Picea omorika",
 "names": [
@@ -7546,6 +7585,9 @@
 "Abete del Caucaso"
 ]
 },
+"basionyms": [
+"Pinus nordmanniana"
+],
 "en": "Abies nordmanniana",
 "it": "Abies nordmanniana",
 "names": [
@@ -7591,6 +7633,9 @@
 "Cipresso di palude"
 ]
 },
+"basionyms": [
+"Cupressus disticha"
+],
 "en": "Taxodium distichum",
 "it": "Taxodium distichum",
 "names": [
@@ -7646,6 +7691,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pinus lanceolata"
+],
 "en": "Cunninghamia lanceolata",
 "it": "Cunninghamia lanceolata",
 "names": [
@@ -7892,6 +7940,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Prunus syriaca"
+],
 "en": "Prunus domestica subsp. syriaca",
 "it": "Prunus domestica subsp. syriaca",
 "names": [
@@ -7917,6 +7968,9 @@
 "Sequoia gigante"
 ]
 },
+"basionyms": [
+"Wellingtonia gigantea"
+],
 "it": "Sequoiadendron giganteum",
 "names": [
 "Sequoiadendron giganteum"
@@ -7975,6 +8029,9 @@
 "Sequoia sempreverde"
 ]
 },
+"basionyms": [
+"Taxodium sempervirens"
+],
 "en": "Sequoia sempervirens",
 "it": "Sequoia sempervirens",
 "names": [
@@ -8923,8 +8980,8 @@
 "Aesculus × mutabilis"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -9299,6 +9356,9 @@
 "Pino dell'Oregon"
 ]
 },
+"basionyms": [
+"Abies menziesii"
+],
 "en": "Pseudotsuga menziesii",
 "it": "Pseudotsuga menziesii",
 "names": [
@@ -9379,6 +9439,9 @@
 "Ontano comune"
 ]
 },
+"basionyms": [
+"Betula alnus var. glutinosa"
+],
 "en": "Alnus glutinosa",
 "it": "Alnus glutinosa",
 "names": [
@@ -9670,6 +9733,9 @@
 "Pauluwnia tomentosa"
 ]
 },
+"basionyms": [
+"Bignonia tomentosa"
+],
 "en": "Paulownia tomentosa",
 "it": "Paulownia tomentosa",
 "names": [
@@ -9862,6 +9928,9 @@
 "Ontano bianco"
 ]
 },
+"basionyms": [
+"Betula alnus var. incana"
+],
 "en": "Alnus incana",
 "it": "Alnus incana",
 "names": [
@@ -10320,6 +10389,9 @@
 "Palma di Fortune"
 ]
 },
+"basionyms": [
+"Chamaerops fortunei"
+],
 "en": "Trachycarpus fortunei",
 "it": "Trachycarpus fortunei",
 "names": [
@@ -10349,6 +10421,9 @@
 "Brahea filamentosa"
 ]
 },
+"basionyms": [
+"Pritchardia filifera"
+],
 "en": "Washingtonia filifera",
 "it": "Washingtonia filifera",
 "names": [
@@ -10438,6 +10513,9 @@
 "Quercia rovere"
 ]
 },
+"basionyms": [
+"Quercus robur var. petraea"
+],
 "en": "Quercus petraea",
 "names": [
 "Quercus petraea"
@@ -10531,6 +10609,9 @@
 "Canforo"
 ]
 },
+"basionyms": [
+"Laurus camphora"
+],
 "en": "Cinnamomum camphora",
 "it": "Cinnamomum camphora",
 "names": [
@@ -10673,6 +10754,9 @@
 "Albero della scimmia"
 ]
 },
+"basionyms": [
+"Pinus araucana"
+],
 "en": "Araucaria araucana",
 "it": "Araucaria araucana",
 "names": [
@@ -10902,6 +10986,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Glycine sinensis"
+],
 "en": "Wisteria sinensis",
 "it": "Wisteria sinensis",
 "names": [
@@ -11074,6 +11161,9 @@
 "Biancospino"
 ]
 },
+"basionyms": [
+"Mespilus laevigata"
+],
 "en": "Crataegus laevigata",
 "it": "Crataegus laevigata",
 "names": [
@@ -11162,6 +11252,9 @@
 "Ailanto"
 ]
 },
+"basionyms": [
+"Toxicodendron altissimum"
+],
 "en": "Ailanthus altissima",
 "it": "Ailanthus altissima",
 "names": [
@@ -11412,6 +11505,9 @@
 "Abete di Norfolk"
 ]
 },
+"basionyms": [
+"Eutassa heterophylla"
+],
 "en": "Araucaria heterophylla",
 "it": "Araucaria heterophylla",
 "names": [
@@ -11604,6 +11700,9 @@
 "Cipresso di Lawson"
 ]
 },
+"basionyms": [
+"Cupressus lawsoniana"
+],
 "en": "Chamaecyparis lawsoniana",
 "it": "Chamaecyparis lawsoniana",
 "names": [
@@ -12053,6 +12152,13 @@
 ],
 "taxon": true
 },
+"Q1621080": {
+"en": "olive",
+"it": "oliva",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q162128": {
 "alias": {
 "en": [],
@@ -12500,8 +12606,8 @@
 "Aesculus × carnea"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -12929,6 +13035,9 @@
 "ciliegio dolce"
 ]
 },
+"basionyms": [
+"Prunus cerasus var. avium"
+],
 "en": "Prunus avium",
 "it": "Prunus avium",
 "names": [
@@ -13639,6 +13748,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Rhamnus carpinifolia"
+],
 "en": "Zelkova carpinifolia",
 "it": "Zelkova carpinifolia",
 "names": [
@@ -14271,6 +14383,9 @@
 "melo"
 ]
 },
+"basionyms": [
+"Pyrus malus var. domestica"
+],
 "en": "Malus domestica",
 "it": "Malus domestica",
 "names": [
@@ -14829,6 +14944,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Acer nikoense var. griseum"
+],
 "names": [
 "Acer griseum"
 ],
@@ -17995,6 +18113,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Cocos chilensis"
+],
 "en": "Jubaea chilensis",
 "it": "Jubaea chilensis",
 "names": [
@@ -19406,6 +19527,9 @@
 "pekan"
 ]
 },
+"basionyms": [
+"Juglans illinoinensis"
+],
 "en": "Carya illinoinensis",
 "it": "Carya illinoinensis",
 "names": [
@@ -20536,6 +20660,9 @@
 "Prunus dulcis"
 ]
 },
+"basionyms": [
+"Amygdalus dulcis"
+],
 "en": "Prunus dulcis",
 "it": "mandorlo",
 "names": [
@@ -20816,6 +20943,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Laurus glandulifera"
+],
 "en": "Cinnamomum glanduliferum",
 "it": "Cinnamomum glanduliferum",
 "names": [
@@ -22096,6 +22226,9 @@
 "Melo selvatico"
 ]
 },
+"basionyms": [
+"Pyrus malus var. sylvestris"
+],
 "en": "Malus sylvestris",
 "it": "Malus sylvestris",
 "names": [
@@ -22466,14 +22599,17 @@
 "Citrus limon"
 ]
 },
+"basionyms": [
+"Citrus medica var. limon"
+],
 "en": "Citrus × limon",
 "it": "Citrus × limon",
 "names": [
 "Citrus × limon"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -24202,6 +24338,9 @@
 "Cedri dell'Atlante"
 ]
 },
+"basionyms": [
+"Pinus atlantica"
+],
 "it": "Cedro dell'Atlante",
 "names": [
 "Cedrus atlantica"
@@ -24970,6 +25109,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Latania chinensis"
+],
 "en": "Livistona chinensis",
 "it": "Livistona chinensis",
 "names": [
@@ -25333,6 +25475,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Retinospora pisifera"
+],
 "en": "Chamaecyparis pisifera",
 "it": "Chamaecyparis pisifera",
 "names": [
@@ -27256,6 +27401,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Corchorus serratus"
+],
 "en": "Zelkova serrata",
 "it": "Zelkova serrata",
 "names": [
@@ -27958,6 +28106,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Magnolia virginiana var. tripetala"
+],
 "en": "Magnolia tripetala",
 "it": "Magnolia tripetala",
 "names": [
