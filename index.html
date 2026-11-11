@@ -62,6 +62,9 @@
   .leg svg{flex:none;display:block}
   .leg li{position:relative}
   .leg .why{flex:none}
+  .leg li.toggle{cursor:pointer}   /* voci che si accendono e spengono con un clic (frutti) */
+  .leg li.off{opacity:.45}
+  .leg li.off [data-i18n]{text-decoration:line-through}
   .leg .why .tip{position:fixed;right:auto;box-sizing:border-box}   /* posizione e larghezza dallo script */
   #tip{position:absolute;z-index:3;display:none;pointer-events:none;background:#fff;padding:4px 8px;border-radius:4px;box-shadow:0 1px 6px #0004;font-size:12px}
   #overview,#back-qa{margin:0 0 6px;width:100%;padding:3px 6px;cursor:pointer}   /* "← Torna al tool QA": stesso pulsante */
@@ -98,6 +101,7 @@
   .card dt{color:#666}.card dd{margin:0;min-width:0}
   .bad{color:#b00020;font-weight:600;position:relative}
   .card .hint{color:#555;margin:2px 0}   /* consigli (ⓘ): informazioni, non errori */
+  .card h3 .sex{color:#888;font-weight:400;cursor:help}   /* ♂ / ♀ accanto al titolo (sex=male/female) */
   /* pop-up con la spiegazione del check: passando il mouse sul ⚠, o toccandolo (focus) da telefono */
   .why{cursor:help;outline:none}
   .why .tip{display:none;position:absolute;left:0;right:0;top:100%;z-index:6;background:#fff;color:#222;font-weight:400;
@@ -223,7 +227,7 @@ const I18N = {
     issueGroups: { size: "Misure", name: "Nome della specie e del genere", wikidata: "Wikidata",
       links: "Link, fonti e monumentali", other: "Altri tag" },
     legend: "Legenda", legMonument: "Albero monumentale", legSacred: "Albero sacro", legLandmark: "Landmark", legIssues: "Con problemi",
-    legMonSacred: "Monumentale e sacro", legMasaf: "Elenco MASAF",
+    legMonSacred: "Monumentale e sacro", legMasaf: "Elenco MASAF", legToggle: "Clic per mostrare o nascondere",
     legTrunk: "Tronco", legTrunkEst: "Tronco stimato", legStump: "Ceppo",
     legStems: "Più tronchi", legIvy: "Coperto d'edera", legFruit: "Albero da frutto",
     // pop-up sulle icone della legenda: i tag che le producono (chiave = data-i18n della voce)
@@ -312,6 +316,7 @@ const I18N = {
     rows: { species: "Specie", sp_common: "Nome comune", genus: "Genere", taxon: "Taxon", denotation: "Categoria", leaf_type: "Tipo di foglie",
       lt: "Tipo di foglie (stimato)", leaf_cycle: "Ciclo fogliare", lc: "Ciclo fogliare (stimato)", circumference: "Circonferenza", diameter: "Diametro tronco",
       height: "Altezza", diameter_crown: "Diametro chioma", start_date: "Messa a dimora" },
+    sex: { male: "Esemplare maschile", female: "Esemplare femminile" },
     fromDiameter: " (da diameter)",
     // spiegazione del check, nel pop-up sul simbolo ⚠ della scheda
     why: {
@@ -352,7 +357,7 @@ const I18N = {
       link_format: "wikidata vuole un QID (Q…), wikimedia_commons il prefisso File: o Category:, panoramax un UUID, image un indirizzo http(s).",
       broken_link: "Segnalati: pagine 404 o 410, siti che non esistono più e file assenti su Commons. Non sono segnalati 403, 429, errori del server e timeout, che spesso sono blocchi verso i programmi automatici.",
       commons_far: "Le coordinate del file di Commons collegato (wikimedia_commons o image) distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
-      monument_denotation: "ref:masaf, ref:rami, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) indicano un albero monumentale, che in OSM ha denotation=natural_monument.",
+      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) indicano un albero monumentale, che in OSM ha denotation=natural_monument.",
       masaf_criteria: "Codici ammessi: a–g, a1, a2, a2.1, a2.2, a2.3, separati da virgole senza spazi.",
       masaf_removed: "Il codice ref:masaf corrisponde a un albero che l'elenco degli alberi monumentali d'Italia dà come rimosso. Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       denotation_value: "Confronto con gli usi su Taginfo: segnalati i valori usati al massimo 10 volte, quelli con un formato non valido e quelli comuni con altro testo attaccato.",
@@ -462,7 +467,7 @@ const I18N = {
     issueGroups: { size: "Measurements", name: "Species and genus name", wikidata: "Wikidata",
       links: "Links, sources and monumental trees", other: "Other tags" },
     legend: "Legend", legMonument: "Monumental tree", legSacred: "Sacred tree", legLandmark: "Landmark", legIssues: "With errors",
-    legMonSacred: "Monumental and sacred", legMasaf: "MASAF list",
+    legMonSacred: "Monumental and sacred", legMasaf: "MASAF list", legToggle: "Click to show or hide",
     legTrunk: "Trunk", legTrunkEst: "Estimated trunk", legStump: "Stump",
     legStems: "Multiple trunks", legIvy: "Covered in ivy", legFruit: "Fruit tree",
     legTips: {
@@ -548,6 +553,7 @@ const I18N = {
     rows: { species: "Species", sp_common: "Common name", genus: "Genus", taxon: "Taxon", denotation: "Category", leaf_type: "Leaf type",
       lt: "Leaf type (estimated)", leaf_cycle: "Leaf cycle", lc: "Leaf cycle (estimated)", circumference: "Circumference", diameter: "Trunk diameter",
       height: "Height", diameter_crown: "Crown diameter", start_date: "Planting date" },
+    sex: { male: "Male specimen", female: "Female specimen" },
     fromDiameter: " (from diameter)",
     why: {
       circumference: "43 m is the largest girth recorded, in African baobabs (Adansonia digitata; source: Guinness World Records). The value is in metres.",
@@ -586,7 +592,7 @@ const I18N = {
       link_format: "wikidata needs a QID (Q…), wikimedia_commons the File: or Category: prefix, panoramax a UUID, image an http(s) address.",
       broken_link: "Reported: 404 or 410 pages, sites that no longer exist and files missing on Commons. 403, 429, server errors and timeouts are not reported, as they are often blocks against automated tools.",
       commons_far: "The coordinates of the linked Commons file (wikimedia_commons or image) are more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
-      monument_denotation: "ref:masaf, ref:rami, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) indicate a monumental tree, which in OSM has denotation=natural_monument.",
+      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) indicate a monumental tree, which in OSM has denotation=natural_monument.",
       masaf_criteria: "Allowed codes: a–g, a1, a2, a2.1, a2.2, a2.3, separated by commas without spaces.",
       masaf_removed: "The ref:masaf code belongs to a tree that the list of monumental trees of Italy reports as removed. Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format and common values with other text attached.",
@@ -1020,6 +1026,25 @@ map.on("load", async () => {
   for (const tier of TIERS) for (const def of DEFS)
     map.addLayer({ id: def.id + tier.suf, ...def.spec(tier), filter: filterFor(def, tier, []) });
   const CROWN_IDS = TIERS.flatMap(t => ["crown", "crown-plain", "crown-poly"].map(i => i + t.suf));
+
+  // Frutti: un clic sulla voce della legenda li nasconde o li mostra (la scelta resta salvata nel browser)
+  const fruitLi = [...document.querySelectorAll(".leg li")].find(li => li.querySelector('[data-i18n="legFruit"]'));
+  let showFruit = true;
+  try { showFruit = localStorage.getItem("hideFruit") !== "1"; } catch (e) {}
+  const applyFruit = () => {
+    for (const t of TIERS) map.setLayoutProperty("fruit" + t.suf, "visibility", showFruit ? "visible" : "none");
+    fruitLi.classList.toggle("off", !showFruit);
+  };
+  if (fruitLi) {
+    fruitLi.classList.add("toggle");
+    fruitLi.title = L.legToggle;
+    fruitLi.addEventListener("click", () => {
+      showFruit = !showFruit;
+      try { localStorage.setItem("hideFruit", showFruit ? "0" : "1"); } catch (e) {}
+      applyFruit();
+    });
+    applyFruit();
+  }
 
   // Confini. All'apertura si vedono le nazioni: quelle divise in regioni (Italia, Polonia) con il confine
   // nazionale, le altre (Bulgaria) con la loro unica regione. Toccando una nazione divisa si vedono le sue regioni.
@@ -1756,6 +1781,10 @@ const ROW_KEYS = ["species", "sp_common", "genus", "taxon", "denotation", "leaf_
   "circumference", "diameter", "height", "diameter_crown", "start_date"];
 const ROW_FMT = { denotation: v => tr(L.denotation, v), leaf_type: v => tr(L.leafType, v), lt: v => tr(L.leafType, v),
   leaf_cycle: v => tr(L.leafCycle, v), lc: v => tr(L.leafCycle, v), circumference: fmtM, diameter: fmtD, height: fmtM, diameter_crown: fmtM };
+// sex=male/female (piante dioiche, es. ginkgo, tasso): ♂ / ♀ accanto al titolo della scheda, in grigio, con il nome
+// per esteso al passaggio del mouse; altri valori non si mostrano
+const sexMark = p => { const s = { male: "♂", female: "♀" }[p.sex];
+  return s ? ` <span class="sex" title="${esc(L.sex[p.sex])}">${s}</span>` : ""; };
 const ROWS = ROW_KEYS.map(k => [k, L.rows[k], ROW_FMT[k]]);
 const list = v => String(v || "").split(";").join(", ");
 const fromD = (i, p) => p.diam_used && i.startsWith("circumference") ? L.fromDiameter : "";
@@ -2048,7 +2077,7 @@ function card(p, pos) {
   // come Commons: la foto Panoramax mostrata ha già il link nel credito
   pano.forEach((id, i) => { if (id !== img?.pano) links.push(link(`https://api.panoramax.xyz/#focus=pic&pic=${id}`, pano.length > 1 ? `Panoramax ${i + 1}` : "Panoramax")); });
   if (fotoshiId(p) && !img?.href?.includes(fotoshiId(p))) links.push(link(`https://www.fotoshi.com/photo/${fotoshiId(p)}`, "Fotoshi"));
-  return `<div class="card"><h3>${titleHtml}</h3>
+  return `<div class="card"><h3>${titleHtml}${sexMark(p)}</h3>
     ${photo}
     <dl>${rows}</dl>
     ${rec.map(x => `<div class="rec">${x}</div>`).join("")}

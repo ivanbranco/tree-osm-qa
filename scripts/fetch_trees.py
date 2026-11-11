@@ -1046,9 +1046,9 @@ HERITAGE_OPERATORS = ("icnf", "anf")
 
 
 def monument_sources(t):
-    """Fonti che indicano un albero monumentale: ref:masaf, ref:rami, heritage:operator di HERITAGE_OPERATORS,
-    elemento di wikidata=* con P9704 o istanza di Q811534, link a monumentaltrees.com."""
-    src = [k for k in ("ref:masaf", "ref:rami") if t.get(k)]
+    """Fonti che indicano un albero monumentale: ref:masaf, ref:rami, ref:monumentaltrees, heritage:operator di
+    HERITAGE_OPERATORS, elemento di wikidata=* con P9704 o istanza di Q811534, link a monumentaltrees.com."""
+    src = [k for k in ("ref:masaf", "ref:rami", "ref:monumentaltrees") if t.get(k)]
     src += [f"heritage:operator={v}" for v in (x.strip().lower() for x in str(t.get("heritage:operator", "")).split(";"))
             if v in HERITAGE_OPERATORS]
     # elemento Wikidata dell'albero con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534)
@@ -1357,7 +1357,7 @@ KEEP = ["name", "species", "genus", "taxon",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
         "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion", "multi_stemmed",
-        "heritage:operator", "ref:icnf"]
+        "heritage:operator", "ref:icnf", "sex"]
 
 # Alberi da frutto (rendering: puntini colorati sulla chioma): per ora solo Malus domestica (le mele). Solo specie
 # coltivate per i frutti, non i generi interi (molti Malus e Prunus sono ornamentali). Colore del frutto per specie.
