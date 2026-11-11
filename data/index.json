@@ -19,10 +19,10 @@
   "alta-austria": {
    "count": 97944,
    "diam": "mm",
-   "errors": 1533,
+   "errors": 1537,
    "name": "Alta Austria",
-   "sha1": "2ddf2ba173c6a9af19a4c3491ef6d75ecb4dc74d",
-   "updated": "2026-11-10T01:28:00Z"
+   "sha1": "17168a090efe60bc86beebd466c39d7b4da8cc6c",
+   "updated": "2026-11-11T15:39:12Z"
   },
   "alta-francia": {
    "count": 127028,
@@ -51,10 +51,10 @@
   "bassa-austria": {
    "count": 185686,
    "diam": "mm",
-   "errors": 461,
+   "errors": 463,
    "name": "Bassa Austria",
-   "sha1": "aba1ce9b6714182cc0b28c650794b525356ed482",
-   "updated": "2026-11-09T21:59:01Z"
+   "sha1": "c24d278841eecc96eeeb1d090f0049f21ce1de95",
+   "updated": "2026-11-11T15:38:21Z"
   },
   "borgogna-franca-contea": {
    "count": 201219,
@@ -89,12 +89,12 @@
    "updated": "2026-11-10T16:56:51Z"
   },
   "burgenland": {
-   "count": 15024,
+   "count": 15027,
    "diam": "mm",
    "errors": 1,
    "name": "Burgenland",
-   "sha1": "15fca80a5cb7e8d84c7542cfdbdf311908f26b6b",
-   "updated": "2026-11-09T22:02:15Z"
+   "sha1": "f6538cda12c3bc6f4414afa20343070764b1a462",
+   "updated": "2026-11-11T15:41:27Z"
   },
   "calabria": {
    "count": 28424,
@@ -117,8 +117,8 @@
    "diam": "mm",
    "errors": 5,
    "name": "Carinzia",
-   "sha1": "7e8ef1fe2e887d5cc19ef0af2e5126f4a10ba7ef",
-   "updated": "2026-11-09T22:01:33Z"
+   "sha1": "4ef519a6097d72a95371dd086fce5420a22b61ed",
+   "updated": "2026-11-11T15:40:53Z"
   },
   "centro-valle-della-loira": {
    "count": 189468,
@@ -520,12 +520,12 @@
    "updated": "2026-11-10T21:43:11Z"
   },
   "salisburgo": {
-   "count": 22164,
+   "count": 22165,
    "diam": "mm",
    "errors": 31,
    "name": "Salisburgo",
-   "sha1": "48d12f443f4a65b9fc4904a4d55f1571ba426ff9",
-   "updated": "2026-11-09T22:01:49Z"
+   "sha1": "748aafcd0285214160cef7cf96166630b8c26330",
+   "updated": "2026-11-11T15:41:06Z"
   },
   "sardegna": {
    "count": 5433,
@@ -574,12 +574,12 @@
    "updated": "2026-11-10T18:14:35Z"
   },
   "stiria": {
-   "count": 42083,
+   "count": 42095,
    "diam": "mm",
-   "errors": 522,
+   "errors": 524,
    "name": "Stiria",
-   "sha1": "cb8edd2acb2bede2da02c2904fd24150a43fe0f8",
-   "updated": "2026-11-09T22:00:40Z"
+   "sha1": "75c2bbbf5c15f28196e702c8b4bcef9fea4ffb96",
+   "updated": "2026-11-11T15:40:03Z"
   },
   "sud-est-inghilterra": {
    "count": 448261,
@@ -603,12 +603,12 @@
    "updated": "2026-11-08T21:28:19Z"
   },
   "tirolo": {
-   "count": 48416,
+   "count": 48431,
    "diam": "mm",
    "errors": 75,
    "name": "Tirolo",
-   "sha1": "634a7d8c83fe699ab07f80f88fbabd84e500342c",
-   "updated": "2026-11-09T22:01:23Z"
+   "sha1": "6cb5e43034d2ae7c1c5a464178767023a8701af4",
+   "updated": "2026-11-11T15:40:41Z"
   },
   "toscana": {
    "count": 117349,
@@ -659,20 +659,20 @@
    "updated": "2026-11-10T23:39:47Z"
   },
   "vienna": {
-   "count": 173116,
+   "count": 173137,
    "diam": "mm",
-   "errors": 6473,
+   "errors": 6550,
    "name": "Vienna",
-   "sha1": "b8a152d03ccbcb37496c36ebd04bd67f50597ce1",
-   "updated": "2026-11-09T21:53:52Z"
+   "sha1": "99b3aa3de76a796597f76dc46b5ee3ab5317ea92",
+   "updated": "2026-11-11T15:37:28Z"
   },
   "vorarlberg": {
    "count": 12310,
    "diam": "mm",
    "errors": 45,
    "name": "Vorarlberg",
-   "sha1": "65c1105e300580be035227ab45cfc15bb5e3d958",
-   "updated": "2026-11-09T22:02:00Z"
+   "sha1": "acf3f4573e8e0b6370480b45c8d4f717692c7511",
+   "updated": "2026-11-11T15:41:17Z"
   },
   "warminsko-mazurskie": {
    "count": 38229,
