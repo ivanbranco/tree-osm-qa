@@ -42,7 +42,7 @@
   .leg .globe:hover{color:#1a5fb4}
   #chart-title{font-size:12px;color:#666;margin:6px 0 2px}
   #chart svg{display:block}
-  #rank{margin-top:8px;font-size:13px;max-height:50vh;overflow:auto}
+  #rank{margin-top:8px;font-size:13px;max-height:50vh;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
   #rank details{margin:2px 0}
   /* tutte le righe larghe uguali: a sinistra 16 px per il triangolo (o vuoti), i numeri allineati a destra */
   #rank summary{cursor:pointer;display:flex;list-style:none}
@@ -691,7 +691,22 @@ document.getElementById("gh").title = L.github;
 const SIDE_BOXES = ["legend-box", "rank-box", "chart-box"].map(id => document.getElementById(id));
 SIDE_BOXES.forEach(b => b.addEventListener("toggle", () => {
   if (b.open) SIDE_BOXES.forEach(o => { if (o !== b) o.open = false; });
+  fitSideLists();
 }));
+// elenchi lunghi del pannello (legenda, classifica): alti quanto lo spazio che resta nella finestra, così scorre
+// l'elenco e mai il pannello intero (un'altezza fissa non tiene conto di quanto occupa il resto del pannello)
+function fitSideLists() {
+  const side = document.getElementById("side");
+  for (const el of [document.querySelector(".leg"), document.getElementById("rank")]) {
+    if (!el || !el.closest("details").open) continue;
+    el.style.maxHeight = "none";
+    const rest = side.scrollHeight - el.offsetHeight;          // tutto il pannello tranne l'elenco
+    el.style.maxHeight = Math.max(120, innerHeight - 20 - rest) + "px";
+  }
+}
+addEventListener("resize", fitSideLists);
+// anche quando cambia l'altezza del riquadro in cima (regione caricata, pulsante "Tutte le nazioni", conteggi)
+new ResizeObserver(fitSideLists).observe(document.getElementById("panel"));
 // icone del globo nella legenda (mappe mondiali) e, nelle mappe mondiali, titolo della mappa al posto del sottotitolo
 document.querySelectorAll(".leg .globe").forEach(a => { a.title = L.worldLink[a.dataset.world]; a.setAttribute("aria-label", a.title); });
 if (WORLD) {
