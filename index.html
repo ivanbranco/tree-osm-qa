@@ -62,7 +62,7 @@
   .leg svg{flex:none;display:block}
   .leg li{position:relative}
   .leg .why{flex:none}
-  .leg li.toggle{cursor:pointer}   /* voci che si accendono e spengono con un clic (frutti) */
+  .leg .toggle{cursor:pointer}   /* testo delle voci che si accendono e spengono con un clic (frutti) */
   .leg li.off{opacity:.45}
   .leg li.off [data-i18n]{text-decoration:line-through}
   .leg .why .tip{position:fixed;right:auto;box-sizing:border-box}   /* posizione e larghezza dallo script */
@@ -1036,9 +1036,11 @@ map.on("load", async () => {
     fruitLi.classList.toggle("off", !showFruit);
   };
   if (fruitLi) {
-    fruitLi.classList.add("toggle");
-    fruitLi.title = L.legToggle;
-    fruitLi.addEventListener("click", () => {
+    // solo il testo è cliccabile: l'icona apre già il pop-up con i tag, e il clic lo lascerebbe aperto
+    const label = fruitLi.querySelector('[data-i18n="legFruit"]');
+    label.classList.add("toggle");
+    label.title = L.legToggle;
+    label.addEventListener("click", () => {
       showFruit = !showFruit;
       try { localStorage.setItem("hideFruit", showFruit ? "0" : "1"); } catch (e) {}
       applyFruit();
