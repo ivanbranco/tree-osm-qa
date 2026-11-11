@@ -989,6 +989,12 @@ map.on("load", async () => {
     shapesEmpty = false;
   };
 
+  // Tronco: marrone; bianco per la betulla dell'Himalaya (Betula utilis, anche var. jacquemontii), dalla corteccia
+  // bianca come carta, con un sottile bordo grigio perché si veda anche sulle chiome chiare
+  const WHITE_BARK = ["==", ["slice", ["coalesce", ["get", "species"], ""], 0, 13], "Betula utilis"];
+  const TRUNK_COLOR = ["case", WHITE_BARK, "#f4f1e8", "#7b4a1e"];
+  const TRUNK_STROKE = { "circle-stroke-color": "#8a8a8a", "circle-stroke-width": ["case", WHITE_BARK, 0.8, 0] };
+
   // Due livelli di layer: prima tutti gli alberi, poi i monumentali, che restano sopra agli altri
   const TREE = ["!", ["has", "stump"]];   // i ceppi (natural=tree_stump) hanno un layer a parte
   const MON = hasDen("natural_monument");
@@ -1009,11 +1015,11 @@ map.on("load", async () => {
       layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-width": 3, "line-color": ["get", "dc"] } }) },
     // tronco unico; gli alberi con più tronchi li disegna "stem" (sorgente deco)
     { id: "trunk", base: ["all", ["has", "tr"], ["!", ["has", "stems"]]], spec: tier => ({ type: "circle", source: tier.src, minzoom: SHAPE_Z, paint: {
-      "circle-radius": radius("tr", 1.5), "circle-color": "#7b4a1e",
+      "circle-radius": radius("tr", 1.5), "circle-color": TRUNK_COLOR, ...TRUNK_STROKE,
       "circle-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1],
       "circle-pitch-alignment": "map" } }) },
     { id: "stem", base: ["==", ["get", "dk"], "stem"], spec: () => ({ type: "circle", source: "deco", minzoom: SHAPE_Z, paint: {
-      "circle-radius": radius("dr", 1.5), "circle-color": "#7b4a1e",
+      "circle-radius": radius("dr", 1.5), "circle-color": TRUNK_COLOR, ...TRUNK_STROKE,
       "circle-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1], "circle-pitch-alignment": "map" } }) },
     { id: "ivy", base: ["==", ["get", "dk"], "ivy"], spec: () => ({ type: "circle", source: "deco", minzoom: SHAPE_Z, paint: {
       // verde scuro con bordo chiaro: si legge sia sulle chiome chiare (caducifoglie) sia su quelle scure (sempreverdi)

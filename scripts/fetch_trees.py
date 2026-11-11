@@ -213,6 +213,13 @@ for _name, _v in _LIST.items():
 _WL = load_json(HERE / "whitelist.json")
 WD_WHITELIST = {norm_species(k): set(v) for k, v in _WL.get("wikidata_mismatch", {}).items()}
 TYPO_WHITELIST = {norm_species(k) for k in _WL.get("species_typo", [])}
+# sinonimi: nome alternativo -> nome della lista wiki (es. "Crataegus × lavallei" -> "Crataegus × lavalleei"); il
+# nome alternativo vale come quello della lista in tutti i controlli (errori di battitura, species:wikidata, nome su
+# Wikidata, stime di leaf_type e leaf_cycle)
+SYNONYMS = {norm_species(k): v for k, v in _WL.get("synonyms", {}).items()}
+for _alt, _name in SYNONYMS.items():
+    if norm_species(_name) in SPECIES_REF:
+        SPECIES_REF.setdefault(_alt, SPECIES_REF[norm_species(_name)])
 
 
 # Lista dei generi della wiki OSM (scripts/update_reference_lists.py): leaf_cycle (uno o entrambi) e leaf_type
@@ -482,7 +489,8 @@ def wikidata_name_problems(t, skip_species):
             if not names or rank_problem(k, q):      # niente nome (non è un taxon) o rango sbagliato: altri check
                 continue
             if k == "species:wikidata":
-                ok = q in WD_WHITELIST.get(norm_species(val), ()) or binomial(val) in {binomial(n) for n in names}
+                alts = {binomial(val)} | ({binomial(SYNONYMS[norm_species(val)])} if norm_species(val) in SYNONYMS else set())
+                ok = q in WD_WHITELIST.get(norm_species(val), ()) or bool(alts & {binomial(n) for n in names})
             else:
                 ok = genus_key(val) in {genus_key(n) for n in names}
             if not ok:
@@ -827,6 +835,8 @@ def binomial(sp):
 SPECIES_BIN = {}
 for _name in _LIST:
     SPECIES_BIN.setdefault(binomial(_name), _name)
+for _alt in _WL.get("synonyms", {}):        # i sinonimi della whitelist valgono come nomi della lista
+    SPECIES_BIN.setdefault(binomial(_alt), _alt)
 KNOWN_GENERA = {b.split()[0] for b in SPECIES_BIN} | set(GENUS_REF)
 
 
