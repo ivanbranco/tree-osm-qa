@@ -367,11 +367,12 @@
    "updated": "2026-11-08T20:22:39Z"
   },
   "midlands-occidentali": {
-   "count": 206896,
-   "errors": 1778,
+   "count": 207005,
+   "diam": "mm",
+   "errors": 1588,
    "name": "Midlands Occidentali",
-   "sha1": "a5f08495c462eb76a7e63119731f2bba1e4bbf16",
-   "updated": "2026-11-08T23:33:05Z"
+   "sha1": "780802c358ba0319f6ba70a9cd912bf34b0ad477",
+   "updated": "2026-11-11T22:49:03Z"
   },
   "midlands-orientali": {
    "count": 197952,
