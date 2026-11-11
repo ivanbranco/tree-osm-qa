@@ -260,12 +260,12 @@
    "updated": "2026-11-09T21:52:28Z"
   },
   "lettonia": {
-   "count": 102579,
+   "count": 102612,
    "diam": "mm",
-   "errors": 30,
+   "errors": 31,
    "name": "Lettonia",
-   "sha1": "f224044eed8d4b10e85a32d7fef2ed65d617c091",
-   "updated": "2026-11-10T12:54:33Z"
+   "sha1": "93f456159e53e339e8baf071cf9870b467024b17",
+   "updated": "2026-11-11T10:56:06Z"
   },
   "liguria": {
    "count": 8905,
