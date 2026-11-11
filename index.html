@@ -279,6 +279,8 @@ const I18N = {
       speciesFromWp: n => `species:wikipedia indica ${n}: si potrebbe aggiungere species=${n}`,
       speciesIt: v => `Su OSM quasi tutti i valori di species:it iniziano con la maiuscola: species:it=${v}`,
       masafCriteria: v => `Secondo l'elenco MASAF si potrebbe aggiungere masaf:criteria=${v}`,
+      importUndoc: v => `Albero da un import non documentato (source=${v})`,
+      importDoc: v => `Albero importato (source=${v}):`, importDocLink: "documentazione dell'import",
       masafSize: (c, s, n) => `La circonferenza (${c}) raggiunge la soglia MASAF per ${n} (${s}): potrebbe essere un albero monumentale`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,
       notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
@@ -523,6 +525,8 @@ const I18N = {
       speciesFromWp: n => `species:wikipedia points to ${n}: species=${n} could be added`,
       speciesIt: v => `On OSM almost all species:it values start with a capital letter: species:it=${v}`,
       masafCriteria: v => `According to the MASAF list, masaf:criteria=${v} could be added`,
+      importUndoc: v => `Tree from an undocumented import (source=${v})`,
+      importDoc: v => `Imported tree (source=${v}):`, importDocLink: "import documentation",
       masafSize: (c, s, n) => `The circumference (${c}) reaches the MASAF threshold for ${n} (${s}): it could be a monumental tree`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,
       notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
@@ -2175,7 +2179,7 @@ function card(p, pos) {
       ? `<div class="bad">⚠ <a href="${esc(`${BASE}#region=${p.qa}&node=${p.id}`)}">${esc(L.seeInQa)}</a></div>` : "")
     : issues.flatMap(([i, x]) => { const w = L.why[i]; return x.split("\n").map(line => [typeof w === "function" ? w(p) : w, line]); }).map(([why, x]) =>
       `<div class="bad">${why ? `<span class="why" tabindex="0">⚠<span class="tip">${esc(why)}</span></span>` : "⚠"} ${esc(x)}</div>`).join("")}
-    ${WORLD ? "" : hints(p).map(h => `<div class="hint">ⓘ ${esc(h)}</div>`).join("")}
+    ${WORLD ? "" : hints(p).map(h => `<div class="hint">ⓘ ${typeof h === "string" ? esc(h) : h.html}</div>`).join("")}
     <div>${links.join(" · ")}</div></div>`;
 }
 
@@ -2192,6 +2196,10 @@ function hints(p) {
   if (p.hint_wn) out.push(H.speciesFromWp(p.hint_wn));
   if (p.hint_it) out.push(H.speciesIt(p.hint_it));
   if (p.hint_mc) out.push(H.masafCriteria(p.hint_mc));
+  // import (source=*, scripts/imports.json): un consiglio con il link alla documentazione è HTML ({html}), già escapato
+  if (p.hint_imp_u) out.push(H.importUndoc(p.hint_imp_u));
+  if (p.hint_imp_d) { const [v, url] = p.hint_imp_d.split("|");
+    out.push({ html: `${esc(H.importDoc(v))} <a href="${esc(url)}" target="_blank" rel="noopener">${esc(H.importDocLink)}</a>` }); }
   if (p.hint_ms) { const [c, s] = p.hint_ms.split("|"); out.push(H.masafSize(fmtM(c), fmtM(s), p.sp_clean || p.species)); }
   // leaf_type / leaf_cycle mancanti (non sbagliati: quelli sono errori), stimati dalle liste della wiki
   const name = p.sp_clean || p.species || p.genus, lt = !p.leaf_type && p.lt, lc = !p.leaf_cycle && p.lc;   // sp_clean: senza autore

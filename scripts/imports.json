@@ -1,0 +1,11 @@
+{
+  "_note": "Valori di source=* che indicano un import di alberi (issue #2), per i consigli della scheda. Il confronto ignora maiuscole, spazi ai lati e la barra finale; con più valori separati da ';' basta uno. undocumented: import senza documentazione; documented: valore -> pagina della wiki OSM che documenta l'import.",
+  "undocumented": [
+    "Data Toulouse Métropole",
+    "GLMB Tilburg",
+    "https://www.treebaltimore.org/"
+  ],
+  "documented": {
+    "bcc_dec_2016": "https://wiki.openstreetmap.org/wiki/Birmingham_City_Council_trees_data"
+  }
+}

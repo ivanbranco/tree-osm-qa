@@ -583,10 +583,17 @@ def hint_props(t):
     hint_wp: species:wikipedia senza species:wikidata (e senza il QID della lista, che dà già hint_sw) -> QID
     dell'elemento Wikidata della voce, se è una specie;
     hint_wn: species:wikipedia senza species (e senza hint_sn o hint_sp) -> nome scientifico (P225) di quell'elemento;
+    hint_imp_u: source=* di un import non documentato (scripts/imports.json) -> il valore;
+    hint_imp_d: source=* di un import documentato -> "valore|pagina della wiki";
     hint_mc: ref:masaf senza masaf:criteria -> i criteri dell'elenco MASAF (masaf_trees.json) per quei codici;
     hint_ms: solo nelle regioni italiane, albero senza denotation=natural_monument/landmark né ref:masaf con la
     circonferenza (taggata, o da diameter) almeno pari alla soglia MASAF della specie -> "circonferenza|soglia" in m."""
     out = {}
+    if imp := import_source(t):
+        if imp[0] == "d":
+            out["hint_imp_d"] = f"{imp[1]}|{imp[2]}"
+        else:
+            out["hint_imp_u"] = imp[1]
     den = {x.strip() for x in str(t.get("denotation", "")).split(";")}
     sp_bin = binomial(t.get("species") or "") if ";" not in str(t.get("species", "")) else ""
     if (IN_ITALY and t.get("natural") == "tree" and not t.get("ref:masaf") and not den & {"natural_monument", "landmark"}
@@ -1197,6 +1204,29 @@ MASAF_ORDER = ["a1", "a2.1", "a2.2", "a2.3", "b", "c", "d", "e", "f", "g"]
 # circonferenze minime MASAF per specie (scripts/masaf_thresholds.json, in cm), per il consiglio hint_ms; solo in Italia
 MASAF_MIN_CIRC = {binomial(k): v for k, v in load_json(HERE / "masaf_thresholds.json", "species").items()}
 IN_ITALY = False   # lo imposta update_region per la regione che si sta aggiornando
+
+
+# Import di alberi riconosciuti da source=* (scripts/imports.json, issue #2), per i consigli hint_imp_u e hint_imp_d
+def source_key(v):
+    """Valore di source normalizzato per il confronto: minuscolo, senza spazi ai lati e senza la barra finale."""
+    return v.strip().casefold().rstrip("/")
+
+
+_IMPORTS = load_json(HERE / "imports.json")
+IMPORTS_UNDOC = {source_key(v): v for v in _IMPORTS.get("undocumented", [])}
+IMPORTS_DOC = {source_key(v): (v, url) for v, url in _IMPORTS.get("documented", {}).items()}
+
+
+def import_source(t):
+    """("d", valore, pagina della wiki) per un import documentato, ("u", valore, None) per uno non documentato,
+    None se source=* non indica un import noto."""
+    for raw in str(t.get("source", "")).split(";"):
+        k = source_key(raw)
+        if k in IMPORTS_DOC:
+            return ("d", raw.strip(), IMPORTS_DOC[k][1])
+        if k in IMPORTS_UNDOC:
+            return ("u", raw.strip(), None)
+    return None
 
 
 def masaf_removed(t):
