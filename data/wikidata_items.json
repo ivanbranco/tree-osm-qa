@@ -17851,6 +17851,7 @@
 ],
 "heritage": [],
 "image": "Quercia delle Checche 01.jpg",
+"mon": true,
 "taxa": [
 "Q158608"
 ],
@@ -23962,6 +23963,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q37083"
 ],
@@ -26116,6 +26118,7 @@
 "coords": [],
 "heritage": [],
 "image": "Castagno Miraglia, Parco nazionale delle foreste Casentinesi.JPG",
+"mon": true,
 "taxa": [
 "Q22699"
 ],
@@ -26267,6 +26270,7 @@
 ]
 ],
 "image": "Quercia delle streghe Gragnano.jpg",
+"mon": true,
 "taxa": [
 "Q161415"
 ],
@@ -32355,6 +32359,7 @@
 ],
 "heritage": [],
 "image": "Torre del Lago 003.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
