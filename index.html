@@ -275,7 +275,11 @@ const I18N = {
       wdSpecies: n => `Su Wikidata questo albero è un ${n}: si potrebbe aggiungere species=${n}`,
       speciesFromWd: n => `species:wikidata indica ${n}: si potrebbe aggiungere species=${n}`,
       speciesWikidata: q => `Si potrebbe aggiungere species:wikidata=${q}`,
+      wikipediaNoWikidata: q => `La voce di species:wikipedia corrisponde a ${q}: si potrebbe aggiungere species:wikidata=${q}`,
+      speciesFromWp: n => `species:wikipedia indica ${n}: si potrebbe aggiungere species=${n}`,
       speciesIt: v => `Su OSM quasi tutti i valori di species:it iniziano con la maiuscola: species:it=${v}`,
+      masafCriteria: v => `Secondo l'elenco MASAF si potrebbe aggiungere masaf:criteria=${v}`,
+      masafSize: (c, s, n) => `La circonferenza (${c}) raggiunge la soglia MASAF per ${n} (${s}): potrebbe essere un albero monumentale`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,
       notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
     },
@@ -292,7 +296,7 @@ const I18N = {
       link_format: "Link con formato non valido", broken_link: "Link non raggiungibile",
       commons_far: "Foto di Commons a più di 500 m", wikidata_mismatch: "species:wikidata incoerente con la species",
       wikidata_not_taxon: "species/genus:wikidata non è un taxon", wikidata_is_taxon: "wikidata è un taxon",
-      wikidata_far: "Elemento wikidata a più di 1 km",
+      wikidata_far: "Elemento wikidata a più di 1 km", wikidata_photo_far: "Foto dell'elemento wikidata a più di 500 m",
       wikidata_rank: "species/genus:wikidata con il rango sbagliato", wikidata_name_mismatch: "Nome su Wikidata diverso da species/genus",
       wikidata_tree_species: "Specie diversa da quella su Wikidata", wikidata_heritage: "Tutelato su Wikidata senza natural_monument",
       leaf_type_mismatch: "leaf_type diverso da quello della specie", leaf_cycle_mismatch: "leaf_cycle diverso da quello della specie",
@@ -368,6 +372,7 @@ const I18N = {
       wikidata_not_taxon: "Un taxon su Wikidata ha un nome scientifico (P225): questo elemento non ce l'ha, oppure non esiste.",
       wikidata_is_taxon: "wikidata=* collega l'elemento del singolo albero; la specie si collega con species:wikidata=*.",
       wikidata_far: "Le coordinate dell'elemento su Wikidata (P625) distano più di 1 km dall'albero.",
+      wikidata_photo_far: "L'elemento su Wikidata non ha coordinate, ma la sua immagine (P18) ha coordinate su Commons, e distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
       wikidata_rank: "species:wikidata indica una specie (o un rango inferiore), genus:wikidata un genere (rango: P105).",
       wikidata_name_mismatch: "Confronto con il nome scientifico dell'elemento su Wikidata (P225), solo genere ed epiteto.",
       wikidata_tree_species: "Confronto con la specie dell'albero su Wikidata (P10241, individuo del taxon).",
@@ -403,6 +408,7 @@ const I18N = {
       wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
       wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: le coordinate dell'elemento su Wikidata sono a ${km} km da questo albero`,
+      wikidata_photo_far: (q, f, m, obj) => `wikidata=${q}: l'immagine dell'elemento (${f}) ha la ${obj ? "posizione del soggetto" : "posizione di scatto"} a ${m} m da questo albero`,
       wikidata_rank: (kq, rank, want) => `${kq} su Wikidata ha rango «${rank}», non ${want}`,
       broken_link: (kv, why) => `${kv}: ${why}`,
       commons_far: (f, m, obj) => `${f}: la ${obj ? "posizione del soggetto" : "posizione di scatto"} indicata su Commons è a ${m} m da questo albero`,
@@ -513,7 +519,11 @@ const I18N = {
       wdSpecies: n => `On Wikidata this tree is a ${n}: species=${n} could be added`,
       speciesFromWd: n => `species:wikidata points to ${n}: species=${n} could be added`,
       speciesWikidata: q => `species:wikidata=${q} could be added`,
+      wikipediaNoWikidata: q => `The species:wikipedia article matches ${q}: species:wikidata=${q} could be added`,
+      speciesFromWp: n => `species:wikipedia points to ${n}: species=${n} could be added`,
       speciesIt: v => `On OSM almost all species:it values start with a capital letter: species:it=${v}`,
+      masafCriteria: v => `According to the MASAF list, masaf:criteria=${v} could be added`,
+      masafSize: (c, s, n) => `The circumference (${c}) reaches the MASAF threshold for ${n} (${s}): it could be a monumental tree`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,
       notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
     },
@@ -530,7 +540,7 @@ const I18N = {
       link_format: "Link with invalid format", broken_link: "Broken link",
       commons_far: "Commons photo more than 500 m away", wikidata_mismatch: "species:wikidata inconsistent with species",
       wikidata_not_taxon: "species/genus:wikidata is not a taxon", wikidata_is_taxon: "wikidata is a taxon",
-      wikidata_far: "wikidata item more than 1 km away",
+      wikidata_far: "wikidata item more than 1 km away", wikidata_photo_far: "wikidata item photo more than 500 m away",
       wikidata_rank: "species/genus:wikidata with the wrong rank", wikidata_name_mismatch: "Name on Wikidata differs from species/genus",
       wikidata_tree_species: "Species differs from Wikidata", wikidata_heritage: "Protected on Wikidata without natural_monument",
       leaf_type_mismatch: "leaf_type differs from the species", leaf_cycle_mismatch: "leaf_cycle differs from the species",
@@ -604,6 +614,7 @@ const I18N = {
       wikidata_not_taxon: "A taxon on Wikidata has a scientific name (P225): this item does not, or does not exist.",
       wikidata_is_taxon: "wikidata=* links the item of the individual tree; the species is linked with species:wikidata=*.",
       wikidata_far: "The coordinates of the Wikidata item (P625) are more than 1 km from the tree.",
+      wikidata_photo_far: "The Wikidata item has no coordinates, but its image (P18) has coordinates on Commons, more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
       wikidata_rank: "species:wikidata points to a species (or a lower rank), genus:wikidata to a genus (rank: P105).",
       wikidata_name_mismatch: "Compared with the scientific name of the Wikidata item (P225), genus and epithet only.",
       wikidata_tree_species: "Compared with the tree's species on Wikidata (P10241, individual of taxon).",
@@ -637,6 +648,7 @@ const I18N = {
       wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
       wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: the coordinates of the Wikidata item are ${km} km from this tree`,
+      wikidata_photo_far: (q, f, m, obj) => `wikidata=${q}: the ${obj ? "object location" : "camera location"} of the item's image (${f}) is ${m} m from this tree`,
       wikidata_rank: (kq, rank, want) => `${kq} has rank "${rank}" on Wikidata, not ${want}`,
       broken_link: (kv, why) => `${kv}: ${why}`,
       commons_far: (f, m, obj) => `${f}: the ${obj ? "object location" : "camera location"} given on Commons is ${m} m from this tree`,
@@ -995,7 +1007,22 @@ map.on("load", async () => {
   // Tronco: marrone; bianco per la betulla dell'Himalaya (Betula utilis, anche var. jacquemontii), dalla corteccia
   // bianca come carta, con un sottile bordo grigio perché si veda anche sulle chiome chiare
   const WHITE_BARK = ["==", ["slice", ["coalesce", ["get", "species"], ""], 0, 13], "Betula utilis"];
-  const TRUNK_COLOR = ["case", WHITE_BARK, "#f4f1e8", "#7b4a1e"];
+  // rosso-arancio per l'acero cannella (Acer griseum), dalla corteccia lucida che si sfoglia: colore scelto
+  // confrontando le foto della corteccia su Commons (#29)
+  const CINNAMON_BARK = ["==", ["slice", ["coalesce", ["get", "species"], ""], 0, 12], "Acer griseum"];
+  const TRUNK_COLOR = ["case", WHITE_BARK, "#f4f1e8", CINNAMON_BARK, "#b5532b", "#7b4a1e"];
+  // easter egg: l'eucalipto arcobaleno (Eucalyptus deglupta) ha il tronco a 7 spicchi colorati che partono dal centro
+  // (non realistico, per divertimento). È un'immagine sopra al tronco normale, che resta sotto per i clic e il bordo
+  const RAINBOW_BARK = ["==", ["slice", ["coalesce", ["get", "species"], ""], 0, 19], "Eucalyptus deglupta"];
+  {
+    const c = document.createElement("canvas"); c.width = c.height = 128;
+    const g = c.getContext("2d"), cols = ["#e40303", "#ff8c00", "#ffed00", "#008026", "#004dff", "#4b0082", "#8f00ff"];
+    cols.forEach((col, i) => {
+      const a = -Math.PI / 2 + i * 2 * Math.PI / 7;
+      g.fillStyle = col; g.beginPath(); g.moveTo(64, 64); g.arc(64, 64, 64, a, a + 2 * Math.PI / 7); g.closePath(); g.fill();
+    });
+    map.addImage("rainbow-bark", g.getImageData(0, 0, 128, 128), { pixelRatio: 2 });   // 64 px logici, raggio 32
+  }
   // tronco più grande della chioma su un albero con errori (di solito una misura sbagliata): il tronco, disegnato
   // della sua grandezza reale, coprirebbe la chioma e il suo contorno rosso; il contorno rosso va allora sul tronco
   const BIG_TRUNK_ISSUE = ["all", HAS_ISSUE, [">", ["coalesce", ["get", "tr"], 0], ["coalesce", ["get", "cr"], 0]]];
@@ -1025,6 +1052,10 @@ map.on("load", async () => {
       "circle-radius": radius("tr", 1.5), "circle-color": TRUNK_COLOR, ...TRUNK_STROKE,
       "circle-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1],
       "circle-pitch-alignment": "map" } }) },
+    { id: "trunk-rainbow", base: ["all", RAINBOW_BARK, ["has", "tr"], ["!", ["has", "stems"]]], spec: tier => ({ type: "symbol",
+      source: tier.src, minzoom: SHAPE_Z, layout: { "icon-image": "rainbow-bark", "icon-size": radius("tr", 1.5, 32),
+        "icon-allow-overlap": true, "icon-ignore-placement": true, "icon-pitch-alignment": "map", "icon-rotation-alignment": "map" },
+      paint: { "icon-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1] } }) },
     { id: "stem", base: ["==", ["get", "dk"], "stem"], spec: () => ({ type: "circle", source: "deco", minzoom: SHAPE_Z, paint: {
       "circle-radius": radius("dr", 1.5), "circle-color": TRUNK_COLOR, ...TRUNK_STROKE,
       "circle-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1], "circle-pitch-alignment": "map" } }) },
@@ -1221,7 +1252,7 @@ map.on("load", async () => {
       "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "underscore", "tag_in_value",
       "not_latin", "genus", "genus_lowercase", "genus_mismatch"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
-      "wikidata_is_taxon", "wikidata_tree_species", "wikidata_heritage", "wikidata_far"]],
+      "wikidata_is_taxon", "wikidata_tree_species", "wikidata_heritage", "wikidata_far", "wikidata_photo_far"]],
     ["links", ["link_format", "broken_link", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed"]],
   ];
   const issueGroupOf = code => (ISSUE_GROUPS.find(([, codes]) => codes.includes(code)) || ["other"])[0];
@@ -1887,6 +1918,9 @@ const issueBase = (i, p) => {
     case "wikidata_heritage": return T[i](p.wd_her_q, LANG === "it" ? p.wd_her_it : p.wd_her_en);
     case "wikidata_far":         // wd_far: "QID:km;…" (fetch_trees.py)
       return String(p.wd_far || "").split(";").map(x => { const [q, km] = x.split(":"); return T[i](q, Number(km).toLocaleString(LOC)); }).join("\n");
+    case "wikidata_photo_far":   // wd_ph_far: righe "QID|metri|tipo|File:…" (fetch_trees.py)
+      return String(p.wd_ph_far || "").split("\n").filter(Boolean).map(x => { const [q, m, k, ...f] = x.split("|");
+        return T[i](q, f.join("|"), Number(m).toLocaleString(LOC), k === "object"); }).join("\n");
     case "undocumented_tag":     // tag_tree, tag_type: valori dei tag segnalati (fetch_trees.py)
       return ["tree", "type"].filter(k => p["tag_" + k] != null).map(k => T[i](`${k}=${p["tag_" + k]}`)).join("\n");
     case "too_slender_species":   // sp_ratio: rapporto tipico della specie (fetch_trees.py)
@@ -2131,7 +2165,7 @@ function card(p, pos) {
 }
 
 // Consigli della scheda (ⓘ, in grigio): informazioni che potrebbero migliorare i dati, non errori. Non si segnalano
-// sulla mappa né nel menu degli errori; solo nel tool QA. hint_sp, hint_sw, hint_sn vengono da fetch_trees.py
+// sulla mappa né nel menu degli errori; solo nel tool QA. hint_sp, hint_sw, hint_sn, hint_it, hint_mc vengono da fetch_trees.py
 // (hint_props), gli altri si ricavano dai dati dell'albero.
 function hints(p) {
   const H = L.hint, out = [], codes = String(p.issues || "");
@@ -2139,7 +2173,11 @@ function hints(p) {
   if (p.hint_sp) out.push(H.wdSpecies(p.hint_sp));
   if (p.hint_sn) out.push(H.speciesFromWd(p.hint_sn));
   if (p.hint_sw) out.push(H.speciesWikidata(p.hint_sw));
+  if (p.hint_wp) out.push(H.wikipediaNoWikidata(p.hint_wp));
+  if (p.hint_wn) out.push(H.speciesFromWp(p.hint_wn));
   if (p.hint_it) out.push(H.speciesIt(p.hint_it));
+  if (p.hint_mc) out.push(H.masafCriteria(p.hint_mc));
+  if (p.hint_ms) { const [c, s] = p.hint_ms.split("|"); out.push(H.masafSize(fmtM(c), fmtM(s), p.sp_clean || p.species)); }
   // leaf_type / leaf_cycle mancanti (non sbagliati: quelli sono errori), stimati dalle liste della wiki
   const name = p.sp_clean || p.species || p.genus, lt = !p.leaf_type && p.lt, lc = !p.leaf_cycle && p.lc;   // sp_clean: senza autore
   if (name && (lt || lc)) out.push(H.leaf(name, [lt && `leaf_type=${lt}`, lc && `leaf_cycle=${lc}`].filter(Boolean)));

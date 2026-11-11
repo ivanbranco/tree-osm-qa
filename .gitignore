@@ -4,3 +4,5 @@
 __pycache__/
 # KML dell'elenco MASAF (circa 30 MB): nel repository va solo scripts/masaf_list.json (vedi scripts/update_masaf.py)
 *.kml
+# PDF MASAF delle circonferenze minime: nel repository va solo la trascrizione scripts/masaf_thresholds.json
+Tabellacirconferenze*.pdf

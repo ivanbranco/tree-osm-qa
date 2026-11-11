@@ -89,5 +89,6 @@
   {"slug": "basilicata", "name": "Basilicata", "name_en": "Basilicata", "group": "Italia", "group_en": "Italy", "group_rel": 365331, "iso": "IT-77", "rel": 40137, "bbox": [39.8, 15.3, 41.2, 16.9]},
   {"slug": "calabria", "name": "Calabria", "name_en": "Calabria", "group": "Italia", "group_en": "Italy", "group_rel": 365331, "iso": "IT-78", "rel": 1783980, "bbox": [37.8, 15.6, 40.2, 17.3]},
   {"slug": "sicilia", "name": "Sicilia", "name_en": "Sicily", "group": "Italia", "group_en": "Italy", "group_rel": 365331, "iso": "IT-82", "rel": 39152, "bbox": [35.4, 11.9, 38.9, 15.7]},
-  {"slug": "sardegna", "name": "Sardegna", "name_en": "Sardinia", "group": "Italia", "group_en": "Italy", "group_rel": 365331, "iso": "IT-88", "rel": 6847723, "bbox": [38.7, 8.0, 41.4, 9.9]}
+  {"slug": "sardegna", "name": "Sardegna", "name_en": "Sardinia", "group": "Italia", "group_en": "Italy", "group_rel": 365331, "iso": "IT-88", "rel": 6847723, "bbox": [38.7, 8.0, 41.4, 9.9]},
+  {"slug": "washington", "name": "Stato di Washington", "name_en": "Washington State", "rel": 165479, "bbox": [45.54, -124.84, 49.01, -116.91]}
 ]

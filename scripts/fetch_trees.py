@@ -417,6 +417,63 @@ def wd_prop(p):
     return f"(wdt:{p}|owl:sameAs/wdt:{p})"
 
 
+# data/wikipedia_qids.json: voci di species:wikipedia -> QID dell'elemento Wikidata collegato (o null se la voce non
+# esiste o non ha un elemento), per i consigli su species:wikidata e species: {"en:Quercus robur": "Q165145", …}
+WP_QIDS_FILE = DATA / "wikipedia_qids.json"
+WP_QIDS = load_json(WP_QIDS_FILE)
+WP_VALUE = re.compile(r"^\s*([a-z][a-z-]{1,11})\s*:\s*(\S.*?)\s*$")
+
+
+def wp_key(v):
+    """'en:Quercus_robur' -> 'en:Quercus robur' (chiave di WP_QIDS); None se il valore non è lingua:titolo o ha più voci."""
+    m = WP_VALUE.match(str(v or ""))
+    if not m or ";" in m.group(2) or "://" in str(v):
+        return None
+    title = m.group(2).replace("_", " ")
+    return f"{m.group(1)}:{title[:1].upper() + title[1:]}"
+
+
+def resolve_wikipedia(tags):
+    """QID degli elementi Wikidata delle voci di species:wikipedia, dall'API della Wikipedia di ogni lingua
+    (pageprops wikibase_item, a blocchi di 50 titoli; si seguono normalizzazioni e redirect). Si rileggono a ogni
+    aggiornamento, come i QID; se Wikipedia non risponde resta la cache. Restituisce i QID trovati, da aggiungere
+    alle specie da chiedere a Wikidata."""
+    keys = sorted({k for t in tags if (k := wp_key(t.get("species:wikipedia")))})
+    by_lang = {}
+    for k in keys:
+        lang, title = k.split(":", 1)
+        by_lang.setdefault(lang, []).append(title)
+    for lang, titles in by_lang.items():
+        for i in range(0, len(titles), 50):
+            batch = titles[i:i + 50]
+            try:
+                r = requests.get(f"https://{lang}.wikipedia.org/w/api.php", timeout=60, headers=HEADERS, params={
+                    "action": "query", "prop": "pageprops", "ppprop": "wikibase_item", "redirects": 1,
+                    "titles": "|".join(batch), "format": "json", "formatversion": 2})
+                r.raise_for_status()
+                res = r.json().get("query", {})
+            except Exception as e:
+                warn(f"Wikipedia ({lang}) non risponde ({str(e)[:150]}): {len(titles) - i} voci di species:wikipedia "
+                     "restano da risolvere")
+                break
+            moved = {x["from"]: x["to"] for x in res.get("normalized", []) + res.get("redirects", [])}
+            qid = {p["title"]: p.get("pageprops", {}).get("wikibase_item") for p in res.get("pages", [])}
+            for title in batch:
+                final = title
+                for _ in range(3):   # normalizzazione, poi redirect
+                    final = moved.get(final, final)
+                WP_QIDS[f"{lang}:{title}"] = qid.get(final)
+            time.sleep(1)
+    if keys:
+        WP_QIDS_FILE.write_text(json.dumps(WP_QIDS, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+    return {q for k in keys if (q := WP_QIDS.get(k))}
+
+
+def wikipedia_qid(t):
+    """QID dell'elemento Wikidata della voce di species:wikipedia (dalla cache), o None."""
+    return WP_QIDS.get(wp_key(t.get("species:wikipedia")) or "")
+
+
 def update_wikidata_cache(elements):
     """Chiede a Wikidata i dati dei QID usati dalla regione: per wikidata=* (alberi) se è un taxon,
     coordinate, immagine, specie (P10241), tutela (P1435), voci di Wikipedia, id di monumentaltrees.com (P9704) e se è
@@ -441,8 +498,9 @@ def update_wikidata_cache(elements):
     # specie: quelle dei tag, quelle indicate da P10241 degli alberi e quelle della lista wiki per i valori di species
     # (per il nome comune)
     listed = {q for t in tags if (q := list_qid(t.get("species")))}
+    from_wp = resolve_wikipedia(tags)   # elementi delle voci di species:wikipedia, per i consigli
     todo_taxa = sorted(({q for t in tags for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k)}
-                        | {x for q in wd for x in WD_ITEMS.get(q, {}).get("taxa", [])} | listed))
+                        | {x for q in wd for x in WD_ITEMS.get(q, {}).get("taxa", [])} | listed | from_wp))
     ask_wikidata(todo_taxa, lambda v: "SELECT ?item ?name ?rank ?it ?en WHERE { VALUES ?item { " + v + " } "
                  f"OPTIONAL {{ ?item {wd_prop('P225')} ?name }} OPTIONAL {{ ?item {wd_prop('P105')} ?rank }} "
                  "OPTIONAL { ?item rdfs:label ?it FILTER(LANG(?it) = 'it') } "
@@ -521,8 +579,25 @@ def hint_props(t):
     hint_sw: species (dalla lista wiki) senza species:wikidata -> QID della specie nella lista;
     hint_sn: species:wikidata (un taxon) senza species -> nome scientifico dell'elemento (P225);
     hint_it: species:it con l'iniziale minuscola -> lo stesso valore con la maiuscola (su OSM il 98% dei valori la ha,
-    ma non è una regola scritta: per questo è un consiglio e non un errore), ogni parte separata da ";"."""
+    ma non è una regola scritta: per questo è un consiglio e non un errore), ogni parte separata da ";";
+    hint_wp: species:wikipedia senza species:wikidata (e senza il QID della lista, che dà già hint_sw) -> QID
+    dell'elemento Wikidata della voce, se è una specie;
+    hint_wn: species:wikipedia senza species (e senza hint_sn o hint_sp) -> nome scientifico (P225) di quell'elemento;
+    hint_mc: ref:masaf senza masaf:criteria -> i criteri dell'elenco MASAF (masaf_trees.json) per quei codici;
+    hint_ms: solo nelle regioni italiane, albero senza denotation=natural_monument/landmark né ref:masaf con la
+    circonferenza (taggata, o da diameter) almeno pari alla soglia MASAF della specie -> "circonferenza|soglia" in m."""
     out = {}
+    den = {x.strip() for x in str(t.get("denotation", "")).split(";")}
+    sp_bin = binomial(t.get("species") or "") if ";" not in str(t.get("species", "")) else ""
+    if (IN_ITALY and t.get("natural") == "tree" and not t.get("ref:masaf") and not den & {"natural_monument", "landmark"}
+            and (min_cm := MASAF_MIN_CIRC.get(sp_bin))):
+        c, _ = circ_value(t)
+        if c is not None and c * 100 >= min_cm:
+            out["hint_ms"] = f"{round(c, 2):g}|{min_cm / 100:g}"
+    if t.get("ref:masaf") and "masaf:criteria" not in t:
+        cr = {c for raw in str(t["ref:masaf"]).split(";") for c in MASAF_CRITERIA_OF.get(masaf_code(raw), [])}
+        if cr:
+            out["hint_mc"] = ",".join(sorted(cr, key=MASAF_ORDER.index))
     sit = [x.strip() for x in str(t.get("species:it", "")).split(";") if x.strip()]
     if any(x[:1].islower() for x in sit):
         out["hint_it"] = ";".join(x[:1].upper() + x[1:] for x in sit)
@@ -533,13 +608,21 @@ def hint_props(t):
             if taxon_status(q) is not True and names:
                 out["hint_sp"] = names[0]
                 break
+    # elemento Wikidata della voce di species:wikipedia, se è una specie (un taxon non di rango genere o superiore)
+    wq = wikipedia_qid(t) if t.get("species:wikipedia") else None
+    if wq and (taxon_status(wq) is not True or rank_problem("species:wikidata", wq)):
+        wq = None
     if sp and "species:wikidata" not in t and (q := list_qid(sp)):
         out["hint_sw"] = q
+    elif wq and "species:wikidata" not in t:
+        out["hint_wp"] = wq
     if not sp:
         for q in qids(t, "species:wikidata"):
             if taxon_status(q) is True and (names := taxon_names(q)):
                 out["hint_sn"] = names[0]
                 break
+        if wq and "hint_sn" not in out and "hint_sp" not in out and (names := taxon_names(wq)):
+            out["hint_wn"] = names[0]
     return out
 
 
@@ -665,7 +748,8 @@ def update_url_cache(elements):
             break
     # coordinate dei file di Commons collegati (check commons_far): "geo:File:…" → {"c": [lat, lon, tipo] o
     # [], "d": data}; tipo "object" (posizione del soggetto, se c'è) o "camera" (posizione di scatto)
-    geo = sorted({f for t in tags for f in commons_photo_files(t) if stale("geo:" + f)})
+    # anche le foto (P18) degli elementi di wikidata=* senza coordinate proprie (check wikidata_photo_far)
+    geo = sorted({f for t in tags for f in commons_photo_files(t) + [f for _, f in wikidata_photos(t)] if stale("geo:" + f)})
     for i in range(0, len(geo), 50):
         batch = geo[i:i + 50]
         try:
@@ -770,6 +854,24 @@ def commons_far(t, pos):
         c = URL_STATUS.get("geo:" + f, {}).get("c")
         if c and (d := distance_m(pos, [c[1], c[0]])) > COMMONS_MAX_DIST:
             out.append((f, round(d), c[2]))
+    return out
+
+
+def wikidata_photos(t):
+    """[(QID, "File:…")] delle foto (P18) degli elementi di wikidata=* che non sono taxon e non hanno coordinate
+    (P625): le coordinate della foto su Commons sostituiscono quelle dell'elemento."""
+    return [(q, "File:" + WD_ITEMS[q]["image"].replace("_", " ")) for q in qids(t, "wikidata")
+            if taxon_status(q) is not True and not WD_ITEMS.get(q, {}).get("coords") and WD_ITEMS.get(q, {}).get("image")]
+
+
+def wikidata_photo_far(t, pos):
+    """[(QID, file, distanza in m, tipo)] delle foto di wikidata_photos le cui coordinate su Commons distano più di
+    COMMONS_MAX_DIST dall'albero. Le foto già collegate all'albero (commons_photo_files) le controlla commons_far."""
+    out, own = [], set(commons_photo_files(t))
+    for q, f in wikidata_photos(t):
+        c = URL_STATUS.get("geo:" + f, {}).get("c")
+        if f not in own and c and (d := distance_m(pos, [c[1], c[0]])) > COMMONS_MAX_DIST:
+            out.append((q, f, round(d), c[2]))
     return out
 
 
@@ -1089,6 +1191,12 @@ def masaf_criteria_bad(t):
 # Elenco MASAF (scripts/masaf_list.json, da update_masaf.py): codice -> null se iscritto, [motivo, decreto] se rimosso
 from update_masaf import masaf_code   # noqa: E402 (stessa normalizzazione dei codici della lista)
 MASAF_LIST = load_json(HERE / "masaf_list.json", "codes")
+# criteri degli alberi iscritti (scripts/masaf_trees.json, campo "cr"), per il consiglio hint_mc
+MASAF_CRITERIA_OF = {x["c"]: x["cr"] for x in load_json(HERE / "masaf_trees.json", "trees") or [] if x.get("cr")}
+MASAF_ORDER = ["a1", "a2.1", "a2.2", "a2.3", "b", "c", "d", "e", "f", "g"]
+# circonferenze minime MASAF per specie (scripts/masaf_thresholds.json, in cm), per il consiglio hint_ms; solo in Italia
+MASAF_MIN_CIRC = {binomial(k): v for k, v in load_json(HERE / "masaf_thresholds.json", "species").items()}
+IN_ITALY = False   # lo imposta update_region per la regione che si sta aggiornando
 
 
 def masaf_removed(t):
@@ -1346,6 +1454,8 @@ def checks(t, pos):
         flag("wikidata_heritage", wd_her_q=q, wd_her_it=label_it, wd_her_en=label_en)
     if far := wikidata_far(t, pos):     # "QID:km;…"
         flag("wikidata_far", wd_far=";".join(f"{q}:{km}" for q, km in far))
+    if wpf := wikidata_photo_far(t, pos):   # righe "QID|metri|tipo|File:…" separate da "\n"
+        flag("wikidata_photo_far", wd_ph_far="\n".join(f"{q}|{m}|{k}|{f}" for q, f, m, k in wpf))
     if bad := bad_numeric_tags(t):
         flag("number_invalid", bad_num=";".join(bad))
     if bad := bad_link_tags(t):
@@ -1590,7 +1700,9 @@ def minimal(fc):
 
 
 def update_region(region, regions_index):
+    global IN_ITALY
     slug = region["slug"]
+    IN_ITALY = region.get("iso", "").startswith("IT")   # consiglio hint_ms (soglie MASAF)
     s, w, n, e = region["bbox"]
     bbox = (s - BBOX_PAD, w - BBOX_PAD, n + BBOX_PAD, e + BBOX_PAD)
     area = (n - s) * (e - w)
