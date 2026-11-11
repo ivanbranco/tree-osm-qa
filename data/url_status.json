@@ -2411,6 +2411,14 @@
 "d": "2026-11-09",
 "s": "ok"
 },
+"geo:File:02 Faggi bassa quota 20191229.jpg": {
+"c": [
+43.9675417,
+11.094069,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:2017 Josef Oak.jpg": {
 "c": [
 49.8686961,
@@ -2419,10 +2427,470 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:20210703-piazzacava-71.jpg": {
+"c": [
+45.8502365,
+9.5575514,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220115-fuipiano fail 2-069.jpg": {
+"c": [
+45.8757471,
+9.5019467,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220119-grandi alberi-029.jpg": {
+"c": [
+45.8761513,
+9.4993034,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220119-grandi alberi-047.jpg": {
+"c": [
+45.8740833,
+9.4999905,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220119-grandi alberi-240.jpg": {
+"c": [
+45.8616895,
+9.4895718,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220123-grandi alberi-013.jpg": {
+"c": [
+45.8767659,
+9.5010238,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220123-grandi alberi-035.jpg": {
+"c": [
+45.8736659,
+9.4939282,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220123-grandi alberi-044.jpg": {
+"c": [
+45.8771297,
+9.4968376,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220123-grandi alberi-107.jpg": {
+"c": [
+45.8687517,
+9.4924142,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220130-fracchio-006.jpg": {
+"c": [
+45.874345,
+9.5098577,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220202-enna-046.jpg": {
+"c": [
+45.8692313,
+9.4888472,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220202-enna-049.jpg": {
+"c": [
+45.8690634,
+9.4888712,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220202-enna-054.jpg": {
+"c": [
+45.8688774,
+9.4890133,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220202-enna-057.jpg": {
+"c": [
+45.868426,
+9.4892788,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220202-enna-061.jpg": {
+"c": [
+45.8681533,
+9.4896231,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220206-roncalli-023.jpg": {
+"c": [
+45.8780999,
+9.5156554,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220210-grandi alberi-073.jpg": {
+"c": [
+45.8680075,
+9.4903035,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220210-grandi alberi-075.jpg": {
+"c": [
+45.868498,
+9.4908965,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220210-grandi alberi-078.jpg": {
+"c": [
+45.8685752,
+9.4906323,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220210-grandi alberi-084.jpg": {
+"c": [
+45.868727,
+9.4909463,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220210-grandi alberi-086.jpg": {
+"c": [
+45.8686977,
+9.4918256,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220210-grandi alberi-088.jpg": {
+"c": [
+45.8685,
+9.4919198,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220210-grandi alberi-091.jpg": {
+"c": [
+45.8685617,
+9.4915229,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220210-grandi alberi-095.jpg": {
+"c": [
+45.8688005,
+9.4913646,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220210-grandi alberi-099.jpg": {
+"c": [
+45.8687596,
+9.492197,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220223-bura faggi-095.jpg": {
+"c": [
+45.8552324,
+9.5488157,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220312-valu-033.jpg": {
+"c": [
+45.8162838,
+9.4910377,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220320-alaska siberia-067.jpg": {
+"c": [
+45.8502037,
+9.4948654,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220326-valmana frasnida-023.jpg": {
+"c": [
+45.8774245,
+9.5162539,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20220824-mezzeno-064.jpg": {
+"c": [
+45.9538111,
+9.7774675,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20240726-ferro-101.jpg": {
+"c": [
+45.851649,
+9.6152602,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:20260831-planano-20260822 122510.jpg": {
+"c": [],
+"d": "2026-11-10"
+},
+"geo:File:Acqua (Chiesa, Rimella).jpg": {
+"c": [
+45.90808333,
+8.18282222,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Alberi Vercelli 2.jpg": {
+"c": [
+45.3285045,
+8.4190382,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Alberi Vercelli 3.jpg": {
+"c": [
+45.328469,
+8.4193926,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Alberi Vercelli 4.jpg": {
+"c": [
+45.3286365,
+8.4195411,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Alberi Vercelli 5.jpg": {
+"c": [
+45.3288517,
+8.4197172,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Alberi Vercelli 6.jpg": {
+"c": [
+45.3276991,
+8.4265252,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Alberi Vercelli 7.jpg": {
+"c": [
+45.3278338,
+8.4182305,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Alberi Vercelli 8.jpg": {
+"c": [
+45.3277131,
+8.426622,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Alberi Vercelli.jpg": {
+"c": [
+45.3307501,
+8.4196899,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Albero Arona.jpg": {
+"c": [
+45.7616339,
+8.5619934,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Albero Kennedy.jpg": {
+"c": [
+45.3303313,
+8.4192901,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Albero Monumentale Kennedy 2.jpg": {
+"c": [
+45.3303478,
+8.4191736,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Albero Vercelli 2.jpg": {
+"c": [
+45.3302976,
+8.4210872,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Albero Vercelli 3.jpg": {
+"c": [
+45.3300003,
+8.4210703,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Albero Via Bodo.jpg": {
+"c": [
+45.3255121,
+8.4280099,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Albero Via Mandosio.jpg": {
+"c": [
+45.3277204,
+8.4138543,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Albero aghifoglia Via Farini.jpg": {
+"c": [
+45.3244726,
+8.4297412,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Albero della bugia.jpg": {
+"c": [
+40.967371,
+16.5776297,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Albero latifoglia Via Farini.jpg": {
+"c": [
+45.3242018,
+8.4296727,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Albero monumentale, Cedro del Libano, Villa Maurogordato, Livorno, 2025.jpg": {
+"c": [
+43.512104,
+10.346776,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Albero monumentale, Quercus × morisii Borzì, Montenero, 2025.jpg": {
+"c": [
+43.494358,
+10.349633,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Albero monumentale, platano comune, Villa Fabbricotti, Livorno, 2025, 1.jpg": {
+"c": [
+43.536072,
+10.316508,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Argine sinistro Sesia Vercelli 6.jpg": {
+"c": [
+45.3400008,
+8.4408894,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Athen Pandroseion sacred-olive-tree 20230921 131241.jpg": {
 "c": [
 37.9720628,
 23.7263073,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Bagolaro Celtis Australis Linnes.jpg": {
+"c": [
+45.3296126,
+8.4175899,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Bagolaro monumentale di Dorzano.jpg": {
+"c": [
+45.4262295,
+8.097196,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Bardello Cedrus deodara monumentale.jpg": {
+"c": [
+45.8364245,
+8.6998101,
 "object"
 ],
 "d": "2026-11-10"
@@ -2443,6 +2911,22 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Bialbero di Casorzo.jpg": {
+"c": [
+45.0047587,
+8.3230608,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Birch Noce monumentale.jpg": {
+"c": [
+45.771325,
+8.018885,
+"camera"
+],
+"d": "2026-11-10"
+},
 "geo:File:Bird nest box in Biķernieku forest, Riga.jpg": {
 "c": [
 56.9680418,
@@ -2459,11 +2943,175 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Cappella della Santissima Trinità (61592).jpg": {
+"c": [
+45.15888611,
+7.95815833,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Carcoforo Frasso del Vote.jpg": {
+"c": [
+45.9107417,
+8.049307,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Carpino \"nodoso\".jpg": {
+"c": [
+42.1674972,
+12.1651613,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Casalbeltrame Ginkgo biloba.jpg": {
+"c": [
+45.4374355,
+8.4668058,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Castagno Secolare.jpg": {
+"c": [
+45.803996,
+8.469939,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Castagno di Giaglione.jpg": {
+"c": [
+45.1424585,
+7.0147297,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Cedro Novara.jpg": {
+"c": [
+45.4382422,
+8.6327925,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Cedro del Libano, Ingresso ottocentesco, Cimitero del Piratello abc2.jpg": {
+"c": [
+44.369972,
+11.671303,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Cedro monumentale Borgosesia.jpg": {
+"c": [
+45.71386667,
+8.28096389,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Cedrus deodara di Vedano Olona (nord) (18802).jpg": {
+"c": [
+45.77435833,
+8.87788611,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Cedrus deodara di Vedano Olona (sud) (40120).jpg": {
+"c": [
+45.77435833,
+8.87788611,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Chiesa della Santa Madre di Dio 3.jpg": {
+"c": [
+45.4293385,
+8.5007144,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Christmas tree with paper decorations, Zagreb.jpeg": {
 "c": [
 45.79669933,
 15.92055073,
 "camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Cimamulera Aesculus hippocastanum.jpg": {
+"c": [
+46.0218675,
+8.2481496,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Cimitero Morano sul Po 02.jpg": {
+"c": [
+45.1653568,
+8.37083,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Cimitero Morano sul Po 03.jpg": {
+"c": [
+45.1653578,
+8.3707098,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Cimitero Morano sul Po 10.jpg": {
+"c": [
+45.1653766,
+8.3713986,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Cimitero del Piratello - Campo Nord Ovest 04.jpg": {
+"c": [],
+"d": "2026-11-10"
+},
+"geo:File:Cipresso di Lawson (Borgosesia).jpg": {
+"c": [
+45.71676944,
+8.2765,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Croce Maria Assunta Turbigo.jpg": {
+"c": [
+45.5326331,
+8.7414779,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Cuzzago (Premosello Chiovenda) Tasso monumentale.jpg": {
+"c": [
+45.995121,
+8.3635207,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Davidia involucrata - Villa Taranto.jpg": {
+"c": [
+45.9249489,
+8.5599787,
+"object"
 ],
 "d": "2026-11-10"
 },
@@ -2807,11 +3455,43 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Faggio monumentale 2026.jpg": {
+"c": [],
+"d": "2026-11-10"
+},
+"geo:File:Ficus macrophylla Sanremo.jpg": {
+"c": [
+43.81406869,
+7.77009979,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Fontana parco Massari Ferrara.jpg": {
+"c": [],
+"d": "2026-11-10"
+},
 "geo:File:Gasperjev kostanj IMG 5914.JPG": {
 "c": [
 46.05380833,
 15.13855,
 "camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Ghiffa Cinnamomum camphora.jpg": {
+"c": [
+45.9564952,
+8.6175007,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Goglio (Baceno) Faggio monumentale.jpg": {
+"c": [
+46.2948267,
+8.2698938,
+"object"
 ],
 "d": "2026-11-10"
 },
@@ -2843,6 +3523,38 @@
 "c": [
 46.8530959,
 16.128186,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Il \"Cerrone\".jpg": {
+"c": [
+42.1616707,
+12.1543573,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Il \"faggio del piccione\".jpg": {
+"c": [
+42.1738828,
+12.1550286,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Ippocastano Carcoforo.png": {
+"c": [
+45.9092612,
+8.049882,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Juglans regia (Mercurago).jpg": {
+"c": [
+45.7492672,
+8.5481658,
 "object"
 ],
 "d": "2026-11-10"
@@ -2911,10 +3623,42 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Magnolia Vercelli.jpg": {
+"c": [
+45.3176255,
+8.4168236,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Magnolia del Cimitero del Piratello 3.jpg": {
+"c": [
+44.370497,
+11.669474,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Mombello Chiesa di Santo Stefano 02.jpg": {
+"c": [
+45.890225,
+8.626115,
+"camera"
+],
+"d": "2026-11-10"
+},
 "geo:File:Napoleonov hrast 1.jpg": {
 "c": [
 45.6689301,
 13.8629352,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Nasone Lungotevere Portuense, Roma, Italia Jan 04, 2021 01-09-34 PM.jpeg": {
+"c": [
+41.8756961,
+12.4697121,
 "object"
 ],
 "d": "2026-11-10"
@@ -2947,8 +3691,40 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Orino Aesculus hippocastanum monumentale.jpg": {
+"c": [
+45.887325,
+8.71952,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Orino Tilia cordata monumentale.jpg": {
+"c": [
+45.887573,
+8.7193,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Oriolo Mola Acero campestre.jpg": {
+"c": [
+42.171262,
+12.093228,
+"camera"
+],
+"d": "2026-11-10"
+},
 "geo:File:PORTO - 201408 -2 - 2 (15663529306).jpg": {
 "c": [],
+"d": "2026-11-10"
+},
+"geo:File:Palazzo Boncompagni - Giornata nazionale delle dimore storiche e WP25BO 14.jpg": {
+"c": [
+44.496536,
+11.344047,
+"camera"
+],
 "d": "2026-11-10"
 },
 "geo:File:Paranhos Lemon Tree.jpg": {
@@ -2963,6 +3739,14 @@
 "c": [
 38.795708,
 -9.385975,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Pino di Norfolk (36668).jpg": {
+"c": [
+36.89175278,
+15.06780278,
 "camera"
 ],
 "d": "2026-11-10"
@@ -2983,6 +3767,30 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Platani monumentali di Novara 3.jpg": {
+"c": [
+45.4435784,
+8.6178548,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Platani monumentali di Novara 5.jpg": {
+"c": [
+45.4435655,
+8.617686,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Platano di Palazzo Alfieri.jpg": {
+"c": [
+44.8994034,
+8.1977593,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Platanus hispanica, Poznan, Libelta street (II).JPG": {
 "c": [],
 "d": "2026-11-10"
@@ -2991,6 +3799,14 @@
 "c": [
 49.384625,
 20.5571449,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Populus nigra (Dormelletto).jpg": {
+"c": [
+45.7370828,
+8.5724459,
 "object"
 ],
 "d": "2026-11-10"
@@ -3027,11 +3843,35 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Quercia vallonea.jpg": {
+"c": [
+39.92793,
+18.3787516,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Quercus Rubra Sambuy.jpg": {
+"c": [
+45.0639596,
+7.6796345,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Ramoninės ąžuolas 2.JPG": {
 "c": [
 55.928243,
 24.411095,
 "camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Rovesca Castagno secolare.jpg": {
+"c": [
+46.054783,
+8.1238647,
+"object"
 ],
 "d": "2026-11-10"
 },
@@ -3043,12 +3883,64 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Salix alba (Dormelletto).jpg": {
+"c": [
+45.7453519,
+8.5675372,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:San Sebastiano da Po (14741).jpg": {
+"c": [
+45.15443611,
+7.93219444,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:San Sebastiano da Po (32705).jpg": {
+"c": [
+45.15462222,
+7.93046389,
+"camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:Scultura lignea su albero.jpg": {
+"c": [
+45.296051,
+7.2191644,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Sequoie secolari nel parco Nastro Azzurro.jpg": {
+"c": [
+45.8900945,
+9.9474866,
+"object"
+],
+"d": "2026-11-10"
+},
 "geo:File:Smolarjenje.jpg": {
 "c": [
 45.8246407,
 13.8106675,
 "object"
 ],
+"d": "2026-11-10"
+},
+"geo:File:Somma Lombardo Platanus acerifolia monumentale.jpg": {
+"c": [
+45.6795516,
+8.7240669,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Sorbo monumentale.jpg": {
+"c": [],
 "d": "2026-11-10"
 },
 "geo:File:Stramnica 01 przed-before 2025.jpg": {
@@ -3064,6 +3956,14 @@
 45.787131,
 14.089256,
 "camera"
+],
+"d": "2026-11-10"
+},
+"geo:File:StresaIsolaBellaPalazzoBorromeoGiardiniAlberoCanfora.jpg": {
+"c": [
+45.8954873,
+8.5272142,
+"object"
 ],
 "d": "2026-11-10"
 },
@@ -3099,10 +3999,34 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Treviglio - Acero americano.jpg": {
+"c": [
+45.5220375,
+9.59592722,
+"camera"
+],
+"d": "2026-11-10"
+},
 "geo:File:Tsagkarada.jpg": {
 "c": [
 39.3868353,
 23.1744874,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Ulivo della Riconciliazione e del Dialogo.jpg": {
+"c": [
+45.538026,
+10.2214956,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Ulivo monte Mesma.jpg": {
+"c": [
+45.7759344,
+8.4413306,
 "object"
 ],
 "d": "2026-11-10"
@@ -3117,6 +4041,22 @@
 },
 "geo:File:Varniškių Ąžuolas.webp": {
 "c": [],
+"d": "2026-11-10"
+},
+"geo:File:Villa Taranto01.jpg": {
+"c": [
+45.9257933,
+8.562862,
+"object"
+],
+"d": "2026-11-10"
+},
+"geo:File:Villette Castagno monumentale.jpg": {
+"c": [
+46.1321685,
+8.5321662,
+"object"
+],
 "d": "2026-11-10"
 },
 "geo:File:Weydig oak 2012-08.JPG": {

@@ -3490,6 +3490,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q61105"
 ],
@@ -4928,6 +4929,7 @@
 ],
 "heritage": [],
 "image": "Lípy carevny Kateřiny (Katarīnas liepas), Pabaži, Saulkrasti, Vidzeme, Lotyšsko 01.jpg",
+"mon": true,
 "taxa": [
 "Q127849"
 ],
@@ -5072,6 +5074,7 @@
 ],
 "heritage": [],
 "image": "L'eterno - panoramio.jpg",
+"mon": true,
 "taxa": [
 "Q147278"
 ],
@@ -5297,6 +5300,7 @@
 ],
 "heritage": [],
 "image": "Rul d' la Costa 6 (cropped).jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -5347,6 +5351,7 @@
 ],
 "heritage": [],
 "image": "Paolo Monti - Servizio fotografico (Roma, 1966) - BEIC 6329056.jpg",
+"mon": true,
 "taxa": [
 "Q12004"
 ],
@@ -6118,6 +6123,7 @@
 ],
 "heritage": [],
 "image": "Cerro di Sant'Angelo.jpg",
+"mon": true,
 "taxa": [
 "Q157277"
 ],
@@ -10150,6 +10156,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q146149"
 ],
@@ -10961,6 +10968,7 @@
 ],
 "heritage": [],
 "image": "Stellanello-P1010564.JPG",
+"mon": true,
 "taxa": [
 "Q161415"
 ],
@@ -11841,6 +11849,8 @@
 ],
 "heritage": [],
 "image": "Pioppo Nero di Tronzano Vercellese 2.jpg",
+"mon": true,
+"mt": "ita/piedmont/vercelli/31958_sp3",
 "taxa": [
 "Q147064"
 ],
@@ -12072,6 +12082,7 @@
 ],
 "heritage": [],
 "image": "Farnia di Pontestura.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -12245,6 +12256,8 @@
 ],
 "heritage": [],
 "image": "Pioppo ibrido di Palazzolo Vercellese 02.jpg",
+"mon": true,
+"mt": "ita/piedmont/vercelli/30247_stradaisolottocascinaoliva",
 "taxa": [
 "Q149622"
 ],
@@ -12707,6 +12720,8 @@
 ],
 "heritage": [],
 "image": "Populus nigra, Parona 3.jpg",
+"mon": true,
+"mt": "ita/lombardy/pavia/34264_stazione",
 "taxa": [
 "Q147064"
 ],
@@ -12722,6 +12737,8 @@
 ],
 "heritage": [],
 "image": "Farnia monumentale, Parona.jpg",
+"mon": true,
+"mt": "ita/lombardy/pavia/34265_stradadegliasini",
 "taxa": [
 "Q165145"
 ],
@@ -13112,6 +13129,7 @@
 ],
 "heritage": [],
 "image": "Ginepro secolare Torre Guaceto.jpg",
+"mon": true,
 "taxa": [
 "Q138307"
 ],
@@ -13223,6 +13241,8 @@
 ],
 "heritage": [],
 "image": "Pioppo nero di Dormelletto 2.jpg",
+"mon": true,
+"mt": "ita/piedmont/novara/13993_viafermi",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -13651,6 +13671,7 @@
 ],
 "heritage": [],
 "image": "Aģes dižozols Vidrižos.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -13748,6 +13769,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -13843,6 +13865,7 @@
 ],
 "heritage": [],
 "image": "Recoaro Terme - Libocedro monumentale 02.jpg",
+"mon": true,
 "taxa": [
 "Q1399164"
 ],
@@ -14485,6 +14508,8 @@
 ],
 "heritage": [],
 "image": "Sughera monumentale (Isola Bella) 04.jpg",
+"mon": true,
+"mt": "ita/piedmont/stresa/7005_palazzoboromeo/39327",
 "taxa": [
 "Q156137"
 ],
@@ -14500,6 +14525,7 @@
 ],
 "heritage": [],
 "image": "Platano di frazione Ova.jpg",
+"mon": true,
 "taxa": [
 "Q161374"
 ],
@@ -14537,6 +14563,7 @@
 ],
 "heritage": [],
 "image": "Castagno di Bioglio.jpg",
+"mon": true,
 "taxa": [
 "Q22699"
 ],
@@ -14578,6 +14605,7 @@
 ],
 "heritage": [],
 "image": "Olmo di Montemarzino.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -14608,6 +14636,8 @@
 ],
 "heritage": [],
 "image": "Cedro dell'Himalaya monumentale (80615).jpg",
+"mon": true,
+"mt": "ita/trentinoaltoadige/trento/38534_liceoscientificodavinci/72410",
 "taxa": [
 "Q146935"
 ],
@@ -14686,6 +14716,7 @@
 ],
 "heritage": [],
 "image": "Olmo montano monumentale (Trento) (95279).jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -14699,6 +14730,8 @@
 ],
 "heritage": [],
 "image": "Platano comune monumentale (Vannetti 28) (90653).jpg",
+"mon": true,
+"mt": "ita/trentinoaltoadige/trento/18194_parcheggiodellaregione",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -15078,6 +15111,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q161040"
 ],
@@ -15152,6 +15186,7 @@
 ],
 "heritage": [],
 "image": "Castagno monumentale di Sostegno.jpg",
+"mon": true,
 "taxa": [
 "Q22699"
 ],
@@ -15167,6 +15202,8 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
+"mt": "ita/piedmont/vercelli/36259_pievedisantamariadinaula/67538/",
 "taxa": [
 "Q179729"
 ],
@@ -15182,6 +15219,8 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
+"mt": "ita/piedmont/vercelli/36256_piazzamartiri/67534/",
 "taxa": [
 "Q146935"
 ],
@@ -15682,6 +15721,7 @@
 ]
 ],
 "image": "Castagno dei Cento Cavalli.jpg",
+"mon": true,
 "taxa": [
 "Q22699"
 ],
@@ -17030,6 +17070,7 @@
 ],
 "heritage": [],
 "image": "Ilice di Carrinu.jpg",
+"mon": true,
 "taxa": [
 "Q218155"
 ],
@@ -18674,6 +18715,7 @@
 ],
 "heritage": [],
 "image": "Rīga, Ēbeļmuižas ozols. 2009-03-01.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -18689,6 +18731,7 @@
 ],
 "heritage": [],
 "image": "Rīga, Kaltiņu ozols 2009-03-07.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -18709,6 +18752,7 @@
 ]
 ],
 "image": "Kaņepju ozols 29.08.2016.jpg",
+"mon": true,
 "taxa": [
 "Q12004"
 ],
@@ -18724,6 +18768,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -19595,6 +19640,7 @@
 ],
 "heritage": [],
 "image": "Īvande manor.jpg",
+"mon": true,
 "taxa": [
 "Q146992"
 ],
@@ -25848,6 +25894,7 @@
 ]
 ],
 "image": "Macugnaga ChiesaVecchia.jpg",
+"mon": true,
 "taxa": [
 "Q127849"
 ],
@@ -26123,6 +26170,7 @@
 ],
 "heritage": [],
 "image": "Platano dei Cento Bersaglieri 01.jpg",
+"mon": true,
 "taxa": [
 "Q161105"
 ],
@@ -26493,6 +26541,7 @@
 ]
 ],
 "image": "Kaives Senču ozols.JPG",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -29347,6 +29396,7 @@
 ]
 ],
 "image": "Platano Orientale di Carpinello.jpg",
+"mon": true,
 "taxa": [
 "Q161105"
 ],
@@ -29632,6 +29682,7 @@
 ]
 ],
 "image": "Platano comune, Bolzano 03.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -29650,6 +29701,7 @@
 ]
 ],
 "image": "Laives, acero americano centenario.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -29670,6 +29722,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -29688,6 +29741,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -29706,6 +29760,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -29724,6 +29779,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -29742,6 +29798,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -29755,6 +29812,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -29773,6 +29831,7 @@
 ]
 ],
 "image": "Bologna - Cedro dell'Atlante - 2023-09-05 13-12-13 001.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -29786,6 +29845,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -29804,6 +29864,7 @@
 ]
 ],
 "image": "Piratello di imola 1.jpg",
+"mon": true,
 "taxa": [
 "Q61105"
 ],
@@ -29824,6 +29885,7 @@
 ]
 ],
 "image": "Rivergaro - rovere - 202109191455 3.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -29842,6 +29904,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -29860,6 +29923,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [
 "Q61105"
 ],
@@ -29880,6 +29944,7 @@
 ]
 ],
 "image": "Il cipresso del Convento Santa Croce.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -29998,6 +30063,8 @@
 ],
 "heritage": [],
 "image": "Cedro del Libano (Arenzano) (58812).jpg",
+"mon": true,
+"mt": "ita/liguria/genova/22881_villapallavicini/42790",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30011,6 +30078,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30024,6 +30092,7 @@
 ],
 "heritage": [],
 "image": "Museo Bicknell (Bordighera) 2016 abc6.jpg",
+"mon": true,
 "taxa": [
 "Q159116"
 ],
@@ -30041,6 +30110,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30054,6 +30124,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30067,6 +30138,7 @@
 ],
 "heritage": [],
 "image": "Ficus Museo Bicknell (Bordighera).jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30080,6 +30152,7 @@
 ],
 "heritage": [],
 "image": "Pinus canariensis - Gran Canaria.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30093,6 +30166,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30106,6 +30180,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30119,6 +30194,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30132,6 +30208,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30145,6 +30222,7 @@
 ],
 "heritage": [],
 "image": "Imperia - pino del Qeensland - 202109241618.jpg",
+"mon": true,
 "taxa": [
 "Q782275"
 ],
@@ -30165,6 +30243,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30178,6 +30257,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q290967"
 ],
@@ -30193,6 +30273,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30211,6 +30292,7 @@
 ]
 ],
 "image": "18038 Sanremo IM, Italy - panoramio (29).jpg",
+"mon": true,
 "taxa": [
 "Q158389"
 ],
@@ -30226,6 +30308,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30239,6 +30322,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30252,6 +30336,7 @@
 ],
 "heritage": [],
 "image": "Chiesa di San Bernardino con ippocastano, Triora.jpg",
+"mon": true,
 "taxa": [
 "Q26899"
 ],
@@ -30267,6 +30352,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30280,6 +30366,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30293,6 +30380,7 @@
 ],
 "heritage": [],
 "image": "Platano comune La Spezia stazione FF.SS.jpg",
+"mon": true,
 "taxa": [
 "Q161374"
 ],
@@ -30313,6 +30401,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30331,6 +30420,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30349,6 +30439,7 @@
 ]
 ],
 "image": "Gorgonzola - Giardini XXV aprile - Cedro Himalaya codice 07M17701E094MI03 - foto 02.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30367,6 +30458,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30385,6 +30477,7 @@
 ]
 ],
 "image": "Gorgonzola - Parco Sola Calbiati - Platano codice 07M17701E094MI03 - foto 03.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30403,6 +30496,7 @@
 ]
 ],
 "image": "Gorgonzola - Parco Sola Calbiati - Bagolaro codice 07M17704E094MI03 - foto 01.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30421,6 +30515,7 @@
 ]
 ],
 "image": "Gorgonzola - Parco Sola Calbiati - Bagolaro codice 07M17705E094MI03 - foto 01.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30439,6 +30534,7 @@
 ]
 ],
 "image": "Gorgonzola - Parco Sola Calbiati - Bagolaro codice 07M17706E094MI03 - foto 02.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30452,6 +30548,7 @@
 ],
 "heritage": [],
 "image": "Noce del Caucaso parco Sempione Milano.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30465,6 +30562,7 @@
 ],
 "heritage": [],
 "image": "Vimodrone - Magnolia secolare di Villa Torri - codice 07M17701M053MI03 -.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30478,6 +30576,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30491,6 +30590,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30593,6 +30693,7 @@
 ]
 ],
 "image": "Sequoia di Via Mazzini - Campobasso.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30619,6 +30720,7 @@
 ]
 ],
 "image": "Platano Napoleone.jpg",
+"mon": true,
 "taxa": [
 "Q161374"
 ],
@@ -30641,6 +30743,7 @@
 ]
 ],
 "image": "Leccio di Rigoroso 2.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -30661,6 +30764,7 @@
 ]
 ],
 "image": "Roverella di Avolasca.jpg",
+"mon": true,
 "taxa": [
 "Q161415"
 ],
@@ -30678,6 +30782,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30691,6 +30796,8 @@
 ],
 "heritage": [],
 "image": "Arbra dal Porti (65101).jpg",
+"mon": true,
+"mt": "ita/piedmont/alessandria/34829_po",
 "taxa": [
 "Q147064"
 ],
@@ -30706,6 +30813,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30724,6 +30832,7 @@
 ]
 ],
 "image": "Quercia castagnara centenaria a Novi Ligure vista da sotto.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -30744,6 +30853,7 @@
 ]
 ],
 "image": "Rovere verde di Tassarolo.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -30759,6 +30869,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30777,6 +30888,7 @@
 ]
 ],
 "image": "Cedro dell'Atlante (Vignale Monferrato).jpg",
+"mon": true,
 "taxa": [
 "Q623489"
 ],
@@ -30792,6 +30904,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30810,6 +30923,8 @@
 ]
 ],
 "image": "Ippocastano di Casorzo (15398) (cropped).jpg",
+"mon": true,
+"mt": "ita/piedmont/asti/17840_churchofsantamaria/",
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -30825,6 +30940,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30843,6 +30959,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30856,6 +30973,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30869,6 +30987,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30882,6 +31001,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -30900,6 +31020,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -30920,6 +31041,7 @@
 ]
 ],
 "image": "Cipresso calvo di Cavallermaggiore.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -30940,6 +31062,7 @@
 ]
 ],
 "image": "Pino strobo Chiusa di Pesio.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -30960,6 +31083,7 @@
 ]
 ],
 "image": "Olmo montano di Bergemolo.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -30980,6 +31104,7 @@
 ]
 ],
 "image": "Ippocastano di Dogliani - panorama.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31000,6 +31125,7 @@
 ]
 ],
 "image": "Faggi di Entracque.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31015,6 +31141,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31033,6 +31160,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31055,6 +31183,7 @@
 ]
 ],
 "image": "Castagno monumentale di Melle.jpg",
+"mon": true,
 "taxa": [
 "Q756"
 ],
@@ -31072,6 +31201,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31085,6 +31215,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31103,6 +31234,7 @@
 ]
 ],
 "image": "Larice di Pietraporzio.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31118,6 +31250,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31131,6 +31264,7 @@
 ],
 "heritage": [],
 "image": "Serravalle Langhe - Ippocastano - 2026-09-22 21-14-43 001.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31144,6 +31278,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31157,6 +31292,7 @@
 ],
 "heritage": [],
 "image": "L'olmo monumentale di Tetto Giona (Vernante - Cuneo).jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31170,6 +31306,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31188,6 +31325,7 @@
 ]
 ],
 "image": "Casalbeltrame Ginkgo biloba.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31203,6 +31341,7 @@
 ],
 "heritage": [],
 "image": "Cedro Novara.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31216,6 +31355,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q852572"
 ],
@@ -31231,6 +31371,7 @@
 ],
 "heritage": [],
 "image": "Platano monumentale di Agliè.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31244,6 +31385,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31257,6 +31399,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31270,6 +31413,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31288,6 +31432,7 @@
 ]
 ],
 "image": "Liriodendo di Campignole Fenile spoglio.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31303,6 +31448,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31318,6 +31464,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31333,6 +31480,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31346,6 +31494,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31364,6 +31513,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31377,6 +31527,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31395,6 +31546,7 @@
 ]
 ],
 "image": "Cumiana - Cappella di San Giacomo - 2023-09-07 23-18-22 001.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31410,6 +31562,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31423,6 +31576,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31436,6 +31590,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31449,6 +31604,7 @@
 ],
 "heritage": [],
 "image": "Ginepro coccolone.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31462,6 +31618,7 @@
 ],
 "heritage": [],
 "image": "Frassino di Moncenisio.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31480,6 +31637,7 @@
 ]
 ],
 "image": "Frassino di Moncenisio.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31495,6 +31653,7 @@
 ],
 "heritage": [],
 "image": "Platano Tesoriera 1.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31510,6 +31669,8 @@
 ],
 "heritage": [],
 "image": "Noce del Caucaso giardino Sambuy 2.jpg",
+"mon": true,
+"mt": "ita/piedmont/torino/24238_giardinosambuy/45334",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31523,6 +31684,8 @@
 ],
 "heritage": [],
 "image": "Olmo del Caucaso.jpg",
+"mon": true,
+"mt": "ita/piedmont/torino/24239_giardinireali",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31541,6 +31704,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31554,6 +31718,8 @@
 ],
 "heritage": [],
 "image": "Farnia monumentale Valentino 2.jpg",
+"mon": true,
+"mt": "ita/piedmont/torino/15775_valentino/34457",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31567,6 +31733,8 @@
 ],
 "heritage": [],
 "image": "Bagolaro Parco del Valentino.jpg",
+"mon": true,
+"mt": "ita/piedmont/torino/15775_valentino/29620/",
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31582,6 +31750,7 @@
 ],
 "heritage": [],
 "image": "Torino - platano comune - 202109191510.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31595,6 +31764,8 @@
 ],
 "heritage": [],
 "image": "Platano comune Virgilio.jpg",
+"mon": true,
+"mt": "ita/piedmont/torino/15775_valentino/40244",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31608,6 +31779,8 @@
 ],
 "heritage": [],
 "image": "Platano Viale Matteo Maria Boiardo 2.jpg",
+"mon": true,
+"mt": "ita/piedmont/torino/15775_valentino/45341",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31621,6 +31794,7 @@
 ],
 "heritage": [],
 "image": "Torre Pellice - Sequoia gigante - 2023-09-30 12-29-58 001.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31639,6 +31813,7 @@
 ]
 ],
 "image": "Castagno Maglioggio.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31654,6 +31829,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31672,6 +31848,7 @@
 ]
 ],
 "image": "Olmo di Mergozzo in autunno.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31692,6 +31869,7 @@
 ]
 ],
 "image": "Cimamulera Aesculus hippocastanum.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31707,6 +31885,7 @@
 ],
 "heritage": [],
 "image": "Cuzzago (Premosello Chiovenda) Tasso monumentale.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31720,6 +31899,8 @@
 ],
 "heritage": [],
 "image": "Stresa - Albero della Canfora - 2023-09-16 10-56-05 001.jpg",
+"mon": true,
+"mt": "ita/piedmont/stresa/7005_palazzoboromeo/14086",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31733,6 +31914,8 @@
 ],
 "heritage": [],
 "image": "Cipresso calvo monumentale (Stresa) 02.jpg",
+"mon": true,
+"mt": "ita/piedmont/stresa/7000_isolamadre/14080",
 "taxa": [
 "Q148950"
 ],
@@ -31748,6 +31931,8 @@
 ],
 "heritage": [],
 "image": "Cipresso del Kashmir 1.jpg",
+"mon": true,
+"mt": "ita/piedmont/stresa/7000_isolamadre/14077",
 "taxa": [
 "Q917216"
 ],
@@ -31763,6 +31948,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31776,6 +31962,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31789,6 +31976,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31802,6 +31990,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31815,6 +32004,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31833,6 +32023,7 @@
 ]
 ],
 "image": "Tasso - Albero monumentale di Cavandone (Verbania).jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -31848,6 +32039,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31861,6 +32053,8 @@
 ],
 "heritage": [],
 "image": "Frassino di Carcoforo vista d'insieme.png",
+"mon": true,
+"mt": "ita/piedmont/vercelli/34833_localitconcentrico",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31874,6 +32068,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31887,6 +32082,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31900,6 +32096,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -31918,6 +32115,7 @@
 ]
 ],
 "image": "Larice di Rima San Giuseppe.jpg",
+"mon": true,
 "taxa": [
 "Q146048"
 ],
@@ -31940,6 +32138,8 @@
 ]
 ],
 "image": "Insieme omogeneo di Liquidambar styracyflua L..jpg",
+"mon": true,
+"mt": "ita/piedmont/vercelli/15302_piazzaseusebio/28733",
 "taxa": [
 "Q469652"
 ],
@@ -31992,6 +32192,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32005,6 +32206,8 @@
 ],
 "heritage": [],
 "image": "Pino del Queensland 4.jpg",
+"mon": true,
+"mt": "ita/sicily/catania/13864_villabellini/31843",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32018,6 +32221,8 @@
 ],
 "heritage": [],
 "image": "Pino del Queensland 3.jpg",
+"mon": true,
+"mt": "ita/sicily/catania/13864_villabellini/31844",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32031,6 +32236,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32044,6 +32250,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32057,6 +32264,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32088,6 +32296,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32106,6 +32315,7 @@
 ]
 ],
 "image": "El fagheron - Imer.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32119,6 +32329,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32137,6 +32348,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32150,6 +32362,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32163,6 +32376,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32176,6 +32390,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32194,6 +32409,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32207,6 +32423,7 @@
 ],
 "heritage": [],
 "image": "L'albero e l'arco.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32220,6 +32437,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32233,6 +32451,7 @@
 ],
 "heritage": [],
 "image": "Sequoia baron gamba.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32246,6 +32465,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32259,6 +32479,7 @@
 ],
 "heritage": [],
 "image": "Faggio monumentale Châtillon.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32272,6 +32493,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32285,6 +32507,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32298,6 +32521,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32311,6 +32535,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32324,6 +32549,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32342,6 +32568,7 @@
 ]
 ],
 "image": "Donnas 7.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32360,6 +32587,7 @@
 ]
 ],
 "image": "Donnas 7.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32373,6 +32601,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32386,6 +32615,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32399,6 +32629,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32412,6 +32643,7 @@
 ],
 "heritage": [],
 "image": "St Oyen 2013 abc2 Château-Verdun.jpg",
+"mon": true,
 "taxa": [
 "Q3497019"
 ],
@@ -32427,6 +32659,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32440,6 +32673,7 @@
 ],
 "heritage": [],
 "image": "Cornoler de Tores a fine estate.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32453,6 +32687,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32466,6 +32701,7 @@
 ],
 "heritage": [],
 "image": "Padova Orto botanico Palma di Goethe.jpg",
+"mon": true,
 "taxa": [
 "Q161747"
 ],
@@ -32481,6 +32717,7 @@
 ],
 "heritage": [],
 "image": "Leccio (Quercus ilex) di fronte a villa Papadopoli (Smergoncino, Adria) 02.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32494,6 +32731,7 @@
 ],
 "heritage": [],
 "image": "Cedro dell'Atlante villa Condulmer.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32507,6 +32745,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32520,6 +32759,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32533,6 +32773,7 @@
 ],
 "heritage": [],
 "image": "Mirano - cedro del Libano - 202109081856.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32546,6 +32787,7 @@
 ],
 "heritage": [],
 "image": "Mirano - magnolia - 202109081854.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32559,6 +32801,7 @@
 ],
 "heritage": [],
 "image": "Spinea - pioppo bianco.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32572,6 +32815,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32585,6 +32829,7 @@
 ],
 "heritage": [],
 "image": "Spinea - cedro dell'Himalaya - 202109052031.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32598,6 +32843,7 @@
 ],
 "heritage": [],
 "image": "Spinea - sofora del Giappone - 202109070802.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32611,6 +32857,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32624,6 +32871,7 @@
 ],
 "heritage": [],
 "image": "Spinea - carpino bianco - 202109052032.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32637,6 +32885,7 @@
 ],
 "heritage": [],
 "image": "Spinea - magnolia.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32650,6 +32899,7 @@
 ],
 "heritage": [],
 "image": "Spinea - cedro dell'Himalaya - 202109051926.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32663,6 +32913,7 @@
 ],
 "heritage": [],
 "image": "Spinea - cedro dell'Himalaya - 202109051927.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32676,6 +32927,7 @@
 ],
 "heritage": [],
 "image": "Spinea - pioppo nero - 202109081840.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32689,6 +32941,7 @@
 ],
 "heritage": [],
 "image": "Spinea - pioppo nero - 202109081841.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32702,6 +32955,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32715,6 +32969,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32728,6 +32983,7 @@
 ],
 "heritage": [],
 "image": "Calvene 2.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32741,6 +32997,7 @@
 ],
 "heritage": [],
 "image": "Piovene Rocchette - cedro dell'Himalaya - 202109281731.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32754,6 +33011,7 @@
 ],
 "heritage": [],
 "image": "Recoaro2.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32824,6 +33082,7 @@
 ],
 "heritage": [],
 "image": "Cedro dell'Himalaya nel Parco di Villa Ghigi.jpg",
+"mon": true,
 "taxa": [
 "Q146935"
 ],
@@ -32907,6 +33166,7 @@
 ]
 ],
 "image": "Boschi e Rocche del Roero la Castagna Granda b.png",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -32922,6 +33182,8 @@
 ],
 "heritage": [],
 "image": "Ippocastano monumentale di Biella.jpg",
+"mon": true,
+"mt": "ita/piedmont/biella/15294_giardinipubblicizumaglini/55943",
 "taxa": [
 "Q26899"
 ],
@@ -32942,6 +33204,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32955,6 +33218,7 @@
 ],
 "heritage": [],
 "image": "Biella - cedro dell'Himalaya - 202211010925.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32968,6 +33232,7 @@
 ],
 "heritage": [],
 "image": "Alba - Faggio a foglie di asplenio - 2023-09-01 13-41-48 002.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -32983,6 +33248,8 @@
 ],
 "heritage": [],
 "image": "Biella - cedro dell'Atlante - 202211010934.jpg",
+"mon": true,
+"mt": "ita/piedmont/biella/15294_parcozumaglini/28723",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -32996,6 +33263,7 @@
 ],
 "heritage": [],
 "image": "Pero selvatico.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -33016,6 +33284,7 @@
 ]
 ],
 "image": "Bagolaro, parco Massari (Ferrara) 0.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33034,6 +33303,7 @@
 ]
 ],
 "image": "Cedro del Libano - Parco Massari (Ferrara).jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33047,6 +33317,7 @@
 ],
 "heritage": [],
 "image": "Cedro convitto M. Pagano - Campobasso.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33060,6 +33331,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33073,6 +33345,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33091,6 +33364,8 @@
 ]
 ],
 "image": "Mercurago (Arona) Chiesa di San Giorgio.jpg",
+"mon": true,
+"mt": "ita/piedmont/novara/22415_chiesadisan",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33104,6 +33379,8 @@
 ],
 "heritage": [],
 "image": "Platano comune Sclopis 2.jpg",
+"mon": true,
+"mt": "ita/piedmont/torino/15775_valentino/45340",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33117,6 +33394,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33130,6 +33408,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33143,6 +33422,8 @@
 ],
 "heritage": [],
 "image": "Sequoia sempreverde di Caluso.jpg",
+"mon": true,
+"mt": "ita/piedmont/torino/29723_parcospurgazzi/55186",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33156,6 +33437,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33169,6 +33451,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33182,6 +33465,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33195,6 +33479,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33208,6 +33493,7 @@
 ],
 "heritage": [],
 "image": "Salix alba (Dormelletto).jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33221,6 +33507,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33234,6 +33521,7 @@
 ],
 "heritage": [],
 "image": "Carpino monumentale Ivrea 3.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -33254,6 +33542,7 @@
 ]
 ],
 "image": "Platano piazza Cavour 1.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -33272,6 +33561,7 @@
 ]
 ],
 "image": "Gingko piazza Cavour 2.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -36529,6 +36819,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -36544,6 +36835,7 @@
 ],
 "heritage": [],
 "image": "Fagheron (Tambre).jpg",
+"mon": true,
 "taxa": [
 "Q25403"
 ],
@@ -36559,6 +36851,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q42292"
 ],
@@ -36624,6 +36917,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q22699"
 ],
@@ -37366,6 +37660,7 @@
 ],
 "heritage": [],
 "image": "Bialbero di Casorzo.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
