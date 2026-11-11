@@ -21,8 +21,8 @@
    "diam": "mm",
    "errors": 1537,
    "name": "Alta Austria",
-   "sha1": "17168a090efe60bc86beebd466c39d7b4da8cc6c",
-   "updated": "2026-11-11T15:39:12Z"
+   "sha1": "a238d4d8ba915db923c6f1a6a9ab39aa623999c4",
+   "updated": "2026-11-11T23:32:08Z"
   },
   "alta-francia": {
    "count": 127028,
@@ -278,10 +278,10 @@
   "liguria": {
    "count": 8905,
    "diam": "mm",
-   "errors": 205,
+   "errors": 199,
    "name": "Liguria",
-   "sha1": "5480824f311aefd09ecff7b02b0bfc46b973365c",
-   "updated": "2026-11-10T23:40:18Z"
+   "sha1": "c09ea25b8042551c7c1cfc2d3d9acf135bec1258",
+   "updated": "2026-11-11T23:32:24Z"
   },
   "lituania": {
    "count": 89230,
@@ -612,12 +612,12 @@
    "updated": "2026-11-11T15:40:41Z"
   },
   "toscana": {
-   "count": 117349,
+   "count": 117357,
    "diam": "mm",
    "errors": 268,
    "name": "Toscana",
-   "sha1": "0cd5641b574b2dc422badf303781ccec5b75e649",
-   "updated": "2026-11-10T23:42:26Z"
+   "sha1": "f6f196ebd06a7a6de38e233be43a4a0bfa1dfab0",
+   "updated": "2026-11-11T23:45:32Z"
   },
   "trentino-alto-adige": {
    "count": 67787,
