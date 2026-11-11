@@ -1440,6 +1440,8 @@
 ],
 "heritage": [],
 "image": "2019 The bird-tree FR.jpg",
+"mon": true,
+"mt": "fra/hautecorse/ghisonaccia/23828_gattone/44656",
 "taxa": [
 "Q156137"
 ],
@@ -1455,6 +1457,8 @@
 ],
 "heritage": [],
 "image": "2015 The Chestnut tree FR.jpg",
+"mon": true,
+"mt": "fra/hautecorse/pianello/11264_inthewoodsof",
 "taxa": [
 "Q129324"
 ],
@@ -1543,6 +1547,7 @@
 ],
 "heritage": [],
 "image": "If commun de Lalacelle.jpg",
+"mon": true,
 "taxa": [
 "Q179729"
 ],
@@ -4026,6 +4031,7 @@
 ]
 ],
 "image": "Chêne d'Allouville-Bellefosse 02.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -4296,6 +4302,7 @@
 "coords": [],
 "heritage": [],
 "image": "Chene Tombeboeuf (47) saisons.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -4309,6 +4316,7 @@
 ],
 "heritage": [],
 "image": "Le catalpa de Gournay-sur-Marne.jpg",
+"mon": true,
 "taxa": [
 "Q15548494",
 "Q10527903"
@@ -4330,6 +4338,7 @@
 ]
 ],
 "image": "Rannée (35) Chêne à la Vierge.jpg",
+"mon": true,
 "taxa": [
 "Q12004"
 ],
@@ -4345,6 +4354,7 @@
 ],
 "heritage": [],
 "image": "Chêne Saint-Hubert.jpg",
+"mon": true,
 "taxa": [
 "Q158608"
 ],
@@ -4360,6 +4370,7 @@
 ],
 "heritage": [],
 "image": "Forêt de Dreux - Chêne Sainte Barbe.jpg",
+"mon": true,
 "taxa": [
 "Q158608"
 ],
@@ -4742,6 +4753,8 @@
 ],
 "heritage": [],
 "image": "Lentisque remarquable de Ghisonaccia (ext).jpg",
+"mon": true,
+"mt": "fra/hautecorse/ghisonaccia/23828_gattone/44657",
 "taxa": [
 "Q159812"
 ],
@@ -5811,6 +5824,8 @@
 ],
 "heritage": [],
 "image": "Chene-de-Tronjoly.jpg",
+"mon": true,
+"mt": "fra/cotesdarmor/bulatpestivien/950_tronjoly/1706",
 "taxa": [
 "Q165145"
 ],
@@ -9007,6 +9022,7 @@
 ],
 "heritage": [],
 "image": "Chêne des Hindrés.jpg",
+"mon": true,
 "taxa": [
 "Q158608"
 ],
@@ -10024,6 +10040,7 @@
 ],
 "heritage": [],
 "image": "Cèdre du Liban dans le parc du château de Sassenage - 2023-09-06.jpg",
+"mon": true,
 "taxa": [
 "Q61105"
 ],
@@ -11772,6 +11789,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -13479,6 +13497,7 @@
 ],
 "heritage": [],
 "image": "Alfred Sisley 037.jpg",
+"mon": true,
 "taxa": [
 "Q22699"
 ],
@@ -13756,6 +13775,7 @@
 "coords": [],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -14701,6 +14721,7 @@
 ],
 "heritage": [],
 "image": "Veilleur du Mont Saint-Mard ZILaXEufg.jpg",
+"mon": true,
 "taxa": [
 "Q122468869"
 ],
@@ -14778,6 +14799,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -14892,6 +14914,7 @@
 ],
 "heritage": [],
 "image": "Le vénérable (5734406014).jpg",
+"mon": true,
 "taxa": [
 "Q127849"
 ],
@@ -17005,6 +17028,7 @@
 ]
 ],
 "image": "Gros Tilleul de Samoens 1.jpg",
+"mon": true,
 "taxa": [
 "Q156831"
 ],
@@ -17020,6 +17044,8 @@
 ],
 "heritage": [],
 "image": "Roquebrune Olivier Millenaire.JPG",
+"mon": true,
+"mt": "fra/alpesmaritimes/roquebrunecapmartin/2690_chemindementon",
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -17597,6 +17623,7 @@
 ],
 "heritage": [],
 "image": "Ranquines 14.JPG",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -17806,7 +17833,7 @@
 "Q183543": {
 "coords": [],
 "heritage": [],
-"image": "Liquidambaseedpod.JPG",
+"image": "Feuilles en novembre de Liquidambar (Liquidambar styraciflua).jpg",
 "taxa": [],
 "taxon": true,
 "wp": {
@@ -19597,6 +19624,7 @@
 "coords": [],
 "heritage": [],
 "image": "BouquetotAubépine.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -19610,6 +19638,7 @@
 ],
 "heritage": [],
 "image": "If funéraire de Saint-Ursin.JPG",
+"mon": true,
 "taxa": [
 "Q27355"
 ],
@@ -24283,6 +24312,7 @@
 ],
 "heritage": [],
 "image": "Le-Gros-Chene-de-Saint-Jean-aux-Bois.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -24383,6 +24413,7 @@
 ]
 ],
 "image": "P1380770 Paris IV orme St-Gervais rwk.jpg",
+"mon": true,
 "taxa": [
 "Q147487"
 ],
@@ -25793,6 +25824,7 @@
 ],
 "heritage": [],
 "image": "LaHayeDeRoutotIf1.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -25923,6 +25955,7 @@
 ],
 "heritage": [],
 "image": "Platane de Robillard.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -25941,6 +25974,7 @@
 ]
 ],
 "image": "Le Platane Géant De Provence à Lamanon.JPG",
+"mon": true,
 "taxa": [
 "Q161374"
 ],
@@ -25956,6 +25990,7 @@
 ],
 "heritage": [],
 "image": "17225 - Les Mathes, Platanes du Roi de Rome.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -26001,6 +26036,7 @@
 ]
 ],
 "image": "Tilleul Place Halle Pérouges 4.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -26868,6 +26904,7 @@
 ],
 "heritage": [],
 "image": "Robinia pseudoacacia @ Square René-Viviani Paris 01.jpg",
+"mon": true,
 "taxa": [
 "Q157417"
 ],
@@ -29376,6 +29413,7 @@
 ]
 ],
 "image": "Arbre remarquable de mille ans , le chêne à Guillotin (mars 2011) - panoramio.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -33660,6 +33698,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -35577,6 +35616,7 @@
 ]
 ],
 "image": "Chêne millénaire du Pouldu - Morbihan - 1 juin 2012 (11).JPG",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -36337,6 +36377,7 @@
 ],
 "heritage": [],
 "image": "Gros Châtaigner de Marchampt, Rhône 1 (mars 2019).jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -36350,6 +36391,7 @@
 ],
 "heritage": [],
 "image": "Arbre de Diane, Les Clayes-sous-Bois, Yvelines 2.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -36378,6 +36420,7 @@
 ],
 "heritage": [],
 "image": "Marronnier d'Anne Frank (Lyon) - Place Aron - en avril 2019.jpg",
+"mon": true,
 "taxa": [
 "Q26899"
 ],
@@ -38185,6 +38228,7 @@
 ],
 "heritage": [],
 "image": "Tilleul de Joux, Rhône (mai 2020).jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
