@@ -4690,6 +4690,7 @@
 ],
 "heritage": [],
 "image": "Donabauer Kapellenlinde in Schönberg.jpg",
+"mon": true,
 "taxa": [
 "Q156831"
 ],
@@ -4705,6 +4706,7 @@
 ],
 "heritage": [],
 "image": "Manzenreiter-Linde.jpg",
+"mon": true,
 "taxa": [
 "Q127849"
 ],
@@ -7712,6 +7714,7 @@
 ]
 ],
 "image": "Bad Leonfelden Zötllinde 03.jpg",
+"mon": true,
 "taxa": [
 "Q156831"
 ],
@@ -8654,6 +8657,7 @@
 ],
 "heritage": [],
 "image": "ND381 Linde CF9A2920.jpg",
+"mon": true,
 "taxa": [
 "Q156831"
 ],
@@ -8669,6 +8673,7 @@
 ],
 "heritage": [],
 "image": "Winter-Linde \"Dorflinde\" in St. Leonhard bei Freistadt.jpg",
+"mon": true,
 "taxa": [
 "Q158746"
 ],
@@ -8684,6 +8689,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -8699,6 +8705,7 @@
 ],
 "heritage": [],
 "image": "Mammutbaum Gesamtansicht.jpg",
+"mon": true,
 "taxa": [
 "Q149851"
 ],
@@ -8714,6 +8721,7 @@
 ],
 "heritage": [],
 "image": "Amerikanische Schwarznuß.jpg",
+"mon": true,
 "taxa": [
 "Q852572"
 ],
@@ -8854,6 +8862,7 @@
 ]
 ],
 "image": "Edelkastanie (Kaplanhofstraße 3, Linz, Austria).JPG",
+"mon": true,
 "taxa": [
 "Q22699"
 ],
@@ -9820,6 +9829,7 @@
 ],
 "heritage": [],
 "image": "1000jährige Eibe, Gutau.jpg",
+"mon": true,
 "taxa": [
 "Q179729"
 ],
@@ -11084,6 +11094,7 @@
 ],
 "heritage": [],
 "image": "Botanischer Garten (Linz) - Küstenmammutbaum (Sequoia sempervirens).jpg",
+"mon": true,
 "taxa": [
 "Q150129"
 ],
@@ -14073,6 +14084,7 @@
 ]
 ],
 "image": "Linde beim Pulvermacherguetl in Glasenbach -DSC04759 01.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -14091,6 +14103,7 @@
 ]
 ],
 "image": "Tofferl-Eiche - DSC04805 16.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -14120,6 +14133,7 @@
 ]
 ],
 "image": "Bergahorn beim Schartenbauern - DSC04965.jpg",
+"mon": true,
 "taxa": [
 "Q156944"
 ],
@@ -14172,6 +14186,7 @@
 ],
 "heritage": [],
 "image": "NDM00199 Geschirrnlinde CF9A3231.jpg",
+"mon": true,
 "taxa": [
 "Q127849"
 ],
@@ -14392,6 +14407,7 @@
 ]
 ],
 "image": "Neue Kaiserbuche 6.jpg",
+"mon": true,
 "taxa": [
 "Q146149"
 ],
@@ -15914,6 +15930,7 @@
 ]
 ],
 "image": "Kogelbaum.png",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -17004,6 +17021,7 @@
 ]
 ],
 "image": "1000-jährige Eiche Bad Blumau.JPG",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -17365,6 +17383,7 @@
 ]
 ],
 "image": "Tannenstrauch.jpg",
+"mon": true,
 "taxa": [
 "Q146992"
 ],
@@ -26262,6 +26281,7 @@
 ]
 ],
 "image": "Silberne Eiche beide Bäume Schönberg-Fernitz.jpg",
+"mon": true,
 "taxa": [
 "Q12004"
 ],
@@ -37746,6 +37766,7 @@
 ],
 "heritage": [],
 "image": "Birnbaum auf dem Walserfeld.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
