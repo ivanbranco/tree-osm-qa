@@ -1455,12 +1455,17 @@ map.on("load", async () => {
 
   // Classifica errori: nazioni (gruppo di regions.json, o la regione stessa se non ha gruppo) e, dentro,
   // le regioni, in ordine di alberi con errori (campo "errors" di data/index.json) o di percentuale (i pulsanti
-  // # e %). Accanto, la posizione rispetto all'aggiornamento precedente (data/history.json): l'ultimo valore di ogni
-  // regione prima dell'ultima data dello storico. ▲ = sale verso il primo posto (più errori delle altre), ▼ = scende,
-  // = stessa posizione; niente se la regione non ha un valore precedente.
+  // # e %). Accanto, la posizione rispetto a RANK_DAYS giorni prima dell'ultima data dello storico (data/history.json):
+  // per ogni regione l'ultimo valore registrato fino a quella data (se lo storico è più corto, la data più vecchia).
+  // Così un movimento resta visibile per una settimana, anche se nel frattempo i dati si riaggiornano senza cambiare.
+  // ▲ = sale verso il primo posto (più errori delle altre), ▼ = scende, = stessa posizione; niente se la regione non
+  // ha un valore precedente.
+  const RANK_DAYS = 7;
   const histDates = [...new Set(Object.values(HIST).flat().map(r => r[0]))].sort();
-  const lastDate = histDates[histDates.length - 1], prevDate = histDates[histDates.length - 2];
-  const prevOf = slug => { const r = (HIST[slug] || []).filter(x => x[0] < lastDate).pop(); return r ? { count: r[1], errors: r[2] } : null; };
+  const lastDate = histDates[histDates.length - 1];
+  const cutoff = lastDate && new Date(Date.parse(lastDate + "T00:00:00Z") - RANK_DAYS * 864e5).toISOString().slice(0, 10);
+  const prevDate = [histDates.filter(d => d <= cutoff).pop() || histDates[0]].find(d => d && d < lastDate);
+  const prevOf = slug => { const r = (HIST[slug] || []).filter(x => x[0] <= prevDate).pop(); return r ? { count: r[1], errors: r[2] } : null; };
   let rankMode = "p";                 // predefinita: per percentuale (la scelta fatta con i pulsanti resta salvata)
   try { if (localStorage.getItem("rankMode") === "n") rankMode = "n"; } catch (e) {}
   const renderRank = () => {
