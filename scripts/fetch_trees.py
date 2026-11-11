@@ -1534,7 +1534,10 @@ KEEP = ["name", "species", "genus", "taxon",
 FRUIT_SPECIES = {"Malus domestica": ("#d63a2f", [8, 9, 10]),             # mela, rossa
                  "Juglans regia": ("#b8d63a", [7, 8, 9, 10]),            # noce, verde come il mallo (bordo in index.html)
                  "Citrus limon": ("#f5d90a", None),                      # limone, giallo: frutti quasi tutto l'anno
-                 "Citrus sinensis": ("#f28a00", [11, 12, 1, 2, 3, 4])}   # arancia, arancione: matura in inverno
+                 "Citrus sinensis": ("#f28a00", [11, 12, 1, 2, 3, 4]),   # arancia, arancione: matura in inverno
+                 "Citrus × aurantium": ("#f28a00", [11, 12, 1, 2, 3]),   # arancia amara (alberi dei viali), arancione
+                 "Olea europaea": ("#4a2850", [10, 11, 12]),             # oliva, viola scuro
+                 "Diospyros kaki": ("#e8601c", [10, 11, 12])}            # cachi, arancio rossastro (anche senza foglie)
 FRUIT_BY_NAME = {}   # riempito alla prima chiamata, con genere ed epiteto normalizzati (binomial)
 
 
