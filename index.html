@@ -52,7 +52,7 @@
   #rank ol{margin:2px 0 6px;padding-left:22px}
   .rk{display:flex;flex:1;min-width:0;justify-content:space-between;gap:6px}
   .rk b{font-weight:600}
-  .rk .n{color:#b00020;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .rk .n{color:#777;white-space:nowrap;font-variant-numeric:tabular-nums}   /* colore dalla posizione: vedi rankShade */
   #rank li{cursor:pointer}
   #rank li:hover,#rank .solo:hover{background:#f2f2f2}
   #rank .solo{cursor:pointer;display:flex;padding-left:16px}
@@ -272,7 +272,7 @@ const I18N = {
     masafRows: { place: "Luogo", type: "Tipologia", criteria: "Criteri" }, openOnOsm: "Apri su OpenStreetMap",
     // consigli della scheda (ⓘ)
     hint: {
-      wdSpecies: n => `Su Wikidata questo albero è un ${n}: si potrebbe aggiungere species=${n}`,
+      wdSpecies: n => `Su Wikidata questo albero è un ${n}: si potrebbe aggiungere species=${n} dopo una verifica sul posto`,
       speciesFromWd: n => `species:wikidata indica ${n}: si potrebbe aggiungere species=${n}`,
       speciesWikidata: q => `Si potrebbe aggiungere species:wikidata=${q}`,
       wikipediaNoWikidata: q => `La voce di species:wikipedia corrisponde a ${q}: si potrebbe aggiungere species:wikidata=${q}`,
@@ -516,7 +516,7 @@ const I18N = {
     backToQa: "← Back to the QA tool", seeInQa: "see in the QA tool",
     masafRows: { place: "Place", type: "Type", criteria: "Criteria" }, openOnOsm: "Open on OpenStreetMap",
     hint: {
-      wdSpecies: n => `On Wikidata this tree is a ${n}: species=${n} could be added`,
+      wdSpecies: n => `On Wikidata this tree is a ${n}: species=${n} could be added after a survey`,
       speciesFromWd: n => `species:wikidata points to ${n}: species=${n} could be added`,
       speciesWikidata: q => `species:wikidata=${q} could be added`,
       wikipediaNoWikidata: q => `The species:wikipedia article matches ${q}: species:wikidata=${q} could be added`,
@@ -1593,10 +1593,23 @@ map.on("load", async () => {
       for (const x of items) x.was = before.get(x) ?? null, x.mv = x.was == null || !now.has(x) ? null
         : x.was > now.get(x) ? "up" : x.was < now.get(x) ? "down" : "same";
     };
+    // colore dei numeri dalla posizione, come sulla mappa (verde = meno errori, arancio, rosso = più errori), ma in
+    // tonalità più scure per leggerle sul bianco; t tra 0 e 1, solo per le righe con un valore (le altre in grigio)
+    const RANK_RGB = [[30, 122, 51], [184, 110, 0], [176, 0, 32]];
+    const rankShade = sorted => {     // righe già in ordine, dalla prima (più errori) all'ultima
+      const r = sorted.filter(x => val(x.cur) != null);
+      sorted.forEach(x => { x.t = null; });
+      r.forEach((x, i) => { x.t = r.length > 1 ? 1 - i / (r.length - 1) : 0.5; });
+    };
+    const shadeColor = t => {
+      const k = t < 0.5 ? 0 : 1, f = t < 0.5 ? t * 2 : t * 2 - 1;
+      return `rgb(${RANK_RGB[k].map((c, j) => Math.round(c + (RANK_RGB[k + 1][j] - c) * f)).join(",")})`;
+    };
     const row = (x, strong) => {
       const s = document.createElement("span"); s.className = "rk";
       const a = document.createElement(strong ? "b" : "span"); a.textContent = x.name;
       const n = document.createElement("span"); n.className = "n";
+      if (x.t != null) n.style.color = shadeColor(x.t);
       const { errors: e, count: c } = x.cur;
       n.textContent = e == null ? "—" : rankMode === "p" ? `${pct(e, c)} (${fmt(e)})` : `${fmt(e)} (${pct(e, c)})`;
       const m = document.createElement("span"); m.className = "mv" + (x.mv ? " " + x.mv : "");
@@ -1618,6 +1631,8 @@ map.on("load", async () => {
     moves(list);
     const order = (a, b) => (val(b.cur) ?? -1) - (val(a.cur) ?? -1) || a.name.localeCompare(b.name, LOC);
     list.sort(order);
+    rankShade(list);
+    for (const nat of list) { nat.regions.sort(order); rankShade(nat.regions); }   // regioni: colori tra loro
     document.querySelectorAll("#rank-mode button").forEach(b => {
       b.classList.toggle("on", b.dataset.mode === rankMode);
       b.title = b.dataset.mode === "p" ? L.rankByP : L.rankByN;
@@ -1639,7 +1654,7 @@ map.on("load", async () => {
       const sm = document.createElement("summary");
       sm.appendChild(row(nat, true));
       const ol = document.createElement("ol");
-      nat.regions.sort(order).forEach(r => {
+      nat.regions.forEach(r => {
         const li = document.createElement("li");
         li.appendChild(row(r));
         li.onclick = () => selectRegion(r.slug);

@@ -70,7 +70,7 @@ I check sono calcolati da `scripts/fetch_trees.py` e salvati nel campo `issues` 
 
 Oltre agli errori, la scheda dell'albero può mostrare dei consigli: informazioni che potrebbero migliorare i dati, non errori da correggere. Compaiono dopo gli errori, preceduti da ⓘ, in grigio e senza grassetto; non colorano l'albero sulla mappa, non sono nel menu degli errori e non contano nella classifica. Solo nel tool QA, non nella mappa dei monumentali. Sono qui anche i controlli che come errori darebbero troppi falsi positivi.
 
-* Nessun `species` né `genus`, ma l'elemento Wikidata dell'albero (`wikidata=*`) indica la specie ([P10241](https://www.wikidata.org/wiki/Property:P10241)): si potrebbe aggiungere `species` con quel nome
+* Nessun `species` né `genus`, ma l'elemento Wikidata dell'albero (`wikidata=*`) indica la specie ([P10241](https://www.wikidata.org/wiki/Property:P10241)): si potrebbe aggiungere `species` con quel nome, dopo una verifica sul posto
 * `species:wikidata=*` (un taxon) senza `species`: si potrebbe aggiungere `species` con il nome scientifico dell'elemento (P225)
 * `species` nella lista delle specie della wiki, senza `species:wikidata`: si potrebbe aggiungere il QID della lista
 * `species:wikipedia=*` senza `species:wikidata` (quando la lista non dà già il QID, vedi sopra): si potrebbe aggiungere `species:wikidata` con il QID dell'elemento collegato alla voce di Wikipedia
