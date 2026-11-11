@@ -506,6 +506,30 @@ def wikidata_tree_species(t):
     return out
 
 
+def hint_props(t):
+    """Dati per i consigli della scheda (ⓘ: informazioni, non errori; index.html li mostra e non li segnala sulla
+    mappa). Solo quelli che la pagina non può ricavare da sola:
+    hint_sp: nessun species né genus, ma l'elemento di wikidata=* indica la specie (P10241) -> nome scientifico;
+    hint_sw: species (dalla lista wiki) senza species:wikidata -> QID della specie nella lista;
+    hint_sn: species:wikidata (un taxon) senza species -> nome scientifico dell'elemento (P225)."""
+    out = {}
+    sp = (t.get("species") or "").strip()
+    if not sp and not t.get("genus"):
+        for q in qids(t, "wikidata"):
+            names = [n for tx in WD_ITEMS.get(q, {}).get("taxa", []) for n in taxon_names(tx)]
+            if taxon_status(q) is not True and names:
+                out["hint_sp"] = names[0]
+                break
+    if sp and "species:wikidata" not in t and (q := list_qid(sp)):
+        out["hint_sw"] = q
+    if not sp:
+        for q in qids(t, "species:wikidata"):
+            if taxon_status(q) is True and (names := taxon_names(q)):
+                out["hint_sn"] = names[0]
+                break
+    return out
+
+
 def wikidata_heritage(t):
     """[(QID, [etichetta it, etichetta en])] se l'elemento di wikidata=* ha una tutela (P1435) e manca
     denotation=natural_monument."""
@@ -1115,7 +1139,8 @@ def species_epithet_case(sp):
         return SPECIES_BIN[binomial(sp)]
     words = [w for w in sp.split() if w != "×"]
     if len(words) == 2 and words[0].casefold() in KNOWN_GENERA:
-        return f"{words[0]} {words[1].lower()}"
+        # il genere con la sola iniziale maiuscola ("PRUNUS Comunis" -> "Prunus comunis", non "PRUNUS comunis")
+        return f"{words[0][:1].upper()}{words[0][1:].lower()} {words[1].lower()}"
     return None
 
 
@@ -1466,6 +1491,7 @@ def to_feature(el):
     p.update(wikidata_extras(t, not wd_bad))
     p["issues"] = "|" + "|".join(iss) + "|" if iss else "|"
     p.update(props)
+    p.update(hint_props(t))               # consigli della scheda (non errori)
     return {"type": "Feature", "properties": p,
             "geometry": {"type": "Point", "coordinates": [round(el["lon"], 7), round(el["lat"], 7)]}}
 

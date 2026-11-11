@@ -4,7 +4,7 @@
   "data_updated": "20261109T000000Z",
   "project": {
     "name": "DendrOSM",
-    "description": "Quality assurance map of OSM trees and tree stumps, by region.",
+    "description": "Quality assurance map of OSM trees.",
     "project_url": "https://ivanbranco.github.io/tree-osm-qa/",
     "doc_url": "https://github.com/ivanbranco/tree-osm-qa#readme",
     "icon_url": "https://ivanbranco.github.io/tree-osm-qa/favicon.png",
