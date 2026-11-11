@@ -149,7 +149,7 @@
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e" fill-opacity=".45"/></svg> <span data-i18n="legTrunkEst">Tronco stimato</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="7" r="3" fill="#7b4a1e"/><circle cx="7" cy="14" r="3" fill="#7b4a1e"/><circle cx="15" cy="14" r="3" fill="#7b4a1e"/></svg> <span data-i18n="legStems">Più tronchi</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e"/><g fill="#2e5e1a" stroke="#d9efb0" stroke-width=".5"><circle cx="18" cy="11" r="1.4"/><circle cx="16" cy="16" r="1.4"/><circle cx="11" cy="18" r="1.4"/><circle cx="6" cy="16" r="1.4"/><circle cx="4" cy="11" r="1.4"/><circle cx="6" cy="6" r="1.4"/><circle cx="11" cy="4" r="1.4"/><circle cx="16" cy="6" r="1.4"/></g></svg> <span data-i18n="legIvy">Coperto d'edera</span></li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1b6b2c" stroke-width="1"/><g fill="#d63a2f"><circle cx="7" cy="8" r="1.8"/><circle cx="15" cy="7" r="1.8"/><circle cx="16" cy="14" r="1.8"/><circle cx="8" cy="15" r="1.8"/></g></svg> <span data-i18n="legFruit">Albero da frutto</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1b6b2c" stroke-width="1"/><circle cx="7" cy="8" r="1.8" fill="#d63a2f"/><circle cx="15" cy="7" r="1.8" fill="#f5d90a"/><circle cx="16" cy="14" r="1.8" fill="#f28a00"/><circle cx="8" cy="15" r="1.8" fill="#b8d63a" stroke="#2f4a0c" stroke-width="0.6"/></svg> <span data-i18n="legFruit">Frutti (stagionali)</span></li>
       <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M5 5L17 17M17 5L5 17" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/></svg> <span data-i18n="legStump">Ceppo</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.0,11.0 19.3,10.1 19.4,9.1 19.1,8.2 18.5,7.4 17.8,6.8 16.9,6.3 16.3,5.7 16.0,4.7 15.5,3.9 14.7,3.3 13.8,2.9 12.9,2.8 11.9,3.1 11.0,3.5 10.2,3.5 9.2,3.2 8.2,3.1 7.3,3.3 6.4,3.7 5.8,4.5 5.4,5.4 5.1,6.3 4.6,7.0 3.8,7.5 3.1,8.2 2.6,9.1 2.5,10.0 2.6,11.0 3.1,11.9 3.7,12.7 3.9,13.5 3.8,14.5 3.9,15.5 4.3,16.4 4.9,17.1 5.8,17.5 6.8,17.8 7.8,17.7 8.5,18.1 9.2,18.8 10.1,19.3 11.0,19.6 12.0,19.5 12.9,19.2 13.6,18.5 14.2,17.7 15.0,17.4 16.0,17.3 16.9,16.9 17.7,16.4 18.3,15.6 18.5,14.6 18.5,13.6 18.3,12.7 18.5,11.8" stroke-linejoin="round" fill="none" stroke="#1b6b2c" stroke-width="1.5"/></svg> <span data-i18n="legBroad">Latifoglia o palma</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.3,8.8 13.2,2.7 4.9,4.9 2.7,13.2 8.8,19.3 17.1,17.1" stroke-linejoin="round" fill="none" stroke="#1b6b2c" stroke-width="1.5"/></svg> <span data-i18n="legNeedle">Aghifoglia</span></li>
@@ -230,7 +230,9 @@ const I18N = {
     legend: "Legenda", legMonument: "Albero monumentale", legSacred: "Albero sacro", legLandmark: "Landmark", legIssues: "Con problemi",
     legMonSacred: "Monumentale e sacro", legMasaf: "Elenco MASAF", legToggle: "Clic per mostrare o nascondere",
     legTrunk: "Tronco", legTrunkEst: "Tronco stimato", legStump: "Ceppo",
-    legStems: "Più tronchi", legIvy: "Coperto d'edera", legFruit: "Albero da frutto",
+    legStems: "Più tronchi", legIvy: "Coperto d'edera", legFruit: "Frutti (stagionali)",
+    legFruitAlways: "Frutti (sempre)", legFruitOff: "Frutti (nascosti)",
+    legFruitToggle: "Clic per cambiare: frutti solo nella loro stagione, sempre, o nascosti",
     // pop-up sulle icone della legenda: i tag che le producono (chiave = data-i18n della voce)
     legTips: {
       legMonument: "denotation=natural_monument",
@@ -246,7 +248,7 @@ const I18N = {
       legTrunkEst: "Stimato da height o diameter_crown",
       legStems: "multi_stemmed=*",
       legIvy: "ivyclad=yes",
-      legFruit: "species=Malus domestica",
+      legFruit: "species=Malus domestica · Juglans regia · Citrus limon · Citrus sinensis",
       legStump: "natural=tree_stump",
       legBroad: "leaf_type=broadleaved o palm, o stimato",
       legNeedle: "leaf_type=needleleaved, o stimato",
@@ -479,7 +481,9 @@ const I18N = {
     legend: "Legend", legMonument: "Monumental tree", legSacred: "Sacred tree", legLandmark: "Landmark", legIssues: "With errors",
     legMonSacred: "Monumental and sacred", legMasaf: "MASAF list", legToggle: "Click to show or hide",
     legTrunk: "Trunk", legTrunkEst: "Estimated trunk", legStump: "Stump",
-    legStems: "Multiple trunks", legIvy: "Covered in ivy", legFruit: "Fruit tree",
+    legStems: "Multiple trunks", legIvy: "Covered in ivy", legFruit: "Fruits (seasonal)",
+    legFruitAlways: "Fruits (always)", legFruitOff: "Fruits (hidden)",
+    legFruitToggle: "Click to switch: fruits only in their season, always, or hidden",
     legTips: {
       legMonument: "denotation=natural_monument",
       legSacred: "ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree or religion=shinto",
@@ -494,7 +498,7 @@ const I18N = {
       legTrunkEst: "Estimated from height or diameter_crown",
       legStems: "multi_stemmed=*",
       legIvy: "ivyclad=yes",
-      legFruit: "species=Malus domestica",
+      legFruit: "species=Malus domestica · Juglans regia · Citrus limon · Citrus sinensis",
       legStump: "natural=tree_stump",
       legBroad: "leaf_type=broadleaved or palm, or estimated",
       legNeedle: "leaf_type=needleleaved, or estimated",
@@ -937,6 +941,10 @@ map.on("load", async () => {
   // frutti sulla chioma (fruit: colore). Posizioni fisse per albero, ricavate dall'id come i lobi della chioma.
   const hash01 = (id, k) => { let x = (id * 2654435761 + k * 40503) >>> 0; x ^= x >>> 15; x = Math.imul(x, 2246822507) >>> 0;
     x ^= x >>> 13; return (x >>> 0) / 4294967296; };
+  // stagione dei frutti (issue #4): fm = mesi in cui l'albero è carico di frutti nell'emisfero nord (fetch_trees.py,
+  // assente = tutto l'anno); a sud dell'equatore i mesi si spostano di 6. Si decide con la data di chi guarda la mappa.
+  const MONTH = new Date().getMonth() + 1;
+  const inSeason = (fm, lat) => !fm || String(fm).split(",").map(Number).includes(lat < 0 ? (MONTH + 5) % 12 + 1 : MONTH);
   const decoPoints = ft => {
     const [lon, lat] = ft.geometry.coordinates, p = ft.properties, id = p.id;
     const kx = 1 / (111320 * Math.cos(lat * Math.PI / 180)), ky = 1 / 111320;
@@ -974,11 +982,13 @@ map.on("load", async () => {
       }
     }
     if (p.fruit && p.cr) {                        // 5, 6 o 7 frutti secondo la grandezza della chioma
-      const cr = p.cr, nf = cr < 2.5 ? 5 : cr < 4.5 ? 6 : 7, rot = hash01(id, 2) * 2 * Math.PI;
+      const cr = p.cr, nf = cr < 2.5 ? 5 : cr < 4.5 ? 6 : 7, rot = hash01(id, 2) * 2 * Math.PI, fs = inSeason(p.fm, lat);
       for (let k = 0; k < nf; k++) {
         const a = rot + k * 2 * Math.PI / nf + (hash01(id, k + 3) - 0.5) * (Math.PI / nf);
         const d = cr * (0.45 + 0.35 * hash01(id, k + 50));
-        out.push(pt(d * Math.cos(a), d * Math.sin(a), "fruit", cr * 0.09, p.fruit));
+        const f = pt(d * Math.cos(a), d * Math.sin(a), "fruit", cr * 0.09, p.fruit);
+        f.properties.fs = fs;                      // in stagione oggi (vedi applyFruit)
+        out.push(f);
       }
     }
     return out;
@@ -1068,29 +1078,43 @@ map.on("load", async () => {
       "circle-radius": radius("dr", 1.2), "circle-color": "#2e5e1a", "circle-stroke-color": "#d9efb0",
       "circle-stroke-width": 0.6, "circle-pitch-alignment": "map" } }) },
     { id: "fruit", base: ["==", ["get", "dk"], "fruit"], spec: () => ({ type: "circle", source: "deco", minzoom: SHAPE_Z, paint: {
-      "circle-radius": radius("dr", 1.5), "circle-color": ["get", "dc"], "circle-pitch-alignment": "map" } }) },
+      "circle-radius": radius("dr", 1.5), "circle-color": ["get", "dc"], "circle-pitch-alignment": "map",
+      // noci (verde chiaro come il mallo): un bordo verde scuro le stacca dalla chioma, anch'essa verde
+      "circle-stroke-color": "#2f4a0c", "circle-stroke-width": ["case", ["==", ["get", "dc"], "#b8d63a"], 0.8, 0] } }) },
   ];
   const filterFor = (def, tier, rest) => ["all", ...(def.base ? [def.base] : []), tier.cond, ...rest];
   for (const tier of TIERS) for (const def of DEFS)
     map.addLayer({ id: def.id + tier.suf, ...def.spec(tier), filter: filterFor(def, tier, []) });
   const CROWN_IDS = TIERS.flatMap(t => ["crown", "crown-plain", "crown-poly"].map(i => i + t.suf));
 
-  // Frutti: un clic sulla voce della legenda li nasconde o li mostra (la scelta resta salvata nel browser)
+  // Frutti: tre modi, a ogni clic sulla voce della legenda il successivo (la scelta resta salvata nel browser):
+  // "season" (predefinito) solo gli alberi in stagione, "always" tutti, "off" nessuno
   const fruitLi = [...document.querySelectorAll(".leg li")].find(li => li.querySelector('[data-i18n="legFruit"]'));
-  let showFruit = true;
-  try { showFruit = localStorage.getItem("hideFruit") !== "1"; } catch (e) {}
+  const FRUIT_MODES = ["season", "always", "off"];
+  let fruitMode = "season";
+  try {
+    const s = localStorage.getItem("fruitMode");
+    fruitMode = FRUIT_MODES.includes(s) ? s : localStorage.getItem("hideFruit") === "1" ? "off" : "season";
+  } catch (e) {}
   const applyFruit = () => {
-    for (const t of TIERS) map.setLayoutProperty("fruit" + t.suf, "visibility", showFruit ? "visible" : "none");
-    fruitLi.classList.toggle("off", !showFruit);
+    const label = fruitLi.querySelector('[data-i18n="legFruit"]');
+    const op = fruitMode === "season" ? ["case", ["to-boolean", ["get", "fs"]], 1, 0] : 1;   // fuori stagione: invisibili
+    for (const t of TIERS) {
+      map.setLayoutProperty("fruit" + t.suf, "visibility", fruitMode === "off" ? "none" : "visible");
+      map.setPaintProperty("fruit" + t.suf, "circle-opacity", op);
+      map.setPaintProperty("fruit" + t.suf, "circle-stroke-opacity", op);
+    }
+    label.textContent = { season: L.legFruit, always: L.legFruitAlways, off: L.legFruitOff }[fruitMode];
+    fruitLi.classList.toggle("off", fruitMode === "off");
   };
   if (fruitLi) {
     // solo il testo è cliccabile: l'icona apre già il pop-up con i tag, e il clic lo lascerebbe aperto
     const label = fruitLi.querySelector('[data-i18n="legFruit"]');
     label.classList.add("toggle");
-    label.title = L.legToggle;
+    label.title = L.legFruitToggle;
     label.addEventListener("click", () => {
-      showFruit = !showFruit;
-      try { localStorage.setItem("hideFruit", showFruit ? "0" : "1"); } catch (e) {}
+      fruitMode = FRUIT_MODES[(FRUIT_MODES.indexOf(fruitMode) + 1) % FRUIT_MODES.length];
+      try { localStorage.setItem("fruitMode", fruitMode); localStorage.removeItem("hideFruit"); } catch (e) {}
       applyFruit();
     });
     applyFruit();

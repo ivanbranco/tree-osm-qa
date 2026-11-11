@@ -366,6 +366,8 @@ def store_taxa_info(batch, rows):
             add(e["names"], b["name"]["value"])
         if "rank" in b:
             add(e["ranks"], qid_of(b, "rank"))
+        if "bas" in b:
+            add(e.setdefault("basionyms", []), b["bas"]["value"])
         for lang in ("it", "en"):
             if lang in b:
                 e[lang] = b[lang]["value"]
@@ -501,8 +503,9 @@ def update_wikidata_cache(elements):
     from_wp = resolve_wikipedia(tags)   # elementi delle voci di species:wikipedia, per i consigli
     todo_taxa = sorted(({q for t in tags for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k)}
                         | {x for q in wd for x in WD_ITEMS.get(q, {}).get("taxa", [])} | listed | from_wp))
-    ask_wikidata(todo_taxa, lambda v: "SELECT ?item ?name ?rank ?it ?en WHERE { VALUES ?item { " + v + " } "
+    ask_wikidata(todo_taxa, lambda v: "SELECT ?item ?name ?rank ?it ?en ?bas WHERE { VALUES ?item { " + v + " } "
                  f"OPTIONAL {{ ?item {wd_prop('P225')} ?name }} OPTIONAL {{ ?item {wd_prop('P105')} ?rank }} "
+                 f"OPTIONAL {{ ?item {wd_prop('P566')} ?b . ?b wdt:P225 ?bas }} "   # basionimo (nome scientifico)
                  "OPTIONAL { ?item rdfs:label ?it FILTER(LANG(?it) = 'it') } "
                  "OPTIONAL { ?item rdfs:label ?en FILTER(LANG(?en) = 'en') } }", store_taxa_info, "specie")
     # alias (nomi comuni) delle specie: species:wikidata e lista wiki
@@ -517,6 +520,11 @@ def update_wikidata_cache(elements):
 def taxon_names(q):
     """Nomi scientifici (P225) di un elemento Wikidata, dalla cache."""
     return WD_TAXA.get(q, {}).get("names", [])
+
+
+def wd_names(q):
+    """Nomi accettati per un elemento Wikidata, come binomi: nome scientifico (P225) e basionimo (P566)."""
+    return {binomial(n) for n in taxon_names(q) + WD_TAXA.get(q, {}).get("basionyms", [])}
 
 
 def rank_problem(k, q):
@@ -548,7 +556,8 @@ def wikidata_name_problems(t, skip_species):
                 continue
             if k == "species:wikidata":
                 alts = {binomial(val)} | ({binomial(SYNONYMS[norm_species(val)])} if norm_species(val) in SYNONYMS else set())
-                ok = q in WD_WHITELIST.get(norm_species(val), ()) or bool(alts & {binomial(n) for n in names})
+                # accettato anche il QID che la lista wiki associa a species (la lista può usare un altro nome)
+                ok = q in WD_WHITELIST.get(norm_species(val), ()) or bool(alts & wd_names(q)) or list_qid(val) == q
             else:
                 ok = genus_key(val) in {genus_key(n) for n in names}
             if not ok:
@@ -998,7 +1007,10 @@ def species_list_mismatches(t):
         return issues, props
     ref = SPECIES_REF.get(norm_species(sp)) if sp and SPECIES_REF else None
     wd = (t.get("species:wikidata") or "").strip()
-    if sp and SPECIES_REF and wd and ";" not in wd and wd not in WD_WHITELIST.get(norm_species(sp), ()):
+    # il QID va bene anche se su Wikidata il suo nome scientifico o il suo basionimo è proprio species (la lista wiki
+    # può usare l'altro nome: Mespilus germanica = Crataegus germanica)
+    if (sp and SPECIES_REF and wd and ";" not in wd and wd not in WD_WHITELIST.get(norm_species(sp), ())
+            and binomial(sp) not in wd_names(wd)):
         if ref and ref.get("wikidata") and wd != ref["wikidata"]:
             issues.append("wikidata_mismatch")
             props.update(sp_wd=wd, exp_wd=ref["wikidata"])
@@ -1514,17 +1526,24 @@ KEEP = ["name", "species", "genus", "taxon",
         "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion", "multi_stemmed",
         "heritage:operator", "ref:icnf", "sex"]
 
-# Alberi da frutto (rendering: puntini colorati sulla chioma): per ora solo Malus domestica (le mele). Solo specie
+# Alberi da frutto (rendering: puntini colorati sulla chioma, issue #3): mele, noci, limoni e arance. Solo specie
 # coltivate per i frutti, non i generi interi (molti Malus e Prunus sono ornamentali). Colore del frutto per specie.
-FRUIT_SPECIES = {"Malus domestica": "#d63a2f"}
-FRUIT_BY_NAME = {}   # riempito alla prima chiamata, con i nomi normalizzati (norm_species)
+# Il confronto è su genere ed epiteto (binomial): valgono anche autore, cultivar e la forma con × (Citrus × limon).
+# Per ogni specie: colore e mesi in cui l'albero è carico di frutti nell'emisfero nord (issue #4; nell'emisfero sud
+# index.html li sposta di 6 mesi); None = tutto l'anno. Valori indicativi per clima temperato o mediterraneo.
+FRUIT_SPECIES = {"Malus domestica": ("#d63a2f", [8, 9, 10]),             # mela, rossa
+                 "Juglans regia": ("#b8d63a", [7, 8, 9, 10]),            # noce, verde come il mallo (bordo in index.html)
+                 "Citrus limon": ("#f5d90a", None),                      # limone, giallo: frutti quasi tutto l'anno
+                 "Citrus sinensis": ("#f28a00", [11, 12, 1, 2, 3, 4])}   # arancia, arancione: matura in inverno
+FRUIT_BY_NAME = {}   # riempito alla prima chiamata, con genere ed epiteto normalizzati (binomial)
 
 
-def fruit_color(t):
-    """Colore dei frutti da disegnare, dalla specie (FRUIT_SPECIES); None se l'albero non è tra quelli da frutto."""
+def fruit_info(t):
+    """(colore, mesi) dei frutti da disegnare, dalla specie (FRUIT_SPECIES); None se l'albero non è da frutto."""
     if not FRUIT_BY_NAME:
-        FRUIT_BY_NAME.update({norm_species(k): v for k, v in FRUIT_SPECIES.items()})
-    return FRUIT_BY_NAME.get(norm_species(t.get("species") or ""))
+        FRUIT_BY_NAME.update({binomial(k): v for k, v in FRUIT_SPECIES.items()})
+    sp = t.get("species") or ""
+    return FRUIT_BY_NAME.get(binomial(sp)) if ";" not in sp else None
 
 
 def stem_radii(t, trunk_r):
@@ -1628,8 +1647,10 @@ def to_feature(el):
             p["stems"] = ";".join(f"{r:.3f}" for r in stems)
         if t.get("ivyclad") == "yes":
             p["ivy"] = 1
-        if fc := fruit_color(t):
-            p["fruit"] = fc
+        if fi := fruit_info(t):   # fruit: colore; fm: mesi della stagione (emisfero nord), assente = tutto l'anno
+            p["fruit"] = fi[0]
+            if fi[1]:
+                p["fm"] = ",".join(map(str, fi[1]))
         # leaf_type e leaf_cycle mancanti o non validi: stimati dalle liste (forma e colore della chioma)
         if t.get("leaf_type") not in LEAF_TYPE and (est := leaf_type_estimate(t)):
             p["lt"] = est
