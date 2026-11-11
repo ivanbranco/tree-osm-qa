@@ -45,8 +45,8 @@
    "diam": "mm",
    "errors": 81,
    "name": "Basilicata",
-   "sha1": "5832bef6f3eaf3d4c2ff8d9828e3e082a7e07e19",
-   "updated": "2026-11-10T23:46:54Z"
+   "sha1": "37c9792f5c46c44803144dc5b2130419afd8aacd",
+   "updated": "2026-11-11T22:19:10Z"
   },
   "bassa-austria": {
    "count": 185686,
@@ -160,12 +160,12 @@
    "updated": "2026-11-08T19:07:46Z"
   },
   "emilia-romagna": {
-   "count": 240541,
+   "count": 240567,
    "diam": "mm",
-   "errors": 2204,
+   "errors": 2202,
    "name": "Emilia-Romagna",
-   "sha1": "554d60831dca986e7edfec67b3f14850efed8ea7",
-   "updated": "2026-11-10T23:41:35Z"
+   "sha1": "73b1f58578299b07d1e7bbdcf4885ca817bab0c8",
+   "updated": "2026-11-11T22:20:35Z"
   },
   "est-inghilterra": {
    "count": 104174,
