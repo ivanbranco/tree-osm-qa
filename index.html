@@ -59,6 +59,7 @@
   /* legenda: se le voci non entrano in 40vh scorre solo l'elenco, non tutto il pannello */
   .leg{list-style:none;margin:8px 0 0;padding:0;font-size:13px;max-height:40vh;overflow-y:auto;scrollbar-width:thin}
   .leg li{display:flex;align-items:center;gap:8px;margin:2px 0}
+  .leg li[hidden]{display:none}                   /* es. #leg-xmas fuori periodo: display:flex vincerebbe su hidden */
   .leg svg{flex:none;display:block}
   .leg li{position:relative}
   .leg .why{flex:none}
