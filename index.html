@@ -90,12 +90,12 @@
   .card{max-width:260px}
   /* i valori lunghi senza spazi (es. denotation=urbanécole_…) vanno a capo invece di uscire dalla scheda; le etichette no */
   .card dd,.card .bad,.card h3{overflow-wrap:anywhere}
-  .card h3{margin:0 0 4px;font-size:15px}
-  .card .photo{position:relative;margin:4px 0}
+  .card h3{margin:0 0 4px;font-size:15px}  .card .photo{position:relative;margin:4px 0}
   .card img{width:100%;border-radius:4px;display:block}
   .card .credit{position:absolute;right:4px;bottom:4px;max-width:calc(100% - 8px);box-sizing:border-box;background:#000a;color:#fff;
     font-size:10px;line-height:1.5;padding:0 5px;border-radius:3px;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .card .credit:empty{display:none}
+  .card .credit .fs-mark{width:9px;height:9px;vertical-align:-1px;margin-right:4px}
   .card .photo:not(.loaded) .credit{display:none}   /* il credito compare insieme alla foto, non prima */
   .card dl{margin:4px 0;display:grid;grid-template-columns:auto 1fr;gap:1px 8px}
   .card dt{color:#666}.card dd{margin:0;min-width:0}
@@ -232,8 +232,7 @@ const I18N = {
     legTrunk: "Tronco", legTrunkEst: "Tronco stimato", legStump: "Ceppo",
     legStems: "Più tronchi", legIvy: "Coperto d'edera", legFruit: "Frutti (stagionali)",
     legFruitAlways: "Frutti (sempre)", legFruitOff: "Frutti (nascosti)",
-    legFruitToggle: "Clic per cambiare: frutti solo nella loro stagione, sempre, o nascosti",
-    // pop-up sulle icone della legenda: i tag che le producono (chiave = data-i18n della voce)
+    legFruitToggle: "Clic per cambiare: frutti solo nella loro stagione, sempre, o nascosti",    // pop-up sulle icone della legenda: i tag che le producono (chiave = data-i18n della voce)
     legTips: {
       legMonument: "denotation=natural_monument",
       legSacred: "ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree o religion=shinto",
@@ -483,8 +482,7 @@ const I18N = {
     legTrunk: "Trunk", legTrunkEst: "Estimated trunk", legStump: "Stump",
     legStems: "Multiple trunks", legIvy: "Covered in ivy", legFruit: "Fruits (seasonal)",
     legFruitAlways: "Fruits (always)", legFruitOff: "Fruits (hidden)",
-    legFruitToggle: "Click to switch: fruits only in their season, always, or hidden",
-    legTips: {
+    legFruitToggle: "Click to switch: fruits only in their season, always, or hidden",    legTips: {
       legMonument: "denotation=natural_monument",
       legSacred: "ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree or religion=shinto",
       legMonSacred: "denotation=natural_monument and also ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree or religion=shinto (from zoom 16)",
@@ -1288,6 +1286,10 @@ map.on("load", async () => {
   const issueFilter = v => !v.startsWith("g:") ? ["in", `|${v}|`, ["get", "issues"]]
     : ["any", ...Object.keys(L.issueOpts).filter(c => issueGroupOf(c) === v.slice(2)).map(c => ["in", `|${c}|`, ["get", "issues"]])];
   let taxSig = "", issSig = "";
+  // genere di un valore di species: la prima parola, o le prime due per un ibrido tra generi diversi scritto con il
+  // segno staccato ("× Cupressocyparis leylandii" -> "× Cupressocyparis"; anche con "x" al posto di "×")
+  const genusOfSpecies = sp => { const w = sp.trim().split(/\s+/);
+    return (w[0] === "×" || w[0] === "x") && w[1] ? `${w[0]} ${w[1]}` : w[0]; };
   const updateTaxa = () => {
     const b = map.getBounds(), z = map.getZoom();
     const G = new Map(), S = new Map(), I = new Map(), GI = new Map();   // GI: alberi con errori per gruppo
@@ -1307,7 +1309,7 @@ map.on("load", async () => {
       if (p.genus) gs.add(p.genus);
       if (p.species) {
         WS++;
-        gs.add(p.species.trim().split(/\s+/)[0]);
+        gs.add(genusOfSpecies(p.species));
         S.set(p.species, (S.get(p.species) || 0) + 1);
       }
       gs.forEach(g => G.set(g, (G.get(g) || 0) + 1));
@@ -1421,6 +1423,12 @@ map.on("load", async () => {
     });
   };
   const closeCard = () => { if (cardPopup) cardPopup.remove(); };
+  // tasto Z (issue #12): con una scheda aperta, la mappa si centra sull'albero a zoom 19 (non mentre si scrive in un campo)
+  addEventListener("keydown", e => {
+    if (e.key.toLowerCase() !== "z" || e.ctrlKey || e.metaKey || e.altKey || !cardPopup) return;
+    if (e.target.closest?.("input, select, textarea, [contenteditable]")) return;
+    map.flyTo({ center: cardPopup.getLngLat(), zoom: 19 });
+  });
   // anche i tronchi (singoli e multipli) aprono la scheda: da zoom 16 sono disegnati sopra la chioma
   for (const id of [...CROWN_IDS, ...TIERS.map(t => "trunk" + t.suf), ...TIERS.map(t => "stem" + t.suf),
     "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"]) {
@@ -2048,6 +2056,8 @@ const fotoshiId = p => /^[A-Za-z0-9_-]{10,}$/.test(String(p["image:fotoshi"] || 
 // immagine dell'elemento Wikidata (wd_img, P18, da fetch_trees.py). Restituisce { src, commons (nome del file, per
 // chiedere a Commons autore e licenza), credit e href (crediti già noti, es. Fotoshi) }. Una categoria di Commons
 // si cerca a parte (categoryImage), quando la scheda è aperta.
+// simbolo di Fotoshi prima del credito delle sue foto (lo stesso di osm.fotoshi.com), del colore del testo
+const FOTOSHI_ICON = '<svg class="fs-mark" viewBox="0 0 174.38 174.38" aria-hidden="true"><path fill="currentColor" d="M19.85 49.59H2.57V1.71h47.88v17.27h-30.6v30.61zM171.8 49.59h-17.27V18.98h-30.61V1.71h47.88v47.88zM171.8 170.94h-47.88v-17.28h30.6v-30.6h17.28v47.88zM50.45 170.94H2.57v-47.88h17.28v30.6h30.6v17.28zM0 87.33 87.31 0l87.07 87.06-87.33 87.32-12.6-12.6 74.71-74.72-61.85-61.84-62.1 62.11 36.33 36.33 36.34-36.33-11.87-11.87-18.16 18.17-.02-.01-6.28 6.29-12.58-12.58 6.28-6.29-.01-.02 30.77-30.77 37.08 37.08-61.55 61.54L0 87.33z"/></svg>';
 function imageInfo(p) {
   const c = p.wikimedia_commons;
   if (c && /^File:/.test(c)) return { src: commonsFile(c.slice(5)), commons: c.slice(5) };
@@ -2055,7 +2065,7 @@ function imageInfo(p) {
   if (pid) return { src: `https://api.panoramax.xyz/api/pictures/${pid}/sd.jpg`, pano: pid,
     href: `https://api.panoramax.xyz/#focus=pic&pic=${pid}` };   // autore e licenza: fillPhoto
   const fid = fotoshiId(p);
-  if (fid) return { src: `https://cdn.fotoshi.com/thumbnails/${fid}.jpeg`, href: `https://www.fotoshi.com/photo/${fid}`,
+  if (fid) return { src: `https://cdn.fotoshi.com/thumbnails/${fid}.jpeg`, href: `https://www.fotoshi.com/photo/${fid}`, fs: true,
     credit: p.fs_author ? `${p.fs_author}${p.fs_license ? ` (${p.fs_license})` : ""}` : "" };
   if (p.image && /^https?:\/\//.test(p.image)) {
     const m = p.image.match(/commons\.wikimedia\.org\/wiki\/(File:.+)$/);
@@ -2179,7 +2189,7 @@ function card(p, pos) {
   // foto con i crediti in sovrimpressione (riempiti subito, o da fillPhoto per Commons); se non si carica sparisce
   const photo = img || cat ? `<div class="photo"${img?.commons ? ` data-commons="${esc(img.commons)}"` : ""}${img?.pano ? ` data-pano="${esc(img.pano)}"` : ""}${cat ? ` data-cat="${esc(cat)}"` : ""}>
       <img ${img ? `src="${esc(img.src)}"` : "hidden"} alt="" loading="lazy" onerror="this.parentNode.remove()" onload="this.parentNode.classList.add('loaded')">
-      <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}>${esc(img?.credit || "")}</a></div>` : "";
+      <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}>${img?.fs && img.credit ? FOTOSHI_ICON : ""}${esc(img?.credit || "")}</a></div>` : "";
   const genusIssue = !WORLD && ["genus", "genus_lowercase", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
   const rows = ROWS.filter(([k]) => p[k] && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
