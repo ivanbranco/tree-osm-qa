@@ -47,6 +47,13 @@
    "sha1": "c481afe2191e2c78267d4805515786d406a9ecfe",
    "updated": "2026-11-12T16:36:47Z"
   },
+  "andorra": {
+   "count": 849,
+   "errors": 0,
+   "name": "Andorra",
+   "sha1": "d9ad130a167174ec40819ee7da1877a4c135671d",
+   "updated": "2026-11-12T18:27:13Z"
+  },
   "aragona": {
    "count": 41219,
    "errors": 216,
@@ -382,6 +389,13 @@
    "sha1": "40a727412a089f94d84c2c25e8f45e52cf53164a",
    "updated": "2026-11-12T11:33:02Z"
   },
+  "liechtenstein": {
+   "count": 11859,
+   "errors": 1,
+   "name": "Liechtenstein",
+   "sha1": "d6ecfd7c9a07f4fc244a59bca00925e730ac88c4",
+   "updated": "2026-11-12T18:27:21Z"
+  },
   "liguria": {
    "count": 8905,
    "errors": 196,
@@ -461,6 +475,13 @@
    "sha1": "62160d90277c911ffe1848c4789a938539b6d61c",
    "updated": "2026-11-12T02:35:22Z"
   },
+  "malta": {
+   "count": 2740,
+   "errors": 22,
+   "name": "Malta",
+   "sha1": "b5515903385aa8f91060b9b0aca7e4f9b7fab057",
+   "updated": "2026-11-12T18:27:29Z"
+  },
   "marche": {
    "count": 32330,
    "diam": "mm",
@@ -507,6 +528,13 @@
    "name": "Molise",
    "sha1": "09fa73423ab1c4a0fce4c428c117a4d18f1a0dcb",
    "updated": "2026-11-10T23:45:10Z"
+  },
+  "monaco": {
+   "count": 658,
+   "errors": 0,
+   "name": "Monaco",
+   "sha1": "91a81ab781edf2fdb8b85de0fb06f72a088e46bc",
+   "updated": "2026-11-12T18:27:37Z"
   },
   "montenegro": {
    "count": 5797,
@@ -672,6 +700,13 @@
    "sha1": "748aafcd0285214160cef7cf96166630b8c26330",
    "updated": "2026-11-11T15:41:06Z"
   },
+  "san-marino": {
+   "count": 1281,
+   "errors": 0,
+   "name": "San Marino",
+   "sha1": "0217f5cf6bc91e7e856b0091135a43039f45dd65",
+   "updated": "2026-11-12T18:27:43Z"
+  },
   "sardegna": {
    "count": 5433,
    "diam": "mm",
@@ -797,6 +832,13 @@
    "name": "Valle d'Aosta",
    "sha1": "3dea6e26d30d92dbbfac25a300f4d5b819da6398",
    "updated": "2026-11-10T23:36:50Z"
+  },
+  "vaticano": {
+   "count": 795,
+   "errors": 0,
+   "name": "Città del Vaticano",
+   "sha1": "3df11c9ee714cdb820067f1b42a68b521e90b1be",
+   "updated": "2026-11-12T18:27:49Z"
   },
   "veneto": {
    "count": 149670,
