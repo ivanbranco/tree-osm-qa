@@ -473,12 +473,11 @@
    "updated": "2026-11-11T11:15:02Z"
   },
   "piemonte": {
-   "count": 72967,
-   "diam": "mm",
-   "errors": 126,
+   "count": 72973,
+   "errors": 125,
    "name": "Piemonte",
-   "sha1": "20bbccb336778c761cfe42703fbd98beb84d9116",
-   "updated": "2026-11-10T23:36:39Z"
+   "sha1": "dfc3ee0aa3b43ac10826628169e2c04763197271",
+   "updated": "2026-11-12T10:19:03Z"
   },
   "podkarpackie": {
    "count": 90371,
