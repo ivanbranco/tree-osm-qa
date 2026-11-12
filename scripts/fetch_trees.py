@@ -231,6 +231,16 @@ for _alt, _name in SYNONYMS.items():
 # Lista dei generi della wiki OSM (scripts/update_reference_lists.py): leaf_cycle (uno o entrambi) e leaf_type
 _GENERA = load_json(HERE / "genus_list.json", "genera")
 GENUS_REF = {k.lstrip("× ").casefold(): (k, v) for k, v in _GENERA.items()}
+# nomi comuni dei generi (colonne genus:en, genus:fr della lista) -> genere, per il consiglio di species_lang_only
+# (issue #35): {("fr", "tilleul"): "Tilia"}. Valgono solo le coppie nome-genere che sono anche in genus_names di
+# whitelist.json (nomi senza dubbi); per sicurezza un nome di più generi nella lista wiki non dà comunque consigli
+_GN = {}
+for _g, _v in _GENERA.items():
+    for _lang, _names in _v.get("names", {}).items():
+        for _n in _names:
+            _GN.setdefault((_lang, _n.casefold()), set()).add(_g)
+_GN_OK = {(lang, n.casefold()): g for lang, d in _WL.get("genus_names", {}).items() for n, g in d.items()}
+GENUS_NAMES = {k: g for k, v in _GN.items() if len(v) == 1 and _GN_OK.get(k) == (g := next(iter(v)))}
 
 # Valori di denotation sui nodi con il numero di usi, da Taginfo (scripts/update_reference_lists.py)
 DEN_COUNTS = load_json(HERE / "denotation_values.json", "values")
@@ -1461,6 +1471,19 @@ def species_lang_only(t):
     return sorted((k, v) for k, v in t.items() if k.startswith("species:") and SPECIES_LANG.match(k))
 
 
+def species_lang_genus(t, lang):
+    """Nomi di species_lang_only che nella lista dei generi sono il nome comune di un genere nella stessa lingua
+    (species:fr=Tilleul -> Tilia; species:en-GB vale come en): [(chiave, valore, genere)]. Solo se genus manca o
+    è già quel genere."""
+    g = (t.get("genus") or "").strip()
+    out = []
+    for k, v in lang:
+        gen = GENUS_NAMES.get((re.split(r"[-_]", k[8:])[0], v.strip().casefold()))
+        if gen and (not g or g.casefold() == gen.casefold()):
+            out.append((k, v, gen))
+    return out
+
+
 def undocumented_tags(t):
     """Tag non documentati presenti: [(chiave, valore)], esclusi quelli in UNDOC_IGNORE."""
     return [(k, t[k]) for k in UNDOC_TAGS if k in t and (k, t[k].strip()) not in UNDOC_IGNORE]
@@ -1607,7 +1630,10 @@ def checks(t, pos):
     if spf and SPECIES_BIN and (typo := species_typo(spf)):
         flag("species_typo", sp_sugg=typo)
     if lang := species_lang_only(t):    # "species:it=Leccio" separati da "\n" (i valori possono contenere ";")
-        flag("species_lang_only", sp_lang="\n".join(f"{k}={v}" for k, v in lang))
+        # sp_lang_genus: righe "species:fr=Tilleul|Tilia" per i nomi di un genere della lista (issue #35)
+        gl = species_lang_genus(t, lang)
+        flag("species_lang_only", sp_lang="\n".join(f"{k}={v}" for k, v in lang),
+             **({"sp_lang_genus": "\n".join(f"{k}={v}|{g}" for k, v, g in gl)} if gl else {}))
     g = t.get("genus")
     gf = None if "genus" in eq or "genus" in nl else g   # genus per i check sulla forma del nome
     gw = genus_words(gf) if gf is not None else None    # senza il segno di ibrido (× Sycoparrotia)

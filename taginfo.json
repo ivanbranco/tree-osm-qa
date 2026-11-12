@@ -1,7 +1,7 @@
 {
   "data_format": 1,
   "data_url": "https://raw.githubusercontent.com/ivanbranco/tree-osm-qa/main/taginfo.json",
-  "data_updated": "20261109T000000Z",
+  "data_updated": "20261112T000000Z",
   "project": {
     "name": "DendrOSM",
     "description": "Quality assurance map of OSM trees.",
@@ -30,6 +30,10 @@
     {"key": "species:wikidata", "object_types": ["node"], "description": "Used for QA checks and to show the common name in the info panel."},
     {"key": "species:wikipedia", "object_types": ["node"], "description": "Used for hints: species:wikidata and species from the linked Wikidata item, when missing."},
     {"key": "species:it", "object_types": ["node"], "description": "Used for a hint in the info panel (almost all values start with a capital letter)."},
+    {"key": "species:en", "object_types": ["node"], "description": "Without species: used for a QA check; if the value is the English name of a genus in the OSM wiki list of genera, genus:en is suggested."},
+    {"key": "species:fr", "object_types": ["node"], "description": "Without species: used for a QA check; if the value is the French name of a genus in the OSM wiki list of genera, genus:fr is suggested."},
+    {"key": "genus:en", "object_types": ["node"], "description": "Suggested instead of species:en when its value is the English name of a genus in the OSM wiki list of genera."},
+    {"key": "genus:fr", "object_types": ["node"], "description": "Suggested instead of species:fr when its value is the French name of a genus in the OSM wiki list of genera."},
     {"key": "genus:wikidata", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "leaf_type", "object_types": ["node"], "description": "Used to render the crown shape and for QA checks."},
     {"key": "leaf_cycle", "object_types": ["node"], "description": "Used to render the crown color, for QA checks and the info panel."},

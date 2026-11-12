@@ -488,6 +488,7 @@ const I18N = {
       tag_in_value: kv => `${kv} contiene "=": probabilmente un tag scritto nel valore`,
       not_latin: kv => `${kv} non è in alfabeto latino, come i nomi scientifici: il nome nella lingua locale va in species:xx (es. species:bg)`,
       species_lang_only: kv => `c'è ${kv} ma manca species=* (il nome scientifico)`,
+      species_lang_genus: (k, v, g, add) => `${k}=${v} è il nome del genere ${g} nella lista dei generi della wiki OSM: usare ${k.replace("species:", "genus:")}=${v}` + (add ? ` e genus=${g}` : ""),
       wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
       wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: le coordinate dell'elemento su Wikidata sono a ${km} km da questo albero`,
@@ -766,6 +767,7 @@ const I18N = {
       tag_in_value: kv => `${kv} contains "=": probably a tag written in the value`,
       not_latin: kv => `${kv} is not in the Latin script, unlike scientific names: the name in the local language goes in species:xx (e.g. species:bg)`,
       species_lang_only: kv => `${kv} is present but species=* (the scientific name) is missing`,
+      species_lang_genus: (k, v, g, add) => `${k}=${v} is the name of the genus ${g} in the OSM wiki list of genera: use ${k.replace("species:", "genus:")}=${v}` + (add ? ` and genus=${g}` : ""),
       wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
       wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: the coordinates of the Wikidata item are ${km} km from this tree`,
@@ -2215,7 +2217,17 @@ const issueBase = (i, p) => {
     case "underscore": return String(p.und_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");
     case "tag_in_value": return String(p.eq_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // eq_keys: fetch_trees.py
     case "not_latin": return String(p.nl_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // nl_keys: fetch_trees.py
-    case "species_lang_only": return T[i](String(p.sp_lang || "").split("\n").join(", "));   // sp_lang: righe "species:xx=valore"
+    // sp_lang: righe "species:xx=valore"; sp_lang_genus: righe "species:fr=Tilleul|Tilia", nomi di un genere della
+    // lista wiki (fetch_trees.py): per quelli il consiglio preciso, per gli altri il messaggio generico
+    case "species_lang_only": {
+      const gen = new Map(String(p.sp_lang_genus || "").split("\n").filter(Boolean).map(x => {
+        const j = x.lastIndexOf("|"); return [x.slice(0, j), x.slice(j + 1)]; }));
+      const rest = String(p.sp_lang || "").split("\n").filter(kv => kv && !gen.has(kv));
+      const out = [...gen].map(([kv, g]) => { const j = kv.indexOf("=");
+        return T.species_lang_genus(kv.slice(0, j), kv.slice(j + 1), g, !p.genus); });
+      if (rest.length) out.push(T[i](rest.join(", ")));
+      return out.join("\n");
+    }
     case "wikidata_not_taxon": return String(p.nt_tags || "").split(";").map(kv => T[i](kv)).join("\n");   // nt_tags, tx_wd: fetch_trees.py
     case "wikidata_is_taxon": return String(p.tx_wd || "").split(";").map(q => T[i](q)).join("\n");
     // wd_rank, wd_name: "chiave=QID:valore;…" (la chiave contiene già ":"); wd_tree_sp: "QID:nome;…" (fetch_trees.py)

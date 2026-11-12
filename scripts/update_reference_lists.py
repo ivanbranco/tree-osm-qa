@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Scarica le liste di riferimento sugli alberi:
 - wiki OSM, List of Species  -> scripts/species_list.json (species:wikidata, leaf_cycle, leaf_type per specie)
-- wiki OSM, List of Genus, Leaf cycle, Leaf type -> scripts/genus_list.json (leaf_cycle e leaf_type per genere)
+- wiki OSM, List of Genus, Leaf cycle, Leaf type -> scripts/genus_list.json (leaf_cycle, leaf_type e nomi comuni
+  delle colonne genus:xx per genere)
 - Taginfo, valori di denotation sui nodi -> scripts/denotation_values.json (numero di usi di ogni valore)
 Contenuto della wiki sotto licenza CC BY-SA 2.0; dati di Taginfo © contributori di OpenStreetMap (ODbL)."""
 import json
@@ -106,6 +107,12 @@ def build_genera(html):
         syn = cell(r, header, "synonym")
         if syn:
             entry["synonym"] = syn
+        # nomi comuni del genere dalle colonne genus:xx (genus:en, genus:fr): {"fr": ["Tilleul"]}; più nomi separati
+        # da virgola ("Palmier de Chine, palmier à chanvre")
+        names = {h.split(":", 1)[1]: [n.strip() for n in cell(r, header, h).split(",") if n.strip()]
+                 for h in header if re.fullmatch(r"genus:[a-z]{2,3}", h)}
+        if names := {lang: v for lang, v in names.items() if v}:
+            entry["names"] = names
         if name in genera:
             print(f"  [!] {name}: riga duplicata, tengo la prima")
             continue
