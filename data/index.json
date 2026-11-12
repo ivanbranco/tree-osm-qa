@@ -280,11 +280,10 @@
   },
   "liguria": {
    "count": 8905,
-   "diam": "mm",
-   "errors": 199,
+   "errors": 196,
    "name": "Liguria",
-   "sha1": "c09ea25b8042551c7c1cfc2d3d9acf135bec1258",
-   "updated": "2026-11-11T23:32:24Z"
+   "sha1": "4ed89cf2afd7f8eabb7612e1a8592c8c68ee0b66",
+   "updated": "2026-11-12T14:39:12Z"
   },
   "lituania": {
    "count": 89230,
@@ -472,10 +471,10 @@
   },
   "piemonte": {
    "count": 72973,
-   "errors": 125,
+   "errors": 131,
    "name": "Piemonte",
-   "sha1": "dfc3ee0aa3b43ac10826628169e2c04763197271",
-   "updated": "2026-11-12T10:19:03Z"
+   "sha1": "7593b187b3e7d5cc69349602b718c2c33a44188f",
+   "updated": "2026-11-12T14:38:56Z"
   },
   "podkarpackie": {
    "count": 90371,
