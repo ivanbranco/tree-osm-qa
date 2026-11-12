@@ -108,6 +108,14 @@
   .why .tip{display:none;position:absolute;left:0;right:0;top:100%;z-index:6;background:#fff;color:#222;font-weight:400;
     font-size:12px;line-height:1.4;border:1px solid #ddd;border-radius:4px;box-shadow:0 2px 8px #0003;padding:4px 7px}
   .why:hover .tip,.why:focus .tip{display:block}
+  /* parole di un consiglio che aprono una foto (es. i semi del ginkgo, issue #25): al clic o al tocco, non al passaggio */
+  .card .hint{position:relative}
+  .pop{border-bottom:1px dashed currentColor;cursor:pointer;outline:none}
+  .pop .tip{display:none;position:absolute;left:0;right:0;top:100%;z-index:6;background:#fff;border:1px solid #ddd;
+    border-radius:4px;box-shadow:0 2px 8px #0003;padding:4px;cursor:default}
+  .pop .tip .photo{margin:0}
+  .pop:focus-visible{outline:1px dotted currentColor}
+  .pop.open .tip{display:block}
   .card .rec{margin:4px 0}
   .osm-menu{display:inline-block;position:relative}
   .osm-menu summary{display:inline;cursor:pointer;color:#1a5fb4;list-style:none}
@@ -191,6 +199,7 @@ const fmtPct = (e, c) => !c || !e ? "0%" : 100 * e / c < 0.05 ? `<${(0.1).toLoca
 // indirizzo: #region=<slug>&node=<id OSM dell'albero con la scheda aperta>&map=<zoom>/<lat>/<lon>, mantenendo #lang
 // se c'era. Senza argomento tiene la regione attuale.
 let hashSlug = null, hashNode = null;
+let currentIso = "";   // codice ISO della regione caricata (da regions.json), per i consigli che dipendono dal paese
 const setHash = (slug = hashSlug) => {
   hashSlug = slug;
   const h = new URLSearchParams();
@@ -286,6 +295,11 @@ const I18N = {
       masafSize: (c, s, n) => `La circonferenza (${c}) raggiunge la soglia MASAF per ${n} (${s}): potrebbe essere un albero monumentale`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,
       notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
+      // issue #25; seeds(t): HTML delle parole che aprono la foto dei semi (south: emisfero australe)
+      ginkgoSex: (south, seeds) => `Se questo ginkgo è un esemplare femminile, si potrebbe aggiungere sex=female. ${south ? "Da ottobre a maggio" : "Da aprile a novembre"} è un buon periodo per verificarlo: le femmine portano ovuli appaiati in primavera e ${seeds("semi carnosi e maleodoranti")} che cadono in autunno, spesso a terra sotto la chioma.`,
+      ginkgoSeedsAlt: "Semi di Ginkgo biloba",
+      monotypic: (g, s) => `${g} ha una sola specie vivente: si potrebbe aggiungere species=${s}`,
+      sequoiaNote: "In questo paese il nome comune «sequoia» indica spesso anche la sequoia gigante (Sequoiadendron giganteum): conviene verificare che l'albero non lo sia",
     },
     masafNote: (l, code) => `Dall’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${code}): non ancora su OpenStreetMap.`,
     masafSource: "Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0)",
@@ -534,6 +548,10 @@ const I18N = {
       masafSize: (c, s, n) => `The circumference (${c}) reaches the MASAF threshold for ${n} (${s}): it could be a monumental tree`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,
       notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
+      ginkgoSex: (south, seeds) => `If this ginkgo is a female tree, sex=female could be added. ${south ? "October to May" : "April to November"} is a good time to check: females bear paired ovules in spring and fleshy, ${seeds("foul-smelling seeds")} that fall in autumn, often lying under the canopy.`,
+      ginkgoSeedsAlt: "Ginkgo biloba seeds",
+      monotypic: (g, s) => `${g} has a single living species: species=${s} could be added`,
+      sequoiaNote: "In this country the common name \"sequoia\" is often used for the giant sequoia (Sequoiadendron giganteum) too: check that the tree is not one",
     },
     masafNote: (l, code) => `From the MASAF ${l("list of monumental trees of Italy")} (${code}): not on OpenStreetMap yet.`,
     masafSource: "Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0)",
@@ -1193,6 +1211,7 @@ map.on("load", async () => {
   const fitAll = () => { if (allBounds) map.fitBounds(allBounds, { padding: 30, duration: 0 }); };
   const setCurrent = slug => {
     current = slug;
+    currentIso = metaBy[slug]?.iso || "";
     document.getElementById("dl").hidden = !slug;   // il download serve solo con una regione caricata
     // regione di una nazione divisa: si vedono le regioni vicine; regione-nazione (Bulgaria): si richiude
     // la nazione aperta prima. Senza regione (slug null) la nazione aperta resta com'è.
@@ -2167,9 +2186,11 @@ function creditName(md) {
 // Completa la foto della scheda già aperta: per una categoria di Commons cerca il primo file; per i file di Commons
 // chiede autore e licenza e li scrive in sovrimpressione ("Autore (CC BY-SA 4.0)", con il link alla pagina del file);
 // lo stesso per le foto di Panoramax (API di Panoramax, link alla foto)
+// root: la scheda (la sua foto, non quelle dei consigli: .later, completate solo quando si aprono) o una .photo
 async function fillPhoto(root) {
-  const box = root && root.querySelector(".photo");
-  if (!box) return;
+  const box = root && (root.classList.contains("photo") ? root : root.querySelector(".photo:not(.later)"));
+  if (!box || box.dataset.done) return;
+  box.dataset.done = "1";
   try {
     if (box.dataset.cat) {
       const r = await fetch(`${COMMONS_API}&list=categorymembers&cmtype=file&cmlimit=1&cmtitle=${encodeURIComponent(box.dataset.cat)}`).then(r => r.json());
@@ -2288,14 +2309,50 @@ function card(p, pos) {
       + (p.imp ? `<div class="hint">ⓘ ${esc(L.implicitMon(implicitSources(p)))}</div>` : "")
     : issues.flatMap(([i, x]) => { const w = L.why[i]; return x.split("\n").map(line => [typeof w === "function" ? w(p) : w, line]); }).map(([why, x]) =>
       `<div class="bad">${why ? `<span class="why" tabindex="0">⚠<span class="tip">${esc(why)}</span></span>` : "⚠"} ${esc(x)}</div>`).join("")}
-    ${WORLD ? "" : hints(p).map(h => `<div class="hint">ⓘ ${typeof h === "string" ? esc(h) : h.html}</div>`).join("")}
+    ${WORLD ? "" : hints(p, pos).map(h => `<div class="hint">ⓘ ${typeof h === "string" ? esc(h) : h.html}</div>`).join("")}
     <div>${links.join(" · ")}</div></div>`;
 }
 
 // Consigli della scheda (ⓘ, in grigio): informazioni che potrebbero migliorare i dati, non errori. Non si segnalano
 // sulla mappa né nel menu degli errori; solo nel tool QA. hint_sp, hint_sw, hint_sn, hint_it, hint_mc vengono da fetch_trees.py
-// (hint_props), gli altri si ricavano dai dati dell'albero.
-function hints(p) {
+// (hint_props), gli altri si ricavano dai dati dell'albero (pos = [lon, lat], per l'emisfero).
+// Foto dei semi di ginkgo nel consiglio su sex=female (issue #25), con i crediti di Commons come le foto delle schede
+const GINKGO_SEEDS = "Gingko_biloba_seeds.jpg";   // il nome del file su Commons è scritto così ("Gingko")
+// parole t di un consiglio che aprono una foto di Commons: un clic (o tocco, Invio, spazio) apre e chiude; si chiude
+// anche con un clic altrove o con Esc. L'immagine (loading=lazy, nascosta) e i crediti si caricano solo all'apertura
+function photoPop(t, file, alt) {
+  return `<span class="pop" tabindex="0" role="button" aria-expanded="false" aria-label="${esc(t)}"
+    onclick="togglePop(this, event)" onkeydown="togglePop(this, event)">${esc(t)}<span class="tip"><span class="photo later" data-commons="${esc(file)}">`
+    + `<img src="${esc(commonsFile(file))}" alt="${esc(alt)}" loading="lazy" onerror="this.parentNode.remove()" onload="this.parentNode.classList.add('loaded')">`
+    + `<a class="credit" target="_blank" rel="noopener"></a></span></span></span>`;
+}
+function togglePop(el, e) {
+  if (e.target.closest("a")) return;   // il link dei crediti apre la pagina del file, senza chiudere
+  if (e.type === "keydown") {
+    if (e.key === "Escape") { el.classList.remove("open"); el.setAttribute("aria-expanded", "false"); return; }
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault();
+  }
+  const open = el.classList.toggle("open");
+  el.setAttribute("aria-expanded", open);
+  if (open) fillPhoto(el.querySelector(".photo"));
+}
+// un clic fuori chiude le foto aperte dei consigli
+document.addEventListener("click", e => document.querySelectorAll(".pop.open").forEach(x => {
+  if (!x.contains(e.target)) { x.classList.remove("open"); x.setAttribute("aria-expanded", "false"); } }));
+// Generi di alberi con una sola specie vivente (le altre sono solo fossili): con genus=* e senza species=* la specie è
+// certa. Lista scritta a mano, non ricavata da Wikidata: la tassonomia cambia e un errore darebbe consigli sbagliati
+const MONOTYPIC = {
+  Ginkgo: "Ginkgo biloba", Metasequoia: "Metasequoia glyptostroboides", Sequoiadendron: "Sequoiadendron giganteum",
+  Sequoia: "Sequoia sempervirens", Cryptomeria: "Cryptomeria japonica", Sciadopitys: "Sciadopitys verticillata",
+  Glyptostrobus: "Glyptostrobus pensilis", Platycladus: "Platycladus orientalis", Thujopsis: "Thujopsis dolabrata",
+  Pseudolarix: "Pseudolarix amabilis", Wollemia: "Wollemia nobilis", Fitzroya: "Fitzroya cupressoides",
+  Davidia: "Davidia involucrata", Idesia: "Idesia polycarpa", Eucommia: "Eucommia ulmoides",
+  Tetracentron: "Tetracentron sinense", Trochodendron: "Trochodendron aralioides", Oxydendrum: "Oxydendrum arboreum",
+  Franklinia: "Franklinia alatamaha", Umbellularia: "Umbellularia californica",
+};
+const SEQUOIA_NOTE = new Set(["IT", "FR", "BE", "LU", "CH", "MC", "GB", "IE", "US", "CA", "AU", "NZ"]);
+function hints(p, pos) {
   const H = L.hint, out = [], codes = String(p.issues || "");
   if (p.stump) return out;
   if (p.hint_sp) out.push(H.wdSpecies(p.hint_sp));
@@ -2310,6 +2367,12 @@ function hints(p) {
   if (p.hint_imp_d) { const [v, url] = p.hint_imp_d.split("|");
     out.push({ html: `${esc(H.importDoc(v))} <a href="${esc(url)}" target="_blank" rel="noopener">${esc(H.importDocLink)}</a>` }); }
   if (p.hint_ms) { const [c, s] = p.hint_ms.split("|"); out.push(H.masafSize(fmtM(c), fmtM(s), p.sp_clean || p.species)); }
+  // genus=* di un genere con una sola specie vivente, senza species=*: la specie si potrebbe aggiungere
+  const mono = !p.species && MONOTYPIC[String(p.genus || "").trim()];
+  if (mono) out.push(H.monotypic(String(p.genus).trim(), mono));
+  // genus=Sequoia nei paesi dove «sequoia» (séquoia) indica spesso anche la sequoia gigante, Sequoiadendron:
+  // Italia, paesi francofoni e anglofoni
+  if (mono === MONOTYPIC.Sequoia && SEQUOIA_NOTE.has(currentIso.slice(0, 2).toUpperCase())) out.push(H.sequoiaNote);
   // leaf_type / leaf_cycle mancanti (non sbagliati: quelli sono errori), stimati dalle liste della wiki
   const name = p.sp_clean || p.species || p.genus, lt = !p.leaf_type && p.lt, lc = !p.leaf_cycle && p.lc;   // sp_clean: senza autore
   if (name && (lt || lc)) out.push(H.leaf(name, [lt && `leaf_type=${lt}`, lc && `leaf_cycle=${lc}`].filter(Boolean)));
@@ -2317,6 +2380,12 @@ function hints(p) {
   const den = String(p.denotation || "").split(";");
   if (p.wikidata && !den.includes("natural_monument") && !den.includes("landmark")
       && !/\|(wikidata_is_taxon|wikidata_not_taxon|monument_denotation|wikidata_heritage)\|/.test(codes)) out.push(H.notable);
+  // Ginkgo biloba (o genus=Ginkgo, genere con una sola specie) senza sex=*: da aprile a novembre (da ottobre a maggio
+  // nell'emisfero australe) si possono riconoscere le femmine da ovuli e semi (issue #25)
+  const ginkgo = /^Ginkgo biloba\b/.test(p.sp_clean || p.species || "") || (!p.species && p.genus === "Ginkgo");
+  const south = pos && +pos[1] < 0, m = new Date().getMonth() + 1;
+  if (ginkgo &&!p.sex && (south ? m >= 10 || m <= 5 : m >= 4 && m <= 11))
+    out.push({ html: H.ginkgoSex(south, t => photoPop(t, GINKGO_SEEDS, H.ginkgoSeedsAlt)) });
   return out;
 }
 </script>
