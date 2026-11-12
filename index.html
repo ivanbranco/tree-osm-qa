@@ -281,7 +281,8 @@ const I18N = {
     worldTitle: { monumental: "Mappa degli alberi monumentali" },
     worldLink: { monumental: "Mappa mondiale degli alberi monumentali" },
     backToQa: "← Torna al tool QA", seeInQa: "vedi nel tool QA",
-    implicitMon: s => `Su OSM non è segnato come monumentale (manca denotation=natural_monument), ma lo è secondo: ${s}`,
+    implicitMon: s => `Su OSM non è segnato come monumentale, ma lo è secondo ${s}`,
+    implicitMonTip: s => `Su OSM manca denotation=natural_monument; fonti: ${s}`,
     // alberi dell'elenco MASAF non ancora su OpenStreetMap (mappa dei monumentali)
     masafRows: { place: "Luogo", type: "Tipologia", criteria: "Criteri" }, openOnOsm: "Apri su OpenStreetMap",
     // consigli della scheda (ⓘ)
@@ -536,7 +537,8 @@ const I18N = {
     worldTitle: { monumental: "Map of monumental trees" },
     worldLink: { monumental: "World map of monumental trees" },
     backToQa: "← Back to the QA tool", seeInQa: "see in the QA tool",
-    implicitMon: s => `Not marked as monumental on OSM (denotation=natural_monument is missing), but it is according to: ${s}`,
+    implicitMon: s => `Not marked as monumental on OSM, but it is according to ${s}`,
+    implicitMonTip: s => `denotation=natural_monument is missing on OSM; sources: ${s}`,
     masafRows: { place: "Place", type: "Type", criteria: "Criteria" }, openOnOsm: "Open on OpenStreetMap",
     hint: {
       wdSpecies: n => `On Wikidata this tree is a ${n}: species=${n} could be added after a survey`,
@@ -2128,6 +2130,14 @@ function implicitSources(p) {
   if (p.wd_her_q) src.push(`wikidata=${p.wd_her_q} (${LANG === "it" ? p.wd_her_it : p.wd_her_en})`);
   return src.join(", ");
 }
+// le stesse fonti con nomi per chi non conosce i tag (mappa dei monumentali, issue #13): "MASAF e Wikidata"
+function implicitSourceNames(p) {
+  const name = s => s.startsWith("wikidata=") ? "Wikidata" : s.startsWith("heritage:operator=") ? s.slice(18).toUpperCase()
+    : { "ref:masaf": "MASAF", "ref:rami": "RAMI", "ref:monumentaltrees": "monumentaltrees.com" }[s] || s;
+  const src = String(p.mon_src || "").split(";").filter(Boolean).map(name);
+  if (p.wd_her_q) src.push("Wikidata");
+  return new Intl.ListFormat(LANG, { type: "conjunction" }).format([...new Set(src)]);
+}
 // simbolo di Fotoshi prima del credito delle sue foto (lo stesso di osm.fotoshi.com), del colore del testo
 const FOTOSHI_ICON = '<svg class="fs-mark" viewBox="0 0 174.38 174.38" aria-hidden="true"><path fill="currentColor" d="M19.85 49.59H2.57V1.71h47.88v17.27h-30.6v30.61zM171.8 49.59h-17.27V18.98h-30.61V1.71h47.88v47.88zM171.8 170.94h-47.88v-17.28h30.6v-30.6h17.28v47.88zM50.45 170.94H2.57v-47.88h17.28v30.6h30.6v17.28zM0 87.33 87.31 0l87.07 87.06-87.33 87.32-12.6-12.6 74.71-74.72-61.85-61.84-62.1 62.11 36.33 36.33 36.34-36.33-11.87-11.87-18.16 18.17-.02-.01-6.28 6.29-12.58-12.58 6.28-6.29-.01-.02 30.77-30.77 37.08 37.08-61.55 61.54L0 87.33z"/></svg>';
 function imageInfo(p) {
@@ -2289,7 +2299,7 @@ function card(p, pos) {
     ${rec.map(x => `<div class="rec">${x}</div>`).join("")}
     ${WORLD ? (issues.length && p.qa   // mappa mondiale: solo un link al tool QA, se l'albero è in una regione coperta
       ? `<div class="bad">⚠ <a href="${esc(`${BASE}#region=${p.qa}&node=${p.id}`)}">${esc(L.seeInQa)}</a></div>` : "")
-      + (p.imp ? `<div class="hint">ⓘ ${esc(L.implicitMon(implicitSources(p)))}</div>` : "")
+      + (p.imp ? `<div class="hint"><span class="why" tabindex="0">ⓘ<span class="tip">${esc(L.implicitMonTip(implicitSources(p)))}</span></span> ${esc(L.implicitMon(implicitSourceNames(p)))}</div>` : "")
     : issues.flatMap(([i, x]) => { const w = L.why[i]; return x.split("\n").map(line => [typeof w === "function" ? w(p) : w, line]); }).map(([why, x]) =>
       `<div class="bad">${why ? `<span class="why" tabindex="0">⚠<span class="tip">${esc(why)}</span></span>` : "⚠"} ${esc(x)}</div>`).join("")}
     ${WORLD ? "" : hints(p, pos).map(h => `<div class="hint">ⓘ ${typeof h === "string" ? esc(h) : h.html}</div>`).join("")}
