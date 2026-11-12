@@ -4,11 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       region:
-        description: "Region to update (all = every region; italia, polonia, regno-unito, francia, spagna, irlanda, austria = all the regions of that country)"
+        description: "Region to update (all = every region; oldest = the country or region downloaded least recently; italia, polonia, regno-unito, francia, spagna, irlanda, austria = all the regions of that country)"
         type: choice
         default: all
         options:
           - all
+          - oldest
           - italia
           - polonia
           - regno-unito

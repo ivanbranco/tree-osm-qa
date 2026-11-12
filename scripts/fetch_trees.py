@@ -2081,26 +2081,50 @@ def save_index(regions_index):
                      encoding="utf-8")
 
 
+def last_run(slug, regions_index, hist):
+    """Data (AAAA-MM-GG) dell'ultimo scaricamento della regione, riuscito o no: l'ultima riga di data/history.json
+    (scritta anche quando i dati non cambiano) o il campo "tried" di data/index.json (scritto anche quando lo
+    scaricamento non va a buon fine). "" se la regione non è mai stata scaricata."""
+    rows = hist.get(slug) or []
+    return max(rows[-1][0] if rows else "", regions_index.get(slug, {}).get("tried", ""))
+
+
+def oldest(groups, regions_index):
+    """Per "oldest": il paese (tutte le sue regioni) o la regione senza gruppo scaricati meno di recente. La data di
+    un paese è quella della sua regione scaricata meno di recente; a parità di data vale l'ordine di regions.json."""
+    hist = load_json(HISTORY)
+    units = list(groups.values()) + [[r] for r in REGIONS if not r.get("group")]
+    dates = [min(last_run(r["slug"], regions_index, hist) for r in u) for u in units]
+    i = min(range(len(units)), key=lambda k: dates[k])
+    print(f"oldest: {', '.join(r['slug'] for r in units[i])} (ultimo scaricamento: {dates[i] or 'mai'})", flush=True)
+    return units[i]
+
+
 def main(argv):
-    # regioni separate da spazi o virgole; "all" = tutte; il nome di un gruppo (es. "italia") = tutte le sue regioni
+    # regioni separate da spazi o virgole; "all" = tutte; il nome di un gruppo (es. "italia") = tutte le sue regioni;
+    # "oldest" = il paese o la regione senza gruppo scaricati meno di recente
     names = [x.lower() for a in argv for x in re.split(r"[\s,]+", a) if x] or ["all"]
     by_slug = {r["slug"]: r for r in REGIONS}
     groups = {}
     for r in REGIONS:
         if r.get("group"):
             groups.setdefault(r["group"].lower().replace(" ", "-"), []).append(r)   # "Regno Unito" -> regno-unito
+    regions_index = json.loads(INDEX.read_text(encoding="utf-8")).get("regions", {}) if INDEX.exists() else {}
     if "all" in names:
         todo = REGIONS
     else:
-        unknown = [x for x in names if x not in by_slug and x not in groups]
+        unknown = [x for x in names if x not in by_slug and x not in groups and x != "oldest"]
         if unknown:
-            sys.exit(f"Regione sconosciuta: {', '.join(unknown)}. Disponibili: all, {', '.join([*groups, *by_slug])}")
-        todo = list({r["slug"]: r for x in names for r in (groups.get(x) or [by_slug[x]])}.values())  # senza doppioni
-    regions_index = json.loads(INDEX.read_text(encoding="utf-8")).get("regions", {}) if INDEX.exists() else {}
+            sys.exit(f"Regione sconosciuta: {', '.join(unknown)}. "
+                     f"Disponibili: all, oldest, {', '.join([*groups, *by_slug])}")
+        todo = list({r["slug"]: r for x in names                                         # senza doppioni
+                     for r in (oldest(groups, regions_index) if x == "oldest" else groups.get(x) or [by_slug[x]])}.values())
     ok = True
     for i, region in enumerate(todo, 1):
         print(f"== {region['name']} ({i}/{len(todo)})", flush=True)
         ok &= update_region(region, regions_index)
+        if region["slug"] in regions_index:   # data del tentativo, anche se non è andato a buon fine (per "oldest")
+            regions_index[region["slug"]]["tried"] = time.strftime("%Y-%m-%d", time.gmtime())
         save_index(regions_index)
         time.sleep(5)
     if not ok:
