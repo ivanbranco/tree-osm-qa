@@ -161,6 +161,22 @@
 "taxon": false,
 "wp": {}
 },
+"Q104215163": {
+"coords": [
+[
+1.971272222,
+41.664766666
+]
+],
+"heritage": [],
+"image": "Alzina del Vent.jpg",
+"mon": true,
+"taxa": [
+"Q218155"
+],
+"taxon": false,
+"wp": {}
+},
 "Q1046948": {
 "coords": [],
 "heritage": [],
@@ -3702,6 +3718,20 @@
 "en": "https://en.wikipedia.org/wiki/Dragos_Gemelos"
 }
 },
+"Q108050576": {
+"coords": [
+[
+-3.41915,
+41.96183
+]
+],
+"heritage": [],
+"image": "Cipres de Santo Domingo de Silos - panoramio.jpg",
+"mon": true,
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q108051103": {
 "coords": [
 [
@@ -3958,6 +3988,22 @@
 "taxon": false,
 "wp": {}
 },
+"Q108473045": {
+"coords": [
+[
+-3.6821243,
+40.4188707
+]
+],
+"heritage": [],
+"image": "",
+"mon": true,
+"taxa": [
+"Q159528"
+],
+"taxon": false,
+"wp": {}
+},
 "Q108473096": {
 "coords": [
 [
@@ -4054,6 +4100,22 @@
 "taxon": false,
 "wp": {}
 },
+"Q108653756": {
+"coords": [
+[
+-3.692794,
+40.413951
+]
+],
+"heritage": [],
+"image": "Cedro del Líbano del Museo del Prado.jpg",
+"mon": true,
+"taxa": [
+"Q61105"
+],
+"taxon": false,
+"wp": {}
+},
 "Q108653804": {
 "coords": [
 [
@@ -4095,6 +4157,20 @@
 ],
 "heritage": [],
 "image": "Parrotia del Real Jardín Botánico.jpg",
+"mon": true,
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q108653996": {
+"coords": [
+[
+-3.69181,
+40.412581
+]
+],
+"heritage": [],
+"image": "Picea del Himalaya.jpg",
 "mon": true,
 "taxa": [],
 "taxon": false,
@@ -4236,6 +4312,20 @@
 "taxa": [
 "Q165145"
 ],
+"taxon": false,
+"wp": {}
+},
+"Q110014903": {
+"coords": [
+[
+-2.710472,
+43.281572
+]
+],
+"heritage": [],
+"image": "Muxika San Roman Besangiz21.jpg",
+"mon": true,
+"taxa": [],
 "taxon": false,
 "wp": {}
 },
@@ -4547,6 +4637,24 @@
 "taxon": false,
 "wp": {}
 },
+"Q111203383": {
+"coords": [
+[
+2.9085424,
+39.7249786
+]
+],
+"heritage": [],
+"image": "Lledoner de sor Clara Andreu Inca 03.png",
+"mon": true,
+"taxa": [
+"Q255375"
+],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Bagolaro_di_suor_Clara_Andreu"
+}
+},
 "Q111317589": {
 "coords": [
 [
@@ -4746,6 +4854,22 @@
 "image": "Ginkgo tree at Sayo 200103.jpg",
 "taxa": [
 "Q43284"
+],
+"taxon": false,
+"wp": {}
+},
+"Q111841684": {
+"coords": [
+[
+-2.55524,
+37.33493
+]
+],
+"heritage": [],
+"image": "",
+"mon": true,
+"taxa": [
+"Q63045"
 ],
 "taxon": false,
 "wp": {}
@@ -5241,6 +5365,25 @@
 "taxon": false,
 "wp": {}
 },
+"Q113585649": {
+"coords": [
+[
+-6.005133746,
+37.383555996
+]
+],
+"heritage": [
+[
+"bien de interés cultural",
+"bien de interés cultural"
+]
+],
+"image": "Iglesia de San Jacinto.jpg",
+"mon": true,
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q11359084": {
 "coords": [
 [
@@ -5319,6 +5462,26 @@
 "image": "Ganjoji-Gifu2008-3.jpg",
 "taxa": [
 "Q17234789"
+],
+"taxon": false,
+"wp": {}
+},
+"Q113663620": {
+"coords": [
+[
+2.173692,
+41.382503
+]
+],
+"heritage": [
+[
+"public art in Barcelona",
+"public art in Barcelona"
+]
+],
+"image": "Pi de la plaça del Pi.JPG",
+"taxa": [
+"Q106094"
 ],
 "taxon": false,
 "wp": {}
@@ -6021,6 +6184,22 @@
 "image": "Dazaifu Tenmangu Plum Tree 2004-03-07.jpg",
 "taxa": [
 "Q157763"
+],
+"taxon": false,
+"wp": {}
+},
+"Q11681325": {
+"coords": [
+[
+-5.84872222,
+43.36239722
+]
+],
+"heritage": [],
+"image": "El Carbayón.jpg",
+"mon": true,
+"taxa": [
+"Q12004"
 ],
 "taxon": false,
 "wp": {}
@@ -10240,6 +10419,22 @@
 "taxon": false,
 "wp": {}
 },
+"Q120932822": {
+"coords": [
+[
+2.514663,
+41.670047
+]
+],
+"heritage": [],
+"image": "Cedre de Can Valls - P1070759.jpg",
+"mon": true,
+"taxa": [
+"Q623489"
+],
+"taxon": false,
+"wp": {}
+},
 "Q1209903": {
 "coords": [
 [
@@ -13850,6 +14045,20 @@
 "en": "https://en.wikipedia.org/wiki/Eminescu%27s_Linden_Tree"
 }
 },
+"Q127510286": {
+"coords": [
+[
+1.95921,
+41.56263
+]
+],
+"heritage": [],
+"image": "",
+"mon": true,
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q12752589": {
 "coords": [
 [
@@ -14054,6 +14263,17 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q128550": {
+"coords": [],
+"heritage": [],
+"image": "View from the Barouk Forest 1.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Cedrus",
+"it": "https://it.wikipedia.org/wiki/Cedrus"
+}
 },
 "Q1285575": {
 "coords": [
@@ -14452,6 +14672,22 @@
 "taxon": false,
 "wp": {}
 },
+"Q131290583": {
+"coords": [
+[
+2.32483,
+41.48211
+]
+],
+"heritage": [],
+"image": "Noguera dels Jardins del Mil·lenari.jpg",
+"mon": true,
+"taxa": [
+"Q46871"
+],
+"taxon": false,
+"wp": {}
+},
 "Q131392365": {
 "coords": [
 [
@@ -14503,6 +14739,23 @@
 "image": "Drevo z večjo udolbino na sredini in človekom za perspektivo.jpg",
 "mon": true,
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q131826214": {
+"coords": [
+[
+-3.603459368,
+42.029046874
+]
+],
+"heritage": [],
+"image": "Encina del Carrascal 02.jpg",
+"mon": true,
+"taxa": [
+"Q218155",
+"Q165145"
+],
 "taxon": false,
 "wp": {}
 },
@@ -14578,6 +14831,27 @@
 "taxon": false,
 "wp": {}
 },
+"Q131956836": {
+"coords": [
+[
+0.824634,
+41.032811
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Alzina de la Viuda.jpg",
+"mon": true,
+"taxa": [
+"Q218155"
+],
+"taxon": false,
+"wp": {}
+},
 "Q132116094": {
 "coords": [
 [
@@ -14590,6 +14864,106 @@
 "mon": true,
 "taxa": [
 "Q161070"
+],
+"taxon": false,
+"wp": {}
+},
+"Q132125144": {
+"coords": [
+[
+-3.538524593,
+42.635273564
+]
+],
+"heritage": [],
+"image": "Roble de Santa Eufemia 02.jpg",
+"mon": true,
+"taxa": [
+"Q2432250"
+],
+"taxon": false,
+"wp": {}
+},
+"Q132172312": {
+"coords": [
+[
+2.3139,
+42.12464
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Vidrà - 2015-09-27 - JTCurses.jpg",
+"mon": true,
+"taxa": [
+"Q161415"
+],
+"taxon": false,
+"wp": {}
+},
+"Q132185204": {
+"coords": [
+[
+0.90388,
+41.26328
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Om del Parc de Cornudella.jpg",
+"mon": true,
+"taxa": [
+"Q147487"
+],
+"taxon": false,
+"wp": {}
+},
+"Q132190955": {
+"coords": [
+[
+0.95819,
+41.27073
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Alzina-del-Mas-de-la-Barba-I.jpg",
+"mon": true,
+"taxa": [
+"Q218155"
+],
+"taxon": false,
+"wp": {}
+},
+"Q132191161": {
+"coords": [
+[
+0.87784,
+41.3135
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Sauquer de Fontalba.jpg",
+"mon": true,
+"taxa": [
+"Q22701"
 ],
 "taxon": false,
 "wp": {}
@@ -14609,6 +14983,22 @@
 ],
 "image": "Alt Ruppin Kirchplatz lub 2025-02-14 img05 Naturdenkmal.jpg",
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q132784717": {
+"coords": [
+[
+2.32229,
+41.48188
+]
+],
+"heritage": [],
+"image": "",
+"mon": true,
+"taxa": [
+"Q26006"
+],
 "taxon": false,
 "wp": {}
 },
@@ -15042,6 +15432,22 @@
 "heritage": [],
 "image": "",
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q135580408": {
+"coords": [
+[
+-16.7205843,
+28.3653617
+]
+],
+"heritage": [],
+"image": "20250706 Drago de San Antonio 03.jpg",
+"mon": true,
+"taxa": [
+"Q157952"
+],
 "taxon": false,
 "wp": {}
 },
@@ -15708,6 +16114,20 @@
 "taxon": false,
 "wp": {}
 },
+"Q139988036": {
+"coords": [
+[
+-2.823666666,
+36.783305555
+]
+],
+"heritage": [],
+"image": "",
+"mon": true,
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q140160143": {
 "coords": [
 [
@@ -15796,6 +16216,22 @@
 "mon": true,
 "taxa": [
 "Q22699"
+],
+"taxon": false,
+"wp": {}
+},
+"Q141004153": {
+"coords": [
+[
+-2.434783489,
+36.815642611
+]
+],
+"heritage": [],
+"image": "",
+"mon": true,
+"taxa": [
+"Q164163"
 ],
 "taxon": false,
 "wp": {}
@@ -16712,6 +17148,17 @@
 "taxon": false,
 "wp": {}
 },
+"Q157739": {
+"coords": [],
+"heritage": [],
+"image": "Platanus occidentalis - Flickr - aspidoscelis (1).jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Platanus_occidentalis",
+"it": "https://it.wikipedia.org/wiki/Platanus_occidentalis"
+}
+},
 "Q15828877": {
 "coords": [],
 "heritage": [],
@@ -16891,6 +17338,17 @@
 "taxon": false,
 "wp": {}
 },
+"Q161105": {
+"coords": [],
+"heritage": [],
+"image": "Plane tree Grove Tsav River.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Platanus_orientalis",
+"it": "https://it.wikipedia.org/wiki/Platanus_orientalis"
+}
+},
 "Q161116": {
 "coords": [],
 "heritage": [],
@@ -17060,6 +17518,16 @@
 "taxa": [],
 "taxon": false,
 "wp": {}
+},
+"Q1637199": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {
+"it": "https://it.wikipedia.org/wiki/Olivo_(araldica)"
+}
 },
 "Q16408919": {
 "coords": [
@@ -18318,6 +18786,27 @@
 "taxon": false,
 "wp": {}
 },
+"Q17617949": {
+"coords": [
+[
+0.31912,
+40.96063
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Lo-ParotDSCN3163.JPG",
+"mon": true,
+"taxa": [
+"Q37083"
+],
+"taxon": false,
+"wp": {}
+},
 "Q1783944": {
 "coords": [
 [
@@ -18401,6 +18890,27 @@
 "en": "https://en.wikipedia.org/wiki/Taxus_baccata",
 "it": "https://it.wikipedia.org/wiki/Taxus_baccata"
 }
+},
+"Q18005557": {
+"coords": [
+[
+0.955642,
+42.572
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "P1160242ax - Pi de Peixerani.JPG",
+"mon": true,
+"taxa": [
+"Q149548"
+],
+"taxon": false,
+"wp": {}
 },
 "Q18005594": {
 "coords": [
@@ -18656,6 +19166,17 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q18674606": {
+"coords": [],
+"heritage": [],
+"image": "Tree with red apples in Barkedal 4.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Malus_domestica",
+"it": "https://it.wikipedia.org/wiki/Malus_domestica"
+}
 },
 "Q18737288": {
 "coords": [
@@ -19810,6 +20331,20 @@
 "taxon": false,
 "wp": {}
 },
+"Q20550435": {
+"coords": [
+[
+-8.159684125,
+43.40319562
+]
+],
+"heritage": [],
+"image": "Teixo dos Tenreiro, xullo 2015.JPG",
+"mon": true,
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q2060107": {
 "coords": [
 [
@@ -20028,6 +20563,27 @@
 "taxon": false,
 "wp": {}
 },
+"Q21013376": {
+"coords": [
+[
+0.92335,
+41.66171
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Plataner monumental de Vila-sana 02.JPG",
+"mon": true,
+"taxa": [
+"Q161374"
+],
+"taxon": false,
+"wp": {}
+},
 "Q21042180": {
 "coords": [
 [
@@ -20040,6 +20596,90 @@
 "mon": true,
 "taxa": [
 "Q179729"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21042493": {
+"coords": [
+[
+1.46111,
+42.42753
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Alzina de Can Cotet.jpg",
+"mon": true,
+"taxa": [
+"Q218155"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21042500": {
+"coords": [
+[
+0.948938,
+42.175603
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Alzina de Pelleu.jpg",
+"mon": true,
+"taxa": [
+"Q220715"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21042507": {
+"coords": [
+[
+0.91565,
+42.54674
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Avet de la Cremada.jpg",
+"mon": true,
+"taxa": [
+"Q146992"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21042512": {
+"coords": [
+[
+1.21274,
+42.47706
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Clop de Bernat.jpg",
+"mon": true,
+"taxa": [
+"Q147064"
 ],
 "taxon": false,
 "wp": {}
@@ -20107,6 +20747,48 @@
 "taxon": false,
 "wp": {}
 },
+"Q21042538": {
+"coords": [
+[
+2.83364,
+42.36589
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Plàtana Grossa d'en Massot.jpg",
+"mon": true,
+"taxa": [
+"Q161374"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21042545": {
+"coords": [
+[
+2.15063,
+42.06597
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Roure de la Senyora.jpg",
+"mon": true,
+"taxa": [
+"Q161415"
+],
+"taxon": false,
+"wp": {}
+},
 "Q21042548": {
 "coords": [
 [
@@ -20128,6 +20810,69 @@
 "taxon": false,
 "wp": {}
 },
+"Q21042550": {
+"coords": [
+[
+1.212626,
+42.156542
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Roures dels Vilars de Valldarques.jpg",
+"mon": true,
+"taxa": [
+"Q2432250"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21042552": {
+"coords": [
+[
+0.90326,
+41.2279
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Surera-del-Mas-de-les-Moreres-II.jpg",
+"mon": true,
+"taxa": [
+"Q156137"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21042553": {
+"coords": [
+[
+2.83518,
+42.39628
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Suro del Mas Perxes.jpg",
+"mon": true,
+"taxa": [
+"Q156137"
+],
+"taxon": false,
+"wp": {}
+},
 "Q21042556": {
 "coords": [
 [
@@ -20142,6 +20887,27 @@
 ]
 ],
 "image": "Teix d'Engrillo.jpg",
+"mon": true,
+"taxa": [
+"Q179729"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21042557": {
+"coords": [
+[
+2.641319,
+42.281523
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Teix del Torrent de l'Orri.jpg",
 "mon": true,
 "taxa": [
 "Q179729"
@@ -20180,6 +20946,69 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Kett%27s_Oak"
 }
+},
+"Q21082794": {
+"coords": [
+[
+0.27585,
+40.75206
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "FaigPare.jpg",
+"mon": true,
+"taxa": [
+"Q146149"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21086069": {
+"coords": [
+[
+1.04612,
+41.21089
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Pi del Fernando.jpg",
+"mon": true,
+"taxa": [
+"Q106094"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21086070": {
+"coords": [
+[
+0.26475,
+40.7476
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Pi Gros del Retaule.jpg",
+"mon": true,
+"taxa": [
+"Q20722203"
+],
+"taxon": false,
+"wp": {}
 },
 "Q211457": {
 "coords": [],
@@ -20241,6 +21070,54 @@
 "mon": true,
 "taxa": [
 "Q218155"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21192801": {
+"coords": [
+[
+1.912352,
+41.636394
+]
+],
+"heritage": [],
+"image": "",
+"mon": true,
+"taxa": [
+"Q218155"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21192805": {
+"coords": [
+[
+2.029434,
+41.623076
+]
+],
+"heritage": [],
+"image": "",
+"mon": true,
+"taxa": [
+"Q218155"
+],
+"taxon": false,
+"wp": {}
+},
+"Q21192890": {
+"coords": [
+[
+2.03215,
+41.648579
+]
+],
+"heritage": [],
+"image": "",
+"mon": true,
+"taxa": [
+"Q20722203"
 ],
 "taxon": false,
 "wp": {}
@@ -20361,6 +21238,16 @@
 "taxon": false,
 "wp": {}
 },
+"Q21510189": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Olivo"
+}
+},
 "Q2152403": {
 "coords": [
 [
@@ -20453,6 +21340,16 @@
 "taxon": false,
 "wp": {
 "en": "https://en.wikipedia.org/wiki/The_Giant_Plane"
+}
+},
+"Q220715": {
+"coords": [],
+"heritage": [],
+"image": "Bellotas de Quercus rotundifolia.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Quercus_rotundifolia"
 }
 },
 "Q2222131": {
@@ -24771,6 +25668,17 @@
 "taxon": false,
 "wp": {}
 },
+"Q26899": {
+"coords": [],
+"heritage": [],
+"image": "ND 678.N.59 Hofers Kastanien in Wettringen.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Aesculus_hippocastanum",
+"it": "https://it.wikipedia.org/wiki/Aesculus_hippocastanum"
+}
+},
 "Q2702029": {
 "coords": [
 [
@@ -25110,6 +26018,16 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q2946681": {
+"coords": [],
+"heritage": [],
+"image": "Prunus cerasus popr.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Prunus_subg._Cerasus"
+}
 },
 "Q29488": {
 "coords": [],
@@ -27107,6 +28025,22 @@
 "en": "https://en.wikipedia.org/wiki/Quercia"
 }
 },
+"Q3826751": {
+"coords": [
+[
+-6.724792,
+43.296511
+]
+],
+"heritage": [],
+"image": "Santa Colomba texu.JPG",
+"mon": true,
+"taxa": [
+"Q179729"
+],
+"taxon": false,
+"wp": {}
+},
 "Q388443": {
 "coords": [
 [
@@ -27780,6 +28714,17 @@
 "heritage": [],
 "image": "",
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q47495576": {
+"coords": [],
+"heritage": [],
+"image": "Puebla-pinoVicente (2017)4187.jpg",
+"mon": true,
+"taxa": [
+"Q133128"
+],
 "taxon": false,
 "wp": {}
 },
@@ -30480,6 +31425,31 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Emancipation_Oak"
 }
+},
+"Q54823827": {
+"coords": [
+[
+-3.687983,
+40.415639
+]
+],
+"heritage": [
+[
+"Árbol Singular de la Comunidad de Madrid",
+"Árbol Singular de la Comunidad de Madrid"
+],
+[
+"bien de interés cultural",
+"bien de interés cultural"
+]
+],
+"image": "Retiro Park - Ahuehuete.jpg",
+"mon": true,
+"taxa": [
+"Q1429751"
+],
+"taxon": false,
+"wp": {}
 },
 "Q54823975": {
 "coords": [
@@ -34661,6 +35631,22 @@
 "taxon": false,
 "wp": {}
 },
+"Q5764654": {
+"coords": [
+[
+-5.42675,
+36.95777778
+]
+],
+"heritage": [],
+"image": "ChaparroDeLaVega.jpg",
+"mon": true,
+"taxa": [
+"Q81732206"
+],
+"taxon": false,
+"wp": {}
+},
 "Q57728666": {
 "coords": [
 [
@@ -36578,6 +37564,29 @@
 "taxon": false,
 "wp": {}
 },
+"Q5814115": {
+"coords": [
+[
+-16.722222222,
+28.366555555
+]
+],
+"heritage": [
+[
+"Monumento del patrimonio storico della Spagna",
+"Monument (Spain)"
+]
+],
+"image": "At Icod de los Vinos 2022 004.jpg",
+"mon": true,
+"taxa": [
+"Q157952"
+],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/El_Drago_Milenario"
+}
+},
 "Q58150785": {
 "coords": [
 [
@@ -36748,6 +37757,21 @@
 "it": "https://it.wikipedia.org/wiki/Matusalemme_(albero)"
 }
 },
+"Q5965171": {
+"coords": [
+[
+-0.72452567,
+41.704389003
+]
+],
+"heritage": [],
+"image": "Sabina Villamayor 11.JPG",
+"taxa": [
+"Q1510186"
+],
+"taxon": false,
+"wp": {}
+},
 "Q59835134": {
 "coords": [],
 "heritage": [],
@@ -36757,6 +37781,14 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Cedar_tree"
 }
+},
+"Q5998063": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q6022305": {
 "coords": [
@@ -37298,6 +38330,27 @@
 "image": "",
 "mon": true,
 "taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q6140324": {
+"coords": [
+[
+-6.730701,
+43.253077
+]
+],
+"heritage": [
+[
+"monumento naturale",
+"natural monument"
+]
+],
+"image": "Tejo de Lago 003.jpg",
+"mon": true,
+"taxa": [
+"Q179729"
+],
 "taxon": false,
 "wp": {}
 },
@@ -38043,6 +39096,27 @@
 "it": "https://it.wikipedia.org/wiki/Ulivo_di_Vouves"
 }
 },
+"Q71826359": {
+"coords": [
+[
+2.827688888,
+42.403566666
+]
+],
+"heritage": [
+[
+"Q131986995",
+"Q131986995"
+]
+],
+"image": "Alcornoque del Fadrí, Agullana. 3.jpg",
+"mon": true,
+"taxa": [
+"Q156137"
+],
+"taxon": false,
+"wp": {}
+},
 "Q7194121": {
 "coords": [],
 "heritage": [],
@@ -38322,6 +39396,17 @@
 "en": "https://en.wikipedia.org/wiki/Seven_Sisters_Oak"
 }
 },
+"Q750307": {
+"coords": [],
+"heritage": [],
+"image": "Albizzia julibrissin in Sevastopol 1.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Albizia_julibrissin",
+"it": "https://it.wikipedia.org/wiki/Albizia_julibrissin"
+}
+},
 "Q753099": {
 "coords": [],
 "heritage": [],
@@ -38332,6 +39417,20 @@
 "en": "https://en.wikipedia.org/wiki/Privet",
 "it": "https://it.wikipedia.org/wiki/Ligustrum"
 }
+},
+"Q75754696": {
+"coords": [
+[
+-15.672277777,
+27.924066666
+]
+],
+"heritage": [],
+"image": "Embasale de la Cueva de la niñas - panoramio.jpg",
+"mon": true,
+"taxa": [],
+"taxon": false,
+"wp": {}
 },
 "Q7596912": {
 "coords": [
@@ -38587,6 +39686,17 @@
 "taxon": false,
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Ormiston_Yew"
+}
+},
+"Q81666": {
+"coords": [],
+"heritage": [],
+"image": "Acacia dealbata.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Acacia",
+"it": "https://it.wikipedia.org/wiki/Acacia"
 }
 },
 "Q8188530": {
@@ -38978,6 +40088,17 @@
 "taxon": false,
 "wp": {
 "en": "https://en.wikipedia.org/wiki/List_of_superlative_trees"
+}
+},
+"Q899313": {
+"coords": [],
+"heritage": [],
+"image": "AroeiraDSC 5888.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Schinus_terebinthifolia",
+"it": "https://it.wikipedia.org/wiki/Schinus_terebinthifolia"
 }
 },
 "Q90311536": {

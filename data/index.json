@@ -40,6 +40,27 @@
    "sha1": "96854c34bbc9e39dfc9f9f96a3dadda3b74ae0b0",
    "updated": "2026-11-11T11:03:35Z"
   },
+  "andalusia": {
+   "count": 190012,
+   "errors": 2949,
+   "name": "Andalusia",
+   "sha1": "c481afe2191e2c78267d4805515786d406a9ecfe",
+   "updated": "2026-11-12T16:36:47Z"
+  },
+  "aragona": {
+   "count": 41219,
+   "errors": 216,
+   "name": "Aragona",
+   "sha1": "c788ce1c2ab5101be8c3b0d31459d46848e4feb6",
+   "updated": "2026-11-12T16:37:46Z"
+  },
+  "asturie": {
+   "count": 10610,
+   "errors": 134,
+   "name": "Asturie",
+   "sha1": "3c8276bb47832bd7dbf3c9c6e9c971d0b22f263f",
+   "updated": "2026-11-12T16:38:01Z"
+  },
   "basilicata": {
    "count": 14423,
    "diam": "mm",
@@ -112,6 +133,20 @@
    "sha1": "fff4a0291ee6cfab29c9594906fe9c2c038070fe",
    "updated": "2026-11-10T23:45:54Z"
   },
+  "canarie": {
+   "count": 65821,
+   "errors": 1084,
+   "name": "Canarie",
+   "sha1": "d58118d11d1f1e8c6ae534fc0987e1366fe3faeb",
+   "updated": "2026-11-12T16:39:34Z"
+  },
+  "cantabria": {
+   "count": 51351,
+   "errors": 17,
+   "name": "Cantabria",
+   "sha1": "09006283b76557df442a41a252832b178582dbae",
+   "updated": "2026-11-12T16:39:48Z"
+  },
   "carinzia": {
    "count": 11521,
    "diam": "mm",
@@ -120,6 +155,27 @@
    "sha1": "4ef519a6097d72a95371dd086fce5420a22b61ed",
    "updated": "2026-11-11T15:40:53Z"
   },
+  "castiglia-e-leon": {
+   "count": 139654,
+   "errors": 460,
+   "name": "Castiglia e León",
+   "sha1": "c63e716b13fba40d885fe5d6607ac04604ec0c49",
+   "updated": "2026-11-12T16:41:42Z"
+  },
+  "castiglia-la-mancia": {
+   "count": 58003,
+   "errors": 54,
+   "name": "Castiglia-La Mancia",
+   "sha1": "1c95dd35958d89bf672b6724a31e9b803cc6bb72",
+   "updated": "2026-11-12T16:42:29Z"
+  },
+  "catalogna": {
+   "count": 366882,
+   "errors": 1544,
+   "name": "Catalogna",
+   "sha1": "c9213f738ece76a185bfb321f23953610625aab0",
+   "updated": "2026-11-12T16:48:04Z"
+  },
   "centro-valle-della-loira": {
    "count": 189468,
    "diam": "mm",
@@ -127,6 +183,27 @@
    "name": "Centro-Valle della Loira",
    "sha1": "648d28bbae85c7442b359b2df4a38d0f41f69074",
    "updated": "2026-11-11T11:05:28Z"
+  },
+  "ceuta": {
+   "count": 107,
+   "errors": 1,
+   "name": "Ceuta",
+   "sha1": "721f4b6906778479ac22eb89697020b7fea11b06",
+   "updated": "2026-11-12T16:48:13Z"
+  },
+  "comunita-di-madrid": {
+   "count": 148752,
+   "errors": 805,
+   "name": "Comunità di Madrid",
+   "sha1": "179da1a5dfc2a0b752369c63db46a1749f81587d",
+   "updated": "2026-11-12T16:51:42Z"
+  },
+  "comunita-valenciana": {
+   "count": 167906,
+   "errors": 1724,
+   "name": "Comunità Valenciana",
+   "sha1": "9c374dba848f4cc6af9538437e0653de4a355fe8",
+   "updated": "2026-11-12T16:49:08Z"
   },
   "connacht": {
    "count": 45804,
@@ -184,6 +261,13 @@
    "sha1": "6d75452d95dd1628c32a66652c77e04388a187a8",
    "updated": "2026-11-10T18:13:49Z"
   },
+  "estremadura": {
+   "count": 71413,
+   "errors": 31,
+   "name": "Estremadura",
+   "sha1": "94522abf2cd4e2b8f1e7fe660464142802443aa4",
+   "updated": "2026-11-12T16:49:46Z"
+  },
   "friuli-venezia-giulia": {
    "count": 29930,
    "diam": "mm",
@@ -191,6 +275,13 @@
    "name": "Friuli-Venezia Giulia",
    "sha1": "20f73e830299c020b1cf3256b873b58a165501cc",
    "updated": "2026-11-10T23:40:03Z"
+  },
+  "galizia": {
+   "count": 55003,
+   "errors": 1905,
+   "name": "Galizia",
+   "sha1": "0dd91428fac566fb52b28ae9ae192630bed13616",
+   "updated": "2026-11-12T16:50:33Z"
   },
   "galles": {
    "count": 59193,
@@ -238,6 +329,13 @@
    "sha1": "b617ac9ab5b18d0f4f11cb17348afa3b3b8bf426",
    "updated": "2026-11-12T02:22:01Z"
   },
+  "isole-baleari": {
+   "count": 9362,
+   "errors": 352,
+   "name": "Isole Baleari",
+   "sha1": "cd9ae1921c95a6bf46248ab496b4ec18952cc917",
+   "updated": "2026-11-12T16:38:42Z"
+  },
   "kosovo": {
    "count": 5569,
    "diam": "mm",
@@ -253,6 +351,13 @@
    "name": "Cuiavia-Pomerania",
    "sha1": "378303aa42b7027bd2aef0523b9e76c8cf5c87d8",
    "updated": "2026-11-12T02:32:22Z"
+  },
+  "la-rioja": {
+   "count": 5776,
+   "errors": 13,
+   "name": "La Rioja",
+   "sha1": "f211db18b779727c847ca93357d60af13826c451",
+   "updated": "2026-11-12T16:50:44Z"
   },
   "lazio": {
    "count": 71074,
@@ -372,6 +477,13 @@
    "sha1": "db7b0405907955d01e31214ef6c327c37bcddf1d",
    "updated": "2026-11-12T02:36:50Z"
   },
+  "melilla": {
+   "count": 92,
+   "errors": 0,
+   "name": "Melilla",
+   "sha1": "0b851ccaa8553f4ef98d40097b97ecc63cd6b327",
+   "updated": "2026-11-12T16:51:48Z"
+  },
   "midlands-occidentali": {
    "count": 207005,
    "diam": "mm",
@@ -411,6 +523,20 @@
    "name": "Munster",
    "sha1": "7f8767b3733a3c4ee4af87a9b70d2b54dddbe5ae",
    "updated": "2026-11-09T16:02:14Z"
+  },
+  "murcia": {
+   "count": 49240,
+   "errors": 396,
+   "name": "Regione di Murcia",
+   "sha1": "de5d4d8a192de95c6ed944538d3ad3f91d38cd2f",
+   "updated": "2026-11-12T16:52:04Z"
+  },
+  "navarra": {
+   "count": 13380,
+   "errors": 39,
+   "name": "Navarra",
+   "sha1": "f8ce30bb4dc9dfb20d0c749998a90df5790846fd",
+   "updated": "2026-11-12T16:52:17Z"
   },
   "nord-est-inghilterra": {
    "count": 12257,
@@ -459,6 +585,13 @@
    "name": "Opole",
    "sha1": "b3495ea596f8d71f433be524c03b1dcac34d4978",
    "updated": "2026-11-12T02:37:04Z"
+  },
+  "paesi-baschi": {
+   "count": 102822,
+   "errors": 902,
+   "name": "Paesi Baschi",
+   "sha1": "2ab48c3fc03ddc553bdcdddd2e770ffbd3c3e544",
+   "updated": "2026-11-12T16:52:42Z"
   },
   "paesi-della-loira": {
    "count": 123808,
