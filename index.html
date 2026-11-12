@@ -127,6 +127,23 @@
   .osm-menu div{position:absolute;left:0;top:1.5em;z-index:5;background:#fff;border:1px solid #ddd;border-radius:4px;box-shadow:0 2px 8px #0003;padding:3px 0;white-space:nowrap}
   .osm-menu div a{display:block;padding:3px 12px}
   .osm-menu div a:hover{background:#f2f2f2}
+  /* «Vedi a confronto» accanto ai check sul rapporto altezza/circonferenza (issue #14): apre la finestra #cmp */
+  .card .cmp-btn{font:inherit;font-weight:400;color:#1a5fb4;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+  /* finestra con il disegno del tronco: i colori del disegno sono variabili, la pagina non ha un tema scuro */
+  #cmp{--cmp-bg:#fff;--cmp-text:#222;--cmp-muted:#666;--cmp-trunk:#7b4a1e;--cmp-bark:#55310f;--cmp-ref:#8b929c;--cmp-ground:#555;
+    width:440px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);box-sizing:border-box;padding:0;border:0;border-radius:8px;
+    background:var(--cmp-bg);color:var(--cmp-text);box-shadow:0 4px 24px #0006;overflow-x:hidden;overflow-y:auto;outline:none}
+  #cmp::backdrop{background:#0006}
+  #cmp .in{padding:10px 12px 12px}
+  #cmp header{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  #cmp h2{font-size:15px;margin:0}
+  #cmp-x{font:20px/1 system-ui,sans-serif;width:28px;height:28px;border:0;border-radius:4px;background:none;color:var(--cmp-muted);cursor:pointer}
+  #cmp-x:hover{background:#f2f2f2;color:var(--cmp-text)}
+  #cmp svg{display:block;width:100%;height:auto;margin:6px 0}
+  #cmp svg text{font:10px system-ui,sans-serif;fill:var(--cmp-text)}
+  #cmp svg text.m{fill:var(--cmp-muted)}
+  #cmp p{margin:4px 0;font-size:13px;line-height:1.4;overflow-wrap:anywhere}
+  #cmp p.note{font-size:12px;color:var(--cmp-muted)}
 </style>
 </head>
 <body>
@@ -183,6 +200,11 @@
 </div>
 <div id="map" class="wait"></div>
 <div id="tip"></div>
+<!-- disegno del tronco a confronto (issue #14): riempita da openCompare -->
+<dialog id="cmp" aria-labelledby="cmp-title" tabindex="-1"><div class="in">
+  <header><h2 id="cmp-title"></h2><button id="cmp-x" type="button">×</button></header>
+  <div id="cmp-body"></div>
+</div></dialog>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
 // ---- Lingua: #lang=it|en nell'indirizzo, poi la scelta salvata, poi la lingua del browser (it → italiano, altro → inglese)
@@ -355,6 +377,16 @@ const I18N = {
       height: "Altezza", diameter_crown: "Diametro chioma", start_date: "Messa a dimora" },
     sex: { male: "Esemplare maschile", female: "Esemplare femminile" },
     fromDiameter: " (da diameter)",
+    // finestra «Vedi a confronto» dei check too_slender, too_slender_species e too_stocky (issue #14)
+    cmp: { btn: "Vedi a confronto", title: "Tronco a confronto", close: "Chiudi",
+      tree: "questo albero", typical: "tipico", typicalFor: "tipico per", osmMedian: "(mediana OSM)", person: "persona", house: "casa",
+      desc: (h, d, c) => `Questo albero: altezza ${h}, circonferenza ${c}, diametro del tronco ${d}.`,
+      typSpecies: (h, d, sp, r0) => `Tronco tipico per ${sp} alto ${h}: diametro ${d} (altezza/circonferenza = ${r0}, mediana dei dati OSM per la specie).`,
+      typAll: (h, d, r0) => `Tronco tipico di un albero alto ${h}: diametro ${d} (altezza/circonferenza = ${r0}, mediana di tutti i dati OSM).`,
+      thin: "Il tronco di questo albero è più sottile di 1 px a questa scala: è disegnato largo 1 px, sotto la freccia.",
+      thinTyp: "Il tronco tipico è più sottile di 1 px a questa scala: è disegnato largo 1 px.",
+      refs: (a, b) => `Riferimenti: una persona alta ${a}${b ? ` e una casa di due piani alta ${b}` : ""}.`,
+      note: "Disegno schematico: l'altezza comprende la chioma e il tronco vero si assottiglia verso l'alto." },
     // spiegazione del check, nel pop-up sul simbolo ⚠ della scheda
     why: {
       circumference: "43 m è la circonferenza più grande registrata, nei baobab africani (Adansonia digitata; fonte: Guinness World Records). Il valore va in metri.",
@@ -612,6 +644,15 @@ const I18N = {
       height: "Height", diameter_crown: "Crown diameter", start_date: "Planting date" },
     sex: { male: "Male specimen", female: "Female specimen" },
     fromDiameter: " (from diameter)",
+    cmp: { btn: "Compare visually", title: "Trunk comparison", close: "Close",
+      tree: "this tree", typical: "typical", typicalFor: "typical for", osmMedian: "(OSM median)", person: "person", house: "house",
+      desc: (h, d, c) => `This tree: height ${h}, circumference ${c}, trunk diameter ${d}.`,
+      typSpecies: (h, d, sp, r0) => `Typical trunk for a ${h} tall ${sp}: diameter ${d} (height/circumference = ${r0}, median of OSM data for the species).`,
+      typAll: (h, d, r0) => `Typical trunk of a ${h} tall tree: diameter ${d} (height/circumference = ${r0}, median of all OSM data).`,
+      thin: "The trunk of this tree is thinner than 1 px at this scale: it is drawn 1 px wide, below the arrow.",
+      thinTyp: "The typical trunk is thinner than 1 px at this scale: it is drawn 1 px wide.",
+      refs: (a, b) => `References: a ${a} tall person${b ? ` and a ${b} tall two-storey house` : ""}.`,
+      note: "Schematic drawing: the height includes the crown and a real trunk tapers towards the top." },
     why: {
       circumference: "43 m is the largest girth recorded, in African baobabs (Adansonia digitata; source: Guinness World Records). The value is in metres.",
       height: "116.22 m is the height of the tallest measured tree, Hyperion (Sequoia sempervirens, Redwood National Park, California; source: monumentaltrees.com). The value is in metres.",
@@ -1549,7 +1590,7 @@ map.on("load", async () => {
   // tasto Z (issue #12): con una scheda aperta, la mappa si centra sull'albero a zoom 19 (non mentre si scrive in un campo)
   addEventListener("keydown", e => {
     if (e.key.toLowerCase() !== "z" || e.ctrlKey || e.metaKey || e.altKey || !cardPopup) return;
-    if (e.target.closest?.("input, select, textarea, [contenteditable]")) return;
+    if (e.target.closest?.("input, select, textarea, [contenteditable], dialog")) return;
     map.flyTo({ center: cardPopup.getLngLat(), zoom: 19 });
   });
   // anche i tronchi (singoli e multipli) aprono la scheda: da zoom 16 sono disegnati sopra la chioma
@@ -2415,8 +2456,8 @@ function card(p, pos) {
       ? `<div class="bad">⚠ <a href="${esc(`${BASE}#region=${p.qa}&node=${p.id}`)}">${esc(L.seeInQa)}</a></div>` : "")
       + (p.imp && implicitSources(p) ? `<div class="hint"><span class="why" tabindex="0">ⓘ<span class="tip">${esc(L.implicitMonTip(implicitSources(p)))}</span></span> ${esc(L.implicitMon(implicitSourceNames(p)))}</div>` : "")
       + (p.imp && p.hint_ms ? (([c, s]) => `<div class="hint"><span class="why" tabindex="0">ⓘ<span class="tip">${esc(L.masafSizeMonTip)}</span></span> ${esc(L.masafSizeMon(fmtM(c), fmtM(s), p.sp_clean || p.species))}</div>`)(p.hint_ms.split("|")) : "")
-    : issues.flatMap(([i, x]) => { const w = L.why[i]; return x.split("\n").map(line => [typeof w === "function" ? w(p) : w, line]); }).map(([why, x]) =>
-      `<div class="bad">${why ? `<span class="why" tabindex="0">⚠<span class="tip">${esc(why)}</span></span>` : "⚠"} ${esc(x)}</div>`).join("")}
+    : issues.flatMap(([i, x]) => { const w = L.why[i]; return x.split("\n").map(line => [typeof w === "function" ? w(p) : w, line, i]); }).map(([why, x, i]) =>
+      `<div class="bad">${why ? `<span class="why" tabindex="0">⚠<span class="tip">${esc(why)}</span></span>` : "⚠"} ${esc(x)}${compareBtn(i, p)}</div>`).join("")}
     ${WORLD ? "" : hints(p, pos).map(h => `<div class="hint">ⓘ ${typeof h === "string" ? esc(h) : h.html}</div>`).join("")}
     <div>${links.join(" · ")}</div></div>`;
 }
@@ -2448,6 +2489,109 @@ function togglePop(el, e) {
 // un clic fuori chiude le foto aperte dei consigli
 document.addEventListener("click", e => document.querySelectorAll(".pop.open").forEach(x => {
   if (!x.contains(e.target)) { x.classList.remove("open"); x.setAttribute("aria-expanded", "false"); } }));
+// ---- Tronco a confronto (issue #14): per i check sul rapporto altezza/circonferenza un pulsante accanto al messaggio
+// apre una finestra con un disegno in scala: il tronco dell'albero (alto height, largo il diametro), il tronco tipico
+// alla stessa altezza, una persona e, per gli alberi oltre 5 m, una casa di due piani. Usa solo i dati della feature
+// (height, hc_circ, hc_ratio, sp_ratio, species, diam_used: fetch_trees.py).
+// Rapporto altezza/circonferenza tipico quando non c'è quello della specie: la mediana di tutti gli alberi OSM con le
+// due misure (~6, vedi il commento a SLENDER_MAX in scripts/fetch_trees.py)
+const TYPICAL_HC_RATIO = 6;
+const CMP_CHECKS = ["too_slender", "too_slender_species", "too_stocky"];
+const CMP_PERSON_H = 1.75, CMP_PERSON_W = 0.5, CMP_HOUSE_H = 7, CMP_HOUSE_W = 6;   // riferimenti, in metri
+const CMP_HOUSE_FROM = 5;   // m: la casa si disegna solo per gli alberi più alti
+// misure usate dal disegno: h altezza, c circonferenza, r0 rapporto tipico, sp specie (solo too_slender_species),
+// fd circonferenza ricavata dal diametro. null se i dati non bastano
+function compareData(i, p) {
+  const r = Number(p.hc_ratio), bySpecies = i === "too_slender_species";
+  const r0 = bySpecies ? Number(p.sp_ratio) : TYPICAL_HC_RATIO;
+  let h = Number(num(p.height)), c = Number(p.hc_circ);
+  if (!(h > 0) && c > 0 && r > 0) h = c * r;   // height scritta in un modo che la pagina non legge
+  if (!(c > 0) && h > 0 && r > 0) c = h / r;   // hc_circ è arrotondata a 2 decimali: può valere 0
+  if (!(h > 0 && c > 0 && r0 > 0)) return null;
+  return { h, c, r0, sp: bySpecies ? p.species : "", fd: p.diam_used ? 1 : 0 };
+}
+function compareBtn(i, p) {
+  const d = CMP_CHECKS.includes(i) && compareData(i, p);
+  return d ? ` <button type="button" class="cmp-btn" data-cmp="${esc(JSON.stringify(d))}" onclick="openCompare(this)">${esc(L.cmp.btn)}</button>` : "";
+}
+const cmpM = v => fmtM(Math.round(v * 1000) / 1000);
+// diametri: ricavati da una circonferenza arrotondata a 2 decimali, quindi al centimetro (al millimetro sotto 10 cm)
+const cmpD = v => v < 0.1 ? cmpM(v) : fmtM(Math.round(v * 100) / 100);
+// Disegno SVG: una sola scala metri→pixel, la più grande con cui entrano l'oggetto più alto e la somma delle larghezze
+// (ogni elemento occupa almeno lo spazio della sua etichetta). Restituisce anche quali tronchi sono sotto 1 px
+function compareSvg(d, label) {
+  const W = 340, PAD = 8, TOP = 18, PLOT = 168, GY = TOP + PLOT, GAP = 8, H = GY + 64;
+  const dia = d.c / Math.PI, diaT = d.h / d.r0 / Math.PI;
+  const sp = d.sp.length <= 20 ? d.sp : (s => s.length <= 22 ? s : s.slice(0, 21) + "…")(d.sp.replace(/^(\S)\S+ /, "$1. "));
+  const items = [
+    { k: "person", w: CMP_PERSON_W, h: CMP_PERSON_H, min: 52, t: [L.cmp.person, cmpM(CMP_PERSON_H)] },
+    d.h > CMP_HOUSE_FROM && { k: "house", w: CMP_HOUSE_W, h: CMP_HOUSE_H, min: 52, t: [L.cmp.house, cmpM(CMP_HOUSE_H)] },
+    { k: "tree", w: dia, h: d.h, min: 72, t: [L.cmp.tree, "⌀ " + cmpD(dia)] },
+    { k: "typ", w: diaT, h: d.h, min: 104, t: d.sp ? [L.cmp.typicalFor, sp, "⌀ " + cmpD(diaT)] : [L.cmp.typical, L.cmp.osmMedian, "⌀ " + cmpD(diaT)] }
+  ].filter(Boolean);
+  const room = W - 2 * PAD, total = s => items.reduce((a, x) => a + Math.max(x.w * s, x.min), 0) + GAP * (items.length - 1);
+  let s = PLOT / Math.max(...items.map(x => x.h));
+  if (total(s) > room) {   // troppo largo (tronchi tozzi): la scala più grande che entra, per bisezione
+    let lo = 0, hi = s;
+    for (let n = 0; n < 40; n++) { const mid = (lo + hi) / 2; if (total(mid) > room) hi = mid; else lo = mid; }
+    s = lo;
+  }
+  const f = v => +v.toFixed(2), thin = {};
+  let x = PAD + (room - total(s)) / 2, out = "";
+  for (const it of items) {
+    const slot = Math.max(it.w * s, it.min), cx = x + slot / 2;
+    x += slot + GAP;
+    if (it.k === "person") {   // pittogramma largo 0,5 m e alto 1,75 m, disegnato in metri
+      out += `<g transform="translate(${f(cx - it.w * s / 2)} ${f(GY - it.h * s)}) scale(${f(s)})" fill="var(--cmp-ref)"><circle cx=".25" cy=".12" r=".12"/>`
+        + `<path d="M.09.3h.32a.09.09 0 0 1 .09.09v.55h-.08v-.5h-.03v1.31h-.11v-.75h-.06v.75h-.11v-1.31h-.03v.5h-.08v-.55a.09.09 0 0 1 .09-.09z"/></g>`;
+    } else if (it.k === "house") {   // sagoma di 6 × 7 m con tetto a due falde, porta e finestre
+      out += `<g transform="translate(${f(cx - it.w * s / 2)} ${f(GY - it.h * s)}) scale(${f(s)})"><path d="M0 7V1.8L3 0l3 1.8V7z" fill="var(--cmp-ref)"/>`
+        + `<path d="M.9 2.6h1.2v1.2H.9zM3.9 2.6h1.2v1.2H3.9zM.9 5h1.2v1.2H.9zM3.9 5h1.2v1.2H3.9zM2.5 5.1h1V7h-1z" fill="var(--cmp-bg)"/></g>`;
+    } else {
+      const w = Math.max(it.w * s, 1), h = Math.max(it.h * s, 1), rx = f(cx - w / 2), ry = f(GY - h);
+      const box = `x="${rx}" y="${ry}" width="${f(w)}" height="${f(h)}"`;
+      if (it.w * s < 1) thin[it.k] = true;
+      if (it.k === "tree") {
+        out += `<rect ${box} fill="var(--cmp-trunk)"/>` + (w >= 6 ? `<rect ${box} fill="url(#cmp-bark)"/>` : "")
+          + (thin.tree ? `<path d="M${f(cx - 4)} ${f(GY - h - 10)}h8l-4 7z" fill="var(--cmp-text)"/>` : "");   // freccia sul tronco sotto 1 px
+      } else {   // tronco tipico: più tenue, con il bordo tratteggiato se è abbastanza largo
+        out += `<rect ${box} fill="var(--cmp-trunk)" fill-opacity="${w >= 4 ? .28 : .5}"`
+          + (w >= 4 ? ` stroke="var(--cmp-trunk)" stroke-width="1" stroke-dasharray="3 2"` : "") + "/>";
+      }
+    }
+    out += it.t.map((t, n) => `<text x="${f(cx)}" y="${GY + 13 + 12 * n}" text-anchor="middle"${n ? ' class="m"' : ""}${n === 1 && it.k === "typ" && d.sp ? ' font-style="italic"' : ""}>${esc(t)}</text>`).join("");
+  }
+  // barra della scala: la lunghezza «tonda» (1, 2, 5 × 10ⁿ m) più grande che sta in 90 px
+  const p10 = 10 ** Math.floor(Math.log10(90 / s)), bar = [5, 2, 1].find(k => k * p10 * s <= 90) * p10, by = H - 6, bx = f(PAD + bar * s);
+  return { thin, house: items.some(it => it.k === "house"), svg: `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}"><title>${esc(label)}</title>`
+    + `<defs><pattern id="cmp-bark" width="5" height="9" patternUnits="userSpaceOnUse"><path d="M1.5 0v9M4 0v5" stroke="var(--cmp-bark)" stroke-width=".7" opacity=".6"/></pattern></defs>`
+    + out + `<path d="M${PAD} ${GY}H${W - PAD}" stroke="var(--cmp-ground)" stroke-width="1.5"/>`
+    + `<path d="M${PAD} ${by - 3}v6M${PAD} ${by}H${bx}M${bx} ${by - 3}v6" fill="none" stroke="var(--cmp-muted)"/>`
+    + `<text class="m" x="${f(bx + 5)}" y="${by + 3.5}">${esc(cmpM(bar))}</text></svg>` };
+}
+let cmpOpener = null;   // pulsante che ha aperto la finestra: alla chiusura riprende il focus
+function openCompare(btn) {
+  const d = JSON.parse(btn.dataset.cmp), dlg = document.getElementById("cmp"), T = L.cmp;
+  const h = cmpM(d.h), diaT = cmpD(d.h / d.r0 / Math.PI), r0 = Number(d.r0).toLocaleString(LOC);
+  const lines = [T.desc(h, cmpD(d.c / Math.PI), cmpM(d.c) + (d.fd ? L.fromDiameter : "")),
+    d.sp ? T.typSpecies(h, diaT, d.sp, r0) : T.typAll(h, diaT, r0)];
+  const refs = house => T.refs(cmpM(CMP_PERSON_H), house ? cmpM(CMP_HOUSE_H) : "");
+  // il testo del disegno (title e aria-label) è lo stesso scritto sotto
+  const g = compareSvg(d, [...lines, refs(d.h > CMP_HOUSE_FROM)].join(" "));
+  document.getElementById("cmp-body").innerHTML = g.svg + lines.map(x => `<p>${esc(x)}</p>`).join("")
+    + [g.thin.tree && T.thin, g.thin.typ && T.thinTyp, refs(g.house) + " " + T.note].filter(Boolean).map(x => `<p class="note">${esc(x)}</p>`).join("");
+  cmpOpener = btn;
+  dlg.showModal();
+  dlg.focus();
+}
+{ // chiusura: Esc (della finestra modale), il pulsante ×, un clic fuori (sullo sfondo: il bersaglio è il dialog stesso)
+  const dlg = document.getElementById("cmp"), x = document.getElementById("cmp-x");
+  document.getElementById("cmp-title").textContent = L.cmp.title;
+  x.title = L.cmp.close; x.setAttribute("aria-label", L.cmp.close);
+  x.addEventListener("click", () => dlg.close());
+  dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener("close", () => { if (cmpOpener?.isConnected) cmpOpener.focus(); cmpOpener = null; });
+}
 // Generi di alberi con una sola specie vivente (le altre sono solo fossili): con genus=* e senza species=* la specie è
 // certa. Lista scritta a mano, non ricavata da Wikidata: la tassonomia cambia e un errore darebbe consigli sbagliati
 const MONOTYPIC = {
