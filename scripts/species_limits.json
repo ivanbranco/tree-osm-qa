@@ -18,5 +18,13 @@
   "Pinus mugo": {"height": 26.0, "circumference": 3.43, "height_circ_ratio": 7.21, "crown_circ_ratio": 7.39},
   "Quercus rubra": {"height": 50.9, "circumference": 8.56, "height_circ_ratio": 12.67, "crown_circ_ratio": 7.56},
   "Tilia platyphyllos": {"height": 41.6, "circumference": 15.72, "height_circ_ratio": 10.6, "crown_circ_ratio": 6.34},
-  "Tilia tomentosa": {"height": 37.0, "circumference": 6.54, "height_circ_ratio": 10.71, "crown_circ_ratio": 6.56}
+  "Tilia tomentosa": {"height": 37.0, "circumference": 6.54, "height_circ_ratio": 10.71, "crown_circ_ratio": 6.56},
+  "Pinus nigra": {"height": 47.4, "circumference": 7.3, "height_circ_ratio": 11.11, "crown_circ_ratio": 5.49},
+  "Pyrus calleryana": {"height": 14.0, "circumference": 1.48, "height_circ_ratio": 17.14, "crown_circ_ratio": 6.45},
+  "Populus nigra": {"height": 45.0, "circumference": 12.09, "height_circ_ratio": 9.60, "crown_circ_ratio": 3.26},
+  "Corylus colurna": {"height": 33.0, "circumference": 5.13, "height_circ_ratio": 13.64, "crown_circ_ratio": 7.04},
+  "Prunus avium": {"height": 39.6, "circumference": 5.79, "height_circ_ratio": 11.32, "crown_circ_ratio": 7.27},
+  "Fagus sylvatica": {"height": 51.1, "circumference": 10.5, "height_circ_ratio": 12.61, "crown_circ_ratio": 6.74},
+  "Taxus baccata": {"height": 29.8, "circumference": 12.44, "height_circ_ratio": 10.00, "crown_circ_ratio": 6.82},
+  "Prunus serrulata": {"height": 16.0, "circumference": 3.94}
 }
