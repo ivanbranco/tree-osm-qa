@@ -1524,9 +1524,6 @@ def checks(t, pos):
         flag("wikidata_name_mismatch", wd_name=";".join(f"{k}={q}:{n}" for k, q, n in nm))
     if ts := wikidata_tree_species(t):
         flag("wikidata_tree_species", wd_tree_sp=";".join(f"{q}:{n}" for q, n in ts))
-    if hr := wikidata_heritage(t):
-        q, (label_it, label_en) = hr[0]
-        flag("wikidata_heritage", wd_her_q=q, wd_her_it=label_it, wd_her_en=label_en)
     if far := wikidata_far(t, pos):     # "QID:km;…"
         flag("wikidata_far", wd_far=";".join(f"{q}:{km}" for q, km in far))
     if wpf := wikidata_photo_far(t, pos):   # righe "QID|metri|tipo|File:…" separate da "\n"
@@ -1539,8 +1536,14 @@ def checks(t, pos):
         flag("broken_link", bad_url="\n".join(f"{k}={v} ({s})" for k, v, s in bl))
     if cf := commons_far(t, pos):       # righe "metri|tipo|File:…" separate da "\n" (i nomi possono contenere ";")
         flag("commons_far", cm_far="\n".join(f"{m}|{k}|{f}" for f, m, k in cf))
-    if (src := monument_sources(t)) and "natural_monument" not in t.get("denotation", "").split(";"):
+    # un solo check per tutte le fonti monumentali, anche la tutela su Wikidata (P1435, wd_her_*): chiedono tutte
+    # la stessa correzione
+    hr = wikidata_heritage(t)
+    if ((src := monument_sources(t)) or hr) and "natural_monument" not in t.get("denotation", "").split(";"):
         flag("monument_denotation", mon_src=";".join(src))
+        if hr:
+            q, (label_it, label_en) = hr[0]
+            props.update(wd_her_q=q, wd_her_it=label_it, wd_her_en=label_en)
     if den := denotation_problems(t):   # valori, motivi e usi, nello stesso ordine
         flag("denotation_value", den_bad=";".join(v for v, _, _ in den), den_why=";".join(w for _, w, _ in den),
              den_n=";".join(str(n) for _, _, n in den))

@@ -176,25 +176,35 @@ def masaf_missing(fc):
 
 # Alberi monumentali secondo altre fonti ma senza denotation=natural_monument su OSM (issue #13): quelli che nel tool
 # QA hanno il check monument_denotation (ref:masaf, ref:rami, monumentaltrees.com, heritage:operator, P9704 o Q811534
-# su Wikidata) o wikidata_heritage (tutela P1435 su Wikidata). Si prendono dai dati delle regioni del tool QA, già
+# o tutela P1435 su Wikidata; wikidata_heritage è il vecchio codice della tutela, nei dati non ancora aggiornati). Si prendono dai dati delle regioni del tool QA, già
 # controllati, e sulla mappa si disegnano come monumentali; "imp" = 1, e la scheda spiega da dove viene la monumentalità
 # (mon_src, wd_her_*).
+# Si aggiungono, solo in Italia, gli alberi con il consiglio hint_ms (circonferenza almeno pari alla soglia MASAF della
+# specie, senza denotation=natural_monument/landmark né ref:masaf): la scheda lo dice con una nota a parte. Non quelli
+# con un errore sulla circonferenza (BAD_CIRC), perché la misura non è affidabile.
 IMPLICIT_CHECKS = ("|monument_denotation|", "|wikidata_heritage|")
 
 
 def implicit_monuments():
-    """Feature degli alberi monumentali solo per altre fonti, dalle regioni del tool QA con dati (con "qa" e "imp")."""
-    feats = []
+    """Feature degli alberi monumentali solo per altre fonti o per la soglia MASAF, dalle regioni del tool QA con dati
+    (con "qa" e "imp"); restituisce (feature, quanti solo per la soglia MASAF)."""
+    feats, n_ms = [], 0
     for slug in ft.load_json(ft.INDEX, "regions"):
         path = ft.OUT_DIR / f"{slug}.geojson.gz"
         if not path.exists():
             continue
         for f in json.loads(gzip.decompress(path.read_bytes()))["features"]:
             p = f["properties"]
-            if not p.get("stump") and any(c in p.get("issues", "") for c in IMPLICIT_CHECKS):
+            if p.get("stump"):
+                continue
+            other = any(c in p.get("issues", "") for c in IMPLICIT_CHECKS)
+            if p.get("hint_ms") and BAD_CIRC & set(p.get("issues", "").strip("|").split("|")):
+                del p["hint_ms"]                   # circonferenza non affidabile: niente nota sulla soglia
+            if other or p.get("hint_ms"):
                 p["imp"], p["qa"] = 1, slug
                 feats.append(f)
-    return feats
+                n_ms += not other
+    return feats, n_ms
 
 
 def in_ring(x, y, ring):
@@ -262,9 +272,10 @@ def update_map(key, index):
         slug = region_of(*f["geometry"]["coordinates"], regions)
         if slug:
             f["properties"]["qa"] = slug
-    implicit = implicit_monuments() if key == "monumental" else []
+    implicit, n_ms = implicit_monuments() if key == "monumental" else ([], 0)
     fc["features"] += implicit
-    print(f"{key}: {len(implicit)} alberi monumentali solo per altre fonti (dalle regioni del tool QA)")
+    print(f"{key}: {len(implicit)} alberi monumentali solo per altre fonti (dalle regioni del tool QA), "
+          f"{n_ms} dei quali solo per la soglia MASAF")
     n_low = add_min_zoom(fc)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     path = WORLD_DIR / f"{key}.geojson.gz"
@@ -281,6 +292,7 @@ def update_map(key, index):
                   "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                   "sha1": hashlib.sha1(raw).hexdigest()}
     index[key]["implicit"] = len(implicit)
+    index[key]["masaf_size"] = n_ms
     if masaf is not None:
         index[key]["masaf"] = len(masaf["features"])
         index[key]["masaf_version"] = ft.load_json(MASAF_TREES).get("version", "")

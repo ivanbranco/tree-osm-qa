@@ -283,6 +283,9 @@ const I18N = {
     backToQa: "← Torna al tool QA", seeInQa: "vedi nel tool QA",
     implicitMon: s => `Su OSM non è segnato come monumentale, ma lo è secondo ${s}`,
     implicitMonTip: s => `Su OSM manca denotation=natural_monument; fonti: ${s}`,
+    // albero "implicito" per la soglia MASAF (hint_ms, solo in Italia, vedi fetch_world.py)
+    masafSizeMon: (c, s, n) => `Su OSM non è segnato come monumentale, ma la sua circonferenza (${c}) raggiunge la circonferenza minima indicata dal MASAF per ${n} (${s})`,
+    masafSizeMonTip: "Circonferenze minime indicative del MASAF per specie (tabella del gennaio 2020). Su OSM mancano denotation=natural_monument e ref:masaf",
     // alberi dell'elenco MASAF non ancora su OpenStreetMap (mappa dei monumentali)
     masafRows: { place: "Luogo", type: "Tipologia", criteria: "Criteri" }, openOnOsm: "Apri su OpenStreetMap",
     // consigli della scheda (ⓘ)
@@ -320,7 +323,7 @@ const I18N = {
       wikidata_not_taxon: "species/genus:wikidata non è un taxon", wikidata_is_taxon: "wikidata è un taxon",
       wikidata_far: "Elemento wikidata a più di 1 km", wikidata_photo_far: "Foto dell'elemento wikidata a più di 500 m",
       wikidata_rank: "species/genus:wikidata con il rango sbagliato", wikidata_name_mismatch: "Nome su Wikidata diverso da species/genus",
-      wikidata_tree_species: "Specie diversa da quella su Wikidata", wikidata_heritage: "Tutelato su Wikidata senza natural_monument",
+      wikidata_tree_species: "Specie diversa da quella su Wikidata",
       leaf_type_mismatch: "leaf_type diverso da quello della specie", leaf_cycle_mismatch: "leaf_cycle diverso da quello della specie",
       monument_denotation: "Fonte monumentale senza natural_monument",
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
@@ -385,7 +388,7 @@ const I18N = {
       link_format: "wikidata vuole un QID (Q…), wikimedia_commons il prefisso File: o Category:, panoramax un UUID, image un indirizzo http(s).",
       broken_link: "Segnalati: pagine 404 o 410, siti che non esistono più e file assenti su Commons. Non sono segnalati 403, 429, errori del server e timeout, che spesso sono blocchi verso i programmi automatici.",
       commons_far: "Le coordinate del file di Commons collegato (wikimedia_commons o image) distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
-      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) indicano un albero monumentale, che in OSM ha denotation=natural_monument.",
+      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) o con una tutela (P1435) indicano un albero monumentale, che in OSM ha denotation=natural_monument.",
       masaf_criteria: "Codici ammessi: a–g, a1, a2, a2.1, a2.2, a2.3, separati da virgole senza spazi.",
       masaf_removed: "Il codice ref:masaf corrisponde a un albero che l'elenco degli alberi monumentali d'Italia dà come rimosso. Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       denotation_value: "Confronto con gli usi su Taginfo: segnalati i valori usati al massimo 10 volte, quelli con un formato non valido e quelli comuni con altro testo attaccato.",
@@ -397,8 +400,7 @@ const I18N = {
       wikidata_photo_far: "L'elemento su Wikidata non ha coordinate, ma la sua immagine (P18) ha coordinate su Commons, e distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
       wikidata_rank: "species:wikidata indica una specie (o un rango inferiore), genus:wikidata un genere (rango: P105).",
       wikidata_name_mismatch: "Confronto con il nome scientifico dell'elemento su Wikidata (P225), solo genere ed epiteto.",
-      wikidata_tree_species: "Confronto con la specie dell'albero su Wikidata (P10241, individuo del taxon).",
-      wikidata_heritage: "Su Wikidata l'albero ha una tutela (P1435): in OSM gli alberi monumentali hanno denotation=natural_monument." },
+      wikidata_tree_species: "Confronto con la specie dell'albero su Wikidata (P10241, individuo del taxon)." },
     issue: {
       circumference_species: (v, sp) => `circonferenza > ${v} (limite per ${sp})`,
       height_species: (v, sp) => `altezza > ${v} (limite per ${sp})`,
@@ -412,10 +414,8 @@ const I18N = {
       number_invalid: t => `valore non numerico, intervallo o zero in ${t}`,
       link_format: t => `formato non valido in ${t}`,
       monument_denotation: t => `${t} senza denotation=natural_monument`,
-      // fonti da Wikidata (mon_src "wikidata=Q… (P9704)" o "(Q811534)"): una riga ciascuna, senza codici (il link
-      // all'elemento Wikidata è già in fondo alla scheda)
-      monWd: { Q811534: () => "Su Wikidata è una pianta monumentale, ma manca denotation=natural_monument",
-        P9704: () => "Su Wikidata ha una scheda su monumentaltrees.com, ma manca denotation=natural_monument" },
+      // fonti da Wikidata (mon_src "wikidata=Q… (P9704)" o "(Q811534)", tutela wd_her_*), tra parentesi dopo "Wikidata"
+      monWd: { Q811534: "pianta monumentale", P9704: "scheda su monumentaltrees.com", her: label => `tutelato: ${label}` },
       crown: v => `diametro chioma ${v} > 60,4 m (record per un albero vivo a tronco singolo)`,
       species_typo: (sp, s) => `species=${sp} non è nella lista delle specie: forse ${s}?`,
       species_unidentified: (sp, g) => `species=${sp} indica una specie non identificata: usare genus=${g} senza species`,
@@ -438,8 +438,6 @@ const I18N = {
         missing: "file inesistente su Commons" },
       wikidata_name_mismatch: (kq, name, val) => `${kq} su Wikidata è ${name}, non ${val}`,
       wikidata_tree_species: (q, name) => `su Wikidata l'albero (wikidata=${q}) è ${name}`,
-      // senza il QID: il link all'elemento Wikidata è già in fondo alla scheda
-      wikidata_heritage: (q, label) => `Su Wikidata l'albero è tutelato (${label}), ma manca denotation=natural_monument`,
       rankSpecies: "specie", rankGenus: "genere",
       ranks: { Q7432: "specie", Q34740: "genere", Q35409: "famiglia", Q68947: "sottospecie", Q767728: "varietà", Q279749: "forma",
         Q36602: "ordine", Q3238261: "sottogenere", Q3181348: "sezione", Q5998839: "sottosezione", Q3025161: "serie",
@@ -539,6 +537,8 @@ const I18N = {
     backToQa: "← Back to the QA tool", seeInQa: "see in the QA tool",
     implicitMon: s => `Not marked as monumental on OSM, but it is according to ${s}`,
     implicitMonTip: s => `denotation=natural_monument is missing on OSM; sources: ${s}`,
+    masafSizeMon: (c, s, n) => `Not marked as monumental on OSM, but its circumference (${c}) reaches the minimum circumference set by MASAF for ${n} (${s})`,
+    masafSizeMonTip: "MASAF indicative minimum circumferences per species (January 2020 table). denotation=natural_monument and ref:masaf are missing on OSM",
     masafRows: { place: "Place", type: "Type", criteria: "Criteria" }, openOnOsm: "Open on OpenStreetMap",
     hint: {
       wdSpecies: n => `On Wikidata this tree is a ${n}: species=${n} could be added after a survey`,
@@ -573,7 +573,7 @@ const I18N = {
       wikidata_not_taxon: "species/genus:wikidata is not a taxon", wikidata_is_taxon: "wikidata is a taxon",
       wikidata_far: "wikidata item more than 1 km away", wikidata_photo_far: "wikidata item photo more than 500 m away",
       wikidata_rank: "species/genus:wikidata with the wrong rank", wikidata_name_mismatch: "Name on Wikidata differs from species/genus",
-      wikidata_tree_species: "Species differs from Wikidata", wikidata_heritage: "Protected on Wikidata without natural_monument",
+      wikidata_tree_species: "Species differs from Wikidata",
       leaf_type_mismatch: "leaf_type differs from the species", leaf_cycle_mismatch: "leaf_cycle differs from the species",
       monument_denotation: "Monumental source without natural_monument",
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
@@ -636,7 +636,7 @@ const I18N = {
       link_format: "wikidata needs a QID (Q…), wikimedia_commons the File: or Category: prefix, panoramax a UUID, image an http(s) address.",
       broken_link: "Reported: 404 or 410 pages, sites that no longer exist and files missing on Commons. 403, 429, server errors and timeouts are not reported, as they are often blocks against automated tools.",
       commons_far: "The coordinates of the linked Commons file (wikimedia_commons or image) are more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
-      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) indicate a monumental tree, which in OSM has denotation=natural_monument.",
+      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) or with a heritage designation (P1435) indicate a monumental tree, which in OSM has denotation=natural_monument.",
       masaf_criteria: "Allowed codes: a–g, a1, a2, a2.1, a2.2, a2.3, separated by commas without spaces.",
       masaf_removed: "The ref:masaf code belongs to a tree that the list of monumental trees of Italy reports as removed. Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format and common values with other text attached.",
@@ -648,8 +648,7 @@ const I18N = {
       wikidata_photo_far: "The Wikidata item has no coordinates, but its image (P18) has coordinates on Commons, more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
       wikidata_rank: "species:wikidata points to a species (or a lower rank), genus:wikidata to a genus (rank: P105).",
       wikidata_name_mismatch: "Compared with the scientific name of the Wikidata item (P225), genus and epithet only.",
-      wikidata_tree_species: "Compared with the tree's species on Wikidata (P10241, individual of taxon).",
-      wikidata_heritage: "On Wikidata the tree has a heritage designation (P1435): in OSM monumental trees have denotation=natural_monument." },
+      wikidata_tree_species: "Compared with the tree's species on Wikidata (P10241, individual of taxon)." },
     issue: {
       circumference_species: (v, sp) => `circumference > ${v} (limit for ${sp})`,
       height_species: (v, sp) => `height > ${v} (limit for ${sp})`,
@@ -663,8 +662,7 @@ const I18N = {
       number_invalid: t => `non-numeric value, range or zero in ${t}`,
       link_format: t => `invalid format in ${t}`,
       monument_denotation: t => `${t} without denotation=natural_monument`,
-      monWd: { Q811534: () => "On Wikidata it is a remarkable tree, but denotation=natural_monument is missing",
-        P9704: () => "On Wikidata it has a monumentaltrees.com page, but denotation=natural_monument is missing" },
+      monWd: { Q811534: "remarkable tree", P9704: "monumentaltrees.com page", her: label => `protected: ${label}` },
       crown: v => `crown diameter ${v} > 60.4 m (record for a living single-trunk tree)`,
       species_typo: (sp, s) => `species=${sp} is not in the species list: did you mean ${s}?`,
       species_unidentified: (sp, g) => `species=${sp} means an unidentified species: use genus=${g} without species`,
@@ -687,7 +685,6 @@ const I18N = {
         missing: "file not found on Commons" },
       wikidata_name_mismatch: (kq, name, val) => `${kq} is ${name} on Wikidata, not ${val}`,
       wikidata_tree_species: (q, name) => `on Wikidata the tree (wikidata=${q}) is ${name}`,
-      wikidata_heritage: (q, label) => `On Wikidata the tree is protected (${label}), but denotation=natural_monument is missing`,
       rankSpecies: "species", rankGenus: "genus",
       ranks: { Q7432: "species", Q34740: "genus", Q35409: "family", Q68947: "subspecies", Q767728: "variety", Q279749: "form",
         Q36602: "order", Q3238261: "subgenus", Q3181348: "section", Q5998839: "subsection", Q3025161: "series",
@@ -1279,7 +1276,7 @@ map.on("load", async () => {
       "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "underscore", "tag_in_value",
       "not_latin", "genus", "genus_lowercase", "genus_mismatch"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
-      "wikidata_is_taxon", "wikidata_tree_species", "wikidata_heritage", "wikidata_far", "wikidata_photo_far"]],
+      "wikidata_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
     ["links", ["link_format", "broken_link", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed"]],
   ];
   const issueGroupOf = code => (ISSUE_GROUPS.find(([, codes]) => codes.includes(code)) || ["other"])[0];
@@ -1578,6 +1575,11 @@ map.on("load", async () => {
     // ridotto manca (dati scritti prima che esistesse) lo si ricava dal completo. Le due parti vanno in due sorgenti
     // distinte ("trees-min" e "trees"), così i livelli a zoom basso non aspettano che MapLibre prepari il completo.
     const show = (fc, src) => {
+      // dati scritti prima dell'unione dei check: la tutela su Wikidata era un check a sé (wikidata_heritage), ora
+      // è una fonte di monument_denotation (wd_her_*). Da togliere quando tutte le regioni saranno aggiornate.
+      for (const f of fc.features) { const p = f.properties;
+        if (p.issues && p.issues.includes("|wikidata_heritage|")) p.issues = p.issues.includes("|monument_denotation|")
+          ? p.issues.replace("|wikidata_heritage|", "|") : p.issues.replace("|wikidata_heritage|", "|monument_denotation|"); }
       ALL = fc.features;
       SHAPED = ALL.filter(isShaped);
       DECO = ALL.filter(ft => ft.properties.stems || ft.properties.ivy || ft.properties.fruit || isDual(ft.properties));
@@ -2003,11 +2005,15 @@ const issueBase = (i, p) => {
     case "same_point": return T[i](String(p.sp_nodes || "").split(";").filter(Boolean));   // sp_nodes: id degli altri alberi
     case "number_invalid": return T[i](list(p.bad_num));
     case "link_format": return T[i](list(p.bad_links));
-    case "monument_denotation": {   // mon_src: fonti separate da ";" (fetch_trees.py); quelle da Wikidata a parte
+    // una riga sola con tutte le fonti: mon_src (separate da ";", fetch_trees.py) e la tutela su Wikidata (wd_her_*);
+    // quelle da Wikidata insieme, senza QID (il link all'elemento è già in fondo alla scheda)
+    case "monument_denotation": {
       const src = String(p.mon_src || "").split(";").filter(Boolean), wd = /^wikidata=(Q\d+) \((P9704|Q811534)\)$/;
-      const tags = src.filter(s => !wd.test(s)), lines = tags.length ? [T[i](tags.join(", "))] : [];
-      src.forEach(s => { const m = wd.exec(s); if (m) lines.push(T.monWd[m[2]](m[1])); });
-      return lines.join("\n");
+      const what = src.map(s => wd.exec(s)).filter(Boolean).map(m => T.monWd[m[2]]);
+      if (p.wd_her_q) what.push(T.monWd.her(LANG === "it" ? p.wd_her_it : p.wd_her_en));
+      const parts = src.filter(s => !wd.test(s));
+      if (what.length) parts.push(`Wikidata (${what.join("; ")})`);
+      return T[i](parts.join(", "));
     }
     case "crown": return T[i](fmtM(p.diameter_crown));
     case "species_typo": return T[i](p.species, p.sp_sugg);   // sp_sugg: fetch_trees.py
@@ -2034,7 +2040,6 @@ const issueBase = (i, p) => {
     case "commons_far":          // cm_far: righe "metri|tipo|File:…" (fetch_trees.py)
       return String(p.cm_far || "").split("\n").filter(Boolean).map(x => { const [m, k, ...f] = x.split("|");
         return T[i](f.join("|"), Number(m).toLocaleString(LOC), k === "object"); }).join("\n");
-    case "wikidata_heritage": return T[i](p.wd_her_q, LANG === "it" ? p.wd_her_it : p.wd_her_en);
     case "wikidata_far":         // wd_far: "QID:km;…" (fetch_trees.py)
       return String(p.wd_far || "").split(";").map(x => { const [q, km] = x.split(":"); return T[i](q, Number(km).toLocaleString(LOC)); }).join("\n");
     case "wikidata_photo_far":   // wd_ph_far: righe "QID|metri|tipo|File:…" (fetch_trees.py)
@@ -2299,7 +2304,8 @@ function card(p, pos) {
     ${rec.map(x => `<div class="rec">${x}</div>`).join("")}
     ${WORLD ? (issues.length && p.qa   // mappa mondiale: solo un link al tool QA, se l'albero è in una regione coperta
       ? `<div class="bad">⚠ <a href="${esc(`${BASE}#region=${p.qa}&node=${p.id}`)}">${esc(L.seeInQa)}</a></div>` : "")
-      + (p.imp ? `<div class="hint"><span class="why" tabindex="0">ⓘ<span class="tip">${esc(L.implicitMonTip(implicitSources(p)))}</span></span> ${esc(L.implicitMon(implicitSourceNames(p)))}</div>` : "")
+      + (p.imp && implicitSources(p) ? `<div class="hint"><span class="why" tabindex="0">ⓘ<span class="tip">${esc(L.implicitMonTip(implicitSources(p)))}</span></span> ${esc(L.implicitMon(implicitSourceNames(p)))}</div>` : "")
+      + (p.imp && p.hint_ms ? (([c, s]) => `<div class="hint"><span class="why" tabindex="0">ⓘ<span class="tip">${esc(L.masafSizeMonTip)}</span></span> ${esc(L.masafSizeMon(fmtM(c), fmtM(s), p.sp_clean || p.species))}</div>`)(p.hint_ms.split("|")) : "")
     : issues.flatMap(([i, x]) => { const w = L.why[i]; return x.split("\n").map(line => [typeof w === "function" ? w(p) : w, line]); }).map(([why, x]) =>
       `<div class="bad">${why ? `<span class="why" tabindex="0">⚠<span class="tip">${esc(why)}</span></span>` : "⚠"} ${esc(x)}</div>`).join("")}
     ${WORLD ? "" : hints(p, pos).map(h => `<div class="hint">ⓘ ${typeof h === "string" ? esc(h) : h.html}</div>`).join("")}
@@ -2372,7 +2378,7 @@ function hints(p, pos) {
   // wikidata=* senza natural_monument né landmark (e senza un errore che lo dica già)
   const den = String(p.denotation || "").split(";");
   if (p.wikidata && !den.includes("natural_monument") && !den.includes("landmark")
-      && !/\|(wikidata_is_taxon|wikidata_not_taxon|monument_denotation|wikidata_heritage)\|/.test(codes)) out.push(H.notable);
+      && !/\|(wikidata_is_taxon|wikidata_not_taxon|monument_denotation)\|/.test(codes)) out.push(H.notable);
   // Ginkgo biloba (o genus=Ginkgo, genere con una sola specie) senza sex=*: da aprile a novembre (da ottobre a maggio
   // nell'emisfero australe) si possono riconoscere le femmine da ovuli e semi (issue #25)
   const ginkgo = /^Ginkgo biloba\b/.test(p.sp_clean || p.species || "") || (!p.species && p.genus === "Ginkgo");
