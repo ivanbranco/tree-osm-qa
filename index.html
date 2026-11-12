@@ -163,7 +163,7 @@
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1b6b2c" stroke-width="1"/><circle cx="7" cy="8" r="1.8" fill="#d63a2f"/><circle cx="15" cy="7" r="1.8" fill="#f5d90a"/><circle cx="16" cy="14" r="1.8" fill="#f28a00"/><circle cx="8" cy="15" r="1.8" fill="#b8d63a" stroke="#2f4a0c" stroke-width="0.6"/></svg> <span data-i18n="legFruit">Frutti (stagionali)</span></li>
       <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M5 5L17 17M17 5L5 17" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/></svg> <span data-i18n="legStump">Ceppo</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.0,11.0 19.3,10.1 19.4,9.1 19.1,8.2 18.5,7.4 17.8,6.8 16.9,6.3 16.3,5.7 16.0,4.7 15.5,3.9 14.7,3.3 13.8,2.9 12.9,2.8 11.9,3.1 11.0,3.5 10.2,3.5 9.2,3.2 8.2,3.1 7.3,3.3 6.4,3.7 5.8,4.5 5.4,5.4 5.1,6.3 4.6,7.0 3.8,7.5 3.1,8.2 2.6,9.1 2.5,10.0 2.6,11.0 3.1,11.9 3.7,12.7 3.9,13.5 3.8,14.5 3.9,15.5 4.3,16.4 4.9,17.1 5.8,17.5 6.8,17.8 7.8,17.7 8.5,18.1 9.2,18.8 10.1,19.3 11.0,19.6 12.0,19.5 12.9,19.2 13.6,18.5 14.2,17.7 15.0,17.4 16.0,17.3 16.9,16.9 17.7,16.4 18.3,15.6 18.5,14.6 18.5,13.6 18.3,12.7 18.5,11.8" stroke-linejoin="round" fill="none" stroke="#1b6b2c" stroke-width="1.5"/></svg> <span data-i18n="legBroad">Latifoglia o palma</span></li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.3,8.8 13.2,2.7 4.9,4.9 2.7,13.2 8.8,19.3 17.1,17.1" stroke-linejoin="round" fill="none" stroke="#1b6b2c" stroke-width="1.5"/></svg> <span data-i18n="legNeedle">Aghifoglia</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="11.0,1.4 12.6,4.1 15.2,2.4 15.4,5.4 18.5,5.0 17.4,7.9 20.4,8.9 18.1,11.0 20.4,13.1 17.4,14.1 18.5,17.0 15.4,16.6 15.2,19.6 12.6,17.9 11.0,20.6 9.4,17.9 6.8,19.6 6.6,16.6 3.5,17.0 4.6,14.1 1.6,13.1 3.9,11.0 1.6,8.9 4.6,7.9 3.5,5.0 6.6,5.4 6.8,2.4 9.4,4.1" stroke-linejoin="round" fill="none" stroke="#1b6b2c" stroke-width="1.2"/></svg> <span data-i18n="legNeedle">Aghifoglia</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1b6b2c" stroke-width="1.5"/></svg> <span data-i18n="legNoLeaf">Tipo di foglia non specificato</span></li>
     </ul>
     <div class="note" data-i18n="legNote">Tronco e forme da zoom 16</div>
@@ -912,12 +912,12 @@ map.on("load", async () => {
     const [lon, lat] = ft.geometry.coordinates, p = ft.properties, r = p.cr;
     const kx = 1 / (111320 * Math.cos(lat * Math.PI / 180)), ky = 1 / 111320;
     const pts = [];
-    if (SPIKY.has(leafOf(p))) {                 // esagono o ottagono, ruotato in modo diverso per ogni albero
-      const sides = 6 + 2 * (p.id % 2), rot = (p.id % 11) / 11 * (2 * Math.PI / sides);
-      const R = r * Math.sqrt(2 * Math.PI / (sides * Math.sin(2 * Math.PI / sides)));  // stessa area del cerchio
-      for (let k = 0; k < sides; k++) {
-        const a = rot + k * 2 * Math.PI / sides;
-        pts.push([lon + R * Math.cos(a) * kx, lat + R * Math.sin(a) * ky]);
+    if (SPIKY.has(leafOf(p))) {                 // stella fitta a 14 punte corte, ruotata in modo diverso per ogni albero
+      const n = 14, kin = 0.74, rot = (p.id % 11) / 11 * (2 * Math.PI / n);   // kin = raggio interno / esterno
+      const R = r * Math.sqrt(Math.PI / (n * kin * Math.sin(Math.PI / n)));      // stessa area del cerchio
+      for (let k = 0; k < 2 * n; k++) {
+        const a = rot + k * Math.PI / n, Rk = k % 2 ? R * kin : R;
+        pts.push([lon + Rk * Math.cos(a) * kx, lat + Rk * Math.sin(a) * ky]);
       }
     } else {                                      // sagoma a lobi arrotondati, leggermente diversa per ogni albero
       const lobes = 6 + (p.id % 3), ph = (p.id % 97) * 0.37, N = 56;
