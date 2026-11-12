@@ -1,5 +1,5 @@
 {
-"count": 674,
+"count": 681,
 "license": "CC BY-SA 2.0 (OpenStreetMap Wiki)",
 "source": "https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species",
 "species": {
@@ -247,6 +247,11 @@
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q1190312"
+},
+"Acer pictum": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15287991"
 },
 "Acer platanoides": {
 "leaf_cycle": "deciduous",
@@ -1436,7 +1441,7 @@
 "Gymnocladus dioicus": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
-"wikidata": "Q105034954"
+"wikidata": "Q549418"
 },
 "Halesia carolina": {
 "leaf_cycle": "deciduous",
@@ -1458,11 +1463,6 @@
 "leaf_type": "broadleaved",
 "wikidata": "Q139936592"
 },
-"Hedlundia thuringiaca": {
-"leaf_cycle": "deciduous",
-"leaf_type": "broadleaved",
-"wikidata": "Q41297396"
-},
 "Hesperocyparis abramsiana": {
 "leaf_cycle": "evergreen",
 "leaf_type": "needleleaved",
@@ -1471,7 +1471,7 @@
 "Hesperocyparis arizonica": {
 "leaf_cycle": "evergreen",
 "leaf_type": "needleleaved",
-"wikidata": "Q670040"
+"wikidata": "Q50843037"
 },
 "Hesperocyparis bakeri": {
 "leaf_cycle": "evergreen",
@@ -2248,6 +2248,16 @@
 "leaf_type": "needleleaved",
 "wikidata": "Q747652"
 },
+"Platanus glabrata": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q50859698"
+},
+"Platanus mexicana": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4364558"
+},
 "Platanus occidentalis": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
@@ -2257,6 +2267,16 @@
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q161105"
+},
+"Platanus racemosa": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q164301"
+},
+"Platanus rzedowskii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q18080352"
 },
 "Platanus × hispanica": {
 "leaf_cycle": "deciduous",
@@ -2577,6 +2597,11 @@
 "leaf_cycle": "evergreen",
 "leaf_type": "broadleaved",
 "wikidata": "Q138446"
+},
+"Quercus coccifera": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q158178"
 },
 "Quercus coccinea": {
 "leaf_cycle": "deciduous",
@@ -3367,6 +3392,16 @@
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q11181633"
+},
+"latanuss wrightii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4115345"
+},
+"× Arsorbus thuringiaca": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q134483448"
 },
 "× Hesperotropsis leylandii": {
 "leaf_cycle": "evergreen",
