@@ -938,24 +938,26 @@ def genus_ref(t):
     return GENUS_REF.get(g.lstrip("× ").casefold()) if g else None
 
 
+def leaf_species_ref(t, key):
+    """Voce della lista delle specie con il valore di key (leaf_type o leaf_cycle), se species=* è una sola specie
+    della lista; altrimenti None (la stima viene dal genere)."""
+    sp = t.get("species")
+    ref = SPECIES_REF.get(norm_species(sp)) if sp and ";" not in sp else None
+    return ref if ref and ref.get(key) else None
+
+
 def leaf_type_estimate(t):
     """leaf_type ricavato dalle liste della wiki: dalla specie; se non è nella lista, dal genere."""
-    sp = t.get("species")
-    if sp and ";" not in sp:
-        ref = SPECIES_REF.get(norm_species(sp))
-        if ref and ref.get("leaf_type"):
-            return ref["leaf_type"]
+    if ref := leaf_species_ref(t, "leaf_type"):
+        return ref["leaf_type"]
     g = genus_ref(t)
     return g[1].get("leaf_type") if g else None
 
 
 def leaf_cycle_estimate(t):
     """leaf_cycle ricavato dalle liste della wiki, come leaf_type_estimate; None se il genere li ammette entrambi."""
-    sp = t.get("species")
-    if sp and ";" not in sp:
-        ref = SPECIES_REF.get(norm_species(sp))
-        if ref and ref.get("leaf_cycle"):
-            return ref["leaf_cycle"]
+    if ref := leaf_species_ref(t, "leaf_cycle"):
+        return ref["leaf_cycle"]
     g = genus_ref(t)
     cycles = g[1].get("leaf_cycle") or [] if g else []
     return cycles[0] if len(cycles) == 1 else None
@@ -1815,6 +1817,12 @@ def to_feature(el):
             p["lt"] = est
         if t.get("leaf_cycle") not in LEAF_CYCLE and (est := leaf_cycle_estimate(t)):
             p["lc"] = est
+        # stime prese dal genere (specie assente dalla lista): lg = nome del genere, lgk = quali ("t" leaf_type,
+        # "c" leaf_cycle), perché il consiglio della scheda nomini il genere e non la specie
+        lgk = "".join(k for k, key, prop in (("t", "leaf_type", "lt"), ("c", "leaf_cycle", "lc"))
+                      if prop in p and not leaf_species_ref(t, key))
+        if lgk and (g := genus_ref(t)):
+            p["lg"], p["lgk"] = g[0], lgk
     if wd_img := wikidata_image(t):   # per la scheda, se l'albero non ha altre immagini
         p["wd_img"] = wd_img
     if (fs := FOTOSHI.get(t.get("image:fotoshi", "").strip())) and fs.get("author"):   # crediti della foto

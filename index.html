@@ -2676,8 +2676,14 @@ function hints(p, pos) {
   // Italia, paesi francofoni e anglofoni
   if (mono === MONOTYPIC.Sequoia && SEQUOIA_NOTE.has(currentIso.slice(0, 2).toUpperCase())) out.push(H.sequoiaNote);
   // leaf_type / leaf_cycle mancanti (non sbagliati: quelli sono errori), stimati dalle liste della wiki
+  // I valori presi dal genere (lg, lgk: specie non nella lista, fetch_trees.py) si attribuiscono al genere, gli altri
+  // alla specie: due consigli solo se la specie dà un valore e il genere l'altro
   const name = p.sp_clean || p.species || p.genus, lt = !p.leaf_type && p.lt, lc = !p.leaf_cycle && p.lc;   // sp_clean: senza autore
-  if (name && (lt || lc)) out.push(H.leaf(name, [lt && `leaf_type=${lt}`, lc && `leaf_cycle=${lc}`].filter(Boolean)));
+  const lgk = p.lg ? String(p.lgk || "") : "";
+  for (const [n, g] of [[name, false], [p.lg, true]]) {
+    const tags = [lt && lgk.includes("t") === g && `leaf_type=${lt}`, lc && lgk.includes("c") === g && `leaf_cycle=${lc}`].filter(Boolean);
+    if (n && tags.length) out.push(H.leaf(n, tags));
+  }
   // wikidata=* senza natural_monument né landmark (e senza un errore che lo dica già)
   const den = String(p.denotation || "").split(";");
   if (p.wikidata && !den.includes("natural_monument") && !den.includes("landmark")
