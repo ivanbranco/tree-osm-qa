@@ -93,9 +93,12 @@
   .card h3{margin:0 0 4px;font-size:15px}  .card .photo{position:relative;margin:4px 0}
   .card img{width:100%;border-radius:4px;display:block}
   .card .credit{position:absolute;right:4px;bottom:4px;max-width:calc(100% - 8px);box-sizing:border-box;background:#000a;color:#fff;
-    font-size:10px;line-height:1.5;padding:0 5px;border-radius:3px;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    font-size:10px;line-height:1.5;padding:0 5px;border-radius:3px;text-decoration:none;white-space:nowrap;display:flex;align-items:center}
   .card .credit:empty{display:none}
-  .card .credit .fs-mark{width:9px;height:9px;vertical-align:-1px;margin-right:4px}
+  /* se lo spazio non basta si accorcia solo l'autore (con "…"): la licenza resta sempre intera */
+  .card .credit .who{overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .card .credit .lic{flex-shrink:0}  .card .credit .who + .lic{margin-left:.3em}
+  .card .credit .fs-mark{width:9px;height:9px;flex-shrink:0;margin-right:4px}
   .card .photo:not(.loaded) .credit{display:none}   /* il credito compare insieme alla foto, non prima */
   .card dl{margin:4px 0;display:grid;grid-template-columns:auto 1fr;gap:1px 8px}
   .card dt{color:#666}.card dd{margin:0;min-width:0}
@@ -2131,7 +2134,7 @@ function imageInfo(p) {
     href: `https://api.panoramax.xyz/#focus=pic&pic=${pid}` };   // autore e licenza: fillPhoto
   const fid = fotoshiId(p);
   if (fid) return { src: `https://cdn.fotoshi.com/thumbnails/${fid}.jpeg`, href: `https://www.fotoshi.com/photo/${fid}`, fs: true,
-    credit: p.fs_author ? `${p.fs_author}${p.fs_license ? ` (${p.fs_license})` : ""}` : "" };
+    author: p.fs_author || "", lic: p.fs_author ? p.fs_license || "" : "" };
   if (p.image && /^https?:\/\//.test(p.image)) {
     const m = p.image.match(/commons\.wikimedia\.org\/wiki\/(File:.+)$/);
     if (m) { const name = decodeURIComponent(m[1]).replace(/^File:/, ""); return { src: commonsFile(name), commons: name }; }
@@ -2141,7 +2144,14 @@ function imageInfo(p) {
   return null;
 }
 
-const COMMONS_API = "https://commons.wikimedia.org/w/api.php?format=json&formatversion=2&origin=*&action=query";
+// Credito di una foto, "Autore (licenza)": autore e licenza in due parti, perché se lo spazio non basta si accorcia
+// solo l'autore e la licenza resta visibile (CSS di .credit). creditText: il testo intero, per il title
+const creditText = (author, lic) => author ? `${author}${lic ? ` (${lic})` : ""}` : lic || "";
+const creditHtml = (author, lic) => (author ? `<span class="who">${esc(author)}</span>` : "")
+  + (lic ? `<span class="lic">${esc(author ? `(${lic})` : lic)}</span>` : "");
+function setCredit(a, author, lic) { a.innerHTML = creditHtml(author, lic); a.title = creditText(author, lic); }
+
+const COMMONS_API ="https://commons.wikimedia.org/w/api.php?format=json&formatversion=2&origin=*&action=query";
 const plain = html => new DOMParser().parseFromString(html || "", "text/html").body.textContent.replace(/\s+/g, " ").trim();
 // Nome da mostrare nel credito: l'attribuzione richiesta dall'autore (|attribution= nel template della licenza), se
 // c'è; altrimenti il campo autore. Se il campo autore ha dei link (es. un riquadro con nome, contatti e istruzioni,
@@ -2178,9 +2188,8 @@ async function fillPhoto(root) {
       const md = r.query.pages[0].imageinfo?.[0]?.extmetadata || {};
       const author = creditName(md), lic = plain(md.LicenseShortName?.value);
       const a = box.querySelector(".credit");
-      a.textContent = author ? `${author}${lic ? ` (${lic})` : ""}` : lic;
+      setCredit(a, author, lic);
       a.href = "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(box.dataset.commons);
-      a.title = a.textContent;
     }
     if (box.dataset.pano) {   // Panoramax: autore (dai "providers") e licenza della foto
       const r = await fetch(`https://api.panoramax.xyz/api/search?ids=${encodeURIComponent(box.dataset.pano)}`).then(r => r.json());
@@ -2191,9 +2200,7 @@ async function fillPhoto(root) {
         const prov = f.providers || [], who = prov.filter(p => !p.id).map(p => p.name).filter(Boolean);
         const author = (who.length ? who : prov.map(p => p.name).filter(Boolean).slice(0, 1)).join(", ");
         const lic = String(f.properties?.license || "").replace(/^CC-/, "CC ").replace(/-(\d)/, " $1");   // CC-BY-SA-4.0 -> CC BY-SA 4.0
-        const a = box.querySelector(".credit");
-        a.textContent = author ? `${author}${lic ? ` (${lic})` : ""}` : lic;
-        a.title = a.textContent;
+        setCredit(box.querySelector(".credit"), author, lic);
       }
     }
   } catch (e) { if (box.dataset.cat && box.querySelector("img").hidden) box.remove(); }
@@ -2256,7 +2263,7 @@ function card(p, pos) {
   // foto con i crediti in sovrimpressione (riempiti subito, o da fillPhoto per Commons); se non si carica sparisce
   const photo = img || cat ? `<div class="photo"${img?.commons ? ` data-commons="${esc(img.commons)}"` : ""}${img?.pano ? ` data-pano="${esc(img.pano)}"` : ""}${cat ? ` data-cat="${esc(cat)}"` : ""}>
       <img ${img ? `src="${esc(img.src)}"` : "hidden"} alt="" loading="lazy" onerror="this.parentNode.remove()" onload="this.parentNode.classList.add('loaded')">
-      <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}>${img?.fs && img.credit ? FOTOSHI_ICON : ""}${esc(img?.credit || "")}</a></div>` : "";
+      <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}${img?.author ? ` title="${esc(creditText(img.author, img.lic))}"` : ""}>${img?.fs && img.author ? FOTOSHI_ICON : ""}${img?.author ? creditHtml(img.author, img.lic) : ""}</a></div>` : "";
   const genusIssue = !WORLD && ["genus", "genus_lowercase", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
   const rows = ROWS.filter(([k]) => p[k] && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
