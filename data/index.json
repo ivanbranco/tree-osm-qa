@@ -574,11 +574,10 @@
   },
   "slaskie": {
    "count": 118724,
-   "diam": "mm",
-   "errors": 203,
+   "errors": 222,
    "name": "Slesia",
-   "sha1": "c2a41a95a3f8b10daf1753b3ee54938b6d54ea06",
-   "updated": "2026-11-12T02:40:07Z"
+   "sha1": "f12a10387859ff67189281199e2879b04a8a8b67",
+   "updated": "2026-11-12T15:58:01Z"
   },
   "slovenia": {
    "count": 51263,
