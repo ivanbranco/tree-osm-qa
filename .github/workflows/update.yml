@@ -17,6 +17,7 @@ on:
           - irlanda
           - austria
           - albania
+          - andorra
           - bosnia-erzegovina
           - bulgaria
           - croazia
@@ -25,14 +26,19 @@ on:
           - grecia
           - kosovo
           - lettonia
+          - liechtenstein
           - lituania
           - lussemburgo
           - macedonia-del-nord
+          - malta
+          - monaco
           - montenegro
           - portogallo
           - romania
+          - san-marino
           - serbia
           - slovenia
+          - vaticano
           - washington
           - alta-austria
           - bassa-austria
