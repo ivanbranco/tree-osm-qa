@@ -300,6 +300,7 @@ const I18N = {
       importUndoc: v => `Albero da un import non documentato (source=${v})`,
       importDoc: v => `Albero importato (source=${v}):`, importDocLink: "documentazione dell'import",
       masafSize: (c, s, n) => `La circonferenza (${c}) raggiunge la soglia MASAF per ${n} (${s}): potrebbe essere un albero monumentale`,
+      feetInchSpace: (k, v, fix) => `${k}=${v}: la wiki indica di scrivere piedi e pollici senza spazi (${fix})`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,
       notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
       // issue #25; seeds(t): HTML delle parole che aprono la foto dei semi (south: emisfero australe)
@@ -315,6 +316,7 @@ const I18N = {
       circumference: "Circonferenza > 43 m", height: "Altezza > 116,22 m", crown: "Diametro chioma > 60,4 m",
       comma: "Virgola decimale (circumference, height, diameter_crown, diameter)",
       diameter_unit: "diameter senza unità troppo piccolo per i millimetri",
+      unit_format: "Unità di misura scritta in forma non standard (8 metres, 2 M, 150cm, 30 ft)",
       circ_diam_mismatch: "circumference e diameter non coincidono",
       trunk_overlap: "Tronco sovrapposto a quello di un altro albero", same_point: "Nello stesso punto di un altro albero",
       number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
@@ -362,6 +364,7 @@ const I18N = {
       too_stocky: "Soglia: circonferenza più di 3 volte l'altezza. Gli alberi reali più tozzi, come gli olivi monumentali, hanno un rapporto altezza/circonferenza intorno a 0,5.",
       comma: "In OSM il separatore decimale è il punto (2.9, non 2,9).",
       diameter_unit: "Senza unità, diameter è in millimetri (wiki OSM, Key:diameter): questo valore sarebbe un tronco di meno di 1 cm. Se è in metri, va scritta l'unità (es. diameter=0.5 m); meglio ancora usare circumference, in metri. Il valore non è usato per disegnare il tronco.",
+      unit_format: "In OSM un'unità di misura si scrive dopo il numero, separata da uno spazio e in minuscolo (150 cm), e piedi e pollici con gli apici ' e \", senza spazi: 30', 7'4\" (wiki OSM, Map features/Units; come Osmose, anche 30 ft è segnalato). Per i metri l'unità si può omettere, tranne in diameter, dove senza unità il valore è in millimetri. Il valore è comunque usato per disegnare l'albero.",
       trunk_overlap: "Il tronco (da circumference o diameter) si sovrappone a quello di un altro albero, o contiene un altro albero. Se sono lo stesso albero mappato due volte, va tenuto un solo nodo; se sono i tronchi di un unico albero, un solo nodo con multi_stemmed=*.",
       same_point: "Due nodi natural=tree con le stesse identiche coordinate. Se sono lo stesso albero mappato due volte, va tenuto un solo nodo.",
       circ_diam_mismatch: "La circonferenza dovrebbe essere circa π × diametro: segnalato uno scarto oltre il 20%. diameter senza unità è in millimetri, circumference in metri. Per disegnare il tronco si usa circumference.",
@@ -406,6 +409,7 @@ const I18N = {
       height_species: (v, sp) => `altezza > ${v} (limite per ${sp})`,
       comma: t => `virgola decimale in ${t}`,
       diameter_unit: v => `diameter=${v} senza unità: in millimetri il tronco sarebbe di meno di 1 cm`,
+      unit_format: (k, v, fix) => `${k}=${v}: forma standard ${fix.join(" oppure ")}`,
       circ_diam_mismatch: (c, d, cd) => `circumference=${c}, ma diameter=${d} corrisponde a una circonferenza di ${cd}`,
       trunk_overlap: (id, d, s, k) => k === "i" ? `il nodo è dentro il tronco del nodo ${id} (distanza ${d}, raggio del tronco ${s})`
         : k === "c" ? `il tronco contiene il nodo ${id} (distanza ${d}, raggio del tronco ${s})`
@@ -551,6 +555,7 @@ const I18N = {
       importUndoc: v => `Tree from an undocumented import (source=${v})`,
       importDoc: v => `Imported tree (source=${v}):`, importDocLink: "import documentation",
       masafSize: (c, s, n) => `The circumference (${c}) reaches the MASAF threshold for ${n} (${s}): it could be a monumental tree`,
+      feetInchSpace: (k, v, fix) => `${k}=${v}: the wiki writes feet and inches without spaces (${fix})`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,
       notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
       ginkgoSex: (south, seeds) => `If this ginkgo is a female tree, sex=female could be added. ${south ? "October to May" : "April to November"} is a good time to check: females bear paired ovules in spring and fleshy, ${seeds("foul-smelling seeds")} that fall in autumn, often lying under the canopy.`,
@@ -565,6 +570,7 @@ const I18N = {
       circumference: "Circumference > 43 m", height: "Height > 116.22 m", crown: "Crown diameter > 60.4 m",
       comma: "Decimal comma (circumference, height, diameter_crown, diameter)",
       diameter_unit: "diameter without unit too small for millimetres",
+      unit_format: "Unit written in a non-standard form (8 metres, 2 M, 150cm, 30 ft)",
       circ_diam_mismatch: "circumference and diameter do not match",
       trunk_overlap: "Trunk overlapping another tree's trunk", same_point: "At the same point as another tree",
       number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
@@ -610,6 +616,7 @@ const I18N = {
       too_stocky: "Threshold: circumference more than 3 times the height. The stockiest real trees, like monumental olive trees, have a height/circumference ratio around 0.5.",
       comma: "In OSM the decimal separator is the point (2.9, not 2,9).",
       diameter_unit: "Without a unit, diameter is in millimetres (OSM wiki, Key:diameter): this value would be a trunk under 1 cm. If it is in metres, the unit must be written (e.g. diameter=0.5 m); better still, use circumference, in metres. The value is not used to draw the trunk.",
+      unit_format: "In OSM a unit is written after the number, separated by a space and in lowercase (150 cm), and feet and inches with the ' and \" marks, without spaces: 30', 7'4\" (OSM wiki, Map features/Units; as in Osmose, 30 ft is reported too). For metres the unit can be omitted, except in diameter, where without a unit the value is in millimetres. The value is used to draw the tree anyway.",
       trunk_overlap: "The trunk (from circumference or diameter) overlaps another tree's trunk, or contains another tree. If they are the same tree mapped twice, keep only one node; if they are the trunks of a single tree, one node with multi_stemmed=*.",
       same_point: "Two natural=tree nodes with exactly the same coordinates. If they are the same tree mapped twice, keep only one node.",
       circ_diam_mismatch: "The circumference should be about π × diameter: a difference over 20% is reported. diameter without a unit is in millimetres, circumference in metres. The trunk is drawn from circumference.",
@@ -654,6 +661,7 @@ const I18N = {
       height_species: (v, sp) => `height > ${v} (limit for ${sp})`,
       comma: t => `decimal comma in ${t}`,
       diameter_unit: v => `diameter=${v} without unit: in millimetres the trunk would be under 1 cm`,
+      unit_format: (k, v, fix) => `${k}=${v}: standard form ${fix.join(" or ")}`,
       circ_diam_mismatch: (c, d, cd) => `circumference=${c}, but diameter=${d} corresponds to a circumference of ${cd}`,
       trunk_overlap: (id, d, s, k) => k === "i" ? `the node is inside the trunk of node ${id} (distance ${d}, trunk radius ${s})`
         : k === "c" ? `the trunk contains node ${id} (distance ${d}, trunk radius ${s})`
@@ -1281,7 +1289,7 @@ map.on("load", async () => {
   const ISSUE_OPTS = Object.entries(L.issueOpts);
   // gruppi del menu errori: i codici non elencati finiscono in "Altri tag"
   const ISSUE_GROUPS = [
-    ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "circ_diam_mismatch", "trunk_overlap", "number_invalid", "circumference_species", "height_species",
+    ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "unit_format", "circ_diam_mismatch", "trunk_overlap", "number_invalid", "circumference_species", "height_species",
       "too_slender", "too_slender_species", "too_stocky"]],
     ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_common_name",
       "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "underscore", "tag_in_value",
@@ -2010,6 +2018,8 @@ const issueBase = (i, p) => {
     case "height_species": return T[i](fmtM(p.lim_h), p.species);
     case "comma": return T[i](list(p.comma));
     case "diameter_unit": return T[i](p.diameter);
+    case "unit_format":          // unit_fix: righe "chiave|valore|correzione|…" (unit_fixes in fetch_trees.py)
+      return String(p.unit_fix || "").split("\n").filter(Boolean).map(x => { const [k, v, ...fix] = x.split("|"); return T[i](k, v, fix); }).join("\n");
     case "circ_diam_mismatch": return T[i](p.circumference, p.diameter, fmtM(p.cd_circ));   // cd_circ: fetch_trees.py
     case "trunk_overlap":        // to_nodes: "id:distanza:raggi:tipo;…" (neighbour_checks in fetch_trees.py)
       return String(p.to_nodes || "").split(";").filter(Boolean).map(x => { const [id, d, s, k] = x.split(":"); return T[i](id, fmtM(d), fmtM(s), k); }).join("\n");
@@ -2364,6 +2374,10 @@ const MONOTYPIC = {
 const SEQUOIA_NOTE = new Set(["IT", "FR", "BE", "LU", "CH", "MC", "GB", "IE", "US", "CA", "AU", "NZ"]);
 function hints(p, pos) {
   const H = L.hint, out = [], codes = String(p.issues || "");
+  // piedi e pollici con spazi (7' 4"): la wiki li scrive attaccati, ma non è un errore (anche per Osmose)
+  for (const k of ["circumference", "height", "diameter_crown", "diameter"])
+    if (/^\s*\d+\s*'\s+\d+(?:\.\d+)?\s*"\s*$|^\s*\d+\s+'(?:\s*\d+(?:\.\d+)?\s*")?\s*$/.test(p[k] || ""))
+      out.push(H.feetInchSpace(k, p[k], String(p[k]).replace(/\s+/g, "")));
   if (p.stump) return out;
   if (p.hint_sp) out.push(H.wdSpecies(p.hint_sp));
   if (p.hint_sn) out.push(H.speciesFromWd(p.hint_sn));

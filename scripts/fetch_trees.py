@@ -1077,11 +1077,65 @@ def default_crown_r(t):
     return DEFAULT_CROWN_R
 
 
-def num(v):
+# --- misure con unità (https://wiki.openstreetmap.org/wiki/Map_features/Units) ---
+# Unità nella forma corretta di OSM (numero, spazio, unità minuscola: "150 cm") e fattore per i metri; ft e in si
+# leggono ma, come in Osmose, si propone di scriverli con ' e " (30', 7'4")
+LEN_UNITS = {"m": 1, "cm": 0.01, "mm": 0.001, "km": 1000, "ft": 0.3048, "in": 0.0254}
+# Altre scritture comprensibili: il valore si usa, ma il check unit_format propone la forma corretta
+LEN_ALIASES = {"metre": "m", "metres": "m", "meter": "m", "meters": "m", "mt": "m", "mtr": "m",
+               "feet": "ft", "foot": "ft", "inch": "in", "inches": "in"}
+LEN_RE = re.compile(r"^\s*([+-]?\d+(?:[.,]\d+)?)(\s*)([a-zA-Z]*)\s*$")
+# piedi e pollici: 7'4" (forma della wiki); solo pollici: 5". Con le parole (7 ft 4 in, 7 feet 4 inches) o con apici
+# diversi da ' e " (7′4″, 7’4”, 7'4'') il valore si usa ma è segnalato. Gli spazi (7' 4") non sono un errore (anche
+# Osmose li accetta): index.html dà un consiglio
+FEET_INCH = re.compile(r"^\s*(?:(\d+)\s*(?:'|’|′|ft|feet|foot)\s*)?(?:(\d+(?:[.,]\d+)?)\s*(?:\"|''|”|″|in|inch|inches)\s*)?$",
+                       re.I)
+WRONG_QUOTES = re.compile(r"’|′|”|″|''|[a-zA-Z]")
+
+
+def parse_length(v, default=1.0):
+    """Misura in metri da un valore OSM, e la forma corretta da proporre se è scritta in modo non standard.
+    default: metri per unità quando l'unità manca (1 = metri; 0.001 per diameter, in millimetri).
+    Restituisce (metri, correzioni): correzioni è [] se la forma è corretta, altrimenti le scritture da proporre
+    (es. "8 metres" -> ["8", "8 m"]; "2 M" su diameter -> ["2000", "2 m"]; 7′4″ -> ['7'4"']).
+    (None, []) se il valore non è leggibile."""
     if v is None:
-        return None
-    m = re.match(r"^\s*(-?\d+(?:[.,]\d+)?)\s*(m)?\s*$", str(v))
-    return float(m.group(1).replace(",", ".")) if m else None
+        return None, []
+    s = str(v)
+    if m := LEN_RE.match(s):
+        n, space, unit = m.group(1).replace(",", "."), m.group(2), m.group(3)
+        if not unit:
+            return float(n) * default, []          # solo numero (l'eventuale virgola è il check comma)
+        canon = unit.lower()
+        canon = LEN_ALIASES.get(canon, canon)
+        if canon not in LEN_UNITS:
+            return None, []
+        x = float(n) * LEN_UNITS[canon]
+        # piedi e pollici con le lettere (30 ft, 5 in): come Osmose, si propone 30' e 5"
+        if canon in ("ft", "in"):
+            return x, [n + ("'" if canon == "ft" else '"')]
+        if unit == canon and space == " ":
+            return x, []
+        # forma corretta con l'unità e, se c'è, quella senza unità (metri; millimetri per diameter):
+        # "8 metres" -> 8 oppure 8 m; diameter "2 M" -> 2000 oppure 2 m
+        fix = [f"{n} {canon}"]
+        if canon == "m" or LEN_UNITS[canon] == default:
+            fix.insert(0, f"{x / default:.10g}")
+        return x, fix
+    m = FEET_INCH.match(s)
+    if m and (m.group(1) or m.group(2)):
+        ft_, inch = int(m.group(1) or 0), float((m.group(2) or "0").replace(",", "."))
+        if not WRONG_QUOTES.search(s):
+            return ft_ * 0.3048 + inch * 0.0254, []
+        i = (m.group(2) or "").replace(",", ".")
+        fix = (f"{m.group(1)}'" if m.group(1) else "") + (f'{i}"' if i else "")
+        return ft_ * 0.3048 + inch * 0.0254, [fix]
+    return None, []
+
+
+def num(v):
+    """Misura in metri (vedi parse_length); None se manca o non è leggibile."""
+    return parse_length(v)[0]
 
 
 UUID = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -1099,9 +1153,8 @@ NUMERIC_TAGS = ("circumference", "height", "diameter_crown", "diameter")
 
 
 # diameter: senza unità è in millimetri (https://wiki.openstreetmap.org/wiki/Key:diameter), a differenza di
-# circumference e diameter_crown, che sono in metri
-DIAM_UNITS = {"mm": 0.001, "cm": 0.01, "m": 1, "metre": 1, "metres": 1, "meter": 1, "meters": 1,
-              "ft": 0.3048, "feet": 0.3048, "foot": 0.3048, "in": 0.0254, "inch": 0.0254, "inches": 0.0254}
+# circumference, height e diameter_crown, che sono in metri
+DIAM_DEFAULT = 0.001
 DIAM_RE = re.compile(r"^\s*(\d+(?:[.,]\d+)?)\s*([a-zA-Z]*)\s*$")
 DIAM_MM_MIN = 10   # sotto: diameter senza unità troppo piccolo per i millimetri (tronco < 1 cm), check diameter_unit
 # circumference e diameter insieme: segnalati se la circonferenza si scosta più del 20% da π × diametro (check
@@ -1121,14 +1174,22 @@ def diameter_small(t):
 
 def diameter_m(t):
     """Diametro del tronco in metri da diameter=*: senza unità in mm, altrimenti con l'unità scritta
-    (mm, cm, m, ft, in). None se manca, non è leggibile o è troppo piccolo per i millimetri (diameter_small)."""
-    if "diameter" not in t:
+    (vedi parse_length). None se manca, non è leggibile o è troppo piccolo per i millimetri (diameter_small)."""
+    if "diameter" not in t or diameter_small(t):
         return None
-    m =DIAM_RE.match(str(t.get("diameter", "")))
-    if not m or diameter_small(t):
-        return None
-    f = DIAM_UNITS.get(m.group(2).lower() or "mm")
-    return float(m.group(1).replace(",", ".")) * f if f else None
+    return parse_length(t["diameter"], DIAM_DEFAULT)[0]
+
+
+def unit_fixes(t):
+    """Tag numerici con l'unità scritta in modo non standard ma comprensibile (8 metres, 2 M, 150cm, 12 mt, 7′4″):
+    [(chiave, valore, [correzioni])]. Il valore è comunque usato per disegnare l'albero."""
+    out = []
+    for k in NUMERIC_TAGS:
+        if k in t and not bad_number(t[k]):
+            v, fix = parse_length(t[k], DIAM_DEFAULT if k == "diameter" else 1)
+            if fix:
+                out.append((k, t[k], fix))
+    return out
 
 
 def circ_value(t):
@@ -1146,24 +1207,16 @@ def comma_tags(t):
 
 
 # --- check su numeri, collegamenti e fonti monumentali ---
-UNIT = r"(?:m|metres?|meters?|cm|mm|km|ft|feet|foot|in|inch|inches|'|\")"
-NUM_UNIT = re.compile(rf"^\s*([+-]?\d+(?:[.,]\d+)?)\s*{UNIT}?\s*$", re.I)
-FEET_INCH = re.compile(r"^\s*(\d+)\s*(?:'|ft)\s*(?:(\d+)\s*(?:\"|in)?)?\s*$", re.I)
 WIKIDATA = re.compile(r"^Q[1-9]\d*$")
 UUID_START = re.compile(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}(?:&.*)?$")
 URL = re.compile(r"^https?://\S+$", re.I)
 
 
 def bad_number(v):
-    """Vero se il valore non è un numero (con o senza unità: le unità non sono un errore) oppure è <= 0.
-    Segnala quindi testo, intervalli, elenchi e valori nulli o negativi."""
-    m = NUM_UNIT.match(str(v))
-    if m:
-        return float(m.group(1).replace(",", ".")) <= 0
-    m = FEET_INCH.match(str(v))
-    if m:
-        return int(m.group(1)) + int(m.group(2) or 0) / 12 <= 0
-    return True
+    """Vero se il valore non è una misura leggibile (numero con o senza unità, vedi parse_length) oppure è <= 0.
+    Segnala quindi testo, intervalli, elenchi, unità sconosciute e valori nulli o negativi."""
+    x = parse_length(v)[0]
+    return x is None or x <= 0
 
 
 def bad_numeric_tags(t):
@@ -1437,6 +1490,8 @@ def checks(t, pos):
         flag("comma", comma=";".join(comma))
     if diameter_small(t):   # come comma, vale anche se c'è circumference e diameter non si usa
         flag("diameter_unit")
+    if uf := unit_fixes(t):  # righe "chiave|valore|correzione|…" separate da "\n" (i valori possono contenere ";")
+        flag("unit_format", unit_fix="\n".join("|".join([k, v, *fix]) for k, v, fix in uf))
     if "circumference" in t and c and c > 0 and (d := diameter_m(t)) and abs(c / (math.pi * d) - 1) > CIRC_DIAM_TOL:
         flag("circ_diam_mismatch", cd_circ=round(math.pi * d, 2))   # circonferenza che corrisponde a diameter
     lim = species_limit(t) or {}  # limite per specie: solo se non è già scattato quello generico
