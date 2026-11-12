@@ -2520,7 +2520,7 @@ const cmpD = v => v < 0.1 ? cmpM(v) : fmtM(Math.round(v * 100) / 100);
 // Disegno SVG: una sola scala metri→pixel, la più grande con cui entrano l'oggetto più alto e la somma delle larghezze
 // (ogni elemento occupa almeno lo spazio della sua etichetta). Restituisce anche quali tronchi sono sotto 1 px
 function compareSvg(d, label) {
-  const W = 340, PAD = 8, TOP = 18, PLOT = 168, GY = TOP + PLOT, GAP = 8, H = GY + 64;
+  const W = 340, PAD = 8, TOP = 18, PLOT = 168, GAP = 8;
   const dia = d.c / Math.PI, diaT = d.h / d.r0 / Math.PI;
   const sp = d.sp.length <= 20 ? d.sp : (s => s.length <= 22 ? s : s.slice(0, 21) + "…")(d.sp.replace(/^(\S)\S+ /, "$1. "));
   const items = [
@@ -2530,12 +2530,15 @@ function compareSvg(d, label) {
     { k: "typ", w: diaT, h: d.h, min: 104, t: d.sp ? [L.cmp.typicalFor, sp, "⌀ " + cmpD(diaT)] : [L.cmp.typical, L.cmp.osmMedian, "⌀ " + cmpD(diaT)] }
   ].filter(Boolean);
   const room = W - 2 * PAD, total = s => items.reduce((a, x) => a + Math.max(x.w * s, x.min), 0) + GAP * (items.length - 1);
-  let s = PLOT / Math.max(...items.map(x => x.h));
+  const tallest = Math.max(...items.map(x => x.h));
+  let s = PLOT / tallest;
   if (total(s) > room) {   // troppo largo (tronchi tozzi): la scala più grande che entra, per bisezione
     let lo = 0, hi = s;
     for (let n = 0; n < 40; n++) { const mid = (lo + hi) / 2; if (total(mid) > room) hi = mid; else lo = mid; }
     s = lo;
   }
+  // il disegno è alto quanto l'oggetto più alto alla scala scelta: con la scala ridotta non resta spazio vuoto sopra
+  const GY = TOP + Math.ceil(tallest * s), H = GY + 64;
   const f = v => +v.toFixed(2), thin = {};
   let x = PAD + (room - total(s)) / 2, out = "";
   for (const it of items) {
