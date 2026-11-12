@@ -28,7 +28,7 @@ Trees with at least one error have a red outline. The checks are:
 * Underscore (`_`) in `species=*` or `genus=*` instead of a space
 * Tag written inside a value: `=` in `species`, `genus`, `taxon`, `name`, `start_date`, `ref:masaf` or `ref:rami` (e.g. `genus=leaf_type=broadleaved`). Links (`image`, `website`, `url`) are not checked, because `=` is normal in addresses. With `=` in `species` or `genus` the checks on the form of the name are not repeated, since they would be triggered by chance
 * `species=*` or `genus=*` in a non-Latin script (e.g. `genus=череша`): scientific names are written in the Latin script, the name in the local language goes in `species:xx`. Accented Latin letters are not reported. As with `=`, the checks on the form of the name are not repeated on that tag and `genus` is not compared with `species`
-* `species=*` made of a single word
+* `species=*` made of a single word. If the word is a genus of the wiki list, in any case (`species=magnolia`), the card says so and proposes `genus=Magnolia` without `species`
 * `genus=*` made of more than one word. The leading hybrid sign does not count: `× Sycoparrotia` (intergeneric hybrid genus) is a single word, and it does not count for the capital letter and for the comparison with `species` either
 * `species=*` or `genus=*` starting with a lowercase letter (for `species` only with more than one word: with a single word the previous error is enough)
 * `circumference=*`, `height=*`, `diameter_crown=*` or `diameter=*` with a comma as decimal separator (`2,9` instead of `2.9`)

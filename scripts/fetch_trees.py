@@ -1585,7 +1585,9 @@ def checks(t, pos):
     spf = None if "species" in eq or "species" in nl else sp   # species per i check sulla forma del nome
     one_word = spf is not None and len(spf.split()) == 1
     if one_word:
-        flag("species")
+        # se la parola è un genere della lista wiki (es. species=magnolia), la scheda propone genus=Magnolia
+        gr = GENUS_REF.get(spf.strip().lstrip("× ").casefold())
+        flag("species", **({"sp_as_genus": gr[0]} if gr else {}))
     # con una sola parola basta l'errore precedente: la correzione è la stessa, minuscola o no
     if spf is not None and not one_word and spf.strip()[:1].islower():
         flag("species_lowercase")

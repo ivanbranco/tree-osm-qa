@@ -511,7 +511,8 @@ const I18N = {
       leaf_type_mismatch: (v, f, e) => `leaf_type=${v}, ma per ${f} la lista wiki indica ${e}`,
       leaf_cycle_mismatch: (v, f, e) => `leaf_cycle=${v}, ma per ${f} la lista wiki indica ${e}`,
       genus_mismatch: (g, sp) => `genus (${g}) diverso dal genere della species (${sp})`,
-      species: "species di una sola parola", species_lowercase: "species con iniziale minuscola",
+      species: "species di una sola parola", species_as_genus: (sp, g) => `species=${sp} è un genere: usare genus=${g} senza species`,
+      species_lowercase: "species con iniziale minuscola",
       genus_lowercase: "genus con iniziale minuscola", circumference: "circonferenza > 43 m", height: "altezza > 116,22 m",
       genus: "genus con più parole", leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" },
     genusOf: g => `il genere ${g}`, or: " o ",
@@ -777,7 +778,8 @@ const I18N = {
       leaf_type_mismatch: (v, f, e) => `leaf_type=${v}, but the wiki list gives ${e} for ${f}`,
       leaf_cycle_mismatch: (v, f, e) => `leaf_cycle=${v}, but the wiki list gives ${e} for ${f}`,
       genus_mismatch: (g, sp) => `genus (${g}) differs from the genus of species (${sp})`,
-      species: "single-word species", species_lowercase: "species starting lowercase",
+      species: "single-word species", species_as_genus: (sp, g) => `species=${sp} is a genus: use genus=${g} without species`,
+      species_lowercase: "species starting lowercase",
       genus_lowercase: "genus starting lowercase", circumference: "circumference > 43 m", height: "height > 116.22 m",
       genus: "genus with more than one word", leaf_type: "invalid leaf_type", leaf_cycle: "invalid leaf_cycle" },
     genusOf: g => `the genus ${g}`, or: " or ",
@@ -2239,6 +2241,7 @@ const issueBase = (i, p) => {
     case "leaf_type_mismatch": return T[i](p.leaf_type, expFor(p), p.exp_lt);
     case "leaf_cycle_mismatch": return T[i](p.leaf_cycle, expFor(p), expLc(p));
     case "genus_mismatch": return T[i](p.genus, p.species);
+    case "species": return p.sp_as_genus ? T.species_as_genus(p.species, p.sp_as_genus) : T[i];   // sp_as_genus: fetch_trees.py
     default: return T[i] || i;
   }
 };
