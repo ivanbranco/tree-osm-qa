@@ -63,6 +63,7 @@
   .leg li{position:relative}
   .leg .why{flex:none}
   .leg .toggle{cursor:pointer}   /* testo delle voci che si accendono e spengono con un clic (frutti) */
+  .leg .toggle .mode{text-decoration:underline dotted 1px;text-decoration-color:color-mix(in srgb,currentColor 45%,transparent);text-underline-offset:3px}   /* la modalità tra parentesi */
   .leg li.off{opacity:.45}
   .leg li.off [data-i18n]{text-decoration:line-through}
   .leg .why .tip{position:fixed;right:auto;box-sizing:border-box}   /* posizione e larghezza dallo script */
@@ -1169,7 +1170,13 @@ map.on("load", async () => {
       map.setPaintProperty("fruit" + t.suf, "circle-opacity", op);
       map.setPaintProperty("fruit" + t.suf, "circle-stroke-opacity", op);
     }
-    label.textContent = { season: L.legFruit, always: L.legFruitAlways, off: L.legFruitOff }[fruitMode];
+    // la modalità tra parentesi va in uno span a parte, sottolineato a tratti: si capisce che è cliccabile
+    const txt = { season: L.legFruit, always: L.legFruitAlways, off: L.legFruitOff }[fruitMode];
+    const i = txt.lastIndexOf("(");
+    const mode = document.createElement("span");
+    mode.className = "mode";
+    mode.textContent = i < 0 ? txt : txt.slice(i);
+    label.replaceChildren(i < 0 ? "" : txt.slice(0, i), mode);
     fruitLi.classList.toggle("off", fruitMode === "off");
   };
   if (fruitLi) {
