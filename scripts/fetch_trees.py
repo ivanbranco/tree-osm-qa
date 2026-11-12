@@ -1461,6 +1461,64 @@ def undocumented_tags(t):
     return [(k, t[k]) for k in UNDOC_TAGS if k in t and (k, t[k].strip()) not in UNDOC_IGNORE]
 
 
+# --- chiavi scritte male (issue #32): Species, heigth, leaftype, circumfence ---
+# Chiavi note degli alberi: una chiave che non è tra queste ma ne differisce di poco è segnalata (check key_typo)
+KNOWN_KEYS = ("natural", "species", "genus", "taxon", "leaf_type", "leaf_cycle", "denotation", "circumference",
+              "height", "diameter_crown", "diameter", "start_date", "name", "wikidata", "wikipedia",
+              "wikimedia_commons", "image", "species:wikidata", "species:wikipedia", "genus:wikidata",
+              "genus:wikipedia", "taxon:wikidata", "taxon:wikipedia", "ref:masaf", "masaf:criteria", "ref:rami",
+              "ref:monumentaltrees", "heritage:operator", "panoramax", "website", "multi_stemmed", "sex",
+              "sacred_tree", "religion", "operator", "source", "description", "check_date", "survey:date",
+              "protected", "image:fotoshi", "ref:zapis", "ref:icnf")
+KNOWN_KEY_SET = set(KNOWN_KEYS)
+NUMBERED_KEY = re.compile(r"[:_ ]?\d+$")   # image2, panoramax:1: varianti numerate, non errori
+
+
+def key_tolerance(k):
+    """Differenze ammesse rispetto a una chiave nota (distanza di Damerau-Levenshtein, oltre al maiuscolo): nessuna
+    per le chiavi corte (name, sex), dove una lettera fa un'altra parola; 1 da 5 lettere; 2 da 12 lettere
+    (circumfence, diameter_crwn), dove due lettere non bastano a fare un'altra chiave."""
+    return 0 if len(k) < 5 else 1 if len(k) < 12 else 2
+
+
+def osa_distance(a, b, limit):
+    """Distanza tra a e b contando come un solo errore lo scambio di due lettere vicine (heigth, Damerau-Levenshtein
+    ristretta), o limit + 1 se è maggiore di limit."""
+    if abs(len(a) - len(b)) > limit:
+        return limit + 1
+    d = [list(range(len(b) + 1))] + [[i] + [0] * len(b) for i in range(1, len(a) + 1)]
+    for i in range(1, len(a) + 1):
+        for j in range(1, len(b) + 1):
+            d[i][j] = min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] != b[j - 1]))
+            if i > 1 and j > 1 and a[i - 1] == b[j - 2] and a[i - 2] == b[j - 1]:
+                d[i][j] = min(d[i][j], d[i - 2][j - 2] + 1)
+        if min(d[i]) > limit:
+            return limit + 1
+    return d[-1][-1]
+
+
+@functools.lru_cache(maxsize=None)
+def key_typo(k):
+    """Chiave nota che k probabilmente voleva scrivere, o None. Non sono errori le chiavi note, le loro sottochiavi
+    (species:wikipedia:it, circumference:note) e le varianti numerate (image2, panoramax:1)."""
+    if k in KNOWN_KEY_SET or NUMBERED_KEY.sub("", k) in KNOWN_KEY_SET:
+        return None
+    if any(k.startswith(known + ":") for known in KNOWN_KEYS):
+        return None
+    low = k.casefold()
+    best, dist = None, 99
+    for known in KNOWN_KEYS:
+        d = osa_distance(low, known, key_tolerance(known))
+        if d <= key_tolerance(known) and d < dist:
+            best, dist = known, d
+    return best
+
+
+def key_typos(t):
+    """Chiavi scritte male: [(chiave, chiave nota, valore)]."""
+    return [(k, kn, v) for k, v in t.items() if (kn := key_typo(k))]
+
+
 def slenderness(t):
     """height / circumference (anche da diameter); None per i ceppi o se manca una delle due misure."""
     if t.get("natural") == "tree_stump":
@@ -1608,6 +1666,8 @@ def checks(t, pos):
         flag("masaf_removed", masaf_rm="\n".join(f"{c}|{r}|{d}" for c, r, d in rm))
     if undoc := undocumented_tags(t):  # i tag non sono in KEEP: il valore va nella proprietà tag_<chiave>
         flag("undocumented_tag", **{"tag_" + k: v for k, v in undoc})
+    if kt := key_typos(t):              # righe "chiave|chiave nota|valore" separate da "\n" (il valore può contenere "|")
+        flag("key_typo", kt_keys="\n".join(f"{k}|{kn}|{v}" for k, kn, v in kt))
     return issues, props
 
 
