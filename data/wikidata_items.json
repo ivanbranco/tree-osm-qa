@@ -3596,6 +3596,7 @@
 ],
 "heritage": [],
 "image": "Queen Mary's Thorn.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -5833,6 +5834,7 @@
 ],
 "heritage": [],
 "image": "2780theHardyTreeOldStPancrasChurchyard.jpg",
+"mon": true,
 "taxa": [
 "Q156907"
 ],
@@ -7514,6 +7516,7 @@
 ],
 "heritage": [],
 "image": "Zrośnięte sosny, Chorzów Batory, Slezské vojvodství, Polsko 01.jpg",
+"mon": true,
 "taxa": [
 "Q12024"
 ],
@@ -10614,6 +10617,7 @@
 ],
 "heritage": [],
 "image": "Drzewo Pętla Bibela.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -14285,6 +14289,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -14748,6 +14753,7 @@
 ],
 "heritage": [],
 "image": "Fuck tree May 2025.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -15052,6 +15058,7 @@
 ],
 "heritage": [],
 "image": "The oldest tree on Argyle Street (geograph 6000586).jpg",
+"mon": true,
 "taxa": [
 "Q156907"
 ],
@@ -15251,6 +15258,7 @@
 ],
 "heritage": [],
 "image": "Siemianowice topola kanadyjska pl. Skrzeka i Wójcika (4).jpg",
+"mon": true,
 "taxa": [
 "Q149622"
 ],
@@ -17910,6 +17918,7 @@
 ],
 "heritage": [],
 "image": "Białowieski Park Narodowy Dąb Jagiełły 2 by Maire.JPG",
+"mon": true,
 "taxa": [
 "Q12004"
 ],
@@ -18471,6 +18480,7 @@
 ],
 "heritage": [],
 "image": "Darley Oak 2020.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -20139,6 +20149,7 @@
 ],
 "heritage": [],
 "image": "KettsOak20141031.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -26706,6 +26717,7 @@
 ],
 "heritage": [],
 "image": "Yewspread1.jpg",
+"mon": true,
 "taxa": [
 "Q110767650"
 ],
@@ -27806,6 +27818,7 @@
 ],
 "heritage": [],
 "image": "Suffragette Oak full length.jpg",
+"mon": true,
 "taxa": [
 "Q857075"
 ],
@@ -27872,6 +27885,7 @@
 ],
 "heritage": [],
 "image": "Gilwell Oak (5948293396).jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -30298,6 +30312,7 @@
 ],
 "heritage": [],
 "image": "The Oak At The Gate Of The Dead.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -30570,6 +30585,7 @@
 ],
 "heritage": [],
 "image": "Bicycle tree, brig oturk.jpg",
+"mon": true,
 "taxa": [
 "Q156944"
 ],
@@ -30587,6 +30603,7 @@
 ],
 "heritage": [],
 "image": "Brimmon Oak (geograph 5958816).jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -33998,6 +34015,8 @@
 ],
 "heritage": [],
 "image": "Sycamore Gap Tree arbre.jpg",
+"mon": true,
+"mt": "gbr/england/northumberland/33771_oncebrewed/62389",
 "taxa": [
 "Q156944"
 ],
@@ -34569,6 +34588,7 @@
 ],
 "heritage": [],
 "image": "Wyndham's Oak, Silton, Dorset 01.jpg",
+"mon": true,
 "taxa": [
 "Q147525"
 ],
@@ -36845,6 +36865,7 @@
 ],
 "heritage": [],
 "image": "Dąb Bolesław.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -36889,6 +36910,7 @@
 ],
 "heritage": [],
 "image": "Nellies tree. (geograph 5953131).jpg",
+"mon": true,
 "taxa": [
 "Q146149"
 ],
@@ -37467,6 +37489,7 @@
 ],
 "heritage": [],
 "image": "Knightwood Oak.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {
@@ -38188,6 +38211,7 @@
 ],
 "heritage": [],
 "image": "Dab napoleon.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -39120,6 +39144,7 @@
 ],
 "heritage": [],
 "image": "Dąb Sobieskiego 7.JPG",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -39137,6 +39162,7 @@
 ],
 "heritage": [],
 "image": "Market Square in Glowno (Plac Wolności) (4).jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -39200,6 +39226,7 @@
 ],
 "heritage": [],
 "image": "Topola Lesznowska.jpg",
+"mon": true,
 "taxa": [
 "Q146269"
 ],
@@ -39388,6 +39415,7 @@
 ],
 "heritage": [],
 "image": "Strawberries and Cream Tree.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {

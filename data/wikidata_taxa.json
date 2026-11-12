@@ -238,6 +238,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Pinus pindrow"
+],
 "en": "Abies pindrow",
 "it": "Abies pindrow",
 "names": [
@@ -371,6 +374,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Acer circumlobatum var. pseudosieboldianum"
+],
 "en": "Acer pseudosieboldianum",
 "it": "Acer pseudosieboldianum",
 "names": [
@@ -616,6 +622,9 @@
 "Abete dai coni bratteati"
 ]
 },
+"basionyms": [
+"Pinus bracteata"
+],
 "en": "Abies bracteata",
 "it": "Abies bracteata",
 "names": [
@@ -707,6 +716,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Abies chinensis"
+],
 "en": "Tsuga chinensis",
 "it": "Tsuga chinensis",
 "names": [
@@ -840,6 +852,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Liriodendron tulipifera var. chinense"
+],
 "it": "Liriodendron chinense",
 "names": [
 "Liriodendron chinense"
@@ -1381,6 +1396,10 @@
 "taxon": true
 },
 "Q1095094": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Clapp's Favourite",
 "names": [],
 "ranks": [],
@@ -1777,8 +1796,8 @@
 "Aesculus × woerlitzensis"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -2327,6 +2346,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Abies heterophylla"
+],
 "en": "Tsuga heterophylla",
 "it": "Tsuga heterophylla",
 "names": [
@@ -2377,6 +2399,9 @@
 "Peccio del Caucaso"
 ]
 },
+"basionyms": [
+"Pinus orientalis"
+],
 "en": "Picea orientalis",
 "it": "Picea orientalis",
 "names": [
@@ -2492,6 +2517,9 @@
 "peccio di Sachalin"
 ]
 },
+"basionyms": [
+"Abies glehnii"
+],
 "en": "Picea glehnii",
 "it": "Picea glehnii",
 "names": [
@@ -2786,6 +2814,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Betula japonica"
+],
 "en": "Alnus japonica",
 "it": "Alnus japonica",
 "names": [
@@ -3087,6 +3118,12 @@
 "taxon": true
 },
 "Q12372598": {
+"alias": {
+"en": [
+"plums"
+],
+"it": []
+},
 "en": "plum",
 "it": "susina",
 "names": [],
@@ -3361,6 +3398,9 @@
 "Prugno Regina Claudia"
 ]
 },
+"basionyms": [
+"Prunus italica"
+],
 "en": "greengage",
 "it": "Prunus domestica subsp. italica",
 "names": [
@@ -5230,6 +5270,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Glycine floribunda"
+],
 "en": "Wisteria floribunda",
 "it": "Wisteria floribunda",
 "names": [
@@ -5260,6 +5303,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Thuja dolabrata"
+],
 "en": "Thujopsis dolabrata",
 "it": "Thujopsis dolabrata",
 "names": [
@@ -5748,6 +5794,9 @@
 "Sorbus thuringiaca"
 ]
 },
+"basionyms": [
+"Sorbus hybrida var. thuringiaca"
+],
 "en": "Sorbus × thuringiaca",
 "it": "Sorbus ×thuringiaca",
 "names": [
@@ -5912,6 +5961,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Pseudotsuga davidiana"
+],
 "en": "Keteleeria davidiana",
 "it": "Keteleeria davidiana",
 "names": [
@@ -6605,6 +6657,9 @@
 "Pseudolarice"
 ]
 },
+"basionyms": [
+"Larix amabilis"
+],
 "en": "Pseudolarix amabilis",
 "it": "Pseudolarix amabilis",
 "names": [
@@ -7034,6 +7089,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Pyrus tschonoskii"
+],
 "en": "Malus tschonoskii",
 "it": "Malus tschonoskii",
 "names": [
@@ -7567,6 +7625,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Fagus obliqua"
+],
 "en": "Nothofagus obliqua",
 "it": "Nothofagus obliqua",
 "names": [
@@ -7708,6 +7769,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Carpinus virginiana"
+],
 "en": "Ostrya virginiana",
 "it": "Ostrya virginiana",
 "names": [
@@ -8203,6 +8267,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Abies veitchii var. sachalinensis"
+],
 "en": "Abies sachalinensis",
 "it": "Abies sachalinensis",
 "names": [
@@ -8477,6 +8544,19 @@
 ],
 "taxon": true
 },
+"Q15287991": {
+"alias": {
+"en": [],
+"it": []
+},
+"names": [
+"Acer pictum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q15287999": {
 "alias": {
 "en": [],
@@ -8522,8 +8602,8 @@
 "Quercus × benderi"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -8851,6 +8931,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Michelia doltsopa"
+],
 "en": "Magnolia doltsopa",
 "it": "Magnolia doltsopa",
 "names": [
@@ -8969,6 +9052,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Dalbergia delavayi"
+],
 "en": "Cladrastis delavayi",
 "it": "Cladrastis delavayi",
 "names": [
@@ -9025,6 +9111,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Mespilus prunifolia"
+],
 "en": "Crataegus prunifolia",
 "it": "Crataegus prunifolia",
 "names": [
@@ -9040,6 +9129,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Crataegus trilobata"
+],
 "en": "Eriolobus trilobatus",
 "it": "Eriolobus trilobatus",
 "names": [
@@ -9261,8 +9353,8 @@
 "Magnolia × proctoriana"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -10174,6 +10266,9 @@
 "Sorbo montano"
 ]
 },
+"basionyms": [
+"Crataegus aria"
+],
 "en": "Sorbus aria",
 "it": "Aria edulis",
 "names": [
@@ -11015,6 +11110,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Mespilus canadensis"
+],
 "en": "Amelanchier canadensis",
 "it": "Amelanchier canadensis",
 "names": [
@@ -12055,6 +12153,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Tilia cordata var. japonica"
+],
 "it": "Tilia japonica",
 "names": [
 "Tilia japonica"
@@ -12904,6 +13005,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Aronia alnifolia"
+],
 "en": "Amelanchier alnifolia",
 "it": "Amelanchier alnifolia",
 "names": [
@@ -13036,6 +13140,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Euonymus europaeus var. latifolius"
+],
 "en": "Euonymus latifolius",
 "it": "Euonymus latifolius",
 "names": [
@@ -13355,6 +13462,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Ligustrum reticulatum"
+],
 "en": "Syringa reticulata",
 "it": "Syringa reticulata",
 "names": [
@@ -13512,6 +13622,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pyrus hupehensis"
+],
 "en": "Malus hupehensis",
 "it": "Malus hupehensis",
 "names": [
@@ -13882,6 +13995,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pyrus baccata"
+],
 "en": "Malus baccata",
 "it": "Malus baccata",
 "names": [
@@ -13905,6 +14021,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Cupressus thyoides"
+],
 "en": "Chamaecyparis thyoides",
 "it": "Chamaecyparis thyoides",
 "names": [
@@ -14446,6 +14565,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Sorbus domestica"
+],
 "en": "Cormus domestica",
 "it": "Cormus domestica",
 "names": [
@@ -15336,6 +15458,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Mespilus flabellata"
+],
 "en": "Crataegus flabellata",
 "it": "Crataegus flabellata",
 "names": [
@@ -15575,8 +15700,8 @@
 "Larix marschlinsii"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -16279,6 +16404,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Cupressus nootkatensis"
+],
 "en": "Callitropsis nootkatensis",
 "it": "Callitropsis nootkatensis",
 "names": [
@@ -16430,6 +16558,9 @@
 "peccio del Likiang"
 ]
 },
+"basionyms": [
+"Abies likiangensis"
+],
 "en": "Picea likiangensis",
 "it": "Picea likiangensis",
 "names": [
@@ -16756,6 +16887,15 @@
 "taxon": true
 },
 "Q25350": {
+"alias": {
+"en": [
+"fir"
+],
+"it": [
+"abete",
+"abeti"
+]
+},
 "en": "Abies",
 "it": "Abies",
 "names": [
@@ -16882,6 +17022,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Mespilus tanacetifolia"
+],
 "en": "Crataegus tanacetifolia",
 "it": "Crataegus tanacetifolia",
 "names": [
@@ -17245,6 +17388,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Crataegus coccinea var. mollis"
+],
 "en": "Crataegus mollis",
 "it": "Crataegus mollis",
 "names": [
@@ -17976,6 +18122,9 @@
 "Betula utilis Doorenbos"
 ]
 },
+"basionyms": [
+"Betula jacquemontii"
+],
 "en": "Betula utilis subsp. jacquemontii",
 "it": "Betula utilis subsp. jacquemontii",
 "names": [
@@ -18011,6 +18160,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Mespilus arborea"
+],
 "en": "Amelanchier arborea",
 "it": "Amelanchier arborea",
 "names": [
@@ -18166,6 +18318,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Rhus verniciflua"
+],
 "en": "Toxicodendron vernicifluum",
 "it": "Toxicodendron vernicifluum",
 "names": [
@@ -18392,6 +18547,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Cerasus"
+],
 "en": "Prunus subg. Cerasus",
 "it": "ciliegio",
 "names": [
@@ -18496,6 +18654,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Condalia paradoxa"
+],
 "it": "Colletia paradoxa",
 "names": [
 "Colletia paradoxa"
@@ -20269,6 +20430,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Fagus pumila"
+],
 "names": [
 "Castanea pumila"
 ],
@@ -20776,6 +20940,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Abies brachytyla"
+],
 "en": "Picea brachytyla",
 "it": "Picea brachytyla",
 "names": [
@@ -21152,6 +21319,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Crataegus hybrida"
+],
 "en": "Hedlundia hybrida",
 "it": "Hedlundia hybrida",
 "names": [
@@ -21169,6 +21339,9 @@
 "Hedlundia thuringiaca"
 ]
 },
+"basionyms": [
+"Sorbus hybrida var. thuringiaca"
+],
 "en": "Hedlundia thuringiaca",
 "it": "Hedlundia ×thuringiaca",
 "names": [
@@ -21188,6 +21361,9 @@
 "Sorbo ciavardello"
 ]
 },
+"basionyms": [
+"Sorbus glaberrima"
+],
 "en": "Torminalis glaberrima",
 "it": "Torminalis glaberrima",
 "names": [
@@ -21218,6 +21394,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Crataegus latifolia"
+],
 "en": "Karpatiosorbus latifolia",
 "it": "Karpatiosorbus latifolia",
 "names": [
@@ -21611,14 +21790,17 @@
 ],
 "it": []
 },
+"basionyms": [
+"Cupressus ×leylandii"
+],
 "en": "× Hesperotropsis leylandii",
 "it": "×Hesperotropsis leylandii",
 "names": [
 "× Hesperotropsis leylandii"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -21665,6 +21847,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pinus balsamea"
+],
 "en": "Abies balsamea",
 "it": "Abies balsamea",
 "names": [
@@ -21977,6 +22162,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Podocarpus andinus"
+],
 "en": "Prumnopitys andina",
 "it": "Prumnopitys andina",
 "names": [
@@ -22177,6 +22365,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Fagus dentata"
+],
 "en": "Castanea dentata",
 "it": "Castanea dentata",
 "names": [
@@ -22564,6 +22755,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Negundo cissifolium"
+],
 "en": "Acer cissifolium",
 "it": "Acer cissifolium",
 "names": [
@@ -22964,6 +23158,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Cupressus arizonica"
+],
 "en": "Hesperocyparis arizonica",
 "it": "Hesperocyparis arizonica",
 "names": [
@@ -22979,6 +23176,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Cupressus lusitanica"
+],
 "en": "Hesperocyparis lusitanica",
 "it": "Hesperocyparis lusitanica",
 "names": [
@@ -23333,6 +23533,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Mespilus crenulata"
+],
 "en": "Pyracantha crenulata",
 "it": "Pyracantha crenulata",
 "names": [
@@ -23529,6 +23732,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Calothyrsus californica"
+],
 "en": "Aesculus californica",
 "names": [
 "Aesculus californica"
@@ -23559,6 +23765,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Brunia nodiflora"
+],
 "en": "Widdringtonia nodiflora",
 "it": "Widdringtonia nodiflora",
 "names": [
@@ -23915,6 +24124,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pavia indica"
+],
 "en": "Aesculus indica",
 "it": "Aesculus indica",
 "names": [
@@ -25041,6 +25253,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Pyrus yunnanensis"
+],
 "en": "Malus yunnanensis",
 "it": "Malus yunnanensis",
 "names": [
@@ -25052,6 +25267,10 @@
 "taxon": true
 },
 "Q6772356": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Populus wilsonii",
 "it": "Populus wilsonii",
 "names": [
@@ -25179,6 +25398,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Tetranthera californica"
+],
 "en": "Umbellularia californica",
 "it": "Umbellularia californica",
 "names": [
@@ -25212,6 +25434,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Eugenia apiculata"
+],
 "en": "Luma apiculata",
 "it": "Luma apiculata",
 "names": [
@@ -25425,6 +25650,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Abies mariesii var. kawakamii"
+],
 "en": "Abies kawakamii",
 "it": "Abies kawakamii",
 "names": [
@@ -25658,6 +25886,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pinus laricina"
+],
 "en": "Larix laricina",
 "it": "Larix laricina",
 "names": [
@@ -25673,6 +25904,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Pyrus prunifolia"
+],
 "en": "Malus prunifolia",
 "it": "Malus prunifolia",
 "names": [
@@ -26503,6 +26737,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Zanthoxylum daniellii"
+],
 "it": "Tetradium daniellii",
 "names": [
 "Tetradium daniellii"
@@ -26729,6 +26966,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pinus cupressoides"
+],
 "en": "Fitzroya cupressoides",
 "it": "Fitzroya cupressoides",
 "names": [
@@ -26901,6 +27141,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Simaba quassioides"
+],
 "en": "Picrasma quassioides",
 "it": "Picrasma quassioides",
 "names": [
@@ -27230,6 +27473,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Malus × floribunda"
+],
 "en": "Malus × purpurea",
 "it": "Malus ×purpurea",
 "names": [
@@ -27566,6 +27812,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Retinispora obtusa"
+],
 "en": "Chamaecyparis obtusa",
 "it": "Chamaecyparis obtusa",
 "names": [
@@ -28173,6 +28422,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Pyrus intermedia"
+],
 "en": "Scandosorbus intermedia",
 "it": "Scandosorbus intermedia",
 "names": [
@@ -28271,6 +28523,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pinus cilicica"
+],
 "en": "Abies cilicica",
 "it": "Abies cilicica",
 "names": [
