@@ -2,6 +2,11 @@ name: Update region boundaries
 
 on:
   workflow_dispatch:
+    inputs:
+      all:
+        description: "Download all the boundaries again (otherwise only those missing from the file)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -16,7 +21,7 @@ jobs:
           python-version: "3.12"
       - run: pip install requests
       - name: Download the boundaries from Nominatim
-        run: python scripts/update_boundaries.py
+        run: python scripts/update_boundaries.py ${{ inputs.all && '--all' || '' }}
       - name: Commit
         run: |
           git config user.name "github-actions"
