@@ -5,7 +5,15 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "needleleaved"
+"leaf_type": "needleleaved",
+"names": {
+"en": [
+"Fir"
+],
+"fr": [
+"Sapin"
+]
+}
 },
 "Acacia": {
 "leaf_cycle": [
@@ -25,7 +33,15 @@
 "deciduous",
 "evergreen"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Maple"
+],
+"fr": [
+"Érable"
+]
+}
 },
 "Acoelorrhaphe": {
 "leaf_cycle": [
@@ -61,13 +77,26 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Horse chestnut"
+],
+"fr": [
+"Marronnier"
+]
+}
 },
 "Ailanthus": {
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Ailante"
+]
+}
 },
 "Aiphanes": {
 "leaf_cycle": [
@@ -85,13 +114,26 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Alder"
+],
+"fr": [
+"Aulne"
+]
+}
 },
 "Amelanchier": {
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Amélanchier"
+]
+}
 },
 "Ammandra": {
 "leaf_cycle": [
@@ -109,13 +151,23 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "needleleaved"
+"leaf_type": "needleleaved",
+"names": {
+"fr": [
+"Pin"
+]
+}
 },
 "Arbutus": {
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Arbousier"
+]
+}
 },
 "Archontophoenix": {
 "leaf_cycle": [
@@ -127,7 +179,12 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Palmier"
+]
+}
 },
 "Arenga": {
 "leaf_cycle": [
@@ -141,6 +198,11 @@
 "evergreen"
 ],
 "leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Arbricotier"
+]
+},
 "synonym": "Prunus"
 },
 "Asterogyne": {
@@ -201,7 +263,15 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Birch"
+],
+"fr": [
+"Bouleau"
+]
+}
 },
 "Bismarckia": {
 "leaf_cycle": [
@@ -261,7 +331,12 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Buis"
+]
+}
 },
 "Calamus": {
 "leaf_cycle": [
@@ -303,7 +378,15 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Hornbeam"
+],
+"fr": [
+"Charme"
+]
+}
 },
 "Carpoxylon": {
 "leaf_cycle": [
@@ -315,7 +398,15 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Hickory"
+],
+"fr": [
+"Caryer"
+]
+}
 },
 "Caryota": {
 "leaf_cycle": [
@@ -327,7 +418,15 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Chestnut"
+],
+"fr": [
+"Châtaignier"
+]
+}
 },
 "Catalpa": {
 "leaf_cycle": [
@@ -353,13 +452,26 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "needleleaved"
+"leaf_type": "needleleaved",
+"names": {
+"en": [
+"Cedar"
+],
+"fr": [
+"Cèdre"
+]
+}
 },
 "Celtis": {
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Micocoulier"
+]
+}
 },
 "Cephalotaxus": {
 "leaf_cycle": [
@@ -525,7 +637,12 @@
 "deciduous",
 "evergreen"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Cornouiller"
+]
+}
 },
 "Cortaderia": {
 "leaf_cycle": [
@@ -538,7 +655,15 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Hazel"
+],
+"fr": [
+"Noisetier"
+]
+}
 },
 "Corypha": {
 "leaf_cycle": [
@@ -556,7 +681,12 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Aubépine"
+]
+}
 },
 "Cryosophila": {
 "leaf_cycle": [
@@ -586,7 +716,15 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "needleleaved"
+"leaf_type": "needleleaved",
+"names": {
+"en": [
+"Cypress"
+],
+"fr": [
+"Cyprès"
+]
+}
 },
 "Cycas": {
 "leaf_cycle": [
@@ -598,7 +736,15 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Quince"
+],
+"fr": [
+"Cognassier"
+]
+}
 },
 "Cyphokentia": {
 "leaf_cycle": [
@@ -739,7 +885,12 @@
 "deciduous",
 "evergreen"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Eucalyptus"
+]
+}
 },
 "Eucommia": {
 "leaf_cycle": [
@@ -769,7 +920,15 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Beech"
+],
+"fr": [
+"Hêtres"
+]
+}
 },
 "Ficus": {
 "leaf_cycle": [
@@ -830,7 +989,15 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Witch-hazel"
+],
+"fr": [
+"Hamamélis"
+]
+}
 },
 "Hedyscepe": {
 "leaf_cycle": [
@@ -866,7 +1033,12 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Houblon"
+]
+}
 },
 "Hydriastele": {
 "leaf_cycle": [
@@ -902,7 +1074,15 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"holly"
+],
+"fr": [
+"houx"
+]
+}
 },
 "Iriartea": {
 "leaf_cycle": [
@@ -956,7 +1136,15 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "needleleaved"
+"leaf_type": "needleleaved",
+"names": {
+"en": [
+"Juniper"
+],
+"fr": [
+"Genévrier"
+]
+}
 },
 "Kentiopsis": {
 "leaf_cycle": [
@@ -992,7 +1180,12 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Cytise"
+]
+}
 },
 "Laccospadix": {
 "leaf_cycle": [
@@ -1018,7 +1211,15 @@
 "evergreen",
 "deciduous"
 ],
-"leaf_type": "needleleaved"
+"leaf_type": "needleleaved",
+"names": {
+"en": [
+"Larch"
+],
+"fr": [
+"Mélèze"
+]
+}
 },
 "Latania": {
 "leaf_cycle": [
@@ -1152,7 +1353,12 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Pommier"
+]
+}
 },
 "Manicaria": {
 "leaf_cycle": [
@@ -1315,7 +1521,12 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Olivier"
+]
+}
 },
 "Oncocalamus": {
 "leaf_cycle": [
@@ -1429,7 +1640,15 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "needleleaved"
+"leaf_type": "needleleaved",
+"names": {
+"en": [
+"Spruce"
+],
+"fr": [
+"Épicéa"
+]
+}
 },
 "Pigafetta": {
 "leaf_cycle": [
@@ -1447,7 +1666,15 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "needleleaved"
+"leaf_type": "needleleaved",
+"names": {
+"en": [
+"Pine"
+],
+"fr": [
+"Pin"
+]
+}
 },
 "Pistacia": {
 "leaf_cycle": [
@@ -1460,7 +1687,12 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Platane"
+]
+}
 },
 "Plectocomia": {
 "leaf_cycle": [
@@ -1509,7 +1741,15 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Aspen"
+],
+"fr": [
+"Peuplier"
+]
+}
 },
 "Prestoea": {
 "leaf_cycle": [
@@ -1570,7 +1810,12 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Palmier"
+]
+}
 },
 "Ptychosperma": {
 "leaf_cycle": [
@@ -1583,20 +1828,41 @@
 "deciduous",
 "evergreen"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Pear"
+],
+"fr": [
+"Poirier"
+]
+}
 },
 "Quercus": {
 "leaf_cycle": [
 "deciduous",
 "evergreen"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Oak"
+],
+"fr": [
+"Chêne"
+]
+}
 },
 "Raphia": {
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Palmier"
+]
+}
 },
 "Ravenea": {
 "leaf_cycle": [
@@ -1651,7 +1917,15 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Sumac"
+],
+"fr": [
+"Sumac"
+]
+}
 },
 "Robinia": {
 "leaf_cycle": [
@@ -1693,7 +1967,15 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Willow"
+],
+"fr": [
+"Saule"
+]
+}
 },
 "Sambucus": {
 "leaf_cycle": [
@@ -1711,7 +1993,12 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"sassafras"
+]
+}
 },
 "Satakentia": {
 "leaf_cycle": [
@@ -1759,7 +2046,15 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "needleleaved"
+"leaf_type": "needleleaved",
+"names": {
+"en": [
+"Sequoia"
+],
+"fr": [
+"Séquoia"
+]
+}
 },
 "Sequoiadendron": {
 "leaf_cycle": [
@@ -1801,7 +2096,12 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Sorbier"
+]
+}
 },
 "Sterculia": {
 "leaf_cycle": [
@@ -1874,7 +2174,12 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "needleleaved"
+"leaf_type": "needleleaved",
+"names": {
+"fr": [
+"Thuya"
+]
+}
 },
 "Thujopsis": {
 "leaf_cycle": [
@@ -1886,7 +2191,15 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Lime"
+],
+"fr": [
+"Tilleul"
+]
+}
 },
 "Torreya": {
 "leaf_cycle": [
@@ -1898,7 +2211,13 @@
 "leaf_cycle": [
 "evergreen"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"fr": [
+"Palmier de Chine",
+"palmier à chanvre"
+]
+}
 },
 "Trithrinax": {
 "leaf_cycle": [
@@ -1916,7 +2235,15 @@
 "leaf_cycle": [
 "deciduous"
 ],
-"leaf_type": "broadleaved"
+"leaf_type": "broadleaved",
+"names": {
+"en": [
+"Elm"
+],
+"fr": [
+"Orme"
+]
+}
 },
 "Veitchia": {
 "leaf_cycle": [
