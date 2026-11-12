@@ -2666,7 +2666,9 @@ function hints(p, pos) {
   if (p.hint_imp_u) out.push(H.importUndoc(p.hint_imp_u));
   if (p.hint_imp_d) { const [v, url] = p.hint_imp_d.split("|");
     out.push({ html: `${esc(H.importDoc(v))} <a href="${esc(url)}" target="_blank" rel="noopener">${esc(H.importDocLink)}</a>` }); }
-  if (p.hint_ms) { const [c, s] = p.hint_ms.split("|"); out.push(H.masafSize(fmtM(c), fmtM(s), p.sp_clean || p.species)); }
+  // soglia MASAF: non con un check sul rapporto altezza/circonferenza (lo toglie anche fetch_trees.py; qui per i dati
+  // scritti prima)
+  if (p.hint_ms && !CMP_CHECKS.some(i => codes.includes(`|${i}|`))) { const [c, s] = p.hint_ms.split("|"); out.push(H.masafSize(fmtM(c), fmtM(s), p.sp_clean || p.species)); }
   // genus=* di un genere con una sola specie vivente, senza species=*: la specie si potrebbe aggiungere
   const mono = !p.species && MONOTYPIC[String(p.genus || "").trim()];
   if (mono) out.push(H.monotypic(String(p.genus).trim(), mono));

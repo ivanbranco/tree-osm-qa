@@ -181,6 +181,7 @@ STOCKY_MIN = 1 / 3         # sotto: albero troppo tozzo (circonferenza più di 3
 SLENDER_SP_FACTOR = 4      # oltre 4 volte il rapporto tipico della specie
 SLENDER_SP_MIN = 40        # ma mai sotto 40 (specie con rapporto basso, come l'olivo: i giovani sono più slanciati)
 SLENDER_SP_MIN_H = 10      # m: solo alberi alti almeno 10 m
+SLENDER_CHECKS = {"too_slender", "too_slender_species", "too_stocky"}   # con questi niente consiglio hint_ms
 # Limiti massimi per specie (altezza e circonferenza, in m), modificabili in species_limits.json. Sono i record
 # della pagina wiki https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/Tree_species_records, presi da
 # monumentaltrees.com; "height_source" / "circumference_source" indicano una fonte diversa (es. "MASAF")
@@ -1832,6 +1833,8 @@ def to_feature(el):
         p.update(hc_ratio=round(r, 3), hc_circ=round(circ_value(t)[0], 2), sp_ratio=r0)
     p.update(props)
     p.update(hint_props(t))               # consigli della scheda (non errori)
+    if SLENDER_CHECKS & set(iss):          # rapporto altezza/circonferenza segnalato: niente consiglio sulla soglia MASAF
+        p.pop("hint_ms", None)
     return {"type": "Feature", "properties": p,
             "geometry": {"type": "Point", "coordinates": [round(el["lon"], 7), round(el["lat"], 7)]}}
 
