@@ -21,8 +21,49 @@
     max-height:calc(100% - 20px);box-sizing:content-box;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
   #side>*{flex:none}
   .box{background:#fff;padding:10px 12px;border-radius:6px;box-shadow:0 1px 6px #0004}
-  #legend-box summary,#rank-box>summary,#chart-box>summary{font-weight:600;cursor:pointer}
-  /* scelta dell'ordine della classifica: numero di alberi con errori o percentuale */
+  /* schede richiudibili (legenda, classifica, andamento, completezza): quelle chiuse stanno affiancate su una riga (a
+     capo se non c'è posto, allargate a riempire la riga), quella aperta sotto, a tutta larghezza. La sposta in fondo
+     "order", senza toccare l'ordine nella pagina: richiusa, torna al suo posto nella riga */
+  #tabs{display:flex;flex-wrap:wrap;gap:6px}
+  #tabs>details{flex:1 1 auto;min-width:0;padding:0;box-sizing:border-box}
+  #tabs>details[hidden]{display:none}
+  #tabs>details>summary{font-weight:600;font-size:12.5px;cursor:pointer;list-style:none;padding:6px 8px;border-radius:6px;text-align:center;white-space:nowrap}
+  #tabs>details>summary::-webkit-details-marker{display:none}
+  #tabs>details:not([open])>summary:hover{background:#f2f2f2}
+  #tabs>details[open]{order:1;flex:1 0 100%;padding:0 12px 10px}
+  #tabs>details[open]>summary{font-size:14px;padding:10px 0 0;text-align:left;white-space:normal;border-radius:0}
+  #tabs>details[open]>summary::before{content:"▾";display:inline-block;width:14px;color:#888}
+  /* scelta dell'ordine della classifica: numero di alberi con errori o percentuale (solo con la scheda aperta) */
+  #rank-box:not([open]) #rank-mode{display:none}
+  /* scheda Completezza: una barra per voce (quanti alberi in vista hanno quel dato); un tocco sulla riga evidenzia
+     sulla mappa gli alberi a cui manca */
+  #comp{margin-top:8px;font-size:13px;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
+  #comp h4{margin:10px 0 2px;font-size:12px;font-weight:600;color:#444;text-transform:uppercase;letter-spacing:.03em}
+  #comp h4:first-child{margin-top:0}
+  #comp h4 small{font-weight:400;color:#777;text-transform:none;letter-spacing:0}
+  #comp [hidden]{display:none}
+  .cp-row{padding:4px 6px;border-radius:4px;cursor:pointer}
+  .cp-row:hover{background:#f2f2f2}
+  .cp-row:focus-visible{outline:2px solid #1a5fb4;outline-offset:-2px}
+  .cp-row.on{background:#fde6f3;box-shadow:inset 0 0 0 1.5px #e6007e}
+  .cp-top{display:flex;flex-wrap:wrap;align-items:center;gap:0 4px}
+  .cp-top .nums{margin-left:auto;color:#555;font-size:12px;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .cp-bar{height:7px;border-radius:4px;background:#e0e0e0;margin-top:3px;overflow:hidden}
+  .cp-bar i{display:block;height:100%;width:0;background:#2e9e45;border-radius:4px}
+  .cp-row.sm{padding:2px 6px}  .cp-row.sm.on{background:none;box-shadow:none}  .cp-row.sm.on:hover{background:#f2f2f2}   /* acceso si vede sulla riga «Italia» */
+.cp-row.sm .cp-bar{height:4px;margin-top:1px}
+  #comp details.cp-reg>summary{cursor:pointer;color:#555;font-size:12px;margin:4px 0 2px 6px}
+  /* ⓘ di una voce: spiegazione al passaggio del mouse o al tocco (focus); resta aperta mentre si usa un suo link */
+  .cp-info{flex:none;color:#888;cursor:help;outline:none;line-height:1;padding:2px}
+  .cp-info:hover,.cp-info:focus-within{color:#1a5fb4}
+  .cp-info .tip{display:none;position:fixed;z-index:6;box-sizing:border-box;background:#fff;color:#222;font-size:12px;line-height:1.4;
+    border:1px solid #ddd;border-radius:4px;box-shadow:0 2px 8px #0003;padding:6px 8px;cursor:default;white-space:normal}   /* posizione dallo script */
+  .cp-info:hover .tip,.cp-info:focus-within .tip{display:block}
+  /* evidenziazione attiva (alberi senza un dato, o alberi MASAF non su OSM): avviso nel riquadro in cima, un tocco la toglie */
+  #hl-chip{display:flex;align-items:center;gap:6px;width:100%;margin-top:6px;padding:5px 8px;border:0;border-radius:4px;background:#e6007e;
+    color:#fff;font:600 12px system-ui,sans-serif;text-align:left;cursor:pointer}
+  #hl-chip[hidden]{display:none}
+  #hl-chip b{margin-left:auto;font-size:15px;line-height:1}
   #rank-mode{float:right;display:flex;gap:2px}
   #rank-mode button{font:600 11px system-ui,sans-serif;min-width:22px;padding:1px 4px;border:1px solid #ccc;border-radius:3px;background:#fff;color:#777;cursor:pointer}
   #rank-mode button.on{background:#555;border-color:#555;color:#fff}
@@ -163,9 +204,11 @@
   <select id="taxon" autocomplete="off"><option value="" data-i18n="allTaxa">Tutti i genus e le specie</option></select>
   <div id="issue-row"><select id="issue" autocomplete="off"><option value="" data-i18n="allIssues">Tutti gli errori</option></select><button id="dl" type="button" hidden><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v9M4 6.5l4 4 4-4M2 14h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
   <div id="count"></div>
+  <button id="hl-chip" type="button" hidden></button>
   <div id="scale" hidden><span data-i18n="scaleLow">meno errori</span><i></i><span data-i18n="scaleHigh">più errori</span></div>
   <div id="updated" class="note"></div>
 </div>
+<div id="tabs">
   <details id="legend-box" class="box">
     <summary data-i18n="legend">Legenda</summary>
     <ul class="leg">
@@ -203,6 +246,12 @@
     <div id="chart"></div>
     <div class="note" data-i18n="chartNote">Quota di alberi con almeno un errore, a ogni aggiornamento.</div>
   </details>
+  <!-- Completezza (issue #31): quanti alberi in vista hanno i dati principali; riempita da renderComp -->
+  <details id="comp-box" class="box">
+    <summary data-i18n="comp">Completezza</summary>
+    <div id="comp"></div>
+  </details>
+</div>
 </div>
 <div id="map" class="wait"></div>
 <div id="tip"></div>
@@ -302,6 +351,31 @@ const I18N = {
     rankByN: "Ordina per numero di alberi con errori", rankByP: "Ordina per percentuale di alberi con errori",
     chart: "Andamento errori", chartAll: "Tutte le regioni", chartNote: "Quota di alberi con almeno un errore, a ogni aggiornamento.",
     chartTip: (d, p, e, c) => `${d}: ${p} (${e} alberi con errori su ${c})`,
+    // scheda Completezza (issue #31). I nomi delle voci sono quelli della scheda dell'albero (rows), tranne «Foto».
+    // tips: k(chiave) = il tag con il link alla wiki OSM
+    comp: "Completezza",
+    cp: { basic: "Di base", basicSub: "i dati essenziali", extra: "Misure e foto", extraSub: "un di più",
+      inView: "Alberi nella vista", optional: "Facoltativo", photo: "Foto", of: "di",
+      noRegion: "Scegli una regione per vedere quanti dei suoi alberi hanno i dati principali.",
+      noTrees: "Nessun albero nella vista.", loading: "Caricamento degli alberi…",
+      partialQa: "A questo zoom la mappa mostra solo gli alberi con errori (da zoom 9 anche i monumentali): le barre contano quelli. Da zoom 10 contano tutti gli alberi.",
+      partialWorld: "A questo zoom la mappa mostra solo una parte degli alberi: le barre contano quelli. Da zoom 7 contano tutti gli alberi.",
+      rowTitle: "Evidenzia sulla mappa gli alberi a cui manca questo dato",
+      hl: n => `Evidenziati: senza ${n}`, hlMasaf: "Evidenziati: MASAF non su OSM", hlOff: "Togli l'evidenziazione",
+      measured: "I valori vanno rilevati sul posto o presi da una fonte, non stimati.",
+      masafTitle: "Elenco MASAF già su OSM", italy: "Italia", regions: "Per regione",
+      masafRowTitle: "Evidenzia sulla mappa gli alberi dell'elenco MASAF non ancora su OSM",
+      masafTip: "Alberi dell'elenco degli alberi monumentali d'Italia del MASAF già su OpenStreetMap: quelli con un elemento che ha il loro codice in ref:masaf, o con un albero monumentale dello stesso genere entro 25 m.",
+      masafLeft: n => `${n} non ancora su OSM`,
+      masafSoon: "Il conteggio «X di Y» e le regioni arriveranno con il prossimo aggiornamento della mappa dei monumentali.",
+      tips: {
+        species: k => `${k("species")}: il nome scientifico, genere ed epiteto (es. Quercus robur). Si riconosce da foglie, corteccia, fiori e frutti, o da un cartellino sul posto. Se si conosce solo il genere, va in ${k("genus")}.`,
+        leaf_type: k => `${k("leaf_type")}: broadleaved (latifoglia), needleleaved (aghifoglia), palm (palma) o leafless (senza foglie). Si vede guardando le foglie.`,
+        leaf_cycle: k => `${k("leaf_cycle")}: deciduous (perde le foglie per una parte dell'anno) o evergreen (le tiene tutto l'anno); ci sono anche semi_deciduous e semi_evergreen. Si vede sul posto nella stagione fredda o secca.`,
+        height: k => `${k("height")}: in metri, dal suolo al punto più alto della chioma (es. height=12). Si misura con un ipsometro, un clinometro o un telemetro laser.`,
+        circumference: k => `${k("circumference")}: circonferenza del tronco in metri, misurata a 1,30 m da terra con un metro a nastro (es. circumference=2.4). Conta anche un albero con ${k("diameter")}.`,
+        diameter_crown: k => `${k("diameter_crown")}: diametro della chioma in metri (es. diameter_crown=8). Si misura a terra, da un bordo all'altro della chioma passando per il tronco.`,
+        photo: k => `Una foto dell'albero: ${k("wikimedia_commons")} (File:… o Category:…), ${k("panoramax")}, image:fotoshi=* o ${k("image")}. Conta anche la foto (P18) dell'elemento Wikidata di ${k("wikidata")}.` } },
     rankEmpty: "Conteggi non ancora disponibili: lancia l'Action \"Update tree data\".",
     loadError: "Errore nel caricamento dei dati", noData: "Nessun dato: lancia l'Action di aggiornamento",
     pickRegion: "Scegli una regione sulla mappa o dal menu", loadingAll: "caricamento di tutti gli alberi…", loading: name => `Caricamento di ${name}…`,
@@ -595,6 +669,29 @@ const I18N = {
     rankByN: "Sort by number of trees with errors", rankByP: "Sort by share of trees with errors",
     chart: "Error trend", chartAll: "All regions", chartNote: "Share of trees with at least one error, at each update.",
     chartTip: (d, p, e, c) => `${d}: ${p} (${e} trees with errors out of ${c})`,
+    comp: "Completeness",
+    cp: { basic: "Basics", basicSub: "essential", extra: "Measurements and photo", extraSub: "extra",
+      inView: "Trees in view", optional: "Optional", photo: "Photo", of: "of",
+      noRegion: "Choose a region to see how many of its trees have the main data.",
+      noTrees: "No trees in view.", loading: "Loading trees…",
+      partialQa: "At this zoom the map shows only trees with errors (from zoom 9 also monumental trees): the bars count those. From zoom 10 they count all trees.",
+      partialWorld: "At this zoom the map shows only some of the trees: the bars count those. From zoom 7 they count all trees.",
+      rowTitle: "Highlight on the map the trees missing this value",
+      hl: n => `Highlighted: no ${n}`, hlMasaf: "Highlighted: MASAF trees not on OSM", hlOff: "Remove the highlight",
+      measured: "Values should be surveyed on the ground or taken from a source, not estimated.",
+      masafTitle: "MASAF list already on OSM", italy: "Italy", regions: "By region",
+      masafRowTitle: "Highlight on the map the trees of the MASAF list not yet on OSM",
+      masafTip: "Trees of the MASAF list of monumental trees of Italy already on OpenStreetMap: those with an element carrying their code in ref:masaf, or with a monumental tree of the same genus within 25 m.",
+      masafLeft: n => `${n} not yet on OSM`,
+      masafSoon: "The \"X of Y\" count and the regions will arrive with the next update of the monumental trees map.",
+      tips: {
+        species: k => `${k("species")}: the scientific name, genus and epithet (e.g. Quercus robur). It is recognised from leaves, bark, flowers and fruits, or from a label on site. If only the genus is known, it goes in ${k("genus")}.`,
+        leaf_type: k => `${k("leaf_type")}: broadleaved, needleleaved, palm or leafless. It can be seen by looking at the leaves.`,
+        leaf_cycle: k => `${k("leaf_cycle")}: deciduous (loses its leaves for part of the year) or evergreen (keeps them all year); there are also semi_deciduous and semi_evergreen. It can be seen on site in the cold or dry season.`,
+        height: k => `${k("height")}: in metres, from the ground to the highest point of the crown (e.g. height=12). It is measured with a hypsometer, a clinometer or a laser rangefinder.`,
+        circumference: k => `${k("circumference")}: trunk circumference in metres, measured 1.30 m above the ground with a tape measure (e.g. circumference=2.4). A tree with ${k("diameter")} counts too.`,
+        diameter_crown: k => `${k("diameter_crown")}: crown diameter in metres (e.g. diameter_crown=8). It is measured on the ground, from one edge of the crown to the other through the trunk.`,
+        photo: k => `A photo of the tree: ${k("wikimedia_commons")} (File:… or Category:…), ${k("panoramax")}, image:fotoshi=* or ${k("image")}. The photo (P18) of the Wikidata item of ${k("wikidata")} counts too.` } },
     rankEmpty: "Counts not available yet: run the \"Update tree data\" Action.",
     loadError: "Error loading data", noData: "No data: run the update Action",
     pickRegion: "Choose a region on the map or from the menu", loadingAll: "loading all trees…", loading: name => `Loading ${name}…`,
@@ -858,18 +955,20 @@ document.querySelectorAll(".leg li").forEach(li => {
   w.addEventListener("mouseenter", place); w.addEventListener("focus", place);
 });
 document.getElementById("gh").title = L.github;
-// riquadri chiudibili del pannello (legenda, classifica, andamento): uno aperto alla volta, così il pannello non
-// diventa più alto della finestra
-const SIDE_BOXES = ["legend-box", "rank-box", "chart-box"].map(id => document.getElementById(id));
+// schede richiudibili del pannello (legenda, classifica, andamento, completezza): una aperta alla volta, così il
+// pannello non diventa più alto della finestra; la disposizione (chiuse in riga, aperta sotto) è nel CSS di #tabs
+const SIDE_BOXES = ["legend-box", "rank-box", "chart-box", "comp-box"].map(id => document.getElementById(id));
+let onCompToggle = () => {};   // scheda Completezza aperta o chiusa (renderComp, definita quando la mappa è pronta)
 SIDE_BOXES.forEach(b => b.addEventListener("toggle", () => {
   if (b.open) SIDE_BOXES.forEach(o => { if (o !== b) o.open = false; });
+  if (b.id === "comp-box") onCompToggle();
   fitSideLists();
 }));
 // elenchi lunghi del pannello (legenda, classifica): alti quanto lo spazio che resta nella finestra, così scorre
 // l'elenco e mai il pannello intero (un'altezza fissa non tiene conto di quanto occupa il resto del pannello)
 function fitSideLists() {
   const side = document.getElementById("side");
-  for (const el of [document.querySelector(".leg"), document.getElementById("rank")]) {
+  for (const el of [document.querySelector(".leg"), document.getElementById("rank"), document.getElementById("comp")]) {
     if (!el || !el.closest("details").open) continue;
     el.style.maxHeight = "none";
     const rest = side.scrollHeight - el.offsetHeight;          // tutto il pannello tranne l'elenco
@@ -1428,12 +1527,14 @@ map.on("load", async () => {
     map.setFilter("crown-issues", ["all", ISSUE, ...rest]);
     map.setFilter("crown-issues-mid", ["all", ISSUE_MID, ...rest]);
     map.setFilter("crown-issues-wait", ["all", ISSUE_MID, ...rest]);
-    for (const id of ["masaf", "masaf-fill", "masaf-shape", "masaf-shape-line"])   // alberi MASAF: genere e specie
+    for (const id of ["masaf", "masaf-fill", "masaf-shape", "masaf-shape-line", "masaf-hl"])   // alberi MASAF: genere e specie
       if (map.getLayer(id)) map.setFilter(id, rest.length ? ["all", ...rest] : null);
     if (map.getLayer("masaf-trunk")) map.setFilter("masaf-trunk", ["all", ["has", "tr"], ...rest]);
+    REST = rest; applyHl();                           // evidenziazione della scheda Completezza: stessi filtri
     update();
   };
   const update = () => {
+    renderComp();                                     // scheda Completezza, se aperta
     if (!current) { document.getElementById("count").textContent = L.pickRegion; return; }
     const z = map.getZoom(), n = inViewCount();
     if (WORLD) {                                      // sotto FULL_Z si vede solo una parte degli alberi
@@ -1586,10 +1687,9 @@ map.on("load", async () => {
   // (problematici sempre, monumentali da MON_Z, tutti da ALL_Z; nella mappa mondiale secondo "mz") e per i filtri
   // scelti nei menu. Chiedere a MapLibre gli alberi disegnati (queryRenderedFeatures) bloccava la pagina per più di un
   // secondo a ogni spostamento con 180.000 alberi in vista; questo ciclo impiega pochi millisecondi.
-  const inViewCount = () => {
+  const eachInView = fn => {
     const b = map.getBounds(), w = b.getWest(), e = b.getEast(), s = b.getSouth(), n = b.getNorth();
     const z = map.getZoom(), zi = Math.floor(z), is = issSel.value, tx = taxSel.value;
-    let c = 0;
     for (const ft of ALL) {
       const [x, y] = ft.geometry.coordinates;
       if (x < w || x > e || y < s || y > n) continue;
@@ -1598,10 +1698,10 @@ map.on("load", async () => {
       if (WORLD) { if (z < FULL_Z && !(p.mz <= zi)) continue; }
       else if (z < ALL_Z && p.issues === "|" && !(z >= MON_Z && isMon(p))) continue;
       if ((is && !matchIssue(is, p)) || (tx && !matchTaxon(tx, p))) continue;
-      c++;
+      fn(p);
     }
-    return c;
   };
+  const inViewCount = () => { let c = 0; eachInView(() => c++); return c; };
   const plain = html => { const d = document.createElement("div"); d.innerHTML = html; return d.textContent; };
   dlBtn.onclick = () => {
     const is = issSel.value, tx = taxSel.value;
@@ -1623,6 +1723,178 @@ map.on("load", async () => {
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
   issSel.onchange = () => { apply(); updateTaxa(); };   // toglie dall'elenco la voce deselezionata se fuori vista
+
+  // Scheda Completezza (issue #31): per ogni voce, quanti alberi in vista hanno quel dato. L'insieme è quello di
+  // eachInView, lo stesso del conteggio «Alberi in vista» (zoom e filtri dei menu). Per ogni voce: has(p) dice se
+  // l'albero ha il dato, miss è il filtro di MapLibre degli alberi a cui manca (per evidenziarli sulla mappa).
+  // La circonferenza conta anche con diameter=*, da cui la mappa ricava il tronco. La foto: le stesse fonti di
+  // has_photo in fetch_world.py (wikimedia_commons, panoramax, image:fotoshi, image con un indirizzo, wd_img).
+  // punto dentro un Polygon o MultiPolygon GeoJSON (ray casting; i buchi interni escludono)
+  const inRing = ([x, y], ring) => {
+    let inside = false;
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      const [xi, yi] = ring[i], [xj, yj] = ring[j];
+      if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside;
+    }
+    return inside;
+  };
+  const inPolygon = (pt, rings) => inRing(pt, rings[0]) && !rings.slice(1).some(h => inRing(pt, h));
+  const inGeometry = (pt, g) => g.type === "Polygon" ? inPolygon(pt, g.coordinates)
+    : g.type === "MultiPolygon" ? g.coordinates.some(p => inPolygon(pt, p)) : false;
+  const hasTag = k => p => p[k] != null && p[k] !== "";
+  const noTag = k => ["==", ["coalesce", ["get", k], ""], ""];
+  const COMP = {
+    species: { has: hasTag("species"), miss: noTag("species") },
+    leaf_type: { has: hasTag("leaf_type"), miss: noTag("leaf_type") },
+    leaf_cycle: { has: hasTag("leaf_cycle"), miss: noTag("leaf_cycle") },
+    height: { has: hasTag("height"), miss: noTag("height") },
+    circumference: { has: p => hasTag("circumference")(p) || hasTag("diameter")(p), miss: ["all", noTag("circumference"), noTag("diameter")] },
+    diameter_crown: { has: hasTag("diameter_crown"), miss: noTag("diameter_crown") },
+    photo: { has: p => !!(p.wikimedia_commons || p.panoramax || p["image:fotoshi"] || p.wd_img || /^https?:\/\//.test(p.image || "")),
+      miss: ["all", noTag("wikimedia_commons"), noTag("panoramax"), noTag("image:fotoshi"), noTag("wd_img"),
+        ["!=", ["slice", ["to-string", ["coalesce", ["get", "image"], ""]], 0, 4], "http"]] },
+  };
+  for (const k in COMP) COMP[k].label = k === "photo" ? L.cp.photo : L.rows[k];
+  // gruppi di voci: nel tool QA i dati di base e, a parte, misure e foto; nella mappa dei monumentali il diametro
+  // della chioma è l'unica voce facoltativa
+  const COMP_GROUPS = WORLD ? [[L.cp.inView, "", ["species", "height", "circumference", "photo"]], [L.cp.optional, "", ["diameter_crown"]]]
+    : [[L.cp.basic, L.cp.basicSub, ["species", "leaf_type", "leaf_cycle"]], [L.cp.extra, L.cp.extraSub, ["height", "circumference", "diameter_crown", "photo"]]];
+  const COMP_KEYS = COMP_GROUPS.flatMap(g => g[2]);
+  // Evidenziazione: cerchi fucsia sopra gli alberi a cui manca il dato scelto (hl = chiave di COMP), con gli stessi
+  // criteri dei livelli della mappa (zoom e filtri dei menu, in REST); hl = "masaf": gli alberi MASAF non su OSM
+  // (livello masaf-hl, mappa dei monumentali). Una alla volta; l'avviso #hl-chip la toglie.
+  const HL_COLOR = "#e6007e";
+  const HL_LAYERS = [...TIERS.map(t => ({ id: "hl" + t.suf, source: t.src, minzoom: t.minZ, cond: t.cond })),
+    ...(WORLD ? [] : [{ id: "hl-issues", source: "trees-min", maxzoom: MON_Z, cond: ISSUE },
+      { id: "hl-issues-mid", source: "trees-min", minzoom: MON_Z, maxzoom: ALL_Z, cond: ISSUE_MID }])];
+  for (const { id, cond, ...spec } of HL_LAYERS)
+    map.addLayer({ id, type: "circle", ...spec, filter: cond, layout: { visibility: "none" }, paint: {
+      "circle-radius": radius("cr", 5), "circle-color": HL_COLOR, "circle-opacity": 0.3, "circle-stroke-color": HL_COLOR,
+      "circle-stroke-width": 2.5, "circle-pitch-alignment": "map", "circle-pitch-scale": "map" } });
+  let hl = null, REST = [];
+  const hlChip = document.getElementById("hl-chip"), compBox = document.getElementById("comp-box"), compEl = document.getElementById("comp");
+  hlChip.title = L.cp.hlOff;
+  const applyHl = () => {
+    const item = COMP[hl];
+    for (const l of HL_LAYERS) {
+      if (item) map.setFilter(l.id, ["all", l.cond, item.miss, ...REST]);
+      map.setLayoutProperty(l.id, "visibility", item ? "visible" : "none");
+    }
+    if (map.getLayer("masaf-hl")) map.setLayoutProperty("masaf-hl", "visibility", hl === "masaf" ? "visible" : "none");
+    hlChip.hidden = !hl;
+    hlChip.innerHTML = hl ? `<span>${esc(hl === "masaf" ? L.cp.hlMasaf : L.cp.hl(item.label.toLowerCase()))}</span><b>×</b>` : "";
+    compEl.querySelectorAll(".cp-row").forEach(r => {
+      r.classList.toggle("on", r.dataset.key === hl); r.setAttribute("aria-pressed", r.dataset.key === hl); });
+  };
+  const toggleHl = k => { hl = hl === k ? null : k; applyHl(); };
+  hlChip.onclick = () => toggleHl(hl);
+  // una riga della scheda: nome, ⓘ con la spiegazione, numeri e barra; un tocco (o Invio) accende e spegne l'evidenziazione
+  const compRow = (key, label, tipHtml, title, small) => {
+    const r = document.createElement("div");
+    r.className = "cp-row" + (small ? " sm" : ""); r.tabIndex = 0; r.dataset.key = key; r.title = title;
+    r.setAttribute("role", "button"); r.setAttribute("aria-pressed", "false");
+    r.innerHTML = `<div class="cp-top"><span class="lb">${small ? esc(label) : `<b>${esc(label)}</b>`}</span>${tipHtml
+      ? `<span class="cp-info" tabindex="0">ⓘ<span class="tip">${tipHtml}</span></span>` : ""}<span class="nums"></span></div><div class="cp-bar"><i></i></div>`;
+    r.onclick = e => { if (!e.target.closest(".cp-info")) toggleHl(key); };
+    r.onkeydown = e => { if ((e.key === "Enter" || e.key === " ") && e.target === r) { e.preventDefault(); toggleHl(key); } };
+    // la scheda scorre: la spiegazione si posiziona rispetto alla finestra, larga quanto la scheda, sotto la ⓘ (senza
+    // spazio in mezzo, così il mouse ci arriva) o sopra se sotto non c'è posto
+    const info = r.querySelector(".cp-info");
+    if (info) {
+      const place = () => {
+        const t = info.querySelector(".tip"), box = compBox.getBoundingClientRect(), b = info.getBoundingClientRect();
+        t.style.left = box.left + "px"; t.style.width = box.width + "px"; t.style.top = b.bottom + "px";
+        requestAnimationFrame(() => { if (b.bottom + t.offsetHeight > innerHeight) t.style.top = (b.top - t.offsetHeight) + "px"; });
+      };
+      for (const ev of ["mouseenter", "focusin", "pointerdown"]) info.addEventListener(ev, place);
+      r.removeAttribute("title"); r.querySelector(".lb").title = r.querySelector(".cp-bar").title = title;   // non sopra la spiegazione
+    }
+    return r;
+  };
+  // "38% · 1.204 di 3.170": percentuale intera, ma mai 0% o 100% se non lo è davvero
+  const compPct = (n, tot) => { const x = tot ? 100 * n / tot : 0;
+    return (n && x < 0.5 ? "<1" : n < tot && x >= 99.5 ? ">99" : String(Math.round(x))) + "%"; };
+  const setCompRow = (r, n, tot) => {
+    r.querySelector(".nums").textContent = `${compPct(n, tot)} · ${fmtN(n)} ${L.cp.of} ${fmtN(tot)}`;
+    r.querySelector(".cp-bar i").style.width = (tot ? 100 * n / tot : 0) + "%";
+  };
+  const wikiKey = k => link("https://wiki.openstreetmap.org/wiki/Key:" + k, k + "=*");
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; };
+  let compBuilt = false, compMsg, compNote, compRows;
+  // il riquadro MASAF si vede solo quando il centro della mappa è in Italia: confine nazionale ("g:Italia") di
+  // regions_boundaries.geojson, che la mappa dei monumentali carica solo qui, alla prima apertura della scheda.
+  // italy: undefined = confine in arrivo (riquadro nascosto), null = non caricato (riquadro sempre visibile)
+  let compMasaf = null, italy;
+  const showMasaf = () => {
+    if (!compMasaf) return;
+    const c = map.getCenter();
+    compMasaf.hidden = italy === undefined || (italy !== null && !inGeometry([c.lng, c.lat], italy));
+  };
+  const buildComp = () => {
+    compBuilt = true;
+    // Mappa dei monumentali: in cima gli alberi dell'elenco MASAF già su OSM, per l'Italia e per regione, dai conteggi
+    // di fetch_world.py in data/world/index.json (masaf_total; masaf_regions = { slug: [su OSM, iscritti] }). Con i
+    // dati scritti prima di questi campi si conosce solo quanti mancano ("masaf").
+    if (MODE === "monumental" && idx[MODE] && idx[MODE].masaf != null) {
+      const m = idx[MODE], title = L.cp.masafRowTitle, box = el("div");
+      const h = el("h4", "", L.cp.masafTitle);
+      const it = compRow("masaf", L.cp.italy, esc(L.cp.masafTip), title);
+      box.append(h, it);
+      if (m.masaf_total) {
+        setCompRow(it, m.masaf_total - m.masaf, m.masaf_total);
+        const regs = Object.entries(m.masaf_regions || {}).map(([slug, [n, tot]]) => ({ slug, n, tot, row: compRow("masaf", slug, "", title, true) }));
+        if (regs.length) {
+          const d = el("details", "cp-reg"), fill = names => {
+            for (const r of regs) { r.name = names[r.slug] || r.slug; r.row.querySelector(".lb").textContent = r.name; setCompRow(r.row, r.n, r.tot); }
+            d.replaceChildren(el("summary", "", L.cp.regions), ...regs.sort((a, b) => a.name.localeCompare(b.name, LOC)).map(r => r.row));
+          };
+          fill({});
+          // nomi delle regioni nella lingua del sito, da regions.json (la mappa dei monumentali non lo carica)
+          getJSON(BASE + "scripts/regions.json").then(list => fill(Object.fromEntries(list.map(x => [x.slug, x["name_" + LANG] || x.name])))).catch(() => {});
+          d.addEventListener("toggle", fitSideLists);
+          box.append(d);
+        }
+      } else {
+        it.querySelector(".nums").textContent = L.cp.masafLeft(fmtN(m.masaf));
+        it.querySelector(".cp-bar").hidden = true;
+        box.append(el("div", "note", L.cp.masafSoon));
+      }
+      compEl.append(compMasaf = box);
+      box.hidden = true;
+      getJSON(BASE + "data/regions_boundaries.geojson")
+        .then(fc => { italy = (fc.features.find(f => f.properties.key === "g:Italia") || {}).geometry || null; })
+        .catch(() => { italy = null; }).then(() => { showMasaf(); fitSideLists(); });
+    }
+    compMsg = el("div", "note"); compRows = el("div"); compNote = el("div", "note");
+    for (const [title, sub, keys] of COMP_GROUPS) {
+      const h = el("h4", "", title);
+      if (sub) h.append(" ", el("small", "", "· " + sub));
+      compRows.append(h, ...keys.map(k => COMP[k].row = compRow(k, COMP[k].label,
+        L.cp.tips[k](wikiKey) + (k === "photo" ? "" : " " + esc(L.cp.measured)), L.cp.rowTitle)));
+    }
+    compEl.append(compMsg, compRows, compNote);
+    applyHl();
+  };
+  // conta solo con la scheda aperta; chiamata da update (mappa spostata, filtri cambiati, dati caricati)
+  const renderComp = () => {
+    if (!compBox.open) return;
+    const first = !compBuilt;
+    if (first) buildComp();
+    showMasaf();
+    const z = map.getZoom(), cnt = Object.fromEntries(COMP_KEYS.map(k => [k, 0]));
+    let tot = 0;
+    eachInView(p => { tot++; for (const k of COMP_KEYS) if (COMP[k].has(p)) cnt[k]++; });
+    // stati vuoti: nessuna regione, dati ancora in arrivo (del file della regione c'è solo la parte ridotta, o la
+    // mappa dei monumentali non è ancora caricata), nessun albero nella vista
+    const msg = !current ? L.cp.noRegion : !ALL.length || (partial && z >= ALL_Z) ? L.cp.loading : !tot ? L.cp.noTrees : "";
+    compMsg.textContent = msg; compMsg.hidden = !msg; compRows.hidden = !!msg;
+    const note = msg ? "" : WORLD ? (z < FULL_Z ? L.cp.partialWorld : "") : z < ALL_Z ? L.cp.partialQa : "";
+    compNote.textContent = note; compNote.hidden = !note;
+    if (!msg) for (const k of COMP_KEYS) setCompRow(COMP[k].row, cnt[k], tot);
+    if (first) fitSideLists();
+  };
+  onCompToggle = renderComp;
+
   // il conteggio si aggiorna anche poco dopo l'ultimo ridisegno, senza aspettare "idle" (che per le regioni grandi
   // attende la sorgente completa)
   let countTimer;
@@ -1703,6 +1975,11 @@ map.on("load", async () => {
     map.addLayer({ id: "masaf-trunk", type: "circle", source: "masaf", minzoom: SHAPE_Z, filter: ["has", "tr"],
       paint: { "circle-radius": radius("tr", 1.5), "circle-color": TRUNK_COLOR,
         "circle-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1], "circle-pitch-alignment": "map" } });
+    // evidenziazione degli alberi MASAF non su OSM (scheda Completezza, toggleHl("masaf")): a ogni zoom, anche sotto
+    // FULL_Z dove gli altri livelli non li disegnano; un punto piccolo da lontano, poi un cerchio attorno alla chioma
+    map.addLayer({ id: "masaf-hl", type: "circle", source: "masaf", layout: { visibility: "none" },
+      paint: { "circle-radius": byZoom(z => z < FULL_Z ? 3 : ["+", crownPx(z), 4]), "circle-color": HL_COLOR, "circle-opacity": 0.3,
+        "circle-stroke-color": HL_COLOR, "circle-stroke-width": 2, "circle-pitch-alignment": "map" } });
     // sagome: come shapeRing per gli alberi OSM (raggio 5 m, id ricavato dal codice MASAF per variare lobi e rotazione);
     // senza leaf_type stimato, un cerchio
     const codeId = s => [...String(s)].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7);
@@ -1724,7 +2001,7 @@ map.on("load", async () => {
       map.getSource("masaf").setData(fc);
       map.getSource("masaf-shapes").setData({ type: "FeatureCollection", features: fc.features.map(masafShape) });
     }).catch(() => {});
-    for (const id of ["masaf", "masaf-fill", "masaf-shape"]) {
+    for (const id of ["masaf", "masaf-fill", "masaf-shape", "masaf-hl"]) {
       map.on("click", id, e => {
         const f = e.features[0];
         if (map.queryRenderedFeatures(e.point, { layers: CROWN_IDS }).length) return;   // un albero OSM ha la precedenza
@@ -2077,18 +2354,7 @@ map.on("load", async () => {
 
   // Vista d'insieme: un clic fuori dalle regioni coperte chiede il nome del paese a Nominatim e propone di chiederne
   // l'aggiunta (messaggio su OSM). Sul mare Nominatim non trova un paese e non compare niente.
-  // punto dentro un Polygon o MultiPolygon GeoJSON (ray casting; i buchi interni escludono)
-  const inRing = ([x, y], ring) => {
-    let inside = false;
-    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-      const [xi, yi] = ring[i], [xj, yj] = ring[j];
-      if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside;
-    }
-    return inside;
-  };
-  const inPolygon = (pt, rings) => inRing(pt, rings[0]) && !rings.slice(1).some(h => inRing(pt, h));
-  const inGeometry = (pt, g) => g.type === "Polygon" ? inPolygon(pt, g.coordinates)
-    : g.type === "MultiPolygon" ? g.coordinates.some(p => inPolygon(pt, p)) : false;
+  // (inGeometry, il punto dentro un confine, è definita più su, prima della scheda Completezza)
   // paesi con almeno una regione con dati, dal codice ISO 3166 delle regioni (IT-25 → IT, GB-WLS → GB, JP → JP)
   const COVERED = new Set(meta.filter(m => idx[m.slug] && m.iso).map(m => m.iso.slice(0, 2).toUpperCase()));
   let requestPopup = null;

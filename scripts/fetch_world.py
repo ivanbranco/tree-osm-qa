@@ -109,11 +109,20 @@ def masaf_codes_other():
             if r.strip()}
 
 
+# Regione di un albero dell'elenco: l'ultima parte del codice (001/A005/LC/03) è il codice ISTAT della regione; il
+# Trentino-Alto Adige è diviso nelle due province autonome (21 Bolzano, 22 Trento). Slug come in regions.json.
+MASAF_REGIONS = {"01": "piemonte", "02": "valle-d-aosta", "03": "lombardia", "05": "veneto", "06": "friuli-venezia-giulia",
+                 "07": "liguria", "08": "emilia-romagna", "09": "toscana", "10": "umbria", "11": "marche", "12": "lazio",
+                 "13": "abruzzo", "14": "molise", "15": "campania", "16": "puglia", "17": "basilicata", "18": "calabria",
+                 "19": "sicilia", "20": "sardegna", "21": "trentino-alto-adige", "22": "trentino-alto-adige"}
+
+
 def masaf_missing(fc):
-    """FeatureCollection degli alberi MASAF non ancora su OSM (vuota se manca scripts/masaf_trees.json)."""
+    """(FeatureCollection degli alberi MASAF non ancora su OSM, alberi iscritti, {slug della regione: [già su OSM,
+    iscritti]}), per la mappa e per la scheda Completezza; tutto vuoto se manca scripts/masaf_trees.json."""
     data = ft.load_json(MASAF_TREES)
     if not data.get("trees"):
-        return {"type": "FeatureCollection", "features": []}
+        return {"type": "FeatureCollection", "features": []}, 0, {}
     codes, mon = masaf_codes_other(), []
     print(f"MASAF: {len(codes)} codici su vie e relazioni")
     italy = [r["slug"] for r in ft.REGIONS if r.get("group") == "Italia"]
@@ -136,9 +145,14 @@ def masaf_missing(fc):
         return any(g and g == t.get("g", "").lower() and ft.distance_m(pos, [t["lon"], t["lat"]]) <= MASAF_NEAR
                    for dx in (-1, 0, 1) for dy in (-1, 0, 1) for pos, g in grid.get((cx + dx, cy + dy), []))
 
-    feats = []
+    feats, regions = [], {}
     for t in data["trees"]:
-        if t["c"] in codes or near_same_genus(t):
+        on_osm = t["c"] in codes or near_same_genus(t)
+        if slug := MASAF_REGIONS.get(t["c"].rsplit("/", 1)[-1]):
+            r = regions.setdefault(slug, [0, 0])
+            r[0] += on_osm
+            r[1] += 1
+        if on_osm:
             continue
         words = t.get("s", "").split()
         sp = " ".join(words[:2]) if len(words) > 1 and words[1][:1].islower() else ""   # senza l'autore
@@ -171,7 +185,7 @@ def masaf_missing(fc):
         feats.append({"type": "Feature", "properties": props,
                       "geometry": {"type": "Point", "coordinates": [t["lon"], t["lat"]]}})
     print(f"MASAF: {len(data['trees'])} alberi iscritti, {len(feats)} non ancora su OSM")
-    return {"type": "FeatureCollection", "features": feats}
+    return {"type": "FeatureCollection", "features": feats}, len(data["trees"]), regions
 
 
 # Alberi monumentali secondo altre fonti ma senza denotation=natural_monument su OSM (issue #13): quelli che nel tool
@@ -284,7 +298,8 @@ def update_map(key, index):
     low_path = WORLD_DIR / f"{key}.low.geojson.gz"
     ft.write_gz(low_path, json.dumps(low, separators=(",", ":"), ensure_ascii=False).encode("utf-8"))
     print(f"{key}: {n_low} alberi visibili sotto zoom {FULL_Z} -> {low_path} ({low_path.stat().st_size / 1e3:.0f} KB)")
-    masaf = masaf_missing(fc) if key == "monumental" else None   # alberi dell'elenco MASAF non ancora su OSM
+    # alberi dell'elenco MASAF non ancora su OSM, e conteggi per la scheda Completezza
+    masaf, masaf_total, masaf_regions = masaf_missing(fc) if key == "monumental" else (None, 0, {})
     if masaf is not None:
         ft.write_gz(WORLD_DIR / "masaf.geojson.gz", json.dumps(masaf, separators=(",", ":"), ensure_ascii=False).encode("utf-8"))
     errors = sum(1 for f in fc["features"] if f["properties"]["issues"] != "|")
@@ -295,6 +310,8 @@ def update_map(key, index):
     index[key]["masaf_size"] = n_ms
     if masaf is not None:
         index[key]["masaf"] = len(masaf["features"])
+        index[key]["masaf_total"] = masaf_total        # alberi iscritti; masaf_regions: {slug: [già su OSM, iscritti]}
+        index[key]["masaf_regions"] = masaf_regions
         index[key]["masaf_version"] = ft.load_json(MASAF_TREES).get("version", "")
     print(f"{key}: {len(fc['features'])} alberi ({sum(1 for f in fc['features'] if 'qa' in f['properties'])} "
           f"nelle regioni del tool QA) -> {path} ({path.stat().st_size / 1e6:.1f} MB)")
