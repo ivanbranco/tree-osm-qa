@@ -21,16 +21,18 @@
     max-height:calc(100% - 20px);box-sizing:content-box;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
   #side>*{flex:none}
   .box{background:#fff;padding:10px 12px;border-radius:6px;box-shadow:0 1px 6px #0004}
-  /* schede richiudibili (legenda, classifica, andamento, completezza): quelle chiuse stanno affiancate su una riga (a
-     capo se non c'è posto, allargate a riempire la riga), quella aperta sotto, a tutta larghezza. La sposta in fondo
-     "order", senza toccare l'ordine nella pagina: richiusa, torna al suo posto nella riga */
-  #tabs{display:flex;flex-wrap:wrap;gap:6px}
-  #tabs>details{flex:1 1 auto;min-width:0;padding:0;box-sizing:border-box}
+  /* schede richiudibili (legenda, classifica, andamento, completezza): quelle chiuse stanno su due colonne uguali,
+     così hanno tutte la stessa larghezza; quella aperta sotto, a tutta larghezza. La sposta in fondo "order", senza
+     toccare l'ordine nella pagina: richiusa, torna al suo posto. Se le chiuse sono dispari, l'ultima è sola sulla sua
+     riga e la occupa tutta */
+  #tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  #tabs>details{min-width:0;padding:0;box-sizing:border-box}
   #tabs>details[hidden]{display:none}
-  #tabs>details>summary{font-weight:600;font-size:12.5px;cursor:pointer;list-style:none;padding:6px 8px;border-radius:6px;text-align:center;white-space:nowrap}
+  #tabs>details:nth-child(odd of :not([hidden],[open])):nth-last-child(1 of :not([hidden],[open])){grid-column:1/-1}
+  #tabs>details>summary{font-weight:600;font-size:12.5px;cursor:pointer;list-style:none;padding:6px 4px;border-radius:6px;text-align:center;white-space:nowrap}
   #tabs>details>summary::-webkit-details-marker{display:none}
   #tabs>details:not([open])>summary:hover{background:#f2f2f2}
-  #tabs>details[open]{order:1;flex:1 0 100%;padding:0 12px 10px}
+  #tabs>details[open]{order:1;grid-column:1/-1;padding:0 12px 10px}
   #tabs>details[open]>summary{font-size:14px;padding:10px 0 0;text-align:left;white-space:normal;border-radius:0}
   #tabs>details[open]>summary::before{content:"▾";display:inline-block;width:14px;color:#888}
   /* scelta dell'ordine della classifica: numero di alberi con errori o percentuale (solo con la scheda aperta) */
