@@ -129,6 +129,10 @@
   .osm-menu div a:hover{background:#f2f2f2}
   /* «Vedi a confronto» accanto ai check sul rapporto altezza/circonferenza (issue #14): apre la finestra #cmp */
   .card .cmp-btn{font:inherit;font-weight:400;color:#1a5fb4;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+  /* iconcina accanto all'altezza: stessa finestra, per gli alberi con il confronto ma senza «Vedi a confronto» (anche tasto C) */
+  .card .cmp-pick{background:none;border:0;padding:1px 2px;margin-left:4px;border-radius:3px;color:#1a5fb4;cursor:pointer;vertical-align:-3px;line-height:0}
+  .card .cmp-pick:hover{background:#eef3fb}
+  .card .cmp-pick svg{width:18px;height:15px;fill:none;stroke:currentColor;stroke-width:1.2}
   /* finestra con il disegno del tronco: i colori del disegno sono variabili, la pagina non ha un tema scuro */
   #cmp{--cmp-bg:#fff;--cmp-text:#222;--cmp-muted:#666;--cmp-trunk:#7b4a1e;--cmp-bark:#55310f;--cmp-ref:#8b929c;--cmp-ground:#555;
     width:440px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);box-sizing:border-box;padding:0;border:0;border-radius:8px;
@@ -378,7 +382,10 @@ const I18N = {
     sex: { male: "Esemplare maschile", female: "Esemplare femminile" },
     fromDiameter: " (da diameter)",
     // finestra «Vedi a confronto» dei check too_slender, too_slender_species e too_stocky (issue #14)
-    cmp: { btn: "Vedi a confronto", title: "Tronco a confronto", close: "Chiudi",
+    cmp: { btn: "Vedi a confronto", title: "Tronco a confronto", close: "Chiudi", pick: "Confronta con il tronco tipico (tasto C)",
+      svg: "Disegno in scala del tronco, descritto sotto",
+      same: "Il tronco è largo quanto quello tipico della specie, entro il 10%.",
+      times: k => `Il diametro del tronco è ${k} volte quello tipico della specie.`,
       tree: "questo albero", typical: "tipico", typicalFor: "tipico per", osmMedian: "(mediana OSM)", person: "persona", house: "casa",
       desc: (h, d, c) => `Questo albero: altezza ${h}, circonferenza ${c}, diametro del tronco ${d}.`,
       typSpecies: (h, d, sp, r0) => `Tronco tipico per ${sp} alto ${h}: diametro ${d} (altezza/circonferenza = ${r0}, mediana dei dati OSM per la specie).`,
@@ -644,7 +651,10 @@ const I18N = {
       height: "Height", diameter_crown: "Crown diameter", start_date: "Planting date" },
     sex: { male: "Male specimen", female: "Female specimen" },
     fromDiameter: " (from diameter)",
-    cmp: { btn: "Compare visually", title: "Trunk comparison", close: "Close",
+    cmp: { btn: "Compare visually", title: "Trunk comparison", close: "Close", pick: "Compare with the typical trunk (C key)",
+      svg: "Scale drawing of the trunk, described below",
+      same: "The trunk is as wide as the typical one for the species, within 10%.",
+      times: k => `The trunk diameter is ${k} times the typical one for the species.`,
       tree: "this tree", typical: "typical", typicalFor: "typical for", osmMedian: "(OSM median)", person: "person", house: "house",
       desc: (h, d, c) => `This tree: height ${h}, circumference ${c}, trunk diameter ${d}.`,
       typSpecies: (h, d, sp, r0) => `Typical trunk for a ${h} tall ${sp}: diameter ${d} (height/circumference = ${r0}, median of OSM data for the species).`,
@@ -1593,6 +1603,15 @@ map.on("load", async () => {
     if (e.target.closest?.("input, select, textarea, [contenteditable], dialog")) return;
     map.flyTo({ center: cardPopup.getLngLat(), zoom: 19 });
   });
+  // tasto C (Confronta / Compare): con una scheda aperta, la finestra del tronco a confronto, se l'albero ce l'ha:
+  // quella del primo «Vedi a confronto» o, senza check sul rapporto, dell'iconcina accanto all'altezza; come Z, non
+  // mentre si scrive in un campo o con una finestra aperta
+  addEventListener("keydown", e => {
+    if (e.key.toLowerCase() !== "c" || e.ctrlKey || e.metaKey || e.altKey || !cardPopup) return;
+    if (e.target.closest?.("input, select, textarea, [contenteditable], dialog") || document.querySelector("dialog[open]")) return;
+    const b = cardPopup.getElement().querySelector(".cmp-btn, .cmp-pick");
+    if (b) { e.preventDefault(); openCompare(b); }
+  });
   // anche i tronchi (singoli e multipli) aprono la scheda: da zoom 16 sono disegnati sopra la chioma
   for (const id of [...CROWN_IDS, ...TIERS.map(t => "trunk" + t.suf), ...TIERS.map(t => "stem" + t.suf),
     "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"]) {
@@ -2434,7 +2453,7 @@ function card(p, pos) {
       <img ${img ? `src="${esc(img.src)}"` : "hidden"} alt="" loading="lazy" onerror="this.parentNode.remove()" onload="this.parentNode.classList.add('loaded')">
       <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}${img?.author ? ` title="${esc(creditText(img.author, img.lic))}"` : ""}>${img?.fs && img.author ? FOTOSHI_ICON : ""}${img?.author ? creditHtml(img.author, img.lic) : ""}</a></div>` : "";
   const genusIssue = !WORLD && ["genus", "genus_lowercase", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
-  const rows = ROWS.filter(([k]) => p[k] && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}</dd>`).join("");
+  const rows = ROWS.filter(([k]) => p[k] && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : ""}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
   const rec = recognitions(p);
   const links = [osmMenu(p, pos)];
@@ -2493,26 +2512,44 @@ document.addEventListener("click", e => document.querySelectorAll(".pop.open").f
 // apre una finestra con un disegno in scala: il tronco dell'albero (alto height, largo il diametro), il tronco tipico
 // alla stessa altezza, una persona e, per gli alberi oltre 5 m, una casa di due piani. Usa solo i dati della feature
 // (height, hc_circ, hc_ratio, sp_ratio, species, diam_used: fetch_trees.py).
-// Rapporto altezza/circonferenza tipico quando non c'è quello della specie: la mediana di tutti gli alberi OSM con le
-// due misure (~6, vedi il commento a SLENDER_MAX in scripts/fetch_trees.py)
-const TYPICAL_HC_RATIO = 6;
+// Rapporto altezza/circonferenza tipico per i check too_slender e too_stocky: la mediana di tutti gli alberi OSM con le
+// due misure mappate (11,8 su 368.958 alberi delle regioni, novembre 2026), lo stesso valore di "_default" in
+// scripts/species_limits.json. Il confronto senza check non lo usa: lì vale solo il rapporto della specie
+const TYPICAL_HC_RATIO = 12;
 const CMP_CHECKS = ["too_slender", "too_slender_species", "too_stocky"];
 const CMP_PERSON_H = 1.75, CMP_PERSON_W = 0.5, CMP_HOUSE_H = 7, CMP_HOUSE_W = 6;   // riferimenti, in metri
 const CMP_HOUSE_FROM = 5;   // m: la casa si disegna solo per gli alberi più alti
-// misure usate dal disegno: h altezza, c circonferenza, r0 rapporto tipico, sp specie (solo too_slender_species),
-// fd circonferenza ricavata dal diametro. null se i dati non bastano
+// misure usate dal disegno: h altezza, c circonferenza, r0 rapporto tipico, sp specie (too_slender_species e confronto
+// senza check), fd circonferenza ricavata dal diametro, n confronto senza check (testi solo descrittivi). null se i
+// dati non bastano. i = "" per il confronto senza check: solo con il rapporto della specie (sp_ratio), mai quello generico
 function compareData(i, p) {
-  const r = Number(p.hc_ratio), bySpecies = i === "too_slender_species";
+  const r = Number(p.hc_ratio), bySpecies = !i || i === "too_slender_species";
   const r0 = bySpecies ? Number(p.sp_ratio) : TYPICAL_HC_RATIO;
   let h = Number(num(p.height)), c = Number(p.hc_circ);
   if (!(h > 0) && c > 0 && r > 0) h = c * r;   // height scritta in un modo che la pagina non legge
   if (!(c > 0) && h > 0 && r > 0) c = h / r;   // hc_circ è arrotondata a 2 decimali: può valere 0
   if (!(h > 0 && c > 0 && r0 > 0)) return null;
-  return { h, c, r0, sp: bySpecies ? p.species : "", fd: p.diam_used ? 1 : 0 };
+  return { h, c, r0, sp: bySpecies ? p.species : "", fd: p.diam_used ? 1 : 0, ...(i ? {} : { n: 1 }) };
 }
 function compareBtn(i, p) {
   const d = CMP_CHECKS.includes(i) && compareData(i, p);
   return d ? ` <button type="button" class="cmp-btn" data-cmp="${esc(JSON.stringify(d))}" onclick="openCompare(this)">${esc(L.cmp.btn)}</button>` : "";
+}
+// Confronto dalla scheda (iconcina accanto all'altezza e tasto C): la stessa finestra del primo check sul rapporto, se
+// c'è; altrimenti il confronto con la specie, solo per gli alberi con altezza e circonferenza mappate e una specie con
+// rapporto noto (sp_ratio, hc_ratio, hc_circ: fetch_trees.py). Niente per i ceppi e senza quei dati
+function cardCompare(p) {
+  if (p.stump) return null;
+  for (const i of CMP_CHECKS) if (String(p.issues || "").includes(`|${i}|`)) { const d = compareData(i, p); if (d) return d; }
+  return Number(p.sp_ratio) > 0 ? compareData("", p) : null;
+}
+// pittogramma: tronco dell'albero, tronco tipico (tratteggiato) e persona sul terreno
+const CMP_ICON = '<svg viewBox="0 0 18 15" aria-hidden="true"><rect x="1.5" y="1" width="3.5" height="13"/><rect x="8" y="1" width="2.2" height="13" stroke-dasharray="2 1.3"/><circle cx="14.5" cy="8" r="1.2"/><path d="M14.5 9.6V14M0 14.4h18"/></svg>';
+// l'iconcina solo per il confronto senza check (d.n): con un check sul rapporto c'è già «Vedi a confronto», che apre la
+// stessa finestra (anche con il tasto C)
+function comparePick(p) {
+  const d = cardCompare(p);
+  return d?.n ? `<button type="button" class="cmp-pick" data-cmp="${esc(JSON.stringify(d))}" onclick="openCompare(this)" title="${esc(L.cmp.pick)}" aria-label="${esc(L.cmp.pick)}">${CMP_ICON}</button>` : "";
 }
 const cmpM = v => fmtM(Math.round(v * 1000) / 1000);
 // diametri: ricavati da una circonferenza arrotondata a 2 decimali, quindi al centimetro (al millimetro sotto 10 cm)
@@ -2566,7 +2603,7 @@ function compareSvg(d, label) {
   }
   // barra della scala: la lunghezza «tonda» (1, 2, 5 × 10ⁿ m) più grande che sta in 90 px
   const p10 = 10 ** Math.floor(Math.log10(90 / s)), bar = [5, 2, 1].find(k => k * p10 * s <= 90) * p10, by = H - 6, bx = f(PAD + bar * s);
-  return { thin, house: items.some(it => it.k === "house"), svg: `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}"><title>${esc(label)}</title>`
+  return { thin, house: items.some(it => it.k === "house"), svg: `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">`
     + `<defs><pattern id="cmp-bark" width="5" height="9" patternUnits="userSpaceOnUse"><path d="M1.5 0v9M4 0v5" stroke="var(--cmp-bark)" stroke-width=".7" opacity=".6"/></pattern></defs>`
     + out + `<path d="M${PAD} ${GY}H${W - PAD}" stroke="var(--cmp-ground)" stroke-width="1.5"/>`
     + `<path d="M${PAD} ${by - 3}v6M${PAD} ${by}H${bx}M${bx} ${by - 3}v6" fill="none" stroke="var(--cmp-muted)"/>`
@@ -2578,9 +2615,13 @@ function openCompare(btn) {
   const h = cmpM(d.h), diaT = cmpD(d.h / d.r0 / Math.PI), r0 = Number(d.r0).toLocaleString(LOC);
   const lines = [T.desc(h, cmpD(d.c / Math.PI), cmpM(d.c) + (d.fd ? L.fromDiameter : "")),
     d.sp ? T.typSpecies(h, diaT, d.sp, r0) : T.typAll(h, diaT, r0)];
+  // senza check: quante volte il diametro è quello tipico (= rapporto tipico / rapporto dell'albero); entro il 10% «uguale»
+  if (d.n) { const k = d.c * d.r0 / d.h;
+    lines.push(Math.abs(k - 1) <= 0.1 ? T.same : T.times(k.toLocaleString(LOC, { maximumSignificantDigits: 2 }))); }
   const refs = house => T.refs(cmpM(CMP_PERSON_H), house ? cmpM(CMP_HOUSE_H) : "");
-  // il testo del disegno (title e aria-label) è lo stesso scritto sotto
-  const g = compareSvg(d, [...lines, refs(d.h > CMP_HOUSE_FROM)].join(" "));
+  // niente <title> (il pop-up al passaggio del mouse ripeteva il testo scritto sotto): solo un nome breve per i lettori
+  // di schermo, che leggono poi i paragrafi sotto il disegno
+  const g = compareSvg(d, T.svg);
   document.getElementById("cmp-body").innerHTML = g.svg + lines.map(x => `<p>${esc(x)}</p>`).join("")
     + [g.thin.tree && T.thin, g.thin.typ && T.thinTyp, refs(g.house) + " " + T.note].filter(Boolean).map(x => `<p class="note">${esc(x)}</p>`).join("");
   cmpOpener = btn;

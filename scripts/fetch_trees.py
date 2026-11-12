@@ -171,8 +171,9 @@ MAX_CROWN = 60.4           # m
 # Tag non documentati sugli alberi: tree=* e type=* (type=palm escluso: va sistemato in blocco)
 UNDOC_TAGS = ("tree", "type")
 UNDOC_IGNORE = {("type", "palm")}
-# Rapporto altezza/circonferenza ("slenderness"): segnalati solo i valori esagerati. Nei dati la mediana è ~6 e
-# gli alberi reali più tozzi (olivi monumentali) stanno sopra 0,45.
+# Rapporto altezza/circonferenza ("slenderness"): segnalati solo i valori esagerati. Nei dati la mediana è ~12
+# (11,8 su 368.958 alberi con le due misure mappate, novembre 2026; "_default" in species_limits.json) e gli alberi
+# reali più tozzi (olivi monumentali) stanno sopra 0,45.
 SLENDER_MAX = 100.0        # oltre: albero troppo slanciato (es. height=24, circumference=0.01)
 STOCKY_MIN = 1 / 3         # sotto: albero troppo tozzo (circonferenza più di 3 volte l'altezza)
 # Slancio rispetto alla specie (check too_slender_species, solo per le specie con height_circ_ratio): provato su
@@ -1823,6 +1824,12 @@ def to_feature(el):
     wd_bad = {"wikidata_mismatch", "wikidata_not_taxon", "wikidata_rank", "wikidata_name_mismatch"} & set(iss)
     p.update(wikidata_extras(t, not wd_bad))
     p["issues"] = "|" + "|".join(iss) + "|" if iss else "|"
+    # confronto con il tronco tipico della specie (index.html, finestra «Tronco a confronto» e tasto C): solo con
+    # altezza e circonferenza mappate (anche dal diametro; per i ceppi slenderness è None) e una specie con
+    # height_circ_ratio, senza ripiegare sul rapporto di _default. Gli stessi campi dei check too_slender*
+    r, r0 = slenderness(t), (species_limit(t) or {}).get("height_circ_ratio")
+    if r is not None and r0:
+        p.update(hc_ratio=round(r, 3), hc_circ=round(circ_value(t)[0], 2), sp_ratio=r0)
     p.update(props)
     p.update(hint_props(t))               # consigli della scheda (non errori)
     return {"type": "Feature", "properties": p,
