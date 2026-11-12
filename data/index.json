@@ -760,12 +760,11 @@
    "updated": "2026-11-11T15:40:41Z"
   },
   "toscana": {
-   "count": 117357,
-   "diam": "mm",
-   "errors": 268,
+   "count": 117369,
+   "errors": 296,
    "name": "Toscana",
-   "sha1": "687333a43b4c359fdd54674d12b0a556c7fef624",
-   "updated": "2026-11-12T00:07:02Z"
+   "sha1": "3a8a50f0d0b5c6fc2968dd4a15bab0e2856bcc83",
+   "updated": "2026-11-12T17:23:06Z"
   },
   "trentino-alto-adige": {
    "count": 67787,
