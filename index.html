@@ -146,7 +146,7 @@
   #cmp-x:hover{background:#f2f2f2;color:var(--cmp-text)}
   #cmp svg{display:block;width:100%;height:auto;margin:6px 0}
   #cmp svg text{font:10px system-ui,sans-serif;fill:var(--cmp-text)}
-  #cmp svg text.m{fill:var(--cmp-muted)}
+  #cmp svg .m{fill:var(--cmp-muted)}
   #cmp p{margin:4px 0;font-size:13px;line-height:1.4;overflow-wrap:anywhere}
   #cmp p.note{font-size:12px;color:var(--cmp-muted)}
 </style>
@@ -393,8 +393,19 @@ const I18N = {
       typAll: (h, d, r0) => `Tronco tipico di un albero alto ${h}: diametro ${d} (altezza/circonferenza = ${r0}, mediana di tutti i dati OSM).`,
       thin: "Il tronco di questo albero è più sottile di 1 px a questa scala: è disegnato largo 1 px, sotto la freccia.",
       thinTyp: "Il tronco tipico è più sottile di 1 px a questa scala: è disegnato largo 1 px.",
-      refs: (a, b) => `Riferimenti: una persona alta ${a}${b ? ` e una casa di due piani alta ${b}` : ""}.`,
-      refsPisa: (b, c) => `Riferimenti: una casa di due piani alta ${b} e la Torre di Pisa, alta ${c}.`,
+      and: " e ", refs: x => `Riferimenti: ${x}.`,
+      ref: { person: a => `una persona alta ${a}`, house: a => `una casa di due piani alta ${a}`, pisa: a => `la Torre di Pisa, alta ${a}` },
+      // riferimenti di larghezza dietro il tronco (CMP_BACK): nome nel disegno, «della lunghezza …», riga dei riferimenti
+      behind: "dietro il tronco", front: "davanti al tronco",
+      back: { dino: { name: "sauropode", of: "di un sauropode", ref0: "Il sauropode", ref: (w, h, pos) => `un sauropode ${pos} (Giraffatitan, lungo circa ${w}, alto circa ${h})` },
+        b747: { name: "Boeing 747", of: "di un Boeing 747", ref0: "Il Boeing 747", ref: (w, h, pos) => `un Boeing 747 ${pos} (lungo ${w}, alto ${h})` },
+        col: { name: "Colosseo", of: "del Colosseo", ref0: "Il Colosseo", ref: (w, h, pos) => `il Colosseo ${pos} (lungo ${w}, alto ${h})` } },
+      backIs: (x, of) => `Il diametro del tronco è circa ${x} della lunghezza ${of}.`,
+      colFrac: { "1/2": "la metà", "1/3": "un terzo", "1/4": "un quarto", "1/5": "un quinto", "1/10": "un decimo", "2/3": "due terzi", "3/4": "tre quarti" },
+      colPct: n => `${/^(8|11|8\d)$/.test(n) ? "l'" : "il "}${n}%`,
+      backSame: of => `Il diametro del tronco è circa uguale alla lunghezza ${of}.`,
+      backTimes: (k, of) => `Il diametro del tronco è circa ${k} volte la lunghezza ${of}.`,
+      backFront: x => `${x} è disegnato davanti al tronco, che altrimenti lo coprirebbe.`,
       note: "Disegno schematico: l'altezza comprende la chioma e il tronco vero si assottiglia verso l'alto." },
     // spiegazione del check, nel pop-up sul simbolo ⚠ della scheda
     why: {
@@ -664,8 +675,18 @@ const I18N = {
       typAll: (h, d, r0) => `Typical trunk of a ${h} tall tree: diameter ${d} (height/circumference = ${r0}, median of all OSM data).`,
       thin: "The trunk of this tree is thinner than 1 px at this scale: it is drawn 1 px wide, below the arrow.",
       thinTyp: "The typical trunk is thinner than 1 px at this scale: it is drawn 1 px wide.",
-      refs: (a, b) => `References: a ${a} tall person${b ? ` and a ${b} tall two-storey house` : ""}.`,
-      refsPisa: (b, c) => `References: a ${b} tall two-storey house and the ${c} tall Leaning Tower of Pisa.`,
+      and: " and ", refs: x => `References: ${x}.`,
+      ref: { person: a => `a ${a} tall person`, house: a => `a ${a} tall two-storey house`, pisa: a => `the ${a} tall Leaning Tower of Pisa` },
+      behind: "behind the trunk", front: "in front of the trunk",
+      back: { dino: { name: "sauropod", of: "of a sauropod", ref0: "The sauropod", ref: (w, h, pos) => `a sauropod ${pos} (Giraffatitan, about ${w} long, about ${h} tall)` },
+        b747: { name: "Boeing 747", of: "of a Boeing 747", ref0: "The Boeing 747", ref: (w, h, pos) => `a Boeing 747 ${pos} (${w} long, ${h} tall)` },
+        col: { name: "Colosseum", of: "of the Colosseum", ref0: "The Colosseum", ref: (w, h, pos) => `the Colosseum ${pos} (${w} long, ${h} tall)` } },
+      backIs: (x, of) => `The trunk diameter is about ${x} of the length ${of}.`,
+      colFrac: { "1/2": "half", "1/3": "one third", "1/4": "one quarter", "1/5": "one fifth", "1/10": "one tenth", "2/3": "two thirds", "3/4": "three quarters" },
+      colPct: n => `${n}%`,
+      backSame: of => `The trunk diameter is about the same as the length ${of}.`,
+      backTimes: (k, of) => `The trunk diameter is about ${k} times the length ${of}.`,
+      backFront: x => `${x} is drawn in front of the trunk, which would otherwise cover it.`,
       note: "Schematic drawing: the height includes the crown and a real trunk tapers towards the top." },
     why: {
       circumference: "43 m is the largest girth recorded, in African baobabs (Adansonia digitata; source: Guinness World Records). The value is in metres.",
@@ -2517,7 +2538,8 @@ document.addEventListener("click", e => document.querySelectorAll(".pop.open").f
 // ---- Tronco a confronto (issue #14): per i check sul rapporto altezza/circonferenza un pulsante accanto al messaggio
 // apre una finestra con un disegno in scala: il tronco dell'albero (alto height, largo il diametro), il tronco tipico
 // alla stessa altezza, una persona e, per gli alberi oltre 5 m, una casa di due piani; oltre 40 m la Torre di Pisa al
-// posto della persona. Usa solo i dati della feature
+// posto della persona; con un tronco di diametro oltre 5 m un riferimento di larghezza dietro il tronco (sauropode,
+// Boeing 747 o Colosseo: CMP_BACK). Usa solo i dati della feature
 // (height, hc_circ, hc_ratio, sp_ratio, species, diam_used: fetch_trees.py).
 // Rapporto altezza/circonferenza tipico per i check too_slender e too_stocky: la mediana di tutti gli alberi OSM con le
 // due misure mappate (11,8 su 368.958 alberi delle regioni, novembre 2026), lo stesso valore di "_default" in
@@ -2533,8 +2555,9 @@ const CMP_PISA_H = 56, CMP_PISA_D = 15.5, CMP_PISA_LEAN = 4, CMP_PISA_FROM = 40;
 const CMP_PISA_W = CMP_PISA_D + CMP_PISA_H * Math.tan(CMP_PISA_LEAN * Math.PI / 180);   // ingombro in pianta, con la pendenza
 // sagoma in metri, dritta (la pendenza la dà skewX): piano terra di 10 m, sei loggiati di 6 m, cella campanaria di 10 m
 // e larga 11,5 m; in colore di sfondo le cornici tra i piani, gli archi e la porta
+const cmpArch = (x, y, w, h) => `M${+x.toFixed(2)} ${y}v-${h}a${w / 2} ${w / 2} 0 0 1 ${w} 0v${h}z`;
 const CMP_PISA_SVG = (() => {
-  const arch = (x, y, w, h) => `M${+x.toFixed(2)} ${y}v-${h}a${w / 2} ${w / 2} 0 0 1 ${w} 0v${h}z`;
+  const arch = cmpArch;
   let holes = arch(6.75, 56, 2, 3.5);
   for (let k = 0; k < 6; k++) {
     holes += `M0 ${46 - 6 * k}h15.5v.4H0z`;
@@ -2544,6 +2567,46 @@ const CMP_PISA_SVG = (() => {
   for (let j = 0; j < 3; j++) holes += arch(3.525 + 3.325 * j, 8.5, 1.8, 3.6);
   return `<path d="M0 56V10h2V0h11.5v10h2v46z" fill="var(--cmp-ref)"/><path d="${holes}" fill="var(--cmp-bg)"/>`;
 })();
+// persona e casa si tolgono quando, alla scala del disegno, sarebbero più basse di così (albero alto o tronco largo)
+const CMP_REF_MIN_PX = 7;
+// Riferimenti di larghezza per i tronchi con diametro oltre CMP_BACK_FROM (CMP_BACK, dal più piccolo): si disegnano
+// dietro il tronco, di profilo, sulla stessa linea del terreno e centrati sul suo asse. Si usa il più piccolo di cui il
+// tronco non supera CMP_BACK_NEXT della lunghezza, altrimenti l'ultimo; con uno di questi la persona non c'è mai.
+// Oltre CMP_BACK_FRONT della lunghezza il tronco coprirebbe il riferimento, che allora si disegna davanti (succede
+// solo con l'ultimo). Le sagome sono in metri, nel colore dei riferimenti, con i dettagli in colore di sfondo
+const CMP_BACK_FROM = 5, CMP_BACK_NEXT = 0.5, CMP_BACK_FRONT = 0.75;
+// Colosseo: asse maggiore 189 m, asse minore 156 m, muro esterno alto 48 m (fonte:
+// https://en.wikipedia.org/wiki/Colosseum), in vista laterale lungo l'asse maggiore
+const CMP_COL_W = 189, CMP_COL_H = 48;
+// sagoma schematica: 24 campate; tre ordini di arcate (alti 10,5, 11,85 e 11,6 m) e l'attico fino a 48 m sulle prime
+// 11 campate, poi il lato crollato a gradoni (41 m, 34 m, 22 m: l'anello interno). In colore di sfondo gli archi, le
+// cornici tra gli ordini e le finestre dell'attico (una campata sì e una no)
+const CMP_COL = (() => {
+  const p = CMP_COL_W / 24, d = "M0 48V0H86.63V7H94.5V14.05H110.25V25.65H189V48z";
+  let holes = "M0 37.5h189v.9H0zM0 25.65h110.25v.9H0zM0 14.05h94.5v.9H0z";
+  for (let j = 0; j < 24; j++) {
+    const x = (j + .5) * p - 2.1;
+    holes += cmpArch(x, 48, 4.2, 4.6) + cmpArch(x, 36.6, 4.2, 4.4);
+    if (j < 14) holes += cmpArch(x, 24.75, 4.2, 4.4);
+    if (j < 11 && j % 2 === 0) holes += `M${+(x + 1).toFixed(2)} 5.5h2.2v3h-2.2z`;
+  }
+  return `<path d="${d}" fill="var(--cmp-ref)"/><path d="${holes}" fill="var(--cmp-bg)"/>`;
+})();
+// Boeing 747 (747-200B): lungo 68,6 m, alto 19,6 m con il carrello esteso (fonte:
+// https://en.wikipedia.org/wiki/Boeing_747, Specifications). Di profilo, muso a sinistra: fusoliera con la gobba del
+// ponte superiore, deriva, due motori e carrello; in colore di sfondo i finestrini, la cabina e l'ala
+const CMP_B747 = `<g fill="var(--cmp-ref)"><path d="M0 14.7C1 12.6 4 10.4 8 9.8L21 9.6C24 9.7 26 10.9 28 11.2H56L61.5 0H66L65.3 9.5 68.6 12.8V13.6C62 15.4 55 17.4 49 17.4H8C4 17.4 1 16.2 0 14.7z"/>`
+  + `<rect x="19" y="16.5" width="5" height="2.3" rx=".8"/><rect x="25.5" y="16.3" width="4.5" height="2.2" rx=".8"/>`
+  + `<path d="M8.2 17h.5v1.5h-.5zM33 17h.6v1.5H33zM37 17h.6v1.5H37z"/><circle cx="8.45" cy="18.95" r=".65"/>`
+  + [32.5, 34, 36.5, 38].map(x => `<circle cx="${x}" cy="18.9" r=".7"/>`).join("") + `</g>`
+  + `<path d="M9 13h46v.35H9zM8.5 11h12v.3h-12zM4.3 11.9l2.1-1.2h1.3v1.2zM26 16.4L43 13.9h2.2L35 16.4z" fill="var(--cmp-bg)"/>`;
+// Sauropode: le misure di Giraffatitan (lo scheletro HMN SII: circa 22 m di lunghezza e 12 m di altezza; fonte:
+// https://en.wikipedia.org/wiki/Giraffatitan). Di profilo, testa a sinistra; in colore di sfondo l'occhio
+const CMP_DINO = `<path d="M0 1.1C.3 .3 1 0 1.6 0C2.2 0 2.6 .4 2.9 1C4.5 2.6 6.5 4.2 8.5 4.5C10.5 4.4 12.2 4.6 13.5 5.4C16.5 6.8 19.5 8.6 22 9.8`
+  + `C19 9.6 16 8.8 14.2 8.2L13.9 12H12.3L12 8.8C11 9.1 10 9.1 9.2 8.9L9 12H7.5L7.3 8.2C6.6 7.6 6.2 6.8 6 6C4.6 4.6 3 3 1.9 1.8C1.2 1.9 .4 1.7 0 1.1z`
+  + `M9.7 8.5h1.3l-.2 3.5H9.8zM14 7.9h1.3l-.3 4.1h-1.1z" fill="var(--cmp-ref)"/><circle cx="1.3" cy=".65" r=".16" fill="var(--cmp-bg)"/>`;
+const CMP_BACK = [{ k: "dino", w: 22, h: 12, svg: CMP_DINO }, { k: "b747", w: 68.6, h: 19.6, svg: CMP_B747 },
+  { k: "col", w: CMP_COL_W, h: CMP_COL_H, svg: CMP_COL }];
 // misure usate dal disegno: h altezza, c circonferenza, r0 rapporto tipico, sp specie (too_slender_species e confronto
 // senza check), fd circonferenza ricavata dal diametro, n confronto senza check (testi solo descrittivi). null se i
 // dati non bastano. i = "" per il confronto senza check: solo con il rapporto della specie (sp_ratio), mai quello generico
@@ -2585,23 +2648,40 @@ function compareSvg(d, label) {
   const W = 340, PAD = 8, TOP = 18, PLOT = 168, GAP = 8;
   const dia = d.c / Math.PI, diaT = d.h / d.r0 / Math.PI;
   const sp = d.sp.length <= 20 ? d.sp : (s => s.length <= 22 ? s : s.slice(0, 21) + "…")(d.sp.replace(/^(\S)\S+ /, "$1. "));
-  const items = [
-    d.h <= CMP_PISA_FROM && { k: "person", w: CMP_PERSON_W, h: CMP_PERSON_H, min: 52, t: [L.cmp.person, cmpM(CMP_PERSON_H)] },
+  // back: il riferimento di larghezza (CMP_BACK) sta dietro il tronco, nello stesso spazio (largo e alto quanto il
+  // più grande dei due)
+  const back = dia > CMP_BACK_FROM ? CMP_BACK.find(b => dia <= b.w * CMP_BACK_NEXT) || CMP_BACK.at(-1) : null, col = !!back;
+  let items = [
+    !col && d.h <= CMP_PISA_FROM && { k: "person", w: CMP_PERSON_W, h: CMP_PERSON_H, min: 52, t: [L.cmp.person, cmpM(CMP_PERSON_H)] },
     d.h > CMP_HOUSE_FROM && { k: "house", w: CMP_HOUSE_W, h: CMP_HOUSE_H, min: 52, t: [L.cmp.house, cmpM(CMP_HOUSE_H)] },
     d.h > CMP_PISA_FROM && { k: "pisa", w: CMP_PISA_W, h: CMP_PISA_H, min: 64, t: [L.cmp.pisa, cmpM(CMP_PISA_H)] },
-    { k: "tree", w: dia, h: d.h, min: 72, t: [L.cmp.tree, "⌀ " + cmpD(dia)] },
+    col ? { k: "tree", w: Math.max(dia, back.w), h: Math.max(d.h, back.h), min: 140 }
+      : { k: "tree", w: dia, h: d.h, min: 72, t: [L.cmp.tree, "⌀ " + cmpD(dia)] },
     { k: "typ", w: diaT, h: d.h, min: 104, t: d.sp ? [L.cmp.typicalFor, sp, "⌀ " + cmpD(diaT)] : [L.cmp.typical, L.cmp.osmMedian, "⌀ " + cmpD(diaT)] }
   ].filter(Boolean);
   const room = W - 2 * PAD, total = s => items.reduce((a, x) => a + Math.max(x.w * s, x.min), 0) + GAP * (items.length - 1);
-  const tallest = Math.max(...items.map(x => x.h));
-  let s = PLOT / tallest;
-  if (total(s) > room) {   // troppo largo (tronchi tozzi): la scala più grande che entra, per bisezione
-    let lo = 0, hi = s;
-    for (let n = 0; n < 40; n++) { const mid = (lo + hi) / 2; if (total(mid) > room) hi = mid; else lo = mid; }
-    s = lo;
+  // con il riferimento dietro il tronco e la Torre di Pisa le etichette non entrano tutte: via la casa
+  if (total(0) > room) items = items.filter(x => x.k !== "house");
+  let tallest, s;
+  const fit = () => {
+    tallest = Math.max(...items.map(x => x.h));
+    s = PLOT / tallest;
+    if (total(s) > room) {   // troppo largo (tronchi tozzi, Colosseo): la scala più grande che entra, per bisezione
+      let lo = 0, hi = s;
+      for (let n = 0; n < 40; n++) { const mid = (lo + hi) / 2; if (total(mid) > room) hi = mid; else lo = mid; }
+      s = lo;
+    }
+  };
+  fit();
+  // riferimenti illeggibili: via prima la persona, poi la casa, se a questa scala sono sotto CMP_REF_MIN_PX; togliendone
+  // uno resta più spazio, quindi la scala si ricalcola
+  for (const k of ["person", "house"]) {
+    const it = items.find(x => x.k === k);
+    if (it && it.h * s < CMP_REF_MIN_PX) { items = items.filter(x => x !== it); fit(); }
   }
   // il disegno è alto quanto l'oggetto più alto alla scala scelta: con la scala ridotta non resta spazio vuoto sopra
   const GY = TOP + Math.ceil(tallest * s), H = GY + 64;
+  const front = col && dia > back.w * CMP_BACK_FRONT;
   const f = v => +v.toFixed(2), thin = {};
   let x = PAD + (room - total(s)) / 2, out = "";
   for (const it of items) {
@@ -2616,22 +2696,31 @@ function compareSvg(d, label) {
     } else if (it.k === "pisa") {   // skewX sposta la base rispetto alla cima: l'altezza resta 56 m, la base sul terreno
       out += `<g transform="translate(${f(cx - it.w * s / 2)} ${f(GY - it.h * s)}) scale(${f(s)}) skewX(${CMP_PISA_LEAN})">${CMP_PISA_SVG}</g>`;
     } else {
-      const w = Math.max(it.w * s, 1), h = Math.max(it.h * s, 1), rx = f(cx - w / 2), ry = f(GY - h);
+      const tw = it.k === "tree" ? dia : it.w, th = it.k === "tree" ? d.h : it.h;   // con il Colosseo lo spazio è più grande del tronco
+      const w = Math.max(tw * s, 1), h = Math.max(th * s, 1), rx = f(cx - w / 2), ry = f(GY - h);
       const box = `x="${rx}" y="${ry}" width="${f(w)}" height="${f(h)}"`;
-      if (it.w * s < 1) thin[it.k] = true;
+      if (tw * s < 1) thin[it.k] = true;
       if (it.k === "tree") {
+        // riferimento dietro, poi un bordo in colore di sfondo che stacca il tronco dalla sagoma; se il tronco lo
+        // coprirebbe (front) il riferimento va davanti, con i suoi colori
+        const ref = col ? `<g transform="translate(${f(cx - back.w * s / 2)} ${f(GY - back.h * s)}) scale(${f(s)})">${back.svg}</g>` : "";
+        if (col && !front) out += ref + `<rect x="${f(rx - 1)}" y="${f(ry - 1)}" width="${f(w + 2)}" height="${f(h + 1)}" fill="var(--cmp-bg)"/>`;
         out += `<rect ${box} fill="var(--cmp-trunk)"/>` + (w >= 6 ? `<rect ${box} fill="url(#cmp-bark)"/>` : "")
           + (thin.tree ? `<path d="M${f(cx - 4)} ${f(GY - h - 10)}h8l-4 7z" fill="var(--cmp-text)"/>` : "");   // freccia sul tronco sotto 1 px
+        if (front) out += ref;
+        // due etichette nello stesso spazio, una per riga, con il quadratino del colore
+        if (col) out += [["--cmp-trunk", L.cmp.tree, "⌀ " + cmpD(dia)], ["--cmp-ref", L.cmp.back[back.k].name, `${cmpM(back.w)} × ${cmpM(back.h)}`]]
+          .map(([c, a, b], n) => `<text x="${f(cx)}" y="${GY + 13 + 12 * n}" text-anchor="middle"><tspan fill="var(${c})">■ </tspan>${esc(a)} <tspan class="m">${esc(b)}</tspan></text>`).join("");
       } else {   // tronco tipico: più tenue, con il bordo tratteggiato se è abbastanza largo
         out += `<rect ${box} fill="var(--cmp-trunk)" fill-opacity="${w >= 4 ? .28 : .5}"`
           + (w >= 4 ? ` stroke="var(--cmp-trunk)" stroke-width="1" stroke-dasharray="3 2"` : "") + "/>";
       }
     }
-    out += it.t.map((t, n) => `<text x="${f(cx)}" y="${GY + 13 + 12 * n}" text-anchor="middle"${n ? ' class="m"' : ""}${n === 1 && it.k === "typ" && d.sp ? ' font-style="italic"' : ""}>${esc(t)}</text>`).join("");
+    out += (it.t || []).map((t, n) => `<text x="${f(cx)}" y="${GY + 13 + 12 * n}" text-anchor="middle"${n ? ' class="m"' : ""}${n === 1 && it.k === "typ" && d.sp ? ' font-style="italic"' : ""}>${esc(t)}</text>`).join("");
   }
   // barra della scala: la lunghezza «tonda» (1, 2, 5 × 10ⁿ m) più grande che sta in 90 px
   const p10 = 10 ** Math.floor(Math.log10(90 / s)), bar = [5, 2, 1].find(k => k * p10 * s <= 90) * p10, by = H - 6, bx = f(PAD + bar * s);
-  return { thin, house: items.some(it => it.k === "house"), pisa: items.some(it => it.k === "pisa"), svg: `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">`
+  return { thin, back, front, refs: items.map(it => it.k).filter(k => k !== "tree" && k !== "typ"), svg: `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">`
     + `<defs><pattern id="cmp-bark" width="5" height="9" patternUnits="userSpaceOnUse"><path d="M1.5 0v9M4 0v5" stroke="var(--cmp-bark)" stroke-width=".7" opacity=".6"/></pattern></defs>`
     + out + `<path d="M${PAD} ${GY}H${W - PAD}" stroke="var(--cmp-ground)" stroke-width="1.5"/>`
     + `<path d="M${PAD} ${by - 3}v6M${PAD} ${by}H${bx}M${bx} ${by - 3}v6" fill="none" stroke="var(--cmp-muted)"/>`
@@ -2646,12 +2735,27 @@ function openCompare(btn) {
   // senza check: quante volte il diametro è quello tipico (= rapporto tipico / rapporto dell'albero); entro il 10% «uguale»
   if (d.n) { const k = d.c * d.r0 / d.h;
     lines.push(Math.abs(k - 1) <= 0.1 ? T.same : T.times(k.toLocaleString(LOC, { maximumSignificantDigits: 2 }))); }
-  const refs = g => g.pisa ? T.refsPisa(cmpM(CMP_HOUSE_H), cmpM(CMP_PISA_H)) : T.refs(cmpM(CMP_PERSON_H), g.house ? cmpM(CMP_HOUSE_H) : "");
   // niente <title> (il pop-up al passaggio del mouse ripeteva il testo scritto sotto): solo un nome breve per i lettori
   // di schermo, che leggono poi i paragrafi sotto il disegno
   const g = compareSvg(d, T.svg);
+  // la riga dei riferimenti elenca solo quelli disegnati (persona e casa possono mancare: CMP_REF_MIN_PX)
+  const refM = { person: [cmpM(CMP_PERSON_H)], house: [cmpM(CMP_HOUSE_H)], pisa: [cmpM(CMP_PISA_H)] };
+  // il riferimento dietro il tronco prima della Torre di Pisa, il cui testo ha già una virgola
+  const refList = g.refs.map(k => T.ref[k](...refM[k])), B = g.back && T.back[g.back.k];
+  if (B) refList.splice(g.refs.includes("pisa") ? refList.length - 1 : refList.length, 0, B.ref(cmpM(g.back.w), cmpM(g.back.h), g.front ? T.front : T.behind));
+  const refs = refList.length ? T.refs(refList.length > 1 ? refList.slice(0, -1).join(", ") + T.and + refList.at(-1) : refList[0]) + " " : "";
+  // con il riferimento dietro il tronco: il diametro del tronco rispetto alla sua lunghezza, come frazione semplice se
+  // ce n'è una entro il 10%, altrimenti in percentuale; entro il 5% «circa uguale», oltre «volte»
+  if (B) {
+    const q = d.c / Math.PI / g.back.w;
+    const fr = [[1, 2], [1, 3], [1, 4], [1, 5], [1, 10], [2, 3], [3, 4]]
+      .map(([a, b]) => ({ k: `${a}/${b}`, e: Math.abs(q * b / a - 1) })).sort((x, y) => x.e - y.e)[0];
+    lines.push(Math.abs(q - 1) <= 0.05 ? T.backSame(B.of)
+      : q > 1 ? T.backTimes(q.toLocaleString(LOC, { maximumSignificantDigits: 2 }), B.of)
+      : T.backIs(fr.e <= 0.1 ? T.colFrac[fr.k] : T.colPct(Math.round(q * 100)), B.of));
+  }
   document.getElementById("cmp-body").innerHTML = g.svg + lines.map(x => `<p>${esc(x)}</p>`).join("")
-    + [g.thin.tree && T.thin, g.thin.typ && T.thinTyp, refs(g) + " " + T.note].filter(Boolean).map(x => `<p class="note">${esc(x)}</p>`).join("");
+    + [g.thin.tree && T.thin, g.thin.typ && T.thinTyp, g.front && T.backFront(B.ref0),refs + T.note].filter(Boolean).map(x => `<p class="note">${esc(x)}</p>`).join("");
   cmpOpener = btn;
   dlg.showModal();
   dlg.focus();
