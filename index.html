@@ -792,7 +792,11 @@ document.querySelectorAll("#lang a").forEach(a => {
 
 const LAT = 45;                                  // latitudine di riferimento per metri→pixel
 const M0 = 78271.517 * Math.cos(LAT * Math.PI / 180); // m/px a zoom 0 (tile 512)
-const px = (prop, minPx, z) => ["max", minPx, ["/", ["get", prop], M0 / Math.pow(2, z)]];
+// mk = cos(45°) / cos(latitudine dell'albero), aggiunto a ogni punto da getGz: corregge la scala di riferimento a 45°,
+// così i cerchi hanno la grandezza vera alla latitudine dell'albero (come le sagome e il check trunk_overlap)
+const MK = ["coalesce", ["get", "mk"], 1];
+const metersPx = (m, z) => ["/", ["*", m, MK], M0 / Math.pow(2, z)];
+const px = (prop, minPx, z) => ["max", minPx, metersPx(["get", prop], z)];
 // raggio in pixel = max(minimo, metri / (m per pixel)); uno stop per ogni zoom intero, così il minimo è un vero max
 const radius = (prop, minPx, div = 1) => ["interpolate", ["exponential", 2], ["zoom"],
   ...Array.from({ length: 23 }, (_, z) => [z, div === 1 ? px(prop, minPx, z) : ["/", px(prop, minPx, z), div]]).flat()];
@@ -801,15 +805,22 @@ const leafOf = p => p.lt || p.leaf_type;   // lt = leaf_type stimato dalla lista
 
 const EMPTY = { type: "FeatureCollection", features: [] };
 const getJSON = u => fetch(u).then(r => { if (!r.ok) throw new Error(u + " " + r.status); return r.json(); });
+// fattore mk di ogni punto (vedi MK)
+const addScale = fc => {
+  const c45 = Math.cos(LAT * Math.PI / 180);
+  for (const f of fc.features || []) if (f.geometry && f.geometry.type === "Point")
+    f.properties.mk = c45 / Math.cos(f.geometry.coordinates[1] * Math.PI / 180);
+  return fc;
+};
 async function getGz(u) {   // file .geojson.gz: se il server non lo ha già decompresso, lo fa il browser
   const r = await fetch(u);
   if (!r.ok) throw new Error(u + " " + r.status);
   const buf = await r.arrayBuffer(), u8 = new Uint8Array(buf);
   if (u8[0] === 0x1f && u8[1] === 0x8b) {
     if (typeof DecompressionStream === "undefined") throw new Error("browser non supportato");
-    return JSON.parse(await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"))).text());
+    return addScale(JSON.parse(await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"))).text()));
   }
-  return JSON.parse(new TextDecoder().decode(buf));
+  return addScale(JSON.parse(new TextDecoder().decode(buf)));
 }
 const indexP = getJSON(BASE + (WORLD ? "data/world/index.json" : "data/index.json"));
 indexP.catch(() => {});
@@ -1481,7 +1492,7 @@ map.on("load", async () => {
     // come radius()) più il contorno di 3 px; nell'immagine il bordo esterno del cerchio è a 28,5 px dal centro
     // raggio della chioma: crr (5 m, 6 m con il criterio a2.3, da fetch_world.py; 5 m nei dati scritti prima)
     const MASAF_R = 5, CRR = ["coalesce", ["get", "crr"], MASAF_R];
-    const crownPx = z => ["max", 3, ["/", CRR, M0 / Math.pow(2, z)]];
+    const crownPx = z => ["max", 3, metersPx(CRR, z)];
     const byZoom = fn => ["interpolate", ["exponential", 2], ["zoom"], ...Array.from({ length: 23 }, (_, z) => [z, fn(z)]).flat()];
     map.addLayer({ id: "masaf-fill", type: "circle", source: "masaf", minzoom: FULL_Z, maxzoom: SHAPE_Z,
       paint: { "circle-radius": byZoom(z => ["+", crownPx(z), 1.5]), "circle-color": CROWN_COLOR, "circle-opacity": 0.35,

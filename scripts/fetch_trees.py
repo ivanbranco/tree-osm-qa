@@ -1730,22 +1730,29 @@ def neighbour_checks(feats):
         for i in ids:
             same[i] += [j for j in ids if j != i]
     # alberi in celle di 15 m: i tronchi plausibili (< 43 m di circonferenza) non superano 6,9 m di raggio. Raggio 0 per
-    # chi non ha un tronco misurato (stimato, mancante o già troppo grande): conta come un punto
+    # chi non ha un tronco misurato (stimato, mancante o già troppo grande): conta come un punto.
+    # Le celle usano lo stesso coseno per tutta la regione (quello della latitudine più lontana dall'equatore: le celle
+    # non sono mai più strette di 15 m), la distanza invece il coseno della latitudine media dei due alberi. Un coseno
+    # diverso per ogni albero sbaglierebbe la distanza: lon × 111320 vale milioni di metri e anche una differenza minima
+    # di coseno tra due alberi vicini sposta x di metri.
     CELL = 15.0
+    if not trees:
+        return
+    kx = math.cos(math.radians(max(abs(f["geometry"]["coordinates"][1]) for f in trees)))
     grid = collections.defaultdict(list)
     for f in trees:
         p = f["properties"]
         measured = p.get("tr") and not p.get("tr_est") and not BIG_TRUNK & set(p["issues"].strip("|").split("|"))
         lon, lat = f["geometry"]["coordinates"]
-        x, y = lon * 111320 * math.cos(math.radians(lat)), lat * 111320
-        grid[(int(x // CELL), int(y // CELL))].append((p["id"], x, y, p["tr"] if measured else 0))
+        x, y = lon * 111320 * kx, lat * 111320
+        grid[(int(x // CELL), int(y // CELL))].append((p["id"], lon, lat, p["tr"] if measured else 0))
     for (cx, cy), cell in grid.items():
         near = [t for dx in (-1, 0, 1) for dy in (-1, 0, 1) for t in grid.get((cx + dx, cy + dy), [])]
         for a in cell:
             for b in near:
                 if b[0] <= a[0] or not (a[3] or b[3]) or b[0] in same.get(a[0], ()):
                     continue
-                d = math.hypot(a[1] - b[1], a[2] - b[2])
+                d = math.hypot((a[1] - b[1]) * 111320 * math.cos(math.radians((a[2] + b[2]) / 2)), (a[2] - b[2]) * 111320)
                 if d < a[3] + b[3]:
                     if a[3] and b[3]:
                         overlap[a[0]].append(f"{b[0]}:{d:.2f}:{a[3] + b[3]:.2f}:o")
