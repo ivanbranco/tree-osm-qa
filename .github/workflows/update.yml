@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       region:
-        description: "Region to update (all = every region; italia, polonia, regno-unito, francia, irlanda, austria = all the regions of that country)"
+        description: "Region to update (all = every region; italia, polonia, regno-unito, francia, spagna, irlanda, austria = all the regions of that country)"
         type: choice
         default: all
         options:
@@ -13,6 +13,7 @@ on:
           - polonia
           - regno-unito
           - francia
+          - spagna
           - irlanda
           - austria
           - albania
@@ -87,6 +88,25 @@ on:
           - warminsko-mazurskie
           - wielkopolskie
           - zachodniopomorskie
+          - andalusia
+          - aragona
+          - asturie
+          - canarie
+          - cantabria
+          - castiglia-e-leon
+          - castiglia-la-mancia
+          - catalogna
+          - ceuta
+          - comunita-di-madrid
+          - comunita-valenciana
+          - estremadura
+          - galizia
+          - isole-baleari
+          - la-rioja
+          - melilla
+          - murcia
+          - navarra
+          - paesi-baschi
           - piemonte
           - valle-d-aosta
           - lombardia
