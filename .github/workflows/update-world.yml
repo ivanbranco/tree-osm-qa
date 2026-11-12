@@ -1,10 +1,10 @@
-name: Aggiorna mappa monumentale
+name: Update monumental map
 
 on:
   workflow_dispatch:
     inputs:
       fairwaymapper:
-        description: "Usa FairwayMapper (se c'è il secret FAIRWAYMAPPER_KEY); togli la spunta per non consumare la quota"
+        description: "Use FairwayMapper (if the FAIRWAYMAPPER_KEY secret exists); untick to save the quota"
         type: boolean
         default: true
 
@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: update-trees      # come "Aggiorna dati alberi": le due Action scrivono le stesse cache
+  group: update-trees      # come "Update tree data": le due Action scrivono le stesse cache
   cancel-in-progress: false
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install requests
-      - name: Scarica i dati
+      - name: Download the data
         env:
           PYTHONUNBUFFERED: "1"
           FAIRWAYMAPPER_KEY: ${{ inputs.fairwaymapper && secrets.FAIRWAYMAPPER_KEY || '' }}
@@ -36,4 +36,4 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add data
-          git diff --cached --quiet || (git commit -m "Aggiornamento mappa monumentale" && git pull --rebase && git push)
+          git diff --cached --quiet || (git commit -m "Update monumental map" && git pull --rebase && git push)

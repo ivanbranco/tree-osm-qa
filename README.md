@@ -1,42 +1,42 @@
 # DendrOSM <img src="favicon.svg" alt="" width="32" height="32">
 
-Mappa degli alberi di OpenStreetMap (`natural=tree`, e i ceppi `natural=tree_stump`), divisa per regioni e pensata per il controllo di qualità dei dati.
+Map of OpenStreetMap trees (`natural=tree`, and stumps `natural=tree_stump`), divided by region and designed for data quality control.
 
-**Sito**: https://ivanbranco.github.io/tree-osm-qa/
+**Site**: https://ivanbranco.github.io/tree-osm-qa/
 
-**Mappa degli alberi monumentali del mondo**: https://ivanbranco.github.io/tree-osm-qa/monumental-trees/
+**World map of monumental trees**: https://ivanbranco.github.io/tree-osm-qa/monumental-trees/
 
-![Alberi su DendrOSM: chiome a lobi e poligonali, tronchi, monumentali con il contorno giallo, ceppi](docs/img/mappa-esempio.png)
+![Trees on DendrOSM: lobed and polygonal crowns, trunks, monumental trees with a yellow outline, stumps](docs/img/map-example.png)
 
-*OpenStreetMap e OSM sono marchi della OpenStreetMap Foundation. DendrOSM non è approvato dalla OpenStreetMap Foundation né affiliato a essa.*
+*OpenStreetMap and OSM are trademarks of the OpenStreetMap Foundation. DendrOSM is not endorsed by or affiliated with the OpenStreetMap Foundation.*
 
-## Cosa fa
+## What it does
 
-* **Controlla i dati**: 48 check su misure, nomi di specie e generi, Wikidata, link e monumentali. Gli alberi con almeno un problema hanno il contorno rosso, e la scheda spiega ogni problema
-* **Disegna gli alberi** con le loro misure reali: chioma, tronco, forma secondo il tipo di foglia, colore secondo il ciclo fogliare, e i monumentali, gli alberi sacri, i tronchi multipli, l'edera e i ceppi
-* **Aiuta a correggere**: filtri per specie e per tipo di errore, scheda con foto e link, apertura dell'albero in iD, JOSM o MapComplete, download degli errori in GeoJSON
-* **Confronta le regioni**: classifica degli errori, per numero o per percentuale, e andamento nel tempo
-* **Mappa mondiale dei monumentali**: tutti gli alberi monumentali del mondo, senza la parte QA, da condividere
-* In italiano e in inglese
+* **Checks the data**: 48 checks on measurements, species and genus names, Wikidata, links and monumental trees. Trees with at least one error have a red outline, and the card explains each error
+* **Draws the trees** with their real measurements: crown, trunk, shape according to leaf type, colour according to leaf cycle, plus monumental trees, sacred trees, multiple trunks, ivy and stumps
+* **Helps fix the data**: filters by species and by error type, a card with photo and links, opening the tree in iD, JOSM or MapComplete, downloading the errors as GeoJSON
+* **Compares regions**: error ranking, by number or by percentage, and trend over time
+* **World map of monumental trees**: all the monumental trees in the world, without the QA part, to share
+* In Italian and English
 
-## Regioni
+## Regions
 
-Italia, Polonia, Francia metropolitana, Regno Unito e Irlanda (divisi in regioni), Austria (nei nove Länder); Portogallo, Lussemburgo, Paesi baltici, Slovenia, Croazia, Bosnia ed Erzegovina, Serbia, Montenegro, Kosovo, Albania, Macedonia del Nord, Grecia, Bulgaria, Romania, Giappone e lo stato di Washington (una regione ciascuno).
+Italy, Poland, metropolitan France, the United Kingdom and Ireland (divided into regions), Austria (in the nine Länder); Portugal, Luxembourg, the Baltic states, Slovenia, Croatia, Bosnia and Herzegovina, Serbia, Montenegro, Kosovo, Albania, North Macedonia, Greece, Bulgaria, Romania, Japan and Washington state (one region each).
 
-Una nuova regione si può chiedere dal menu («+ Richiedi una nuova regione…») o cliccando sulla mappa un paese non coperto. Si può anche chiedere una regione nuova o l'aggiornamento di una esistente aprendo una [issue su GitHub](https://github.com/ivanbranco/tree-osm-qa/issues/new?template=region.yml).
+A new region can be requested from the menu ("+ Request a new region…") or by clicking an uncovered country on the map. You can also ask for a new region, or for an update of an existing one, by opening a [GitHub issue](https://github.com/ivanbranco/tree-osm-qa/issues/new?template=region.yml).
 
-## Documentazione
+## Documentation
 
-* [Check QA](docs/check.md): tutti i controlli, con le soglie e da dove vengono
-* [La mappa](docs/mappa.md): come sono disegnati gli alberi, filtri, scheda, classifica, andamento e lingua
-* [Dati e aggiornamento](docs/dati.md): file dei dati, Action di aggiornamento, mappa mondiale e struttura del repository
+* [QA checks](docs/check.md): all the checks, with their thresholds and where they come from
+* [The map](docs/mappa.md): how trees are drawn, filters, card, ranking, trend and language
+* [Data and updates](docs/dati.md): data files, the update Action, the world map and the repository structure
 
-Il sito è statico (GitHub Pages, MapLibre GL JS); i dati si scaricano da Overpass con le GitHub Action, lanciate a mano.
+The site is static (GitHub Pages, MapLibre GL JS); data is downloaded from Overpass by GitHub Actions, which are started manually.
 
-## Licenza e attribuzione
+## License and attribution
 
-Dati e confini © contributori di [OpenStreetMap](https://www.openstreetmap.org/copyright), disponibili con licenza ODbL. Anche lo sfondo dell'immagine qui sopra è © contributori di OpenStreetMap.
+Data and boundaries © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors, available under the ODbL. The background of the image above is also © OpenStreetMap contributors.
 
-Le liste di riferimento (`scripts/species_list.json` e `scripts/genus_list.json`) derivano dalle pagine [List of Species](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species) e [List of Genus, Leaf cycle, Leaf type](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Genus,_Leaf_cycle,_Leaf_type) dell'OpenStreetMap Wiki, sotto licenza [CC BY-SA 2.0](https://wiki.openstreetmap.org/wiki/Wiki_content_license).
+The reference lists (`scripts/species_list.json` and `scripts/genus_list.json`) are derived from the [List of Species](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species) and [List of Genus, Leaf cycle, Leaf type](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Genus,_Leaf_cycle,_Leaf_type) pages of the OpenStreetMap Wiki, licensed under [CC BY-SA 2.0](https://wiki.openstreetmap.org/wiki/Wiki_content_license).
 
-L'elenco dei codici e i dati degli alberi monumentali d'Italia (`scripts/masaf_list.json`, `scripts/masaf_trees.json`), usati per un check e per mostrare sulla mappa dei monumentali gli alberi non ancora su OpenStreetMap, derivano dall'elenco del MASAF, con licenza [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - "dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024".
+The list of codes and the data of the monumental trees of Italy (`scripts/masaf_list.json`, `scripts/masaf_trees.json`), used for a check and to show on the monumental trees map the trees not yet on OpenStreetMap, are derived from the MASAF list, licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - "dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024".

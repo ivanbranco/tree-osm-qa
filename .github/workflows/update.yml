@@ -1,10 +1,10 @@
-name: Aggiorna dati alberi
+name: Update tree data
 
 on:
   workflow_dispatch:
     inputs:
       region:
-        description: "Regione da aggiornare (all = tutte; italia, polonia, regno-unito, francia, irlanda, austria = tutte le regioni del paese)"
+        description: "Region to update (all = every region; italia, polonia, regno-unito, francia, irlanda, austria = all the regions of that country)"
         type: choice
         default: all
         options:
@@ -108,12 +108,12 @@ on:
           - sicilia
           - sardegna
       regions:
-        description: "Oppure più regioni, separate da spazi o virgole (es. liguria veneto lettonia): se compilato, la scelta sopra è ignorata"
+        description: "Or several regions, separated by spaces or commas (e.g. liguria veneto lettonia): if filled in, the choice above is ignored"
         type: string
         required: false
         default: ""
       fairwaymapper:
-        description: "Usa FairwayMapper (se c'è il secret FAIRWAYMAPPER_KEY); togli la spunta per non consumare la quota"
+        description: "Use FairwayMapper (if the FAIRWAYMAPPER_KEY secret exists); untick to save the quota"
         type: boolean
         default: true
 
@@ -134,12 +134,12 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install requests
-      - name: Scarica i dati
+      - name: Download the data
         env:   # passate come variabili d'ambiente, non inserite nel comando
           REGIONS: ${{ github.event.inputs.regions }}
           REGION: ${{ github.event.inputs.region || 'all' }}
           PYTHONUNBUFFERED: "1"   # i messaggi dello script compaiono subito nel log
-          # facoltativa: senza (o senza la spunta "Usa FairwayMapper"), si usano solo i server pubblici
+          # facoltativa: senza (o senza la spunta "Use FairwayMapper"), si usano solo i server pubblici
           FAIRWAYMAPPER_KEY: ${{ inputs.fairwaymapper && secrets.FAIRWAYMAPPER_KEY || '' }}
         run: python scripts/fetch_trees.py "${REGIONS:-$REGION}"
       - name: Commit
@@ -148,4 +148,4 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add data
-          git diff --cached --quiet || (git commit -m "Aggiornamento dati alberi" && git pull --rebase && git push)
+          git diff --cached --quiet || (git commit -m "Update tree data" && git pull --rebase && git push)
