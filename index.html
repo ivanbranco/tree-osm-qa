@@ -386,13 +386,14 @@ const I18N = {
       svg: "Disegno in scala del tronco, descritto sotto",
       same: "Il tronco è largo quanto quello tipico della specie, entro il 10%.",
       times: k => `Il diametro del tronco è ${k} volte quello tipico della specie.`,
-      tree: "questo albero", typical: "tipico", typicalFor: "tipico per", osmMedian: "(mediana OSM)", person: "persona", house: "casa",
+      tree: "questo albero", typical: "tipico", typicalFor: "tipico per", osmMedian: "(mediana OSM)", person: "persona", house: "casa", pisa: "Torre di Pisa",
       desc: (h, d, c) => `Questo albero: altezza ${h}, circonferenza ${c}, diametro del tronco ${d}.`,
       typSpecies: (h, d, sp, r0) => `Tronco tipico per ${sp} alto ${h}: diametro ${d} (altezza/circonferenza = ${r0}, mediana dei dati OSM per la specie).`,
       typAll: (h, d, r0) => `Tronco tipico di un albero alto ${h}: diametro ${d} (altezza/circonferenza = ${r0}, mediana di tutti i dati OSM).`,
       thin: "Il tronco di questo albero è più sottile di 1 px a questa scala: è disegnato largo 1 px, sotto la freccia.",
       thinTyp: "Il tronco tipico è più sottile di 1 px a questa scala: è disegnato largo 1 px.",
       refs: (a, b) => `Riferimenti: una persona alta ${a}${b ? ` e una casa di due piani alta ${b}` : ""}.`,
+      refsPisa: (b, c) => `Riferimenti: una casa di due piani alta ${b} e la Torre di Pisa, alta ${c}.`,
       note: "Disegno schematico: l'altezza comprende la chioma e il tronco vero si assottiglia verso l'alto." },
     // spiegazione del check, nel pop-up sul simbolo ⚠ della scheda
     why: {
@@ -655,13 +656,14 @@ const I18N = {
       svg: "Scale drawing of the trunk, described below",
       same: "The trunk is as wide as the typical one for the species, within 10%.",
       times: k => `The trunk diameter is ${k} times the typical one for the species.`,
-      tree: "this tree", typical: "typical", typicalFor: "typical for", osmMedian: "(OSM median)", person: "person", house: "house",
+      tree: "this tree", typical: "typical", typicalFor: "typical for", osmMedian: "(OSM median)", person: "person", house: "house", pisa: "Tower of Pisa",
       desc: (h, d, c) => `This tree: height ${h}, circumference ${c}, trunk diameter ${d}.`,
       typSpecies: (h, d, sp, r0) => `Typical trunk for a ${h} tall ${sp}: diameter ${d} (height/circumference = ${r0}, median of OSM data for the species).`,
       typAll: (h, d, r0) => `Typical trunk of a ${h} tall tree: diameter ${d} (height/circumference = ${r0}, median of all OSM data).`,
       thin: "The trunk of this tree is thinner than 1 px at this scale: it is drawn 1 px wide, below the arrow.",
       thinTyp: "The typical trunk is thinner than 1 px at this scale: it is drawn 1 px wide.",
       refs: (a, b) => `References: a ${a} tall person${b ? ` and a ${b} tall two-storey house` : ""}.`,
+      refsPisa: (b, c) => `References: a ${b} tall two-storey house and the ${c} tall Leaning Tower of Pisa.`,
       note: "Schematic drawing: the height includes the crown and a real trunk tapers towards the top." },
     why: {
       circumference: "43 m is the largest girth recorded, in African baobabs (Adansonia digitata; source: Guinness World Records). The value is in metres.",
@@ -2510,7 +2512,8 @@ document.addEventListener("click", e => document.querySelectorAll(".pop.open").f
   if (!x.contains(e.target)) { x.classList.remove("open"); x.setAttribute("aria-expanded", "false"); } }));
 // ---- Tronco a confronto (issue #14): per i check sul rapporto altezza/circonferenza un pulsante accanto al messaggio
 // apre una finestra con un disegno in scala: il tronco dell'albero (alto height, largo il diametro), il tronco tipico
-// alla stessa altezza, una persona e, per gli alberi oltre 5 m, una casa di due piani. Usa solo i dati della feature
+// alla stessa altezza, una persona e, per gli alberi oltre 5 m, una casa di due piani; oltre 40 m la Torre di Pisa al
+// posto della persona. Usa solo i dati della feature
 // (height, hc_circ, hc_ratio, sp_ratio, species, diam_used: fetch_trees.py).
 // Rapporto altezza/circonferenza tipico per i check too_slender e too_stocky: la mediana di tutti gli alberi OSM con le
 // due misure mappate (11,8 su 368.958 alberi delle regioni, novembre 2026), lo stesso valore di "_default" in
@@ -2519,6 +2522,24 @@ const TYPICAL_HC_RATIO = 12;
 const CMP_CHECKS = ["too_slender", "too_slender_species", "too_stocky"];
 const CMP_PERSON_H = 1.75, CMP_PERSON_W = 0.5, CMP_HOUSE_H = 7, CMP_HOUSE_W = 6;   // riferimenti, in metri
 const CMP_HOUSE_FROM = 5;   // m: la casa si disegna solo per gli alberi più alti
+// Torre di Pisa: alta 56 m (55,86 m sul lato basso, 56,67 m su quello alto), diametro esterno alla base 15,5 m,
+// pendenza 4°. Oltre CMP_PISA_FROM prende il posto della persona, che a quella scala sarebbe alta meno di 7 px: i
+// riferimenti restano due (casa e torre)
+const CMP_PISA_H = 56, CMP_PISA_D = 15.5, CMP_PISA_LEAN = 4, CMP_PISA_FROM = 40;
+const CMP_PISA_W = CMP_PISA_D + CMP_PISA_H * Math.tan(CMP_PISA_LEAN * Math.PI / 180);   // ingombro in pianta, con la pendenza
+// sagoma in metri, dritta (la pendenza la dà skewX): piano terra di 10 m, sei loggiati di 6 m, cella campanaria di 10 m
+// e larga 11,5 m; in colore di sfondo le cornici tra i piani, gli archi e la porta
+const CMP_PISA_SVG = (() => {
+  const arch = (x, y, w, h) => `M${+x.toFixed(2)} ${y}v-${h}a${w / 2} ${w / 2} 0 0 1 ${w} 0v${h}z`;
+  let holes = arch(6.75, 56, 2, 3.5);
+  for (let k = 0; k < 6; k++) {
+    holes += `M0 ${46 - 6 * k}h15.5v.4H0z`;
+    for (let j = 0; j < 5; j++) holes += arch(1.33 + 2.834 * j, 45 - 6 * k, 1.5, 2.6);
+  }
+  holes += "M0 10h15.5v.4H0z";
+  for (let j = 0; j < 3; j++) holes += arch(3.525 + 3.325 * j, 8.5, 1.8, 3.6);
+  return `<path d="M0 56V10h2V0h11.5v10h2v46z" fill="var(--cmp-ref)"/><path d="${holes}" fill="var(--cmp-bg)"/>`;
+})();
 // misure usate dal disegno: h altezza, c circonferenza, r0 rapporto tipico, sp specie (too_slender_species e confronto
 // senza check), fd circonferenza ricavata dal diametro, n confronto senza check (testi solo descrittivi). null se i
 // dati non bastano. i = "" per il confronto senza check: solo con il rapporto della specie (sp_ratio), mai quello generico
@@ -2561,8 +2582,9 @@ function compareSvg(d, label) {
   const dia = d.c / Math.PI, diaT = d.h / d.r0 / Math.PI;
   const sp = d.sp.length <= 20 ? d.sp : (s => s.length <= 22 ? s : s.slice(0, 21) + "…")(d.sp.replace(/^(\S)\S+ /, "$1. "));
   const items = [
-    { k: "person", w: CMP_PERSON_W, h: CMP_PERSON_H, min: 52, t: [L.cmp.person, cmpM(CMP_PERSON_H)] },
+    d.h <= CMP_PISA_FROM && { k: "person", w: CMP_PERSON_W, h: CMP_PERSON_H, min: 52, t: [L.cmp.person, cmpM(CMP_PERSON_H)] },
     d.h > CMP_HOUSE_FROM && { k: "house", w: CMP_HOUSE_W, h: CMP_HOUSE_H, min: 52, t: [L.cmp.house, cmpM(CMP_HOUSE_H)] },
+    d.h > CMP_PISA_FROM && { k: "pisa", w: CMP_PISA_W, h: CMP_PISA_H, min: 64, t: [L.cmp.pisa, cmpM(CMP_PISA_H)] },
     { k: "tree", w: dia, h: d.h, min: 72, t: [L.cmp.tree, "⌀ " + cmpD(dia)] },
     { k: "typ", w: diaT, h: d.h, min: 104, t: d.sp ? [L.cmp.typicalFor, sp, "⌀ " + cmpD(diaT)] : [L.cmp.typical, L.cmp.osmMedian, "⌀ " + cmpD(diaT)] }
   ].filter(Boolean);
@@ -2587,6 +2609,8 @@ function compareSvg(d, label) {
     } else if (it.k === "house") {   // sagoma di 6 × 7 m con tetto a due falde, porta e finestre
       out += `<g transform="translate(${f(cx - it.w * s / 2)} ${f(GY - it.h * s)}) scale(${f(s)})"><path d="M0 7V1.8L3 0l3 1.8V7z" fill="var(--cmp-ref)"/>`
         + `<path d="M.9 2.6h1.2v1.2H.9zM3.9 2.6h1.2v1.2H3.9zM.9 5h1.2v1.2H.9zM3.9 5h1.2v1.2H3.9zM2.5 5.1h1V7h-1z" fill="var(--cmp-bg)"/></g>`;
+    } else if (it.k === "pisa") {   // skewX sposta la base rispetto alla cima: l'altezza resta 56 m, la base sul terreno
+      out += `<g transform="translate(${f(cx - it.w * s / 2)} ${f(GY - it.h * s)}) scale(${f(s)}) skewX(${CMP_PISA_LEAN})">${CMP_PISA_SVG}</g>`;
     } else {
       const w = Math.max(it.w * s, 1), h = Math.max(it.h * s, 1), rx = f(cx - w / 2), ry = f(GY - h);
       const box = `x="${rx}" y="${ry}" width="${f(w)}" height="${f(h)}"`;
@@ -2603,7 +2627,7 @@ function compareSvg(d, label) {
   }
   // barra della scala: la lunghezza «tonda» (1, 2, 5 × 10ⁿ m) più grande che sta in 90 px
   const p10 = 10 ** Math.floor(Math.log10(90 / s)), bar = [5, 2, 1].find(k => k * p10 * s <= 90) * p10, by = H - 6, bx = f(PAD + bar * s);
-  return { thin, house: items.some(it => it.k === "house"), svg: `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">`
+  return { thin, house: items.some(it => it.k === "house"), pisa: items.some(it => it.k === "pisa"), svg: `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">`
     + `<defs><pattern id="cmp-bark" width="5" height="9" patternUnits="userSpaceOnUse"><path d="M1.5 0v9M4 0v5" stroke="var(--cmp-bark)" stroke-width=".7" opacity=".6"/></pattern></defs>`
     + out + `<path d="M${PAD} ${GY}H${W - PAD}" stroke="var(--cmp-ground)" stroke-width="1.5"/>`
     + `<path d="M${PAD} ${by - 3}v6M${PAD} ${by}H${bx}M${bx} ${by - 3}v6" fill="none" stroke="var(--cmp-muted)"/>`
@@ -2618,12 +2642,12 @@ function openCompare(btn) {
   // senza check: quante volte il diametro è quello tipico (= rapporto tipico / rapporto dell'albero); entro il 10% «uguale»
   if (d.n) { const k = d.c * d.r0 / d.h;
     lines.push(Math.abs(k - 1) <= 0.1 ? T.same : T.times(k.toLocaleString(LOC, { maximumSignificantDigits: 2 }))); }
-  const refs = house => T.refs(cmpM(CMP_PERSON_H), house ? cmpM(CMP_HOUSE_H) : "");
+  const refs = g => g.pisa ? T.refsPisa(cmpM(CMP_HOUSE_H), cmpM(CMP_PISA_H)) : T.refs(cmpM(CMP_PERSON_H), g.house ? cmpM(CMP_HOUSE_H) : "");
   // niente <title> (il pop-up al passaggio del mouse ripeteva il testo scritto sotto): solo un nome breve per i lettori
   // di schermo, che leggono poi i paragrafi sotto il disegno
   const g = compareSvg(d, T.svg);
   document.getElementById("cmp-body").innerHTML = g.svg + lines.map(x => `<p>${esc(x)}</p>`).join("")
-    + [g.thin.tree && T.thin, g.thin.typ && T.thinTyp, refs(g.house) + " " + T.note].filter(Boolean).map(x => `<p class="note">${esc(x)}</p>`).join("");
+    + [g.thin.tree && T.thin, g.thin.typ && T.thinTyp, refs(g) + " " + T.note].filter(Boolean).map(x => `<p class="note">${esc(x)}</p>`).join("");
   cmpOpener = btn;
   dlg.showModal();
   dlg.focus();
