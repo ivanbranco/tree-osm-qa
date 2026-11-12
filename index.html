@@ -234,7 +234,7 @@ const I18N = {
     scaleLow: "meno errori", scaleHigh: "più errori", tipErr: p => ` · ${p} con errori`,
     regionOpt: (name, n) => `${name} (${fmtN(n)} alberi)`,
     allTaxa: "Tutti i genus e le specie", unknown: "Sconosciuto", withSpecies: "Con species", genusGroup: "Genus", speciesGroup: "Specie",
-    allIssues: "Tutti gli errori",
+    allIssues: "Tutti gli errori", onlyIssues: "Solo gli errori",
     allOfGroup: g => `Tutti gli errori di «${g}»`,
     download: "Scarica questi errori di tutta la regione (GeoJSON)",
     issueGroups: { size: "Misure", name: "Nome della specie e del genere", wikidata: "Wikidata",
@@ -490,7 +490,7 @@ const I18N = {
     scaleLow: "fewer errors", scaleHigh: "more errors", tipErr: p => ` · ${p} with errors`,
     regionOpt: (name, n) => `${name} (${fmtN(n)} trees)`,
     allTaxa: "All genera and species", unknown: "Unknown", withSpecies: "With species", genusGroup: "Genus", speciesGroup: "Species",
-    allIssues: "All errors",
+    allIssues: "All errors", onlyIssues: "Errors only",
     allOfGroup: g => `All "${g}" errors`,
     download: "Download these errors for the whole region (GeoJSON)",
     issueGroups: { size: "Measurements", name: "Species and genus name", wikidata: "Wikidata",
@@ -1282,7 +1282,9 @@ map.on("load", async () => {
   ];
   const issueGroupOf = code => (ISSUE_GROUPS.find(([, codes]) => codes.includes(code)) || ["other"])[0];
   // filtro di MapLibre per una voce del menu: un errore, oppure (g:<gruppo>) uno qualsiasi degli errori del gruppo
-  const issueFilter = v => !v.startsWith("g:") ? ["in", `|${v}|`, ["get", "issues"]]
+  // "only" (Solo gli errori): ogni albero con almeno un errore; nasconde gli altri, monumentali e alberi MASAF compresi
+  const issueFilter = v => v === "only" ? ["all", ["has", "issues"], ["!=", ["get", "issues"], "|"]]
+    : !v.startsWith("g:") ? ["in", `|${v}|`, ["get", "issues"]]
     : ["any", ...Object.keys(L.issueOpts).filter(c => issueGroupOf(c) === v.slice(2)).map(c => ["in", `|${c}|`, ["get", "issues"]])];
   let taxSig = "", issSig = "";
   // genere di un valore di species: la prima parola, o le prime due per un ibrido tra generi diversi scritto con il
@@ -1318,16 +1320,18 @@ map.on("load", async () => {
     // errori: solo quelli presenti in vista, nell'ordine del menu; il selezionato resta anche se fuori vista
     const curI = issSel.value;
     if (curI.startsWith("g:") && !GI.has(curI.slice(2))) GI.set(curI.slice(2), 0);
-    else if (curI && !curI.startsWith("g:") && !I.has(curI)) I.set(curI, 0);
+    else if (curI && curI !== "only" && !curI.startsWith("g:") && !I.has(curI)) I.set(curI, 0);
     const iList = ISSUE_OPTS.filter(([k]) => I.has(k));
-    const iSig = JSON.stringify([iList.map(([k]) => [k, I.get(k)]), [...GI]]);
+    // "Solo gli errori" serve solo da ALL_Z, quando compaiono anche gli alberi senza errori (resta se è quella scelta)
+    const showOnly = !WORLD && (z >= ALL_Z || curI === "only");
+    const iSig = JSON.stringify([iList.map(([k]) => [k, I.get(k)]), [...GI], showOnly]);
     if (iSig !== issSig) {
       issSig = iSig;
       // voci raggruppate per tema (ISSUE_GROUPS), ognuna con in testa "tutti gli errori del gruppo" (g:<gruppo>);
       // un gruppo compare solo se ha errori in vista
       const groups = [...ISSUE_GROUPS.map(([g]) => g), "other"].filter(g => GI.has(g))
         .map(g => [g, iList.filter(([k]) => issueGroupOf(k) === g)]);
-      issSel.replaceChildren(opt("", L.allIssues), ...groups.map(([g, l]) => {
+      issSel.replaceChildren(opt("", L.allIssues), ...(showOnly ? [opt("only", L.onlyIssues)] : []), ...groups.map(([g, l]) => {
         const og = document.createElement("optgroup"); og.label = L.issueGroups[g];
         // con un solo tipo di errore in vista la voce del gruppo sarebbe identica: si omette (salvo se è quella scelta)
         if (l.length > 1 || curI === "g:" + g)
@@ -1372,7 +1376,7 @@ map.on("load", async () => {
   const matchIssue = (v, p) => {
     if (p.issues === "|") return false;              // nessun errore: il caso più comune, senza dividere la stringa
     const codes = p.issues.split("|").filter(Boolean);
-    if (!v) return codes.length > 0;                 // "Tutti gli errori": ogni albero con almeno un errore
+    if (!v || v === "only") return codes.length > 0; // "Tutti/Solo gli errori": ogni albero con almeno un errore
     return v.startsWith("g:") ? codes.some(c => issueGroupOf(c) === v.slice(2)) : codes.includes(v);
   };
   const matchTaxon = (v, p) => {
