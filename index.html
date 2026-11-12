@@ -269,6 +269,7 @@ const I18N = {
     worldTitle: { monumental: "Mappa degli alberi monumentali" },
     worldLink: { monumental: "Mappa mondiale degli alberi monumentali" },
     backToQa: "← Torna al tool QA", seeInQa: "vedi nel tool QA",
+    implicitMon: s => `Su OSM non è segnato come monumentale (manca denotation=natural_monument), ma lo è secondo: ${s}`,
     // alberi dell'elenco MASAF non ancora su OpenStreetMap (mappa dei monumentali)
     masafRows: { place: "Luogo", type: "Tipologia", criteria: "Criteri" }, openOnOsm: "Apri su OpenStreetMap",
     // consigli della scheda (ⓘ)
@@ -518,6 +519,7 @@ const I18N = {
     worldTitle: { monumental: "Map of monumental trees" },
     worldLink: { monumental: "World map of monumental trees" },
     backToQa: "← Back to the QA tool", seeInQa: "see in the QA tool",
+    implicitMon: s => `Not marked as monumental on OSM (denotation=natural_monument is missing), but it is according to: ${s}`,
     masafRows: { place: "Place", type: "Type", criteria: "Criteria" }, openOnOsm: "Open on OpenStreetMap",
     hint: {
       wdSpecies: n => `On Wikidata this tree is a ${n}: species=${n} could be added after a survey`,
@@ -774,7 +776,7 @@ const px = (prop, minPx, z) => ["max", minPx, ["/", ["get", prop], M0 / Math.pow
 // raggio in pixel = max(minimo, metri / (m per pixel)); uno stop per ogni zoom intero, così il minimo è un vero max
 const radius = (prop, minPx, div = 1) => ["interpolate", ["exponential", 2], ["zoom"],
   ...Array.from({ length: 23 }, (_, z) => [z, div === 1 ? px(prop, minPx, z) : ["/", px(prop, minPx, z), div]]).flat()];
-const isMon = p => String(p.denotation || "").split(";").includes("natural_monument");   // come hasDen sulla mappa
+const isMon = p => !!p.imp || String(p.denotation || "").split(";").includes("natural_monument");   // come hasDen sulla mappa
 const leafOf = p => p.lt || p.leaf_type;   // lt = leaf_type stimato dalla lista di specie quando il tag manca
 
 const EMPTY = { type: "FeatureCollection", features: [] };
@@ -872,7 +874,10 @@ map.on("load", async () => {
   map.addSource("trees-min", { type: "geojson", data: EMPTY });
   // denotation può avere più valori (natural_monument;landmark): si cerca ";valore;" in ";denotation;", come fa
   // fetch_trees.py dividendo sui ";"
-  const hasDen = v => ["in", `;${v};`, ["concat", ";", ["coalesce", ["get", "denotation"], ""], ";"]];
+  // monumentale "implicito" (imp, solo nella mappa dei monumentali: monumentale per altre fonti, vedi fetch_world.py):
+  // disegnato come denotation=natural_monument
+  const hasDen = v => ["any", ["in", `;${v};`, ["concat", ";", ["coalesce", ["get", "denotation"], ""], ";"]],
+    ...(v === "natural_monument" ? [["has", "imp"]] : [])];
   // errore: precedenza massima (non nelle mappe mondiali, che non mostrano la parte QA)
   const HAS_ISSUE = WORLD ? false : ["!=", ["get", "issues"], "|"];
   const STROKE_COLOR = ["case",
@@ -2056,6 +2061,12 @@ const fotoshiId = p => /^[A-Za-z0-9_-]{10,}$/.test(String(p["image:fotoshi"] || 
 // immagine dell'elemento Wikidata (wd_img, P18, da fetch_trees.py). Restituisce { src, commons (nome del file, per
 // chiedere a Commons autore e licenza), credit e href (crediti già noti, es. Fotoshi) }. Una categoria di Commons
 // si cerca a parte (categoryImage), quando la scheda è aperta.
+// fonti della monumentalità di un albero "implicito" della mappa dei monumentali (imp): mon_src e la tutela su Wikidata
+function implicitSources(p) {
+  const src = String(p.mon_src || "").split(";").filter(Boolean);
+  if (p.wd_her_q) src.push(`wikidata=${p.wd_her_q} (${LANG === "it" ? p.wd_her_it : p.wd_her_en})`);
+  return src.join(", ");
+}
 // simbolo di Fotoshi prima del credito delle sue foto (lo stesso di osm.fotoshi.com), del colore del testo
 const FOTOSHI_ICON = '<svg class="fs-mark" viewBox="0 0 174.38 174.38" aria-hidden="true"><path fill="currentColor" d="M19.85 49.59H2.57V1.71h47.88v17.27h-30.6v30.61zM171.8 49.59h-17.27V18.98h-30.61V1.71h47.88v47.88zM171.8 170.94h-47.88v-17.28h30.6v-30.6h17.28v47.88zM50.45 170.94H2.57v-47.88h17.28v30.6h30.6v17.28zM0 87.33 87.31 0l87.07 87.06-87.33 87.32-12.6-12.6 74.71-74.72-61.85-61.84-62.1 62.11 36.33 36.33 36.34-36.33-11.87-11.87-18.16 18.17-.02-.01-6.28 6.29-12.58-12.58 6.28-6.29-.01-.02 30.77-30.77 37.08 37.08-61.55 61.54L0 87.33z"/></svg>';
 function imageInfo(p) {
@@ -2211,6 +2222,7 @@ function card(p, pos) {
     ${rec.map(x => `<div class="rec">${x}</div>`).join("")}
     ${WORLD ? (issues.length && p.qa   // mappa mondiale: solo un link al tool QA, se l'albero è in una regione coperta
       ? `<div class="bad">⚠ <a href="${esc(`${BASE}#region=${p.qa}&node=${p.id}`)}">${esc(L.seeInQa)}</a></div>` : "")
+      + (p.imp ? `<div class="hint">ⓘ ${esc(L.implicitMon(implicitSources(p)))}</div>` : "")
     : issues.flatMap(([i, x]) => { const w = L.why[i]; return x.split("\n").map(line => [typeof w === "function" ? w(p) : w, line]); }).map(([why, x]) =>
       `<div class="bad">${why ? `<span class="why" tabindex="0">⚠<span class="tip">${esc(why)}</span></span>` : "⚠"} ${esc(x)}</div>`).join("")}
     ${WORLD ? "" : hints(p).map(h => `<div class="hint">ⓘ ${typeof h === "string" ? esc(h) : h.html}</div>`).join("")}

@@ -153,6 +153,29 @@ def masaf_missing(fc):
     return {"type": "FeatureCollection", "features": feats}
 
 
+# Alberi monumentali secondo altre fonti ma senza denotation=natural_monument su OSM (issue #13): quelli che nel tool
+# QA hanno il check monument_denotation (ref:masaf, ref:rami, monumentaltrees.com, heritage:operator, P9704 o Q811534
+# su Wikidata) o wikidata_heritage (tutela P1435 su Wikidata). Si prendono dai dati delle regioni del tool QA, già
+# controllati, e sulla mappa si disegnano come monumentali; "imp" = 1, e la scheda spiega da dove viene la monumentalità
+# (mon_src, wd_her_*).
+IMPLICIT_CHECKS = ("|monument_denotation|", "|wikidata_heritage|")
+
+
+def implicit_monuments():
+    """Feature degli alberi monumentali solo per altre fonti, dalle regioni del tool QA con dati (con "qa" e "imp")."""
+    feats = []
+    for slug in ft.load_json(ft.INDEX, "regions"):
+        path = ft.OUT_DIR / f"{slug}.geojson.gz"
+        if not path.exists():
+            continue
+        for f in json.loads(gzip.decompress(path.read_bytes()))["features"]:
+            p = f["properties"]
+            if not p.get("stump") and any(c in p.get("issues", "") for c in IMPLICIT_CHECKS):
+                p["imp"], p["qa"] = 1, slug
+                feats.append(f)
+    return feats
+
+
 def in_ring(x, y, ring):
     inside = False
     j = len(ring) - 1
@@ -218,6 +241,9 @@ def update_map(key, index):
         slug = region_of(*f["geometry"]["coordinates"], regions)
         if slug:
             f["properties"]["qa"] = slug
+    implicit = implicit_monuments() if key == "monumental" else []
+    fc["features"] += implicit
+    print(f"{key}: {len(implicit)} alberi monumentali solo per altre fonti (dalle regioni del tool QA)")
     n_low = add_min_zoom(fc)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     path = WORLD_DIR / f"{key}.geojson.gz"
@@ -233,6 +259,7 @@ def update_map(key, index):
     index[key] = {"name": spec["name"], "count": len(fc["features"]), "errors": errors, "diam": "mm",
                   "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                   "sha1": hashlib.sha1(raw).hexdigest()}
+    index[key]["implicit"] = len(implicit)
     if masaf is not None:
         index[key]["masaf"] = len(masaf["features"])
         index[key]["masaf_version"] = ft.load_json(MASAF_TREES).get("version", "")
