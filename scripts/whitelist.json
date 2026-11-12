@@ -1,13 +1,14 @@
 {
-  "_info": "Eccezioni ai check. wikidata_mismatch: per ogni species, i species:wikidata accettati oltre a quello della lista wiki (es. sinonimi). species_typo: species vere, assenti dalla lista, da non segnalare come errori di battitura. synonyms: nome alternativo -> nome della lista wiki; il nome alternativo vale come quello della lista in tutti i controlli. genus_names: nomi comuni dei generi (colonne genus:en e genus:fr della lista wiki dei generi) ammessi per il consiglio di species_lang_only (issue #35): vale solo una coppia nome-genere presente sia nella lista wiki sia qui; un nome nuovo della wiki non dà consigli finché non si aggiunge qui. Esclusi i nomi con anche un solo dubbio: usati anche per altri generi o per una specie (Cedar, Cypress, Chestnut, Lime, Aspen, Horse chestnut, Sumac, Sapin, Cèdre, Cyprès, Cytise, Marronnier, Sorbier, Thuya, Pin, Palmier, Palmier de Chine), generi di una sola specie (Quince, Cognassier, Sequoia, Séquoia), Eucalyptus, Arbricotier.",
+  "_info": "Eccezioni ai check. wikidata_mismatch: per ogni species, i species:wikidata accettati oltre a quello della lista wiki (es. sinonimi). species_typo: species vere, assenti dalla lista, da non segnalare come errori di battitura. synonyms: nome alternativo -> nome della lista wiki; il nome alternativo vale come quello della lista in tutti i controlli. genus_names: nomi comuni dei generi (colonne genus:en e genus:fr della lista wiki dei generi) ammessi per il consiglio di species_lang_only (issue #35): vale solo una coppia nome-genere presente sia nella lista wiki sia qui; un nome nuovo della wiki non dà consigli finché non si aggiunge qui. Esclusi i nomi con anche un solo dubbio: usati anche per altri generi o per una specie (Cedar, Cypress, Chestnut, Lime, Aspen, Horse chestnut, Sumac, Sapin, Cèdre, Cyprès, Cytise, Marronnier, Sorbier, Thuya, Pin, Palmier, Palmier de Chine), Sequoia e Séquoia (usati anche per Sequoiadendron giganteum), Eucalyptus, Arbricotier. single_species_genera: generi con una sola specie; per i loro nomi si propone species=<la specie> invece di genus:xx (Quince e Cognassier -> Cydonia oblonga).",
+  "single_species_genera": {"Cydonia": "Cydonia oblonga"},
   "genus_names": {
     "en": {"Alder": "Alnus", "Beech": "Fagus", "Birch": "Betula", "Elm": "Ulmus", "Fir": "Abies", "Hazel": "Corylus",
            "Hickory": "Carya", "Holly": "Ilex", "Hornbeam": "Carpinus", "Juniper": "Juniperus", "Larch": "Larix",
-           "Maple": "Acer", "Oak": "Quercus", "Pear": "Pyrus", "Pine": "Pinus", "Sassafras": "Sassafras",
+           "Maple": "Acer", "Oak": "Quercus", "Pear": "Pyrus", "Pine": "Pinus", "Quince": "Cydonia", "Sassafras": "Sassafras",
            "Spruce": "Picea", "Willow": "Salix", "Witch-hazel": "Hamamelis"},
     "fr": {"Ailante": "Ailanthus", "Amélanchier": "Amelanchier", "Arbousier": "Arbutus", "Aubépine": "Crataegus",
            "Aulne": "Alnus", "Bouleau": "Betula", "Buis": "Buxus", "Caryer": "Carya", "Charme": "Carpinus",
-           "Châtaignier": "Castanea", "Chêne": "Quercus", "Cornouiller": "Cornus", "Épicéa": "Picea",
+           "Châtaignier": "Castanea", "Chêne": "Quercus", "Cognassier": "Cydonia", "Cornouiller": "Cornus", "Épicéa": "Picea",
            "Érable": "Acer", "Genévrier": "Juniperus", "Hamamélis": "Hamamelis", "Hêtres": "Fagus",
            "Houblon": "Humulus", "Houx": "Ilex", "Mélèze": "Larix", "Micocoulier": "Celtis", "Noisetier": "Corylus",
            "Olivier": "Olea", "Orme": "Ulmus", "Peuplier": "Populus", "Platane": "Platanus", "Poirier": "Pyrus",

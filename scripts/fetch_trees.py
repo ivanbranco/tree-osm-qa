@@ -241,6 +241,8 @@ for _g, _v in _GENERA.items():
             _GN.setdefault((_lang, _n.casefold()), set()).add(_g)
 _GN_OK = {(lang, n.casefold()): g for lang, d in _WL.get("genus_names", {}).items() for n, g in d.items()}
 GENUS_NAMES = {k: g for k, v in _GN.items() if len(v) == 1 and _GN_OK.get(k) == (g := next(iter(v)))}
+# generi con una sola specie (whitelist.json): per i loro nomi si propone species=<la specie> (Cognassier -> Cydonia oblonga)
+SINGLE_SPECIES = _WL.get("single_species_genera", {})
 
 # Valori di denotation sui nodi con il numero di usi, da Taginfo (scripts/update_reference_lists.py)
 DEN_COUNTS = load_json(HERE / "denotation_values.json", "values")
@@ -1473,14 +1475,15 @@ def species_lang_only(t):
 
 def species_lang_genus(t, lang):
     """Nomi di species_lang_only che nella lista dei generi sono il nome comune di un genere nella stessa lingua
-    (species:fr=Tilleul -> Tilia; species:en-GB vale come en): [(chiave, valore, genere)]. Solo se genus manca o
-    è già quel genere."""
+    (species:fr=Tilleul -> Tilia; species:en-GB vale come en): [(chiave, valore, genere, specie)]. specie è l'unica
+    specie del genere (SINGLE_SPECIES, es. Cognassier -> Cydonia oblonga), altrimenti "". Solo se genus manca o è
+    già quel genere."""
     g = (t.get("genus") or "").strip()
     out = []
     for k, v in lang:
         gen = GENUS_NAMES.get((re.split(r"[-_]", k[8:])[0], v.strip().casefold()))
         if gen and (not g or g.casefold() == gen.casefold()):
-            out.append((k, v, gen))
+            out.append((k, v, gen, SINGLE_SPECIES.get(gen, "")))
     return out
 
 
@@ -1630,10 +1633,11 @@ def checks(t, pos):
     if spf and SPECIES_BIN and (typo := species_typo(spf)):
         flag("species_typo", sp_sugg=typo)
     if lang := species_lang_only(t):    # "species:it=Leccio" separati da "\n" (i valori possono contenere ";")
-        # sp_lang_genus: righe "species:fr=Tilleul|Tilia" per i nomi di un genere della lista (issue #35)
+        # sp_lang_genus: righe "species:fr=Tilleul|Tilia" per i nomi di un genere della lista (issue #35), con l'unica
+        # specie del genere se c'è: "species:fr=Cognassier|Cydonia|Cydonia oblonga"
         gl = species_lang_genus(t, lang)
         flag("species_lang_only", sp_lang="\n".join(f"{k}={v}" for k, v in lang),
-             **({"sp_lang_genus": "\n".join(f"{k}={v}|{g}" for k, v, g in gl)} if gl else {}))
+             **({"sp_lang_genus": "\n".join(f"{k}={v}|{g}" + (f"|{s}" if s else "") for k, v, g, s in gl)} if gl else {}))
     g = t.get("genus")
     gf = None if "genus" in eq or "genus" in nl else g   # genus per i check sulla forma del nome
     gw = genus_words(gf) if gf is not None else None    # senza il segno di ibrido (× Sycoparrotia)

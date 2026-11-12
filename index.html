@@ -489,6 +489,7 @@ const I18N = {
       not_latin: kv => `${kv} non è in alfabeto latino, come i nomi scientifici: il nome nella lingua locale va in species:xx (es. species:bg)`,
       species_lang_only: kv => `c'è ${kv} ma manca species=* (il nome scientifico)`,
       species_lang_genus: (k, v, g, add) => `${k}=${v} è il nome del genere ${g} nella lista dei generi della wiki OSM: usare ${k.replace("species:", "genus:")}=${v}` + (add ? ` e genus=${g}` : ""),
+      species_lang_single: (k, v, g, s) => `${k}=${v} è il nome del genere ${g} nella lista dei generi della wiki OSM; ${g} ha una sola specie: aggiungere species=${s}`,
       wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
       wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: le coordinate dell'elemento su Wikidata sono a ${km} km da questo albero`,
@@ -768,6 +769,7 @@ const I18N = {
       not_latin: kv => `${kv} is not in the Latin script, unlike scientific names: the name in the local language goes in species:xx (e.g. species:bg)`,
       species_lang_only: kv => `${kv} is present but species=* (the scientific name) is missing`,
       species_lang_genus: (k, v, g, add) => `${k}=${v} is the name of the genus ${g} in the OSM wiki list of genera: use ${k.replace("species:", "genus:")}=${v}` + (add ? ` and genus=${g}` : ""),
+      species_lang_single: (k, v, g, s) => `${k}=${v} is the name of the genus ${g} in the OSM wiki list of genera; ${g} has a single species: add species=${s}`,
       wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
       wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: the coordinates of the Wikidata item are ${km} km from this tree`,
@@ -2218,13 +2220,15 @@ const issueBase = (i, p) => {
     case "tag_in_value": return String(p.eq_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // eq_keys: fetch_trees.py
     case "not_latin": return String(p.nl_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // nl_keys: fetch_trees.py
     // sp_lang: righe "species:xx=valore"; sp_lang_genus: righe "species:fr=Tilleul|Tilia", nomi di un genere della
-    // lista wiki (fetch_trees.py): per quelli il consiglio preciso, per gli altri il messaggio generico
+    // lista wiki, con l'unica specie del genere se c'è ("species:fr=Cognassier|Cydonia|Cydonia oblonga",
+    // fetch_trees.py): per quelli il consiglio preciso, per gli altri il messaggio generico
     case "species_lang_only": {
-      const gen = new Map(String(p.sp_lang_genus || "").split("\n").filter(Boolean).map(x => {
-        const j = x.lastIndexOf("|"); return [x.slice(0, j), x.slice(j + 1)]; }));
+      const gen = new Map(String(p.sp_lang_genus || "").split("\n").map(x => /^(.*)\|([^|\s]+)(?:\|([^|]+))?$/.exec(x))
+        .filter(Boolean).map(m => [m[1], [m[2], m[3]]]));
       const rest = String(p.sp_lang || "").split("\n").filter(kv => kv && !gen.has(kv));
-      const out = [...gen].map(([kv, g]) => { const j = kv.indexOf("=");
-        return T.species_lang_genus(kv.slice(0, j), kv.slice(j + 1), g, !p.genus); });
+      const out = [...gen].map(([kv, [g, s]]) => { const j = kv.indexOf("=");
+        return s ? T.species_lang_single(kv.slice(0, j), kv.slice(j + 1), g, s)
+                 : T.species_lang_genus(kv.slice(0, j), kv.slice(j + 1), g, !p.genus); });
       if (rest.length) out.push(T[i](rest.join(", ")));
       return out.join("\n");
     }
