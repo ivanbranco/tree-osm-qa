@@ -208,12 +208,11 @@
    "updated": "2026-11-12T12:00:02Z"
   },
   "grand-est": {
-   "count": 253338,
-   "diam": "mm",
-   "errors": 2260,
+   "count": 253378,
+   "errors": 2207,
    "name": "Grand Est",
-   "sha1": "2a18e88a8779e8e9ac7c3f38c44604ba6bd8ee36",
-   "updated": "2026-11-11T11:06:43Z"
+   "sha1": "760be154089037a7e058497d6bf7aa0bf76c05cb",
+   "updated": "2026-11-12T16:08:34Z"
   },
   "grecia": {
    "count": 62663,
