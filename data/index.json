@@ -5,8 +5,8 @@
    "diam": "mm",
    "errors": 1640,
    "name": "Abruzzo",
-   "sha1": "c79d1f1dd4fe7061fa3e1b12e4a686ba0068cba2",
-   "updated": "2026-11-10T23:44:44Z"
+   "sha1": "2a59eefffa4fe20352ddb16652dbc2679b8192c3",
+   "updated": "2026-11-12T02:43:25Z"
   },
   "albania": {
    "count": 18013,
@@ -153,11 +153,12 @@
    "updated": "2026-11-10T18:15:24Z"
   },
   "dolnoslaskie": {
-   "count": 127589,
-   "errors": 192,
+   "count": 127683,
+   "diam": "mm",
+   "errors": 214,
    "name": "Bassa Slesia",
-   "sha1": "9cde6026b2059a3aac4b7f2f8c6e894741e59629",
-   "updated": "2026-11-08T19:07:46Z"
+   "sha1": "798fd0d16b526b72a06b882491cc48fa28324475",
+   "updated": "2026-11-12T02:30:53Z"
   },
   "emilia-romagna": {
    "count": 240567,
@@ -168,11 +169,12 @@
    "updated": "2026-11-11T22:20:35Z"
   },
   "est-inghilterra": {
-   "count": 104174,
-   "errors": 209,
+   "count": 104262,
+   "diam": "mm",
+   "errors": 216,
    "name": "Est dell'Inghilterra",
-   "sha1": "f939e8ed4652a83a1d863655b6d319c5327e76ae",
-   "updated": "2026-11-08T23:33:55Z"
+   "sha1": "49f30898b0ad3899c796ecee62a0abc8199688b1",
+   "updated": "2026-11-12T02:27:26Z"
   },
   "estonia": {
    "count": 80795,
@@ -191,11 +193,12 @@
    "updated": "2026-11-10T23:40:03Z"
   },
   "galles": {
-   "count": 59130,
-   "errors": 28,
+   "count": 59193,
+   "diam": "mm",
+   "errors": 30,
    "name": "Galles",
-   "sha1": "74faf147f3f0afac8962f785b49a02b3fe5cdb48",
-   "updated": "2026-11-08T23:27:27Z"
+   "sha1": "976388714bbe71d5615c8c43bdb51d8b2f36f1d8",
+   "updated": "2026-11-12T02:21:24Z"
   },
   "giappone": {
    "count": 307295,
@@ -230,11 +233,12 @@
    "updated": "2026-11-11T11:09:13Z"
   },
   "irlanda-del-nord": {
-   "count": 45320,
-   "errors": 12,
+   "count": 45354,
+   "diam": "mm",
+   "errors": 15,
    "name": "Irlanda del Nord",
-   "sha1": "9c99575ba8bb62e4ffc46b140c5fddc5e67ead2a",
-   "updated": "2026-11-08T23:28:02Z"
+   "sha1": "b617ac9ab5b18d0f4f11cb17348afa3b3b8bf426",
+   "updated": "2026-11-12T02:22:01Z"
   },
   "kosovo": {
    "count": 5569,
@@ -245,11 +249,12 @@
    "updated": "2026-11-10T21:45:09Z"
   },
   "kujawsko-pomorskie": {
-   "count": 53407,
-   "errors": 86,
+   "count": 53464,
+   "diam": "mm",
+   "errors": 97,
    "name": "Cuiavia-Pomerania",
-   "sha1": "874f4834f98fabd0fe5fdea56386780177695063",
-   "updated": "2026-11-08T19:45:23Z"
+   "sha1": "378303aa42b7027bd2aef0523b9e76c8cf5c87d8",
+   "updated": "2026-11-12T02:32:22Z"
   },
   "lazio": {
    "count": 71074,
@@ -292,11 +297,12 @@
    "updated": "2026-11-10T16:57:37Z"
   },
   "lodzkie": {
-   "count": 105029,
+   "count": 105233,
+   "diam": "mm",
    "errors": 107,
    "name": "Łódź",
-   "sha1": "200e48c66e42285433ee675708f81c400f66ce54",
-   "updated": "2026-11-08T20:12:14Z"
+   "sha1": "f23e4a1286fa465c21aba3c6d38fb51c72e56eb0",
+   "updated": "2026-11-12T02:34:31Z"
   },
   "lombardia": {
    "count": 387346,
@@ -307,25 +313,28 @@
    "updated": "2026-11-10T23:38:03Z"
   },
   "londra": {
-   "count": 212871,
-   "errors": 9667,
+   "count": 213012,
+   "diam": "mm",
+   "errors": 9643,
    "name": "Londra",
-   "sha1": "6d8ed1773167d5750bac62206728c77472b4fb57",
-   "updated": "2026-11-08T23:34:48Z"
+   "sha1": "1603726305662b2f765479fa1fddc6cf42ca8a09",
+   "updated": "2026-11-12T02:27:56Z"
   },
   "lubelskie": {
-   "count": 81242,
-   "errors": 156,
+   "count": 81449,
+   "diam": "mm",
+   "errors": 120,
    "name": "Lublino",
-   "sha1": "09b1048944b377088e117cc72ec24f408680c13b",
-   "updated": "2026-11-08T20:04:03Z"
+   "sha1": "2a060e521737daade6c7b0ce864a9b98c3dc1026",
+   "updated": "2026-11-12T02:33:08Z"
   },
   "lubuskie": {
-   "count": 56197,
-   "errors": 262,
+   "count": 56256,
+   "diam": "mm",
+   "errors": 264,
    "name": "Lubusz",
-   "sha1": "5273f3496b08e8cf517461a65616e2c247cc5bd1",
-   "updated": "2026-11-08T20:11:19Z"
+   "sha1": "c0405232b3bdcf87387cc10945e51e0abaaede3b",
+   "updated": "2026-11-12T02:33:49Z"
   },
   "lussemburgo": {
    "count": 78264,
@@ -344,12 +353,12 @@
    "updated": "2026-11-10T21:45:42Z"
   },
   "malopolskie": {
-   "count": 257409,
+   "count": 257429,
    "diam": "mm",
-   "errors": 2301,
+   "errors": 2315,
    "name": "Piccola Polonia",
-   "sha1": "068600f938699a622fa839287fc819792cd5d5e5",
-   "updated": "2026-11-10T16:56:32Z"
+   "sha1": "62160d90277c911ffe1848c4789a938539b6d61c",
+   "updated": "2026-11-12T02:35:22Z"
   },
   "marche": {
    "count": 32330,
@@ -360,26 +369,28 @@
    "updated": "2026-11-10T23:27:26Z"
   },
   "mazowieckie": {
-   "count": 344316,
-   "errors": 1431,
+   "count": 346374,
+   "diam": "mm",
+   "errors": 1453,
    "name": "Masovia",
-   "sha1": "d6f70ca37d76706111b5d1fe4c17e1faea8e1738",
-   "updated": "2026-11-08T20:22:39Z"
+   "sha1": "db7b0405907955d01e31214ef6c327c37bcddf1d",
+   "updated": "2026-11-12T02:36:50Z"
   },
   "midlands-occidentali": {
    "count": 207005,
    "diam": "mm",
-   "errors": 1588,
+   "errors": 917,
    "name": "Midlands Occidentali",
-   "sha1": "780802c358ba0319f6ba70a9cd912bf34b0ad477",
-   "updated": "2026-11-11T22:49:03Z"
+   "sha1": "55bc68ae2a12c38d58eb2662e87698d6a5061ec9",
+   "updated": "2026-11-12T02:26:40Z"
   },
   "midlands-orientali": {
-   "count": 197952,
-   "errors": 152,
+   "count": 197956,
+   "diam": "mm",
+   "errors": 116,
    "name": "Midlands Orientali",
-   "sha1": "4bd1f57d32ea4e9e55a462c2af7520a72daa256a",
-   "updated": "2026-11-08T23:32:02Z"
+   "sha1": "3bbde440a04eacffa435b2fdeb86a637559f33da",
+   "updated": "2026-11-12T02:25:42Z"
   },
   "molise": {
    "count": 57455,
@@ -406,18 +417,20 @@
    "updated": "2026-11-09T16:02:14Z"
   },
   "nord-est-inghilterra": {
-   "count": 12256,
-   "errors": 4,
+   "count": 12257,
+   "diam": "mm",
+   "errors": 5,
    "name": "Nord Est dell'Inghilterra",
-   "sha1": "6e7178d92cf1b8c68e11d4eab64e13d50fd8fee7",
-   "updated": "2026-11-08T23:29:36Z"
+   "sha1": "7e386de792e444f7171b6f0170ef260a29c575c0",
+   "updated": "2026-11-12T02:23:30Z"
   },
   "nord-ovest-inghilterra": {
-   "count": 112011,
+   "count": 112035,
+   "diam": "mm",
    "errors": 101,
    "name": "Nord Ovest dell'Inghilterra",
-   "sha1": "e6aed5e8b74f31f922021d5c1bb8006afebf683f",
-   "updated": "2026-11-08T23:30:20Z"
+   "sha1": "a099ffebb8c131e09a27c15e980533f761089212",
+   "updated": "2026-11-12T02:24:13Z"
   },
   "normandia": {
    "count": 118461,
@@ -444,11 +457,12 @@
    "updated": "2026-11-11T11:13:06Z"
   },
   "opolskie": {
-   "count": 26255,
-   "errors": 177,
+   "count": 26256,
+   "diam": "mm",
+   "errors": 175,
    "name": "Opole",
-   "sha1": "a9722b66e79094df583763b7c293706e15b5ccdc",
-   "updated": "2026-11-08T20:23:17Z"
+   "sha1": "b3495ea596f8d71f433be524c03b1dcac34d4978",
+   "updated": "2026-11-12T02:37:04Z"
   },
   "paesi-della-loira": {
    "count": 123808,
@@ -467,26 +481,28 @@
    "updated": "2026-11-10T23:36:39Z"
   },
   "podkarpackie": {
-   "count": 90345,
+   "count": 90371,
    "diam": "mm",
    "errors": 212,
    "name": "Precarpazia",
-   "sha1": "223f039fcd63831e3e555e12c6b2b6f75cf03ba0",
-   "updated": "2026-11-10T19:47:33Z"
+   "sha1": "abcbe11016ae629f5607a1c6d30fcb894b4f3067",
+   "updated": "2026-11-12T02:37:46Z"
   },
   "podlaskie": {
-   "count": 21614,
-   "errors": 147,
+   "count": 21711,
+   "diam": "mm",
+   "errors": 186,
    "name": "Podlachia",
-   "sha1": "eff44f942cc1cdacdfbd97f910e9361effa42c3f",
-   "updated": "2026-11-08T21:05:25Z"
+   "sha1": "de88268a0a3c70ae9e40b04d1b4cb29f942792be",
+   "updated": "2026-11-12T02:38:22Z"
   },
   "pomorskie": {
-   "count": 92079,
-   "errors": 100,
+   "count": 92147,
+   "diam": "mm",
+   "errors": 95,
    "name": "Pomerania",
-   "sha1": "d909a27ab6be9d6aec771fa355c74ef2a695ee02",
-   "updated": "2026-11-08T21:17:26Z"
+   "sha1": "248038954a4a7bb6d96b289734fab96176e17563",
+   "updated": "2026-11-12T02:39:06Z"
   },
   "portogallo": {
    "count": 253473,
@@ -537,11 +553,12 @@
    "updated": "2026-11-10T20:46:30Z"
   },
   "scozia": {
-   "count": 236653,
-   "errors": 124,
+   "count": 236670,
+   "diam": "mm",
+   "errors": 169,
    "name": "Scozia",
-   "sha1": "568c78ffd546cd96ad908b8b08c99bbaa9fed117",
-   "updated": "2026-11-08T23:28:59Z"
+   "sha1": "7020239ca5e65354b0a05b15c9ef8f4ae8a4f18b",
+   "updated": "2026-11-12T02:22:55Z"
   },
   "serbia": {
    "count": 40037,
@@ -560,11 +577,12 @@
    "updated": "2026-11-10T23:48:10Z"
   },
   "slaskie": {
-   "count": 118497,
-   "errors": 198,
+   "count": 118724,
+   "diam": "mm",
+   "errors": 203,
    "name": "Slesia",
-   "sha1": "6c93c96be77be28d59f64b9744ad826fc265a05d",
-   "updated": "2026-11-08T21:19:29Z"
+   "sha1": "c2a41a95a3f8b10daf1753b3ee54938b6d54ea06",
+   "updated": "2026-11-12T02:40:07Z"
   },
   "slovenia": {
    "count": 51263,
@@ -583,25 +601,28 @@
    "updated": "2026-11-11T15:40:03Z"
   },
   "sud-est-inghilterra": {
-   "count": 448261,
-   "errors": 248,
+   "count": 448362,
+   "diam": "mm",
+   "errors": 202,
    "name": "Sud Est dell'Inghilterra",
-   "sha1": "7b11ac7719204cde5b7a2adfec8685f189fc507c",
-   "updated": "2026-11-08T23:36:04Z"
+   "sha1": "690af97035ea417124b4015aa5f56d5ca896aee9",
+   "updated": "2026-11-12T02:28:58Z"
   },
   "sud-ovest-inghilterra": {
-   "count": 123385,
+   "count": 123520,
+   "diam": "mm",
    "errors": 1033,
    "name": "Sud Ovest dell'Inghilterra",
-   "sha1": "2d24fa8223b7a9c10ed2a07999fc0da87955eb56",
-   "updated": "2026-11-08T23:36:55Z"
+   "sha1": "4ef980fe7b086ae7b9119645c42986e207624c0e",
+   "updated": "2026-11-12T02:29:48Z"
   },
   "swietokrzyskie": {
-   "count": 38856,
-   "errors": 78,
+   "count": 38869,
+   "diam": "mm",
+   "errors": 83,
    "name": "Santacroce",
-   "sha1": "31dc73b0c7f6b8da07063330b8375fd3e5b0621e",
-   "updated": "2026-11-08T21:28:19Z"
+   "sha1": "653ab3c26ea5f93436a529d93e692f338f39d030",
+   "updated": "2026-11-12T02:40:24Z"
   },
   "tirolo": {
    "count": 48431,
@@ -677,10 +698,11 @@
   },
   "warminsko-mazurskie": {
    "count": 38229,
-   "errors": 79,
+   "diam": "mm",
+   "errors": 87,
    "name": "Varmia-Masuria",
-   "sha1": "05b3f1ef2be8581022b158c2cb06356e07024499",
-   "updated": "2026-11-08T21:30:57Z"
+   "sha1": "d829f44525a124fec2925a2c86c1eaac00a1be94",
+   "updated": "2026-11-12T02:41:02Z"
   },
   "washington": {
    "count": 128345,
@@ -691,26 +713,28 @@
    "updated": "2026-11-11T22:01:10Z"
   },
   "wielkopolskie": {
-   "count": 109503,
+   "count": 109558,
    "diam": "mm",
-   "errors": 10318,
+   "errors": 4921,
    "name": "Grande Polonia",
-   "sha1": "430cfb5b708e56fe82e01f170865ba37839b2c9b",
-   "updated": "2026-11-10T21:21:10Z"
+   "sha1": "91fe2a999a73eff0a9a7e9cec1914b9f5719b68b",
+   "updated": "2026-11-12T02:41:53Z"
   },
   "yorkshire-e-humber": {
-   "count": 76047,
-   "errors": 51,
+   "count": 76107,
+   "diam": "mm",
+   "errors": 56,
    "name": "Yorkshire e Humber",
-   "sha1": "77363cbcfe1e57eb12db524fde2ab2cbfda98415",
-   "updated": "2026-11-08T23:31:00Z"
+   "sha1": "0da3a6b5b83286c6b3d7aae9abc9623adde22d5a",
+   "updated": "2026-11-12T02:24:56Z"
   },
   "zachodniopomorskie": {
-   "count": 224051,
-   "errors": 154,
+   "count": 224082,
+   "diam": "mm",
+   "errors": 171,
    "name": "Pomerania Occidentale",
-   "sha1": "a11fd570824f018ec2029e63c43f5ba9a28e1231",
-   "updated": "2026-11-08T21:56:06Z"
+   "sha1": "9e995d7f094a3c95a65332131486b9ac5dd5f8e6",
+   "updated": "2026-11-12T02:42:41Z"
   }
  }
 }

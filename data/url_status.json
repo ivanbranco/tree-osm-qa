@@ -463,6 +463,10 @@
 "d": "2026-11-09",
 "s": "ok"
 },
+"commons:File:Brzoza ~26y08oyg.jpg": {
+"d": "2026-11-12",
+"s": "ok"
+},
 "commons:File:Buche ND 101 31.jpg": {
 "d": "2026-11-09",
 "s": "ok"
@@ -3031,6 +3035,10 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Argyle-street-ash-tree-glasgow-tree-of-the-year.jpg": {
+"c": [],
+"d": "2026-11-12"
+},
 "geo:File:Athen Pandroseion sacred-olive-tree 20230921 131241.jpg": {
 "c": [
 37.9720628,
@@ -3071,6 +3079,10 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Balmerino Tree.JPG": {
+"c": [],
+"d": "2026-11-12"
+},
 "geo:File:Bardello Cedrus deodara monumentale.jpg": {
 "c": [
 45.8364245,
@@ -3103,6 +3115,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Baysen-Eiche 03.jpg": {
+"c": [
+54.295836,
+19.487693,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Beaucarnea recurvata on Avenida da Liberdade 03.jpg": {
 "c": [
 38.719947,
@@ -3126,6 +3146,22 @@
 "camera"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Bexhill Millennium Tree Planting Project plaque, Cantelupe Road, Bexhill.jpg": {
+"c": [
+50.8396661,
+0.4776035,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Bexley, the Charter Oak - geograph.org.uk - 972257.jpg": {
+"c": [
+51.45498,
+0.1176,
+"object"
+],
+"d": "2026-11-12"
 },
 "geo:File:Bialbero di Casorzo.jpg": {
 "c": [
@@ -3307,6 +3343,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Bolesławiec - Buk Pospolity Forma Czerwonolistna.jpg": {
+"c": [
+51.2613265,
+15.5675414,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Botanischer Garten (Linz) - Küstenmammutbaum (Sequoia sempervirens).jpg": {
 "c": [
 48.29734,
@@ -3331,6 +3375,10 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Brzoza ~26y08oyg.jpg": {
+"c": [],
+"d": "2026-11-12"
+},
 "geo:File:Buche ND 101 31.jpg": {
 "c": [
 47.275821,
@@ -3346,6 +3394,22 @@
 "object"
 ],
 "d": "2026-11-10"
+},
+"geo:File:Bukszpan aptekarz międzyzdroje 1.JPG": {
+"c": [
+53.92966111,
+14.45241389,
+"camera"
+],
+"d": "2026-11-12"
+},
+"geo:File:Bursztywnoa Dama - sosna rumelijska - drzewo pomnikowe w Parku Dietla w Sosnowcu, PL.ZIPOP.1393.PP.2475011.1798, 5 czerwca 2024 001.jpg": {
+"c": [
+50.28573,
+19.13638,
+"object"
+],
+"d": "2026-11-12"
 },
 "geo:File:Cabestany arbre de la jeunesse.jpg": {
 "c": [
@@ -3455,6 +3519,10 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Cedar Tree P3628.jpg": {
+"c": [],
+"d": "2026-11-12"
+},
 "geo:File:Cedre pleureur.jpg": {
 "c": [
 48.7711684,
@@ -3538,6 +3606,10 @@
 "camera"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Cheapside plane tree.jpg": {
+"c": [],
+"d": "2026-11-12"
 },
 "geo:File:Chiesa della Santa Madre di Dio 3.jpg": {
 "c": [
@@ -3719,6 +3791,22 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Cisy bieliki międzyzdroje.JPG": {
+"c": [
+53.92832778,
+14.44565833,
+"camera"
+],
+"d": "2026-11-12"
+},
+"geo:File:Cisy wojowie międzyzdroje 1.jpg": {
+"c": [
+53.933325,
+14.45616667,
+"camera"
+],
+"d": "2026-11-12"
+},
 "geo:File:Citronnier dans le parc Napoléon-III (Vichy) 2025-11-01.JPG": {
 "c": [
 46.12551,
@@ -3726,6 +3814,14 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Cmentarz wojskowy (1914-1915) w Pińczowie5.jpg": {
+"c": [
+50.5196275,
+20.536685,
+"object"
+],
+"d": "2026-11-12"
 },
 "geo:File:Copalme d'Amérique dans le parc Napoléon-III (Vichy) 2025-08-15.JPG": {
 "c": [
@@ -3831,6 +3927,22 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Dead tree on the Oak Trail.jpg": {
+"c": [
+51.680579,
+0.100248,
+"camera"
+],
+"d": "2026-11-12"
+},
+"geo:File:Dobieszyn, dąb św. Jana Pawła II.jpg": {
+"c": [
+51.6168936,
+21.1931534,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Dobrinishte Railway Station 16.JPG": {
 "c": [],
 "d": "2026-11-10"
@@ -3851,6 +3963,46 @@
 "c": [],
 "d": "2026-11-10"
 },
+"geo:File:Drzewo posadzone w roku beatyfikacji Stanisława Papczyńskiego.jpg": {
+"c": [
+51.9764823,
+21.2039698,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Drzewo, Park Skarpy Wiślanej, Góra Kalwaria.jpg": {
+"c": [
+51.984901,
+21.2212538,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Dąb Krutyński - Puszcza Piska.jpg": {
+"c": [
+53.6885073,
+21.4227133,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Dąb Marian, gmina Konstancin-Jeziorna.jpg": {
+"c": [
+52.102897,
+21.115397,
+"camera"
+],
+"d": "2026-11-12"
+},
+"geo:File:Dąb Pamięci, ul. Saperów, Góra Kalwaria.jpg": {
+"c": [
+51.9776864,
+21.2171109,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Dąb Rogaty.jpg": {
 "c": [
 52.512073,
@@ -3858,6 +4010,38 @@
 "object"
 ],
 "d": "2026-11-10"
+},
+"geo:File:Dąb Walenty.jpg": {
+"c": [
+51.9856422,
+21.1556922,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Dąb apostoł międzyzdroje 2.JPG": {
+"c": [
+53.92970278,
+14.45384444,
+"camera"
+],
+"d": "2026-11-12"
+},
+"geo:File:Dąb barnim międzyzdroje 1.JPG": {
+"c": [
+53.92920556,
+14.45513889,
+"camera"
+],
+"d": "2026-11-12"
+},
+"geo:File:Dąb korczaka.jpg": {
+"c": [
+52.234378,
+20.977072,
+"camera"
+],
+"d": "2026-11-12"
 },
 "geo:File:Dąb pamięci – kleryk kpt. Ignacy Drabczyński.jpg": {
 "c": [
@@ -4123,6 +4307,46 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Dąb regalinda międzyzdroje 1.jpg": {
+"c": [
+53.92513056,
+14.45598056,
+"camera"
+],
+"d": "2026-11-12"
+},
+"geo:File:Dąb storrada międzyzdroje.JPG": {
+"c": [
+53.92758333,
+14.45296389,
+"camera"
+],
+"d": "2026-11-12"
+},
+"geo:File:Dąb warcisław i międzyzdroje.JPG": {
+"c": [
+53.93334167,
+14.45778333,
+"camera"
+],
+"d": "2026-11-12"
+},
+"geo:File:Dąb Śniadaniowy w gm. Szprotawa.jpg": {
+"c": [
+51.6265661,
+15.5960901,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Dąb, gmina Góra Kalwaria.jpg": {
+"c": [
+51.9848268,
+21.1548804,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Dąbrówka szkoła ul. Parkowa 2023.jpg": {
 "c": [
 52.38298,
@@ -4170,6 +4394,14 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Elbląg, park Modrzewie 8.JPG": {
+"c": [],
+"d": "2026-11-12"
+},
+"geo:File:Elbląg, park Modrzewie fota 9.JPG": {
+"c": [],
+"d": "2026-11-12"
 },
 "geo:File:Elmės šešiakamienis ąžuolas, kamienai.JPG": {
 "c": [
@@ -4230,6 +4462,14 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:FelledSycamoreTree.jpg": {
+"c": [
+55.003554,
+-2.3738797,
+"object"
+],
+"d": "2026-11-12"
 },
 "geo:File:Ficus macrophylla Sanremo.jpg": {
 "c": [
@@ -4391,9 +4631,25 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Hardy Tree Fallen Feb 2025.jpg": {
+"c": [
+51.535067,
+-0.129733,
+"camera"
+],
+"d": "2026-11-12"
+},
 "geo:File:Hawthorn St Mars 2.jpg": {
 "c": [],
 "d": "2026-11-11"
+},
+"geo:File:Henryków Lubański Katholisch Hennersdorf Eibe.jpg": {
+"c": [
+51.1714718,
+15.2182957,
+"object"
+],
+"d": "2026-11-12"
 },
 "geo:File:Highfield Road - geograph.org.uk - 8149642.jpg": {
 "c": [
@@ -4402,6 +4658,14 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Holocaust Memorial Tree, Geraldine Mary Harmsworth Park.jpg": {
+"c": [
+51.496183,
+-0.109853,
+"camera"
+],
+"d": "2026-11-12"
 },
 "geo:File:Houx commun sur le tour du plan d'eau de Saint-Clément 2025-05-02 16-46-43.JPG": {
 "c": [
@@ -4619,6 +4883,14 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Kościół Staniscze Wielkie sosna.jpg": {
+"c": [
+50.6495363,
+18.3504299,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Kościół w Zbylitowskiej Górze, fot. K. Fidyk MIK 2017 (27) (39087129705).jpg": {
 "c": [
 49.99227,
@@ -4674,6 +4946,14 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Las Miejski koło Giżycka- dąb pomnikowy \"Wojciech\".jpg": {
+"c": [],
+"d": "2026-11-12"
+},
+"geo:File:Las Miejski koło Giżycka- dąb pomnikowy nad stawem.JPG": {
+"c": [],
+"d": "2026-11-12"
 },
 "geo:File:Laxenburg Schlosspark03.jpg": {
 "c": [
@@ -4871,6 +5151,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Mazurski Dąb Bartny - Puszcza Piska.jpg": {
+"c": [
+53.6862944,
+21.4178279,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Mehlbeere1 auf der Knödelwiese.jpg": {
 "c": [
 47.8947334,
@@ -4894,6 +5182,10 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Międzyzdroje Pomnik Przyrody.JPG": {
+"c": [],
+"d": "2026-11-12"
 },
 "geo:File:Mombello Chiesa di Santo Stefano 02.jpg": {
 "c": [
@@ -4975,6 +5267,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Nagłowice.jpg": {
+"c": [
+50.6722936,
+20.1231987,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Napoleonov hrast 1.jpg": {
 "c": [
 45.6689301,
@@ -5030,6 +5330,10 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Newton apple tree, Cambridge (53136390571).jpg": {
+"c": [],
+"d": "2026-11-12"
 },
 "geo:File:Noisetier de Byzance dans le parc Napoléon-III (Vichy) 2023-06-24.JPG": {
 "c": [
@@ -5167,6 +5471,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Panshanger oak 1.jpg": {
+"c": [
+51.8032436,
+-0.1337864,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Paranhos Lemon Tree.jpg": {
 "c": [
 41.180166,
@@ -5198,6 +5510,14 @@
 "camera"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Park Chemiczna Sosnowiec640.jpg": {
+"c": [
+50.30014,
+19.14392,
+"object"
+],
+"d": "2026-11-12"
 },
 "geo:File:Parque da Liberdade Sintra 36.jpg": {
 "c": [
@@ -5282,6 +5602,22 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Platan klonolistny - Platanus xacerifolia (Platanus xhispanica), pomnik przyrody PL.ZIPOP.1393.PP.2475011.217, Park Dielta, Sosnowiec, wiosna, kwiecień 2024 406.jpg": {
+"c": [
+50.2851223,
+19.1343557,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Platan klonolistny - Platanus xacerifolia (Platanus xhispanica), pomnik przyrody PL.ZIPOP.1393.PP.2475011.218, Park Dielta, Sosnowiec, wiosna, kwiecień 2024 405.jpg": {
+"c": [
+50.2853091,
+19.1343666,
+"object"
+],
+"d": "2026-11-12"
 },
 "geo:File:Platane Volksgarten Graz 1290 (4).JPG": {
 "c": [
@@ -5415,6 +5751,74 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Pomnik przyrody Tworog Boruszowice dab.jpg": {
+"c": [
+50.4975396,
+18.781806,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Pomnik przyrody Tworog Koty lipa.jpg": {
+"c": [
+50.5531289,
+18.7043493,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Pomnik przyrody Tworog Mikoleska dab.jpg": {
+"c": [
+50.5517619,
+18.8100935,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Pomnik przyrody Tworog Wesola dab.jpg": {
+"c": [
+50.5623234,
+18.6935081,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Pomnik przyrody Tworog Wesola grusza.jpg": {
+"c": [
+50.5624516,
+18.6931646,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Pomnik przyrody Tworog jesion.jpg": {
+"c": [
+50.5313346,
+18.7170748,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Pomnik przyrody Tworog sosna.jpg": {
+"c": [
+50.53424,
+18.7294939,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Pomnik przyrody przytuleni międzyzdroje 2.JPG": {
+"c": [
+53.93430556,
+14.45602778,
+"camera"
+],
+"d": "2026-11-12"
+},
+"geo:File:Pomniki przyrody Strażnicy na ulicy Gryfa Pomorskiego w Międzyzdrojach - czerwiec 2018.jpg": {
+"c": [],
+"d": "2026-11-12"
+},
 "geo:File:Populus nigra (Dormelletto).jpg": {
 "c": [
 45.7370828,
@@ -5479,6 +5883,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Rajcza Fraxinus excelsior.jpg": {
+"c": [
+49.5046222,
+19.1026808,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Ramoninės ąžuolas 2.JPG": {
 "c": [
 55.928243,
@@ -5511,6 +5923,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Red oak - Quercus rubra - natural monument no PL.ZIPOP.1393.PP.2475011.224 in Dietl Park in Sosnowiec, Poland, September 2020.jpg": {
+"c": [
+50.2853573,
+19.135902,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Redwood dans le parc Napoléon-III (Vichy) 2025-11-08.JPG": {
 "c": [
 46.12306,
@@ -5518,6 +5938,10 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Riverside Plane, Richmond.jpg": {
+"c": [],
+"d": "2026-11-12"
 },
 "geo:File:Robinia pseudoacacia @ Square René-Viviani Paris 01.jpg": {
 "c": [],
@@ -5538,6 +5962,30 @@
 "object"
 ],
 "d": "2026-11-10"
+},
+"geo:File:Rzeźba Matki Boskiej wyrzeźbiona w drzewie, Góra Kalwaria.jpg": {
+"c": [
+51.9812476,
+21.2167177,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Rzeźba w drzewie, Kępa Potocka 2.jpg": {
+"c": [
+52.2802569,
+20.9885163,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Rzeźba w drzewie, Kępa Potocka.jpg": {
+"c": [
+52.2794811,
+20.9883785,
+"object"
+],
+"d": "2026-11-12"
 },
 "geo:File:S'Ilixi 'e Canali 07.jpg": {
 "c": [
@@ -5674,6 +6122,14 @@
 "object"
 ],
 "d": "2026-11-10"
+},
+"geo:File:Siemianowice topola kanadyjska pl. Skrzeka i Wójcika (4).jpg": {
+"c": [
+50.306252,
+19.003617,
+"camera"
+],
+"d": "2026-11-12"
 },
 "geo:File:Silberne Eiche Baum 2 Schönberg-Fernitz.jpg": {
 "c": [
@@ -5863,6 +6319,38 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:The Cloisters, New College, Oxford - geograph.org.uk - 2658969.jpg": {
+"c": [
+51.75436491,
+-1.25285587,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:The Great Holker Lime at Holker Hall - geograph.org.uk - 271197.jpg": {
+"c": [
+54.187,
+-2.985,
+"camera"
+],
+"d": "2026-11-12"
+},
+"geo:File:The King Of Limbs Tree.jpg": {
+"c": [
+51.3926128,
+-1.6523894,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:The Martyrs tree - geograph.org.uk - 1277399.jpg": {
+"c": [
+50.74896,
+-2.297,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Thuir plaque olivier pierre mestre.jpg": {
 "c": [
 42.63958397,
@@ -6039,6 +6527,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Tree, Bexhill Down - geograph.org.uk - 6636265.jpg": {
+"c": [
+50.84645542,
+0.45663304,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Treviglio - Acero americano.jpg": {
 "c": [
 45.5220375,
@@ -6046,6 +6542,14 @@
 "camera"
 ],
 "d": "2026-11-10"
+},
+"geo:File:Trzy drzewa pomnikowe w Parku Dietla, Sosnowiec, czerwiec 2024 , 028.jpg": {
+"c": [
+50.2854,
+19.13659,
+"object"
+],
+"d": "2026-11-12"
 },
 "geo:File:Tsagkarada.jpg": {
 "c": [
@@ -6231,6 +6735,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Wiśnia na polu mokotowskim (2).jpg": {
+"c": [
+52.2160881,
+21.0126862,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Wolkersdorf Barbarabildbaum.jpg": {
 "c": [
 48.3858376,
@@ -6238,6 +6750,10 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Wrocław ~071005●26.jpg": {
+"c": [],
+"d": "2026-11-12"
 },
 "geo:File:Wyspa Edwarda - Dąb Edward Raczyński.jpg": {
 "c": [
@@ -6342,6 +6858,10 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Łosień (Dąbrowa Górnicza)": {
+"c": [],
+"d": "2026-11-12"
 },
 "geo:File:Šaukėnų pušis.JPG": {
 "c": [
@@ -15299,6 +15819,22 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0403012.31": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0403012.32": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0403012.35": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0403012.46": {
+"d": "2026-11-12",
+"s": "403"
+},
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0403022.468": {
 "d": "2026-11-08",
 "s": "403"
@@ -15391,6 +15927,34 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0403052.1246": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0403052.1247": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0403052.1248": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0403052.1249": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0403052.1250": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0403052.1251": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0403052.1253": {
+"d": "2026-11-12",
+"s": "403"
+},
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0403083.1751": {
 "d": "2026-11-08",
 "s": "403"
@@ -15471,6 +16035,10 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407082.1617": {
+"d": "2026-11-12",
+"s": "403"
+},
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407082.1618": {
 "d": "2026-11-08",
 "s": "403"
@@ -15495,6 +16063,66 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2263": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2265": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2266": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2267": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2268": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2269": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2271": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2272": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2273": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2274": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2275": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2276": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2277": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2278": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0407092.2280": {
+"d": "2026-11-12",
+"s": "403"
+},
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0409012.452": {
 "d": "2026-11-08",
 "s": "403"
@@ -15515,12 +16143,56 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0410053.1877": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0410053.1878": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0410053.1879": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0410053.1880": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0410053.1881": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0410053.1885": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0410053.1887": {
+"d": "2026-11-12",
+"s": "403"
+},
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0410053.1892": {
 "d": "2026-11-08",
 "s": "403"
 },
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0410053.1894": {
 "d": "2026-11-08",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0410053.1899": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0410053.1902": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0410053.1903": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0410053.1904": {
+"d": "2026-11-12",
 "s": "403"
 },
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0415011.409": {
@@ -16147,8 +16819,16 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0419043.1108": {
+"d": "2026-11-12",
+"s": "403"
+},
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0419043.1109": {
 "d": "2026-11-08",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0419043.1110": {
+"d": "2026-11-12",
 "s": "403"
 },
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0419043.1111": {
@@ -16171,6 +16851,10 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0419043.1117": {
+"d": "2026-11-12",
+"s": "403"
+},
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0419043.1118": {
 "d": "2026-11-08",
 "s": "403"
@@ -16185,6 +16869,10 @@
 },
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0419043.1121": {
 "d": "2026-11-08",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0419043.1122": {
+"d": "2026-11-12",
 "s": "403"
 },
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0419043.1125": {
@@ -23615,6 +24303,14 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.2977": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.2978": {
+"d": "2026-11-12",
+"s": "403"
+},
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.2987": {
 "d": "2026-11-08",
 "s": "403"
@@ -23663,6 +24359,10 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3071": {
+"d": "2026-11-12",
+"s": "403"
+},
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3085": {
 "d": "2026-11-08",
 "s": "403"
@@ -23699,12 +24399,72 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3201": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3202": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3203": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3204": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3205": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3207": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3208": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3209": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3210": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3212": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3213": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3214": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3215": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3216": {
+"d": "2026-11-12",
+"s": "403"
+},
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3226": {
 "d": "2026-11-08",
 "s": "403"
 },
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3230": {
 "d": "2026-11-08",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3232": {
+"d": "2026-11-12",
 "s": "403"
 },
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3244": {
@@ -23807,6 +24567,10 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3439": {
+"d": "2026-11-12",
+"s": "403"
+},
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.3458": {
 "d": "2026-11-08",
 "s": "403"
@@ -23835,8 +24599,16 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.4439": {
+"d": "2026-11-12",
+"s": "403"
+},
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.4449": {
 "d": "2026-11-08",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.4458": {
+"d": "2026-11-12",
 "s": "403"
 },
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.4471": {
@@ -23853,6 +24625,10 @@
 },
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.4601": {
 "d": "2026-11-08",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.4602": {
+"d": "2026-11-12",
 "s": "403"
 },
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1465011.4603": {
@@ -34671,6 +35447,58 @@
 "d": "2026-11-08",
 "s": "403"
 },
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2406013.1700": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2406013.756": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2406013.757": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2406013.758": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2406013.760": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2406092.1046": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2406092.1049": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2406092.1051": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2406092.1052": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2406092.1053": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2406092.1054": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2406092.1056": {
+"d": "2026-11-12",
+"s": "403"
+},
+"https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2406092.759": {
+"d": "2026-11-12",
+"s": "403"
+},
 "https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.2411011.346": {
 "d": "2026-11-08",
 "s": "403"
@@ -44743,8 +45571,16 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://photos.app.goo.gl/bWYXPzdNKBqnQAJT9": {
+"d": "2026-11-12",
+"s": "200"
+},
 "https://photos.app.goo.gl/bm7BmAVo9v2JZcBt9": {
 "d": "2026-11-08",
+"s": "200"
+},
+"https://photos.app.goo.gl/brLm97bja1ib6YGN7": {
+"d": "2026-11-12",
 "s": "200"
 },
 "https://photos.app.goo.gl/brurevB7d3qEQ2j78": {
