@@ -208,12 +208,11 @@
    "updated": "2026-11-12T12:00:02Z"
   },
   "grand-est": {
-   "count": 253338,
-   "diam": "mm",
-   "errors": 2260,
+   "count": 253378,
+   "errors": 2207,
    "name": "Grand Est",
-   "sha1": "2a18e88a8779e8e9ac7c3f38c44604ba6bd8ee36",
-   "updated": "2026-11-11T11:06:43Z"
+   "sha1": "760be154089037a7e058497d6bf7aa0bf76c05cb",
+   "updated": "2026-11-12T16:08:34Z"
   },
   "grecia": {
    "count": 62663,
@@ -574,11 +573,10 @@
   },
   "slaskie": {
    "count": 118724,
-   "diam": "mm",
-   "errors": 203,
+   "errors": 222,
    "name": "Slesia",
-   "sha1": "c2a41a95a3f8b10daf1753b3ee54938b6d54ea06",
-   "updated": "2026-11-12T02:40:07Z"
+   "sha1": "f12a10387859ff67189281199e2879b04a8a8b67",
+   "updated": "2026-11-12T15:58:01Z"
   },
   "slovenia": {
    "count": 51263,

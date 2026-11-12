@@ -15097,8 +15097,8 @@
 "Alnus ×spaethii"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -22176,14 +22176,17 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Pyrus ×irregularis"
+],
 "en": "× Sorbopyrus irregularis",
 "it": "×Sorbopyrus irregularis",
 "names": [
 "×Sorbopyrus irregularis"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
