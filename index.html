@@ -225,6 +225,8 @@
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#a5d64c" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legDeciduous">Caducifoglia</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#1f6b35" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legEvergreen">Sempreverde</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#5fa36f" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legNoCycle">Ciclo fogliare non specificato</span></li>
+      <!-- colori caratteristici di alcune specie (SPECIES_COLORS nello script): quattro spicchi rosso, giallo, argento, azzurro -->
+      <li id="leg-colors"><svg width="22" height="22" viewBox="0 0 22 22"><g fill-opacity=".85"><path d="M11 11V3A8 8 0 0 1 19 11Z" fill="#b8321f"/><path d="M11 11H19A8 8 0 0 1 11 19Z" fill="#f0c419"/><path d="M11 11V19A8 8 0 0 1 3 11Z" fill="#aebcae"/><path d="M11 11H3A8 8 0 0 1 11 3Z" fill="#7d9cb5"/></g><circle cx="11" cy="11" r="8" fill="none" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legColors">Colori delle specie (attivi)</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e"/></svg> <span data-i18n="legTrunk">Tronco</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="4" fill="#7b4a1e" fill-opacity=".45"/></svg> <span data-i18n="legTrunkEst">Tronco stimato</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="7" r="3" fill="#7b4a1e"/><circle cx="7" cy="14" r="3" fill="#7b4a1e"/><circle cx="15" cy="14" r="3" fill="#7b4a1e"/></svg> <span data-i18n="legStems">Più tronchi</span></li>
@@ -325,6 +327,8 @@ const I18N = {
     legMonSacred: "Monumentale e sacro", legMasaf: "Elenco MASAF", legToggle: "Clic per mostrare o nascondere",
     legTrunk: "Tronco", legTrunkEst: "Tronco stimato", legStump: "Ceppo",
     legStems: "Più tronchi", legIvy: "Coperto d'edera", legFruit: "Frutti (stagionali)", legXmas: "Albero di Natale",
+    legColors: "Colori delle specie (attivi)", legColorsOff: "Colori delle specie (spenti)",
+    legColorsToggle: "Clic per spegnere o riaccendere i colori delle specie (spenti, le chiome prendono il colore del ciclo fogliare)",
     legFruitAlways: "Frutti (sempre)", legFruitOff: "Frutti (nascosti)",
     legFruitToggle: "Clic per cambiare: frutti solo nella loro stagione, sempre, o nascosti",    // pop-up sulle icone della legenda: i tag che le producono (chiave = data-i18n della voce)
     legTips: {
@@ -344,6 +348,7 @@ const I18N = {
       legFruit: "species=Malus domestica · Juglans regia · Citrus limon · Citrus sinensis · Citrus × aurantium · Olea europaea · Diospyros kaki",
       legStump: "natural=tree_stump",
       legXmas: "xmas:feature=tree (dall'8 dicembre al 6 gennaio, da zoom 16)",
+      legColors: "Colore della chioma dalla specie. Autunno: rosso species=Quercus rubra · Liquidambar styraciflua · Nyssa sylvatica · Acer rubrum (ottobre e novembre); giallo Ginkgo biloba (novembre) · Larix decidua (ottobre e novembre); bruno-arancio Taxodium distichum · Metasequoia glyptostroboides (ottobre e novembre). Argento Elaeagnus angustifolia (da aprile a ottobre). Azzurro Picea pungens · Eucalyptus cinerea · Eucalyptus pulverulenta (tutto l'anno). Nell'emisfero sud i mesi si spostano di 6",
       legBroad: "leaf_type=broadleaved o palm, o stimato",
       legNeedle: "leaf_type=needleleaved, o stimato",
       legNoLeaf: "leaf_type mancante e non stimato" }, legBroad: "Latifoglia o palma",
@@ -644,6 +649,8 @@ const I18N = {
     legMonSacred: "Monumental and sacred", legMasaf: "MASAF list", legToggle: "Click to show or hide",
     legTrunk: "Trunk", legTrunkEst: "Estimated trunk", legStump: "Stump",
     legStems: "Multiple trunks", legIvy: "Covered in ivy", legFruit: "Fruits (seasonal)", legXmas: "Christmas tree",
+    legColors: "Species colours (on)", legColorsOff: "Species colours (off)",
+    legColorsToggle: "Click to switch the species colours off or on (when off, crowns take the leaf cycle colour)",
     legFruitAlways: "Fruits (always)", legFruitOff: "Fruits (hidden)",
     legFruitToggle: "Click to switch: fruits only in their season, always, or hidden",    legTips: {
       legMonument: "denotation=natural_monument",
@@ -662,6 +669,7 @@ const I18N = {
       legFruit: "species=Malus domestica · Juglans regia · Citrus limon · Citrus sinensis · Citrus × aurantium · Olea europaea · Diospyros kaki",
       legStump: "natural=tree_stump",
       legXmas: "xmas:feature=tree (from 8 December to 6 January, from zoom 16)",
+      legColors: "Crown colour from the species. Autumn: red species=Quercus rubra · Liquidambar styraciflua · Nyssa sylvatica · Acer rubrum (October and November); yellow Ginkgo biloba (November) · Larix decidua (October and November); russet Taxodium distichum · Metasequoia glyptostroboides (October and November). Silver Elaeagnus angustifolia (April to October). Blue Picea pungens · Eucalyptus cinerea · Eucalyptus pulverulenta (all year). In the southern hemisphere the months shift by 6",
       legBroad: "leaf_type=broadleaved or palm, or estimated",
       legNeedle: "leaf_type=needleleaved, or estimated",
       legNoLeaf: "leaf_type missing and not estimated" }, legBroad: "Broadleaved or palm",
@@ -1016,6 +1024,33 @@ const XMAS = (() => { const d = new Date(), m = d.getMonth() + 1, g = d.getDate(
   return hashParams().get("xmas") === "1" || (m === 12 && g >= 8) || (m === 1 && g <= 6); })();
 const isXmas = p => XMAS && !!p.xmas;
 { const li = document.getElementById("leg-xmas"); if (li) li.hidden = !XMAS; }
+// Colori delle specie: per queste specie la chioma prende il colore caratteristico del fogliame, nei mesi indicati
+// (emisfero nord; a sud dell'equatore i mesi si spostano di 6, come per i frutti; null = tutto l'anno), nella data di
+// chi guarda. Si decide dalla specie (genere ed epiteto, anche con autore o cultivar), quindi non serve aggiornare i
+// dati. Solo specie dal colore costante e documentato (non le cultivar). #colors=1 li mostra anche fuori stagione.
+const SPECIES_COLORS = {
+  "Quercus rubra": ["#b8321f", [10, 11]],               // quercia rossa: rosso ruggine in autunno
+  "Liquidambar styraciflua": ["#a3233f", [10, 11]],     // liquidambar: rosso cremisi tendente al viola
+  "Nyssa sylvatica": ["#d0302a", [10, 11]],             // nissa: rosso scarlatto
+  "Acer rubrum": ["#c92a2a", [10, 11]],                 // acero rosso: rosso
+  "Ginkgo biloba": ["#f0c419", [11]],                   // ginkgo: giallo oro, tutto insieme a novembre
+  "Larix decidua": ["#e0a526", [10, 11]],               // larice: aghi giallo oro prima di cadere
+  "Taxodium distichum": ["#b8622a", [10, 11]],          // cipresso calvo: aghi bruno-arancio
+  "Metasequoia glyptostroboides": ["#b8622a", [10, 11]],// metasequoia: come il cipresso calvo
+  "Elaeagnus angustifolia": ["#aebcae", [4, 5, 6, 7, 8, 9, 10]],   // olivagno: foglie argentate (caducifoglia)
+  "Picea pungens": ["#7d9cb5", null],                   // abete del Colorado: aghi blu-grigi
+  "Eucalyptus cinerea": ["#9db4c0", null],              // eucalipti con foglie argento-azzurre tutto l'anno
+  "Eucalyptus pulverulenta": ["#9db4c0", null] };
+const COLORS_ALWAYS = hashParams().get("colors") === "1";
+const localMonth = lat => { const m = new Date().getMonth() + 1; return lat < 0 ? (m + 5) % 12 + 1 : m; };
+// sc = colore della specie oggi (proprietà aggiunta qui, non nei dati); va chiamata prima di ogni setData degli alberi
+const markColors = fc => {
+  for (const f of fc.features) {
+    const p = f.properties, sp = /^([A-Z][a-z]+) ([a-z-]+)/.exec(String(p.species || "")), c = sp && SPECIES_COLORS[sp[1] + " " + sp[2]];
+    if (c && !String(p.species).includes(";") && (COLORS_ALWAYS || !c[1] || c[1].includes(localMonth(f.geometry.coordinates[1])))) p.sc = c[0];
+  }
+  return fc;
+};
 
 const EMPTY = { type: "FeatureCollection", features: [] };
 const getJSON = u => fetch(u).then(r => { if (!r.ok) throw new Error(u + " " + r.status); return r.json(); });
@@ -1110,12 +1145,18 @@ map.on("load", async () => {
     ["has", "sacred"], 3,
     hasDen("landmark"), 2,
     1];
-  const FILL_OPACITY = ["case", ["get", "cr_est"], 0.3, 0.55];
+  // colori delle specie (sc) un po' più coprenti: con la trasparenza normale il rosso sul verde dei parchi diventa
+  // marrone. Senza i colori delle specie (spenti dalla legenda) le stesse espressioni senza sc
+  const opacityExpr = sc => ["case", ["get", "cr_est"], sc ? ["case", ["has", "sc"], 0.45, 0.3] : 0.3, sc ? ["case", ["has", "sc"], 0.7, 0.55] : 0.55];
+  const FILL_OPACITY = opacityExpr(true);
   // colore della chioma da leaf_cycle (o dalla stima lc delle liste wiki): caducifoglie più chiare, sempreverdi più scure
   const CYCLE = ["case", ["in", ["coalesce", ["get", "leaf_cycle"], ""], ["literal", ["deciduous", "semi_deciduous", "evergreen", "semi_evergreen"]]],
     ["get", "leaf_cycle"], ["coalesce", ["get", "lc"], ""]];
   // caducifoglie verde-giallo chiaro, sempreverdi verde scuro, ciclo ignoto verde medio un po' smorzato
-  const CROWN_COLOR = ["match", CYCLE, ["deciduous", "semi_deciduous"], "#a5d64c", ["evergreen", "semi_evergreen"], "#1f6b35", "#5fa36f"];
+  // colore della specie (sc, da markColors) prima del ciclo fogliare
+  const CYCLE_COLOR = ["match", CYCLE, ["deciduous", "semi_deciduous"], "#a5d64c", ["evergreen", "semi_evergreen"], "#1f6b35", "#5fa36f"];
+  const crownExpr = sc => sc ? ["case", ["has", "sc"], ["get", "sc"], CYCLE_COLOR] : CYCLE_COLOR;
+  const CROWN_COLOR = crownExpr(true);
   const circlePaint = () => ({
     "circle-radius": radius("cr", 3), "circle-color": CROWN_COLOR, "circle-opacity": FILL_OPACITY,
     "circle-stroke-color": STROKE_COLOR, "circle-stroke-width": STROKE_W,
@@ -1343,6 +1384,35 @@ map.on("load", async () => {
   for (const tier of TIERS) for (const def of DEFS)
     map.addLayer({ id: def.id + tier.suf, ...def.spec(tier), filter: filterFor(def, tier, []) });
   const CROWN_IDS = TIERS.flatMap(t => ["crown", "crown-plain", "crown-poly"].map(i => i + t.suf));
+
+  // Colori delle specie: un clic sul testo della voce di legenda li spegne (chiome coi colori del ciclo fogliare) o li
+  // riaccende; la scelta resta salvata nel browser. Stesso aspetto della voce dei frutti (modalità tra parentesi)
+  const colorsLi = document.getElementById("leg-colors");
+  let colorsOn = true;
+  try { colorsOn = localStorage.getItem("speciesColors") !== "off"; } catch (e) {}
+  const applyColors = () => {
+    for (const id of CROWN_IDS) {
+      const fill = id.startsWith("crown-poly") ? "fill" : "circle";
+      map.setPaintProperty(id, fill + "-color", crownExpr(colorsOn));
+      map.setPaintProperty(id, fill + "-opacity", opacityExpr(colorsOn));
+    }
+    const label = colorsLi.querySelector('[data-i18n="legColors"]'), txt = colorsOn ? L.legColors : L.legColorsOff;
+    const i = txt.lastIndexOf("("), mode = document.createElement("span");
+    mode.className = "mode"; mode.textContent = i < 0 ? txt : txt.slice(i);
+    label.replaceChildren(i < 0 ? "" : txt.slice(0, i), mode);
+    colorsLi.classList.toggle("off", !colorsOn);
+  };
+  if (colorsLi) {
+    const label = colorsLi.querySelector('[data-i18n="legColors"]');
+    label.classList.add("toggle");
+    label.title = L.legColorsToggle;
+    label.addEventListener("click", () => {
+      colorsOn = !colorsOn;
+      try { localStorage.setItem("speciesColors", colorsOn ? "on" : "off"); } catch (e) {}
+      applyColors();
+    });
+    applyColors();
+  }
 
   // Frutti: tre modi, a ogni clic sulla voce della legenda il successivo (la scelta resta salvata nel browser):
   // "season" (predefinito) solo gli alberi in stagione, "always" tutti, "off" nessuno
@@ -2060,6 +2130,7 @@ map.on("load", async () => {
     // ridotto manca (dati scritti prima che esistesse) lo si ricava dal completo. Le due parti vanno in due sorgenti
     // distinte ("trees-min" e "trees"), così i livelli a zoom basso non aspettano che MapLibre prepari il completo.
     const show = (fc, src) => {
+      markColors(fc);
       // dati scritti prima dell'unione dei check: la tutela su Wikidata era un check a sé (wikidata_heritage), ora
       // è una fonte di monument_denotation (wd_her_*). Da togliere quando tutte le regioni saranno aggiornate.
       for (const f of fc.features) { const p = f.properties;
@@ -2076,7 +2147,7 @@ map.on("load", async () => {
       updateTaxa(); updateShapes(); update();
     };
     // stesso criterio di minimal() in fetch_trees.py
-    const reduce = fc => ({ type: "FeatureCollection", features: fc.features.filter(f => f.properties.issues !== "|"
+    const reduce = fc => ({ type: "FeatureCollection", features: markColors(fc).features.filter(f => f.properties.issues !== "|"
       || isMon(f.properties)) });
     let fitted = false;
     const fitTo = feats => {                          // inquadra la regione: dal confine se c'è, altrimenti dagli alberi
@@ -2089,7 +2160,7 @@ map.on("load", async () => {
     const fullP = getGz(WORLD ? `${BASE}data/world/${slug}.geojson.gz` : `data/regions/${slug}.geojson.gz`);
     fullP.catch(() => {});
     if (WORLD) getGz(`${BASE}data/world/${slug}.low.geojson.gz`)
-      .then(low => { if (seq === loadSeq) { map.getSource("trees").setData(low); update(); } }).catch(() => {});
+      .then(low => { if (seq === loadSeq) { map.getSource("trees").setData(markColors(low)); update(); } }).catch(() => {});
     const min = WORLD ? null : await getGz(`data/regions/${slug}.min.geojson.gz`).catch(() => null);
     if (seq !== loadSeq) return;                      // nel frattempo è stata scelta un'altra regione
     taxSel.value = ""; taxSig = "";                   // l'elenco genus/specie dipende dalla regione
