@@ -21,6 +21,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Tristania conferta"
+],
 "en": "Lophostemon confertus",
 "it": "Lophostemon confertus",
 "names": [
@@ -131,6 +134,9 @@
 "Albero del tè"
 ]
 },
+"basionyms": [
+"Thea sinensis"
+],
 "en": "Camellia sinensis",
 "it": "Camellia sinensis",
 "names": [
@@ -194,6 +200,9 @@
 "Chorisia speciosa"
 ]
 },
+"basionyms": [
+"Chorisia speciosa"
+],
 "en": "Ceiba speciosa",
 "it": "Ceiba speciosa",
 "names": [
@@ -584,6 +593,9 @@
 "Palma reale"
 ]
 },
+"basionyms": [
+"Oreodoxa regia"
+],
 "en": "Roystonea regia",
 "it": "Roystonea regia",
 "names": [
@@ -1180,6 +1192,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Tetranthera monopetala"
+],
 "en": "Litsea monopetala",
 "it": "Litsea monopetala",
 "names": [
@@ -2128,6 +2143,9 @@
 "taxon": true
 },
 "Q1136117": {
+"basionyms": [
+"Mimosa cineraria"
+],
 "en": "Prosopis cineraria",
 "it": "Prosopis cineraria",
 "names": [
@@ -2896,6 +2914,9 @@
 "Osmanto"
 ]
 },
+"basionyms": [
+"Olea fragrans"
+],
 "en": "Osmanthus fragrans",
 "it": "Osmanthus fragrans",
 "names": [
@@ -3098,6 +3119,9 @@
 "Swietenia mahogani"
 ]
 },
+"basionyms": [
+"Cedrela mahagoni"
+],
 "en": "Swietenia mahagoni",
 "it": "Swietenia mahagoni",
 "names": [
@@ -3212,6 +3236,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pinus inops var. clausa"
+],
 "en": "Pinus clausa",
 "it": "Pinus clausa",
 "names": [
@@ -4064,6 +4091,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Shorea faguetiana"
+],
 "en": "Richetia faguetiana",
 "names": [
 "Richetia faguetiana"
@@ -5089,6 +5119,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Ceratonia chilensis"
+],
 "en": "Neltuma chilensis",
 "names": [
 "Neltuma chilensis"
@@ -5939,6 +5972,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Taxus nucifera"
+],
 "en": "Torreya nucifera",
 "it": "Torreya nucifera",
 "names": [
@@ -6103,6 +6139,9 @@
 "Albero del kapok"
 ]
 },
+"basionyms": [
+"Bombax pentandrum"
+],
 "en": "Ceiba pentandra",
 "it": "Ceiba pentandra",
 "names": [
@@ -6200,6 +6239,9 @@
 "cedro dell'incenso"
 ]
 },
+"basionyms": [
+"Libocedrus decurrens"
+],
 "en": "Calocedrus decurrens",
 "it": "Calocedrus decurrens",
 "names": [
@@ -6336,6 +6378,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Areca oleracea"
+],
 "en": "Roystonea oleracea",
 "it": "Roystonea oleracea",
 "names": [
@@ -7209,6 +7254,9 @@
 "Abete di Vancouver"
 ]
 },
+"basionyms": [
+"Pinus grandis"
+],
 "en": "Abies grandis",
 "it": "Abies grandis",
 "names": [
@@ -7252,6 +7300,9 @@
 "Sorbo ciaverdello"
 ]
 },
+"basionyms": [
+"Crataegus torminalis"
+],
 "en": "Sorbus torminalis",
 "it": "Sorbus torminalis",
 "names": [
@@ -7778,6 +7829,9 @@
 "Perastro"
 ]
 },
+"basionyms": [
+"Pyrus communis var. pyraster"
+],
 "en": "Pyrus pyraster",
 "it": "Pyrus pyraster",
 "names": [
@@ -7876,14 +7930,17 @@
 "Populus canescens"
 ]
 },
+"basionyms": [
+"Populus alba var. canescens"
+],
 "en": "Populus × canescens",
 "it": "Populus × canescens",
 "names": [
 "Populus canescens"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -8349,6 +8406,17 @@
 ],
 "taxon": true
 },
+"Q15275098": {
+"en": "Bischofia",
+"it": "Bischofia",
+"names": [
+"Bischofia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q15282937": {
 "alias": {
 "en": [],
@@ -8520,6 +8588,9 @@
 "taxon": true
 },
 "Q15360169": {
+"basionyms": [
+"Chorisia crispiflora"
+],
 "en": "Ceiba crispiflora",
 "it": "Ceiba crispiflora",
 "names": [
@@ -8758,6 +8829,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Covellia albipila"
+],
 "en": "Ficus albipila",
 "it": "Ficus albipila",
 "names": [
@@ -8800,6 +8874,9 @@
 "Peccio dell'Himalaya"
 ]
 },
+"basionyms": [
+"Pinus smithiana"
+],
 "en": "Picea smithiana",
 "it": "Picea smithiana",
 "names": [
@@ -10074,6 +10151,9 @@
 "Albero del drago"
 ]
 },
+"basionyms": [
+"Asparagus draco"
+],
 "en": "Dracaena draco",
 "it": "Dracaena draco",
 "names": [
@@ -10181,6 +10261,17 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q157991": {
+"en": "Adansonia",
+"it": "Adansonia",
+"names": [
+"Adansonia"
+],
+"ranks": [
+"Q34740"
 ],
 "taxon": true
 },
@@ -12994,6 +13085,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Taxus macrophylla"
+],
 "en": "Podocarpus macrophyllus",
 "it": "Podocarpus macrophyllus",
 "names": [
@@ -13510,6 +13604,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Prunus pseudocerasus var. jamasakura"
+],
 "en": "Prunus jamasakura",
 "it": "Prunus jamasakura",
 "names": [
@@ -14658,6 +14755,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Couratari legalis"
+],
 "en": "Cariniana legalis",
 "it": "Cariniana legalis",
 "names": [
@@ -14879,6 +14979,9 @@
 "Lagunaria patersonii"
 ]
 },
+"basionyms": [
+"Hibiscus patersonius"
+],
 "en": "Lagunaria patersonia",
 "it": "Lagunaria patersonia",
 "names": [
@@ -15132,6 +15235,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pinus salzmannii"
+],
 "en": "Pinus nigra subsp. salzmannii",
 "it": "Pinus nigra subsp. salzmannii",
 "names": [
@@ -15948,6 +16054,9 @@
 "Magnolia alba"
 ]
 },
+"basionyms": [
+"Michelia alba"
+],
 "en": "Magnolia × alba",
 "it": "Magnolia ×alba",
 "names": [
@@ -16086,6 +16195,13 @@
 ],
 "taxon": true
 },
+"Q228045": {
+"en": "Klon",
+"it": "Klon",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2285767": {
 "alias": {
 "en": [
@@ -16222,6 +16338,9 @@
 "Poinciana regia"
 ]
 },
+"basionyms": [
+"Poinciana regia"
+],
 "en": "Delonix regia",
 "it": "Delonix regia",
 "names": [
@@ -16432,14 +16551,17 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Platanus orientalis var. acerifolia"
+],
 "en": "Platanus × acerifolia",
 "it": "Platanus ×acerifolia",
 "names": [
 "Platanus ×acerifolia"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -16868,6 +16990,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Mimosa saman"
+],
 "en": "Samanea saman",
 "it": "Samanea saman",
 "names": [
@@ -16924,6 +17049,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Juglans ovata"
+],
 "en": "Carya ovata",
 "it": "Carya ovata",
 "names": [
@@ -17398,6 +17526,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Prunus jamasakura var. speciosa"
+],
 "en": "Prunus speciosa",
 "it": "Prunus speciosa",
 "names": [
@@ -17549,6 +17680,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Machaerium tipu"
+],
 "en": "Tipuana tipu",
 "it": "Tipuana tipu",
 "names": [
@@ -17601,6 +17735,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Mimosa colubrina"
+],
 "en": "Anadenanthera colubrina",
 "it": "Anadenanthera colubrina",
 "names": [
@@ -17616,6 +17753,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Mimosa contortisiliqua"
+],
 "en": "Enterolobium contortisiliquum",
 "it": "Enterolobium contortisiliquum",
 "names": [
@@ -17816,6 +17956,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pyrus intermedia"
+],
 "en": "Sorbus intermedia",
 "it": "Sorbus intermedia",
 "names": [
@@ -17991,6 +18134,9 @@
 "Acacia del Giappone"
 ]
 },
+"basionyms": [
+"Sophora japonica"
+],
 "en": "Styphnolobium japonicum",
 "it": "Sofora del Giappone",
 "names": [
@@ -19211,6 +19357,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Myrica nagi"
+],
 "en": "Nageia nagi",
 "it": "Nageia nagi",
 "names": [
@@ -19260,6 +19409,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Lens phaseoloides"
+],
 "en": "Entada phaseoloides",
 "it": "Entada phaseoloides",
 "names": [
@@ -19275,6 +19427,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Villaresia mucronata"
+],
 "en": "Citronella mucronata",
 "it": "Citronella mucronata",
 "names": [
@@ -19589,6 +19744,9 @@
 "Thuja orientalis"
 ]
 },
+"basionyms": [
+"Thuja orientalis"
+],
 "en": "Platycladus orientalis",
 "it": "Platycladus orientalis",
 "names": [
@@ -19869,6 +20027,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Cytisus alpinus"
+],
 "en": "Laburnum alpinum",
 "it": "Laburnum alpinum",
 "names": [
@@ -20055,6 +20216,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Cassia siamea"
+],
 "en": "Senna siamea",
 "it": "Senna siamea",
 "names": [
@@ -20327,6 +20491,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Morus papyrifera"
+],
 "en": "Broussonetia papyrifera",
 "it": "Broussonetia papyrifera",
 "names": [
@@ -20426,6 +20593,9 @@
 "Pinus nigra subsp. laricio"
 ]
 },
+"basionyms": [
+"Pinus laricio"
+],
 "en": "Pinus nigra subsp. laricio",
 "it": "Pinus nigra laricio",
 "names": [
@@ -21420,6 +21590,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Caesalpinia echinata"
+],
 "en": "Paubrasilia echinata",
 "it": "Paubrasilia echinata",
 "names": [
@@ -21458,6 +21631,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Uvaria longifolia"
+],
 "en": "Monoon longifolium",
 "it": "Monoon longifolium",
 "names": [
@@ -22212,6 +22388,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Sophora kentukea"
+],
 "en": "Cladrastis kentukea",
 "it": "Cladrastis kentukea",
 "names": [
@@ -22482,6 +22661,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Ficus columnaris"
+],
 "en": "Ficus macrophylla columnaris",
 "it": "Ficus macrophylla subsp. columnaris",
 "names": [
@@ -22924,6 +23106,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Laurus foetens"
+],
 "en": "Ocotea foetens",
 "it": "Ocotea foetens",
 "names": [
@@ -23113,6 +23298,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Crataegus serratifolia"
+],
 "en": "Photinia serratifolia",
 "it": "Photinia serratifolia",
 "names": [
@@ -23401,6 +23589,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Urostigma superbum"
+],
 "en": "Ficus superba",
 "it": "Ficus superba",
 "names": [
@@ -23448,6 +23639,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Guilandina dioica"
+],
 "en": "Gymnocladus dioicus",
 "it": "Gymnocladus dioicus",
 "names": [
@@ -23822,6 +24016,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Cleyera gymnanthera"
+],
 "en": "Ternstroemia gymnanthera",
 "it": "Ternstroemia gymnanthera",
 "names": [
@@ -23882,6 +24079,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q5845065": {
+"en": "Olivera, Buenos Aires",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q5851739": {
 "alias": {
@@ -24115,6 +24318,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Cocos romanzoffiana"
+],
 "en": "Syagrus romanzoffiana",
 "it": "Syagrus romanzoffiana",
 "names": [
@@ -24145,6 +24351,17 @@
 "it": "Ostrya",
 "names": [
 "Ostrya"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
+"Q606617": {
+"en": "Melaleuca",
+"it": "melaleuca",
+"names": [
+"Melaleuca"
 ],
 "ranks": [
 "Q34740"
@@ -24562,6 +24779,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Taxus harringtonia"
+],
 "en": "Cephalotaxus harringtonia",
 "it": "Cephalotaxus harringtonia",
 "names": [
@@ -26958,6 +27178,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Juglans cordiformis"
+],
 "en": "Carya cordiformis",
 "it": "Carya cordiformis",
 "names": [
@@ -27070,6 +27293,13 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q89": {
+"en": "apple",
+"it": "mela",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q890507": {
 "alias": {
@@ -27296,6 +27526,9 @@
 "Podocarpus falcatus"
 ]
 },
+"basionyms": [
+"Taxus falcata"
+],
 "en": "Afrocarpus falcatus",
 "it": "Afrocarpus falcatus",
 "names": [
@@ -27368,6 +27601,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Thuja articulata"
+],
 "en": "Tetraclinis articulata",
 "it": "Tetraclinis articulata",
 "names": [
@@ -27474,6 +27710,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Swietenia senegalensis"
+],
 "en": "Khaya senegalensis",
 "it": "Khaya senegalensis",
 "names": [
@@ -27754,6 +27993,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Dammara australis"
+],
 "en": "Agathis australis",
 "it": "Agathis australis",
 "names": [

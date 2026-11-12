@@ -1,12 +1,15 @@
 {
  "regions": {
   "monumental": {
-   "count": 89944,
+   "count": 90229,
    "diam": "mm",
-   "errors": 5047,
+   "errors": 5239,
+   "implicit": 207,
+   "masaf": 3617,
+   "masaf_version": "X Aggiornamento, D.Dir. n. 364243 del 24/07/2026",
    "name": "Alberi monumentali",
-   "sha1": "6fc47eca22258407bb4c767a3c6aaec4c4a7f372",
-   "updated": "2026-11-10T14:02:57Z"
+   "sha1": "9e4a3f1ca1e07b2adb7c2531d6b8302ef165a36c",
+   "updated": "2026-11-12T01:54:22Z"
   }
  }
 }
