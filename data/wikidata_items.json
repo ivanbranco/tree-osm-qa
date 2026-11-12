@@ -1681,6 +1681,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q147388"
 ],
@@ -1696,6 +1697,7 @@
 ],
 "heritage": [],
 "image": "Kigen Sugi in Yakushima.jpg",
+"mon": true,
 "taxa": [
 "Q147388"
 ],
@@ -2691,6 +2693,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -3331,6 +3334,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q1329209"
 ],
@@ -5246,6 +5250,7 @@
 ],
 "heritage": [],
 "image": "Ginkgo at Jyonichiji temple.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -5332,6 +5337,7 @@
 ]
 ],
 "image": "Kashimo Ōsugi 20100809.jpg",
+"mon": true,
 "taxa": [
 "Q147388"
 ],
@@ -5362,6 +5368,7 @@
 ],
 "heritage": [],
 "image": "Ukon no Tachibana.JPG",
+"mon": true,
 "taxa": [
 "Q11121938"
 ],
@@ -5377,6 +5384,7 @@
 ],
 "heritage": [],
 "image": "Japanese nutmeg in Zenyōmitsu-ji 201504 03.jpg",
+"mon": true,
 "taxa": [
 "Q1373999"
 ],
@@ -5432,6 +5440,7 @@
 ],
 "heritage": [],
 "image": "Sakon no Sakura.JPG",
+"mon": true,
 "taxa": [
 "Q5721717"
 ],
@@ -5442,6 +5451,7 @@
 "coords": [],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [
 "Q917187"
 ],
@@ -5595,6 +5605,7 @@
 ]
 ],
 "image": "Tsukinoki Illumination in Yokote 20200104d.jpg",
+"mon": true,
 "taxa": [
 "Q920344"
 ],
@@ -5897,6 +5908,7 @@
 ]
 ],
 "image": "Nomanji Temple Cycad A.jpg",
+"mon": true,
 "taxa": [
 "Q161517"
 ],
@@ -5932,6 +5944,7 @@
 ],
 "heritage": [],
 "image": "Hagiwara no O-kasamatsu.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -5966,12 +5979,12 @@
 ],
 "heritage": [
 [
-"Natural Monument of Japan",
-"Natural Monument of Japan"
-],
-[
 "Special Natural Monument",
 "Special Natural Monument"
+],
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
 ]
 ],
 "image": "Big Japanese cinnamon Kamo hachiman shrine.jpg",
@@ -10204,6 +10217,7 @@
 ]
 ],
 "image": "Arima-Harunire1.JPG",
+"mon": true,
 "taxa": [
 "Q844010"
 ],
@@ -11126,6 +11140,7 @@
 ],
 "heritage": [],
 "image": "Baba Zakura. Oct 25, 2023. Otama Village, Fukushima Prefecture. A.jpg",
+"mon": true,
 "taxa": [
 "Q51117378"
 ],
@@ -11498,6 +11513,7 @@
 ]
 ],
 "image": "Distylium racemosum tree of Kisami Hachiman Jinja Shrine. A.jpg",
+"mon": true,
 "taxa": [
 "Q310331"
 ],
@@ -12069,6 +12085,7 @@
 ]
 ],
 "image": "2024-04-07 海老名の大ケヤキ DSC06528.jpg",
+"mon": true,
 "taxa": [
 "Q920344"
 ],
@@ -12089,6 +12106,7 @@
 ]
 ],
 "image": "KanagawaSelectedTree100-Tsumada Atsugi.jpg",
+"mon": true,
 "taxa": [
 "Q158722"
 ],
@@ -12774,6 +12792,7 @@
 ]
 ],
 "image": "Big ichii tree in Oshino-mura.jpg",
+"mon": true,
 "taxa": [
 "Q1144815"
 ],
@@ -12886,6 +12905,7 @@
 ],
 "heritage": [],
 "image": "Ebina-Tsubakizizou.JPG",
+"mon": true,
 "taxa": [
 "Q160121"
 ],
@@ -14067,6 +14087,7 @@
 ],
 "heritage": [],
 "image": "20240615 Iigaoka Hachimangu no Meoto Icho Ichihara-JPN.jpg",
+"mon": true,
 "taxa": [
 "Q43284"
 ],
@@ -14274,6 +14295,7 @@
 ]
 ],
 "image": "Haramachi-no-O-Keyaki 201907 001.jpg",
+"mon": true,
 "taxa": [
 "Q920344"
 ],
@@ -14738,6 +14760,7 @@
 ]
 ],
 "image": "",
+"mon": true,
 "taxa": [
 "Q838818"
 ],
@@ -18038,6 +18061,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -18051,6 +18075,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -20969,6 +20994,7 @@
 ]
 ],
 "image": "青渭神社のケヤキ, 2016.jpg",
+"mon": true,
 "taxa": [
 "Q920344"
 ],
@@ -30423,6 +30449,7 @@
 ],
 "heritage": [],
 "image": "Yamakita-Hokisugi.jpg",
+"mon": true,
 "taxa": [
 "Q128550"
 ],
@@ -37637,6 +37664,7 @@
 ]
 ],
 "image": "Noma no Okeyaki B.jpg",
+"mon": true,
 "taxa": [
 "Q920344"
 ],
