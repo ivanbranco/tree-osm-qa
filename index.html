@@ -84,6 +84,7 @@
   #gh:hover{color:#222}
   #panel label{display:block;margin:2px 0}
   #panel select{width:100%;margin-bottom:6px}
+  #panel select:disabled{opacity:.45;cursor:not-allowed}   /* menu senza alberi da filtrare (nessuna regione) */
   #issue-row{display:flex;gap:4px;margin-bottom:6px}
   #panel #issue-row select{margin-bottom:0;min-width:0;flex:1}
   #dl{flex:none;display:flex;align-items:center;padding:0 6px;cursor:pointer;color:#333}
@@ -1471,6 +1472,8 @@ map.on("load", async () => {
   const genusOfSpecies = sp => { const w = sp.trim().split(/\s+/);
     return (w[0] === "×" || w[0] === "x") && w[1] ? `${w[0]} ${w[1]}` : w[0]; };
   const updateTaxa = () => {
+    // senza una regione caricata non ci sono alberi da filtrare: i due menu restano grigi e non si aprono (issue #20)
+    taxSel.disabled = issSel.disabled = !ALL.length;
     const b = map.getBounds(), z = map.getZoom();
     const west = b.getWest(), east = b.getEast(), south = b.getSouth(), north = b.getNorth();
     const G = new Map(), S = new Map(), I = new Map(), GI = new Map();   // GI: alberi con errori per gruppo
