@@ -82,6 +82,7 @@ def query(region, bbox):
 (
   node["natural"="tree"](area.a)({s},{w},{n},{e});
   node["natural"="tree_stump"](area.a)({s},{w},{n},{e});
+  node["xmas:feature"="tree"](area.a)({s},{w},{n},{e});
 );
 out body qt;"""
 
@@ -1801,6 +1802,8 @@ def to_feature(el):
             p["stems"] = ";".join(f"{r:.3f}" for r in stems)
         if t.get("ivyclad") == "yes":
             p["ivy"] = 1
+        if t.get("xmas:feature") == "tree":   # albero di Natale: lucine e stella dall'8 dicembre al 6 gennaio (#7)
+            p["xmas"] = 1
         if fi := fruit_info(t):   # fruit: colore; fm: mesi della stagione (emisfero nord), assente = tutto l'anno
             p["fruit"] = fi[0]
             if fi[1]:
@@ -1888,11 +1891,34 @@ def neighbour_checks(feats):
             p["issues"] = "|" + "|".join([*p["issues"].strip("|").split("|"), *extra]).lstrip("|") + "|"
 
 
+def xmas_feature(el):
+    """Albero di Natale (xmas:feature=tree) che non è natural=tree né tree_stump, spesso un albero tagliato o finto in
+    una piazza: solo per il disegno dall'8 dicembre al 6 gennaio (#7), senza check. Chioma da diameter_crown o raggio
+    di ripiego; leaf_type solo se documentato (senza, il sito lo disegna come un'aghifoglia)."""
+    t = el.get("tags", {})
+    p = {k: t[k] for k in KEEP if k in t}
+    if p.get("leaf_type") not in ("broadleaved", "needleleaved", "palm"):
+        p.pop("leaf_type", None)
+    p.update({"id": el["id"], "xmas": 1, "issues": "|"})
+    crown, _, _ = sizes(t)
+    p["cr"] = round(crown / 2, 2) if crown else round(default_crown_r(t) * jitter(el["id"], t), 2)
+    p["cr_est"] = crown is None
+    return {"type": "Feature", "properties": p,
+            "geometry": {"type": "Point", "coordinates": [round(el["lon"], 7), round(el["lat"], 7)]}}
+
+
 def build(data):
-    feats = [to_feature(e) for e in data["elements"] if e.get("type") == "node"]
+    nodes = [e for e in data["elements"] if e.get("type") == "node"]
+    is_tree = lambda e: e.get("tags", {}).get("natural") in ("tree", "tree_stump")
+    feats = [to_feature(e) for e in nodes if is_tree(e)]
     feats.sort(key=lambda f: f["properties"]["id"])  # ordine stabile: se i dati non cambiano, il file resta identico
     neighbour_checks(feats)
-    return {"type": "FeatureCollection", "features": feats}
+    fc = {"type": "FeatureCollection", "features": feats}
+    # alberi di Natale che non sono alberi OSM: in un elenco a parte ("xmas", membro aggiuntivo del GeoJSON), fuori
+    # da conteggi, errori, storico e file ridotto
+    if xmas := sorted((xmas_feature(e) for e in nodes if not is_tree(e)), key=lambda f: f["properties"]["id"]):
+        fc["xmas"] = xmas
+    return fc
 
 
 def write_gz(path, raw):
@@ -1929,7 +1955,8 @@ def update_region(region, regions_index):
     # Un server Overpass può rispondere "senza errori" ma con dati mancanti (è successo: 0 alberi in Valle d'Aosta
     # mentre overpass-api.de dava 502). Se gli alberi sono meno di MIN_KEEP_RATIO rispetto all'ultimo aggiornamento,
     # i dati precedenti non si toccano.
-    nodes = sum(1 for el in data["elements"] if el.get("type") == "node")
+    nodes = sum(1 for el in data["elements"] if el.get("type") == "node"     # solo gli alberi, non gli alberi di
+                and el.get("tags", {}).get("natural") in ("tree", "tree_stump"))   # Natale che non sono natural=tree
     prev = regions_index.get(slug, {}).get("count")
     if path.exists() and prev and nodes < prev * MIN_KEEP_RATIO:
         warn(f"{slug}: solo {nodes} alberi contro {prev} dell'ultimo aggiornamento: risposta di Overpass probabilmente "

@@ -59,6 +59,7 @@
     {"key": "sacred_tree", "value": "rag_tree", "object_types": ["node"], "description": "Used to render sacred trees and to name them (rag tree) in the info panel."},
     {"key": "multi_stemmed", "object_types": ["node"], "description": "Draws several trunks instead of one (yes = 2, a number = that many, several circumferences = one trunk each)."},
     {"key": "ivyclad", "value": "yes", "object_types": ["node"], "description": "Draws a ring of green dots around the trunk."},
+    {"key": "xmas:feature", "value": "tree", "object_types": ["node"], "description": "From 8 December to 6 January: draws blinking coloured lights and a yellow star on the crown (needleleaved if leaf_type is missing). Also downloaded when the node is not natural=tree, only for this rendering (no QA checks)."},
     {"key": "religion", "value": "shinto", "object_types": ["node"], "description": "On trees: rendered as a sacred tree (goshinboku) and named in the info panel."},
     {"key": "website", "object_types": ["node"], "description": "Used for QA checks and the info panel."},
     {"key": "url", "object_types": ["node"], "description": "Used for QA checks and the info panel."},
