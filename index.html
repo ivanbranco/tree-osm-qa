@@ -1252,14 +1252,11 @@ map.on("load", async () => {
   };
   const update = () => {
     if (!current) { document.getElementById("count").textContent = L.pickRegion; return; }
-    const z = map.getZoom();
+    const z = map.getZoom(), n = inViewCount();
     if (WORLD) {                                      // sotto FULL_Z si vede solo una parte degli alberi
-      const n = new Set(map.queryRenderedFeatures({ layers: CROWN_IDS }).map(f => f.properties.id)).size;
       document.getElementById("count").textContent = (z < FULL_Z ? L.countWorldLow : L.countAll)(fmtN(n));
       return;
     }
-    const layers = z < MON_Z ? ["crown-issues"] : z < ALL_Z ? ["crown-issues-mid", "crown-top"] : [...CROWN_IDS, "crown-issues-wait"];
-    const n = new Set(map.queryRenderedFeatures({ layers }).map(f => f.properties.id)).size;
     document.getElementById("count").textContent = (z < MON_Z ? L.countIssues : z < ALL_Z ? L.countMid : L.countAll)(fmtN(n))
       // file completo ancora in caricamento, o MapLibre lo sta ancora preparando
       + (partial || !map.isSourceLoaded("trees") ? " · " + L.loadingAll : "");
@@ -1299,27 +1296,28 @@ map.on("load", async () => {
     return (w[0] === "×" || w[0] === "x") && w[1] ? `${w[0]} ${w[1]}` : w[0]; };
   const updateTaxa = () => {
     const b = map.getBounds(), z = map.getZoom();
+    const west = b.getWest(), east = b.getEast(), south = b.getSouth(), north = b.getNorth();
     const G = new Map(), S = new Map(), I = new Map(), GI = new Map();   // GI: alberi con errori per gruppo
+    const inc = (m, k) => m.set(k, (m.get(k) || 0) + 1);
     let U = 0, WS = 0;   // senza genus né species; con species
     for (const ft of ALL) {
       const [x, y] = ft.geometry.coordinates;
-      if (x < b.getWest() || x > b.getEast() || y < b.getSouth() || y > b.getNorth()) continue;
+      if (x < west || x > east || y < south || y > north) continue;
       const p = ft.properties;
       // fuori da zoom 10 si vedono solo i problematici e, da zoom 9, i monumentali
       if (z < ALL_Z && (p.stump || (p.issues === "|" && !(z >= MON_Z && isMon(p))))) continue;
       if (WORLD && z < FULL_Z && !(p.mz <= Math.floor(z))) continue;   // mappa mondiale: solo gli alberi mostrati
-      const codes = p.issues.split("|").filter(Boolean);
-      codes.forEach(i => I.set(i, (I.get(i) || 0) + 1));
-      new Set(codes.map(issueGroupOf)).forEach(g => GI.set(g, (GI.get(g) || 0) + 1));
-      if (!p.genus && !p.species) { U++; continue; }
-      const gs = new Set();
-      if (p.genus) gs.add(p.genus);
-      if (p.species) {
-        WS++;
-        gs.add(genusOfSpecies(p.species));
-        S.set(p.species, (S.get(p.species) || 0) + 1);
+      if (p.issues !== "|") {                          // quasi tutti gli alberi non hanno errori
+        const codes = p.issues.split("|").filter(Boolean);
+        codes.forEach(i => inc(I, i));
+        new Set(codes.map(issueGroupOf)).forEach(g => inc(GI, g));
       }
-      gs.forEach(g => G.set(g, (G.get(g) || 0) + 1));
+      if (!p.genus && !p.species) { U++; continue; }
+      // genere: quello di genus e quello di species, contato una volta sola se coincidono
+      const sg = p.species ? genusOfSpecies(p.species) : null;
+      if (p.species) { WS++; inc(S, p.species); }
+      if (p.genus) inc(G, p.genus);
+      if (sg !== null && sg !== p.genus) inc(G, sg);
     }
     const opt = (v, t) => { const o = document.createElement("option"); o.value = v; o.textContent = t; return o; };
     // errori: solo quelli presenti in vista, nell'ordine del menu; il selezionato resta anche se fuori vista
@@ -1377,6 +1375,7 @@ map.on("load", async () => {
   const dlBtn = document.getElementById("dl");
   dlBtn.title = L.download;
   const matchIssue = (v, p) => {
+    if (p.issues === "|") return false;              // nessun errore: il caso più comune, senza dividere la stringa
     const codes = p.issues.split("|").filter(Boolean);
     if (!v) return codes.length > 0;                 // "Tutti gli errori": ogni albero con almeno un errore
     return v.startsWith("g:") ? codes.some(c => issueGroupOf(c) === v.slice(2)) : codes.includes(v);
@@ -1387,6 +1386,26 @@ map.on("load", async () => {
     if (v === "with_species") return !!p.species;
     const name = v.slice(2);
     return v.startsWith("s:") ? p.species === name : p.genus === name || String(p.species || "").startsWith(name + " ");
+  };
+  // Alberi in vista (ceppi esclusi), contati sui dati con gli stessi criteri dei livelli della mappa: per zoom
+  // (problematici sempre, monumentali da MON_Z, tutti da ALL_Z; nella mappa mondiale secondo "mz") e per i filtri
+  // scelti nei menu. Chiedere a MapLibre gli alberi disegnati (queryRenderedFeatures) bloccava la pagina per più di un
+  // secondo a ogni spostamento con 180.000 alberi in vista; questo ciclo impiega pochi millisecondi.
+  const inViewCount = () => {
+    const b = map.getBounds(), w = b.getWest(), e = b.getEast(), s = b.getSouth(), n = b.getNorth();
+    const z = map.getZoom(), zi = Math.floor(z), is = issSel.value, tx = taxSel.value;
+    let c = 0;
+    for (const ft of ALL) {
+      const [x, y] = ft.geometry.coordinates;
+      if (x < w || x > e || y < s || y > n) continue;
+      const p = ft.properties;
+      if (p.stump) continue;
+      if (WORLD) { if (z < FULL_Z && !(p.mz <= zi)) continue; }
+      else if (z < ALL_Z && p.issues === "|" && !(z >= MON_Z && isMon(p))) continue;
+      if ((is && !matchIssue(is, p)) || (tx && !matchTaxon(tx, p))) continue;
+      c++;
+    }
+    return c;
   };
   const plain = html => { const d = document.createElement("div"); d.innerHTML = html; return d.textContent; };
   dlBtn.onclick = () => {

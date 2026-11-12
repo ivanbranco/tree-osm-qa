@@ -193,6 +193,9 @@ SPECIES_LIMITS = {" ".join(k.split()).lower(): v for k, v in _RAW_LIMITS.items()
 QUOTES = str.maketrans("", "", "'‘’`´\"“”")
 
 
+# lru_cache sulle funzioni che dipendono solo dal valore di species: in una regione gli stessi nomi si ripetono
+# centinaia di migliaia di volte
+@functools.lru_cache(maxsize=None)
 def norm_species(s):
     """Nome normalizzato per i confronti: senza virgolette, spazi singoli, 'x' tra i nomi come '×', '×' staccato dal
     nome ('Platanus ×acerifolia', come su Wikidata, = 'Platanus × acerifolia'), minuscolo."""
@@ -241,7 +244,9 @@ def denotation_problems(t):
     glued:<comune>: un valore comune con altro testo attaccato senza _ (es. urbanheidialhoranta);
     rare: usato al massimo DEN_RARE_MAX volte. Gli ultimi due richiedono denotation_values.json."""
     out = []
-    for v in (x.strip() for x in str(t.get("denotation", "")).split(";")):
+    if "denotation" not in t:
+        return out
+    for v in (x.strip() for x in str(t["denotation"]).split(";")):
         if not v:
             continue
         n = DEN_COUNTS.get(v, 0)
@@ -290,7 +295,10 @@ RANK_SPECIES_OR_BELOW = {"Q7432", "Q68947", "Q767728", "Q279749"}
 
 def qids(t, key):
     """QID validi (Q…) di un tag, anche separati da ';'."""
-    return [x.strip() for x in str(t.get(key, "")).split(";") if WIKIDATA.match(x.strip())]
+    v = t.get(key)
+    if not v:   # quasi tutti gli alberi non hanno il tag: si esce subito
+        return []
+    return [x.strip() for x in str(v).split(";") if WIKIDATA.match(x.strip())]
 
 
 def taxon_status(q):
@@ -685,11 +693,15 @@ COMMONS_API = "https://commons.wikimedia.org/w/api.php"
 
 def link_urls(t):
     """[(chiave, url)] degli indirizzi http in image, website e url (anche più valori separati da ';')."""
+    if "image" not in t and "website" not in t and "url" not in t:
+        return []
     return [(k, u) for k in URL_KEYS for u in (x.strip() for x in str(t.get(k, "")).split(";")) if URL.match(u)]
 
 
 def commons_files(t):
     """File di Commons in wikimedia_commons (le categorie no)."""
+    if "wikimedia_commons" not in t:
+        return []
     return [x.strip() for x in str(t.get("wikimedia_commons", "")).split(";") if x.strip().startswith("File:")]
 
 
@@ -701,7 +713,9 @@ COMMONS_FILE_URL = re.compile(r"^https?://commons\.(?:m\.)?wikimedia\.org/wiki/[
 def commons_photo_files(t):
     """File di Commons collegati all'albero: wikimedia_commons=File:… e image=* che punta alla pagina di un file
     su Commons; titoli "File:…" con gli spazi al posto dei trattini bassi, senza doppioni."""
-    out = [f.replace("_", " ") for f in commons_files(t)]
+    if "wikimedia_commons" not in t and "image" not in t:
+        return []
+    out =[f.replace("_", " ") for f in commons_files(t)]
     for u in str(t.get("image", "")).split(";"):
         if m := COMMONS_FILE_URL.match(u.strip()):
             out.append("File:" + unquote(m.group(1)).replace("_", " ").strip())
@@ -949,6 +963,7 @@ def leaf_cycle_estimate(t):
 # da cambiare (distanza di Levenshtein). Tarato sui dati: con 1 lettera sono quasi sempre errori di battitura
 # (Olea europeea, Phoenix dactilifera); con 2 anche specie vere assenti dalla lista (Myrtus communis -> Pyrus
 # communis), quindi a 2 si segnala solo se il genere scritto non è un genere noto; da 3 in su troppi falsi positivi.
+@functools.lru_cache(maxsize=None)
 def binomial(sp):
     """Genere ed epiteto normalizzati, senza ×: 'Citrus × limon L.' -> 'citrus limon'."""
     words = [w for w in norm_species(sp).split() if w != "×"]
@@ -1053,7 +1068,9 @@ DEFAULT_CROWN_R_BY_DENOTATION = (("natural_monument", 5.0), ("landmark", 5.0), (
 
 
 def default_crown_r(t):
-    den = [x.strip() for x in str(t.get("denotation", "")).split(";")]
+    if "denotation" not in t:
+        return DEFAULT_CROWN_R
+    den =[x.strip() for x in str(t.get("denotation", "")).split(";")]
     for name, r in DEFAULT_CROWN_R_BY_DENOTATION:
         if name in den:
             return r
@@ -1072,7 +1089,9 @@ UUID = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-
 
 def panoramax_ids(t):
     """UUID da panoramax=* (anche separati da ';'; ignora parametri tipo &xyz=)."""
-    ids = [x.lower() for x in UUID.findall(t.get("panoramax", ""))]
+    if "panoramax" not in t:
+        return []
+    ids = [x.lower() for x in UUID.findall(t["panoramax"])]
     return list(dict.fromkeys(ids))
 
 
@@ -1094,14 +1113,18 @@ CIRC_DIAM_TOL = 0.2
 def diameter_small(t):
     """Vero se diameter non ha unità e vale meno di DIAM_MM_MIN (es. diameter=0.5): in millimetri sarebbe un
     tronco di meno di 1 cm. Lo zero è già segnalato da number_invalid."""
-    m = DIAM_RE.match(str(t.get("diameter", "")))
+    if "diameter" not in t:
+        return False
+    m =DIAM_RE.match(str(t.get("diameter", "")))
     return bool(m) and not m.group(2) and 0 < float(m.group(1).replace(",", ".")) < DIAM_MM_MIN
 
 
 def diameter_m(t):
     """Diametro del tronco in metri da diameter=*: senza unità in mm, altrimenti con l'unità scritta
     (mm, cm, m, ft, in). None se manca, non è leggibile o è troppo piccolo per i millimetri (diameter_small)."""
-    m = DIAM_RE.match(str(t.get("diameter", "")))
+    if "diameter" not in t:
+        return None
+    m =DIAM_RE.match(str(t.get("diameter", "")))
     if not m or diameter_small(t):
         return None
     f = DIAM_UNITS.get(m.group(2).lower() or "mm")
@@ -1185,8 +1208,9 @@ def monument_sources(t):
     """Fonti che indicano un albero monumentale: ref:masaf, ref:rami, ref:monumentaltrees, heritage:operator di
     HERITAGE_OPERATORS, elemento di wikidata=* con P9704 o istanza di Q811534, link a monumentaltrees.com."""
     src = [k for k in ("ref:masaf", "ref:rami", "ref:monumentaltrees") if t.get(k)]
-    src += [f"heritage:operator={v}" for v in (x.strip().lower() for x in str(t.get("heritage:operator", "")).split(";"))
-            if v in HERITAGE_OPERATORS]
+    if "heritage:operator" in t:
+        src += [f"heritage:operator={v}" for v in (x.strip().lower() for x in str(t["heritage:operator"]).split(";"))
+                if v in HERITAGE_OPERATORS]
     # elemento Wikidata dell'albero con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534)
     for q in qids(t, "wikidata"):
         item = WD_ITEMS.get(q, {})
@@ -1232,7 +1256,9 @@ IMPORTS_DOC = {source_key(v): (v, url) for v, url in _IMPORTS.get("documented", 
 def import_source(t):
     """("d", valore, pagina della wiki) per un import documentato, ("u", valore, None) per uno non documentato,
     None se source=* non indica un import noto."""
-    for raw in str(t.get("source", "")).split(";"):
+    if "source" not in t:
+        return None
+    for raw in str(t["source"]).split(";"):
         k = source_key(raw)
         if k in IMPORTS_DOC:
             return ("d", raw.strip(), IMPORTS_DOC[k][1])
@@ -1245,10 +1271,10 @@ def masaf_removed(t):
     """[(ref:masaf, motivo, decreto)] dei codici di un albero (non di un ceppo) che l'elenco MASAF dà come rimossi
     (morte naturale, abbattimento, perdita di requisiti, declassamento). Per un ceppo il codice di un albero rimosso
     è normale."""
-    if t.get("natural") == "tree_stump":
+    if "ref:masaf" not in t or t.get("natural") == "tree_stump":
         return []
     out = []
-    for raw in (x.strip() for x in str(t.get("ref:masaf", "")).split(";")):
+    for raw in (x.strip() for x in str(t["ref:masaf"]).split(";")):
         if raw and (rm := MASAF_LIST.get(masaf_code(raw))):
             out.append((raw, rm[0], rm[1]))
     return out
@@ -1262,6 +1288,7 @@ AUTHOR = re.compile(r"^\(?[A-ZÀ-Ý][\w'’.-]*\.\)?$|^\([^)]*[A-ZÀ-Ý][^)]*\)$
 AUTHOR_LINK = {"ex", "&", "et", "in"}   # parole che uniscono due autori: "Kuntze ex Bureau"
 
 
+@functools.lru_cache(maxsize=None)
 def species_unidentified(sp):
     """Il genere, se species è "Genere sp." o "Genere spp." (specie non identificata); altrimenti None."""
     m = UNIDENTIFIED.match(sp or "")
@@ -1273,10 +1300,14 @@ EQ_KEYS = ("species", "genus", "taxon", "name", "start_date", "ref:masaf", "ref:
 
 def not_latin(v):
     """True se il valore contiene lettere di un alfabeto non latino (cirillico, greco…); le lettere accentate latine vanno bene."""
-    return any(c.isalpha() and not unicodedata.name(c, "").startswith("LATIN") for c in str(v or ""))
+    s = str(v or "")
+    if s.isascii():   # il caso normale: nessuna lettera da controllare una per una
+        return False
+    return any(c.isalpha() and not unicodedata.name(c, "").startswith("LATIN") for c in s)
 SCI_NAME = re.compile(r"^(×\s*)?[A-Z][a-zë-]+\s+(×\s*)?[a-zë-]+$")   # forma di un nome scientifico: Genere epiteto
 
 
+@functools.lru_cache(maxsize=None)
 def species_common_name(sp):
     """Se species non ha la forma di un nome scientifico perché la seconda parola è maiuscola (nomi comuni come
     "Black Matipo", "Pino Marittimo", cultivar senza virgolette come "Malus Golden Hornet"):
@@ -1294,6 +1325,7 @@ def species_common_name(sp):
     return m.group(1).strip() if m and SCI_NAME.match(m.group(1).strip()) else ""
 
 
+@functools.lru_cache(maxsize=None)
 def species_epithet_case(sp):
     """Se species è un nome scientifico scritto con l'epiteto maiuscolo: il nome corretto. Vale per i nomi della
     lista ("Catalpa Bignonioides" -> "Catalpa bignonioides") e per i nomi di due parole con un genere noto
@@ -1309,6 +1341,7 @@ def species_epithet_case(sp):
     return None
 
 
+@functools.lru_cache(maxsize=None)
 def species_without_author(sp):
     """species senza l'autore del nome, se c'è (es. "Camellia sinensis (L.) Kuntze" -> "Camellia sinensis");
     restano genere, epiteto, i ranghi infraspecifici (var., subsp. …) e le cultivar tra virgolette. None se non c'è
@@ -1367,7 +1400,7 @@ def species_lang_only(t):
     """Nomi della specie in qualche lingua (species:xx) su un albero senza species=*: [(chiave, valore)]."""
     if t.get("species"):
         return []
-    return sorted((k, v) for k, v in t.items() if SPECIES_LANG.match(k))
+    return sorted((k, v) for k, v in t.items() if k.startswith("species:") and SPECIES_LANG.match(k))
 
 
 def undocumented_tags(t):
@@ -1609,7 +1642,7 @@ NO_JITTER_DENOTATION = {"natural_monument", "landmark"}   # questi tengono il ra
 def jitter(osm_id, t):
     """Fattore tra 1 - JITTER e 1 + JITTER, casuale ma sempre uguale per lo stesso albero (dall'id OSM):
     varia il raggio di ripiego della chioma, solo per l'aspetto della mappa. 1 per monumentali e landmark."""
-    if NO_JITTER_DENOTATION & {x.strip() for x in str(t.get("denotation", "")).split(";")}:
+    if "denotation" in t and NO_JITTER_DENOTATION & {x.strip() for x in str(t["denotation"]).split(";")}:
         return 1.0
     return 1 - JITTER + 2 * JITTER * ((osm_id * 2654435761) % 2**32) / 2**32
 
