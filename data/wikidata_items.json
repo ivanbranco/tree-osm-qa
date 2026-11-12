@@ -15105,6 +15105,7 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -15308,6 +15309,7 @@
 ],
 "heritage": [],
 "image": "Dunnamaggin mass bush.jpg",
+"mon": true,
 "taxa": [
 "Q132557"
 ],
@@ -35568,6 +35570,7 @@
 ],
 "heritage": [],
 "image": "Hungry Tree at King’s Inns, Dublin-17565181402.jpg",
+"mon": true,
 "taxa": [
 "Q161374"
 ],
