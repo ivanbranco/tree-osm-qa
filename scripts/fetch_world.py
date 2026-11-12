@@ -277,7 +277,7 @@ def update_map(key, index):
     if masaf is not None:
         ft.write_gz(WORLD_DIR / "masaf.geojson.gz", json.dumps(masaf, separators=(",", ":"), ensure_ascii=False).encode("utf-8"))
     errors = sum(1 for f in fc["features"] if f["properties"]["issues"] != "|")
-    index[key] = {"name": spec["name"], "count": len(fc["features"]), "errors": errors, "diam": "mm",
+    index[key] = {"name": spec["name"], "count": len(fc["features"]), "errors": errors,
                   "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                   "sha1": hashlib.sha1(raw).hexdigest()}
     index[key]["implicit"] = len(implicit)

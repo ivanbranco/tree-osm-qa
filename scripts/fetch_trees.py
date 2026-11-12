@@ -1820,7 +1820,7 @@ def update_region(region, regions_index):
     min_path = OUT_DIR / f"{slug}.min.geojson.gz"
     if regions_index.get(slug, {}).get("sha1") == digest and path.exists():
         regions_index[slug]["errors"] = errors  # per gli indici scritti prima che esistesse il conteggio
-        regions_index[slug]["diam"] = "mm"      # vedi sotto
+        regions_index[slug].pop("diam", None)   # campo non più usato (era per fixDiameter, tolto da index.html)
         if not min_path.exists():               # regioni scaricate prima che esistesse il file ridotto
             write_gz(min_path, minimal(fc))
         record_history(slug, len(fc["features"]), errors)
@@ -1829,10 +1829,8 @@ def update_region(region, regions_index):
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     write_gz(path, raw)
     write_gz(min_path, minimal(fc))
-    # "diam": "mm" = dati scritti leggendo diameter senza unità in millimetri; senza, il sito corregge da sé i dati
-    # vecchi (fixDiameter in index.html)
     regions_index[slug] = {"name": region["name"], "count": len(fc["features"]), "errors": errors,
-                           "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "sha1": digest, "diam": "mm"}
+                           "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "sha1": digest}
     record_history(slug, len(fc["features"]), errors)
     print(f"{slug}: {len(fc['features'])} alberi -> {path} ({path.stat().st_size / 1e6:.1f} MB)")
     return True
@@ -1884,11 +1882,6 @@ def main(argv):
         ok &= update_region(region, regions_index)
         save_index(regions_index)
         time.sleep(5)
-    # fixDiameter in index.html corregge le regioni scritte quando diameter si leggeva in metri: quando tutte le
-    # regioni sono state riscaricate non serve più (va tolto insieme al campo "diam")
-    if all(regions_index.get(r["slug"], {}).get("diam") == "mm" for r in REGIONS):
-        warn("Tutte le regioni hanno \"diam\": \"mm\" in data/index.json: si può togliere fixDiameter da index.html "
-             "(e il campo \"diam\" da fetch_trees.py)")
     if not ok:
         sys.exit(1)
 

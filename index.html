@@ -809,33 +809,6 @@ async function getGz(u) {   // file .geojson.gz: se il server non lo ha già dec
   }
   return JSON.parse(new TextDecoder().decode(buf));
 }
-// Dati scritti prima della correzione di diameter (senza unità è in mm, Key:diameter): fetch_trees.py lo leggeva in
-// metri. Per le regioni non ancora riscaricate (index.json senza "diam": "mm") il tronco ricavato da diameter si
-// ricalcola qui, e gli errori basati sulla circonferenza ricavata si tolgono (resta solo "circonferenza > 43 m",
-// ricalcolato). I valori senza unità sotto 10 restano come prima. Si può togliere quando tutte le regioni hanno "diam".
-const DIAM_UNITS = { mm: 0.001, cm: 0.01, m: 1, metre: 1, metres: 1, meter: 1, meters: 1,
-  ft: 0.3048, feet: 0.3048, foot: 0.3048, in: 0.0254, inch: 0.0254, inches: 0.0254 };
-const diamM = v => {   // come diameter_m in fetch_trees.py
-  const m = /^\s*(\d+(?:[.,]\d+)?)\s*([a-zA-Z]*)\s*$/.exec(String(v ?? ""));
-  if (!m) return null;
-  const x = Number(m[1].replace(",", ".")), u = m[2].toLowerCase();
-  if (!u && x < 10) return null;
-  const f = DIAM_UNITS[u || "mm"];
-  return f ? x * f : null;
-};
-const CIRC_ISSUES = ["circumference", "circumference_species", "too_slender", "too_slender_species", "too_stocky"];
-function fixDiameter(fc) {
-  for (const f of fc.features) {
-    const p = f.properties, d = p.diam_used ? diamM(p.diameter) : null;
-    if (d === null || d <= 0) continue;
-    if (p.stump) p.sr = Math.round(d / 2 * 1000) / 1000;
-    else { p.tr = Math.round(d / 2 * 1000) / 1000; delete p.tr_est; }
-    const l = p.issues.split("|").filter(i => i && !CIRC_ISSUES.includes(i));
-    if (d * Math.PI > 43) l.unshift("circumference");
-    p.issues = l.length ? `|${l.join("|")}|` : "|";
-  }
-  return fc;
-}
 const indexP = getJSON(BASE + (WORLD ? "data/world/index.json" : "data/index.json"));
 indexP.catch(() => {});
 const regionsP = WORLD ? Promise.resolve([]) : getJSON("scripts/regions.json");   // nome e gruppo (es. "Italia") di ogni regione
@@ -1596,7 +1569,6 @@ map.on("load", async () => {
     // ridotto manca (dati scritti prima che esistesse) lo si ricava dal completo. Le due parti vanno in due sorgenti
     // distinte ("trees-min" e "trees"), così i livelli a zoom basso non aspettano che MapLibre prepari il completo.
     const show = (fc, src) => {
-      if (r.diam !== "mm") fixDiameter(fc);          // dati con diameter letto in metri (vedi fixDiameter)
       ALL = fc.features;
       SHAPED = ALL.filter(isShaped);
       DECO = ALL.filter(ft => ft.properties.stems || ft.properties.ivy || ft.properties.fruit || isDual(ft.properties));
@@ -1633,7 +1605,7 @@ map.on("load", async () => {
     // mappa mondiale: gli alberi sono tutti monumentali, cioè tutti nella sorgente ridotta; caricarli anche nella
     // completa raddoppierebbe il lavoro di MapLibre a ogni cambio di zoom
     if (WORLD) { apply(); fitTo(fc.features); show(fc, "trees-min"); return; }
-    if (!min) { apply(); if (r.diam !== "mm") fixDiameter(fc); map.getSource("trees-min").setData(reduce(fc)); }
+    if (!min) { apply(); map.getSource("trees-min").setData(reduce(fc)); }
     fitTo(fc.features);
     show(fc, "trees");
     // quando MapLibre ha preparato il file completo (mappa ferma) gli alberi con errori li disegna lui
