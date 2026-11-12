@@ -1192,6 +1192,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Corypha palmetto"
+],
 "en": "Sabal palmetto",
 "it": "Sabal palmetto",
 "names": [
@@ -1865,6 +1868,9 @@
 "taxon": true
 },
 "Q11121938": {
+"basionyms": [
+"Citrus ×aurantium var. tachibana"
+],
 "en": "Citrus tachibana",
 "it": "Citrus tachibana",
 "names": [
@@ -2731,6 +2737,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Gordonia wallichii"
+],
 "en": "Schima wallichii",
 "it": "Schima wallichii",
 "names": [
@@ -3663,6 +3672,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Rhus succedanea"
+],
 "en": "Toxicodendron succedaneum",
 "it": "Toxicodendron succedaneum",
 "names": [
@@ -5469,6 +5481,9 @@
 "Pino colonna"
 ]
 },
+"basionyms": [
+"Cupressus columnaris"
+],
 "en": "Araucaria columnaris",
 "it": "Araucaria columnaris",
 "names": [
@@ -8171,6 +8186,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Pasania edulis"
+],
 "en": "Lithocarpus edulis",
 "it": "Lithocarpus edulis",
 "names": [
@@ -9256,6 +9274,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Tecoma chrysotricha"
+],
 "en": "Handroanthus chrysotrichus",
 "it": "Handroanthus chrysotrichus",
 "names": [
@@ -9288,6 +9309,20 @@
 "it": "Catalpa macrocarpa",
 "names": [
 "Catalpa macrocarpa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q15549607": {
+"basionyms": [
+"Bignonia chrysantha"
+],
+"en": "araguaney",
+"it": "Handroanthus chrysanthus",
+"names": [
+"Handroanthus chrysanthus"
 ],
 "ranks": [
 "Q7432"
@@ -10222,6 +10257,9 @@
 "Ume"
 ]
 },
+"basionyms": [
+"Armeniaca mume"
+],
 "en": "Prunus mume",
 "it": "Prunus mume",
 "names": [
@@ -11232,6 +11270,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Viburnum macrophyllum"
+],
 "en": "Hydrangea macrophylla",
 "it": "Hydrangea macrophylla",
 "names": [
@@ -13738,6 +13779,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Cerasus spachiana"
+],
 "en": "Prunus spachiana",
 "it": "Prunus spachiana",
 "names": [
@@ -15260,6 +15304,9 @@
 "Thymus citriodorus"
 ]
 },
+"basionyms": [
+"Thymus serpyllum subsp. citriodorus"
+],
 "en": "Thymus citriodorus",
 "it": "Thymus × citriodorus",
 "names": [
@@ -16765,6 +16812,9 @@
 "Mallotus phillipensis"
 ]
 },
+"basionyms": [
+"Croton philippensis"
+],
 "en": "Mallotus philippensis",
 "it": "Mallotus philippensis",
 "names": [
@@ -16956,6 +17006,9 @@
 "Corymbia citriodora"
 ]
 },
+"basionyms": [
+"Eucalyptus citriodora"
+],
 "en": "Corymbia citriodora",
 "it": "Eucalyptus citriodora",
 "names": [
@@ -17700,6 +17753,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Cocos capitata"
+],
 "en": "Butia capitata",
 "it": "Butia capitata",
 "names": [
@@ -18201,6 +18257,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Dimorphanthus elatus"
+],
 "en": "Aralia elata",
 "it": "Aralia elata",
 "names": [
@@ -19244,6 +19303,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Morella rubra"
+],
 "en": "Myrica rubra",
 "it": "Myrica rubra",
 "names": [
@@ -19480,6 +19542,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Tecoma impetiginosa"
+],
 "en": "Handroanthus impetiginosus",
 "it": "Handroanthus impetiginosus",
 "names": [
@@ -19817,6 +19882,17 @@
 "it": "Morus bombycis",
 "names": [
 "Morus bombycis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3336766": {
+"en": "Rhodoleia championii",
+"it": "Rhodoleia championii",
+"names": [
+"Rhodoleia championii"
 ],
 "ranks": [
 "Q7432"
@@ -20460,6 +20536,17 @@
 "names": [],
 "ranks": [],
 "taxon": false
+},
+"Q3666051": {
+"en": "Chamaerops",
+"it": "Chamaerops",
+"names": [
+"Chamaerops"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
 },
 "Q368248": {
 "alias": {
@@ -23658,6 +23745,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Azalea indica"
+],
 "en": "Satsuki azalea",
 "it": "Rhododendron indicum",
 "names": [
@@ -24115,6 +24205,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Prunus jamasakura"
+],
 "en": "Cerasus jamasakura",
 "it": "Cerasus jamasakura",
 "names": [
@@ -25087,6 +25180,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Prunus itosakura"
+],
 "en": "Cerasus itosakura",
 "it": "Cerasus itosakura",
 "names": [
@@ -25478,6 +25574,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Croton sebifer"
+],
 "en": "Triadica sebifera",
 "it": "Triadica sebifera",
 "names": [
@@ -26376,6 +26475,17 @@
 ],
 "taxon": true
 },
+"Q775470": {
+"en": "Cleyera japonica",
+"it": "Cleyera japonica",
+"names": [
+"Cleyera japonica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q776705": {
 "alias": {
 "en": [
@@ -26392,6 +26502,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Hibiscus simplex"
+],
 "en": "Firmiana simplex",
 "it": "Firmiana simplex",
 "names": [
@@ -26824,6 +26937,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Ulmus campestris var. japonica"
+],
 "en": "Ulmus davidiana var. japonica",
 "it": "Ulmus davidiana var. japonica",
 "names": [

@@ -201,12 +201,11 @@
    "updated": "2026-11-12T02:21:24Z"
   },
   "giappone": {
-   "count": 307295,
-   "diam": "mm",
-   "errors": 12872,
+   "count": 307578,
+   "errors": 13048,
    "name": "Giappone",
-   "sha1": "fca4e8e22a981fbbc26de07610642416f9275d42",
-   "updated": "2026-11-09T22:04:40Z"
+   "sha1": "e8a7a09077dd3327bda9868dfcaad3687be8dc66",
+   "updated": "2026-11-12T12:00:02Z"
   },
   "grand-est": {
    "count": 253338,
@@ -703,12 +702,11 @@
    "updated": "2026-11-12T02:41:02Z"
   },
   "washington": {
-   "count": 128345,
-   "diam": "mm",
-   "errors": 147,
+   "count": 128349,
+   "errors": 143,
    "name": "Stato di Washington",
-   "sha1": "d7d8cdf7b5ab384d1e5bf521aeb8e45f92341fc0",
-   "updated": "2026-11-11T22:01:10Z"
+   "sha1": "7eb523c344f2dbbfaeb8f29a28d713edf50e5b18",
+   "updated": "2026-11-12T11:57:24Z"
   },
   "wielkopolskie": {
    "count": 109558,
