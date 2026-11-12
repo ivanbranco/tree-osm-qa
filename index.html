@@ -371,6 +371,7 @@ const I18N = {
       species_lang_only: "species:xx senza species",
       too_slender: "Albero troppo slanciato (altezza > 100 × circonferenza)",
       too_slender_species: "Albero troppo slanciato per la specie", too_stocky: "Albero troppo tozzo (circonferenza > 3 × altezza)",
+      small_monument: "Albero monumentale molto piccolo",
       species: "Species di una sola parola", genus: "Genus non valido",
       species_lowercase: "Species con iniziale minuscola", genus_lowercase: "Genus con iniziale minuscola",
       leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" },
@@ -419,6 +420,7 @@ const I18N = {
       too_slender: "Soglia: altezza più di 100 volte la circonferenza. È larga di proposito, per evitare falsi positivi.",
       too_slender_species: p => `Il rapporto tipico di questa specie è ${Number(p.sp_ratio).toLocaleString(LOC)} (mediana dei dati OSM, pagina wiki «Tree species records»). Segnalato oltre 4 volte quel valore (e comunque oltre 40), solo per alberi alti almeno 10 m: gli alberelli appena piantati sono sottili.`,
       too_stocky: "Soglia: circonferenza più di 3 volte l'altezza. Gli alberi reali più tozzi, come gli olivi monumentali, hanno un rapporto altezza/circonferenza intorno a 0,5.",
+      small_monument: "L'albero ha denotation=natural_monument o una fonte monumentale (ref:masaf, ref:rami, monumentaltrees.com…), ma è alto meno di 1,5 m o ha una circonferenza sotto 20 cm, le misure di una piccola pianta o di una canna di bambù. Le soglie sono basse di proposito, per evitare falsi positivi.",
       comma: "In OSM il separatore decimale è il punto (2.9, non 2,9).",
       diameter_unit: "Senza unità, diameter è in millimetri (wiki OSM, Key:diameter): questo valore sarebbe un tronco di meno di 1 cm. Se è in metri, va scritta l'unità (es. diameter=0.5 m); meglio ancora usare circumference, in metri. Il valore non è usato per disegnare il tronco.",
       unit_format: "In OSM un'unità di misura si scrive dopo il numero, separata da uno spazio e in minuscolo (150 cm), e piedi e pollici con gli apici ' e \", senza spazi: 30', 7'4\" (wiki OSM, Map features/Units; come Osmose, anche 30 ft è segnalato). Per i metri l'unità si può omettere, tranne in diameter, dove senza unità il valore è in millimetri. Il valore è comunque usato per disegnare l'albero.",
@@ -511,6 +513,8 @@ const I18N = {
       too_slender: (h, c, r) => `albero troppo slanciato: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
       too_slender_species: (h, c, r, sp, r0) => `albero troppo slanciato per ${sp}: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}, tipico ${r0})`,
       too_stocky: (h, c, r) => `albero troppo tozzo: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
+      small_monument: m => `albero monumentale molto piccolo: ${m}`,
+      smH: v => `altezza ${v}`, smC: v => `circonferenza ${v}`,
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "codici non validi" : "codice non valido"} ${bad.join(", ")} (ammessi a–g, a1, a2, a2.1–a2.3, separati da virgole senza spazi)`,
       // senza il codice: compare già nella riga «Albero inserito nell'elenco…» della scheda
       masaf_removed: (code, why) => `L'albero è stato rimosso dall'elenco MASAF ${why}`,
@@ -656,6 +660,7 @@ const I18N = {
       species_lang_only: "species:xx without species",
       too_slender: "Tree too slender (height > 100 × circumference)",
       too_slender_species: "Tree too slender for its species", too_stocky: "Tree too stocky (circumference > 3 × height)",
+      small_monument: "Very small monumental tree",
       species: "Single-word species", genus: "Invalid genus",
       species_lowercase: "Species starting lowercase", genus_lowercase: "Genus starting lowercase",
       leaf_type: "Invalid leaf_type", leaf_cycle: "Invalid leaf_cycle" },
@@ -700,6 +705,7 @@ const I18N = {
       too_slender: "Threshold: height more than 100 times the circumference. It is deliberately loose, to avoid false positives.",
       too_slender_species: p => `The typical ratio for this species is ${Number(p.sp_ratio).toLocaleString(LOC)} (median of OSM data, OSM wiki page "Tree species records"). Reported above 4 times that value (and anyway above 40), only for trees at least 10 m tall: newly planted saplings are thin.`,
       too_stocky: "Threshold: circumference more than 3 times the height. The stockiest real trees, like monumental olive trees, have a height/circumference ratio around 0.5.",
+      small_monument: "The tree has denotation=natural_monument or a monumental source (ref:masaf, ref:rami, monumentaltrees.com…), but it is less than 1.5 m tall or has a circumference under 20 cm, the size of a small plant or a bamboo cane. The thresholds are deliberately low, to avoid false positives.",
       comma: "In OSM the decimal separator is the point (2.9, not 2,9).",
       diameter_unit: "Without a unit, diameter is in millimetres (OSM wiki, Key:diameter): this value would be a trunk under 1 cm. If it is in metres, the unit must be written (e.g. diameter=0.5 m); better still, use circumference, in metres. The value is not used to draw the trunk.",
       unit_format: "In OSM a unit is written after the number, separated by a space and in lowercase (150 cm), and feet and inches with the ' and \" marks, without spaces: 30', 7'4\" (OSM wiki, Map features/Units; as in Osmose, 30 ft is reported too). For metres the unit can be omitted, except in diameter, where without a unit the value is in millimetres. The value is used to draw the tree anyway.",
@@ -791,6 +797,8 @@ const I18N = {
       too_slender: (h, c, r) => `tree too slender: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
       too_slender_species: (h, c, r, sp, r0) => `tree too slender for ${sp}: height ${h}, circumference ${c} (height/circumference = ${r}, typical ${r0})`,
       too_stocky: (h, c, r) => `tree too stocky: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
+      small_monument: m => `very small monumental tree: ${m}`,
+      smH: v => `height ${v}`, smC: v => `circumference ${v}`,
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "invalid codes" : "invalid code"} ${bad.join(", ")} (allowed a–g, a1, a2, a2.1–a2.3, comma-separated without spaces)`,
       masaf_removed: (code, why) => `The tree was removed from the MASAF list ${why}`,
       masafRemovedWhy: { death: "after its natural death", felled: "after being felled", requirements: "for loss of requirements",
@@ -1452,7 +1460,7 @@ map.on("load", async () => {
   // gruppi del menu errori: i codici non elencati finiscono in "Altri tag"
   const ISSUE_GROUPS = [
     ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "unit_format", "circ_diam_mismatch", "trunk_overlap", "number_invalid", "circumference_species", "height_species",
-      "too_slender", "too_slender_species", "too_stocky"]],
+      "too_slender", "too_slender_species", "too_stocky", "small_monument"]],
     ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_common_name",
       "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "underscore", "tag_in_value",
       "not_latin", "genus", "genus_lowercase", "genus_mismatch"]],
@@ -2272,6 +2280,11 @@ const issueBase = (i, p) => {
     case "too_slender": case "too_stocky":   // hc_ratio, hc_circ: rapporto e circonferenza usata (fetch_trees.py)
       return T[i](fmtM(p.height), fmtM(p.hc_circ) + (p.diam_used ? L.fromDiameter : ""),
         Number(p.hc_ratio).toLocaleString(LOC, { maximumSignificantDigits: 3 }));
+    case "small_monument": {      // sm_keys: misure sotto la soglia; sm_circ: circonferenza usata (fetch_trees.py)
+      const k = String(p.sm_keys || "").split(";");
+      return T[i]([k.includes("height") ? T.smH(fmtM(p.height)) : "",
+        k.includes("circumference") ? T.smC(fmtM(p.sm_circ) + (p.diam_used ? L.fromDiameter : "")) : ""].filter(Boolean).join(L.cmp.and));
+    }
     case "masaf_removed":        // masaf_rm: righe "codice|motivo|decreto" (fetch_trees.py)
       return String(p.masaf_rm || "").split("\n").filter(Boolean).map(x => { const [c, r, d] = x.split("|");
         return T[i](c, T.masafRemovedWhy[r] ?? "", d).replace(/ +\(/, " (").replace(/ $/, ""); }).join("\n");

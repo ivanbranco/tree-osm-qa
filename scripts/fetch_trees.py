@@ -182,6 +182,11 @@ SLENDER_SP_FACTOR = 4      # oltre 4 volte il rapporto tipico della specie
 SLENDER_SP_MIN = 40        # ma mai sotto 40 (specie con rapporto basso, come l'olivo: i giovani sono più slanciati)
 SLENDER_SP_MIN_H = 10      # m: solo alberi alti almeno 10 m
 SLENDER_CHECKS = {"too_slender", "too_slender_species", "too_stocky"}   # con questi niente consiglio hint_ms
+# Albero monumentale molto piccolo (check small_monument, issue #34): soglie basse di proposito, misure di una piccola
+# pianta o di una canna di bambù, per non segnalare alberi monumentali veri; le eccezioni vanno in whitelist.json.
+# Provato a novembre 2026 su 58.855 alberi con denotation=natural_monument: 14 sotto 1,5 m, 28 sotto 0,2 m
+SMALL_MON_HEIGHT = 1.5     # m: altezza sotto questo valore
+SMALL_MON_CIRC = 0.2       # m: circonferenza sotto questo valore (anche da diameter)
 # Limiti massimi per specie (altezza e circonferenza, in m), modificabili in species_limits.json. Sono i record
 # della pagina wiki https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/Tree_species_records, presi da
 # monumentaltrees.com; "height_source" / "circumference_source" indicano una fonte diversa (es. "MASAF")
@@ -243,6 +248,8 @@ _GN_OK = {(lang, n.casefold()): g for lang, d in _WL.get("genus_names", {}).item
 GENUS_NAMES = {k: g for k, v in _GN.items() if len(v) == 1 and _GN_OK.get(k) == (g := next(iter(v)))}
 # generi con una sola specie (whitelist.json): per i loro nomi si propone species=<la specie> (Cognassier -> Cydonia oblonga)
 SINGLE_SPECIES = _WL.get("single_species_genera", {})
+# alberi monumentali piccoli davvero (id dei nodi), da non segnalare con small_monument
+SMALL_MON_WHITELIST = {int(k) for k in _WL.get("small_monument", {})}
 
 # Valori di denotation sui nodi con il numero di usi, da Taginfo (scripts/update_reference_lists.py)
 DEN_COUNTS = load_json(HERE / "denotation_values.json", "values")
@@ -1558,9 +1565,9 @@ def slenderness(t):
     return h / c if c and h and c > 0 and h > 0 else None
 
 
-def checks(t, pos):
-    """Check QA di un albero con tag t in posizione pos ([lon, lat]): (codici degli errori, proprietà per i
-    messaggi della scheda), in un solo passaggio.
+def checks(t, pos, osm_id=None):
+    """Check QA di un albero con tag t in posizione pos ([lon, lat]) e id osm_id (per le eccezioni della
+    whitelist): (codici degli errori, proprietà per i messaggi della scheda), in un solo passaggio.
     Per aggiungere un check: una riga qui con flag(codice, proprietà), e il messaggio in index.html."""
     issues, props = [], {}
 
@@ -1694,6 +1701,18 @@ def checks(t, pos):
         if hr:
             q, (label_it, label_en) = hr[0]
             props.update(wd_her_q=q, wd_her_it=label_it, wd_her_en=label_en)
+    # albero monumentale (natural_monument o una fonte monumentale) molto piccolo, non in whitelist (issue #34). Non
+    # si ripete la misura che un check sul rapporto altezza/circonferenza dà già per sbagliata: la circonferenza se
+    # l'albero è troppo slanciato, l'altezza se è troppo tozzo. sm_keys: misure sotto la soglia, separate da ";"
+    if ((src or "natural_monument" in [x.strip() for x in t.get("denotation", "").split(";")])
+            and t.get("natural") != "tree_stump" and osm_id not in SMALL_MON_WHITELIST):
+        sm = []
+        if h is not None and 0 < h < SMALL_MON_HEIGHT and "too_stocky" not in issues:
+            sm.append("height")
+        if c is not None and 0 < c < SMALL_MON_CIRC and not {"too_slender", "too_slender_species"} & set(issues):
+            sm.append("circumference")
+        if sm:
+            flag("small_monument", sm_keys=";".join(sm), **({"sm_circ": round(c, 3)} if "circumference" in sm else {}))
     if den := denotation_problems(t):   # valori, motivi e usi, nello stesso ordine
         flag("denotation_value", den_bad=";".join(v for v, _, _ in den), den_why=";".join(w for _, w, _ in den),
              den_n=";".join(str(n) for _, _, n in den))
@@ -1859,7 +1878,7 @@ def to_feature(el):
         p["wd_img"] = wd_img
     if (fs := FOTOSHI.get(t.get("image:fotoshi", "").strip())) and fs.get("author"):   # crediti della foto
         p["fs_author"], p["fs_license"] = fs["author"], fs.get("license", "")
-    iss, props = checks(t, [el["lon"], el["lat"]])
+    iss, props = checks(t, [el["lon"], el["lat"]], el["id"])
     # nome comune della specie e voci di Wikipedia, per la scheda; se species:wikidata è sbagliato il nome comune
     # viene dalla lista wiki
     wd_bad = {"wikidata_mismatch", "wikidata_not_taxon", "wikidata_rank", "wikidata_name_mismatch"} & set(iss)
