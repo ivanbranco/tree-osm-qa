@@ -265,7 +265,7 @@ const I18N = {
     scaleLow: "meno errori", scaleHigh: "più errori", tipErr: p => ` · ${p} con errori`,
     regionOpt: (name, n) => `${name} (${fmtN(n)} alberi)`,
     allTaxa: "Tutti i genus e le specie", unknown: "Sconosciuto", withSpecies: "Con species", genusGroup: "Genus", speciesGroup: "Specie",
-    allIssues: "Tutti gli errori", onlyIssues: "Solo gli errori",
+    allIssues: "Tutti gli errori", onlyIssues: "Solo gli errori", noIssues: "Nessun errore",
     allOfGroup: g => `Tutti gli errori di «${g}»`,
     download: "Scarica questi errori di tutta la regione (GeoJSON)",
     issueGroups: { size: "Misure", name: "Nome della specie e del genere", wikidata: "Wikidata",
@@ -555,7 +555,7 @@ const I18N = {
     scaleLow: "fewer errors", scaleHigh: "more errors", tipErr: p => ` · ${p} with errors`,
     regionOpt: (name, n) => `${name} (${fmtN(n)} trees)`,
     allTaxa: "All genera and species", unknown: "Unknown", withSpecies: "With species", genusGroup: "Genus", speciesGroup: "Species",
-    allIssues: "All errors", onlyIssues: "Errors only",
+    allIssues: "All errors", onlyIssues: "Errors only", noIssues: "No errors",
     allOfGroup: g => `All "${g}" errors`,
     download: "Download these errors for the whole region (GeoJSON)",
     issueGroups: { size: "Measurements", name: "Species and genus name", wikidata: "Wikidata",
@@ -1473,7 +1473,13 @@ map.on("load", async () => {
     return (w[0] === "×" || w[0] === "x") && w[1] ? `${w[0]} ${w[1]}` : w[0]; };
   const updateTaxa = () => {
     // senza una regione caricata non ci sono alberi da filtrare: i due menu restano grigi e non si aprono (issue #20)
-    taxSel.disabled = issSel.disabled = !ALL.length;
+    taxSel.disabled = !ALL.length;
+    // regione senza errori (in tutta la regione, non solo in vista): il menu degli errori dice "Nessun errore" ed è
+    // grigio e il tasto ⤓ per scaricarli si nasconde; un errore scelto in un'altra regione si toglie
+    const noIss = ALL.length > 0 && !ALL.some(ft => ft.properties.issues !== "|");
+    issSel.disabled = !ALL.length || noIss;
+    document.getElementById("dl").hidden = !current || noIss;
+    if (noIss && issSel.value) { issSel.value = ""; apply(); }
     const b = map.getBounds(), z = map.getZoom();
     const west = b.getWest(), east = b.getEast(), south = b.getSouth(), north = b.getNorth();
     const G = new Map(), S = new Map(), I = new Map(), GI = new Map();   // GI: alberi con errori per gruppo
@@ -1506,14 +1512,14 @@ map.on("load", async () => {
     const iList = ISSUE_OPTS.filter(([k]) => I.has(k));
     // "Solo gli errori" serve solo da ALL_Z, quando compaiono anche gli alberi senza errori (resta se è quella scelta)
     const showOnly = !WORLD && (z >= ALL_Z || curI === "only");
-    const iSig = JSON.stringify([iList.map(([k]) => [k, I.get(k)]), [...GI], showOnly]);
+    const iSig = JSON.stringify([iList.map(([k]) => [k, I.get(k)]), [...GI], showOnly, noIss]);
     if (iSig !== issSig) {
       issSig = iSig;
       // voci raggruppate per tema (ISSUE_GROUPS), ognuna con in testa "tutti gli errori del gruppo" (g:<gruppo>);
       // un gruppo compare solo se ha errori in vista
       const groups = [...ISSUE_GROUPS.map(([g]) => g), "other"].filter(g => GI.has(g))
         .map(g => [g, iList.filter(([k]) => issueGroupOf(k) === g)]);
-      issSel.replaceChildren(opt("", L.allIssues), ...(showOnly ? [opt("only", L.onlyIssues)] : []), ...groups.map(([g, l]) => {
+      issSel.replaceChildren(opt("", noIss ? L.noIssues : L.allIssues), ...(showOnly && !noIss ?[opt("only", L.onlyIssues)] : []), ...groups.map(([g, l]) => {
         const og = document.createElement("optgroup"); og.label = L.issueGroups[g];
         // con un solo tipo di errore in vista la voce del gruppo sarebbe identica: si omette (salvo se è quella scelta)
         if (l.length > 1 || curI === "g:" + g)
