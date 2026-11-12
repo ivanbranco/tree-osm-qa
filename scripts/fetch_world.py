@@ -88,6 +88,8 @@ def add_min_zoom(fc):
 # ref:masaf, oppure se un albero OSM monumentale dello stesso genere è entro MASAF_NEAR metri (mappato senza ref:masaf).
 MASAF_TREES = ft.HERE / "masaf_trees.json"
 MASAF_NEAR = 25
+MASAF_CROWN_R = 5.0        # m, come DEFAULT_CROWN_R_BY_DENOTATION per natural_monument in fetch_trees.py
+MASAF_CROWN_R_WIDE = 6.0   # m, per gli alberi iscritti anche per l'ampiezza della chioma (criterio a2.3)
 # ref:masaf su vie e relazioni (i dati del tool hanno solo i nodi): una query leggera, solo i tag
 MASAF_OTHER_QUERY = """[out:json][timeout:300];
 (
@@ -147,6 +149,25 @@ def masaf_missing(fc):
                  "cr": ",".join(t.get("cr", []))}
         if sp:
             props["species"] = sp
+        # tipo e ciclo delle foglie stimati dalle liste della wiki (specie, o genere), per disegnare la chioma come gli
+        # alberi OSM: colore da lc, forma (lobi o stella) da lt (issue #17)
+        est = {"species": sp, "genus": t.get("g", "")}
+        if lt := ft.leaf_type_estimate(est):
+            props["lt"] = lt
+        if lc := ft.leaf_cycle_estimate(est):
+            props["lc"] = lc
+        # chioma: come un monumentale OSM senza diameter_crown (5 m di raggio), 6 m se l'albero è iscritto anche per
+        # l'ampiezza della chioma (criterio a2.3). "crr" = raggio della chioma ("cr" qui sono i criteri)
+        props["crr"] = MASAF_CROWN_R_WIDE if "a2.3" in t.get("cr", []) else MASAF_CROWN_R
+        # tronco come per gli alberi OSM (sizes di fetch_trees.py): dalla circonferenza dell'elenco, altrimenti stimato
+        # dall'altezza con i rapporti della specie (tr_est); "tr" = raggio del tronco
+        _, circ, circ_est = ft.sizes({**est, "denotation": "natural_monument",
+                                     **({"height": str(t["h"])} if t.get("h") else {}),
+                                     **({"circumference": str(t["ci"])} if t.get("ci") else {})})
+        if circ:
+            props["tr"] = round(circ / (2 * math.pi), 3)
+            if circ_est:
+                props["tr_est"] = True
         feats.append({"type": "Feature", "properties": props,
                       "geometry": {"type": "Point", "coordinates": [t["lon"], t["lat"]]}})
     print(f"MASAF: {len(data['trees'])} alberi iscritti, {len(feats)} non ancora su OSM")

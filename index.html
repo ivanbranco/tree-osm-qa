@@ -1245,7 +1245,9 @@ map.on("load", async () => {
     map.setFilter("crown-issues", ["all", ISSUE, ...rest]);
     map.setFilter("crown-issues-mid", ["all", ISSUE_MID, ...rest]);
     map.setFilter("crown-issues-wait", ["all", ISSUE_MID, ...rest]);
-    if (map.getLayer("masaf")) map.setFilter("masaf", rest.length ? ["all", ...rest] : null);   // alberi MASAF: genere e specie
+    for (const id of ["masaf", "masaf-fill", "masaf-shape", "masaf-shape-line"])   // alberi MASAF: genere e specie
+      if (map.getLayer(id)) map.setFilter(id, rest.length ? ["all", ...rest] : null);
+    if (map.getLayer("masaf-trunk")) map.setFilter("masaf-trunk", ["all", ["has", "tr"], ...rest]);
     update();
   };
   const update = () => {
@@ -1446,31 +1448,73 @@ map.on("load", async () => {
   }
 
   // Mappa dei monumentali: alberi dell'elenco MASAF non ancora su OpenStreetMap (data/world/masaf.geojson.gz, da
-  // fetch_world.py), da FULL_Z, con il contorno dorato tratteggiato (un'immagine disegnata al volo, come la X dei ceppi)
+  // fetch_world.py), da FULL_Z, con il contorno dorato tratteggiato. La chioma è colorata e sagomata come quella degli
+  // alberi OSM, da leaf_type e leaf_cycle stimati dalla specie (lt, lc; issue #17): sotto SHAPE_Z un cerchio colorato
+  // con sopra l'anello tratteggiato (un'immagine disegnata al volo, come la X dei ceppi), da SHAPE_Z la sagoma (lobi,
+  // stella o cerchio) con il contorno tratteggiato.
   if (MODE === "monumental") {
     const c = document.createElement("canvas"); c.width = c.height = 64;
     const g = c.getContext("2d");
     g.beginPath(); g.arc(32, 32, 26, 0, 2 * Math.PI);
-    g.fillStyle = "rgba(242,193,78,0.25)"; g.fill();
     g.setLineDash([9, 6]); g.lineWidth = 5; g.strokeStyle = "#e6a800"; g.stroke();
     map.addImage("masaf-ring", g.getImageData(0, 0, 64, 64));
     map.addSource("masaf", { type: "geojson", data: EMPTY });
+    map.addSource("masaf-shapes", { type: "geojson", data: EMPTY });
     // grandezza come un monumentale OSM senza diameter_crown: chioma di 5 m di raggio a grandezza reale (minimo 3 px,
     // come radius()) più il contorno di 3 px; nell'immagine il bordo esterno del cerchio è a 28,5 px dal centro
-    const MASAF_R = 5, ringSize = z => (Math.max(3, MASAF_R / (M0 / Math.pow(2, z))) + 3) / 28.5;
-    map.addLayer({ id: "masaf", type: "symbol", source: "masaf", minzoom: FULL_Z,
+    // raggio della chioma: crr (5 m, 6 m con il criterio a2.3, da fetch_world.py; 5 m nei dati scritti prima)
+    const MASAF_R = 5, CRR = ["coalesce", ["get", "crr"], MASAF_R];
+    const crownPx = z => ["max", 3, ["/", CRR, M0 / Math.pow(2, z)]];
+    const byZoom = fn => ["interpolate", ["exponential", 2], ["zoom"], ...Array.from({ length: 23 }, (_, z) => [z, fn(z)]).flat()];
+    map.addLayer({ id: "masaf-fill", type: "circle", source: "masaf", minzoom: FULL_Z, maxzoom: SHAPE_Z,
+      paint: { "circle-radius": byZoom(z => ["+", crownPx(z), 1.5]), "circle-color": CROWN_COLOR, "circle-opacity": 0.35,
+        "circle-pitch-alignment": "map" } });
+    map.addLayer({ id: "masaf", type: "symbol", source: "masaf", minzoom: FULL_Z, maxzoom: SHAPE_Z,
       layout: { "icon-image": "masaf-ring", "icon-allow-overlap": true, "icon-ignore-placement": true,
-        "icon-size": ["interpolate", ["exponential", 2], ["zoom"], ...Array.from({ length: 23 }, (_, z) => [z, ringSize(z)]).flat()] } });
-    getGz(`${BASE}data/world/masaf.geojson.gz`).then(fc => map.getSource("masaf").setData(fc)).catch(() => {});
-    map.on("click", "masaf", e => {
-      const f = e.features[0];
-      if (map.queryRenderedFeatures(e.point, { layers: CROWN_IDS }).length) return;   // un albero OSM ha la precedenza
-      closeCard();
-      cardPopup = new maplibregl.Popup({ maxWidth: "280px", focusAfterOpen: false })
-        .setLngLat(f.geometry.coordinates).setHTML(masafCard(f.properties, f.geometry.coordinates)).addTo(map);
-    });
-    map.on("mouseenter", "masaf", () => map.getCanvas().style.cursor = "pointer");
-    map.on("mouseleave", "masaf", () => map.getCanvas().style.cursor = "");
+        "icon-size": byZoom(z => ["/", ["+", crownPx(z), 3], 28.5]) } });
+    map.addLayer({ id: "masaf-shape", type: "fill", source: "masaf-shapes", minzoom: SHAPE_Z,
+      paint: { "fill-color": CROWN_COLOR, "fill-opacity": 0.35 } });
+    map.addLayer({ id: "masaf-shape-line", type: "line", source: "masaf-shapes", minzoom: SHAPE_Z,
+      layout: { "line-join": "round" }, paint: { "line-color": "#e6a800", "line-width": 3, "line-dasharray": [2, 1.4] } });
+    // tronco, come per gli alberi OSM: dalla circonferenza dell'elenco o stimato dall'altezza (tr_est, più chiaro)
+    map.addLayer({ id: "masaf-trunk", type: "circle", source: "masaf", minzoom: SHAPE_Z, filter: ["has", "tr"],
+      paint: { "circle-radius": radius("tr", 1.5), "circle-color": TRUNK_COLOR,
+        "circle-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1], "circle-pitch-alignment": "map" } });
+    // sagome: come shapeRing per gli alberi OSM (raggio 5 m, id ricavato dal codice MASAF per variare lobi e rotazione);
+    // senza leaf_type stimato, un cerchio
+    const codeId = s => [...String(s)].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7);
+    const masafShape = f => {
+      const r = f.properties.crr || MASAF_R, p = { ...f.properties, id: codeId(f.properties.masaf), cr: r };
+      const ft = { geometry: f.geometry, properties: p };
+      let ring = isShaped(ft) ? shapeRing(ft) : null;
+      if (!ring) {
+        const [lon, lat] = f.geometry.coordinates, kx = 1 / (111320 * Math.cos(lat * Math.PI / 180)), ky = 1 / 111320;
+        const pts = Array.from({ length: 48 }, (_, k) => { const a = k / 48 * 2 * Math.PI;
+          return [lon + r * Math.cos(a) * kx, lat + r * Math.sin(a) * ky]; });
+        ring = [[...pts, pts[0]]];
+      }
+      return { type: "Feature", properties: f.properties, geometry: { type: "Polygon", coordinates: ring } };
+    };
+    const masafPos = new Map();   // codice MASAF -> punto dell'albero (le sagome sono poligoni)
+    getGz(`${BASE}data/world/masaf.geojson.gz`).then(fc => {
+      fc.features.forEach(f => masafPos.set(f.properties.masaf, f.geometry.coordinates));
+      map.getSource("masaf").setData(fc);
+      map.getSource("masaf-shapes").setData({ type: "FeatureCollection", features: fc.features.map(masafShape) });
+    }).catch(() => {});
+    for (const id of ["masaf", "masaf-fill", "masaf-shape"]) {
+      map.on("click", id, e => {
+        const f = e.features[0];
+        if (map.queryRenderedFeatures(e.point, { layers: CROWN_IDS }).length) return;   // un albero OSM ha la precedenza
+        // cerchio e anello sono due livelli sullo stesso albero: il secondo clic non riapre la stessa scheda
+        if (cardPopup && cardPopup.getElement()?.querySelector(`[data-masaf="${CSS.escape(f.properties.masaf)}"]`)) return;
+        closeCard();
+        const pos = masafPos.get(f.properties.masaf) || [e.lngLat.lng, e.lngLat.lat];
+        cardPopup = new maplibregl.Popup({ maxWidth: "280px", focusAfterOpen: false })
+          .setLngLat(pos).setHTML(`<div data-masaf="${esc(f.properties.masaf)}">${masafCard(f.properties, pos)}</div>`).addTo(map);
+      });
+      map.on("mouseenter", id, () => map.getCanvas().style.cursor = "pointer");
+      map.on("mouseleave", id, () => map.getCanvas().style.cursor = "");
+    }
   }
 
   // Regioni: ogni regione è un file data/regions/<slug>.geojson.gz elencato in data/index.json.
