@@ -2731,6 +2731,14 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:2019 Muckross Abbey 4.jpg": {
+"c": [
+52.0261596,
+-9.4948848,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:2020-09-24 Ermita Lebeña 06.jpg": {
 "c": [
 43.2154435,
@@ -3787,6 +3795,14 @@
 "c": [
 40.440458,
 -3.646883,
+"camera"
+],
+"d": "2026-11-12"
+},
+"geo:File:Cantwell's Castle bawn.png": {
+"c": [
+52.68285,
+-7.19422,
 "camera"
 ],
 "d": "2026-11-12"
@@ -6599,6 +6615,30 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Rag tree Rath, na Rig Tara.jpg": {
+"c": [
+53.5793339,
+-6.6134856,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Rag tree near Muckross Abbey.jpg": {
+"c": [
+52.0264456,
+-9.4948783,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:Rag tree, Loughcrew.jpg": {
+"c": [
+53.7439843,
+-7.1174847,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:Raisinier de Chine dans le parc Napoléon-III (Vichy) 2025-08-15.JPG": {
 "c": [
 46.12147,
@@ -6734,6 +6774,14 @@
 "object"
 ],
 "d": "2026-11-10"
+},
+"geo:File:Saltmills Willie Whelan memorial tree.jpg": {
+"c": [
+52.227063,
+-6.830732,
+"camera"
+],
+"d": "2026-11-12"
 },
 "geo:File:San Sebastiano da Po (14741).jpg": {
 "c": [
@@ -7079,11 +7127,35 @@
 ],
 "d": "2026-11-12"
 },
+"geo:File:The Autograph Tree (a purple-leaved beech) in the walled garden at Coole Park, Co. Galway. - geograph.org.uk - 65154.jpg": {
+"c": [
+53.0907,
+-8.84,
+"object"
+],
+"d": "2026-11-12"
+},
 "geo:File:The Cloisters, New College, Oxford - geograph.org.uk - 2658969.jpg": {
 "c": [
 51.75436491,
 -1.25285587,
 "object"
+],
+"d": "2026-11-12"
+},
+"geo:File:The Four Stone Tree in Blessington 01.jpg": {
+"c": [
+53.1709655,
+-6.5324941,
+"object"
+],
+"d": "2026-11-12"
+},
+"geo:File:The Four Stone Tree in Blessington 02.jpg": {
+"c": [
+53.170831,
+-6.532429,
+"camera"
 ],
 "d": "2026-11-12"
 },
@@ -7562,6 +7634,14 @@
 "object"
 ],
 "d": "2026-11-10"
+},
+"geo:File:Yew tree - geograph.org.uk - 636705.jpg": {
+"c": [
+52.4468,
+-7.366,
+"camera"
+],
+"d": "2026-11-12"
 },
 "geo:File:Zapis Ovcar Banja.jpeg": {
 "c": [
@@ -45940,6 +46020,10 @@
 "s": "200"
 },
 "https://patrimonicultural.diba.cat/element/magnolia": {
+"d": "2026-11-12",
+"s": "200"
+},
+"https://pbs.twimg.com/media/FjtqizyXwAIJvvx?format=jpg&name=small": {
 "d": "2026-11-12",
 "s": "200"
 },
