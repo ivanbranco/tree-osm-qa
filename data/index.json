@@ -109,12 +109,11 @@
    "updated": "2026-11-11T11:01:49Z"
   },
   "bulgaria": {
-   "count": 29077,
-   "diam": "mm",
-   "errors": 25,
+   "count": 29084,
+   "errors": 28,
    "name": "Bulgaria",
-   "sha1": "e40601c132867d6b4333ee57f1bb833086388b1c",
-   "updated": "2026-11-10T16:56:51Z"
+   "sha1": "cd8d3656076dfda5ea8c3dd725459456ae917d01",
+   "updated": "2026-11-12T19:07:40Z"
   },
   "burgenland": {
    "count": 15027,
