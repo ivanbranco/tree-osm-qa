@@ -6343,6 +6343,17 @@
 "taxon": false,
 "wp": {}
 },
+"Q117085": {
+"coords": [],
+"heritage": [],
+"image": "Ilex paraguariensis - Köhler–s Medizinal-Pflanzen-074.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Holly",
+"it": "https://it.wikipedia.org/wiki/Ilex"
+}
+},
 "Q117225631": {
 "coords": [
 [

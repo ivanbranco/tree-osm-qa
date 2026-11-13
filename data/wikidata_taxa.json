@@ -2653,6 +2653,21 @@
 ],
 "taxon": true
 },
+"Q115916776": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Carpinus betulus 'Columnaris Nana'",
+"it": "Carpinus betulus 'Columnaris Nana'",
+"names": [
+"Carpinus betulus 'Columnaris Nana'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
 "Q115916780": {
 "alias": {
 "en": [],
@@ -4846,6 +4861,20 @@
 },
 "names": [
 "Populus alba 'Raket'"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
+"Q131419900": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Acer rubrum 'Bowhall'",
+"names": [
+"Acer rubrum 'Bowhall'"
 ],
 "ranks": [
 "Q4886"
@@ -16306,6 +16335,21 @@
 ],
 "taxon": true
 },
+"Q21399347": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Lagerstroemia fauriei",
+"it": "Lagerstroemia fauriei",
+"names": [
+"Lagerstroemia fauriei"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q21399882": {
 "alias": {
 "en": [],
@@ -23415,6 +23459,23 @@
 ],
 "taxon": true
 },
+"Q4742178": {
+"alias": {
+"en": [
+"Amelanchier ×grandiflora"
+],
+"it": []
+},
+"en": "Amelanchier × grandiflora",
+"it": "Amelanchier ×grandiflora",
+"names": [
+"Amelanchier ×grandiflora"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q476655": {
 "alias": {
 "en": [
@@ -23568,6 +23629,24 @@
 "names": [],
 "ranks": [],
 "taxon": false
+},
+"Q48677": {
+"alias": {
+"en": [],
+"it": []
+},
+"basionyms": [
+"Andromeda arborea"
+],
+"en": "Oxydendrum arboreum",
+"it": "Oxydendrum arboreum",
+"names": [
+"Oxydendrum arboreum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
 },
 "Q489226": {
 "alias": {
@@ -25096,6 +25175,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Laurus albida"
+],
 "en": "Sassafras albidum",
 "it": "Sassafras albidum",
 "names": [
@@ -29263,6 +29345,21 @@
 ],
 "ranks": [
 "Q279749"
+],
+"taxon": true
+},
+"Q9578994": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Acer rubrum 'Red Rocket'",
+"it": "Acer rubrum ‘Red Rocket’",
+"names": [
+"Acer rubrum ‘Red Rocket’"
+],
+"ranks": [
+"Q4886"
 ],
 "taxon": true
 },

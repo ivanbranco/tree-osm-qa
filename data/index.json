@@ -630,6 +630,14 @@
    "sha1": "20674ef50c924fe872e7fe1db1fe241fb69eaedd",
    "updated": "2026-11-11T11:15:02Z"
   },
+  "pennsylvania": {
+   "count": 97119,
+   "errors": 268,
+   "name": "Pennsylvania",
+   "sha1": "c407324cfda39ccfeab3eeffabeda5b49e54efbd",
+   "tried": "2026-11-13",
+   "updated": "2026-11-13T20:28:21Z"
+  },
   "piemonte": {
    "count": 72979,
    "errors": 131,
