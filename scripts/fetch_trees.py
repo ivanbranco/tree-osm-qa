@@ -2025,6 +2025,113 @@ def minimal(fc):
     return json.dumps({"type": "FeatureCollection", "features": feats}, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
 
+# --- Primati (scheda «Alberi da record» di index.html, issue #15) ---
+# data/records.json = {"<regione>": {"<primato>": {"n": alberi a pari merito, "t": [alberi]}}}: per ogni regione e per
+# ogni primato gli alberi con il valore migliore (al massimo RECORD_TIES, quelli con l'id più basso), ognuno con i tag
+# che servono alla riga del sito (RECORD_KEEP) e la posizione ("c"). Il sito li usa quando nessuna regione è caricata
+# (tutte le regioni, o quelle di una nazione): sceglie il migliore tra quelli delle regioni e ricalcola da sé il valore
+# da mostrare. Con una regione caricata il sito calcola tutto dal file della regione, con le stesse regole
+# (recValues in index.html: le due versioni devono restare uguali).
+# Primati: height = più alto; trunk = tronco più spesso (circumference, altrimenti π × diameter; diameter senza unità
+# è sempre in millimetri, anche sotto DIAM_MM_MIN; i valori di multi_stemmed non si usano); slender e stocky = rapporto
+# altezza / diametro del tronco più alto e più basso, solo con entrambe le misure e altezza di almeno RECORD_MIN_H;
+# crown = chioma più larga (diameter_crown); oldest = start_date più vecchia. Ceppi esclusi. I valori segnalati dai
+# check contano lo stesso (il sito li marca con ⚠); quelli non leggibili, nulli o negativi no.
+RECORDS_FILE = DATA / "records.json"
+RECORD_MIN_H = 2.0     # m: sotto, niente rapporto altezza/diametro (alberelli appena piantati)
+RECORD_TIES = 10       # alberi a pari merito scritti nel file per ogni primato di una regione
+RECORD_LOW = {"stocky", "oldest"}   # primati in cui vince il valore più basso
+RECORD_KEEP = ("id", "name", "species", "sp_it", "sp_en", "genus", "height", "circumference", "diameter",
+               "diameter_crown", "start_date", "issues", "comma", "unit_fix", "eq_keys")
+
+# start_date (https://wiki.openstreetmap.org/wiki/Key:start_date): AAAA, AAAA-MM, AAAA-MM-GG, decennio (1850s),
+# secolo (C16, anche early/mid/late C16), anni avanti Cristo (500 BC), con davanti ~, before o after, e intervalli
+# (1500..1600). Le date approssimative contano con l'anno più vecchio che indicano: ~1500 e before 1500 = 1500,
+# 1850s = 1850, C16 = 1500 (early 1500, mid 1533, late 1566), 1500..1600 = 1500.
+SD_PREFIX = re.compile(r"^(?:~|(?:before|after)\s+)\s*", re.I)
+SD_DATE = re.compile(r"^(\d{3,4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?$")
+SD_DECADE = re.compile(r"^(\d{2,3}0)s$")
+SD_CENTURY = re.compile(r"^(?:(early|mid|late)\s+)?C(\d{1,2})$", re.I)
+SD_BC = re.compile(r"^(\d{1,5})\s*(?:BCE?|B\.C\.(?:E\.)?)$", re.I)
+SD_THIRD = {"early": 0, "mid": 33, "late": 66}
+
+
+def start_date_key(v):
+    """Numero per ordinare start_date (anno × 10000 + mese × 100 + giorno; più basso = più vecchio); None se manca o
+    non è in una delle forme lette (vedi sopra). Gli anni di una o due cifre non si leggono (start_date=50)."""
+    if v is None:
+        return None
+    s = " ".join(str(v).split()).split("..")[0].strip()
+    while m := SD_PREFIX.match(s):
+        s = s[m.end():]
+    if m := SD_BC.match(s):
+        return -int(m.group(1)) * 10000
+    if m := SD_DATE.match(s):
+        mo, d = int(m.group(2) or 0), int(m.group(3) or 0)
+        if mo > 12 or d > 31 or (m.group(2) and not mo) or (m.group(3) and not d):
+            return None
+        return int(m.group(1)) * 10000 + mo * 100 + d
+    if m := SD_DECADE.match(s):
+        return int(m.group(1)) * 10000
+    if m := SD_CENTURY.match(s):
+        if not int(m.group(2)):
+            return None
+        return ((int(m.group(2)) - 1) * 100 + SD_THIRD[(m.group(1) or "early").lower()]) * 10000
+    return None
+
+
+def record_values(p):
+    """Valori di un albero per i primati, dalle proprietà della feature: {primato: valore}. Vuoto per i ceppi."""
+    if p.get("stump"):
+        return {}
+    out = {}
+    h, cd = num(p.get("height")), num(p.get("diameter_crown"))
+    if "circumference" in p:           # come circ_value: con circumference, diameter non si usa
+        c = num(p["circumference"])
+        d = c / math.pi if c else None
+    else:
+        d = parse_length(p.get("diameter"), DIAM_DEFAULT)[0]
+        c = d * math.pi if d else None
+    if h and h > 0:
+        out["height"] = h
+    if c and c > 0:
+        out["trunk"] = c
+        if h and h >= RECORD_MIN_H:
+            out["slender"] = out["stocky"] = h / d
+    if cd and cd > 0:
+        out["crown"] = cd
+    if (y := start_date_key(p.get("start_date"))) is not None:
+        out["oldest"] = y
+    return out
+
+
+def region_records(feats):
+    """Primati di una regione (vedi RECORDS_FILE): {primato: {"n": pari merito, "t": [alberi]}}; un primato senza
+    alberi con quella misura manca."""
+    best = {}
+    for f in feats:
+        for k, v in record_values(f["properties"]).items():
+            b = best.get(k)
+            if b and math.isclose(v, b[0], rel_tol=1e-9):
+                b[1].append(f)
+            elif not b or (v < b[0] if k in RECORD_LOW else v > b[0]):
+                best[k] = (v, [f])
+    out = {}
+    for k, (_, fs) in best.items():
+        fs.sort(key=lambda f: f["properties"]["id"])
+        out[k] = {"n": len(fs), "t": [{**{x: f["properties"][x] for x in RECORD_KEEP if x in f["properties"]},
+                                       "c": f["geometry"]["coordinates"]} for f in fs[:RECORD_TIES]]}
+    return out
+
+
+def save_records(slug, feats):
+    rec = load_json(RECORDS_FILE)
+    rec[slug] = region_records(feats)
+    RECORDS_FILE.write_text("{\n" + ",\n".join(
+        f"{json.dumps(k)}: {json.dumps(v, separators=(',', ':'), ensure_ascii=False, sort_keys=True)}"
+        for k, v in sorted(rec.items())) + "\n}\n", encoding="utf-8")
+
+
 def update_region(region, regions_index):
     global IN_ITALY
     slug = region["slug"]
@@ -2058,6 +2165,7 @@ def update_region(region, regions_index):
     digest = hashlib.sha1(raw).hexdigest()
     errors = sum(1 for f in fc["features"] if f["properties"]["issues"] != "|")  # alberi con almeno un errore
     min_path = OUT_DIR / f"{slug}.min.geojson.gz"
+    save_records(slug, fc["features"])          # primati della regione, anche quando i dati non cambiano
     if regions_index.get(slug, {}).get("sha1") == digest and path.exists():
         regions_index[slug]["errors"] = errors  # per gli indici scritti prima che esistesse il conteggio
         regions_index[slug].pop("diam", None)   # campo non più usato (era per fixDiameter, tolto da index.html)

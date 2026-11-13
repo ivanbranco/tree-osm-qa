@@ -66,6 +66,27 @@
     color:#fff;font:600 12px system-ui,sans-serif;text-align:left;cursor:pointer}
   #hl-chip[hidden]{display:none}
   #hl-chip b{margin-left:auto;font-size:15px;line-height:1}
+  /* scheda Alberi da record: per ogni primato il nome (con la spiegazione al passaggio del mouse o al tocco) e una riga
+     per albero, che si tocca per aprirne la scheda */
+  #rec{margin-top:8px;font-size:13px;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
+  #rec h4{margin:10px 0 2px;font-size:12px;font-weight:600;color:#444;text-transform:uppercase;letter-spacing:.03em}
+  #rec .note{margin:0 0 6px}
+  #rec .rc-none{margin:0 0 0 6px}
+  .rc-filter{margin:0 0 6px;padding:4px 8px;border-radius:4px;background:#fff3cd;color:#5c4400;font-size:12px;font-weight:600;overflow-wrap:anywhere}
+  .rc-row{padding:3px 6px;border-radius:4px;cursor:pointer}
+  .rc-row:hover{background:#f2f2f2}
+  .rc-row:focus-visible{outline:2px solid #1a5fb4;outline-offset:-2px}
+  .rc-top{display:flex;align-items:baseline;gap:6px}
+  .rc-name{flex:1;min-width:0;overflow-wrap:anywhere}
+  .rc-val{flex:none;max-width:55%;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+  .rc-warn{flex:none;color:#b00020}
+  .rc-sub{color:#777;font-size:12px;overflow-wrap:anywhere}
+  .rc-how{border-bottom:1px dotted #888}
+  /* spiegazioni (nome del primato, ⚠): al passaggio del mouse o al tocco (focus); posizione dallo script, come .cp-info */
+  .rc-tip{cursor:help;outline:none}
+  .rc-tip .tip{display:none;position:fixed;z-index:6;box-sizing:border-box;background:#fff;color:#222;font-size:12px;font-weight:400;line-height:1.4;
+    text-transform:none;letter-spacing:0;border:1px solid #ddd;border-radius:4px;box-shadow:0 2px 8px #0003;padding:6px 8px;cursor:default;white-space:normal}
+  .rc-tip:hover .tip,.rc-tip:focus .tip{display:block}
   #rank-mode{float:right;display:flex;gap:2px}
   #rank-mode button{font:600 11px system-ui,sans-serif;min-width:22px;padding:1px 4px;border:1px solid #ccc;border-radius:3px;background:#fff;color:#777;cursor:pointer}
   #rank-mode button.on{background:#555;border-color:#555;color:#fff}
@@ -255,6 +276,11 @@
     <summary data-i18n="comp">Completezza</summary>
     <div id="comp"></div>
   </details>
+  <!-- Alberi da record (issue #15): l'albero con il valore più alto (o più basso) per sei misure; riempita da renderRec -->
+  <details id="rec-box" class="box">
+    <summary data-i18n="rec">Alberi da record</summary>
+    <div id="rec"></div>
+  </details>
 </div>
 </div>
 <div id="map" class="wait"></div>
@@ -385,6 +411,29 @@ const I18N = {
         circumference: k => `${k("circumference")}: circonferenza del tronco in metri, misurata a 1,30 m da terra con un metro a nastro (es. circumference=2.4). Conta anche un albero con ${k("diameter")}.`,
         diameter_crown: k => `${k("diameter_crown")}: diametro della chioma in metri (es. diameter_crown=8). Si misura a terra, da un bordo all'altro della chioma passando per il tronco.`,
         photo: k => `Una foto dell'albero: ${k("wikimedia_commons")} (File:… o Category:…), ${k("panoramax")}, image:fotoshi=* o ${k("image")}. Conta anche la foto (P18) dell'elemento Wikidata di ${k("wikidata")}.` } },
+    // scheda Alberi da record (issue #15). how: come si calcola ogni primato (al passaggio del mouse sul nome)
+    rec: "Alberi da record",
+    rc: { names: { height: "Più alto", trunk: "Tronco più spesso", slender: "Più slanciato", stocky: "Più tozzo", crown: "Chioma più larga", oldest: "Più vecchio" },
+      how: { height: "Il valore più alto di height=*.",
+        trunk: "La circonferenza del tronco più grande: circumference=*; se manca, diameter=* (senza unità è in millimetri) moltiplicato per π. I valori di multi_stemmed=* non si usano.",
+        slender: "Il rapporto più alto tra l'altezza (height=*) e il diametro del tronco (diameter=*, o circumference=* diviso π). Solo alberi con entrambe le misure e alti almeno 2 m.",
+        stocky: "Il rapporto più basso tra l'altezza (height=*) e il diametro del tronco (diameter=*, o circumference=* diviso π). Solo alberi con entrambe le misure e alti almeno 2 m.",
+        crown: "Il valore più alto di diameter_crown=*.",
+        oldest: "La data più vecchia di start_date=*. Le date approssimative contano con l'anno più vecchio che indicano (~1500 e before 1500 = 1500, 1850s = 1850, C16 = 1500, 1500..1600 = 1500) e si mostrano come sono scritte su OSM." },
+      howAll: "I valori con un'unità (cm, ft…) sono convertiti. I ceppi non contano. I valori segnalati da un check contano lo stesso, con ⚠. A pari merito si vedono tutti gli alberi.",
+      warn: "Valore segnalato", ratio: (h, d) => `altezza ${h} / tronco ⌀ ${d}`,
+      none: "Nessun albero con questa misura.", more: n => `+ altri ${n} a pari merito`,
+      loading: "Caricamento degli alberi…", loadingRec: "Caricamento dei primati…",
+      unavailable: "Primati non ancora disponibili: arrivano con il prossimo aggiornamento dei dati (Action \"Update tree data\").",
+      missing: n => `Mancano i primati di ${n} regioni: arrivano con il loro prossimo aggiornamento.`,
+      zoomIn: "Avvicinati (da zoom 7, quando la mappa mostra tutti gli alberi) per vedere i primati degli alberi a schermo.",
+      noTrees: "Nessun albero a schermo.",
+      subAll: n => `Tutte le regioni caricate su DendrOSM (${n}).`, subNation: (name, n) => `${name}: le regioni caricate su DendrOSM (${n}).`,
+      subRegion: name => `${name}: tutta la regione, non solo gli alberi a schermo.`,
+      subWorld: "Alberi monumentali a schermo (non quelli dell'elenco MASAF non ancora su OSM).",
+      onlyLoaded: "I primati riguardano solo le regioni caricate sul sito, non tutti gli alberi di OpenStreetMap.",
+      updatedRange: (a, b) => `Dati aggiornati tra il ${a} e il ${b}`,
+      filter: f => `Filtro attivo: ${f}`, rowTitle: "Apri la scheda dell'albero e centra la mappa" },
     rankEmpty: "Conteggi non ancora disponibili: lancia l'Action \"Update tree data\".",
     loadError: "Errore nel caricamento dei dati", noData: "Nessun dato: lancia l'Action di aggiornamento",
     pickRegion: "Scegli una regione sulla mappa o dal menu", loadingAll: "caricamento di tutti gli alberi…", loading: name => `Caricamento di ${name}…`,
@@ -706,6 +755,28 @@ const I18N = {
         circumference: k => `${k("circumference")}: trunk circumference in metres, measured 1.30 m above the ground with a tape measure (e.g. circumference=2.4). A tree with ${k("diameter")} counts too.`,
         diameter_crown: k => `${k("diameter_crown")}: crown diameter in metres (e.g. diameter_crown=8). It is measured on the ground, from one edge of the crown to the other through the trunk.`,
         photo: k => `A photo of the tree: ${k("wikimedia_commons")} (File:… or Category:…), ${k("panoramax")}, image:fotoshi=* or ${k("image")}. The photo (P18) of the Wikidata item of ${k("wikidata")} counts too.` } },
+    rec: "Record trees",
+    rc: { names: { height: "Tallest", trunk: "Thickest trunk", slender: "Most slender", stocky: "Stockiest", crown: "Widest crown", oldest: "Oldest" },
+      how: { height: "The highest value of height=*.",
+        trunk: "The largest trunk circumference: circumference=*; if missing, diameter=* (millimetres without a unit) multiplied by π. The values of multi_stemmed=* are not used.",
+        slender: "The highest ratio between the height (height=*) and the trunk diameter (diameter=*, or circumference=* divided by π). Only trees with both measurements and at least 2 m tall.",
+        stocky: "The lowest ratio between the height (height=*) and the trunk diameter (diameter=*, or circumference=* divided by π). Only trees with both measurements and at least 2 m tall.",
+        crown: "The highest value of diameter_crown=*.",
+        oldest: "The oldest date of start_date=*. Approximate dates count with the oldest year they indicate (~1500 and before 1500 = 1500, 1850s = 1850, C16 = 1500, 1500..1600 = 1500) and are shown as written on OSM." },
+      howAll: "Values with a unit (cm, ft…) are converted. Stumps do not count. Values reported by a check count too, with ⚠. With a tie, all the trees are shown.",
+      warn: "Value reported", ratio: (h, d) => `height ${h} / trunk ⌀ ${d}`,
+      none: "No tree with this measurement.", more: n => `+ ${n} more tied`,
+      loading: "Loading trees…", loadingRec: "Loading records…",
+      unavailable: "Records not available yet: they arrive with the next data update (\"Update tree data\" Action).",
+      missing: n => `The records of ${n} regions are missing: they arrive with their next update.`,
+      zoomIn: "Zoom in (from zoom 7, when the map shows all trees) to see the records of the trees in view.",
+      noTrees: "No trees in view.",
+      subAll: n => `All the regions loaded on DendrOSM (${n}).`, subNation: (name, n) => `${name}: the regions loaded on DendrOSM (${n}).`,
+      subRegion: name => `${name}: the whole region, not only the trees in view.`,
+      subWorld: "Monumental trees in view (not those of the MASAF list not yet on OSM).",
+      onlyLoaded: "The records cover only the regions loaded on the site, not all the trees of OpenStreetMap.",
+      updatedRange: (a, b) => `Data updated between ${a} and ${b}`,
+      filter: f => `Active filter: ${f}`, rowTitle: "Open the tree's card and centre the map" },
     rankEmpty: "Counts not available yet: run the \"Update tree data\" Action.",
     loadError: "Error loading data", noData: "No data: run the update Action",
     pickRegion: "Choose a region on the map or from the menu", loadingAll: "loading all trees…", loading: name => `Loading ${name}…`,
@@ -971,18 +1042,20 @@ document.querySelectorAll(".leg li").forEach(li => {
 document.getElementById("gh").title = L.github;
 // schede richiudibili del pannello (legenda, classifica, andamento, completezza): una aperta alla volta, così il
 // pannello non diventa più alto della finestra; la disposizione (chiuse in riga, aperta sotto) è nel CSS di #tabs
-const SIDE_BOXES = ["legend-box", "rank-box", "chart-box", "comp-box"].map(id => document.getElementById(id));
+const SIDE_BOXES = ["legend-box", "rank-box", "chart-box", "comp-box", "rec-box"].map(id => document.getElementById(id));
 let onCompToggle = () => {};   // scheda Completezza aperta o chiusa (renderComp, definita quando la mappa è pronta)
+let onRecToggle = () => {};    // scheda Alberi da record aperta o chiusa (renderRec)
 SIDE_BOXES.forEach(b => b.addEventListener("toggle", () => {
   if (b.open) SIDE_BOXES.forEach(o => { if (o !== b) o.open = false; });
   if (b.id === "comp-box") onCompToggle();
+  if (b.id === "rec-box") onRecToggle();
   fitSideLists();
 }));
 // elenchi lunghi del pannello (legenda, classifica): alti quanto lo spazio che resta nella finestra, così scorre
 // l'elenco e mai il pannello intero (un'altezza fissa non tiene conto di quanto occupa il resto del pannello)
 function fitSideLists() {
   const side = document.getElementById("side");
-  for (const el of [document.querySelector(".leg"), document.getElementById("rank"), document.getElementById("comp")]) {
+  for (const el of [document.querySelector(".leg"), document.getElementById("rank"), document.getElementById("comp"), document.getElementById("rec")]) {
     if (!el || !el.closest("details").open) continue;
     el.style.maxHeight = "none";
     const rest = side.scrollHeight - el.offsetHeight;          // tutto il pannello tranne l'elenco
@@ -996,6 +1069,9 @@ new ResizeObserver(fitSideLists).observe(document.getElementById("panel"));
 document.querySelectorAll(".leg .globe").forEach(a => { a.title = L.worldLink[a.dataset.world]; a.setAttribute("aria-label", a.title); });
 if (WORLD) {
   document.getElementById("back-qa").onclick = () => { location.href = BASE; };   // la pagina del tool QA
+  // la classifica non c'è (body.world la nasconde): con "hidden" non conta nemmeno nella griglia delle schede, dove
+  // l'ultima scheda chiusa, se dispari, occupa tutta la riga
+  document.getElementById("rank-box").hidden = true;
   document.getElementById("subtitle").textContent = L.worldTitle[MODE];
   document.title = `DendrOSM – ${L.worldTitle[MODE]}`;   // come il tool: "DendrOSM – …"
 }
@@ -1611,6 +1687,7 @@ map.on("load", async () => {
   };
   const update = () => {
     renderComp();                                     // scheda Completezza, se aperta
+    renderRec();                                      // scheda Alberi da record, se aperta
     if (!current) { document.getElementById("count").textContent = L.pickRegion; return; }
     const z = map.getZoom(), n = inViewCount();
     if (WORLD) {                                      // sotto FULL_Z si vede solo una parte degli alberi
@@ -1774,7 +1851,7 @@ map.on("load", async () => {
       if (WORLD) { if (z < FULL_Z && !(p.mz <= zi)) continue; }
       else if (z < ALL_Z && p.issues === "|" && !(z >= MON_Z && isMon(p))) continue;
       if ((is && !matchIssue(is, p)) || (tx && !matchTaxon(tx, p))) continue;
-      fn(p);
+      fn(p, ft);
     }
   };
   const inViewCount = () => { let c = 0; eachInView(() => c++); return c; };
@@ -1970,6 +2047,140 @@ map.on("load", async () => {
     if (first) fitSideLists();
   };
   onCompToggle = renderComp;
+
+  // Scheda Alberi da record (issue #15): per sei primati (REC_KEYS) l'albero con il valore migliore, o tutti quelli a
+  // pari merito; regole in recValues. L'insieme segue il livello aperto:
+  // - tool QA con una regione caricata: tutti gli alberi della regione (non solo quelli a schermo), con i filtri dei menu;
+  // - tool QA senza regione: le regioni di data/index.json, o quelle della nazione aperta, dai primati già pronti di
+  //   ogni regione in data/records.json (da fetch_trees.py), chiesto alla prima apertura. Qui i filtri non ci sono
+  //   (i menu sono spenti senza una regione);
+  // - mappa dei monumentali: gli alberi a schermo (eachInView, come la scheda Completezza), da FULL_Z.
+  // Un clic su una riga apre la scheda dell'albero e centra la mappa a zoom 19, come il tasto Z; se l'albero è in
+  // un'altra regione, prima la carica.
+  const recBox = document.getElementById("rec-box"), recEl = document.getElementById("rec");
+  let recData, recDataP = null;      // data/records.json: undefined = non ancora arrivato, null = non disponibile
+  let recShown = {}, recHtml = null; // primati mostrati (per il clic) e ultimo contenuto scritto
+  let recCache = { key: null, src: null, best: null };   // primati della regione caricata: si ricalcolano solo se cambia qualcosa
+  const loadRecData = () => { recDataP = recDataP || getJSON("data/records.json")
+    .then(d => { recData = d; }, () => { recData = null; }).then(() => renderRec()); };
+  const optLabel = sel => (sel.selectedOptions[0]?.textContent || "").replace(/\s*\([\d.,\s  ]+\)$/, "");   // senza il conteggio
+  const recDay = d => new Date(d).toLocaleDateString(LOC);
+  const recDates = slugs => {        // "Dati aggiornati al …", o tra due date se le regioni hanno date diverse
+    const ds = slugs.map(s => idx[s] && idx[s].updated).filter(Boolean).sort();
+    if (!ds.length) return "";
+    const a = recDay(ds[0]), b = recDay(ds[ds.length - 1]);
+    return (a === b ? L.updated(b) : L.rc.updatedRange(a, b)) + ".";
+  };
+  const renderRec = () => {
+    if (!recBox.open) return;
+    const is = issSel.value, tx = taxSel.value;
+    let best = null, msg = "", sub = "", note = "", filters = [], places = false;
+    if (WORLD) {
+      sub = L.rc.subWorld + " " + recDates([MODE]);
+      if (tx) filters.push(optLabel(taxSel));
+      if (!ALL.length) msg = L.rc.loading;
+      else if (map.getZoom() < FULL_Z) msg = L.rc.zoomIn;
+      else {
+        best = {};
+        let n = 0;
+        eachInView((p, ft) => { n++; recAdd(best, p, ft.geometry.coordinates, null); });
+        if (!n) { best = null; msg = L.rc.noTrees; }
+      }
+    } else if (current) {
+      sub = L.rc.subRegion(regionName(current)) + " " + recDates([current]);
+      if (tx) filters.push(optLabel(taxSel));
+      if (is) filters.push(optLabel(issSel));
+      if (!ALL.length || partial) msg = L.rc.loading;
+      else {
+        const key = [current, ALL.length, is, tx].join("|");
+        if (recCache.key !== key || recCache.src !== ALL) {
+          const b = {};
+          for (const ft of ALL) {
+            const p = ft.properties;
+            if ((is && !matchIssue(is, p)) || (tx && !matchTaxon(tx, p))) continue;
+            recAdd(b, p, ft.geometry.coordinates, current);
+          }
+          recCache = { key, src: ALL, best: b };
+        }
+        best = recCache.best;
+      }
+    } else {
+      const slugs = Object.keys(idx).filter(s => !openGroup || groupOf(s) === openGroup);
+      sub = (openGroup ? L.rc.subNation(groupName(openGroup), slugs.length) : L.rc.subAll(slugs.length))
+        + " " + L.rc.onlyLoaded + " " + recDates(slugs);
+      places = true;
+      if (recData === undefined) { loadRecData(); msg = L.rc.loadingRec; }
+      else if (!recData || !slugs.some(s => recData[s])) msg = L.rc.unavailable;
+      else {
+        best = {};
+        const missing = slugs.filter(s => !recData[s]).length;
+        if (missing) note = L.rc.missing(missing);
+        for (const s of slugs) for (const k of REC_KEYS) {
+          const r = (recData[s] || {})[k];
+          if (!r || !r.t || !r.t.length) continue;
+          const v = recValues(r.t[0])[k];              // il valore si ricalcola qui, con le regole della pagina
+          if (v != null) recPut(best, k, v, r.n || r.t.length, r.t.map(t => ({ p: t, pos: t.c, slug: s })));
+        }
+      }
+    }
+    recShown = best || {};
+    const tip = (cls, label, text) => `<span class="rc-tip ${cls}" tabindex="0">${label}<span class="tip">${esc(text)}</span></span>`;
+    const row = (k, t, i) => {
+      const p = t.p, m = recMeasure(p), [val, detail] = recShow(k, p, m), w = recWarn(k, p, m);
+      const place = places && t.slug ? [regionName(t.slug), groupOf(t.slug) && groupName(groupOf(t.slug))]
+        .filter((x, j, a) => x && a.indexOf(x) === j).join(" · ") : "";
+      return `<div class="rc-row" role="button" tabindex="0" data-k="${k}" data-i="${i}" title="${esc(L.rc.rowTitle)}">`
+        + `<div class="rc-top"><span class="rc-name">${title({ ...p, sp_common: p["sp_" + LANG] })[0]}</span>`
+        + (w.length ? tip("rc-warn", "⚠", `${L.rc.warn}: ${w.map(c => L.issueOpts[c] || c).join("; ")}`) : "")
+        + `<span class="rc-val" title="${esc(val)}">${esc(val)}</span></div>`
+        + [detail, place].filter(Boolean).map(x => `<div class="rc-sub">${esc(x)}</div>`).join("") + `</div>`;
+    };
+    const html = `<div class="note">${esc(sub)}</div>`
+      + (filters.length ? `<div class="rc-filter">${esc(L.rc.filter(filters.join(" · ")))}</div>` : "")
+      + (msg ? `<div class="note">${esc(msg)}</div>` : REC_KEYS.map(k => {
+        const b = best[k];
+        return `<h4>${tip("rc-how", esc(L.rc.names[k]), L.rc.how[k] + " " + L.rc.howAll)}</h4>`
+          + (b ? b.t.map((t, i) => row(k, t, i)).join("") + (b.n > b.t.length ? `<div class="note rc-none">${esc(L.rc.more(fmtN(b.n - b.t.length)))}</div>` : "")
+            : `<div class="note rc-none">${esc(L.rc.none)}</div>`);
+      }).join("") + (note ? `<div class="note">${esc(note)}</div>` : ""));
+    // la scheda si riscrive solo se il contenuto cambia: update() arriva a ogni ridisegno della mappa, e riscriverla
+    // chiuderebbe la spiegazione aperta
+    if (html === recHtml) return;
+    recHtml = html; recEl.innerHTML = html;
+    fitSideLists();
+  };
+  onRecToggle = renderRec;
+  // spiegazioni: la scheda scorre, quindi si posizionano rispetto alla finestra, larghe quanto la scheda, sotto la
+  // parola (o sopra se sotto non c'è posto), come la ⓘ della scheda Completezza
+  const recPlaceTip = e => {
+    const h = e.target.closest?.(".rc-tip");
+    if (!h) return;
+    const t = h.querySelector(".tip"), box = recBox.getBoundingClientRect(), b = h.getBoundingClientRect();
+    t.style.left = box.left + "px"; t.style.width = box.width + "px"; t.style.top = b.bottom + "px";
+    requestAnimationFrame(() => { if (b.bottom + t.offsetHeight > innerHeight) t.style.top = (b.top - t.offsetHeight) + "px"; });
+  };
+  for (const ev of ["mouseover", "focusin", "pointerdown"]) recEl.addEventListener(ev, recPlaceTip);
+  const recGo = async t => {
+    if (WORLD || t.slug === current) {                // albero già sulla mappa: come il tasto Z
+      openCard(t.p, t.pos);
+      map.flyTo({ center: t.pos, zoom: 19 });
+      return;
+    }
+    closeCard(); setHash(t.slug);                     // albero di un'altra regione: la mappa va lì e la regione si carica
+    map.jumpTo({ center: t.pos, zoom: 19 });
+    await loadRegion(t.slug, false);
+    if (current !== t.slug) return;                   // nel frattempo è stata scelta un'altra regione
+    const f = ALL.find(x => x.properties.id === t.p.id);
+    if (f) openCard(f.properties, f.geometry.coordinates);
+  };
+  const recPick = e => {
+    const r = e.target.closest?.(".rc-row");
+    if (!r || e.target.closest(".rc-tip")) return;    // il ⚠ mostra solo la sua spiegazione
+    if (e.type === "keydown") { if ((e.key !== "Enter" && e.key !== " ") || e.target !== r) return; e.preventDefault(); }
+    const t = ((recShown[r.dataset.k] || {}).t || [])[Number(r.dataset.i)];
+    if (t) recGo(t);
+  };
+  recEl.addEventListener("click", recPick); recEl.addEventListener("keydown", recPick);
 
   // il conteggio si aggiorna anche poco dopo l'ultimo ridisegno, senza aspettare "idle" (che per le regioni grandi
   // attende la sorgente completa)
@@ -2398,7 +2609,7 @@ map.on("load", async () => {
     }
     document.getElementById("chart").replaceChildren(svg);
   };
-  onContextChange = renderChart;
+  onContextChange = () => { renderChart(); renderRec(); };   // i primati seguono il livello aperto
   renderChart();
 
   if (boundaries) {
@@ -2517,6 +2728,110 @@ const fmtM = v => { const n = num(v); return n === null ? v : Number(n).toLocale
 // diameter senza unità è in millimetri (Key:diameter); con un'unità si mostra com'è scritto
 const fmtD = v => /^\s*\d+(?:[.,]\d+)?\s*$/.test(v) ? Number(String(v).replace(",", ".")).toLocaleString(LOC, { maximumFractionDigits: 3 }) + " mm" : v;
 const tr = (dict, v) => dict[v] || v;
+
+// ---- Alberi da record (issue #15): valori di un albero per i primati. Le stesse regole di record_values in
+// fetch_trees.py, che prepara data/records.json per i livelli senza una regione caricata: le due versioni devono
+// restare uguali.
+// lenM: misura in metri da un valore OSM, come parse_length in fetch_trees.py (def = metri per unità quando l'unità
+// manca: 1, oppure 0.001 per diameter); null se non è leggibile
+const LEN_UNITS = { m: 1, cm: 0.01, mm: 0.001, km: 1000, ft: 0.3048, in: 0.0254 };
+const LEN_ALIASES = { metre: "m", metres: "m", meter: "m", meters: "m", mt: "m", mtr: "m", feet: "ft", foot: "ft", inch: "in", inches: "in" };
+const LEN_RE = /^\s*([+-]?\d+(?:[.,]\d+)?)(\s*)([a-zA-Z]*)\s*$/;
+const FEET_INCH = /^\s*(?:(\d+)\s*(?:'|’|′|ft|feet|foot)\s*)?(?:(\d+(?:[.,]\d+)?)\s*(?:"|''|”|″|in|inch|inches)\s*)?$/i;
+const lenM = (v, def = 1) => {
+  if (v == null) return null;
+  const s = String(v);
+  let m = LEN_RE.exec(s);
+  if (m) {
+    const n = Number(m[1].replace(",", "."));
+    if (!m[3]) return n * def;
+    const u = m[3].toLowerCase(), c = Object.hasOwn(LEN_ALIASES, u) ? LEN_ALIASES[u] : u;
+    return Object.hasOwn(LEN_UNITS, c) ? n * LEN_UNITS[c] : null;
+  }
+  m = FEET_INCH.exec(s);
+  return m && (m[1] || m[2]) ? Number(m[1] || 0) * 0.3048 + Number((m[2] || "0").replace(",", ".")) * 0.0254 : null;
+};
+// sdKey: numero per ordinare start_date (anno × 10000 + mese × 100 + giorno; più basso = più vecchio), come
+// start_date_key in fetch_trees.py: AAAA, AAAA-MM, AAAA-MM-GG, 1850s, C16 (early/mid/late), 500 BC, con davanti ~,
+// before o after, e intervalli (vale il primo estremo). null se la data non è in una di queste forme
+const SD_PREFIX = /^(?:~|(?:before|after)\s+)\s*/i, SD_DATE = /^(\d{3,4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?$/, SD_DECADE = /^(\d{2,3}0)s$/;
+const SD_CENTURY = /^(?:(early|mid|late)\s+)?C(\d{1,2})$/i, SD_BC = /^(\d{1,5})\s*(?:BCE?|B\.C\.(?:E\.)?)$/i, SD_THIRD = { early: 0, mid: 33, late: 66 };
+const sdKey = v => {
+  if (v == null) return null;
+  let s = String(v).trim().split(/\s+/).join(" ").split("..")[0].trim(), m;
+  while ((m = SD_PREFIX.exec(s))) s = s.slice(m[0].length);
+  if ((m = SD_BC.exec(s))) return -Number(m[1]) * 10000;
+  if ((m = SD_DATE.exec(s))) {
+    const mo = Number(m[2] || 0), d = Number(m[3] || 0);
+    return mo > 12 || d > 31 || (m[2] && !mo) || (m[3] && !d) ? null : Number(m[1]) * 10000 + mo * 100 + d;
+  }
+  if ((m = SD_DECADE.exec(s))) return Number(m[1]) * 10000;
+  if ((m = SD_CENTURY.exec(s))) return Number(m[2]) ? ((Number(m[2]) - 1) * 100 + SD_THIRD[(m[1] || "early").toLowerCase()]) * 10000 : null;
+  return null;
+};
+const REC_KEYS = ["height", "trunk", "slender", "stocky", "crown", "oldest"];
+const REC_LOW = new Set(["stocky", "oldest"]);   // primati in cui vince il valore più basso
+const REC_MIN_H = 2;     // m: sotto, niente rapporto altezza/diametro del tronco
+const REC_TIES = 10;     // alberi a pari merito mostrati per ogni primato
+const REC_TAGS = ["height", "circumference", "diameter", "diameter_crown", "start_date"];
+// misure di un albero: altezza h, circonferenza c e diametro d del tronco (da circumference; se il tag manca, da
+// diameter, che senza unità è in millimetri: fromD), diametro della chioma cd, tutte in metri, e data y (sdKey)
+const recMeasure = p => {
+  const fromD = p.circumference == null, x = fromD ? lenM(p.diameter, 0.001) : lenM(p.circumference);
+  return { h: lenM(p.height), cd: lenM(p.diameter_crown), fromD, c: x ? (fromD ? x * Math.PI : x) : null,
+    d: x ? (fromD ? x : x / Math.PI) : null, y: sdKey(p.start_date) };
+};
+// { primato: valore } di un albero (non di un ceppo): solo i primati per cui ha una misura leggibile e positiva
+const recValues = (p, m = recMeasure(p)) => {
+  const o = {};
+  if (m.h > 0) o.height = m.h;
+  if (m.c > 0) { o.trunk = m.c; if (m.h >= REC_MIN_H) o.slender = o.stocky = m.h / m.d; }
+  if (m.cd > 0) o.crown = m.cd;
+  if (m.y != null) o.oldest = m.y;
+  return o;
+};
+const recClose = (a, b) => Math.abs(a - b) <= 1e-9 * Math.max(Math.abs(a), Math.abs(b));   // pari merito
+// aggiunge un albero (o più alberi a pari merito già scelti: n, con i primi in list) ai migliori trovati finora
+const recPut = (best, k, v, n, list) => {
+  const b = best[k];
+  if (b && recClose(v, b.v)) { b.n += n; for (const t of list) if (b.t.length < REC_TIES) b.t.push(t); }
+  else if (!b || (REC_LOW.has(k) ? v < b.v : v > b.v)) best[k] = { v, n, t: list.slice(0, REC_TIES) };
+};
+const recAdd = (best, p, pos, slug) => {
+  if (p.stump || !REC_TAGS.some(k => p[k] != null)) return;   // quasi tutti gli alberi non hanno misure
+  const v = recValues(p);
+  for (const k in v) recPut(best, k, v[k], 1, [{ p, pos, slug }]);
+};
+// check che segnalano il valore usato da un primato (codici degli errori dell'albero): quelli sulla misura e sul
+// rapporto altezza/circonferenza, e virgola o unità scritte male nei tag usati
+const recWarn = (k, p, m) => {
+  const trunkTag = m.fromD ? "diameter" : "circumference";
+  const tags = { height: ["height"], trunk: [trunkTag], slender: ["height", trunkTag], stocky: ["height", trunkTag],
+    crown: ["diameter_crown"], oldest: ["start_date"] }[k];
+  const ratio = ["too_slender", "too_slender_species", "too_stocky"];
+  const hC = ["height", "height_species"], tC = ["circumference", "circumference_species", m.fromD ? "diameter_unit" : "circ_diam_mismatch"];
+  const codes = { height: [...hC, ...ratio], trunk: [...tC, ...ratio], slender: [...hC, ...tC, ...ratio],
+    stocky: [...hC, ...tC, ...ratio], crown: ["crown"], oldest: [] }[k];
+  const iss = p.issues || "|", out = codes.filter(c => iss.includes(`|${c}|`));
+  const listed = (v, sep) => String(v || "").split(sep).some(x => tags.includes(x.split("|")[0]));
+  if (iss.includes("|comma|") && listed(p.comma, ";")) out.push("comma");
+  if (iss.includes("|unit_format|") && listed(p.unit_fix, "\n")) out.push("unit_format");
+  if (iss.includes("|tag_in_value|") && listed(p.eq_keys, ";")) out.push("tag_in_value");
+  return out;
+};
+const fmtRec = (x, o = { maximumFractionDigits: 2 }) => x.toLocaleString(LOC, o);
+// valore di un primato da mostrare: [testo, riga di dettaglio]; le misure nell'unità del sito (metri; millimetri per
+// diameter), la data com'è scritta su OSM
+const recShow = (k, p, m) => {
+  const sig = { maximumSignificantDigits: 3 };
+  switch (k) {
+    case "height": return [fmtRec(m.h) + " m", ""];
+    case "trunk": return [m.fromD ? `⌀ ${fmtRec(m.d * 1000, { maximumFractionDigits: 1 })} mm` : fmtRec(m.c) + " m", ""];
+    case "crown": return [fmtRec(m.cd) + " m", ""];
+    case "oldest": return [String(p.start_date), ""];
+    default: return [fmtRec(m.h / m.d, sig) + "×", L.rc.ratio(fmtRec(m.h) + " m", fmtRec(m.d, sig) + " m")];
+  }
+};
 
 const ROW_KEYS = ["species", "sp_common", "genus", "taxon", "denotation", "leaf_type", "lt", "leaf_cycle", "lc",
   "circumference", "diameter", "height", "diameter_crown", "start_date"];

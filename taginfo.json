@@ -49,10 +49,10 @@
     {"key": "genus:wikidata", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "leaf_type", "object_types": ["node"], "description": "Used to render the crown shape, for QA checks and the Completeness tab (share of trees with the tag)."},
     {"key": "leaf_cycle", "object_types": ["node"], "description": "Used to render the crown color, for QA checks, the info panel and the Completeness tab (share of trees with the tag)."},
-    {"key": "circumference", "object_types": ["node"], "description": "Used to render the 2D trunk, for QA checks and, in Italy, for a hint comparing it with the MASAF minimum circumference of the species. Also counted in the Completeness tab (share of trees with the tag)."},
-    {"key": "diameter", "object_types": ["node"], "description": "Trunk diameter (millimetres without a unit): used like circumference when circumference is missing, and for QA checks, including the comparison with circumference. In the Completeness tab a tree with diameter counts as having a circumference."},
-    {"key": "height", "object_types": ["node"], "description": "Used for QA checks, to estimate the trunk size and in the Completeness tab (share of trees with the tag)."},
-    {"key": "diameter_crown", "object_types": ["node"], "description": "Used to render the 2D crown, for QA checks and in the Completeness tab (share of trees with the tag)."},
+    {"key": "circumference", "object_types": ["node"], "description": "Used to render the 2D trunk, for QA checks and, in Italy, for a hint comparing it with the MASAF minimum circumference of the species. Also counted in the Completeness tab (share of trees with the tag) and used in the Record trees tab (thickest trunk, most slender and stockiest tree)."},
+    {"key": "diameter", "object_types": ["node"], "description": "Trunk diameter (millimetres without a unit): used like circumference when circumference is missing, and for QA checks, including the comparison with circumference. In the Completeness tab a tree with diameter counts as having a circumference; in the Record trees tab it is used for the trunk when circumference is missing."},
+    {"key": "height", "object_types": ["node"], "description": "Used for QA checks, to estimate the trunk size, in the Completeness tab (share of trees with the tag) and in the Record trees tab (tallest, most slender and stockiest tree)."},
+    {"key": "diameter_crown", "object_types": ["node"], "description": "Used to render the 2D crown, for QA checks, in the Completeness tab (share of trees with the tag) and in the Record trees tab (widest crown)."},
     {"key": "denotation", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "denotation", "value": "natural_monument", "object_types": ["node"], "description": "Used to render the trees, for QA checks and for the world map of monumental trees."},
     {"key": "denotation", "value": "landmark", "object_types": ["node"], "description": "Used to render the trees."},
@@ -88,6 +88,6 @@
     {"key": "type", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "source", "object_types": ["node"], "description": "Used for hints about known tree imports (documented or not)."},
     {"key": "name", "object_types": ["node"], "description": "Shown in the info panel."},
-    {"key": "start_date", "object_types": ["node"], "description": "Shown in the info panel."}
+    {"key": "start_date", "object_types": ["node"], "description": "Shown in the info panel; used for the oldest tree in the Record trees tab."}
   ]
 }
