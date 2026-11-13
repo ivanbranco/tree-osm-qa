@@ -74,8 +74,8 @@ The checks are computed by `scripts/fetch_trees.py` and saved in the `issues` fi
 
 Besides errors, the tree card can show hints: information that could improve the data, not errors to fix. They appear after the errors, preceded by ⓘ, in grey and not bold; they do not colour the tree on the map, are not in the errors menu and do not count in the ranking. Only in the QA tool, not in the monumental trees map. This is also where checks that would give too many false positives as errors live.
 
-* No `species` or `genus`, but the tree's Wikidata item (`wikidata=*`) indicates the species ([P10241](https://www.wikidata.org/wiki/Property:P10241)): `species` could be added with that name, after a survey on the ground
-* `species:wikidata=*` (a taxon) without `species`: `species` could be added with the item's scientific name (P225)
+* No `species` or `genus`, but the tree's Wikidata item (`wikidata=*`) indicates the species ([P10241](https://www.wikidata.org/wiki/Property:P10241), not of genus rank or above): `species` could be added with that name, after a survey on the ground
+* `species:wikidata=*` (a taxon, not of genus rank or above) without `species`: `species` could be added with the item's scientific name (P225)
 * `species` in the wiki species list, without `species:wikidata`: the QID from the list could be added
 * `species:wikipedia=*` without `species:wikidata` (when the list does not already give the QID, see above): `species:wikidata` could be added with the QID of the item linked to the Wikipedia article
 * `species:wikipedia=*` without `species` (and without the two hints on `species` above): `species` could be added with the scientific name (P225) of the item linked to the article

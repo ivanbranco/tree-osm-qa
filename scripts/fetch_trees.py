@@ -648,9 +648,11 @@ def wikidata_tree_species(t):
 def hint_props(t):
     """Dati per i consigli della scheda (ⓘ: informazioni, non errori; index.html li mostra e non li segnala sulla
     mappa). Solo quelli che la pagina non può ricavare da sola:
-    hint_sp: nessun species né genus, ma l'elemento di wikidata=* indica la specie (P10241) -> nome scientifico;
+    hint_sp: nessun species né genus, ma l'elemento di wikidata=* indica la specie (P10241, non un genere o più su)
+    -> nome scientifico;
     hint_sw: species (dalla lista wiki) senza species:wikidata -> QID della specie nella lista;
-    hint_sn: species:wikidata (un taxon) senza species -> nome scientifico dell'elemento (P225);
+    hint_sn: species:wikidata (un taxon, non di rango genere o superiore) senza species -> nome scientifico
+    dell'elemento (P225);
     hint_it: species:it con l'iniziale minuscola -> lo stesso valore con la maiuscola (su OSM il 98% dei valori la ha,
     ma non è una regola scritta: per questo è un consiglio e non un errore), ogni parte separata da ";";
     hint_wp: species:wikipedia senza species:wikidata (e senza il QID della lista, che dà già hint_sw) -> QID
@@ -684,7 +686,8 @@ def hint_props(t):
     sp = (t.get("species") or "").strip()
     if not sp and not t.get("genus"):
         for q in qids(t, "wikidata"):
-            names = [n for tx in WD_ITEMS.get(q, {}).get("taxa", []) for n in taxon_names(tx)]
+            names = [n for tx in WD_ITEMS.get(q, {}).get("taxa", []) if not rank_problem("species:wikidata", tx)
+                     for n in taxon_names(tx)]
             if taxon_status(q) is not True and names:
                 out["hint_sp"] = names[0]
                 break
@@ -698,7 +701,8 @@ def hint_props(t):
         out["hint_wp"] = wq
     if not sp:
         for q in qids(t, "species:wikidata"):
-            if taxon_status(q) is True and (names := taxon_names(q)):
+            # un elemento di rango genere o superiore non dà un valore per species (lo segnala già wikidata_rank)
+            if taxon_status(q) is True and not rank_problem("species:wikidata", q) and (names := taxon_names(q)):
                 out["hint_sn"] = names[0]
                 break
         if wq and "hint_sn" not in out and "hint_sp" not in out and (names := taxon_names(wq)):
