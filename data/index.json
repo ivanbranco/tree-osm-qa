@@ -404,12 +404,12 @@
    "updated": "2026-11-13T00:05:53Z"
   },
   "lituania": {
-   "count": 89230,
-   "diam": "mm",
-   "errors": 115,
+   "count": 89293,
+   "errors": 119,
    "name": "Lituania",
-   "sha1": "571f94ba3e36f8d87e690ffcd0c4fdee2f62054c",
-   "updated": "2026-11-10T16:57:37Z"
+   "sha1": "e8b70ee9da2166f1cff267c82770842b4f203ec7",
+   "tried": "2026-11-13",
+   "updated": "2026-11-13T03:16:30Z"
   },
   "lodzkie": {
    "count": 105233,
@@ -423,9 +423,9 @@
    "count": 387436,
    "errors": 1012,
    "name": "Lombardia",
-   "sha1": "344a3a825e7b0a3303dc705426f54feb89e09f07",
+   "sha1": "9e87f8612dfbd4bd0934547af3d7aeb65b65be61",
    "tried": "2026-11-13",
-   "updated": "2026-11-13T00:01:28Z"
+   "updated": "2026-11-13T02:48:46Z"
   },
   "londra": {
    "count": 213012,
@@ -631,11 +631,11 @@
   },
   "piemonte": {
    "count": 72971,
-   "errors": 131,
+   "errors": 132,
    "name": "Piemonte",
-   "sha1": "4a2ec616675a01c395bb11a1bc9b1d25a216ff39",
+   "sha1": "8c22a4d359c1e5d133944a1e994b6d3f5b98f93c",
    "tried": "2026-11-13",
-   "updated": "2026-11-12T23:59:59Z"
+   "updated": "2026-11-13T02:49:41Z"
   },
   "podkarpackie": {
    "count": 90371,
@@ -851,12 +851,12 @@
    "updated": "2026-11-13T00:05:18Z"
   },
   "vienna": {
-   "count": 173137,
-   "diam": "mm",
-   "errors": 6550,
+   "count": 173152,
+   "errors": 6595,
    "name": "Vienna",
-   "sha1": "99b3aa3de76a796597f76dc46b5ee3ab5317ea92",
-   "updated": "2026-11-11T15:37:28Z"
+   "sha1": "0eaaffbade4c154eb75e2214a75b52603cef0228",
+   "tried": "2026-11-13",
+   "updated": "2026-11-13T03:04:17Z"
   },
   "vorarlberg": {
    "count": 12310,

@@ -13972,6 +13972,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Dicksonia antarctica"
+],
 "en": "Balantium antarcticum",
 "it": "Balantium antarcticum",
 "names": [
@@ -17076,8 +17079,8 @@
 "Platanus ×acerifolia"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
