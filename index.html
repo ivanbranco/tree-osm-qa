@@ -3248,7 +3248,13 @@ function card(p, pos) {
       <img ${img ? `src="${esc(img.src)}"` : "hidden"} alt="" loading="lazy" onerror="this.parentNode.remove()" onload="this.parentNode.classList.add('loaded')">
       <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}${img?.author ? ` title="${esc(creditText(img.author, img.lic))}"` : ""}>${img?.fs && img.author ? FOTOSHI_ICON : ""}${img?.author ? creditHtml(img.author, img.lic) : ""}</a></div>` : "";
   const genusIssue = !WORLD && ["genus", "genus_lowercase", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
-  const rows = ROWS.filter(([k]) => p[k] && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : ""}</dd>`).join("");
+  // senza circumference, diameter=* diventa una riga «Circonferenza … (da diameter)» (diametro × π; senza unità è in
+  // millimetri); se il valore non è leggibile resta la riga del diametro com'è scritto
+  const dm = p.circumference == null && p.diameter ? lenM(p.diameter, 0.001) : null;
+  const fromDiam = dm > 0;
+  const rows = ROWS.filter(([k]) => (k === "diameter" ? p[k] && !fromDiam : p[k] || (k === "circumference" && fromDiam)) && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => k === "circumference" && fromDiam
+    ? `<dt>${label}</dt><dd>${esc(fmtM(String(Number((dm * Math.PI).toFixed(3)))) + L.fromDiameter)}</dd>`
+    : `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : ""}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
   const rec = recognitions(p);
   const links = [osmMenu(p, pos)];
