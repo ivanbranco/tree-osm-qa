@@ -749,12 +749,12 @@
    "updated": "2026-11-12T15:58:01Z"
   },
   "slovenia": {
-   "count": 51263,
-   "diam": "mm",
-   "errors": 68,
+   "count": 51281,
+   "errors": 73,
    "name": "Slovenia",
-   "sha1": "b03ad98546611f6dd363b400a1e151542266e61d",
-   "updated": "2026-11-10T18:14:35Z"
+   "sha1": "5af625214014102a11fa2a50086eb282f7a6b318",
+   "tried": "2026-11-13",
+   "updated": "2026-11-13T11:20:37Z"
   },
   "stiria": {
    "count": 42095,
