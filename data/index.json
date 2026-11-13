@@ -671,12 +671,12 @@
    "updated": "2026-11-10T15:27:35Z"
   },
   "provenza-alpi-costa-azzurra": {
-   "count": 185723,
-   "diam": "mm",
-   "errors": 991,
+   "count": 185745,
+   "errors": 1022,
    "name": "Provenza-Alpi-Costa Azzurra",
-   "sha1": "0f95330481b972f11737a6e4fe889f721e754d03",
-   "updated": "2026-11-11T11:14:06Z"
+   "sha1": "83ef3a06afadd75499c8e7b50212d446db2445a7",
+   "tried": "2026-11-13",
+   "updated": "2026-11-13T11:22:54Z"
   },
   "puglia": {
    "count": 52920,
