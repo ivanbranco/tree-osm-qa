@@ -2825,8 +2825,13 @@ map.on("load", async () => {
   // Vista d'insieme: un clic fuori dalle regioni coperte chiede il nome del paese a Nominatim e propone di chiederne
   // l'aggiunta (messaggio su OSM). Sul mare Nominatim non trova un paese e non compare niente.
   // (inGeometry, il punto dentro un confine, è definita più su, prima della scheda Completezza)
-  // paesi con almeno una regione con dati, dal codice ISO 3166 delle regioni (IT-25 → IT, GB-WLS → GB, JP → JP)
-  const COVERED = new Set(meta.filter(m => idx[m.slug] && m.iso).map(m => m.iso.slice(0, 2).toUpperCase()));
+  // paesi con almeno una regione con dati, dal codice ISO 3166 delle regioni (IT-25 → IT, GB-WLS → GB, JP → JP).
+  // I paesi con "partial": true in regions.json (Stati Uniti) sono coperti solo in parte: lì l'invito porta il nome
+  // dello stato e manca solo negli stati che hanno già i dati (PARTIAL_SUB, codici come US-PA)
+  const withIso = meta.filter(m => idx[m.slug] && m.iso), cc2 = m => m.iso.slice(0, 2).toUpperCase();
+  const COVERED = new Set(withIso.filter(m => !m.partial).map(cc2));
+  const PARTIAL = new Set(withIso.filter(m => m.partial).map(cc2));
+  const PARTIAL_SUB = new Set(withIso.filter(m => m.partial).map(m => m.iso.toUpperCase()));
   let requestPopup = null;
   // invito a chiedere l'aggiunta di un paese o di una regione: il nome come titolo, poi la domanda (niente articoli
   // da accordare, «la Spagna», «il Belgio»…)
@@ -2845,12 +2850,18 @@ map.on("load", async () => {
     if (requestPopup) requestPopup.remove();
     let country = null;
     try {
-      const u = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=3&lat=${e.lngLat.lat.toFixed(4)}&lon=${e.lngLat.lng.toFixed(4)}&accept-language=${LANG}`;
+      // zoom=5: oltre al paese, lo stato o la regione (state, ISO3166-2-lvl4), per i paesi coperti in parte
+      const u = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=5&lat=${e.lngLat.lat.toFixed(4)}&lon=${e.lngLat.lng.toFixed(4)}&accept-language=${LANG}`;
       const addr = (await fetch(u).then(r => r.json())).address || {};
+      const cc = String(addr.country_code || "").toUpperCase();
       // paese già coperto (es. clic nelle acque territoriali italiane, fuori dai confini delle regioni, che si fermano
       // alla costa): nessun invito
-      if (COVERED.has(String(addr.country_code || "").toUpperCase())) return;
-      country = addr.country || null;
+      if (COVERED.has(cc)) return;
+      if (PARTIAL.has(cc)) {
+        // stato già coperto (clic appena fuori dal suo confine disegnato): nessun invito; negli altri il suo nome
+        if (PARTIAL_SUB.has(String(addr["ISO3166-2-lvl4"] || "").toUpperCase())) return;
+        country = addr.state || addr.country || null;
+      } else country = addr.country || null;
     } catch (err) { country = ""; }    // Nominatim non risponde: invito generico
     if (country === null) return;      // nessun paese (mare aperto)
     showRequest(e.lngLat, country);

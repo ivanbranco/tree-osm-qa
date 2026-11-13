@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       region:
-        description: "Region to update (all = every region; oldest = the country or region downloaded least recently; italia, polonia, regno-unito, francia, spagna, irlanda, austria = all the regions of that country)"
+        description: "Region to update (all = every region; oldest = the country or region downloaded least recently; italia, polonia, regno-unito, francia, spagna, irlanda, austria, stati-uniti = all the regions of that country)"
         type: choice
         default: all
         options:
@@ -17,6 +17,7 @@ on:
           - spagna
           - irlanda
           - austria
+          - stati-uniti
           - albania
           - andorra
           - bosnia-erzegovina
@@ -40,7 +41,6 @@ on:
           - serbia
           - slovenia
           - vaticano
-          - washington
           - alta-austria
           - bassa-austria
           - burgenland
@@ -114,6 +114,8 @@ on:
           - murcia
           - navarra
           - paesi-baschi
+          - pennsylvania
+          - washington
           - piemonte
           - valle-d-aosta
           - lombardia
