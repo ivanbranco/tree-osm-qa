@@ -606,7 +606,7 @@ const I18N = {
       backSame: of => `Il diametro del tronco è circa uguale alla lunghezza ${of}.`,
       backTimes: (k, of) => `Il diametro del tronco è circa ${k} volte la lunghezza ${of}.`,
       backFront: x => `${x} è disegnato davanti al tronco, che altrimenti lo coprirebbe.`,
-      note: "Disegno schematico: l'altezza comprende la chioma e il tronco vero si assottiglia verso l'alto.",
+      note: "Disegno schematico: l'altezza comprende la chioma e il restringimento del tronco verso l'alto è solo indicativo.",
       // confronto dei primi alberi di «Più alto» (issue #48)
       topTitle: n => n > 2 ? "I tre più alti a confronto" : "I due più alti a confronto",
       svgTop: "Disegno in scala dei tronchi, descritto sotto",
@@ -985,7 +985,7 @@ const I18N = {
       backSame: of => `The trunk diameter is about the same as the length ${of}.`,
       backTimes: (k, of) => `The trunk diameter is about ${k} times the length ${of}.`,
       backFront: x => `${x} is drawn in front of the trunk, which would otherwise cover it.`,
-      note: "Schematic drawing: the height includes the crown and a real trunk tapers towards the top.",
+      note: "Schematic drawing: the height includes the crown and the narrowing of the trunk towards the top is only indicative.",
       topTitle: n => n > 2 ? "The three tallest compared" : "The two tallest compared",
       svgTop: "Scale drawing of the trunks, described below",
       topDesc: (h, d, c) => `height ${h}, circumference ${c}, trunk diameter ${d}.`,
@@ -3797,16 +3797,28 @@ const CMP_DEFS = `<defs>` + [["cmp-bark", "--cmp-bark"], ["cmp-bark-white", "--c
 // quadratino del colore nelle didascalie: quello del tronco (con il bordo, se è bianco)
 const cmpSwatch = kind => { const P = CMP_PAINT[kind];
   return `<tspan fill="${P.fill}"${P.edge ? ` stroke="${P.edge}" stroke-width=".5"` : ""}>■ </tspan>`; };
-// un tronco: box = attributi del rettangolo, w larghezza in px. mode "" = tronco misurato (pieno, con la trama della
+// Sagoma del tronco (issue #43): un trapezio largo il diametro misurato alla base e un po' meno in cima, per dare
+// l'idea di un tronco che si restringe senza allontanarsi dal dato. In cima toglie CMP_TAPER della larghezza (almeno
+// CMP_TAPER_MIN px, altrimenti non si nota); per i tronchi tozzi meno, fino a CMP_TAPER_WIDE, perché su un tronco
+// basso e largo i lati inclinati sembrerebbero un vulcano: la quota scende in modo lineare tra un rapporto
+// larghezza/altezza di CMP_TAPER_Q[0] e di CMP_TAPER_Q[1]. Sotto CMP_TAPER_FROM px di larghezza resta un rettangolo
+// (il restringimento non si vedrebbe). Vale per il tronco dell'albero, per quello stimato e per quello tipico
+const CMP_TAPER = 0.15, CMP_TAPER_WIDE = 0.05, CMP_TAPER_Q = [0.15, 0.6], CMP_TAPER_MIN = 2, CMP_TAPER_FROM = 4;
+const cmpShape = (cx, gy, w, h) => {
+  const f = v => +v.toFixed(2), t = Math.min(Math.max((w / h - CMP_TAPER_Q[0]) / (CMP_TAPER_Q[1] - CMP_TAPER_Q[0]), 0), 1);
+  const top = w < CMP_TAPER_FROM ? w : Math.min(w * (1 - CMP_TAPER + (CMP_TAPER - CMP_TAPER_WIDE) * t), w - CMP_TAPER_MIN);
+  return `M${f(cx - w / 2)} ${f(gy)}L${f(cx - top / 2)} ${f(gy - h)}H${f(cx + top / 2)}L${f(cx + w / 2)} ${f(gy)}z`;
+};
+// un tronco: box = attributo d della sagoma (cmpShape), w larghezza in px. mode "" = tronco misurato (pieno, con la trama della
 // corteccia se è abbastanza largo); "typ" = tronco tipico (tenue, bordo tratteggiato se è abbastanza largo); "est" =
 // tronco stimato (più chiaro, come sulla mappa, con il bordo a puntini)
 const cmpTrunk = (box, w, kind, mode = "") => {
   const P = CMP_PAINT[kind], line = P.edge || P.fill;
-  if (mode === "typ") return `<rect ${box} fill="${P.fill}" fill-opacity="${w >= 4 ? .28 : .5}"`
+  if (mode === "typ") return `<path ${box} fill="${P.fill}" fill-opacity="${w >= 4 ? .28 : .5}"`
     + (w >= 4 ? ` stroke="${line}" stroke-width="1" stroke-dasharray="3 2"` : P.edge ? ` stroke="${P.edge}" stroke-width=".8" stroke-opacity=".6"` : "") + "/>";
-  if (mode === "est") return `<rect ${box} fill="${P.fill}" fill-opacity=".45"`
+  if (mode === "est") return `<path ${box} fill="${P.fill}" fill-opacity=".45"`
     + (w >= 4 ? ` stroke="${line}" stroke-width="1" stroke-dasharray="1 2.5" stroke-linecap="round"` : P.edge ? ` stroke="${P.edge}" stroke-width=".8" stroke-opacity=".6"` : "") + "/>";
-  return `<rect ${box} fill="${P.fill}"${P.edge ? ` stroke="${P.edge}" stroke-width=".8"` : ""}/>` + (w >= 6 && P.bark ? `<rect ${box} fill="url(#${P.bark})"/>` : "");
+  return `<path ${box} fill="${P.fill}"${P.edge ? ` stroke="${P.edge}" stroke-width=".8"` : ""}/>` + (w >= 6 && P.bark ? `<path ${box} fill="url(#${P.bark})"/>` : "");
 };
 // d = un albero (compareData: h, c, r0, sp specie del tronco tipico, s specie dell'albero) oppure { trees: [...] }
 // per il confronto dei primi più alti (issue #48, openCompareTop): più alberi uno accanto all'altro, numerati,
@@ -3873,7 +3885,7 @@ function compareSvg(d, label) {
       const tree = it.k === "tree", t = tree ? trees[it.i] : null, isBack = tree && col && it.i === bi;
       const tw = tree ? dias[it.i] : it.w, th = tree ? t.h : it.h;   // con il Colosseo lo spazio è più grande del tronco
       const w = Math.max(tw * s, 1), h = Math.max(th * s, 1), rx = f(cx - w / 2), ry = f(GY - h);
-      const box = `x="${rx}" y="${ry}" width="${f(w)}" height="${f(h)}"`;
+      const box = `d="${cmpShape(cx, GY, w, h)}"`;
       const isThin = tw > 0 && tw * s < 1;
       if (isThin) thin[it.k] = true;
       if (tree && !t.c) {   // nessun tronco da disegnare (né misurato né stimato): solo l'altezza, con una linea tratteggiata
@@ -3883,7 +3895,8 @@ function compareSvg(d, label) {
         // riferimento dietro, poi un bordo in colore di sfondo che stacca il tronco dalla sagoma; se il tronco lo
         // coprirebbe (front) il riferimento va davanti, con i suoi colori
         const ref = isBack ? `<g transform="translate(${f(cx - back.w * s / 2)} ${f(GY - back.h * s)}) scale(${f(s)})">${back.svg}</g>` : "";
-        if (isBack && !front) out += ref + `<rect x="${f(rx - 1)}" y="${f(ry - 1)}" width="${f(w + 2)}" height="${f(h + 1)}" fill="var(--cmp-bg)"/>`;
+        // lo stacco segue la sagoma del tronco, così accanto ai lati inclinati si vede il riferimento e non il fondo
+        if (isBack && !front) out += ref + `<path ${box} fill="var(--cmp-bg)" stroke="var(--cmp-bg)" stroke-width="2" stroke-linejoin="round"/>`;
         out += cmpTrunk(box, w, kinds[it.i], t.est ? "est" : "")
           + (isThin ? `<path d="M${f(cx - 4)} ${f(GY - h - 10)}h8l-4 7z" fill="var(--cmp-text)"/>` : "");   // freccia sul tronco sotto 1 px
         if (isBack && front) out += ref;
