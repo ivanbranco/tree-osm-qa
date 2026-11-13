@@ -165,15 +165,17 @@
    "count": 139654,
    "errors": 460,
    "name": "Castiglia e León",
-   "sha1": "c63e716b13fba40d885fe5d6607ac04604ec0c49",
-   "updated": "2026-11-12T16:41:42Z"
+   "sha1": "45a5a22dcd0224954e4883ff68b690709256ed3f",
+   "tried": "2026-11-13",
+   "updated": "2026-11-13T20:54:35Z"
   },
   "castiglia-la-mancia": {
-   "count": 58003,
-   "errors": 54,
+   "count": 58005,
+   "errors": 37,
    "name": "Castiglia-La Mancia",
-   "sha1": "1c95dd35958d89bf672b6724a31e9b803cc6bb72",
-   "updated": "2026-11-12T16:42:29Z"
+   "sha1": "b7ced54ca0dc5a1d95340e7d9fd5d535774fa55e",
+   "tried": "2026-11-13",
+   "updated": "2026-11-13T20:53:38Z"
   },
   "catalogna": {
    "count": 366882,
@@ -192,10 +194,11 @@
   },
   "ceuta": {
    "count": 107,
-   "errors": 1,
+   "errors": 0,
    "name": "Ceuta",
-   "sha1": "721f4b6906778479ac22eb89697020b7fea11b06",
-   "updated": "2026-11-12T16:48:13Z"
+   "sha1": "f650baf7a2140a4a35032664d836b52c926b259d",
+   "tried": "2026-11-13",
+   "updated": "2026-11-13T20:54:42Z"
   },
   "comunita-di-madrid": {
    "count": 148752,
@@ -205,11 +208,12 @@
    "updated": "2026-11-12T16:51:42Z"
   },
   "comunita-valenciana": {
-   "count": 167906,
-   "errors": 1724,
+   "count": 167924,
+   "errors": 1710,
    "name": "Comunità Valenciana",
-   "sha1": "9c374dba848f4cc6af9538437e0653de4a355fe8",
-   "updated": "2026-11-12T16:49:08Z"
+   "sha1": "cdb9877c0c2e1fbbe0d31c2db338b3a64d3ad751",
+   "tried": "2026-11-13",
+   "updated": "2026-11-13T20:55:34Z"
   },
   "connacht": {
    "count": 45804,
