@@ -2449,7 +2449,7 @@ map.on("load", async () => {
     const r = e.target.closest?.(".rc-row");
     if (!r || e.target.closest(".rc-tip")) return;    // il ⚠ mostra solo la sua spiegazione
     if (e.type === "keydown") { if ((e.key !== "Enter" && e.key !== " ") || e.target !== r) return; e.preventDefault(); }
-    const t = ((recShown[r.dataset.k] || {}).t || [])[Number(r.dataset.i)];
+    const t = (recShown[r.dataset.k] || [])[Number(r.dataset.i)];
     if (t) recGo(t);
   };
   recEl.addEventListener("click", recPick); recEl.addEventListener("keydown", recPick);
