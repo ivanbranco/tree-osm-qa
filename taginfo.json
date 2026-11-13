@@ -15,9 +15,9 @@
     {"key": "natural", "value": "tree", "object_types": ["node"], "description": "Trees shown on the map and checked."},
     {"key": "natural", "value": "tree_stump", "object_types": ["node"], "description": "Tree stumps shown on the map and checked."},
     {"key": "species", "object_types": ["node"], "description": "Used for filtering, QA checks, the info panel and the Completeness tab (share of trees with the tag)."},
-    {"key": "species", "value": "Betula utilis", "object_types": ["node"], "description": "Rendered with a white trunk (also with a variety, e.g. var. jacquemontii)."},
-    {"key": "species", "value": "Acer griseum", "object_types": ["node"], "description": "Rendered with an orange-red trunk."},
-    {"key": "species", "value": "Eucalyptus deglupta", "object_types": ["node"], "description": "Easter egg: rendered with a rainbow trunk."},
+    {"key": "species", "value": "Betula utilis", "object_types": ["node"], "description": "Rendered with a white trunk (also with a variety, e.g. var. jacquemontii), on the map and in the trunk comparison drawing."},
+    {"key": "species", "value": "Acer griseum", "object_types": ["node"], "description": "Rendered with an orange-red trunk, on the map and in the trunk comparison drawing."},
+    {"key": "species", "value": "Eucalyptus deglupta", "object_types": ["node"], "description": "Easter egg: rendered with a rainbow trunk, on the map and in the trunk comparison drawing."},
     {"key": "species", "value": "Malus domestica", "object_types": ["node"], "description": "Rendered with red fruits on the crown, in season (August–October in the northern hemisphere)."},
     {"key": "species", "value": "Juglans regia", "object_types": ["node"], "description": "Rendered with green fruits (walnuts) on the crown, in season (July–October in the northern hemisphere)."},
     {"key": "species", "value": "Citrus limon", "object_types": ["node"], "description": "Rendered with yellow fruits (lemons) on the crown, all year."},
@@ -88,6 +88,6 @@
     {"key": "type", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "source", "object_types": ["node"], "description": "Used for hints about known tree imports (documented or not)."},
     {"key": "name", "object_types": ["node"], "description": "Shown in the info panel."},
-    {"key": "start_date", "object_types": ["node"], "description": "Shown in the info panel; used for the oldest tree in the Record trees tab."}
+    {"key": "start_date", "object_types": ["node"], "description": "Shown in the info panel; used for the oldest trees in the Record trees tab (dates of the same year are tied), where its year also selects a sentence about what happened that year."}
   ]
 }

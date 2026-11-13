@@ -2055,12 +2055,14 @@ def minimal(fc):
 
 
 # --- Primati (scheda «Alberi da record» di index.html, issue #15) ---
-# data/records.json = {"<regione>": {"<primato>": {"n": alberi a pari merito, "t": [alberi]}}}: per ogni regione e per
-# ogni primato gli alberi con il valore migliore (al massimo RECORD_TIES, quelli con l'id più basso), ognuno con i tag
-# che servono alla riga del sito (RECORD_KEEP) e la posizione ("c"). Il sito li usa quando nessuna regione è caricata
-# (tutte le regioni, o quelle di una nazione): sceglie il migliore tra quelli delle regioni e ricalcola da sé il valore
-# da mostrare. Con una regione caricata il sito calcola tutto dal file della regione, con le stesse regole
-# (recValues in index.html: le due versioni devono restare uguali).
+# data/records.json = {"<regione>": {"<primato>": {"t": [alberi], "m": altri a pari merito}}}: per ogni regione e per
+# ogni primato i primi RECORD_TOP alberi (issue #48), dal valore migliore, nell'ordine di record_order, ognuno con i
+# tag che servono alla riga del sito (RECORD_KEEP) e la posizione ("c"); "m" = alberi a pari merito con l'ultimo della
+# lista che non ci sono entrati. Il sito li usa quando nessuna regione è caricata (tutte le regioni, o quelle di una
+# nazione): unisce le liste delle regioni, le riordina e ricalcola da sé il valore da mostrare. Con una regione
+# caricata il sito calcola tutto dal file della regione, con le stesse regole (recValues e recTop in index.html: le
+# due versioni devono restare uguali). Le regioni non ancora aggiornate hanno la forma precedente ({"n": alberi a
+# pari merito al primo posto, "t": [i primi dieci di quelli]}, senza "m"): il sito le riconosce e avvisa.
 # Primati: height = più alto; trunk = tronco più spesso (circumference, altrimenti π × diameter; diameter senza unità
 # è sempre in millimetri, anche sotto DIAM_MM_MIN; i valori di multi_stemmed non si usano); slender e stocky = rapporto
 # altezza / diametro del tronco più alto e più basso, solo con entrambe le misure e altezza di almeno RECORD_MIN_H;
@@ -2068,10 +2070,14 @@ def minimal(fc):
 # check contano lo stesso (il sito li marca con ⚠); quelli non leggibili, nulli o negativi no.
 RECORDS_FILE = DATA / "records.json"
 RECORD_MIN_H = 2.0     # m: sotto, niente rapporto altezza/diametro (alberelli appena piantati)
-RECORD_TIES = 10       # alberi a pari merito scritti nel file per ogni primato di una regione
+RECORD_TOP = 10        # alberi scritti nel file per ogni primato di una regione (la lista dei primi dieci)
 RECORD_LOW = {"stocky", "oldest"}   # primati in cui vince il valore più basso
+# tr e tr_est: il tronco disegnato sulla mappa, per il confronto dei primi tre più alti quando manca la circonferenza
 RECORD_KEEP = ("id", "name", "species", "sp_it", "sp_en", "genus", "height", "circumference", "diameter",
-               "diameter_crown", "start_date", "issues", "comma", "unit_fix", "eq_keys")
+               "diameter_crown", "start_date", "issues", "comma", "unit_fix", "eq_keys", "tr", "tr_est")
+# Frasi sull'anno per «Più vecchio» (pulsante nella riga del sito): una voce per anno, decennio o secolo, scritta a
+# mano. Le chiavi sono quelle di start_date_event_key
+YEAR_EVENTS = HERE / "year_events.json"
 
 # start_date (https://wiki.openstreetmap.org/wiki/Key:start_date): AAAA, AAAA-MM, AAAA-MM-GG, decennio (1850s),
 # secolo (C16, anche early/mid/late C16), anni avanti Cristo (500 BC), con davanti ~, before o after, e intervalli
@@ -2109,6 +2115,46 @@ def start_date_key(v):
     return None
 
 
+def _sd_parts(v):
+    """start_date senza ~, before, after e senza il secondo estremo di un intervallo, e se era una di queste forme."""
+    raw = " ".join(str(v if v is not None else "").split())
+    s, approx = raw.split("..")[0].strip(), ".." in raw
+    while m := SD_PREFIX.match(s):
+        s, approx = s[m.end():], True
+    return s, approx
+
+
+def start_date_precision(v):
+    """Precisione di start_date, per ordinare le date dello stesso anno (sdPrec in index.html): 0 giorno, 1 mese,
+    2 anno, 3 decennio, 4 secolo, 5 anni avanti Cristo; mezzo punto in più con ~, before, after o un intervallo."""
+    s, approx = _sd_parts(v)
+    if SD_BC.match(s):
+        p = 5
+    elif m := SD_DATE.match(s):
+        p = 0 if m.group(3) else 1 if m.group(2) else 2
+    else:
+        p = 3 if SD_DECADE.match(s) else 4
+    return p + (0.5 if approx else 0)
+
+
+def start_date_event_key(v):
+    """Chiave di year_events.json per una data (sdEvent in index.html): l'anno scritto, senza zeri davanti ("1850",
+    anche per ~1850, before 1850 e 1850..1900), il decennio ("1850s"), il secolo ("C16", anche early/mid/late) o
+    l'anno avanti Cristo ("500 BC"); None se la data non si legge."""
+    if start_date_key(v) is None:
+        return None
+    s, _ = _sd_parts(v)
+    if m := SD_BC.match(s):
+        return f"{int(m.group(1))} BC"
+    if m := SD_DATE.match(s):
+        return str(int(m.group(1)))
+    if m := SD_DECADE.match(s):
+        return f"{int(m.group(1))}s"
+    if m := SD_CENTURY.match(s):
+        return f"C{int(m.group(2))}"
+    return None
+
+
 def record_values(p):
     """Valori di un albero per i primati, dalle proprietà della feature: {primato: valore}. Vuoto per i ceppi."""
     if p.get("stump"):
@@ -2130,26 +2176,63 @@ def record_values(p):
     if cd and cd > 0:
         out["crown"] = cd
     if (y := start_date_key(p.get("start_date"))) is not None:
-        out["oldest"] = y
+        out["oldest"] = y // 10000         # l'anno: le date dello stesso anno sono a pari merito
     return out
 
 
+RATIO_CHECKS = ("too_slender", "too_slender_species", "too_stocky")
+
+
+def record_warned(k, p):
+    """Vero se il valore usato dal primato k è segnalato da un check (il ⚠ del sito: recWarn in index.html): i check
+    sulla misura e sul rapporto altezza/circonferenza, e virgola, unità o «tag nel valore» nei tag usati."""
+    from_d = "circumference" not in p
+    trunk = "diameter" if from_d else "circumference"
+    h_c = ("height", "height_species")
+    t_c = ("circumference", "circumference_species", "diameter_unit" if from_d else "circ_diam_mismatch")
+    tags = {"height": ("height",), "trunk": (trunk,), "slender": ("height", trunk), "stocky": ("height", trunk),
+            "crown": ("diameter_crown",), "oldest": ("start_date",)}[k]
+    codes = {"height": h_c + RATIO_CHECKS, "trunk": t_c + RATIO_CHECKS, "slender": h_c + t_c + RATIO_CHECKS,
+             "stocky": h_c + t_c + RATIO_CHECKS, "crown": ("crown",), "oldest": ()}[k]
+    iss = p.get("issues") or "|"
+    if any(f"|{c}|" in iss for c in codes):
+        return True
+
+    def listed(prop, sep):
+        return any(x.split("|")[0] in tags for x in str(p.get(prop) or "").split(sep))
+    return (("|comma|" in iss and listed("comma", ";")) or ("|unit_format|" in iss and listed("unit_fix", "\n"))
+            or ("|tag_in_value|" in iss and listed("eq_keys", ";")))
+
+
+def record_round(v):
+    """Valore per il confronto: uguali nelle prime 9 cifre significative = pari merito (recRound in index.html); i
+    rapporti calcolati differiscono nelle ultime cifre."""
+    return float(f"{v:.9g}")
+
+
+def record_order(k, v, p):
+    """Chiave d'ordine di un albero nella lista del primato k (recTop in index.html): il valore, dal migliore; a
+    parità prima i valori segnalati da un check, per «Più vecchio» poi la data più precisa e, a parità, la più
+    vecchia; infine l'id del nodo, che dà un ordine fisso."""
+    old, v = k == "oldest", record_round(v)
+    return (v if k in RECORD_LOW else -v, 0 if record_warned(k, p) else 1,
+            start_date_precision(p.get("start_date")) if old else 0, start_date_key(p.get("start_date")) if old else 0, p["id"])
+
+
 def region_records(feats):
-    """Primati di una regione (vedi RECORDS_FILE): {primato: {"n": pari merito, "t": [alberi]}}; un primato senza
-    alberi con quella misura manca."""
-    best = {}
+    """Primati di una regione (vedi RECORDS_FILE): {primato: {"t": [i primi RECORD_TOP alberi], "m": altri alberi a
+    pari merito con l'ultimo}}; un primato senza alberi con quella misura manca."""
+    cands = collections.defaultdict(list)
     for f in feats:
         for k, v in record_values(f["properties"]).items():
-            b = best.get(k)
-            if b and math.isclose(v, b[0], rel_tol=1e-9):
-                b[1].append(f)
-            elif not b or (v < b[0] if k in RECORD_LOW else v > b[0]):
-                best[k] = (v, [f])
+            cands[k].append((record_order(k, v, f["properties"]), v, f))
     out = {}
-    for k, (_, fs) in best.items():
-        fs.sort(key=lambda f: f["properties"]["id"])
-        out[k] = {"n": len(fs), "t": [{**{x: f["properties"][x] for x in RECORD_KEEP if x in f["properties"]},
-                                       "c": f["geometry"]["coordinates"]} for f in fs[:RECORD_TIES]]}
+    for k, rows in cands.items():
+        rows.sort(key=lambda r: r[0])
+        top, last = rows[:RECORD_TOP], record_round(rows[min(RECORD_TOP, len(rows)) - 1][1])
+        out[k] = {"t": [{**{x: f["properties"][x] for x in RECORD_KEEP if x in f["properties"]},
+                         "c": f["geometry"]["coordinates"]} for _, _, f in top],
+                  "m": sum(1 for _, v, _ in rows[RECORD_TOP:] if record_round(v) == last)}
     return out
 
 
@@ -2159,6 +2242,33 @@ def save_records(slug, feats):
     RECORDS_FILE.write_text("{\n" + ",\n".join(
         f"{json.dumps(k)}: {json.dumps(v, separators=(',', ':'), ensure_ascii=False, sort_keys=True)}"
         for k, v in sorted(rec.items())) + "\n}\n", encoding="utf-8")
+
+
+def missing_year_events():
+    """Chiavi (anni, decenni, secoli) delle date nelle liste di «Più vecchio» di tutte le regioni di RECORDS_FILE che
+    non hanno una voce in YEAR_EVENTS, dalla più vecchia. I primi dieci di una nazione o di tutte le regioni sono
+    sempre tra i primi dieci delle regioni, quindi l'elenco copre tutti i livelli del sito."""
+    events = load_json(YEAR_EVENTS)
+    found = {}
+    for rec in load_json(RECORDS_FILE).values():
+        for t in (rec.get("oldest") or {}).get("t", []):
+            key = start_date_event_key(t.get("start_date"))
+            if key and key not in events:
+                found[key] = min(found.get(key, math.inf), start_date_key(t["start_date"]))
+    return sorted(found, key=lambda x: (found[x], x))
+
+
+def report_year_events():
+    """Riepilogo dell'Action (e log): le voci che mancano in year_events.json, da aggiungere a mano."""
+    missing = missing_year_events()
+    if not missing:
+        return
+    print(f"Anni senza una voce in scripts/year_events.json ({len(missing)}): {', '.join(missing)}")
+    if path := os.environ.get("GITHUB_STEP_SUMMARY"):
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(f"### Years without an entry in `scripts/year_events.json` ({len(missing)})\n\n"
+                    "They appear in the top ten of \"Oldest\" (Record trees) of at least one region and have no "
+                    "\"what happened that year\" sentence yet.\n\n```\n" + ", ".join(missing) + "\n```\n")
 
 
 def update_region(region, regions_index):
@@ -2283,6 +2393,7 @@ def main(argv):
             regions_index[region["slug"]]["tried"] = time.strftime("%Y-%m-%d", time.gmtime())
         save_index(regions_index)
         time.sleep(5)
+    report_year_events()   # anni di «Più vecchio» senza una frase: nel riepilogo dell'Action
     if not ok:
         sys.exit(1)
 

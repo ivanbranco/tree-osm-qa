@@ -17,7 +17,7 @@ Map of OpenStreetMap trees (`natural=tree`, and stumps `natural=tree_stump`), di
 * **Helps fix the data**: filters by species and by error type, a card with photo and links, opening the tree in iD, JOSM or MapComplete, a one-click fix in JOSM for errors and hints with only one possible fix, downloading the errors as GeoJSON
 * **Shows what is missing**: the Completeness tab counts how many trees in view have species, leaf type, leaf cycle, height, circumference, crown diameter and a photo, and highlights on the map those that lack each one
 * **Compares regions**: error ranking, by number or by percentage, and trend over time
-* **Finds the record trees**: the Record trees tab shows the tallest tree, the thickest trunk, the most slender and the stockiest tree, the widest crown and the oldest tree, for all the loaded regions, for a country, for a region or for a species
+* **Finds the record trees**: the Record trees tab shows the tallest tree, the thickest trunk, the most slender and the stockiest tree, the widest crown and the oldest tree, for all the loaded regions, for a country, for a region or for a species, each with its top ten; the three tallest can be compared to scale, and the oldest come with what happened in the world that year
 * **World map of monumental trees**: all the monumental trees in the world, without the QA part, to share; it also counts how many trees of the Italian MASAF list are already on OpenStreetMap, by region
 * In Italian and English
 

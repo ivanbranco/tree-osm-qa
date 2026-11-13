@@ -82,6 +82,24 @@
   .rc-warn{flex:none;color:#b00020}
   .rc-sub{color:#777;font-size:12px;overflow-wrap:anywhere}
   .rc-how{border-bottom:1px dotted #888}
+  /* accanto al nome del primato (issue #48): l'iconcina del confronto dei primi tre (solo «Più alto») e il triangolino
+     che apre la lista dei primi dieci (punta a destra; aperta, in basso) */
+  #rec h4{display:flex;align-items:center;gap:4px}
+  #rec h4 button{flex:none;display:flex;align-items:center;justify-content:center;width:22px;height:18px;padding:0;border:0;border-radius:3px;
+    background:none;color:#666;cursor:pointer}
+  #rec h4 button:hover{background:#f2f2f2;color:#1a5fb4}
+  #rec h4 button:focus-visible,.rc-ev:focus-visible{outline:2px solid #1a5fb4;outline-offset:-1px}
+  .rc-tog svg{width:10px;height:10px;fill:currentColor;transition:transform .12s}
+  .rc-tog[aria-expanded="true"] svg{transform:rotate(90deg)}
+  .rc-cmp{color:#1a5fb4!important}
+  .rc-cmp svg{width:18px;height:15px;fill:none;stroke:currentColor;stroke-width:1.2}
+  /* posizione in lista (dalla seconda in poi) */
+  .rc-pos{flex:none;min-width:1.2em;color:#777;font-size:12px;font-variant-numeric:tabular-nums}
+  /* «Più vecchio»: pulsante con una frase sull'anno (scripts/year_events.json) e la frase, sotto la riga */
+  .rc-ev{flex:none;display:flex;align-items:center;padding:1px 2px;border:0;border-radius:3px;background:none;color:#1a5fb4;cursor:pointer}
+  .rc-ev:hover,.rc-ev[aria-expanded="true"]{background:#e3ecf9}
+  .rc-ev svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round}
+  .rc-evt{margin:0 6px 4px;padding:4px 8px;border-left:3px solid #c9d8ef;background:#f5f8fd;border-radius:0 4px 4px 0;font-size:12px;line-height:1.4;overflow-wrap:anywhere}
   /* spiegazioni (nome del primato, ⚠): al passaggio del mouse o al tocco (focus); posizione dallo script, come .cp-info */
   .rc-tip{cursor:help;outline:none}
   .rc-tip .tip{display:none;position:fixed;z-index:6;box-sizing:border-box;background:#fff;color:#222;font-size:12px;font-weight:400;line-height:1.4;
@@ -207,8 +225,12 @@
   .card .cmp-pick{background:none;border:0;padding:1px 2px;margin-left:4px;border-radius:3px;color:#1a5fb4;cursor:pointer;vertical-align:-3px;line-height:0}
   .card .cmp-pick:hover{background:#eef3fb}
   .card .cmp-pick svg{width:18px;height:15px;fill:none;stroke:currentColor;stroke-width:1.2}
-  /* finestra con il disegno del tronco: i colori del disegno sono variabili, la pagina non ha un tema scuro */
+  /* finestra con il disegno del tronco: i colori del disegno sono variabili, la pagina non ha un tema scuro.
+     Tronchi con il colore della specie, come sulla mappa (issue #47): bianco (Betula utilis) con un bordo sottile
+     (--cmp-white-edge) che lo stacca dal fondo chiaro, rosso-arancio (Acer griseum); l'arcobaleno di Eucalyptus
+     deglupta è una sfumatura nel disegno */
   #cmp{--cmp-bg:#fff;--cmp-text:#222;--cmp-muted:#666;--cmp-trunk:#7b4a1e;--cmp-bark:#55310f;--cmp-ref:#8b929c;--cmp-ground:#555;
+    --cmp-white:#f4f1e8;--cmp-white-edge:#8a8a8a;--cmp-white-bark:#a39d8c;--cmp-cin:#b5532b;--cmp-cin-bark:#6f2a12;
     width:440px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);box-sizing:border-box;padding:0;border:0;border-radius:8px;
     background:var(--cmp-bg);color:var(--cmp-text);box-shadow:0 4px 24px #0006;overflow-x:hidden;overflow-y:auto;outline:none}
   #cmp::backdrop{background:#0006}
@@ -432,10 +454,15 @@ const I18N = {
         slender: "Il rapporto più alto tra l'altezza (height=*) e il diametro del tronco (diameter=*, o circumference=* diviso π). Solo alberi con entrambe le misure e alti almeno 2 m.",
         stocky: "Il rapporto più basso tra l'altezza (height=*) e il diametro del tronco (diameter=*, o circumference=* diviso π). Solo alberi con entrambe le misure e alti almeno 2 m.",
         crown: "Il valore più alto di diameter_crown=*.",
-        oldest: "La data più vecchia di start_date=*. Le date approssimative contano con l'anno più vecchio che indicano (~1500 e before 1500 = 1500, 1850s = 1850, C16 = 1500, 1500..1600 = 1500) e si mostrano come sono scritte su OSM." },
-      howAll: "I valori con un'unità (cm, ft…) sono convertiti. I valori segnalati da un check contano lo stesso, con ⚠. A pari merito si vedono tutti gli alberi.",
+        oldest: "La data più vecchia di start_date=*. Le date approssimative contano con l'anno più vecchio che indicano (~1500 e before 1500 = 1500, 1850s = 1850, C16 = 1500, 1500..1600 = 1500) e si mostrano come sono scritte su OSM. Le date dello stesso anno sono a pari merito: prima la più precisa (1850-05-01, poi 1850, poi 1850s)." },
+      howAll: "I valori con un'unità (cm, ft…) sono convertiti. I valori segnalati da un check contano lo stesso, con ⚠, e a pari merito vengono prima. Il triangolino apre la lista dei primi dieci.",
       warn: "Valore segnalato", ratio: (h, d) => `altezza ${h} / tronco ⌀ ${d}`,
-      none: "Nessun albero con questa misura.", more: n => `+ altri ${n} a pari merito`,
+      none: "Nessun albero con questa misura.", more: n => `e altri ${n} a pari merito`,
+      topOpen: "Mostra i primi dieci", topClose: "Chiudi la lista dei primi dieci",
+      topCmp: n => n > 2 ? "Vedi i primi tre a confronto" : "Vedi i primi due a confronto",
+      missingTop: n => n === 1 ? "La lista dei primi dieci di 1 regione non è ancora completa: arriva con il suo prossimo aggiornamento."
+        : `La lista dei primi dieci di ${n} regioni non è ancora completa: arriva con il loro prossimo aggiornamento.`,
+      evBtn: "Che cosa successe quell'anno", evSrc: "Fonte:",
       loading: "Caricamento degli alberi…", loadingRec: "Caricamento dei primati…",
       unavailable: "Primati non ancora disponibili: arrivano con il prossimo aggiornamento dei dati (Action \"Update tree data\").",
       missing: n => `Mancano i primati di ${n} regioni: arrivano con il loro prossimo aggiornamento.`,
@@ -579,7 +606,17 @@ const I18N = {
       backSame: of => `Il diametro del tronco è circa uguale alla lunghezza ${of}.`,
       backTimes: (k, of) => `Il diametro del tronco è circa ${k} volte la lunghezza ${of}.`,
       backFront: x => `${x} è disegnato davanti al tronco, che altrimenti lo coprirebbe.`,
-      note: "Disegno schematico: l'altezza comprende la chioma e il tronco vero si assottiglia verso l'alto." },
+      note: "Disegno schematico: l'altezza comprende la chioma e il tronco vero si assottiglia verso l'alto.",
+      // confronto dei primi alberi di «Più alto» (issue #48)
+      topTitle: n => n > 2 ? "I tre più alti a confronto" : "I due più alti a confronto",
+      svgTop: "Disegno in scala dei tronchi, descritto sotto",
+      topDesc: (h, d, c) => `altezza ${h}, circonferenza ${c}, diametro del tronco ${d}.`,
+      topEst: (h, d) => `altezza ${h}, circonferenza non mappata, diametro del tronco stimato ${d}.`,
+      topNoTrunk: h => `altezza ${h}, circonferenza non mappata.`,
+      topWarn: "⚠: altezza segnalata da un check.",
+      topEstNote: "Tronco più chiaro con il bordo a puntini (⌀ ~): la circonferenza non è mappata e il diametro è stimato dall'altezza o dalla chioma, come il tronco stimato sulla mappa.",
+      topNoTrunkNote: "Linea tratteggiata (⌀ ?): la circonferenza non è mappata e non c'è una stima del tronco; è disegnata solo l'altezza.",
+      topThin: "I tronchi sotto una freccia sono più sottili di 1 px a questa scala: sono disegnati larghi 1 px." },
     // spiegazione del check, nel pop-up sul simbolo ⚠ della scheda
     why: {
       circumference: "43 m è la circonferenza più grande registrata, nei baobab africani (Adansonia digitata; fonte: Guinness World Records). Il valore va in metri.",
@@ -804,10 +841,15 @@ const I18N = {
         slender: "The highest ratio between the height (height=*) and the trunk diameter (diameter=*, or circumference=* divided by π). Only trees with both measurements and at least 2 m tall.",
         stocky: "The lowest ratio between the height (height=*) and the trunk diameter (diameter=*, or circumference=* divided by π). Only trees with both measurements and at least 2 m tall.",
         crown: "The highest value of diameter_crown=*.",
-        oldest: "The oldest date of start_date=*. Approximate dates count with the oldest year they indicate (~1500 and before 1500 = 1500, 1850s = 1850, C16 = 1500, 1500..1600 = 1500) and are shown as written on OSM." },
-      howAll: "Values with a unit (cm, ft…) are converted. Values reported by a check count too, with ⚠. With a tie, all the trees are shown.",
+        oldest: "The oldest date of start_date=*. Approximate dates count with the oldest year they indicate (~1500 and before 1500 = 1500, 1850s = 1850, C16 = 1500, 1500..1600 = 1500) and are shown as written on OSM. Dates of the same year are tied: the most precise one comes first (1850-05-01, then 1850, then 1850s)." },
+      howAll: "Values with a unit (cm, ft…) are converted. Values reported by a check count too, with ⚠, and come first in a tie. The small triangle opens the top ten list.",
       warn: "Value reported", ratio: (h, d) => `height ${h} / trunk ⌀ ${d}`,
-      none: "No tree with this measurement.", more: n => `+ ${n} more tied`,
+      none: "No tree with this measurement.", more: n => `and ${n} more tied`,
+      topOpen: "Show the top ten", topClose: "Close the top ten list",
+      topCmp: n => n > 2 ? "Compare the top three visually" : "Compare the top two visually",
+      missingTop: n => n === 1 ? "The top ten list of 1 region is not complete yet: it arrives with its next update."
+        : `The top ten list of ${n} regions is not complete yet: it arrives with their next update.`,
+      evBtn: "What happened that year", evSrc: "Source:",
       loading: "Loading trees…", loadingRec: "Loading records…",
       unavailable: "Records not available yet: they arrive with the next data update (\"Update tree data\" Action).",
       missing: n => `The records of ${n} regions are missing: they arrive with their next update.`,
@@ -943,7 +985,16 @@ const I18N = {
       backSame: of => `The trunk diameter is about the same as the length ${of}.`,
       backTimes: (k, of) => `The trunk diameter is about ${k} times the length ${of}.`,
       backFront: x => `${x} is drawn in front of the trunk, which would otherwise cover it.`,
-      note: "Schematic drawing: the height includes the crown and a real trunk tapers towards the top." },
+      note: "Schematic drawing: the height includes the crown and a real trunk tapers towards the top.",
+      topTitle: n => n > 2 ? "The three tallest compared" : "The two tallest compared",
+      svgTop: "Scale drawing of the trunks, described below",
+      topDesc: (h, d, c) => `height ${h}, circumference ${c}, trunk diameter ${d}.`,
+      topEst: (h, d) => `height ${h}, circumference not mapped, estimated trunk diameter ${d}.`,
+      topNoTrunk: h => `height ${h}, circumference not mapped.`,
+      topWarn: "⚠: height reported by a check.",
+      topEstNote: "Lighter trunk with a dotted outline (⌀ ~): the circumference is not mapped and the diameter is estimated from the height or the crown, like the estimated trunk on the map.",
+      topNoTrunkNote: "Dashed line (⌀ ?): the circumference is not mapped and there is no trunk estimate; only the height is drawn.",
+      topThin: "The trunks below an arrow are thinner than 1 px at this scale: they are drawn 1 px wide." },
     why: {
       circumference: "43 m is the largest girth recorded, in African baobabs (Adansonia digitata; source: Guinness World Records). The value is in metres.",
       height: "116.22 m is the height of the tallest measured tree, Hyperion (Sequoia sempervirens, Redwood National Park, California; source: monumentaltrees.com). The value is in metres.",
@@ -1510,7 +1561,8 @@ map.on("load", async () => {
   };
 
   // Tronco: marrone; bianco per la betulla dell'Himalaya (Betula utilis, anche var. jacquemontii), dalla corteccia
-  // bianca come carta, con un sottile bordo grigio perché si veda anche sulle chiome chiare
+  // bianca come carta, con un sottile bordo grigio perché si veda anche sulle chiome chiare. Gli stessi colori nella
+  // finestra «Tronco a confronto» (cmpBark, CMP_PAINT e le variabili --cmp-white, --cmp-cin: tenerli uguali)
   const WHITE_BARK = ["==", ["slice", ["coalesce", ["get", "species"], ""], 0, 13], "Betula utilis"];
   // rosso-arancio per l'acero cannella (Acer griseum), dalla corteccia lucida che si sfoglia: colore scelto
   // confrontando le foto della corteccia su Commons (#29)
@@ -2227,7 +2279,8 @@ map.on("load", async () => {
   onCompToggle = renderComp;
 
   // Scheda Alberi da record (issue #15): per sei primati (REC_KEYS) l'albero con il valore migliore, o tutti quelli a
-  // pari merito; regole in recValues. L'insieme segue il livello aperto:
+  // pari merito, e la lista dei primi dieci, che si apre dal triangolino accanto al nome (issue #48); regole in
+  // recValues e recTop. L'insieme segue il livello aperto:
   // - tool QA con una regione caricata: tutti gli alberi della regione (non solo quelli a schermo), con i filtri dei menu;
   // - tool QA senza regione: le regioni di data/index.json, o quelle della nazione aperta, dai primati già pronti di
   //   ogni regione in data/records.json (da fetch_trees.py), chiesto alla prima apertura. Qui i filtri non ci sono
@@ -2241,6 +2294,14 @@ map.on("load", async () => {
   let recCache = { key: null, src: null, best: null };   // primati della regione caricata: si ricalcolano solo se cambia qualcosa
   const loadRecData = () => { recDataP = recDataP || getJSON("data/records.json")
     .then(d => { recData = d; }, () => { recData = null; }).then(() => renderRec()); };
+  // Lista dei primi dieci (issue #48): recOpen = primato con la lista aperta (una sola alla volta, come le schede);
+  // resta aperta quando cambiano regione o filtri, e la lista si ricalcola. recEv = id dell'albero di «Più vecchio»
+  // con la frase sull'anno aperta. recEvents = scripts/year_events.json ({ "<anno|decennio|secolo>": { it, en,
+  // wiki_it, wiki_en } }, scritto a mano): undefined = non ancora chiesto, {} = non disponibile
+  let recOpen = null, recEv = null, recEvents, recEventsP = null;
+  const loadRecEvents = () => { recEventsP = recEventsP || getJSON(BASE + "scripts/year_events.json")
+    .then(d => { recEvents = d; }, () => { recEvents = {}; }).then(() => renderRec()); };
+  const REC_EV_ICON = '<svg viewBox="0 0 14 14" aria-hidden="true"><rect x="1.5" y="2.5" width="11" height="10" rx="1.5"/><path d="M1.5 5.5h11M4.5 1v3M9.5 1v3"/></svg>';
   const optLabel = sel => (sel.selectedOptions[0]?.textContent || "").replace(/\s*\([\d.,\s  ]+\)$/, "");   // senza il conteggio
   const recDay = d => new Date(d).toLocaleDateString(LOC);
   const recDates = slugs => {        // "Dati aggiornati al …", o tra due date se le regioni hanno date diverse
@@ -2253,16 +2314,18 @@ map.on("load", async () => {
     if (!recBox.open) return;
     const is = issSel.value, tx = taxSel.value;
     let best = null, msg = "", sub = "", note = "", filters = [], places = false;
+    const tops = (cands, hidden = {}) => Object.fromEntries(REC_KEYS.map(k => [k, recTop(k, cands[k], hidden[k])]));
+    if (recEvents === undefined) loadRecEvents();   // frasi sull'anno per «Più vecchio»: i pulsanti arrivano con il file
     if (WORLD) {
       sub = L.rc.subWorld + " " + recDates([MODE]);
       if (tx) filters.push(optLabel(taxSel));
       if (!ALL.length) msg = L.rc.loading;
       else if (map.getZoom() < FULL_Z) msg = L.rc.zoomIn;
       else {
-        best = {};
+        const c = {};
         let n = 0;
-        eachInView((p, ft) => { n++; recAdd(best, p, ft.geometry.coordinates, null); });
-        if (!n) { best = null; msg = L.rc.noTrees; }
+        eachInView((p, ft) => { n++; recAdd(c, p, ft.geometry.coordinates, null); });
+        if (n) best = tops(c); else msg = L.rc.noTrees;
       }
     } else if (current) {
       sub = L.rc.subRegion(regionName(current)) + " " + recDates([current]);
@@ -2272,13 +2335,13 @@ map.on("load", async () => {
       else {
         const key = [current, ALL.length, is, tx].join("|");
         if (recCache.key !== key || recCache.src !== ALL) {
-          const b = {};
+          const c = {};
           for (const ft of ALL) {
             const p = ft.properties;
             if ((is && !matchIssue(is, p)) || (tx && !matchTaxon(tx, p))) continue;
-            recAdd(b, p, ft.geometry.coordinates, current);
+            recAdd(c, p, ft.geometry.coordinates, current);
           }
-          recCache = { key, src: ALL, best: b };
+          recCache = { key, src: ALL, best: tops(c) };
         }
         best = recCache.best;
       }
@@ -2290,35 +2353,57 @@ map.on("load", async () => {
       if (recData === undefined) { loadRecData(); msg = L.rc.loadingRec; }
       else if (!recData || !slugs.some(s => recData[s])) msg = L.rc.unavailable;
       else {
-        best = {};
         const missing = slugs.filter(s => !recData[s]).length;
-        if (missing) note = L.rc.missing(missing);
+        // primati scritti prima della lista dei primi dieci (senza "m": solo gli alberi a pari merito al primo posto,
+        // "n" in tutto): la lista di quelle regioni è incompleta fino al loro prossimo aggiornamento
+        const old = slugs.filter(s => Object.values(recData[s] || {}).some(r => r && r.m == null)).length;
+        note = [missing && L.rc.missing(missing), old && L.rc.missingTop(old)].filter(Boolean).join(" ");
+        const c = {}, hidden = {};
         for (const s of slugs) for (const k of REC_KEYS) {
           const r = (recData[s] || {})[k];
           if (!r || !r.t || !r.t.length) continue;
-          const v = recValues(r.t[0])[k];              // il valore si ricalcola qui, con le regole della pagina
-          if (v != null) recPut(best, k, v, r.n || r.t.length, r.t.map(t => ({ p: t, pos: t.c, slug: s })));
+          let last = null;
+          for (const t of r.t) {
+            const v = recValues(t)[k];                 // il valore si ricalcola qui, con le regole della pagina
+            if (v != null) { (c[k] = c[k] || []).push({ p: t, pos: t.c, slug: s, v }); last = v; }
+          }
+          const n = r.m != null ? r.m : (r.n || 0) - r.t.length;   // a pari merito con l'ultimo, non elencati
+          if (n > 0 && last != null) (hidden[k] = hidden[k] || []).push({ v: last, n });
         }
+        best = tops(c, hidden);
       }
     }
-    recShown = best || {};
+    recShown = Object.fromEntries(Object.entries(best || {}).map(([k, b]) => [k, b ? b.list : []]));
     const tip = (cls, label, text) => `<span class="rc-tip ${cls}" tabindex="0">${label}<span class="tip">${esc(text)}</span></span>`;
     const row = (k, t, i) => {
       const p = t.p, m = recMeasure(p), [val, detail] = recShow(k, p, m), w = recWarn(k, p, m);
       const place = places && t.slug ? [regionName(t.slug), groupOf(t.slug) && groupName(groupOf(t.slug))]
         .filter((x, j, a) => x && a.indexOf(x) === j).join(" · ") : "";
+      // «Più vecchio»: il pulsante con la frase sull'anno, solo se l'anno ha una voce; la frase aperta sta sotto la riga
+      const ev = k === "oldest" && recEvents ? recEvents[sdEvent(p.start_date)] : null, evOpen = ev && recEv === String(p.id);
+      const src = ev && (ev["wiki_" + LANG] || ev.wiki_en);
       return `<div class="rc-row" role="button" tabindex="0" data-k="${k}" data-i="${i}" title="${esc(L.rc.rowTitle)}">`
-        + `<div class="rc-top"><span class="rc-name">${title({ ...p, sp_common: p["sp_" + LANG] })[0]}</span>`
+        + `<div class="rc-top">` + (t.rank > 1 ? `<span class="rc-pos">${t.rank}.</span>` : "")
+        + `<span class="rc-name">${title({ ...p, sp_common: p["sp_" + LANG] })[0]}</span>`
         + (w.length ? tip("rc-warn", "⚠", `${L.rc.warn}: ${w.map(c => L.issueOpts[c] || c).join("; ")}`) : "")
+        + (ev ? `<button type="button" class="rc-ev" data-ev="${esc(p.id)}" aria-expanded="${!!evOpen}" title="${esc(L.rc.evBtn)}" aria-label="${esc(L.rc.evBtn)}">${REC_EV_ICON}</button>` : "")
         + `<span class="rc-val" title="${esc(val)}">${esc(val)}</span></div>`
-        + [detail, place].filter(Boolean).map(x => `<div class="rc-sub">${esc(x)}</div>`).join("") + `</div>`;
+        + [detail, place].filter(Boolean).map(x => `<div class="rc-sub">${esc(x)}</div>`).join("") + `</div>`
+        + (evOpen ? `<div class="rc-evt">${esc(ev[LANG] || ev.en)}` + (src ? ` ${esc(L.rc.evSrc)} <a href="https://${ev["wiki_" + LANG] ? LANG : "en"}.wikipedia.org/wiki/${encodeURIComponent(src.replace(/ /g, "_"))}" target="_blank" rel="noopener">Wikipedia</a>` : "") + `</div>` : "");
     };
     const html = `<div class="note">${esc(sub)}</div>`
       + (filters.length ? `<div class="rc-filter">${esc(L.rc.filter(filters.join(" · ")))}</div>` : "")
       + (msg ? `<div class="note">${esc(msg)}</div>` : REC_KEYS.map(k => {
-        const b = best[k];
-        return `<h4>${tip("rc-how", esc(L.rc.names[k]), L.rc.how[k] + " " + L.rc.howAll)}</h4>`
-          + (b ? b.t.map((t, i) => row(k, t, i)).join("") + (b.n > b.t.length ? `<div class="note rc-none">${esc(L.rc.more(fmtN(b.n - b.t.length)))}</div>` : "")
+        const b = best[k], open = recOpen === k, n = b ? b.list.length : 0;
+        // chiusa: il primato (gli alberi al primo posto); aperta: tutta la lista, con le posizioni dalla seconda in poi
+        const rows = b ? b.list.map((t, i) => open || t.rank === 1 ? row(k, t, i) : "").join("") : "";
+        const more = b && b.more > 0 && (open || b.list[n - 1].rank === 1);
+        const togT = open ? L.rc.topClose : L.rc.topOpen;
+        return `<h4>${tip("rc-how", esc(L.rc.names[k]), L.rc.how[k] + " " + L.rc.howAll)}`
+          + (k === "height" && n >= 2 ? `<button type="button" class="rc-cmp" title="${esc(L.rc.topCmp(Math.min(n, 3)))}" aria-label="${esc(L.rc.topCmp(Math.min(n, 3)))}">${CMP_ICON}</button>` : "")
+          + (b ? `<button type="button" class="rc-tog" data-tog="${k}" aria-expanded="${open}" title="${esc(togT)}" aria-label="${esc(togT)}"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 1l6 4-6 4z"/></svg></button>` : "")
+          + `</h4>`
+          + (b ? rows + (more ? `<div class="note rc-none">${esc(L.rc.more(fmtN(b.more)))}</div>` : "")
             : `<div class="note rc-none">${esc(L.rc.none)}</div>`);
       }).join("") + (note ? `<div class="note">${esc(note)}</div>` : ""));
     // la scheda si riscrive solo se il contenuto cambia: update() arriva a ogni ridisegno della mappa, e riscriverla
@@ -2352,6 +2437,15 @@ map.on("load", async () => {
     if (f) openCard(f.properties, f.geometry.coordinates);
   };
   const recPick = e => {
+    // pulsanti: sono <button>, quindi Invio e spazio arrivano già come clic
+    const b = e.target.closest?.("button");
+    if (b) {
+      if (e.type !== "click") return;
+      if (b.classList.contains("rc-tog")) { recOpen = recOpen === b.dataset.tog ? null : b.dataset.tog; renderRec(); recEl.querySelector(`.rc-tog[data-tog="${b.dataset.tog}"]`)?.focus(); }
+      else if (b.classList.contains("rc-ev")) { recEv = recEv === b.dataset.ev ? null : b.dataset.ev; renderRec(); recEl.querySelector(`.rc-ev[data-ev="${b.dataset.ev}"]`)?.focus(); }
+      else if (b.classList.contains("rc-cmp") && (recShown.height || []).length >= 2) openCompareTop(b, recShown.height);
+      return;                                         // i pulsanti non aprono la scheda dell'albero
+    }
     const r = e.target.closest?.(".rc-row");
     if (!r || e.target.closest(".rc-tip")) return;    // il ⚠ mostra solo la sua spiegazione
     if (e.type === "keydown") { if ((e.key !== "Enter" && e.key !== " ") || e.target !== r) return; e.preventDefault(); }
@@ -2962,10 +3056,34 @@ const sdKey = v => {
   if ((m = SD_CENTURY.exec(s))) return Number(m[2]) ? ((Number(m[2]) - 1) * 100 + SD_THIRD[(m[1] || "early").toLowerCase()]) * 10000 : null;
   return null;
 };
+// sdPrec: precisione di start_date, per ordinare le date dello stesso anno (issue #48), come start_date_precision in
+// fetch_trees.py: 0 giorno, 1 mese, 2 anno, 3 decennio, 4 secolo, 5 anni avanti Cristo; mezzo punto in più con ~,
+// before, after o un intervallo. sdEvent: la voce di scripts/year_events.json per la data, come
+// start_date_event_key: l'anno scritto (senza zeri davanti: "1850", anche per ~1850, before 1850 e 1850..1900), il
+// decennio ("1850s"), il secolo ("C16", anche early/mid/late) o l'anno avanti Cristo ("500 BC"); null se la data non si legge
+const sdParts = v => {
+  const raw = String(v ?? "").trim().split(/\s+/).join(" ");
+  let s = raw.split("..")[0].trim(), m, approx = raw.includes("..");
+  while ((m = SD_PREFIX.exec(s))) { s = s.slice(m[0].length); approx = true; }
+  return { s, approx };
+};
+const sdPrec = v => {
+  const { s, approx } = sdParts(v);
+  let m;
+  const p = SD_BC.test(s) ? 5 : (m = SD_DATE.exec(s)) ? (m[3] ? 0 : m[2] ? 1 : 2) : SD_DECADE.test(s) ? 3 : 4;
+  return p + (approx ? 0.5 : 0);
+};
+const sdEvent = v => {
+  if (sdKey(v) == null) return null;
+  const { s } = sdParts(v);
+  let m;
+  return (m = SD_BC.exec(s)) ? `${Number(m[1])} BC` : (m = SD_DATE.exec(s)) ? String(Number(m[1]))
+    : (m = SD_DECADE.exec(s)) ? `${Number(m[1])}s` : (m = SD_CENTURY.exec(s)) ? `C${Number(m[2])}` : null;
+};
 const REC_KEYS = ["height", "trunk", "slender", "stocky", "crown", "oldest"];
 const REC_LOW = new Set(["stocky", "oldest"]);   // primati in cui vince il valore più basso
 const REC_MIN_H = 2;     // m: sotto, niente rapporto altezza/diametro del tronco
-const REC_TIES = 10;     // alberi a pari merito mostrati per ogni primato
+const REC_TOP = 10;      // alberi nella lista di ogni primato (issue #48)
 const REC_TAGS = ["height", "circumference", "diameter", "diameter_crown", "start_date"];
 // misure di un albero: altezza h, circonferenza c e diametro d del tronco (da circumference; se il tag manca, da
 // diameter, che senza unità è in millimetri: fromD), diametro della chioma cd, tutte in metri, e data y (sdKey)
@@ -2980,20 +3098,42 @@ const recValues = (p, m = recMeasure(p)) => {
   if (m.h > 0) o.height = m.h;
   if (m.c > 0) { o.trunk = m.c; if (m.h >= REC_MIN_H) o.slender = o.stocky = m.h / m.d; }
   if (m.cd > 0) o.crown = m.cd;
-  if (m.y != null) o.oldest = m.y;
+  if (m.y != null) o.oldest = Math.floor(m.y / 10000);   // l'anno: le date dello stesso anno sono a pari merito
   return o;
 };
-const recClose = (a, b) => Math.abs(a - b) <= 1e-9 * Math.max(Math.abs(a), Math.abs(b));   // pari merito
-// aggiunge un albero (o più alberi a pari merito già scelti: n, con i primi in list) ai migliori trovati finora
-const recPut = (best, k, v, n, list) => {
-  const b = best[k];
-  if (b && recClose(v, b.v)) { b.n += n; for (const t of list) if (b.t.length < REC_TIES) b.t.push(t); }
-  else if (!b || (REC_LOW.has(k) ? v < b.v : v > b.v)) best[k] = { v, n, t: list.slice(0, REC_TIES) };
-};
-const recAdd = (best, p, pos, slug) => {
+const recRound = v => Number(v.toPrecision(9));   // valore per il confronto: i rapporti calcolati differiscono nelle ultime cifre
+// aggiunge un albero ai candidati di ogni primato per cui ha un valore: cands = { primato: [{ p, pos, slug, v }] }
+const recAdd = (cands, p, pos, slug) => {
   if (p.stump || !REC_TAGS.some(k => p[k] != null)) return;   // quasi tutti gli alberi non hanno misure
   const v = recValues(p);
-  for (const k in v) recPut(best, k, v[k], 1, [{ p, pos, slug }]);
+  for (const k in v) (cands[k] = cands[k] || []).push({ p, pos, slug, v: v[k] });
+};
+// Lista di un primato (issue #48): i primi REC_TOP alberi tra i candidati, dal valore migliore. Stesso ordine di
+// record_order in fetch_trees.py: a parità di valore prima i valori segnalati da un check (⚠), per «Più vecchio»
+// poi la data più precisa (sdPrec) e, a parità, la più vecchia, infine l'id del nodo (un ordine fisso).
+// Restituisce { list, more }: ogni albero con la sua posizione (rank: 1 + alberi con un valore migliore, uguale per i
+// pari merito); more = alberi a pari merito con l'ultimo della lista che non ci sono entrati. hidden = [{ v, n }]:
+// alberi a pari merito non elencati dei primati già pronti (data/records.json). null senza candidati
+const recTop = (k, cands, hidden = []) => {
+  if (!cands || !cands.length) return null;
+  const sgn = REC_LOW.has(k) ? 1 : -1;
+  // pari merito: valori uguali nelle prime 9 cifre significative (r), come in fetch_trees.py
+  for (const c of cands) c.r = recRound(c.v);
+  // prima solo per valore: ⚠ e precisione si calcolano solo per gli alberi che possono entrare in lista
+  cands.sort((a, b) => sgn * (a.r - b.r));
+  const cut = cands[Math.min(REC_TOP, cands.length) - 1].r;
+  let n = Math.min(REC_TOP, cands.length);
+  while (n < cands.length && cands[n].r === cut) n++;
+  const head = cands.slice(0, n);
+  for (const c of head) {
+    const m = recMeasure(c.p);
+    c.o = [recWarn(k, c.p, m).length ? 0 : 1, k === "oldest" ? sdPrec(c.p.start_date) : 0, k === "oldest" ? m.y : 0, Number(c.p.id) || 0];
+  }
+  head.sort((a, b) => sgn * (a.r - b.r) || a.o[0] - b.o[0] || a.o[1] - b.o[1] || a.o[2] - b.o[2] || a.o[3] - b.o[3]);
+  const list = head.slice(0, REC_TOP);
+  list.forEach((c, i) => { c.rank = i && c.r === list[i - 1].r ? list[i - 1].rank : i + 1; });
+  const tied = x => (x.r ?? recRound(x.v)) === cut;
+  return { list, more: head.filter(tied).length - list.filter(tied).length + hidden.filter(tied).reduce((a, x) => a + x.n, 0) };
 };
 // check che segnalano il valore usato da un primato (codici degli errori dell'albero): quelli sulla misura e sul
 // rapporto altezza/circonferenza, e virgola o unità scritte male nei tag usati
@@ -3609,7 +3749,7 @@ function compareData(i, p) {
     if (v > 0) { c = Math.PI * v / 1000; fd = 1; }
   }
   if (!(h > 0 && c > 0 && (r0 > 0 || !i))) return null;
-  return { h, c, r0, sp: bySpecies && r0 ? p.species : "", fd, ...(i ? {} : { n: 1 }) };
+  return { h, c, r0, sp: bySpecies && r0 ? p.species : "", s: p.species || "", fd, ...(i ? {} : { n: 1 }) };
 }
 function compareBtn(i, p) {
   const d = CMP_CHECKS.includes(i) && compareData(i, p);
@@ -3638,20 +3778,60 @@ const cmpM = v => fmtM(Math.round(v * 1000) / 1000);
 const cmpD = v => v < 0.1 ? cmpM(v) : fmtM(Math.round(v * 100) / 100);
 // Disegno SVG: una sola scala metri→pixel, la più grande con cui entrano l'oggetto più alto e la somma delle larghezze
 // (ogni elemento occupa almeno lo spazio della sua etichetta). Restituisce anche quali tronchi sono sotto 1 px
+// Colore del tronco nel disegno, lo stesso della mappa (issue #47; TRUNK_COLOR e RAINBOW_BARK, stesse specie
+// riconosciute dall'inizio di species=*): bianco con un bordo sottile, rosso-arancio, arcobaleno, altrimenti marrone.
+// fill: colore; edge: bordo che lo stacca dal fondo; bark: trama della corteccia sui tronchi larghi
+const cmpBark = sp => { const s = String(sp || "");
+  return s.startsWith("Betula utilis") ? "white" : s.startsWith("Acer griseum") ? "cin" : s.startsWith("Eucalyptus deglupta") ? "rainbow" : ""; };
+const CMP_RAINBOW = ["#e40303", "#ff8c00", "#ffed00", "#008026", "#004dff", "#4b0082", "#8f00ff"];   // come "rainbow-bark" sulla mappa
+const CMP_PAINT = { "": { fill: "var(--cmp-trunk)", bark: "cmp-bark" },
+  white: { fill: "var(--cmp-white)", edge: "var(--cmp-white-edge)", bark: "cmp-bark-white" },
+  cin: { fill: "var(--cmp-cin)", bark: "cmp-bark-cin" }, rainbow: { fill: "url(#cmp-rainbow)" } };
+// definizioni del disegno: le trame della corteccia e l'arcobaleno, a fasce lungo l'altezza (così si vedono anche su
+// un tronco largo 1 px e nel quadratino delle didascalie)
+const CMP_DEFS = `<defs>` + [["cmp-bark", "--cmp-bark"], ["cmp-bark-white", "--cmp-white-bark"], ["cmp-bark-cin", "--cmp-cin-bark"]].map(([id, c]) =>
+    `<pattern id="${id}" width="5" height="9" patternUnits="userSpaceOnUse"><path d="M1.5 0v9M4 0v5" stroke="var(${c})" stroke-width=".7" opacity=".6"/></pattern>`).join("")
+  + `<linearGradient id="cmp-rainbow" x1="0" y1="0" x2="0" y2="1">`
+  + CMP_RAINBOW.map((c, i) => `<stop offset="${+(i / 7).toFixed(4)}" stop-color="${c}"/><stop offset="${+((i + 1) / 7).toFixed(4)}" stop-color="${c}"/>`).join("")
+  + `</linearGradient></defs>`;
+// quadratino del colore nelle didascalie: quello del tronco (con il bordo, se è bianco)
+const cmpSwatch = kind => { const P = CMP_PAINT[kind];
+  return `<tspan fill="${P.fill}"${P.edge ? ` stroke="${P.edge}" stroke-width=".5"` : ""}>■ </tspan>`; };
+// un tronco: box = attributi del rettangolo, w larghezza in px. mode "" = tronco misurato (pieno, con la trama della
+// corteccia se è abbastanza largo); "typ" = tronco tipico (tenue, bordo tratteggiato se è abbastanza largo); "est" =
+// tronco stimato (più chiaro, come sulla mappa, con il bordo a puntini)
+const cmpTrunk = (box, w, kind, mode = "") => {
+  const P = CMP_PAINT[kind], line = P.edge || P.fill;
+  if (mode === "typ") return `<rect ${box} fill="${P.fill}" fill-opacity="${w >= 4 ? .28 : .5}"`
+    + (w >= 4 ? ` stroke="${line}" stroke-width="1" stroke-dasharray="3 2"` : P.edge ? ` stroke="${P.edge}" stroke-width=".8" stroke-opacity=".6"` : "") + "/>";
+  if (mode === "est") return `<rect ${box} fill="${P.fill}" fill-opacity=".45"`
+    + (w >= 4 ? ` stroke="${line}" stroke-width="1" stroke-dasharray="1 2.5" stroke-linecap="round"` : P.edge ? ` stroke="${P.edge}" stroke-width=".8" stroke-opacity=".6"` : "") + "/>";
+  return `<rect ${box} fill="${P.fill}"${P.edge ? ` stroke="${P.edge}" stroke-width=".8"` : ""}/>` + (w >= 6 && P.bark ? `<rect ${box} fill="url(#${P.bark})"/>` : "");
+};
+// d = un albero (compareData: h, c, r0, sp specie del tronco tipico, s specie dell'albero) oppure { trees: [...] }
+// per il confronto dei primi più alti (issue #48, openCompareTop): più alberi uno accanto all'altro, numerati,
+// ognuno con h, c (0 = nessun tronco da disegnare: solo l'altezza), s, est (tronco stimato), warn (valore segnalato)
 function compareSvg(d, label) {
-  const W = 340, PAD = 8, TOP = 18, PLOT = 168, GAP = 8;
-  const dia = d.c / Math.PI, diaT = d.r0 ? d.h / d.r0 / Math.PI : 0;   // r0 = 0: niente tronco tipico
-  const sp = d.sp.length <= 20 ? d.sp : (s => s.length <= 22 ? s : s.slice(0, 21) + "…")(d.sp.replace(/^(\S)\S+ /, "$1. "));
-  // back: il riferimento di larghezza (CMP_BACK) sta dietro il tronco, nello stesso spazio (largo e alto quanto il
-  // più grande dei due)
+  const multi = !!d.trees, trees = d.trees || [d];
+  const W = multi ? 420 : 340, PAD = 8, TOP = 18, PLOT = 168, GAP = 8;
+  const dias = trees.map(t => t.c / Math.PI), maxH = Math.max(...trees.map(t => t.h));
+  const diaT = !multi && d.r0 ? d.h / d.r0 / Math.PI : 0;   // r0 = 0: niente tronco tipico
+  const spT = (!multi && d.sp) || "";
+  const sp = spT.length <= 20 ? spT : (s => s.length <= 22 ? s : s.slice(0, 21) + "…")(spT.replace(/^(\S)\S+ /, "$1. "));
+  const kinds = trees.map(t => cmpBark(t.s));
+  // back: il riferimento di larghezza (CMP_BACK) sta dietro il tronco (con più alberi, dietro il più largo), nello
+  // stesso spazio (largo e alto quanto il più grande dei due)
+  const bi = dias.indexOf(Math.max(...dias)), dia = dias[bi];
   const back = dia > CMP_BACK_FROM ? CMP_BACK.find(b => dia <= b.w * CMP_BACK_NEXT) || CMP_BACK.at(-1) : null, col = !!back;
+  const treeName = i => multi ? `${i + 1} · ${trees[i].warn ? "⚠ " : ""}${cmpM(trees[i].h)}` : L.cmp.tree;
+  const treeDia = i => !trees[i].c ? "⌀ ?" : "⌀ " + (trees[i].est ? "~" : "") + cmpD(dias[i]);
   let items = [
-    !col && d.h <= CMP_PISA_FROM && { k: "person", w: CMP_PERSON_W, h: CMP_PERSON_H, min: 52, t: [L.cmp.person, cmpM(CMP_PERSON_H)] },
-    d.h > CMP_HOUSE_FROM && { k: "house", w: CMP_HOUSE_W, h: CMP_HOUSE_H, min: 52, t: [L.cmp.house, cmpM(CMP_HOUSE_H)] },
-    d.h > CMP_PISA_FROM && { k: "pisa", w: CMP_PISA_W, h: CMP_PISA_H, min: 64, t: [L.cmp.pisa, cmpM(CMP_PISA_H)] },
-    col ? { k: "tree", w: Math.max(dia, back.w), h: Math.max(d.h, back.h), min: 140 }
-      : { k: "tree", w: dia, h: d.h, min: 72, t: [L.cmp.tree, "⌀ " + cmpD(dia)] },
-    d.r0 && { k: "typ", w: diaT, h: d.h, min: 104, t: d.sp ? [L.cmp.typicalFor, sp, "⌀ " + cmpD(diaT)] : [L.cmp.typical, L.cmp.osmMedian, "⌀ " + cmpD(diaT)] }
+    !col && maxH <= CMP_PISA_FROM && { k: "person", w: CMP_PERSON_W, h: CMP_PERSON_H, min: 52, t: [L.cmp.person, cmpM(CMP_PERSON_H)] },
+    maxH > CMP_HOUSE_FROM && { k: "house", w: CMP_HOUSE_W, h: CMP_HOUSE_H, min: 52, t: [L.cmp.house, cmpM(CMP_HOUSE_H)] },
+    maxH > CMP_PISA_FROM && { k: "pisa", w: CMP_PISA_W, h: CMP_PISA_H, min: 64, t: [L.cmp.pisa, cmpM(CMP_PISA_H)] },
+    ...trees.map((t, i) => col && i === bi ? { k: "tree", i, w: Math.max(dia, back.w), h: Math.max(t.h, back.h), min: 140 }
+      : { k: "tree", i, w: dias[i], h: t.h, min: multi ? 84 : 72, t: [treeName(i), treeDia(i)] }),
+    diaT && { k: "typ", w: diaT, h: d.h, min: 104, t: d.sp ? [L.cmp.typicalFor, sp, "⌀ " + cmpD(diaT)] : [L.cmp.typical, L.cmp.osmMedian, "⌀ " + cmpD(diaT)] }
   ].filter(Boolean);
   const room = W - 2 * PAD, total = s => items.reduce((a, x) => a + Math.max(x.w * s, x.min), 0) + GAP * (items.length - 1);
   // con il riferimento dietro il tronco e la Torre di Pisa le etichette non entrano tutte: via la casa
@@ -3690,24 +3870,28 @@ function compareSvg(d, label) {
     } else if (it.k === "pisa") {   // skewX sposta la base rispetto alla cima: l'altezza resta 56 m, la base sul terreno
       out += `<g transform="translate(${f(cx - it.w * s / 2)} ${f(GY - it.h * s)}) scale(${f(s)}) skewX(${CMP_PISA_LEAN})">${CMP_PISA_SVG}</g>`;
     } else {
-      const tw = it.k === "tree" ? dia : it.w, th = it.k === "tree" ? d.h : it.h;   // con il Colosseo lo spazio è più grande del tronco
+      const tree = it.k === "tree", t = tree ? trees[it.i] : null, isBack = tree && col && it.i === bi;
+      const tw = tree ? dias[it.i] : it.w, th = tree ? t.h : it.h;   // con il Colosseo lo spazio è più grande del tronco
       const w = Math.max(tw * s, 1), h = Math.max(th * s, 1), rx = f(cx - w / 2), ry = f(GY - h);
       const box = `x="${rx}" y="${ry}" width="${f(w)}" height="${f(h)}"`;
-      if (tw * s < 1) thin[it.k] = true;
-      if (it.k === "tree") {
+      const isThin = tw > 0 && tw * s < 1;
+      if (isThin) thin[it.k] = true;
+      if (tree && !t.c) {   // nessun tronco da disegnare (né misurato né stimato): solo l'altezza, con una linea tratteggiata
+        out += `<path d="M${f(cx)} ${f(GY)}V${ry}" stroke="var(--cmp-muted)" stroke-width="1.5" stroke-dasharray="4 3"/>`
+          + `<path d="M${f(cx - 5)} ${ry}h10" stroke="var(--cmp-muted)" stroke-width="1.5"/>`;
+      } else if (tree) {
         // riferimento dietro, poi un bordo in colore di sfondo che stacca il tronco dalla sagoma; se il tronco lo
         // coprirebbe (front) il riferimento va davanti, con i suoi colori
-        const ref = col ? `<g transform="translate(${f(cx - back.w * s / 2)} ${f(GY - back.h * s)}) scale(${f(s)})">${back.svg}</g>` : "";
-        if (col && !front) out += ref + `<rect x="${f(rx - 1)}" y="${f(ry - 1)}" width="${f(w + 2)}" height="${f(h + 1)}" fill="var(--cmp-bg)"/>`;
-        out += `<rect ${box} fill="var(--cmp-trunk)"/>` + (w >= 6 ? `<rect ${box} fill="url(#cmp-bark)"/>` : "")
-          + (thin.tree ? `<path d="M${f(cx - 4)} ${f(GY - h - 10)}h8l-4 7z" fill="var(--cmp-text)"/>` : "");   // freccia sul tronco sotto 1 px
-        if (front) out += ref;
+        const ref = isBack ? `<g transform="translate(${f(cx - back.w * s / 2)} ${f(GY - back.h * s)}) scale(${f(s)})">${back.svg}</g>` : "";
+        if (isBack && !front) out += ref + `<rect x="${f(rx - 1)}" y="${f(ry - 1)}" width="${f(w + 2)}" height="${f(h + 1)}" fill="var(--cmp-bg)"/>`;
+        out += cmpTrunk(box, w, kinds[it.i], t.est ? "est" : "")
+          + (isThin ? `<path d="M${f(cx - 4)} ${f(GY - h - 10)}h8l-4 7z" fill="var(--cmp-text)"/>` : "");   // freccia sul tronco sotto 1 px
+        if (isBack && front) out += ref;
         // due etichette nello stesso spazio, una per riga, con il quadratino del colore
-        if (col) out += [["--cmp-trunk", L.cmp.tree, "⌀ " + cmpD(dia)], ["--cmp-ref", L.cmp.back[back.k].name, `${cmpM(back.w)} × ${cmpM(back.h)}`]]
-          .map(([c, a, b], n) => `<text x="${f(cx)}" y="${GY + 13 + 12 * n}" text-anchor="middle"><tspan fill="var(${c})">■ </tspan>${esc(a)} <tspan class="m">${esc(b)}</tspan></text>`).join("");
-      } else {   // tronco tipico: più tenue, con il bordo tratteggiato se è abbastanza largo
-        out += `<rect ${box} fill="var(--cmp-trunk)" fill-opacity="${w >= 4 ? .28 : .5}"`
-          + (w >= 4 ? ` stroke="var(--cmp-trunk)" stroke-width="1" stroke-dasharray="3 2"` : "") + "/>";
+        if (isBack) out += [[cmpSwatch(kinds[it.i]), treeName(it.i), treeDia(it.i)], [`<tspan fill="var(--cmp-ref)">■ </tspan>`, L.cmp.back[back.k].name, `${cmpM(back.w)} × ${cmpM(back.h)}`]]
+          .map(([c, a, b], n) => `<text x="${f(cx)}" y="${GY + 13 + 12 * n}" text-anchor="middle">${c}${esc(a)} <tspan class="m">${esc(b)}</tspan></text>`).join("");
+      } else {   // tronco tipico: più tenue, con il bordo tratteggiato se è abbastanza largo; del colore della specie
+        out += cmpTrunk(box, w, cmpBark(spT), "typ");   // che rappresenta (marrone per la mediana di tutti gli alberi)
       }
     }
     out += (it.t || []).map((t, n) => `<text x="${f(cx)}" y="${GY + 13 + 12 * n}" text-anchor="middle"${n ? ' class="m"' : ""}${n === 1 && it.k === "typ" && d.sp ? ' font-style="italic"' : ""}>${esc(t)}</text>`).join("");
@@ -3715,8 +3899,7 @@ function compareSvg(d, label) {
   // barra della scala: la lunghezza «tonda» (1, 2, 5 × 10ⁿ m) più grande che sta in 90 px
   const p10 = 10 ** Math.floor(Math.log10(90 / s)), bar = [5, 2, 1].find(k => k * p10 * s <= 90) * p10, by = H - 6, bx = f(PAD + bar * s);
   return { thin, back, front, refs: items.map(it => it.k).filter(k => k !== "tree" && k !== "typ"), svg: `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">`
-    + `<defs><pattern id="cmp-bark" width="5" height="9" patternUnits="userSpaceOnUse"><path d="M1.5 0v9M4 0v5" stroke="var(--cmp-bark)" stroke-width=".7" opacity=".6"/></pattern></defs>`
-    + out + `<path d="M${PAD} ${GY}H${W - PAD}" stroke="var(--cmp-ground)" stroke-width="1.5"/>`
+    + CMP_DEFS + out + `<path d="M${PAD} ${GY}H${W - PAD}" stroke="var(--cmp-ground)" stroke-width="1.5"/>`
     + `<path d="M${PAD} ${by - 3}v6M${PAD} ${by}H${bx}M${bx} ${by - 3}v6" fill="none" stroke="var(--cmp-muted)"/>`
     + `<text class="m" x="${f(bx + 5)}" y="${by + 3.5}">${esc(cmpM(bar))}</text></svg>` };
 }
@@ -3751,6 +3934,37 @@ function openCompare(btn) {
   }
   document.getElementById("cmp-body").innerHTML = g.svg + lines.map(x => `<p>${esc(x)}</p>`).join("")
     + [g.thin.tree && T.thin, g.thin.typ && T.thinTyp, g.front && T.backFront(B.ref0),refs + T.note].filter(Boolean).map(x => `<p class="note">${esc(x)}</p>`).join("");
+  document.getElementById("cmp-title").textContent = T.title;
+  cmpOpener = btn;
+  dlg.showModal();
+  dlg.focus();
+}
+// Confronto dei primi alberi di «Più alto» (issue #48): la stessa finestra, con i primi tre della lista (o due),
+// nell'ordine della lista, in scala, uno accanto all'altro. list = righe della scheda Alberi da record ({ p, … }).
+// Tronco: la circonferenza mappata (anche da diameter); se manca, quella stimata per la mappa (tr con tr_est, da
+// fetch_trees.py), disegnata più chiara; se non c'è nemmeno quella (altezza fuori dai limiti della stima, o primati
+// preparati prima che il file avesse tr), solo l'altezza
+function compareTopData(list) {
+  return { trees: list.slice(0, 3).map(({ p }) => {
+    const m = recMeasure(p), est = !(m.c > 0) && Number(p.tr) > 0 && !!p.tr_est;
+    const c = m.c > 0 ? m.c : Number(p.tr) > 0 ? 2 * Math.PI * Number(p.tr) : 0;
+    return { h: m.h, c, est, s: p.species || "", fd: m.c > 0 && m.fromD ? 1 : 0, warn: recWarn("height", p, m).length ? 1 : 0,
+      name: title({ ...p, sp_common: p["sp_" + LANG] })[0] };
+  }) };
+}
+function openCompareTop(btn, list) {
+  const d = compareTopData(list), dlg = document.getElementById("cmp"), T = L.cmp, g = compareSvg(d, T.svgTop);
+  // una riga per albero: il nome è già HTML (title), le misure no
+  const lines = d.trees.map((t, i) => `<p>${i + 1}. ${t.warn ? "⚠ " : ""}${t.name}: ` + esc(!t.c ? T.topNoTrunk(cmpM(t.h))
+    : t.est ? T.topEst(cmpM(t.h), cmpD(t.c / Math.PI)) : T.topDesc(cmpM(t.h), cmpD(t.c / Math.PI), cmpM(t.c) + (t.fd ? L.fromDiameter : ""))) + `</p>`);
+  const refM = { person: [cmpM(CMP_PERSON_H)], house: [cmpM(CMP_HOUSE_H)], pisa: [cmpM(CMP_PISA_H)] };
+  const refList = g.refs.map(k => T.ref[k](...refM[k])), B = g.back && T.back[g.back.k];
+  if (B) refList.splice(g.refs.includes("pisa") ? refList.length - 1 : refList.length, 0, B.ref(cmpM(g.back.w), cmpM(g.back.h), g.front ? T.front : T.behind));
+  const refs = refList.length ? T.refs(refList.length > 1 ? refList.slice(0, -1).join(", ") + T.and + refList.at(-1) : refList[0]) + " " : "";
+  const notes = [d.trees.some(t => t.warn) && T.topWarn, d.trees.some(t => t.est) && T.topEstNote, d.trees.some(t => !t.c) && T.topNoTrunkNote,
+    g.thin.tree && T.topThin, g.front && T.backFront(B.ref0), refs + T.note];
+  document.getElementById("cmp-body").innerHTML = g.svg + lines.join("") + notes.filter(Boolean).map(x => `<p class="note">${esc(x)}</p>`).join("");
+  document.getElementById("cmp-title").textContent = T.topTitle(d.trees.length);
   cmpOpener = btn;
   dlg.showModal();
   dlg.focus();
