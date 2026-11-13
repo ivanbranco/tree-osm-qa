@@ -404,12 +404,12 @@
    "updated": "2026-11-13T00:05:53Z"
   },
   "lituania": {
-   "count": 89230,
-   "diam": "mm",
-   "errors": 115,
+   "count": 89293,
+   "errors": 119,
    "name": "Lituania",
-   "sha1": "571f94ba3e36f8d87e690ffcd0c4fdee2f62054c",
-   "updated": "2026-11-10T16:57:37Z"
+   "sha1": "e8b70ee9da2166f1cff267c82770842b4f203ec7",
+   "tried": "2026-11-13",
+   "updated": "2026-11-13T03:16:30Z"
   },
   "lodzkie": {
    "count": 105233,
