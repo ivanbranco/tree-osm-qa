@@ -6801,6 +6801,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Chamaerops martiana"
+],
 "en": "Trachycarpus martianus",
 "it": "Trachycarpus martianus",
 "names": [
@@ -13197,6 +13200,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Chamaerops excelsa"
+],
 "en": "Rhapis excelsa",
 "it": "Rhapis excelsa",
 "names": [
@@ -13893,6 +13899,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Juglans rupestris var. major"
+],
 "names": [
 "Juglans major"
 ],
@@ -16689,6 +16698,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Elate sylvestris"
+],
 "en": "Phoenix sylvestris",
 "it": "Phoenix sylvestris",
 "names": [
@@ -17064,8 +17076,8 @@
 "Platanus ×acerifolia"
 ],
 "ranks": [
-"Q1306176",
-"Q7432"
+"Q7432",
+"Q1306176"
 ],
 "taxon": true
 },
@@ -20786,6 +20798,13 @@
 "en": [],
 "it": []
 },
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q34320035": {
+"en": "Vogelkirsche",
+"it": "Vogelkirsche",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -24933,6 +24952,9 @@
 "Neolamarkia cadamba"
 ]
 },
+"basionyms": [
+"Nauclea cadamba"
+],
 "en": "Neolamarckia cadamba",
 "it": "Neolamarckia cadamba",
 "names": [
@@ -25825,6 +25847,9 @@
 "Abete dei Nèbrodi"
 ]
 },
+"basionyms": [
+"Abies pectinata var. nebrodensis"
+],
 "en": "Abies nebrodensis",
 "it": "Abies nebrodensis",
 "names": [
@@ -27997,6 +28022,9 @@
 "Xiangchun"
 ]
 },
+"basionyms": [
+"Cedrela sinensis"
+],
 "en": "Toona sinensis",
 "it": "Toona sinensis",
 "names": [
@@ -29081,6 +29109,9 @@
 "Paw paw"
 ]
 },
+"basionyms": [
+"Annona triloba"
+],
 "en": "Asimina triloba",
 "it": "Asimina triloba",
 "names": [
@@ -29433,6 +29464,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pinus lasiocarpa"
+],
 "en": "Abies lasiocarpa",
 "it": "Abies lasiocarpa",
 "names": [

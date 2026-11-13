@@ -267,6 +267,10 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:Albero_di_Natale_Pomini.JPG": {
+"d": "2026-11-13",
+"s": "ok"
+},
 "commons:File:Alcalá del Júcar 45.jpg": {
 "d": "2026-11-12",
 "s": "ok"
@@ -2063,6 +2067,10 @@
 "d": "2026-11-09",
 "s": "ok"
 },
+"commons:File:Si vede dall'autostrada 1.JPG": {
+"d": "2026-11-13",
+"s": "ok"
+},
 "commons:File:Siemianowice topola kanadyjska pl. Skrzeka i Wójcika (4).jpg": {
 "d": "2026-11-08",
 "s": "ok"
@@ -3198,6 +3206,14 @@
 "object"
 ],
 "d": "2026-11-10"
+},
+"geo:File:Albero di Natale Pomini.JPG": {
+"c": [
+45.6140811,
+8.917028,
+"object"
+],
+"d": "2026-11-13"
 },
 "geo:File:Albero latifoglia Via Farini.jpg": {
 "c": [
@@ -6918,6 +6934,14 @@
 "object"
 ],
 "d": "2026-11-12"
+},
+"geo:File:Si vede dall'autostrada 1.JPG": {
+"c": [
+45.6374777,
+8.8620611,
+"object"
+],
+"d": "2026-11-13"
 },
 "geo:File:Siemianowice topola kanadyjska pl. Skrzeka i Wójcika (4).jpg": {
 "c": [
@@ -49207,6 +49231,10 @@
 "d": "2026-11-08",
 "s": "429"
 },
+"https://upload.wikimedia.org/wikipedia/commons/5/5b/Albero_di_Natale_di_ferro.JPG": {
+"d": "2026-11-13",
+"s": "200"
+},
 "https://upload.wikimedia.org/wikipedia/commons/5/5b/Grybi%C5%A1ki%C5%B3_pu%C5%A1is.JPG": {
 "d": "2026-11-08",
 "s": "429"
@@ -49289,6 +49317,10 @@
 },
 "https://upload.wikimedia.org/wikipedia/commons/9/9c/Ginko_biloba.jpg": {
 "d": "2026-11-08",
+"s": "200"
+},
+"https://upload.wikimedia.org/wikipedia/commons/a/a4/Albero_di_natale_comune_dell%27asilo.jpg": {
+"d": "2026-11-13",
 "s": "200"
 },
 "https://upload.wikimedia.org/wikipedia/commons/a/a5/Dorflinde_Klaus_%28Vorarlberg%29_von_Westen.jpg": {
