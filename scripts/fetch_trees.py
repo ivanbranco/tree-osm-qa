@@ -1106,8 +1106,13 @@ def species_list_mismatches(t):
 
 
 def species_limit(t):
+    """Limiti e rapporti di species_limits.json per la specie dell'albero. I sinonimi della whitelist e le scritture
+    diverse del nome di un gruppo ("x" al posto di "×") usano la voce del nome della lista wiki (GROUP_NAME)."""
     sp = t.get("species")
-    return SPECIES_LIMITS.get(" ".join(sp.split()).lower()) if sp else None
+    if not sp:
+        return None
+    sp = GROUP_NAME.get(norm_species(sp), sp)
+    return SPECIES_LIMITS.get(" ".join(sp.split()).lower())
 
 
 LEAF_TYPE = {"broadleaved", "needleleaved", "leafless", "palm"}
