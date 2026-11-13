@@ -518,6 +518,7 @@ const I18N = {
     fromDiameter: " (da diameter)",
     // finestra «Vedi a confronto» dei check too_slender, too_slender_species e too_stocky (issue #14)
     cmp: { btn: "Vedi a confronto", title: "Tronco a confronto", close: "Chiudi", pick: "Confronta con il tronco tipico (tasto C)",
+      pickScale: "Vedi l'albero in scala (tasto C)",
       svg: "Disegno in scala del tronco, descritto sotto",
       same: "Il tronco è largo quanto quello tipico della specie, entro il 10%.",
       times: k => `Il diametro del tronco è ${k} volte quello tipico della specie.`,
@@ -856,6 +857,7 @@ const I18N = {
     sex: { male: "Male specimen", female: "Female specimen" },
     fromDiameter: " (from diameter)",
     cmp: { btn: "Compare visually", title: "Trunk comparison", close: "Close", pick: "Compare with the typical trunk (C key)",
+      pickScale: "View the tree to scale (C key)",
       svg: "Scale drawing of the trunk, described below",
       same: "The trunk is as wide as the typical one for the species, within 10%.",
       times: k => `The trunk diameter is ${k} times the typical one for the species.`,
@@ -3384,27 +3386,31 @@ const CMP_BACK = [{ k: "dino", w: 22, h: 12, svg: CMP_DINO }, { k: "b747", w: 68
   { k: "col", w: CMP_COL_W, h: CMP_COL_H, svg: CMP_COL }];
 // misure usate dal disegno: h altezza, c circonferenza, r0 rapporto tipico, sp specie (too_slender_species e confronto
 // senza check), fd circonferenza ricavata dal diametro, n confronto senza check (testi solo descrittivi). null se i
-// dati non bastano. i = "" per il confronto senza check: solo con il rapporto della specie (sp_ratio), mai quello generico
+// dati non bastano. i = "" per il confronto senza check: solo con il rapporto della specie (sp_ratio), mai quello
+// generico; se la specie non ne ha, r0 = 0 e il disegno ha solo l'albero e i riferimenti (persona, casa, Torre di Pisa…)
 function compareData(i, p) {
   const r = Number(p.hc_ratio), bySpecies = !i || i === "too_slender_species";
-  const r0 = bySpecies ? Number(p.sp_ratio) : TYPICAL_HC_RATIO;
+  const r0 = bySpecies ? Number(p.sp_ratio) || 0 : TYPICAL_HC_RATIO;
   let h = Number(num(p.height)), c = Number(p.hc_circ);
   if (!(h > 0) && c > 0 && r > 0) h = c * r;   // height scritta in un modo che la pagina non legge
   if (!(c > 0) && h > 0 && r > 0) c = h / r;   // hc_circ è arrotondata a 2 decimali: può valere 0
-  if (!(h > 0 && c > 0 && r0 > 0)) return null;
-  return { h, c, r0, sp: bySpecies ? p.species : "", fd: p.diam_used ? 1 : 0, ...(i ? {} : { n: 1 }) };
+  // senza hc_circ (specie senza rapporto, fetch_trees.py): la circonferenza dal raggio del tronco disegnato, se misurato
+  if (!(c > 0) && !p.tr_est && Number(p.tr) > 0) c = 2 * Math.PI * Number(p.tr);
+  if (!(h > 0 && c > 0 && (r0 > 0 || !i))) return null;
+  return { h, c, r0, sp: bySpecies && r0 ? p.species : "", fd: p.diam_used ? 1 : 0, ...(i ? {} : { n: 1 }) };
 }
 function compareBtn(i, p) {
   const d = CMP_CHECKS.includes(i) && compareData(i, p);
   return d ? ` <button type="button" class="cmp-btn" data-cmp="${esc(JSON.stringify(d))}" onclick="openCompare(this)">${esc(L.cmp.btn)}</button>` : "";
 }
 // Confronto dalla scheda (iconcina accanto all'altezza e tasto C): la stessa finestra del primo check sul rapporto, se
-// c'è; altrimenti il confronto con la specie, solo per gli alberi con altezza e circonferenza mappate e una specie con
-// rapporto noto (sp_ratio, hc_ratio, hc_circ: fetch_trees.py). Niente per i ceppi e senza quei dati
+// c'è; altrimenti il confronto con la specie (sp_ratio, hc_ratio, hc_circ: fetch_trees.py) o, se la specie non ha un
+// rapporto noto, il solo disegno in scala con i riferimenti; sempre con altezza e circonferenza mappate. Niente per i
+// ceppi e senza quei dati
 function cardCompare(p) {
   if (p.stump) return null;
   for (const i of CMP_CHECKS) if (String(p.issues || "").includes(`|${i}|`)) { const d = compareData(i, p); if (d) return d; }
-  return Number(p.sp_ratio) > 0 ? compareData("", p) : null;
+  return compareData("", p);
 }
 // pittogramma: tronco dell'albero, tronco tipico (tratteggiato) e persona sul terreno
 const CMP_ICON = '<svg viewBox="0 0 18 15" aria-hidden="true"><rect x="1.5" y="1" width="3.5" height="13"/><rect x="8" y="1" width="2.2" height="13" stroke-dasharray="2 1.3"/><circle cx="14.5" cy="8" r="1.2"/><path d="M14.5 9.6V14M0 14.4h18"/></svg>';
@@ -3412,7 +3418,8 @@ const CMP_ICON = '<svg viewBox="0 0 18 15" aria-hidden="true"><rect x="1.5" y="1
 // stessa finestra (anche con il tasto C)
 function comparePick(p) {
   const d = cardCompare(p);
-  return d?.n ? `<button type="button" class="cmp-pick" data-cmp="${esc(JSON.stringify(d))}" onclick="openCompare(this)" title="${esc(L.cmp.pick)}" aria-label="${esc(L.cmp.pick)}">${CMP_ICON}</button>` : "";
+  const t = d?.r0 ? L.cmp.pick : L.cmp.pickScale;
+  return d?.n ? `<button type="button" class="cmp-pick" data-cmp="${esc(JSON.stringify(d))}" onclick="openCompare(this)" title="${esc(t)}" aria-label="${esc(t)}">${CMP_ICON}</button>` : "";
 }
 const cmpM = v => fmtM(Math.round(v * 1000) / 1000);
 // diametri: ricavati da una circonferenza arrotondata a 2 decimali, quindi al centimetro (al millimetro sotto 10 cm)
@@ -3421,7 +3428,7 @@ const cmpD = v => v < 0.1 ? cmpM(v) : fmtM(Math.round(v * 100) / 100);
 // (ogni elemento occupa almeno lo spazio della sua etichetta). Restituisce anche quali tronchi sono sotto 1 px
 function compareSvg(d, label) {
   const W = 340, PAD = 8, TOP = 18, PLOT = 168, GAP = 8;
-  const dia = d.c / Math.PI, diaT = d.h / d.r0 / Math.PI;
+  const dia = d.c / Math.PI, diaT = d.r0 ? d.h / d.r0 / Math.PI : 0;   // r0 = 0: niente tronco tipico
   const sp = d.sp.length <= 20 ? d.sp : (s => s.length <= 22 ? s : s.slice(0, 21) + "…")(d.sp.replace(/^(\S)\S+ /, "$1. "));
   // back: il riferimento di larghezza (CMP_BACK) sta dietro il tronco, nello stesso spazio (largo e alto quanto il
   // più grande dei due)
@@ -3432,7 +3439,7 @@ function compareSvg(d, label) {
     d.h > CMP_PISA_FROM && { k: "pisa", w: CMP_PISA_W, h: CMP_PISA_H, min: 64, t: [L.cmp.pisa, cmpM(CMP_PISA_H)] },
     col ? { k: "tree", w: Math.max(dia, back.w), h: Math.max(d.h, back.h), min: 140 }
       : { k: "tree", w: dia, h: d.h, min: 72, t: [L.cmp.tree, "⌀ " + cmpD(dia)] },
-    { k: "typ", w: diaT, h: d.h, min: 104, t: d.sp ? [L.cmp.typicalFor, sp, "⌀ " + cmpD(diaT)] : [L.cmp.typical, L.cmp.osmMedian, "⌀ " + cmpD(diaT)] }
+    d.r0 && { k: "typ", w: diaT, h: d.h, min: 104, t: d.sp ? [L.cmp.typicalFor, sp, "⌀ " + cmpD(diaT)] : [L.cmp.typical, L.cmp.osmMedian, "⌀ " + cmpD(diaT)] }
   ].filter(Boolean);
   const room = W - 2 * PAD, total = s => items.reduce((a, x) => a + Math.max(x.w * s, x.min), 0) + GAP * (items.length - 1);
   // con il riferimento dietro il tronco e la Torre di Pisa le etichette non entrano tutte: via la casa
@@ -3504,11 +3511,12 @@ function compareSvg(d, label) {
 let cmpOpener = null;   // pulsante che ha aperto la finestra: alla chiusura riprende il focus
 function openCompare(btn) {
   const d = JSON.parse(btn.dataset.cmp), dlg = document.getElementById("cmp"), T = L.cmp;
-  const h = cmpM(d.h), diaT = cmpD(d.h / d.r0 / Math.PI), r0 = Number(d.r0).toLocaleString(LOC);
-  const lines = [T.desc(h, cmpD(d.c / Math.PI), cmpM(d.c) + (d.fd ? L.fromDiameter : "")),
-    d.sp ? T.typSpecies(h, diaT, d.sp, r0) : T.typAll(h, diaT, r0)];
+  const h = cmpM(d.h), diaT = d.r0 ? cmpD(d.h / d.r0 / Math.PI) : "", r0 = Number(d.r0).toLocaleString(LOC);
+  const lines = [T.desc(h, cmpD(d.c / Math.PI), cmpM(d.c) + (d.fd ? L.fromDiameter : ""))];
+  // senza rapporto tipico (specie senza rapporto noto) niente riga sul tronco tipico
+  if (d.r0) lines.push(d.sp ? T.typSpecies(h, diaT, d.sp, r0) : T.typAll(h, diaT, r0));
   // senza check: quante volte il diametro è quello tipico (= rapporto tipico / rapporto dell'albero); entro il 10% «uguale»
-  if (d.n) { const k = d.c * d.r0 / d.h;
+  if (d.n && d.r0) { const k = d.c * d.r0 / d.h;
     lines.push(Math.abs(k - 1) <= 0.1 ? T.same : T.times(k.toLocaleString(LOC, { maximumSignificantDigits: 2 }))); }
   // niente <title> (il pop-up al passaggio del mouse ripeteva il testo scritto sotto): solo un nome breve per i lettori
   // di schermo, che leggono poi i paragrafi sotto il disegno
