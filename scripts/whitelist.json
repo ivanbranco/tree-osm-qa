@@ -17,7 +17,10 @@
   },
   "species_typo": ["Quercus virgiliana", "Myrtus communis"],
   "synonyms": {
-    "Crataegus × lavallei": "Crataegus × lavalleei"
+    "Crataegus × lavallei": "Crataegus × lavalleei",
+    "Platanus × acerifolia": "Platanus × hispanica",
+    "Platanus acerifolia": "Platanus × hispanica",
+    "Platanus hispanica": "Platanus × hispanica"
   },
   "wikidata_mismatch": {
     "Platanus × hispanica": ["Q24853030"],

@@ -249,6 +249,19 @@ SYNONYMS = {norm_species(k): v for k, v in _WL.get("synonyms", {}).items()}
 for _alt, _name in SYNONYMS.items():
     if norm_species(_name) in SPECIES_REF:
         SPECIES_REF.setdefault(_alt, SPECIES_REF[norm_species(_name)])
+# un nome e i suoi sinonimi sono una sola specie: tutti accettano i species:wikidata di tutti (quelli della whitelist
+# di ogni nome e quello della lista wiki), così il sito non propone di sostituire il QID di un nome con quello dell'altro
+_GROUPS = collections.defaultdict(set)
+for _alt, _name in SYNONYMS.items():
+    _GROUPS[norm_species(_name)] |= {norm_species(_name), _alt}
+for _members in _GROUPS.values():
+    _qids = {q for m in _members for q in WD_WHITELIST.get(m, ())}
+    _qids |= {SPECIES_REF[m]["wikidata"] for m in _members if m in SPECIES_REF and SPECIES_REF[m].get("wikidata")}
+    for m in _members:
+        WD_WHITELIST[m] = set(_qids)
+# nome della specie per statistiche e filtro del sito ("sp_key" in to_feature): il nome della lista wiki, per i
+# sinonimi e per le scritture diverse dello stesso nome ("x" al posto di "×")
+GROUP_NAME = {m: _name for _alt, _name in SYNONYMS.items() for m in (norm_species(_name), _alt)}
 
 
 # Lista dei generi della wiki OSM (scripts/update_reference_lists.py): leaf_cycle (uno o entrambi) e leaf_type
@@ -1844,6 +1857,8 @@ def to_feature(el):
     t = el.get("tags", {})
     p = {k: t[k] for k in KEEP if k in t}
     p["id"] = el["id"]
+    if (sp := t.get("species")) and (gn := GROUP_NAME.get(norm_species(sp))) and sp != gn:
+        p["sp_key"] = gn   # la stessa specie con un altro nome: il sito la conta e la filtra con gli altri
     if is_sacred(t):   # contorno azzurro sulla mappa
         p["sacred"] = 1
     pano = panoramax_ids(t)

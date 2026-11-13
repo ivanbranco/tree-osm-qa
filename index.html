@@ -1702,7 +1702,8 @@ map.on("load", async () => {
     if (v === "unknown") return ["all", ["!", ["has", "genus"]], ["!", ["has", "species"]]];
     if (v === "with_species") return ["has", "species"];
     const name = v.slice(2);
-    if (v.startsWith("s:")) return ["==", ["get", "species"], name];
+    // sp_key: nome della lista wiki, presente solo quando species è un sinonimo (Platanus × acerifolia)
+    if (v.startsWith("s:")) return ["==", ["coalesce", ["get", "sp_key"], ["get", "species"]], name];
     return ["any", ["==", ["get", "genus"], name],
       ["==", ["index-of", name + " ", ["coalesce", ["get", "species"], ""]], 0]];
   };
@@ -1762,7 +1763,7 @@ map.on("load", async () => {
       if (!p.genus && !p.species) { U++; continue; }
       // genere: quello di genus e quello di species, contato una volta sola se coincidono
       const sg = p.species ? genusOfSpecies(p.species) : null;
-      if (p.species) { WS++; inc(S, p.species); }
+      if (p.species) { WS++; inc(S, p.sp_key || p.species); }
       if (p.genus) inc(G, p.genus);
       if (sg !== null && sg !== p.genus) inc(G, sg);
     }
@@ -1834,7 +1835,7 @@ map.on("load", async () => {
     if (v === "unknown") return !p.genus && !p.species;
     if (v === "with_species") return !!p.species;
     const name = v.slice(2);
-    return v.startsWith("s:") ? p.species === name : p.genus === name || String(p.species || "").startsWith(name + " ");
+    return v.startsWith("s:") ? (p.sp_key || p.species) === name : p.genus === name || String(p.species || "").startsWith(name + " ");
   };
   // Alberi in vista (ceppi esclusi), contati sui dati con gli stessi criteri dei livelli della mappa: per zoom
   // (problematici sempre, monumentali da MON_Z, tutti da ALL_Z; nella mappa mondiale secondo "mz") e per i filtri
