@@ -321,7 +321,7 @@ def denotation_problems(t):
 # distingue allo stesso modo specie, illustrazioni, frutti e alberi monumentali. I QID reindirizzati (owl:sameAs) si
 # seguono.
 # data/wikidata_items.json, elementi di wikidata=* (i singoli alberi): {"Q…": {"taxon": bool, "coords": [[lon, lat]…]
-#   (P625), "image": file di Commons (P18), "taxa": [QID di P10241 "individuo del taxon"], "heritage": [[etichetta it,
+#   (P625), "image": file di Commons (P18), "winter": file della veduta invernale (P5252, se c'è), "taxa": [QID di P10241 "individuo del taxon"], "heritage": [[etichetta it,
 #   etichetta en] di P1435 "tutela"], "wp": {"it": url, "en": url} (voci di Wikipedia), "mt": id di monumentaltrees.com
 #   (P9704), "mon": true se è istanza diretta (P31) di "pianta monumentale" (Q811534)}}
 # data/wikidata_taxa.json, elementi di species:wikidata, genus:wikidata e delle specie di P10241: {"Q…": {"taxon": bool,
@@ -401,6 +401,8 @@ def store_items(batch, rows):
             add(e["coords"], [float(m.group(1)), float(m.group(2))])
         if "img" in b and not e["image"]:   # indirizzo .../Special:FilePath/<nome file codificato>
             e["image"] = unquote(b["img"]["value"].rsplit("/", 1)[-1])
+        if "wimg" in b and not e.get("winter"):   # veduta invernale (P5252)
+            e["winter"] = unquote(b["wimg"]["value"].rsplit("/", 1)[-1])
         if "taxon" in b:
             add(e["taxa"], qid_of(b, "taxon"))
         if "her" in b:
@@ -547,12 +549,13 @@ def update_wikidata_cache(elements):
     tags = [el.get("tags", {}) for el in elements]
     wd = {q for t in tags for q in qids(t, "wikidata")}
     todo_items = sorted(wd)
-    ask_wikidata(todo_items, lambda v: "SELECT ?item ?name ?coord ?img ?taxon ?her ?herIt ?herEn ?wpit ?wpen ?mt ?mon WHERE { "
+    ask_wikidata(todo_items, lambda v: "SELECT ?item ?name ?coord ?img ?wimg ?taxon ?her ?herIt ?herEn ?wpit ?wpen ?mt ?mon WHERE { "
                  "VALUES ?item { " + v + " } "
                  # monumentali: id di monumentaltrees.com (P9704) e "istanza di" (solo diretta) pianta monumentale
                  "OPTIONAL { ?item wdt:P9704 ?mt } OPTIONAL { ?item wdt:P31 ?mon FILTER(?mon = wd:Q811534) } "
                  f"OPTIONAL {{ ?item {wd_prop('P225')} ?name }} OPTIONAL {{ ?item {wd_prop('P625')} ?coord }} "
-                 f"OPTIONAL {{ ?item {wd_prop('P18')} ?img }} OPTIONAL {{ ?item wdt:P10241 ?taxon }} "
+                 f"OPTIONAL {{ ?item {wd_prop('P18')} ?img }} OPTIONAL {{ ?item {wd_prop('P5252')} ?wimg }} "
+                 "OPTIONAL { ?item wdt:P10241 ?taxon } "
                  "OPTIONAL { ?item wdt:P1435 ?her . OPTIONAL { ?her rdfs:label ?herIt FILTER(LANG(?herIt) = 'it') } "
                  "OPTIONAL { ?her rdfs:label ?herEn FILTER(LANG(?herEn) = 'en') } } "
                  "OPTIONAL { ?wpit schema:about ?item ; schema:isPartOf <" + WP_SITES["it"] + "> } "
@@ -899,12 +902,12 @@ def broken_links(t):
     return out
 
 
-def wikidata_image(t):
+def wikidata_image(t, key="image"):
     """File di Commons dell'immagine (P18) dell'elemento di wikidata=*, se non è un taxon (sarebbe la foto della
-    specie, non dell'albero); None se manca."""
+    specie, non dell'albero); None se manca. Con key="winter" la veduta invernale (P5252)."""
     for q in qids(t, "wikidata"):
-        if taxon_status(q) is not True and WD_ITEMS.get(q, {}).get("image"):
-            return WD_ITEMS[q]["image"]
+        if taxon_status(q) is not True and WD_ITEMS.get(q, {}).get(key):
+            return WD_ITEMS[q][key]
     return None
 
 
@@ -1915,6 +1918,8 @@ def to_feature(el):
             p["lg"], p["lgk"] = g[0], lgk
     if wd_img := wikidata_image(t):   # per la scheda, se l'albero non ha altre immagini
         p["wd_img"] = wd_img
+        if wd_img_w := wikidata_image(t, "winter"):   # veduta invernale: la scheda la mostra d'inverno al posto di wd_img
+            p["wd_img_w"] = wd_img_w
     if (fs := FOTOSHI.get(t.get("image:fotoshi", "").strip())) and fs.get("author"):   # crediti della foto
         p["fs_author"], p["fs_license"] = fs["author"], fs.get("license", "")
     iss, props = checks(t, [el["lon"], el["lat"]], el["id"])

@@ -129,6 +129,8 @@
   .leg .why{flex:none}
   .leg .toggle{cursor:pointer}   /* testo delle voci che si accendono e spengono con un clic (frutti) */
   .leg .toggle .mode{text-decoration:underline dotted 1px;text-decoration-color:color-mix(in srgb,currentColor 45%,transparent);text-underline-offset:3px}   /* la modalità tra parentesi */
+  #leg-deciduous .s-off,#leg-deciduous.plain .s-on{display:none}   /* stagioni: icona in tre parti, o quella di sempre se spente */
+  #leg-deciduous.plain .s-off{display:inline}
   .leg li.off{opacity:.45}
   .leg li.off [data-i18n]{text-decoration:line-through}
   .leg .why .tip{position:fixed;right:auto;box-sizing:border-box}   /* posizione e larghezza dallo script */
@@ -243,7 +245,8 @@
       <li class="world-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#f2c14e" fill-opacity=".25" stroke="#e6a800" stroke-width="2.5" stroke-dasharray="4 2.5"/></svg> <span data-i18n="legMasaf">Elenco MASAF</span></li>
       <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#7b3fc4" stroke-width="2"/></svg> <span data-i18n="legLandmark">Landmark</span></li>
       <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#d00020" stroke-width="2"/></svg> <span data-i18n="legIssues">Con problemi</span></li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#a5d64c" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legDeciduous">Caducifoglia</span></li>
+      <!-- interruttore delle stagioni (#51): con le stagioni accese l'icona è divisa in tre (foglie, autunno, spoglio), spente è quella di sempre (.plain) -->
+      <li id="leg-deciduous"><svg width="22" height="22" viewBox="0 0 22 22"><g class="s-on"><path d="M11 11V3A8 8 0 0 1 17.93 15Z" fill="#a5d64c" fill-opacity=".75"/><path d="M11 11L17.93 15A8 8 0 0 1 4.07 15Z" fill="#dd8a1f" fill-opacity=".8"/><path d="M11 3A8 8 0 0 1 17.93 15A8 8 0 0 1 4.07 15" fill="none" stroke="#1b6b2c" stroke-width="1"/><path d="M4.07 15A8 8 0 0 1 11 3" fill="none" stroke="#7d6650" stroke-width="1.3"/></g><circle class="s-off" cx="11" cy="11" r="8" fill="#a5d64c" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legDeciduous">Caducifoglia</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#1f6b35" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legEvergreen">Sempreverde</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#5fa36f" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legNoCycle">Ciclo fogliare non specificato</span></li>
       <!-- colori caratteristici di alcune specie (SPECIES_COLORS nello script): quattro spicchi rosso, giallo, argento, azzurro -->
@@ -323,6 +326,7 @@ const setHash = (slug = hashSlug) => {
     h.set("map", `${map.getZoom().toFixed(2)}/${c.lat.toFixed(5)}/${c.lng.toFixed(5)}`);
   }
   if (hashParams().get("lang")) h.set("lang", LANG);
+  if (hashParams().get("season")) h.set("season", hashParams().get("season"));   // fase forzata (vedi SEASON_FORCE)
   const s = h.toString().replace(/%2F/g, "/");
   history.replaceState(null, "", s ? "#" + s : location.pathname + location.search);
 };
@@ -356,6 +360,8 @@ const I18N = {
     legTrunk: "Tronco", legTrunkEst: "Tronco stimato", legStump: "Ceppo",
     legStems: "Più tronchi", legIvy: "Coperto d'edera", legFruit: "Frutti (stagionali)", legXmas: "Albero di Natale",
     legColors: "Colori delle specie (attivi)", legColorsOff: "Colori delle specie (spenti)",
+    legSeasons: "Caducifoglia (stagioni)",
+    legSeasonsToggle: "Clic per spegnere o riaccendere le stagioni (spente, le caducifoglie hanno le foglie tutto l'anno)",
     legColorsToggle: "Clic per spegnere o riaccendere i colori delle specie (spenti, le chiome prendono il colore del ciclo fogliare)",
     legFruitAlways: "Frutti (sempre)", legFruitOff: "Frutti (nascosti)",
     legFruitToggle: "Clic per cambiare: frutti solo nella loro stagione, sempre, o nascosti",    // pop-up sulle icone della legenda: i tag che le producono (chiave = data-i18n della voce)
@@ -367,6 +373,7 @@ const I18N = {
       legLandmark: "denotation=landmark",
       legIssues: "Almeno un errore",
       legDeciduous: "leaf_cycle=deciduous o semi_deciduous, o stimato",
+      legSeasons: "leaf_cycle=deciduous o semi_deciduous, o stimato. Con le stagioni attive l'aspetto segue la data di oggi: foglie da aprile a settembre, colori autunnali a ottobre e novembre, albero spoglio da dicembre a marzo (da zoom 16 solo il contorno). Ogni albero cambia fase fino a 10 giorni prima o dopo. Tutte le fasi con leaf_type=broadleaved; con needleleaved solo quella spoglia. Nell'emisfero sud i mesi si spostano di 6. Un clic sul testo spegne le stagioni",
       legEvergreen: "leaf_cycle=evergreen o semi_evergreen, o stimato",
       legNoCycle: "leaf_cycle mancante e non stimato",
       legTrunk: "circumference=* o diameter=*",
@@ -376,7 +383,7 @@ const I18N = {
       legFruit: "species=Malus domestica · Juglans regia · Citrus limon · Citrus sinensis · Citrus × aurantium · Olea europaea · Diospyros kaki",
       legStump: "natural=tree_stump",
       legXmas: "xmas:feature=tree (dall'8 dicembre al 6 gennaio, da zoom 16)",
-      legColors: "Colore della chioma dalla specie. Autunno: rosso species=Quercus rubra · Liquidambar styraciflua · Nyssa sylvatica · Acer rubrum (ottobre e novembre); giallo Ginkgo biloba (novembre) · Larix decidua (ottobre e novembre); bruno-arancio Taxodium distichum · Metasequoia glyptostroboides (ottobre e novembre). Argento Elaeagnus angustifolia (da aprile a ottobre). Azzurro Picea pungens · Eucalyptus cinerea · Eucalyptus pulverulenta (tutto l'anno). Nell'emisfero sud i mesi si spostano di 6",
+      legColors: "Colore della chioma dalla specie. Autunno: rosso species=Quercus rubra · Liquidambar styraciflua · Nyssa sylvatica · Acer rubrum (ottobre e novembre); giallo Ginkgo biloba (novembre) · Larix decidua (ottobre e novembre); bruno-arancio Taxodium distichum · Metasequoia glyptostroboides (ottobre e novembre). Argento Elaeagnus angustifolia (da aprile a ottobre). Azzurro Picea pungens · Eucalyptus cinerea · Eucalyptus pulverulenta (tutto l'anno). Nell'emisfero sud i mesi si spostano di 6. I colori autunnali ci sono solo con le stagioni attive (voce «Caducifoglia»)",
       legBroad: "leaf_type=broadleaved o palm, o stimato",
       legNeedle: "leaf_type=needleleaved, o stimato",
       legNoLeaf: "leaf_type mancante e non stimato" }, legBroad: "Latifoglia o palma",
@@ -704,6 +711,8 @@ const I18N = {
     legTrunk: "Trunk", legTrunkEst: "Estimated trunk", legStump: "Stump",
     legStems: "Multiple trunks", legIvy: "Covered in ivy", legFruit: "Fruits (seasonal)", legXmas: "Christmas tree",
     legColors: "Species colours (on)", legColorsOff: "Species colours (off)",
+    legSeasons: "Deciduous (seasons)",
+    legSeasonsToggle: "Click to switch the seasons off or on (when off, deciduous trees keep their leaves all year)",
     legColorsToggle: "Click to switch the species colours off or on (when off, crowns take the leaf cycle colour)",
     legFruitAlways: "Fruits (always)", legFruitOff: "Fruits (hidden)",
     legFruitToggle: "Click to switch: fruits only in their season, always, or hidden",    legTips: {
@@ -714,6 +723,7 @@ const I18N = {
       legLandmark: "denotation=landmark",
       legIssues: "At least one error",
       legDeciduous: "leaf_cycle=deciduous or semi_deciduous, or estimated",
+      legSeasons: "leaf_cycle=deciduous or semi_deciduous, or estimated. With the seasons on, the look follows today's date: leaves from April to September, autumn colours in October and November, bare tree from December to March (from zoom 16 only the outline). Each tree changes phase up to 10 days earlier or later. All phases with leaf_type=broadleaved; with needleleaved only the bare one. In the southern hemisphere the months shift by 6. Click the text to switch the seasons off",
       legEvergreen: "leaf_cycle=evergreen or semi_evergreen, or estimated",
       legNoCycle: "leaf_cycle missing and not estimated",
       legTrunk: "circumference=* or diameter=*",
@@ -723,7 +733,7 @@ const I18N = {
       legFruit: "species=Malus domestica · Juglans regia · Citrus limon · Citrus sinensis · Citrus × aurantium · Olea europaea · Diospyros kaki",
       legStump: "natural=tree_stump",
       legXmas: "xmas:feature=tree (from 8 December to 6 January, from zoom 16)",
-      legColors: "Crown colour from the species. Autumn: red species=Quercus rubra · Liquidambar styraciflua · Nyssa sylvatica · Acer rubrum (October and November); yellow Ginkgo biloba (November) · Larix decidua (October and November); russet Taxodium distichum · Metasequoia glyptostroboides (October and November). Silver Elaeagnus angustifolia (April to October). Blue Picea pungens · Eucalyptus cinerea · Eucalyptus pulverulenta (all year). In the southern hemisphere the months shift by 6",
+      legColors: "Crown colour from the species. Autumn: red species=Quercus rubra · Liquidambar styraciflua · Nyssa sylvatica · Acer rubrum (October and November); yellow Ginkgo biloba (November) · Larix decidua (October and November); russet Taxodium distichum · Metasequoia glyptostroboides (October and November). Silver Elaeagnus angustifolia (April to October). Blue Picea pungens · Eucalyptus cinerea · Eucalyptus pulverulenta (all year). In the southern hemisphere the months shift by 6. Autumn colours need the seasons on (“Deciduous” entry)",
       legBroad: "leaf_type=broadleaved or palm, or estimated",
       legNeedle: "leaf_type=needleleaved, or estimated",
       legNoLeaf: "leaf_type missing and not estimated" }, legBroad: "Broadleaved or palm",
@@ -1110,26 +1120,72 @@ const isXmas = p => XMAS && !!p.xmas;
 // (emisfero nord; a sud dell'equatore i mesi si spostano di 6, come per i frutti; null = tutto l'anno), nella data di
 // chi guarda. Si decide dalla specie (genere ed epiteto, anche con autore o cultivar), quindi non serve aggiornare i
 // dati. Solo specie dal colore costante e documentato (non le cultivar). #colors=1 li mostra anche fuori stagione.
+// Il terzo elemento (true) segna i colori autunnali: fanno parte delle stagioni (vedi sotto) e si spengono con loro.
 const SPECIES_COLORS = {
-  "Quercus rubra": ["#b8321f", [10, 11]],               // quercia rossa: rosso ruggine in autunno
-  "Liquidambar styraciflua": ["#a3233f", [10, 11]],     // liquidambar: rosso cremisi tendente al viola
-  "Nyssa sylvatica": ["#d0302a", [10, 11]],             // nissa: rosso scarlatto
-  "Acer rubrum": ["#c92a2a", [10, 11]],                 // acero rosso: rosso
-  "Ginkgo biloba": ["#f0c419", [11]],                   // ginkgo: giallo oro, tutto insieme a novembre
-  "Larix decidua": ["#e0a526", [10, 11]],               // larice: aghi giallo oro prima di cadere
-  "Taxodium distichum": ["#b8622a", [10, 11]],          // cipresso calvo: aghi bruno-arancio
-  "Metasequoia glyptostroboides": ["#b8622a", [10, 11]],// metasequoia: come il cipresso calvo
+  "Quercus rubra": ["#b8321f", [10, 11], true],               // quercia rossa: rosso ruggine in autunno
+  "Liquidambar styraciflua": ["#a3233f", [10, 11], true],     // liquidambar: rosso cremisi tendente al viola
+  "Nyssa sylvatica": ["#d0302a", [10, 11], true],             // nissa: rosso scarlatto
+  "Acer rubrum": ["#c92a2a", [10, 11], true],                 // acero rosso: rosso
+  "Ginkgo biloba": ["#f0c419", [11], true],                   // ginkgo: giallo oro, tutto insieme a novembre
+  "Larix decidua": ["#e0a526", [10, 11], true],               // larice: aghi giallo oro prima di cadere
+  "Taxodium distichum": ["#b8622a", [10, 11], true],          // cipresso calvo: aghi bruno-arancio
+  "Metasequoia glyptostroboides": ["#b8622a", [10, 11], true],// metasequoia: come il cipresso calvo
   "Elaeagnus angustifolia": ["#aebcae", [4, 5, 6, 7, 8, 9, 10]],   // olivagno: foglie argentate (caducifoglia)
   "Picea pungens": ["#7d9cb5", null],                   // abete del Colorado: aghi blu-grigi
   "Eucalyptus cinerea": ["#9db4c0", null],              // eucalipti con foglie argento-azzurre tutto l'anno
   "Eucalyptus pulverulenta": ["#9db4c0", null] };
 const COLORS_ALWAYS = hashParams().get("colors") === "1";
 const localMonth = lat => { const m = new Date().getMonth() + 1; return lat < 0 ? (m + 5) % 12 + 1 : m; };
-// sc = colore della specie oggi (proprietà aggiunta qui, non nei dati); va chiamata prima di ogni setData degli alberi
-const markColors = fc => {
-  for (const f of fc.features) {
-    const p = f.properties, sp = /^([A-Z][a-z]+) ([a-z-]+)/.exec(String(p.species || "")), c = sp && SPECIES_COLORS[sp[1] + " " + sp[2]];
-    if (c && !String(p.species).includes(";") && (COLORS_ALWAYS || !c[1] || c[1].includes(localMonth(f.geometry.coordinates[1])))) p.sc = c[0];
+// numero stabile tra 0 e 1 ricavato dall'id dell'albero (k = quale scelta): lo stesso a ogni ricarica e per chiunque
+const hash01 = (id, k) => { let x = (id * 2654435761 + k * 40503) >>> 0; x ^= x >>> 15; x = Math.imul(x, 2246822507) >>> 0;
+  x ^= x >>> 13; return (x >>> 0) / 4294967296; };
+// Stagioni (issue #51): gli alberi caducifogli a foglia larga (leaf_cycle e leaf_type scritti o stimati dalla specie)
+// passano per tre fasi, nella data di chi guarda: foglie (rendering normale), autunno (chioma nei colori autunnali),
+// spoglio. Le aghifoglie caducifoglie solo per la fase spoglia (in autunno cambiano colore solo le specie che ne hanno
+// uno proprio in SPECIES_COLORS). Calendario di default per l'emisfero nord, [primo mese, ultimo mese] di ogni fase; a sud dell'equatore i
+// mesi si spostano di 6. Una regione può averne uno suo (stessa forma). #season=leaves|autumn|bare forza una fase.
+const SEASONS_DEFAULT = { leaves: [4, 9], autumn: [10, 11], bare: [12, 3] };
+// transizioni graduali: ogni albero è in anticipo o in ritardo di un numero fisso di giorni (da -SEASON_SHIFT a
+// +SEASON_SHIFT, dall'id), così intorno al cambio di fase una parte degli alberi è già nella fase successiva
+const SEASON_SHIFT = 10;
+// toni autunnali di default e loro quota tra gli alberi: giallo, arancio, rosso-bruno, marrone
+const AUTUMN_TONES = [["#e3b524", 0.35], ["#dd8a1f", 0.3], ["#b5502a", 0.15], ["#9a6b3a", 0.2]];
+const SEASON_FORCE = { leaves: "l", autumn: "a", bare: "b" }[hashParams().get("season")] || null;
+const LEAF_CYCLES = ["deciduous", "semi_deciduous", "evergreen", "semi_evergreen"];
+const cycleOf = p => LEAF_CYCLES.includes(p.leaf_cycle) ? p.leaf_cycle : p.lc || "";   // come CYCLE sulla mappa
+const isDeciduous = p => !p.stump && /^(semi_)?deciduous$/.test(cycleOf(p));
+const inMonths = (r, m) => !!r && (r[0] <= r[1] ? m >= r[0] && m <= r[1] : m >= r[0] || m <= r[1]);
+const calPhase = (cal, m) => inMonths(cal.bare, m) ? "b" : inMonths(cal.autumn, m) ? "a" : "l";
+const autumnTone = id => { let x = hash01(id, 8); for (const [c, q] of AUTUMN_TONES) { if (x < q) return c; x -= q; } return AUTUMN_TONES[0][0]; };
+// mese "personale" dell'albero: quello della data di oggi spostata dei suoi giorni di anticipo o ritardo
+const shiftedMonth = (id, lat) => { const d = new Date(); d.setDate(d.getDate() + Math.round((hash01(id, 7) * 2 - 1) * SEASON_SHIFT));
+  const m = d.getMonth() + 1; return lat < 0 ? (m + 5) % 12 + 1 : m; };
+// Proprietà aggiunte qui, non nei dati (va chiamata prima di ogni setData degli alberi):
+//   sc  = colore non autunnale della specie, oggi (dipende solo da «Colori delle specie»)
+//   ph  = fase di oggi, "a" autunno o "b" spoglio (assente = foglie)
+//   at  = tono autunnale di default dell'albero (solo in autunno, per gli alberi che seguono le stagioni)
+//   asc = colore autunnale proprio della specie (solo nei suoi mesi)
+// Le specie con un colore proprio hanno la precedenza sul calendario: sono in autunno solo nei loro mesi (il ginkgo
+// a ottobre è verde), senza anticipi né ritardi, e finché hanno un colore non autunnale restano con le foglie.
+const markColors = (fc, cal, feats, idOf) => {
+  cal = cal || SEASONS_DEFAULT;
+  for (const f of feats || fc.features) {
+    const p = f.properties, lat = f.geometry.coordinates[1], id = idOf ? idOf(p) : p.id || 0;
+    const sp = /^([A-Z][a-z]+) ([a-z-]+)/.exec(String(p.species || ""));
+    const c = sp && !String(p.species).includes(";") && SPECIES_COLORS[sp[1] + " " + sp[2]] || null;
+    const now = !!c && (COLORS_ALWAYS || !c[1] || c[1].includes(localMonth(lat)));
+    // seas: latifoglia caducifoglia, tutte e tre le fasi; bare: anche le aghifoglie caducifoglie, che d'inverno sono
+    // spoglie ma in autunno cambiano colore solo se la specie ne ha uno proprio (larice, cipresso calvo, metasequoia)
+    const dec = isDeciduous(p), seas = dec && leafOf(p) === "broadleaved", bare = seas || (dec && leafOf(p) === "needleleaved");
+    delete p.sc; delete p.ph; delete p.at; delete p.asc;
+    if (now && !c[2]) p.sc = c[0];
+    let ph = "l";
+    if (SEASON_FORCE) ph = (SEASON_FORCE === "b" ? bare : SEASON_FORCE === "a" && (seas || (c && c[2]))) ? SEASON_FORCE : "l";
+    else if (c && c[2]) ph = now ? "a" : bare && calPhase(cal, localMonth(lat)) === "b" ? "b" : "l";
+    else if (bare && !p.sc) { ph = calPhase(cal, shiftedMonth(id, lat)); if (ph === "a" && !seas) ph = "l"; }
+    if (ph === "l") continue;
+    p.ph = ph;
+    if (ph === "a") { if (seas) p.at = autumnTone(id); if (c && c[2]) p.asc = c[0]; }
   }
   return fc;
 };
@@ -1229,19 +1285,41 @@ map.on("load", async () => {
     1];
   // colori delle specie (sc) un po' più coprenti: con la trasparenza normale il rosso sul verde dei parchi diventa
   // marrone. Senza i colori delle specie (spenti dalla legenda) le stesse espressioni senza sc
-  const opacityExpr = sc => ["case", ["get", "cr_est"], sc ? ["case", ["has", "sc"], 0.45, 0.3] : 0.3, sc ? ["case", ["has", "sc"], 0.7, 0.55] : 0.55];
-  const FILL_OPACITY = opacityExpr(true);
+  // Stagioni: sc = colori delle specie accesi, se = stagioni accese, poly = sagoma da SHAPE_Z. L'albero spoglio da
+  // SHAPE_Z è il solo contorno, bruno-grigio come un ramo, con un velo quasi invisibile che tiene la chioma cliccabile
+  // su tutta la superficie; sotto SHAPE_Z è un cerchio smorzato color sabbia.
+  let seasonsOn = true;
+  try { seasonsOn = localStorage.getItem("seasons") !== "off"; } catch (e) {}
+  const BARE = ["==", ["get", "ph"], "b"];
+  const BARE_STROKE = "#7d6650", BARE_FILL = "#cdbb9f";
+  // chiome tinte (colore della specie o tono autunnale): un po' più coprenti
+  const tinted = (sc, se) => { const c = [...(se && sc ? [["has", "asc"]] : []), ...(se ? [["has", "at"]] : []), ...(sc ? [["has", "sc"]] : [])];
+    return c.length ? ["any", ...c] : null; };
+  const opacityExpr = (sc, se = true, poly = false) => {
+    const t = tinted(sc, se), base = ["case", ["get", "cr_est"], t ? ["case", t, 0.45, 0.3] : 0.3, t ? ["case", t, 0.7, 0.55] : 0.55];
+    return se ? ["case", BARE, poly ? 0.02 : 0.35, base] : base;
+  };
   // colore della chioma da leaf_cycle (o dalla stima lc delle liste wiki): caducifoglie più chiare, sempreverdi più scure
   const CYCLE = ["case", ["in", ["coalesce", ["get", "leaf_cycle"], ""], ["literal", ["deciduous", "semi_deciduous", "evergreen", "semi_evergreen"]]],
     ["get", "leaf_cycle"], ["coalesce", ["get", "lc"], ""]];
   // caducifoglie verde-giallo chiaro, sempreverdi verde scuro, ciclo ignoto verde medio un po' smorzato
-  // colore della specie (sc, da markColors) prima del ciclo fogliare
   const CYCLE_COLOR = ["match", CYCLE, ["deciduous", "semi_deciduous"], "#a5d64c", ["evergreen", "semi_evergreen"], "#1f6b35", "#5fa36f"];
-  const crownExpr = sc => sc ? ["case", ["has", "sc"], ["get", "sc"], CYCLE_COLOR] : CYCLE_COLOR;
-  const CROWN_COLOR = crownExpr(true);
+  // con le stagioni: albero spoglio; colore autunnale della specie (asc, se anche i colori delle specie sono accesi),
+  // altrimenti il tono autunnale di default (at); poi il colore non autunnale della specie (sc), che non dipende dalle
+  // stagioni; infine il colore del ciclo fogliare
+  const crownExpr = (sc, se = true) => {
+    const c = [...(se ? [BARE, BARE_FILL] : []), ...(se && sc ? [["has", "asc"], ["get", "asc"]] : []),
+      ...(se ? [["has", "at"], ["get", "at"]] : []), ...(sc ? [["has", "sc"], ["get", "sc"]] : [])];
+    return c.length ? ["case", ...c, CYCLE_COLOR] : CYCLE_COLOR;
+  };
+  // contorno: per l'albero spoglio senza altri contorni (errori, monumentale, sacro, landmark) il verde scuro diventa
+  // bruno-grigio, un po' più spesso sulla sagoma perché è tutto ciò che si vede
+  const BARE_PLAIN = ["all", BARE, ["==", STROKE_W, 1]];
+  const strokeExpr = se => se ? ["case", BARE_PLAIN, BARE_STROKE, STROKE_COLOR] : STROKE_COLOR;
+  const strokeWExpr = (se, poly) => se && poly ? ["case", BARE_PLAIN, 1.3, STROKE_W] : STROKE_W;
   const circlePaint = () => ({
-    "circle-radius": radius("cr", 3), "circle-color": CROWN_COLOR, "circle-opacity": FILL_OPACITY,
-    "circle-stroke-color": STROKE_COLOR, "circle-stroke-width": STROKE_W,
+    "circle-radius": radius("cr", 3), "circle-color": crownExpr(true, seasonsOn), "circle-opacity": opacityExpr(true, seasonsOn),
+    "circle-stroke-color": strokeExpr(seasonsOn), "circle-stroke-width": STROKE_W,
     "circle-pitch-alignment": "map", "circle-pitch-scale": "map" });
 
   // Forme: da SHAPE_Z in poi le chiome con leaf_type diventano poligoni (a dimensione reale)
@@ -1286,8 +1364,6 @@ map.on("load", async () => {
   // Decorazioni da zoom 16, punti con le proprietà dell'albero più dk (tipo), dr (raggio in m) e dc (colore):
   // tronchi di multi_stemmed (stems: raggi da fetch_trees.py), puntini verdi intorno al tronco per ivyclad=yes,
   // frutti sulla chioma (fruit: colore). Posizioni fisse per albero, ricavate dall'id come i lobi della chioma.
-  const hash01 = (id, k) => { let x = (id * 2654435761 + k * 40503) >>> 0; x ^= x >>> 15; x = Math.imul(x, 2246822507) >>> 0;
-    x ^= x >>> 13; return (x >>> 0) / 4294967296; };
   // stagione dei frutti (issue #4): fm = mesi in cui l'albero è carico di frutti nell'emisfero nord (fetch_trees.py,
   // assente = tutto l'anno); a sud dell'equatore i mesi si spostano di 6. Si decide con la data di chi guarda la mappa.
   const MONTH = new Date().getMonth() + 1;
@@ -1428,9 +1504,9 @@ map.on("load", async () => {
     { id: "crown", spec: tier => ({ type: "circle", source: tier.src, minzoom: tier.minZ, maxzoom: SHAPE_Z, paint: circlePaint() }) },
     { id: "crown-plain", base: NOSHAPE, spec: tier => ({ type: "circle", source: tier.src, minzoom: SHAPE_Z, paint: circlePaint() }) },
     { id: "crown-poly", spec: () => ({ type: "fill", source: "shapes", paint: {
-      "fill-color": CROWN_COLOR, "fill-opacity": FILL_OPACITY } }) },
+      "fill-color": crownExpr(true, seasonsOn), "fill-opacity": opacityExpr(true, seasonsOn, true) } }) },
     { id: "crown-poly-line", spec: () => ({ type: "line", source: "shapes", layout: { "line-join": "round" }, paint: {
-      "line-color": STROKE_COLOR, "line-width": STROKE_W } }) },
+      "line-color": strokeExpr(seasonsOn), "line-width": strokeWExpr(seasonsOn, true) } }) },
     // monumentale e sacro (isDual): sopra al contorno oro, metà sinistra gialla e metà destra azzurra (colore in dc)
     { id: "dual", base: ["==", ["get", "dk"], "dual"], spec: () => ({ type: "line", source: "deco", minzoom: SHAPE_Z,
       layout: { "line-join": "round", "line-cap": "round" }, paint: { "line-width": 3, "line-color": ["get", "dc"] } }) },
@@ -1472,12 +1548,28 @@ map.on("load", async () => {
   const colorsLi = document.getElementById("leg-colors");
   let colorsOn = true;
   try { colorsOn = localStorage.getItem("speciesColors") !== "off"; } catch (e) {}
-  const applyColors = () => {
+  // colore, opacità e contorno delle chiome secondo i due interruttori della legenda (colori delle specie, stagioni);
+  // anche per gli alberi dell'elenco MASAF della mappa dei monumentali, quando i loro livelli ci sono
+  const masafOpacity = () => seasonsOn ? ["case", BARE, 0.02, 0.35] : 0.35;
+  const applyCrowns = () => {
     for (const id of CROWN_IDS) {
-      const fill = id.startsWith("crown-poly") ? "fill" : "circle";
-      map.setPaintProperty(id, fill + "-color", crownExpr(colorsOn));
-      map.setPaintProperty(id, fill + "-opacity", opacityExpr(colorsOn));
+      const poly = id.startsWith("crown-poly"), k = poly ? "fill" : "circle";
+      map.setPaintProperty(id, k + "-color", crownExpr(colorsOn, seasonsOn));
+      map.setPaintProperty(id, k + "-opacity", opacityExpr(colorsOn, seasonsOn, poly));
+      if (!poly) map.setPaintProperty(id, "circle-stroke-color", strokeExpr(seasonsOn));
     }
+    for (const t of TIERS) {
+      map.setPaintProperty("crown-poly-line" + t.suf, "line-color", strokeExpr(seasonsOn));
+      map.setPaintProperty("crown-poly-line" + t.suf, "line-width", strokeWExpr(seasonsOn, true));
+    }
+    if (map.getLayer("masaf-fill")) {
+      map.setPaintProperty("masaf-fill", "circle-color", crownExpr(colorsOn, seasonsOn));
+      map.setPaintProperty("masaf-shape", "fill-color", crownExpr(colorsOn, seasonsOn));
+      map.setPaintProperty("masaf-shape", "fill-opacity", masafOpacity());
+    }
+  };
+  const applyColors = () => {
+    applyCrowns();
     const label = colorsLi.querySelector('[data-i18n="legColors"]'), txt = colorsOn ? L.legColors : L.legColorsOff;
     const i = txt.lastIndexOf("("), mode = document.createElement("span");
     mode.className = "mode"; mode.textContent = i < 0 ? txt : txt.slice(i);
@@ -1494,6 +1586,33 @@ map.on("load", async () => {
       applyColors();
     });
     applyColors();
+  }
+
+  // Stagioni (#51): la voce «Caducifoglia» della legenda le accende e le spegne con un clic sul testo; la scelta resta
+  // salvata nel browser. Accese, l'icona è divisa in tre (foglie, autunno, spoglio) e il pop-up spiega le fasi; spente,
+  // icona, testo e pop-up sono quelli di sempre e le caducifoglie hanno le foglie tutto l'anno.
+  const seasonsLi = document.getElementById("leg-deciduous");
+  const applySeasons = () => {
+    applyCrowns();
+    const label = seasonsLi.querySelector('[data-i18n="legDeciduous"]'), tip = seasonsLi.querySelector(".tip");
+    if (seasonsOn) {
+      const txt = L.legSeasons, i = txt.lastIndexOf("("), mode = document.createElement("span");
+      mode.className = "mode"; mode.textContent = txt.slice(i);
+      label.replaceChildren(txt.slice(0, i), mode);
+    } else label.textContent = L.legDeciduous;
+    if (tip) tip.textContent = seasonsOn ? L.legTips.legSeasons : L.legTips.legDeciduous;
+    seasonsLi.classList.toggle("plain", !seasonsOn);
+  };
+  if (seasonsLi) {
+    const label = seasonsLi.querySelector('[data-i18n="legDeciduous"]');
+    label.classList.add("toggle");
+    label.title = L.legSeasonsToggle;
+    label.addEventListener("click", () => {
+      seasonsOn = !seasonsOn;
+      try { localStorage.setItem("seasons", seasonsOn ? "on" : "off"); } catch (e) {}
+      applySeasons();
+    });
+    applySeasons();
   }
 
   // Frutti: tre modi, a ogni clic sulla voce della legenda il successivo (la scelta resta salvata nel browser):
@@ -2252,13 +2371,13 @@ map.on("load", async () => {
     const crownPx = z => ["max", 3, metersPx(CRR, z)];
     const byZoom = fn => ["interpolate", ["exponential", 2], ["zoom"], ...Array.from({ length: 23 }, (_, z) => [z, fn(z)]).flat()];
     map.addLayer({ id: "masaf-fill", type: "circle", source: "masaf", minzoom: FULL_Z, maxzoom: SHAPE_Z,
-      paint: { "circle-radius": byZoom(z => ["+", crownPx(z), 1.5]), "circle-color": CROWN_COLOR, "circle-opacity": 0.35,
+      paint: { "circle-radius": byZoom(z => ["+", crownPx(z), 1.5]), "circle-color": crownExpr(colorsOn, seasonsOn), "circle-opacity": 0.35,
         "circle-pitch-alignment": "map" } });
     map.addLayer({ id: "masaf", type: "symbol", source: "masaf", minzoom: FULL_Z, maxzoom: SHAPE_Z,
       layout: { "icon-image": "masaf-ring", "icon-allow-overlap": true, "icon-ignore-placement": true,
         "icon-size": byZoom(z => ["/", ["+", crownPx(z), 3], 28.5]) } });
     map.addLayer({ id: "masaf-shape", type: "fill", source: "masaf-shapes", minzoom: SHAPE_Z,
-      paint: { "fill-color": CROWN_COLOR, "fill-opacity": 0.35 } });
+      paint: { "fill-color": crownExpr(colorsOn, seasonsOn), "fill-opacity": masafOpacity() } });
     map.addLayer({ id: "masaf-shape-line", type: "line", source: "masaf-shapes", minzoom: SHAPE_Z,
       layout: { "line-join": "round" }, paint: { "line-color": "#e6a800", "line-width": 3, "line-dasharray": [2, 1.4] } });
     // tronco, come per gli alberi OSM: dalla circonferenza dell'elenco o stimato dall'altezza (tr_est, più chiaro)
@@ -2288,6 +2407,7 @@ map.on("load", async () => {
     const masafPos = new Map();   // codice MASAF -> punto dell'albero (le sagome sono poligoni)
     getGz(`${BASE}data/world/masaf.geojson.gz`).then(fc => {
       fc.features.forEach(f => masafPos.set(f.properties.masaf, f.geometry.coordinates));
+      markColors(fc, null, null, p => codeId(p.masaf));   // stagioni e colori delle specie, come per gli alberi OSM
       map.getSource("masaf").setData(fc);
       map.getSource("masaf-shapes").setData({ type: "FeatureCollection", features: fc.features.map(masafShape) });
     }).catch(() => {});
@@ -2347,8 +2467,10 @@ map.on("load", async () => {
     // visibili a zoom basso) che MapLibre prepara in un attimo; poi, in secondo piano, il file completo. Se il file
     // ridotto manca (dati scritti prima che esistesse) lo si ricava dal completo. Le due parti vanno in due sorgenti
     // distinte ("trees-min" e "trees"), così i livelli a zoom basso non aspettano che MapLibre prepari il completo.
+    // calendario delle stagioni della regione ("seasons" in regions.json), se ne ha uno; altrimenti quello di default
+    const cal = (metaBy[slug] || {}).seasons || null;
     const show = (fc, src) => {
-      markColors(fc);
+      markColors(fc, cal);
       // dati scritti prima dell'unione dei check: la tutela su Wikidata era un check a sé (wikidata_heritage), ora
       // è una fonte di monument_denotation (wd_her_*). Da togliere quando tutte le regioni saranno aggiornate.
       for (const f of fc.features) { const p = f.properties;
@@ -2358,6 +2480,7 @@ map.on("load", async () => {
       // alberi di Natale che non sono natural=tree (fc.xmas, da fetch_trees.py): solo chioma, lucine e stella, nel
       // periodo; non sono in ALL, quindi restano fuori da conteggi, filtri ed errori
       const xm = XMAS ? fc.xmas || [] : [];
+      markColors(fc, cal, xm);
       SHAPED = [...ALL.filter(isShaped), ...xm.filter(isShaped)];
       DECO = [...ALL.filter(ft => ft.properties.stems || ft.properties.ivy || ft.properties.fruit || isXmas(ft.properties)
         || isDual(ft.properties)), ...xm];
@@ -2365,7 +2488,7 @@ map.on("load", async () => {
       updateTaxa(); updateShapes(); update();
     };
     // stesso criterio di minimal() in fetch_trees.py
-    const reduce = fc => ({ type: "FeatureCollection", features: markColors(fc).features.filter(f => f.properties.issues !== "|"
+    const reduce = fc => ({ type: "FeatureCollection", features: markColors(fc, cal).features.filter(f => f.properties.issues !== "|"
       || isMon(f.properties)) });
     let fitted = false;
     const fitTo = feats => {                          // inquadra la regione: dal confine se c'è, altrimenti dagli alberi
@@ -3021,7 +3144,8 @@ const commonsFile = name => "https://commons.wikimedia.org/wiki/Special:FilePath
 const fotoshiId = p => /^[A-Za-z0-9_-]{10,}$/.test(String(p["image:fotoshi"] || "").trim()) ? p["image:fotoshi"].trim() : null;
 
 // Immagine della scheda, in ordine: wikimedia_commons=File:…, panoramax, image:fotoshi, image (anche link a Commons),
-// immagine dell'elemento Wikidata (wd_img, P18, da fetch_trees.py). Restituisce { src, commons (nome del file, per
+// immagine dell'elemento Wikidata (wd_img, P18, da fetch_trees.py; d'inverno la veduta invernale wd_img_w, P5252, se
+// c'è: vedi isWinter). Restituisce { src, commons (nome del file, per
 // chiedere a Commons autore e licenza), credit e href (crediti già noti, es. Fotoshi) }. Una categoria di Commons
 // si cerca a parte (categoryImage), quando la scheda è aperta.
 // fonti della monumentalità di un albero "implicito" della mappa dei monumentali (imp): mon_src e la tutela su Wikidata
@@ -3040,7 +3164,9 @@ function implicitSourceNames(p) {
 }
 // simbolo di Fotoshi prima del credito delle sue foto (lo stesso di osm.fotoshi.com), del colore del testo
 const FOTOSHI_ICON = '<svg class="fs-mark" viewBox="0 0 174.38 174.38" aria-hidden="true"><path fill="currentColor" d="M19.85 49.59H2.57V1.71h47.88v17.27h-30.6v30.61zM171.8 49.59h-17.27V18.98h-30.61V1.71h47.88v47.88zM171.8 170.94h-47.88v-17.28h30.6v-30.6h17.28v47.88zM50.45 170.94H2.57v-47.88h17.28v30.6h30.6v17.28zM0 87.33 87.31 0l87.07 87.06-87.33 87.32-12.6-12.6 74.71-74.72-61.85-61.84-62.1 62.11 36.33 36.33 36.34-36.33-11.87-11.87-18.16 18.17-.02-.01-6.28 6.29-12.58-12.58 6.28-6.29-.01-.02 30.77-30.77 37.08 37.08-61.55 61.54L0 87.33z"/></svg>';
-function imageInfo(p) {
+// inverno alla latitudine dell'albero: i mesi della fase spoglia del calendario di default (o #season=bare)
+const isWinter = lat => SEASON_FORCE ? SEASON_FORCE === "b" : inMonths(SEASONS_DEFAULT.bare, localMonth(lat));
+function imageInfo(p, pos) {
   const c = p.wikimedia_commons;
   if (c && /^File:/.test(c)) return { src: commonsFile(c.slice(5)), commons: c.slice(5) };
   const pid = panoramaxIds(p)[0];
@@ -3054,7 +3180,7 @@ function imageInfo(p) {
     if (m) { const name = decodeURIComponent(m[1]).replace(/^File:/, ""); return { src: commonsFile(name), commons: name }; }
     return { src: p.image };
   }
-  if (p.wd_img) return { src: commonsFile(p.wd_img), commons: p.wd_img };
+  if (p.wd_img) { const w = p.wd_img_w && pos && isWinter(+pos[1]) ? p.wd_img_w : p.wd_img; return { src: commonsFile(w), commons: w }; }
   return null;
 }
 
@@ -3244,7 +3370,7 @@ function card(p, pos) {
   // nome comune della specie nella lingua del sito (da Wikidata, vedi common_name in fetch_trees.py)
   p = { ...p, sp_common: p["sp_" + LANG] };
   const [titleHtml, titleKey] = title(p);
-  const img = imageInfo(p);
+  const img = imageInfo(p, pos);
   const cat = !img && /^Category:/.test(p.wikimedia_commons || "") ? p.wikimedia_commons : null;
   // foto con i crediti in sovrimpressione (riempiti subito, o da fillPhoto per Commons); se non si carica sparisce
   const photo = img || cat ? `<div class="photo"${img?.commons ? ` data-commons="${esc(img.commons)}"` : ""}${img?.pano ? ` data-pano="${esc(img.pano)}"` : ""}${cat ? ` data-cat="${esc(cat)}"` : ""}>
