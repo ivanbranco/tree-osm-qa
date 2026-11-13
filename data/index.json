@@ -228,12 +228,12 @@
    "updated": "2026-11-11T11:15:12Z"
   },
   "croazia": {
-   "count": 88758,
-   "diam": "mm",
-   "errors": 198,
+   "count": 88763,
+   "errors": 232,
    "name": "Croazia",
-   "sha1": "390a8f494baad4ca815c6a962e94fd5e7dbea8ab",
-   "updated": "2026-11-10T18:15:24Z"
+   "sha1": "7a678428bba848f3798aba9803b47fae22083515",
+   "tried": "2026-11-13",
+   "updated": "2026-11-13T19:38:11Z"
   },
   "dolnoslaskie": {
    "count": 127683,
