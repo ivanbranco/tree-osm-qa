@@ -102,7 +102,9 @@
   body.world .qa-only,body.world #region,body.world #overview,body.world #issue-row,body.world #scale,
   body.world #rank-box,body.world #chart-box{display:none!important}
   /* icona del globo nella legenda: apre la mappa mondiale */
-  .leg .globe{margin-left:auto;color:#888;display:flex}
+  /* abbassato di .12em: il centro del globo cade a metà delle lettere (non del riquadro del testo, che comprende lo spazio
+     sopra le maiuscole); può scendere sotto la linea di base */
+  .leg .globe{margin-left:auto;color:#888;display:flex;position:relative;top:.12em}
   .leg .globe:hover{color:#1a5fb4}
   #chart-title{font-size:12px;color:#666;margin:6px 0 2px}
   #chart svg{display:block}
@@ -131,6 +133,7 @@
   .leg .toggle .mode{text-decoration:underline dotted 1px;text-decoration-color:color-mix(in srgb,currentColor 45%,transparent);text-underline-offset:3px}   /* la modalità tra parentesi */
   #leg-deciduous .s-off,#leg-deciduous.plain .s-on{display:none}   /* stagioni: icona in tre parti, o quella di sempre se spente */
   #leg-deciduous.plain .s-off{display:inline}
+  .leg .toggle .struck{opacity:.45;text-decoration:line-through}   /* «stagioni» spente: solo la parola, come una voce spenta */
   .leg li.off{opacity:.45}
   .leg li.off [data-i18n]{text-decoration:line-through}
   .leg .why .tip{position:fixed;right:auto;box-sizing:border-box}   /* posizione e larghezza dallo script */
@@ -245,8 +248,8 @@
       <li class="world-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#f2c14e" fill-opacity=".25" stroke="#e6a800" stroke-width="2.5" stroke-dasharray="4 2.5"/></svg> <span data-i18n="legMasaf">Elenco MASAF</span></li>
       <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#7b3fc4" stroke-width="2"/></svg> <span data-i18n="legLandmark">Landmark</span></li>
       <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#d00020" stroke-width="2"/></svg> <span data-i18n="legIssues">Con problemi</span></li>
-      <!-- interruttore delle stagioni (#51): con le stagioni accese l'icona è divisa in tre (foglie, autunno, spoglio), spente è quella di sempre (.plain) -->
-      <li id="leg-deciduous"><svg width="22" height="22" viewBox="0 0 22 22"><g class="s-on"><path d="M11 11V3A8 8 0 0 1 17.93 15Z" fill="#a5d64c" fill-opacity=".75"/><path d="M11 11L17.93 15A8 8 0 0 1 4.07 15Z" fill="#dd8a1f" fill-opacity=".8"/><path d="M11 3A8 8 0 0 1 17.93 15A8 8 0 0 1 4.07 15" fill="none" stroke="#1b6b2c" stroke-width="1"/><path d="M4.07 15A8 8 0 0 1 11 3" fill="none" stroke="#7d6650" stroke-width="1.3"/></g><circle class="s-off" cx="11" cy="11" r="8" fill="#a5d64c" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legDeciduous">Caducifoglia</span></li>
+      <!-- interruttore delle stagioni (#51): con le stagioni accese l'icona è divisa in tre (foglie in alto a sinistra, autunno in alto a destra, spoglio in basso), spente è quella di sempre (.plain) -->
+      <li id="leg-deciduous"><svg width="22" height="22" viewBox="0 0 22 22"><g class="s-on"><path d="M11 11L4.07 15A8 8 0 0 1 11 3Z" fill="#a5d64c" fill-opacity=".75"/><path d="M11 11V3A8 8 0 0 1 17.93 15Z" fill="#dd8a1f" fill-opacity=".8"/><path d="M4.07 15A8 8 0 0 1 11 3A8 8 0 0 1 17.93 15" fill="none" stroke="#1b6b2c" stroke-width="1"/><path d="M17.93 15A8 8 0 0 1 4.07 15" fill="none" stroke="#7d6650" stroke-width="1.3"/></g><circle class="s-off" cx="11" cy="11" r="8" fill="#a5d64c" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legDeciduous">Caducifoglia</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#1f6b35" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legEvergreen">Sempreverde</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#5fa36f" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/></svg> <span data-i18n="legNoCycle">Ciclo fogliare non specificato</span></li>
       <!-- colori caratteristici di alcune specie (SPECIES_COLORS nello script): quattro spicchi rosso, giallo, argento, azzurro -->
@@ -373,7 +376,7 @@ const I18N = {
       legLandmark: "denotation=landmark",
       legIssues: "Almeno un errore",
       legDeciduous: "leaf_cycle=deciduous o semi_deciduous, o stimato",
-      legSeasons: "leaf_cycle=deciduous o semi_deciduous, o stimato. Con le stagioni attive l'aspetto segue la data di oggi: foglie da aprile a settembre, colori autunnali a ottobre e novembre, albero spoglio da dicembre a marzo (da zoom 16 solo il contorno). Ogni albero cambia fase fino a 10 giorni prima o dopo. Tutte le fasi con leaf_type=broadleaved; con needleleaved solo quella spoglia. Nell'emisfero sud i mesi si spostano di 6. Un clic sul testo spegne le stagioni",
+      legSeasons: "leaf_cycle=deciduous o semi_deciduous, o stimato. Con le stagioni attive l'aspetto segue la data di oggi: foglie da aprile a settembre, colori autunnali a ottobre e novembre, albero spoglio da dicembre a marzo (da zoom 16 solo il contorno). Ogni albero cambia fase fino a 10 giorni prima o dopo. Tutte le fasi con leaf_type=broadleaved; con needleleaved solo quella spoglia. Nell'emisfero sud i mesi si spostano di 6",
       legEvergreen: "leaf_cycle=evergreen o semi_evergreen, o stimato",
       legNoCycle: "leaf_cycle mancante e non stimato",
       legTrunk: "circumference=* o diameter=*",
@@ -723,7 +726,7 @@ const I18N = {
       legLandmark: "denotation=landmark",
       legIssues: "At least one error",
       legDeciduous: "leaf_cycle=deciduous or semi_deciduous, or estimated",
-      legSeasons: "leaf_cycle=deciduous or semi_deciduous, or estimated. With the seasons on, the look follows today's date: leaves from April to September, autumn colours in October and November, bare tree from December to March (from zoom 16 only the outline). Each tree changes phase up to 10 days earlier or later. All phases with leaf_type=broadleaved; with needleleaved only the bare one. In the southern hemisphere the months shift by 6. Click the text to switch the seasons off",
+      legSeasons: "leaf_cycle=deciduous or semi_deciduous, or estimated. With the seasons on, the look follows today's date: leaves from April to September, autumn colours in October and November, bare tree from December to March (from zoom 16 only the outline). Each tree changes phase up to 10 days earlier or later. All phases with leaf_type=broadleaved; with needleleaved only the bare one. In the southern hemisphere the months shift by 6",
       legEvergreen: "leaf_cycle=evergreen or semi_evergreen, or estimated",
       legNoCycle: "leaf_cycle missing and not estimated",
       legTrunk: "circumference=* or diameter=*",
@@ -1595,11 +1598,13 @@ map.on("load", async () => {
   const applySeasons = () => {
     applyCrowns();
     const label = seasonsLi.querySelector('[data-i18n="legDeciduous"]'), tip = seasonsLi.querySelector(".tip");
-    if (seasonsOn) {
-      const txt = L.legSeasons, i = txt.lastIndexOf("("), mode = document.createElement("span");
-      mode.className = "mode"; mode.textContent = txt.slice(i);
-      label.replaceChildren(txt.slice(0, i), mode);
-    } else label.textContent = L.legDeciduous;
+    // «(stagioni)» sottolineato sia con le stagioni accese sia spente; spente, la sola parola è barrata e grigia
+    const txt = L.legSeasons, i = txt.lastIndexOf("("), j = txt.lastIndexOf(")");
+    const mode = document.createElement("span"), word = document.createElement("span");
+    mode.className = "mode"; word.textContent = txt.slice(i + 1, j);
+    if (!seasonsOn) word.className = "struck";
+    mode.replaceChildren("(", word, txt.slice(j));
+    label.replaceChildren(txt.slice(0, i), mode);
     if (tip) tip.textContent = seasonsOn ? L.legTips.legSeasons : L.legTips.legDeciduous;
     seasonsLi.classList.toggle("plain", !seasonsOn);
   };
