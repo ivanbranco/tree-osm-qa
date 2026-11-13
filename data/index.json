@@ -631,12 +631,12 @@
    "updated": "2026-11-11T11:15:02Z"
   },
   "piemonte": {
-   "count": 72971,
-   "errors": 132,
+   "count": 72979,
+   "errors": 131,
    "name": "Piemonte",
-   "sha1": "8c22a4d359c1e5d133944a1e994b6d3f5b98f93c",
+   "sha1": "16733fa66b17f4896620dc2aa2816fa3213f16bb",
    "tried": "2026-11-13",
-   "updated": "2026-11-13T02:49:41Z"
+   "updated": "2026-11-13T16:50:16Z"
   },
   "podkarpackie": {
    "count": 90371,
