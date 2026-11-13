@@ -260,12 +260,12 @@
    "updated": "2026-11-12T02:27:26Z"
   },
   "estonia": {
-   "count": 80795,
-   "diam": "mm",
-   "errors": 163,
+   "count": 80952,
+   "errors": 783,
    "name": "Estonia",
-   "sha1": "6d75452d95dd1628c32a66652c77e04388a187a8",
-   "updated": "2026-11-10T18:13:49Z"
+   "sha1": "67f60be228af6503ef630e28bc36a509d0534ddf",
+   "tried": "2026-11-13",
+   "updated": "2026-11-13T03:42:02Z"
   },
   "estremadura": {
    "count": 71413,
