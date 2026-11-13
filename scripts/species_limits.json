@@ -1,5 +1,6 @@
 {
-  "_default": {"height_circ_ratio": 12, "crown_circ_ratio": 7.03},
+  "_default": {"height_circ_ratio": 12, "crown_circ_ratio": 7.03,
+               "height_circ_ratio_bands": [[0, 15.4], [6, 13.2], [8, 11.1], [15, 11.3], [20, 12.0], [30, 11.4]]},
   "Acer platanoides": {"height": 39.4, "circumference": 6.72, "height_circ_ratio": 13.51},
   "Quercus robur": {"height": 44.3, "circumference": 14.45, "height_circ_ratio": 13.17},
   "Tilia cordata": {"height": 41.6, "circumference": 12.81, "height_circ_ratio": 13.17},

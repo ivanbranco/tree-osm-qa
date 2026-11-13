@@ -42,6 +42,28 @@ The "Completeness" tab of this map (see [The map](mappa.md)) has, at the top, th
 
 The page in the folder loads `index.html` setting the mode (`window.DENDROSM_MODE`, see `MODE` in the script): the code is one. The data is in `data/world/monumental.geojson.gz` (same checks as the tool; the `qa` property is the tool's region in which the tree falls, from the boundaries of `data/regions_boundaries.geojson`; `mz` is the zoom from which the tree appears, only for those visible below zoom 7), `data/world/monumental.low.geojson.gz` (only the trees with `mz`) and `data/world/index.json`. They are updated manually from the "Update monumental map" Action (`scripts/fetch_world.py`, locally `python scripts/fetch_world.py`). Links (`image`, `website`, `url`) are not rechecked: the broken-link check uses the tool's cache.
 
+## Height bands for the estimated trunk
+
+When a tree has `height=*` but no `circumference=*` (or `diameter=*`), the trunk is drawn from an estimated circumference: height divided by a height/circumference ratio. The ratio is chosen in this order: the ratio of the species (`height_circ_ratio` in `scripts/species_limits.json`), then the ratio of the tree's height band, then the single general value (12). A tree without a height does not use the bands. The bands are the same for all species ([issue #39](https://github.com/ivanbranco/tree-osm-qa/issues/39)):
+
+| Height (m) | Trees in the sample | Height/circumference ratio |
+|---|---|---|
+| 0–6 | 69,933 | 15.4 |
+| 6–8 | 59,248 | 13.2 |
+| 8–15 | 150,834 | 11.1 |
+| 15–20 | 46,372 | 11.3 |
+| 20–30 | 22,792 | 12.0 |
+| 30 and above | 2,606 | 11.4 |
+
+The lower bound belongs to the band (a tree of exactly 6 m is in 6–8), and the bands have no gaps.
+
+* **Why**: with the single value, trees below 6 m were drawn with a trunk circumference 28% larger than the median of the measured ones (their median ratio is 15.4, not 12). On trees that have both measurements, the median error of the estimate (absolute difference of the logarithms of the estimated and mapped circumference) goes from 0.307 to 0.283 overall, and from 0.470 to 0.345 below 6 m; from 8 m upwards it changes by 5% at most, because there the band medians are close to 12
+* **Sample**: the 351,785 trees in `data/regions` with height and circumference both mapped (circumference also from `diameter=*`; stumps excluded) and without `denotation=natural_monument`, in November 2026. Monumental trees are left out because they are 0.3% of the trees that get the band estimate, but 36% of the measured trees from 20 m upwards, where they lower the median by up to 14% (20–30 m: 10.3 with them, 12.0 without)
+* **Boundaries**: 6 and 8 m follow the data: the median ratio is between 15 and 17 up to 6 m (also at exactly 5 m, a very frequent value) and reaches 11 from 8 m
+* **Minimum**: a band needs at least 1,000 trees; a band with fewer is merged with a neighbouring one
+* **Fixed values**: the medians were computed once and are written in `height_circ_ratio_bands` under `_default` in `scripts/species_limits.json` (rows `[minimum height, ratio]`); region updates do not recompute them
+* The bands are used only to draw the trunk: the thresholds of the checks on the height/circumference ratio do not use them
+
 ## Structure
 
 * `scripts/fetch_trees.py` – downloads from Overpass, computes the checks, writes the data
@@ -49,7 +71,7 @@ The page in the folder loads `index.html` setting the mode (`window.DENDROSM_MOD
 * `scripts/regions.json` – list of regions
 * `scripts/update_boundaries.py` – downloads the region boundaries into `data/regions_boundaries.geojson`
 * `scripts/update_reference_lists.py` – downloads the species and genus lists from the OSM wiki into `scripts/species_list.json` and `scripts/genus_list.json` (for genera also the common names of the `genus:xx` columns, under `names`), and the `denotation` values with the number of uses from Taginfo into `scripts/denotation_values.json`
-* `scripts/species_limits.json` – per species: height and circumference limits, ratios used to estimate missing dimensions
+* `scripts/species_limits.json` – per species: height and circumference limits, ratios used to estimate missing dimensions; under `_default`, the general ratios and the height bands (`height_circ_ratio_bands`, see [Height bands for the estimated trunk](#height-bands-for-the-estimated-trunk))
 * `scripts/update_masaf.py` – from the KML file of the MASAF list of monumental trees of Italy (downloaded manually from the [list page](https://www.masaf.gov.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/11260); about 30 MB, it does not go in the repository) writes `scripts/masaf_list.json`: each code with its status, listed or removed (reason and decree), for the check on removed trees; and `scripts/masaf_trees.json`, the listed trees with position, species, place, measurements and criteria, for the monumental trees map. It is rerun manually when a new version of the list comes out: `python scripts/update_masaf.py "Alberi monumentali d'Italia.kml"`. The loaded version is at the top of `scripts/masaf_list.json` (`"version"`, read from the KML description: currently "X Aggiornamento, D.Dir. n. 364243 del 24/07/2026"); if a new KML has the same version, the script says so
 * `scripts/masaf_thresholds.json` – the MASAF indicative minimum circumferences per species (January 2020 table, from the PDF of [issue #1](https://github.com/ivanbranco/tree-osm-qa/issues/1)), transcribed by hand, for the hint on Italian trees that reach the threshold. The PDF does not go in the repository
 * `scripts/whitelist.json` – exceptions to the checks: `species:wikidata` accepted per species (`wikidata_mismatch`), species not to be reported as misspelled (`species_typo`) and synonyms (`synonyms`: alternative name → name in the wiki list, for example `Crataegus × lavallei` → `Crataegus × lavalleei`; the alternative name counts as the one in the list in all checks) and monumental trees that really are very small (`small_monument`: node id → note)

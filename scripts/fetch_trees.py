@@ -194,6 +194,24 @@ _RAW_LIMITS = load_json(HERE / "species_limits.json")
 # rapporti medi (mediane) usati quando la specie non ne ha uno proprio
 DEFAULT_RATIOS = _RAW_LIMITS.pop("_default", {})
 SPECIES_LIMITS = {" ".join(k.split()).lower(): v for k, v in _RAW_LIMITS.items()}
+# Rapporto altezza/circonferenza per fasce d'altezza (issue #39), solo per stimare la circonferenza da disegnare quando
+# la specie non ha un rapporto proprio: "height_circ_ratio_bands" in "_default", righe [altezza minima in m, rapporto],
+# estremo inferiore incluso (6 m sta nella fascia 6–8), l'ultima fascia senza limite superiore. Sono valori fissi: le
+# mediane di 351.785 alberi di data/regions con altezza e circonferenza mappate e senza denotation=natural_monument
+# (novembre 2026), non ricalcolate agli aggiornamenti delle regioni. I monumentali sono esclusi perché tra gli alberi
+# che ricevono la stima (altezza senza circonferenza) sono lo 0,3%, mentre tra quelli misurati sopra i 20 m sono il
+# 36% e abbassano la mediana del 14%. Fasce: 0–6 (69.933 alberi, 15,4), 6–8 (59.248, 13,2), 8–15 (150.834, 11,1),
+# 15–20 (46.372, 11,3), 20–30 (22.792, 12,0), 30+ (2.606, 11,4). Minimo per fidarsi di una fascia: 1.000 alberi
+# (una fascia con meno va unita a una vicina). I confini a 6 e 8 m (invece di 5 e 10) seguono i dati: il rapporto
+# è 15–17 fino a 6 m (anche a 5 m esatti) e scende a 11 da 8 m. Le soglie dei check non usano queste fasce.
+HEIGHT_BANDS = sorted((float(lo), float(r)) for lo, r in DEFAULT_RATIOS.get("height_circ_ratio_bands", []))
+
+
+def band_ratio(h):
+    """Rapporto altezza/circonferenza della fascia d'altezza di h (m); None senza altezza o sotto la prima fascia."""
+    if not h or h <= 0:
+        return None
+    return next((r for lo, r in reversed(HEIGHT_BANDS) if h >= lo), None)
 
 
 # apici e virgolette (dritti, tipografici, accento grave/acuto) non contano nei nomi: Ulmus 'New Horizon' è
@@ -1784,13 +1802,14 @@ def sizes(t):
     """Diametro chioma (solo se il tag c'è) e circonferenza per il rendering. Se manca la circonferenza
     (anche da diameter), la stima da height o da diameter_crown con i rapporti della specie
     (height_circ_ratio = altezza/circonferenza, crown_circ_ratio = diametro chioma/circonferenza) o,
-    se la specie non ne ha, con quelli di "_default" in species_limits.json. Se il rapporto della specie
-    dà una circonferenza impossibile si usa quello di default. Le stime servono solo al rendering.
+    se la specie non ne ha, con quelli di "_default" in species_limits.json: per l'altezza prima il rapporto
+    della fascia d'altezza (band_ratio, issue #39), poi quello generale. Se un rapporto dà una circonferenza
+    impossibile si passa al successivo. Le stime servono solo al rendering.
     """
     lim = species_limit(t) or {}
     h, c, cd = num(t.get("height")), circ_value(t)[0], num(t.get("diameter_crown"))
     max_c, max_h = lim.get("circumference", MAX_CIRCUMFERENCE), lim.get("height", MAX_HEIGHT)
-    rh = [r for r in (lim.get("height_circ_ratio"), DEFAULT_RATIOS.get("height_circ_ratio")) if r]
+    rh = [r for r in (lim.get("height_circ_ratio"), band_ratio(h), DEFAULT_RATIOS.get("height_circ_ratio")) if r]
     rc = [r for r in (lim.get("crown_circ_ratio"), DEFAULT_RATIOS.get("crown_circ_ratio")) if r]
 
     circ, circ_est = (c, False) if c and c > 0 else (None, False)
