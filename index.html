@@ -176,7 +176,10 @@
   .card dt{color:#666}.card dd{margin:0;min-width:0}
   .bad{color:#b00020;font-weight:600;position:relative}
   .card .hint{color:#555;margin:2px 0}   /* consigli (ⓘ): informazioni, non errori */
-  .card h3 .sex{color:#555;cursor:help;white-space:nowrap}
+  .card h3{position:relative}   /* il riquadro del ♂ / ♀ si apre sotto il titolo, largo quanto la scheda */
+  .card h3 .sex{color:#555;white-space:nowrap;border-bottom:none}
+  .card h3 .sex .tip{white-space:normal;color:#222;font-weight:400;font-size:12px;line-height:1.4;padding:4px 7px}
+  .card h3 .sex .tip .photo{margin:4px 0 0}
   .card h3 .sex svg{width:.85em;height:.85em;vertical-align:-.1em;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}   /* ♂ / ♀ accanto al titolo (sex=male/female) */
   /* pop-up con la spiegazione del check: passando il mouse sul ⚠, o toccandolo (focus) da telefono */
   .why{cursor:help;outline:none}
@@ -525,6 +528,31 @@ const I18N = {
       lt: "Tipo di foglie (stimato)", leaf_cycle: "Ciclo fogliare", lc: "Ciclo fogliare (stimato)", circumference: "Circonferenza", diameter: "Diametro tronco",
       height: "Altezza", diameter_crown: "Diametro chioma", start_date: "Messa a dimora" },
     sex: { male: "Esemplare maschile", female: "Esemplare femminile" },
+    // tratti per riconoscere il sesso, nel riquadro che si apre cliccando ♂ / ♀ (chiave: specie, o genere per tutte
+    // le sue specie). Stagioni, non mesi: valgono nei due emisferi. Foto e didascalie in SEX_PHOTO
+    sexTraits: {
+      "Ginkgo biloba": { female: "Le femmine portano in primavera ovuli appaiati in cima a un lungo peduncolo e, in autunno, semi carnosi, gialli e maleodoranti che cadono sotto la chioma.",
+        male: "I maschi portano in primavera, insieme alle foglie nuove, coni di polline penduli e giallastri simili ad amenti, e non producono semi." },
+      "Taxus baccata": { female: "Le femmine portano semi singoli avvolti da un arillo rosso e carnoso, maturo tra fine estate e autunno.",
+        male: "I maschi portano a fine inverno piccoli coni di polline giallastri sotto i rametti, e non hanno arilli rossi." },
+      "Ilex aquifolium": { female: "Le femmine hanno fiori bianchi a quattro petali con l'ovario verde al centro e, dall'autunno all'inverno, bacche rosse.",
+        male: "I maschi hanno fiori bianchi a quattro petali con gli stami e senza ovario, e non portano bacche." },
+      "Laurus nobilis": { female: "Le femmine, dopo la fioritura giallo-verdastra di inizio primavera, portano bacche ovali che in autunno diventano nere.",
+        male: "I maschi hanno a inizio primavera fiori giallo-verdastri ricchi di stami, e non portano bacche." },
+      "Juniperus communis": { female: "Le femmine portano i galbuli (le «bacche» di ginepro), verdi il primo anno e blu-nerastri e pruinosi quando maturano, nel secondo anno.",
+        male: "I maschi portano in primavera piccoli coni di polline gialli, e non hanno galbuli." },
+      "Acer negundo": { female: "Le femmine portano in primavera fiori verdastri in grappoli penduli e poi samare (frutti alati) che restano spesso sulla pianta fino all'inverno.",
+        male: "I maschi portano in primavera ciuffi di fiori penduli con lunghi stami rossastri, e non producono samare." },
+      "Ceratonia siliqua": { female: "Le femmine portano i baccelli (carrube), verdi e poi bruno scuri quando maturano, tra fine estate e autunno.",
+        male: "I maschi hanno in autunno fiori con gli stami, dall'odore sgradevole, e non portano carrube." },
+      Populus: { female: "Le femmine portano amenti verdi che a fine primavera liberano i semi avvolti in un piumino bianco e cotonoso.",
+        male: "I maschi portano a fine inverno amenti con gli stami, spesso rossastri, che cadono dopo la fioritura; non producono piumino." },
+      Salix: { female: "Le femmine portano amenti verdastri che a fine primavera liberano i semi con un piumino bianco.",
+        male: "I maschi portano a fine inverno o inizio primavera amenti con gli stami, gialli di polline (i «gattini»)." },
+      Phoenix: { female: "Le femmine portano grandi grappoli di datteri, appesi tra le foglie.",
+        male: "I maschi portano infiorescenze di fiori color crema ricchi di polline, e non producono datteri." },
+    },
+    sexPhotoAlt: { "Ginkgo biloba": { female: "Semi di Ginkgo biloba", male: "Coni maschili di Ginkgo biloba" } },
     fromDiameter: " (da diameter)",
     // finestra «Vedi a confronto» dei check too_slender, too_slender_species e too_stocky (issue #14)
     cmp: { btn: "Vedi a confronto", title: "Tronco a confronto", close: "Chiudi", pick: "Confronta con il tronco tipico (tasto C)",
@@ -868,6 +896,29 @@ const I18N = {
       lt: "Leaf type (estimated)", leaf_cycle: "Leaf cycle", lc: "Leaf cycle (estimated)", circumference: "Circumference", diameter: "Trunk diameter",
       height: "Height", diameter_crown: "Crown diameter", start_date: "Planting date" },
     sex: { male: "Male specimen", female: "Female specimen" },
+    sexTraits: {
+      "Ginkgo biloba": { female: "Females bear paired ovules at the tip of a long stalk in spring and, in autumn, fleshy, yellow, foul-smelling seeds that fall under the canopy.",
+        male: "Males bear hanging, yellowish, catkin-like pollen cones in spring, together with the new leaves, and produce no seeds." },
+      "Taxus baccata": { female: "Females bear single seeds wrapped in a fleshy red aril, ripe between late summer and autumn.",
+        male: "Males bear small yellowish pollen cones under the twigs in late winter, and have no red arils." },
+      "Ilex aquifolium": { female: "Females have white four-petalled flowers with a green ovary in the centre and, from autumn to winter, red berries.",
+        male: "Males have white four-petalled flowers with stamens and no ovary, and bear no berries." },
+      "Laurus nobilis": { female: "Females, after the yellowish-green flowering of early spring, bear oval berries that turn black in autumn.",
+        male: "Males have yellowish-green flowers full of stamens in early spring, and bear no berries." },
+      "Juniperus communis": { female: "Females bear the cones known as juniper berries, green in the first year and bluish-black with a waxy bloom when they ripen, in the second year.",
+        male: "Males bear small yellow pollen cones in spring, and have no berry-like cones." },
+      "Acer negundo": { female: "Females bear greenish flowers in hanging clusters in spring, then samaras (winged fruits) that often stay on the tree until winter.",
+        male: "Males bear tufts of hanging flowers with long reddish stamens in spring, and produce no samaras." },
+      "Ceratonia siliqua": { female: "Females bear the pods (carobs), green and then dark brown when ripe, between late summer and autumn.",
+        male: "Males have flowers with stamens and an unpleasant smell in autumn, and bear no carobs." },
+      Populus: { female: "Females bear green catkins that release seeds wrapped in white cottony fluff in late spring.",
+        male: "Males bear catkins with stamens in late winter, often reddish, that drop after flowering; they produce no fluff." },
+      Salix: { female: "Females bear greenish catkins that release seeds with white fluff in late spring.",
+        male: "Males bear catkins with stamens in late winter or early spring, yellow with pollen." },
+      Phoenix: { female: "Females bear large clusters of dates hanging among the leaves.",
+        male: "Males bear cream-coloured flower clusters full of pollen, and produce no dates." },
+    },
+    sexPhotoAlt: { "Ginkgo biloba": { female: "Ginkgo biloba seeds", male: "Ginkgo biloba male cones" } },
     fromDiameter: " (from diameter)",
     cmp: { btn: "Compare visually", title: "Trunk comparison", close: "Close", pick: "Compare with the typical trunk (C key)",
       pickScale: "View the tree to scale (C key)",
@@ -2968,15 +3019,25 @@ const ROW_KEYS = ["species", "sp_common", "genus", "taxon", "denotation", "leaf_
   "circumference", "diameter", "height", "diameter_crown", "start_date"];
 const ROW_FMT = { denotation: v => tr(L.denotation, v), leaf_type: v => tr(L.leafType, v), lt: v => tr(L.leafType, v),
   leaf_cycle: v => tr(L.leafCycle, v), lc: v => tr(L.leafCycle, v), circumference: fmtM, diameter: fmtD, height: fmtM, diameter_crown: fmtM };
-// sex=male/female (piante dioiche, es. ginkgo, tasso): ♂ / ♀ accanto al titolo della scheda, in grigio, con il nome
-// per esteso al passaggio del mouse; altri valori non si mostrano
+// sex=male/female (piante dioiche, es. ginkgo, tasso): ♂ / ♀ accanto al titolo della scheda, in grigio; altri valori
+// non si mostrano. Un clic (o tocco, Invio, spazio) apre sotto il titolo un riquadro con «Esemplare femminile/maschile»
+// e, per le specie e i generi in L.sexTraits, i tratti che lo distinguono, con una foto di Commons se c'è in SEX_PHOTO
 // icone ♂ / ♀ disegnate in SVG: il carattere Unicode ha un tratto troppo sottile in molti font
 const SEX_SVG = {
   male: '<circle cx="9" cy="15" r="6"/><path d="M13.5 10.5 21 3M15 3h6v6"/>',
   female: '<circle cx="12" cy="9" r="6"/><path d="M12 15v8M8 19.5h8"/>'
 };
+const SEX_PHOTO = { "Ginkgo biloba": { female: "Gingko_biloba_seeds.jpg", male: "Ginkgo_biloba_Inflorescences.jpg" } };
 const sexMark = p => { const s = SEX_SVG[p.sex];
-  return s ? ` <span class="sex" title="${esc(L.sex[p.sex])}"><svg viewBox="0 0 24 24" aria-hidden="true">${s}</svg></span>` : ""; };
+  if (!s) return "";
+  // prima la specie (senza autore), poi il genere (tag genus=* o prima parola della specie)
+  const sp = p.sp_clean || p.species || "", keys = [sp, p.genus || sp.split(" ")[0]];
+  const key = keys.find(k => k && L.sexTraits[k]?.[p.sex]), pk = keys.find(k => k && SEX_PHOTO[k]?.[p.sex]);
+  const text = L.sex[p.sex] + (key ? ". " + L.sexTraits[key][p.sex] : "");
+  const photo = pk ? popPhoto(SEX_PHOTO[pk][p.sex], L.sexPhotoAlt[pk]?.[p.sex] || sp) : "";
+  return ` <span class="sex pop" tabindex="0" role="button" aria-expanded="false" aria-label="${esc(L.sex[p.sex])}"
+    onclick="togglePop(this, event)" onkeydown="togglePop(this, event)"><svg viewBox="0 0 24 24" aria-hidden="true">${s}</svg>`
+    + `<span class="tip">${esc(text)}${photo}</span></span>`; };
 const ROWS = ROW_KEYS.map(k => [k, L.rows[k], ROW_FMT[k]]);
 const list = v => String(v || "").split(";").join(", ");
 const fromD = (i, p) => p.diam_used && i.startsWith("circumference") ? L.fromDiameter : "";
@@ -3420,15 +3481,17 @@ function card(p, pos) {
 // sulla mappa né nel menu degli errori; solo nel tool QA. hint_sp, hint_sw, hint_sn, hint_it, hint_mc vengono da fetch_trees.py
 // (hint_props), gli altri si ricavano dai dati dell'albero (pos = [lon, lat], per l'emisfero).
 // Foto dei semi di ginkgo nel consiglio su sex=female (issue #25), con i crediti di Commons come le foto delle schede
-const GINKGO_SEEDS = "Gingko_biloba_seeds.jpg";   // il nome del file su Commons è scritto così ("Gingko")
+const GINKGO_SEEDS = SEX_PHOTO["Ginkgo biloba"].female;   // il nome del file su Commons è scritto così ("Gingko")
 // parole t di un consiglio che aprono una foto di Commons: un clic (o tocco, Invio, spazio) apre e chiude; si chiude
 // anche con un clic altrove o con Esc. L'immagine (loading=lazy, nascosta) e i crediti si caricano solo all'apertura
 function photoPop(t, file, alt) {
   return `<span class="pop" tabindex="0" role="button" aria-expanded="false" aria-label="${esc(t)}"
-    onclick="togglePop(this, event)" onkeydown="togglePop(this, event)">${esc(t)}<span class="tip"><span class="photo later" data-commons="${esc(file)}">`
-    + `<img src="${esc(commonsFile(file))}" alt="${esc(alt)}" loading="lazy" onerror="this.parentNode.remove()" onload="this.parentNode.classList.add('loaded')">`
-    + `<a class="credit" target="_blank" rel="noopener"></a></span></span></span>`;
+    onclick="togglePop(this, event)" onkeydown="togglePop(this, event)">${esc(t)}<span class="tip">${popPhoto(file, alt)}</span></span>`;
 }
+// la foto di Commons dentro un riquadro .pop (anche quello del ♂ / ♀ nel titolo)
+const popPhoto = (file, alt) => `<span class="photo later" data-commons="${esc(file)}">`
+  + `<img src="${esc(commonsFile(file))}" alt="${esc(alt)}" loading="lazy" onerror="this.parentNode.remove()" onload="this.parentNode.classList.add('loaded')">`
+  + `<a class="credit" target="_blank" rel="noopener"></a></span>`;
 function togglePop(el, e) {
   if (e.target.closest("a")) return;   // il link dei crediti apre la pagina del file, senza chiudere
   if (e.type === "keydown") {
