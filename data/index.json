@@ -423,9 +423,9 @@
    "count": 387436,
    "errors": 1012,
    "name": "Lombardia",
-   "sha1": "344a3a825e7b0a3303dc705426f54feb89e09f07",
+   "sha1": "9e87f8612dfbd4bd0934547af3d7aeb65b65be61",
    "tried": "2026-11-13",
-   "updated": "2026-11-13T00:01:28Z"
+   "updated": "2026-11-13T02:48:46Z"
   },
   "londra": {
    "count": 213012,
@@ -631,11 +631,11 @@
   },
   "piemonte": {
    "count": 72971,
-   "errors": 131,
+   "errors": 132,
    "name": "Piemonte",
-   "sha1": "4a2ec616675a01c395bb11a1bc9b1d25a216ff39",
+   "sha1": "8c22a4d359c1e5d133944a1e994b6d3f5b98f93c",
    "tried": "2026-11-13",
-   "updated": "2026-11-12T23:59:59Z"
+   "updated": "2026-11-13T02:49:41Z"
   },
   "podkarpackie": {
    "count": 90371,
