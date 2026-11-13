@@ -3590,8 +3590,15 @@ function compareData(i, p) {
   if (!(c > 0) && h > 0 && r > 0) c = h / r;   // hc_circ è arrotondata a 2 decimali: può valere 0
   // senza hc_circ (specie senza rapporto, fetch_trees.py): la circonferenza dal raggio del tronco disegnato, se misurato
   if (!(c > 0) && !p.tr_est && Number(p.tr) > 0) c = 2 * Math.PI * Number(p.tr);
+  // diameter senza unità sotto 10 (check diameter_unit): fetch_trees.py non lo usa e stima il tronco, ma il confronto
+  // lo disegna com'è, in millimetri (l'unità predefinita di diameter=*), per mostrare il valore segnalato
+  let fd = p.diam_used ? 1 : 0;
+  if (!(c > 0) && !("circumference" in p) && String(p.issues || "").includes("|diameter_unit|")) {
+    const v = Number(String(p.diameter ?? "").trim().replace(",", "."));
+    if (v > 0) { c = Math.PI * v / 1000; fd = 1; }
+  }
   if (!(h > 0 && c > 0 && (r0 > 0 || !i))) return null;
-  return { h, c, r0, sp: bySpecies && r0 ? p.species : "", fd: p.diam_used ? 1 : 0, ...(i ? {} : { n: 1 }) };
+  return { h, c, r0, sp: bySpecies && r0 ? p.species : "", fd, ...(i ? {} : { n: 1 }) };
 }
 function compareBtn(i, p) {
   const d = CMP_CHECKS.includes(i) && compareData(i, p);
