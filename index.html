@@ -312,7 +312,9 @@ const I18N = {
   it: {
     pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente", subtitle: "Controllo qualità degli alberi di OpenStreetMap",
     osmAttribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
-    editMenu: "Modifica", osmPage: "Pagina su OpenStreetMap", editId: "Modifica con iD", editJosm: "Apri in JOSM", editMapComplete: "Apri in MapComplete", allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
+    editMenu: "Modifica", osmPage: "Pagina su OpenStreetMap", editId: "Modifica con iD", editJosm: "Apri in JOSM", editMapComplete: "Apri in MapComplete",
+    fixJosm: "Sistema con JOSM",
+    allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
     requestRegion: "+ Richiedi una nuova regione…", reqAsk: "Vuoi aggiungere questa regione a DendrOSM?",
     reqContact: (gh, osm) => `${gh("Apri una issue")} o ${osm("scrivimi")}`,
     scaleLow: "meno errori", scaleHigh: "più errori", tipErr: p => ` · ${p} con errori`,
@@ -634,7 +636,9 @@ const I18N = {
   en: {
     pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code", subtitle: "Quality checks for OpenStreetMap trees",
     osmAttribution: "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
-    editMenu: "Edit", osmPage: "OpenStreetMap page", editId: "Edit with iD", editJosm: "Open in JOSM", editMapComplete: "Open in MapComplete", allRegions: "← All countries", chooseRegion: "Choose a region…",
+    editMenu: "Edit", osmPage: "OpenStreetMap page", editId: "Edit with iD", editJosm: "Open in JOSM", editMapComplete: "Open in MapComplete",
+    fixJosm: "Fix with JOSM",
+    allRegions: "← All countries", chooseRegion: "Choose a region…",
     requestRegion: "+ Request a new region…", reqAsk: "Would you like this region on DendrOSM?",
     reqContact: (gh, osm) => `${gh("Open an issue")} or ${osm("message me")}`,
     scaleLow: "fewer errors", scaleHigh: "more errors", tipErr: p => ` · ${p} with errors`,
@@ -2813,6 +2817,15 @@ const SITE_URL = "https://ivanbranco.github.io/tree-osm-qa/";
 const CHANGESET_HASHTAG = "dendrosm";
 const changesetSource = () => SITE_URL + (hashSlug ? "#region=" + hashSlug : "");
 
+// JOSM con il controllo remoto attivo: carica la zona attorno all'albero nell'editor già aperto e lo seleziona.
+// extra: altri parametri già codificati (addtags e changeset_comment della correzione, josmFix)
+function josmUrl(p, pos, extra = "") {
+  const [lon, lat] = (pos || [0, 0]).map(Number);
+  return `http://127.0.0.1:8111/load_and_zoom?left=${(lon - 0.0005).toFixed(6)}&right=${(lon + 0.0005).toFixed(6)}`
+    + `&bottom=${(lat - 0.0003).toFixed(6)}&top=${(lat + 0.0003).toFixed(6)}&select=n${p.id}`
+    + `&changeset_hashtags=${CHANGESET_HASHTAG}&changeset_source=${encodeURIComponent(changesetSource())}` + extra;
+}
+
 function osmMenu(p, pos) {
   const [lon, lat] = (pos || [0, 0]).map(v => Number(v).toFixed(6));
   const items = [
@@ -2820,12 +2833,74 @@ function osmMenu(p, pos) {
     // iD: hashtag e fonte finiscono nei tag del changeset (hashtags, source)
     [`https://www.openstreetmap.org/edit?editor=id#id=n${p.id}&map=19/${lat}/${lon}`
       + `&hashtags=${CHANGESET_HASHTAG}&source=${encodeURIComponent(changesetSource())}`, L.editId],
-    // JOSM con il controllo remoto attivo: carica la zona attorno all'albero nell'editor già aperto e lo seleziona
-    [`http://127.0.0.1:8111/load_and_zoom?left=${(+lon - 0.0005).toFixed(6)}&right=${(+lon + 0.0005).toFixed(6)}`
-      + `&bottom=${(+lat - 0.0003).toFixed(6)}&top=${(+lat + 0.0003).toFixed(6)}&select=n${p.id}`
-      + `&changeset_hashtags=${CHANGESET_HASHTAG}&changeset_source=${encodeURIComponent(changesetSource())}`, L.editJosm],
+    josmFix(p, pos) || [josmUrl(p, pos), L.editJosm],
     [`https://mapcomplete.org/trees.html?z=19&lat=${lat}&lon=${lon}#node/${p.id}`, L.editMapComplete]];
-  return `<details class="osm-menu"><summary>${L.editMenu} ▾</summary><div>${items.map(([u, t]) => link(u, t)).join("")}</div></details>`;
+  return `<details class="osm-menu"><summary>${L.editMenu} ▾</summary><div>${items.map(([u, t, tip]) =>
+    tip ? link(u, t).replace("<a ", `<a title="${esc(tip)}" `) : link(u, t)).join("")}</div></details>`;
+}
+
+// Correzione con JOSM (issue #19): al posto di «Apri in JOSM», «Sistema con JOSM» passa a JOSM i tag da cambiare
+// (addtags), e JOSM li mostra prima di applicarli. Solo correzioni certe, che si capiscono tutte dal confronto vecchio →
+// nuovo valore senza vedere l'albero. Per ogni check: [chiave, nuovo valore] (il vecchio è p[chiave]) e il commento del
+// changeset, in inglese. Niente per i check che chiedono una scelta (refuso, nome comune, …), né per il trattino basso:
+// spesso il valore non è un nome scientifico (species=Palmerawaste_basket).
+const capFirst = v => String(v).replace(/^(\s*×?\s*)(\p{Ll})/u, (m, a, b) => a + b.toUpperCase());
+// tag dei consigli (ⓘ, hints): aggiunte di tag che mancano e due correzioni di forma. Non quelli che chiedono una
+// verifica sul posto (specie da Wikidata dell'albero, hint_sp), una scelta (notable) o non danno un tag (soglia MASAF)
+const FEET_SPACE = /^\s*\d+\s*'\s+\d+(?:\.\d+)?\s*"\s*$|^\s*\d+\s+'(?:\s*\d+(?:\.\d+)?\s*")?\s*$/;   // come in hints
+const HINT_FIXES = [
+  [p => ["circumference", "height", "diameter_crown", "diameter"].filter(k => FEET_SPACE.test(p[k] || ""))
+    .map(k => [k, String(p[k]).replace(/\s+/g, "")]), "feet and inches without spaces"],
+  [p => p.stump || p.species ? [] : [["species", p.hint_sn || p.hint_wn || MONOTYPIC[String(p.genus || "").trim()]]], "add species"],
+  [p => p.stump ? [] : [["species:wikidata", p.hint_sw || p.hint_wp]], "add species:wikidata"],
+  [p => p.stump ? [] : [["species:it", p.hint_it]], "capitalise species:it"],
+  [p => p.stump || p["masaf:criteria"] ? [] : [["masaf:criteria", p.hint_mc]], "add masaf:criteria"],
+  [p => p.stump ? [] : [["leaf_type", !p.leaf_type && p.lt]], "add leaf_type"],
+  [p => p.stump ? [] : [["leaf_cycle", !p.leaf_cycle && p.lc]], "add leaf_cycle"]
+];
+const FIXES = {
+  species_author: [p => [["species", p.sp_clean]], "remove the author name from species"],
+  species_epithet_case: [p => [["species", p.sp_sci]], "lowercase epithet in species"],
+  species_lowercase: [p => [["species", capFirst(p.species)]], "capitalise the genus in species"],
+  // con genus di più parole (check genus) la correzione non è certa
+  genus_lowercase: [p => p.issues.includes("|genus|") ? [] : [["genus", capFirst(p.genus)]], "capitalise genus"],
+  // solo un numero con una virgola tra le cifre (2,9 o 2,9 m): altri valori con la virgola non sono certi
+  comma: [p => String(p.comma || "").split(";").filter(k => /^\s*\d+,\d+\s*[a-zA-Z]*\s*$/.test(p[k] ?? ""))
+    .map(k => [k, p[k].replace(",", ".")]), "decimal point instead of comma"],
+  // unit_fix: righe "chiave|valore|correzione|…" (fetch_trees.py); solo con una correzione, e se il valore è lo stesso
+  unit_format: [p => String(p.unit_fix || "").split("\n").map(x => x.split("|"))
+    .filter(([k, v, ...fix]) => fix.length === 1 && p[k] === v).map(([k, , f]) => [k, f]), "standard unit format"]
+};
+// [[chiave, vecchio, nuovo, tipo]] (tipo: "bad" per un errore, "hint" per un consiglio) e i commenti usati. Gli errori
+// correggono un valore che c'è; i consigli possono aggiungere un tag. Se due proposte danno valori diversi per la stessa
+// chiave la chiave si scarta; anche i valori con "|" (separa i tag nel link di JOSM) o, per species e genus, con ";".
+// Niente sulla mappa dei monumentali, che non mostra errori né consigli
+function fixList(p) {
+  const by = new Map(), why = new Map(), kind = new Map();
+  const add = (list, w, k_) => list.forEach(([k, n]) => {
+    const o = p[k];
+    if (!n || n === o || (k_ === "bad" && o == null) || /\|/.test((o ?? "") + n)
+        || (["species", "genus"].includes(k) && /;/.test((o ?? "") + n))) return;
+    if (by.has(k) && by.get(k) !== n) { by.set(k, null); return; }
+    by.set(k, n); why.set(k, [...(why.get(k) || []), w]); kind.set(k, [...(kind.get(k) || []), k_]);
+  });
+  if (WORLD) return [[], []];
+  String(p.issues || "").split("|").filter(i => FIXES[i]).forEach(i => add(FIXES[i][0](p), FIXES[i][1], "bad"));
+  HINT_FIXES.forEach(([f, w]) => add(f(p), w, "hint"));
+  const out = [...by].filter(([, n]) => n != null).map(([k, n]) => [k, p[k], n, kind.get(k)]);
+  return [out, [...new Set(out.flatMap(([k]) => why.get(k)))]];
+}
+// Voce «Sistema con JOSM» del menu Modifica, al posto di «Apri in JOSM» se c'è una correzione: [url, testo, tooltip].
+// Prima del testo ⚠ se corregge un errore, ⓘ se applica un consiglio; il tooltip elenca i tag (vecchio → nuovo valore)
+function josmFix(p, pos) {
+  const [fixes, why] = fixList(p);
+  if (!fixes.length) return null;
+  const kinds = new Set(fixes.flatMap(f => f[3]));
+  const mark = (kinds.has("bad") ? "⚠" : "") + (kinds.has("hint") ? "ⓘ" : "");
+  const comment = why.join("; ").replace(/^./, c => c.toUpperCase());
+  const url = josmUrl(p, pos, `&addtags=${encodeURIComponent(fixes.map(([k, , n]) => `${k}=${n}`).join("|"))}`
+    + `&changeset_comment=${encodeURIComponent(comment)}`);
+  return [url, `${mark} ${L.fixJosm}`, fixes.map(([k, o, n]) => o == null ? `${k}=${n}` : `${k}: ${o} → ${n}`).join("\n")];
 }
 
 // Scheda di un albero dell'elenco MASAF non ancora su OpenStreetMap (mappa dei monumentali): i dati dell'elenco, la
