@@ -4,7 +4,7 @@
   "Acer platanoides": {"height": 39.4, "circumference": 6.72, "height_circ_ratio": 13.51},
   "Quercus robur": {"height": 44.3, "circumference": 14.45, "height_circ_ratio": 13.17},
   "Tilia cordata": {"height": 41.6, "circumference": 12.81, "height_circ_ratio": 13.17},
-  "Platanus × hispanica": {"height": 51.55, "circumference": 10.4, "height_circ_ratio": 11.76, "crown_circ_ratio": 7.5},
+  "Platanus × hispanica": {"height": 55.0, "height_source": "MASAF", "circumference": 10.4, "height_circ_ratio": 11.76, "crown_circ_ratio": 7.5},
   "Aesculus hippocastanum": {"height": 36, "circumference": 7.33, "height_circ_ratio": 10.88},
   "Fraxinus excelsior": {"height": 50.6, "circumference": 9.82, "height_circ_ratio": 14.73},
   "Acer pseudoplatanus": {"height": 40.7, "circumference": 9.19, "height_circ_ratio": 13.21},
