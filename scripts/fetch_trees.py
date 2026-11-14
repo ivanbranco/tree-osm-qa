@@ -983,9 +983,53 @@ def cycle_ok(tag, expected):
     return CYCLE_GROUP[tag] in {CYCLE_GROUP[e] for e in expected}
 
 
-def type_ok(tag, expected):
-    """leaf_type compatibile: leafless non si confronta con la lista; palm vale come broadleaved."""
-    return tag == expected or tag == "leafless" or {tag, expected} == {"palm", "broadleaved"}
+def type_ok(tag, expected, palm_like=False):
+    """leaf_type compatibile: leafless non si confronta con la lista. Per le palme e le piante dall'aspetto di palma
+    (palm_like, vedi palm_like) palm e broadleaved sono equivalenti; per le altre, palm non vale come broadleaved."""
+    return tag == expected or tag == "leafless" or (palm_like and {tag, expected} == {"palm", "broadleaved"})
+
+
+# Palme (#55). Le liste della wiki OSM non hanno palm tra i leaf_type: i generi di Arecaceae sono elencati qui.
+# Minuscolo, come li confronta tree_genus.
+PALM_GENERA = frozenset("""phoenix washingtonia trachycarpus chamaerops butia syagrus roystonea cocos livistona sabal
+brahea jubaea archontophoenix howea dypsis chrysalidocarpus arecastrum areca elaeis caryota bismarckia copernicia rhapis
+rhopalostylis wodyetia ravenea euterpe acrocomia borassus corypha latania hyophorbe pritchardia trithrinax nannorrhops
+serenoa adonidia veitchia ptychosperma raphia attalea bactris mauritia ceroxylon parajubaea chamaedorea hyphaene thrinax
+coccothrinax arenga licuala rhapidophyllum dictyosperma cyrtostachys hedyscepe phytelephas oenocarpus astrocaryum
+aiphanes calamus metroxylon nypa pseudophoenix carpentaria normanbya saribus kentia neodypsis chambeyronia geonoma
+socratea iriartea lodoicea medemia acoelorrhaphe acoelorraphe allagoptera lytocaryum beccariophoenix pinanga wallichia
+salacca erythea""".split())
+# Piante che non sono palme ma ne hanno l'aspetto (cicadee, yucche, dracene, banani, felci arboree…): con
+# leaf_type=palm non sono segnalate da leaf_type_mismatch, ma non sono disegnate come palme
+PALM_LIKE_GENERA = frozenset("""yucca cordyline dracaena cycas zamia encephalartos dioon macrozamia musa ensete
+strelitzia ravenala pandanus dicksonia cyathea sphaeropteris alsophila beaucarnea nolina dasylirion xanthorrhoea kingia
+furcraea aloe aloidendron carica""".split())
+
+
+def tree_genus(t):
+    """Genere dell'albero, minuscolo: da genus se è di una sola parola, altrimenti dalla prima parola di species o,
+    se manca, di taxon."""
+    g = t.get("genus")
+    if g and len(genus_words(g)) == 1:
+        g = genus_words(g)[0]
+    else:
+        g = genus_of_species(t.get("species") or t.get("taxon") or "")
+    return g.lstrip("× ").casefold()
+
+
+def is_palm(t):
+    """Palma: taxon:family, family, taxon o genus = Arecaceae, taxon:en=Palm, crown_type=I, oppure un genere di
+    PALM_GENERA. Vale più di leaf_type (tranne leafless): una palma con leaf_type=broadleaved è disegnata come palma."""
+    if any((t.get(k) or "").strip().casefold() == "arecaceae" for k in ("taxon:family", "family", "taxon", "genus")):
+        return True
+    if (t.get("taxon:en") or "").strip().casefold() == "palm" or (t.get("crown_type") or "").strip() == "I":
+        return True
+    return tree_genus(t) in PALM_GENERA
+
+
+def palm_like(t):
+    """Palma o pianta dall'aspetto di palma: leaf_type=palm non è un errore."""
+    return is_palm(t) or tree_genus(t) in PALM_LIKE_GENERA
 
 
 def genus_ref(t):
@@ -1004,7 +1048,10 @@ def leaf_species_ref(t, key):
 
 
 def leaf_type_estimate(t):
-    """leaf_type ricavato dalle liste della wiki: dalla specie; se non è nella lista, dal genere."""
+    """leaf_type ricavato dalle liste della wiki: dalla specie; se non è nella lista, dal genere. Per le palme
+    (is_palm) è sempre palm."""
+    if is_palm(t):
+        return "palm"
     if ref := leaf_species_ref(t, "leaf_type"):
         return ref["leaf_type"]
     g = genus_ref(t)
@@ -1103,7 +1150,14 @@ def species_list_mismatches(t):
         if g:
             props["exp_genus"] = True   # exp_for è un genere: il sito scrive "il genere X" / "the genus X"
     lt, lc = t.get("leaf_type"), t.get("leaf_cycle")
-    if exp_for and lt in LEAF_TYPE and exp_lt and not type_ok(lt, exp_lt):
+    # leaf_type=palm senza species né genus confrontabili: il genere si prende anche dalla prima parola di taxon
+    # (taxon=Ginkgo biloba), solo per questo confronto
+    if lt == "palm" and not exp_for and not palm_like(t) and (g := GENUS_REF.get(tree_genus(t))):
+        exp_for, exp_lt = g[0], g[1].get("leaf_type")
+        props["exp_genus"] = True
+    # leaf_type=palm su un albero che per la lista è broadleaved si segnala, tranne che per le palme e le piante
+    # dall'aspetto di palma (palm_like); una palma con leaf_type=broadleaved non si segnala
+    if exp_for and lt in LEAF_TYPE and exp_lt and not type_ok(lt, exp_lt, palm_like(t)):
         issues.append("leaf_type_mismatch")
         props.update(exp_lt=exp_lt, exp_for=exp_for)
     if exp_for and lc in LEAF_CYCLE and exp_lc and not cycle_ok(lc, exp_lc):
@@ -1910,8 +1964,12 @@ def to_feature(el):
             if fi[1]:
                 p["fm"] = ",".join(map(str, fi[1]))
         # leaf_type e leaf_cycle mancanti o non validi: stimati dalle liste (forma e colore della chioma)
+        # Le palme riconosciute da is_palm hanno lt=palm anche con un leaf_type valido diverso (broadleaved,
+        # needleleaved): il sito disegna lt prima di leaf_type (#55). leafless resta com'è
         if t.get("leaf_type") not in LEAF_TYPE and (est := leaf_type_estimate(t)):
             p["lt"] = est
+        elif t.get("leaf_type") in ("broadleaved", "needleleaved") and is_palm(t):
+            p["lt"] = "palm"
         if t.get("leaf_cycle") not in LEAF_CYCLE and (est := leaf_cycle_estimate(t)):
             p["lc"] = est
         # stime prese dal genere (specie assente dalla lista): lg = nome del genere, lgk = quali ("t" leaf_type,

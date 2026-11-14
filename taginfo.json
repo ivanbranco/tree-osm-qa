@@ -37,8 +37,8 @@
     {"key": "species", "value": "Picea pungens", "object_types": ["node"], "description": "Rendered with a blue-grey crown, all year."},
     {"key": "species", "value": "Eucalyptus cinerea", "object_types": ["node"], "description": "Rendered with a silver-blue crown, all year."},
     {"key": "species", "value": "Eucalyptus pulverulenta", "object_types": ["node"], "description": "Rendered with a silver-blue crown, all year."},
-    {"key": "genus", "object_types": ["node"], "description": "Used for filtering, QA checks and the info panel."},
-    {"key": "taxon", "object_types": ["node"], "description": "Shown in the info panel."},
+    {"key": "genus", "object_types": ["node"], "description": "Used for filtering, QA checks and the info panel. A palm genus (Phoenix, Washingtonia, Trachycarpus…) or genus=Arecaceae makes the tree rendered as a palm."},
+    {"key": "taxon", "object_types": ["node"], "description": "Shown in the info panel. Without genus and species, its first word is used as the genus to recognise palms."},
     {"key": "species:wikidata", "object_types": ["node"], "description": "Used for QA checks and to show the common name in the info panel."},
     {"key": "species:wikipedia", "object_types": ["node"], "description": "Used for hints: species:wikidata and species from the linked Wikidata item, when missing."},
     {"key": "species:it", "object_types": ["node"], "description": "Used for a hint in the info panel (almost all values start with a capital letter)."},
@@ -48,6 +48,12 @@
     {"key": "genus:fr", "object_types": ["node"], "description": "Suggested instead of species:fr when its value is the French name of a genus in the OSM wiki list of genera."},
     {"key": "genus:wikidata", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "leaf_type", "object_types": ["node"], "description": "Used to render the crown shape and the seasons (broadleaved deciduous trees take autumn colours; needleleaved deciduous ones are only drawn bare in winter), for QA checks and the Completeness tab (share of trees with the tag)."},
+    {"key": "leaf_type", "value": "palm", "object_types": ["node"], "description": "Rendered with a palm crown (lance-shaped fronds), without seasons. Reported by a QA check on trees that the OSM wiki lists give as broadleaved and that are neither palms nor palm-like plants."},
+    {"key": "taxon:family", "value": "Arecaceae", "object_types": ["node"], "description": "The tree is rendered as a palm, even with leaf_type=broadleaved or needleleaved."},
+    {"key": "family", "value": "Arecaceae", "object_types": ["node"], "description": "The tree is rendered as a palm, even with leaf_type=broadleaved or needleleaved."},
+    {"key": "taxon", "value": "Arecaceae", "object_types": ["node"], "description": "The tree is rendered as a palm, even with leaf_type=broadleaved or needleleaved."},
+    {"key": "taxon:en", "value": "Palm", "object_types": ["node"], "description": "The tree is rendered as a palm, even with leaf_type=broadleaved or needleleaved."},
+    {"key": "crown_type", "value": "I", "object_types": ["node"], "description": "The tree is rendered as a palm, even with leaf_type=broadleaved or needleleaved."},
     {"key": "leaf_cycle", "object_types": ["node"], "description": "Used to render the crown color and the seasons (deciduous trees take autumn colours in autumn and are drawn bare in winter, according to the viewer's date), for QA checks, the info panel and the Completeness tab (share of trees with the tag)."},
     {"key": "circumference", "object_types": ["node"], "description": "Used to render the 2D trunk, for QA checks and, in Italy, for a hint comparing it with the MASAF minimum circumference of the species. Also counted in the Completeness tab (share of trees with the tag) and used in the Record trees tab (thickest trunk, most slender and stockiest tree)."},
     {"key": "diameter", "object_types": ["node"], "description": "Trunk diameter (millimetres without a unit): used like circumference when circumference is missing, and for QA checks, including the comparison with circumference. In the Completeness tab a tree with diameter counts as having a circumference; in the Record trees tab it is used for the trunk when circumference is missing."},
@@ -66,6 +72,7 @@
     {"key": "heritage:operator", "value": "icnf", "object_types": ["node"], "description": "Tree of public interest in Portugal: used for QA checks and the info panel."},
     {"key": "heritage:operator", "value": "anf", "object_types": ["node"], "description": "Protected tree in Luxembourg: used for QA checks and the info panel."},
     {"key": "ref:icnf", "object_types": ["node"], "description": "Shown in the info panel."},
+    {"key": "sex", "object_types": ["node"], "description": "Counted in the Completeness tab for dioecious trees only (share of the dioecious trees in view with the tag, whatever its value)."},
     {"key": "sex", "value": "male", "object_types": ["node"], "description": "Shown in the info panel (♂); clicking it shows the traits of male trees for some dioecious species."},
     {"key": "sex", "value": "female", "object_types": ["node"], "description": "Shown in the info panel (♀); clicking it shows the traits of female trees for some dioecious species. Suggested as a hint for Ginkgo biloba trees without sex=*, in the season when female trees bear seeds."},
     {"key": "ref:monumentaltrees", "object_types": ["node"], "description": "Used for QA checks (a monumental tree should have denotation=natural_monument)."},
@@ -88,6 +95,6 @@
     {"key": "type", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "source", "object_types": ["node"], "description": "Used for hints about known tree imports (documented or not)."},
     {"key": "name", "object_types": ["node"], "description": "Shown in the info panel."},
-    {"key": "start_date", "object_types": ["node"], "description": "Shown in the info panel; used for the oldest trees in the Record trees tab (dates of the same year are tied), where its year also selects a sentence about what happened that year."}
+    {"key": "start_date", "object_types": ["node"], "description": "Shown in the info panel, with the age of the tree (today minus the date); used for the oldest trees in the Record trees tab (dates of the same year are tied), where its year also selects a sentence about what happened that year."}
   ]
 }

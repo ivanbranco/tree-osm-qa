@@ -15,6 +15,7 @@
   {"slug": "vorarlberg", "name": "Vorarlberg", "name_en": "Vorarlberg", "group": "Austria", "group_en": "Austria", "group_rel": 16239, "iso": "AT-8", "rel": 74942, "bbox": [46.79, 9.48, 47.65, 10.29]},
   {"slug": "burgenland", "name": "Burgenland", "name_en": "Burgenland", "group": "Austria", "group_en": "Austria", "group_rel": 16239, "iso": "AT-1", "rel": 76909, "bbox": [46.78, 15.95, 48.17, 17.21]},
   {"slug": "giappone", "name": "Giappone", "name_en": "Japan", "iso": "JP", "rel": 382313, "bbox": [24.0, 122.9, 45.6, 146.0]},
+  {"slug": "venezuela", "name": "Venezuela", "name_en": "Venezuela", "iso": "VE", "rel": 272644, "bbox": [0.6, -73.4, 12.3, -59.8]},
   {"slug": "serbia", "name": "Serbia", "name_en": "Serbia", "iso": "RS", "rel": 1741311, "bbox": [42.1, 18.7, 46.3, 23.1]},
   {"slug": "bosnia-erzegovina", "name": "Bosnia ed Erzegovina", "name_en": "Bosnia and Herzegovina", "iso": "BA", "rel": 2528142, "bbox": [42.5, 15.7, 45.3, 19.7]},
   {"slug": "montenegro", "name": "Montenegro", "name_en": "Montenegro", "iso": "ME", "rel": 53296, "bbox": [41.6, 18.4, 43.6, 20.4]},

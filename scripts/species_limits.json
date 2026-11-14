@@ -28,5 +28,5 @@
   "Prunus avium": {"height": 39.6, "circumference": 5.79, "height_circ_ratio": 11.32, "crown_circ_ratio": 7.27},
   "Fagus sylvatica": {"height": 51.1, "circumference": 10.5, "height_circ_ratio": 12.61, "crown_circ_ratio": 6.74},
   "Taxus baccata": {"height": 29.8, "circumference": 12.44, "height_circ_ratio": 10.00, "crown_circ_ratio": 6.82},
-  "Prunus serrulata": {"height": 16.0, "circumference": 3.94}
+  "Prunus serrulata": {"height": 16.0, "circumference": 3.94, "height_circ_ratio": 10.00, "crown_circ_ratio": 6.67}
 }

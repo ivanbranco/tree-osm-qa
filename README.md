@@ -15,7 +15,7 @@ Map of OpenStreetMap trees (`natural=tree`, and stumps `natural=tree_stump`), di
 * **Checks the data**: 48 checks on measurements, species and genus names, Wikidata, links and monumental trees. Trees with at least one error have a red outline, and the card explains each error
 * **Draws the trees** with their real measurements: crown, trunk, shape according to leaf type, colour according to leaf cycle, plus monumental trees, sacred trees, multiple trunks, ivy and stumps
 * **Helps fix the data**: filters by species and by error type, a card with photo and links, opening the tree in iD, JOSM or MapComplete, a one-click fix in JOSM for errors and hints with only one possible fix, downloading the errors as GeoJSON
-* **Shows what is missing**: the Completeness tab counts how many trees in view have species, leaf type, leaf cycle, height, circumference, crown diameter and a photo, and highlights on the map those that lack each one
+* **Shows what is missing**: the Completeness tab counts how many trees in view have species, leaf type, leaf cycle, height, circumference, crown diameter, a photo and, for dioecious trees, the sex, and highlights on the map those that lack each one
 * **Compares regions**: error ranking, by number or by percentage, and trend over time
 * **Finds the record trees**: the Record trees tab shows the tallest tree, the thickest trunk, the most slender and the stockiest tree, the widest crown and the oldest tree, for all the loaded regions, for a country, for a region or for a species, each with its top ten; the three tallest can be compared to scale, and the oldest come with what happened in the world that year
 * **World map of monumental trees**: all the monumental trees in the world, without the QA part, to share; it also counts how many trees of the Italian MASAF list are already on OpenStreetMap, by region
@@ -23,7 +23,7 @@ Map of OpenStreetMap trees (`natural=tree`, and stumps `natural=tree_stump`), di
 
 ## Regions
 
-Italy, Poland, metropolitan France, Spain (in the autonomous communities and cities), the United Kingdom and Ireland (divided into regions), Austria (in the nine Länder), the states of Washington and Pennsylvania in the United States; Portugal, Luxembourg, the Baltic states, Slovenia, Croatia, Bosnia and Herzegovina, Serbia, Montenegro, Kosovo, Albania, North Macedonia, Greece, Bulgaria, Romania, the European microstates (Andorra, Liechtenstein, Malta, Monaco, San Marino, Vatican City) and Japan (one region each).
+Italy, Poland, metropolitan France, Spain (in the autonomous communities and cities), the United Kingdom and Ireland (divided into regions), Austria (in the nine Länder), the states of Washington and Pennsylvania in the United States; Portugal, Luxembourg, the Baltic states, Slovenia, Croatia, Bosnia and Herzegovina, Serbia, Montenegro, Kosovo, Albania, North Macedonia, Greece, Bulgaria, Romania, the European microstates (Andorra, Liechtenstein, Malta, Monaco, San Marino, Vatican City), Japan and Venezuela (one region each).
 
 A new region can be requested from the menu ("+ Request a new region…") or by clicking an uncovered country on the map. You can also ask for a new region, or for an update of an existing one, by opening a [GitHub issue](https://github.com/ivanbranco/tree-osm-qa/issues/new?template=region.yml).
 

@@ -158,6 +158,9 @@
   #tip{position:absolute;z-index:3;display:none;pointer-events:none;background:#fff;padding:4px 8px;border-radius:4px;box-shadow:0 1px 6px #0004;font-size:12px}
   #overview,#back-qa{margin:0 0 6px;width:100%;padding:3px 6px;cursor:pointer}   /* "← Torna al tool QA": stesso pulsante */
   .note{font-size:11px;color:#777;margin-top:6px}
+  #updated .old{color:#b35c00}   /* dati vecchi di almeno OLD_DAYS giorni (issue #59) */
+  #updated .req-upd{color:#1a5fb4;display:inline-flex;vertical-align:-2px;padding:1px;border-radius:3px}
+  #updated .req-upd:hover{background:#eef3fb}
   #subtitle{font-size:12px;color:#666;margin:-4px 0 8px}
   #panel h1{font-size:15px;margin:0 0 6px;display:flex;justify-content:space-between;align-items:baseline}
   #lang{font-size:12px;font-weight:400;color:#999}
@@ -219,9 +222,7 @@
   .osm-menu div{position:absolute;left:0;top:1.5em;z-index:5;background:#fff;border:1px solid #ddd;border-radius:4px;box-shadow:0 2px 8px #0003;padding:3px 0;white-space:nowrap}
   .osm-menu div a{display:block;padding:3px 12px}
   .osm-menu div a:hover{background:#f2f2f2}
-  /* «Vedi a confronto» accanto ai check sul rapporto altezza/circonferenza (issue #14): apre la finestra #cmp */
-  .card .cmp-btn{font:inherit;font-weight:400;color:#1a5fb4;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
-  /* iconcina accanto all'altezza: stessa finestra, per gli alberi con il confronto ma senza «Vedi a confronto» (anche tasto C) */
+  /* iconcina accanto all'altezza: apre la finestra #cmp (issue #14, #62; anche tasto C) */
   .card .cmp-pick{background:none;border:0;padding:1px 2px;margin-left:4px;border-radius:3px;color:#1a5fb4;cursor:pointer;vertical-align:-3px;line-height:0}
   .card .cmp-pick:hover{background:#eef3fb}
   .card .cmp-pick svg{width:18px;height:15px;fill:none;stroke:currentColor;stroke-width:1.2}
@@ -287,7 +288,8 @@
       <!-- solo dall'8 dicembre al 6 gennaio (XMAS nello script): chioma aghifoglia con lucine e stella -->
       <li id="leg-xmas" hidden><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="11.0,1.4 12.6,4.1 15.2,2.4 15.4,5.4 18.5,5.0 17.4,7.9 20.4,8.9 18.1,11.0 20.4,13.1 17.4,14.1 18.5,17.0 15.4,16.6 15.2,19.6 12.6,17.9 11.0,20.6 9.4,17.9 6.8,19.6 6.6,16.6 3.5,17.0 4.6,14.1 1.6,13.1 3.9,11.0 1.6,8.9 4.6,7.9 3.5,5.0 6.6,5.4 6.8,2.4 9.4,4.1" stroke-linejoin="round" fill="#1f6b35" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/><g stroke="#fff" stroke-width=".5"><circle cx="6.5" cy="8" r="1.6" fill="#e8322b"/><circle cx="15.5" cy="7" r="1.6" fill="#f6c21b"/><circle cx="16" cy="14.5" r="1.6" fill="#2f7de1"/><circle cx="7" cy="15" r="1.6" fill="#2fae4a"/></g><path d="M11 7.2L12 9.7L14.6 9.8L12.6 11.4L13.3 14L11 12.5L8.7 14L9.4 11.4L7.4 9.8L10 9.7Z" fill="#ffd21f" stroke="#9a6a00" stroke-width=".5" stroke-linejoin="round"/></svg> <span data-i18n="legXmas">Albero di Natale</span></li>
       <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M5 5L17 17M17 5L5 17" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/></svg> <span data-i18n="legStump">Ceppo</span></li>
-      <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.0,11.0 19.3,10.1 19.4,9.1 19.1,8.2 18.5,7.4 17.8,6.8 16.9,6.3 16.3,5.7 16.0,4.7 15.5,3.9 14.7,3.3 13.8,2.9 12.9,2.8 11.9,3.1 11.0,3.5 10.2,3.5 9.2,3.2 8.2,3.1 7.3,3.3 6.4,3.7 5.8,4.5 5.4,5.4 5.1,6.3 4.6,7.0 3.8,7.5 3.1,8.2 2.6,9.1 2.5,10.0 2.6,11.0 3.1,11.9 3.7,12.7 3.9,13.5 3.8,14.5 3.9,15.5 4.3,16.4 4.9,17.1 5.8,17.5 6.8,17.8 7.8,17.7 8.5,18.1 9.2,18.8 10.1,19.3 11.0,19.6 12.0,19.5 12.9,19.2 13.6,18.5 14.2,17.7 15.0,17.4 16.0,17.3 16.9,16.9 17.7,16.4 18.3,15.6 18.5,14.6 18.5,13.6 18.3,12.7 18.5,11.8" stroke-linejoin="round" fill="none" stroke="#1b6b2c" stroke-width="1.5"/></svg> <span data-i18n="legBroad">Latifoglia o palma</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="19.0,11.0 19.3,10.1 19.4,9.1 19.1,8.2 18.5,7.4 17.8,6.8 16.9,6.3 16.3,5.7 16.0,4.7 15.5,3.9 14.7,3.3 13.8,2.9 12.9,2.8 11.9,3.1 11.0,3.5 10.2,3.5 9.2,3.2 8.2,3.1 7.3,3.3 6.4,3.7 5.8,4.5 5.4,5.4 5.1,6.3 4.6,7.0 3.8,7.5 3.1,8.2 2.6,9.1 2.5,10.0 2.6,11.0 3.1,11.9 3.7,12.7 3.9,13.5 3.8,14.5 3.9,15.5 4.3,16.4 4.9,17.1 5.8,17.5 6.8,17.8 7.8,17.7 8.5,18.1 9.2,18.8 10.1,19.3 11.0,19.6 12.0,19.5 12.9,19.2 13.6,18.5 14.2,17.7 15.0,17.4 16.0,17.3 16.9,16.9 17.7,16.4 18.3,15.6 18.5,14.6 18.5,13.6 18.3,12.7 18.5,11.8" stroke-linejoin="round" fill="none" stroke="#1b6b2c" stroke-width="1.5"/></svg> <span data-i18n="legBroad">Latifoglia</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="10.0,8.3 9.5,5.4 9.7,3.8 10.3,2.5 11.0,1.4 11.7,2.5 12.3,3.8 12.5,5.4 12.0,8.3 13.5,5.7 14.7,4.7 15.9,4.0 17.2,3.6 17.0,5.0 16.6,6.3 15.8,7.7 13.5,9.6 16.3,8.5 17.9,8.5 19.2,8.8 20.5,9.3 19.5,10.3 18.3,11.0 16.8,11.5 13.8,11.5 16.6,12.5 17.9,13.5 18.7,14.6 19.3,15.8 18.0,15.9 16.6,15.7 15.1,15.1 12.9,13.2 14.3,15.8 14.7,17.3 14.6,18.7 14.3,20.0 13.2,19.2 12.3,18.2 11.5,16.8 11.0,13.9 10.5,16.8 9.7,18.2 8.8,19.2 7.7,20.0 7.4,18.7 7.3,17.3 7.7,15.8 9.1,13.2 6.9,15.1 5.4,15.7 4.0,15.9 2.7,15.8 3.3,14.6 4.1,13.5 5.4,12.5 8.2,11.5 5.2,11.5 3.7,11.0 2.5,10.3 1.5,9.3 2.8,8.8 4.1,8.5 5.7,8.5 8.5,9.6 6.2,7.7 5.4,6.3 5.0,5.0 4.8,3.6 6.1,4.0 7.3,4.7 8.5,5.7" stroke-linejoin="round" fill="none" stroke="#1b6b2c" stroke-width="1.2"/></svg> <span data-i18n="legPalm">Palma</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="11.0,1.4 12.6,4.1 15.2,2.4 15.4,5.4 18.5,5.0 17.4,7.9 20.4,8.9 18.1,11.0 20.4,13.1 17.4,14.1 18.5,17.0 15.4,16.6 15.2,19.6 12.6,17.9 11.0,20.6 9.4,17.9 6.8,19.6 6.6,16.6 3.5,17.0 4.6,14.1 1.6,13.1 3.9,11.0 1.6,8.9 4.6,7.9 3.5,5.0 6.6,5.4 6.8,2.4 9.4,4.1" stroke-linejoin="round" fill="none" stroke="#1b6b2c" stroke-width="1.2"/></svg> <span data-i18n="legNeedle">Aghifoglia</span></li>
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1b6b2c" stroke-width="1.5"/></svg> <span data-i18n="legNoLeaf">Tipo di foglia non specificato</span></li>
     </ul>
@@ -412,9 +414,10 @@ const I18N = {
       legStump: "natural=tree_stump",
       legXmas: "xmas:feature=tree (dall'8 dicembre al 6 gennaio, da zoom 16)",
       legColors: "Colore della chioma dalla specie. Autunno: rosso species=Quercus rubra · Liquidambar styraciflua · Nyssa sylvatica · Acer rubrum (ottobre e novembre); giallo Ginkgo biloba (novembre) · Larix decidua (ottobre e novembre); bruno-arancio Taxodium distichum · Metasequoia glyptostroboides (ottobre e novembre). Argento Elaeagnus angustifolia (da aprile a ottobre). Azzurro Picea pungens · Eucalyptus cinerea · Eucalyptus pulverulenta (tutto l'anno). Nell'emisfero sud i mesi si spostano di 6. I colori autunnali ci sono solo con le stagioni attive (voce «Caducifoglia»)",
-      legBroad: "leaf_type=broadleaved o palm, o stimato",
+      legBroad: "leaf_type=broadleaved, o stimato",
+      legPalm: "leaf_type=palm · taxon:family, family o taxon=Arecaceae · taxon:en=Palm · crown_type=I · genus o species di una palma (Phoenix, Washingtonia, Trachycarpus…), anche con un altro leaf_type",
       legNeedle: "leaf_type=needleleaved, o stimato",
-      legNoLeaf: "leaf_type mancante e non stimato" }, legBroad: "Latifoglia o palma",
+      legNoLeaf: "leaf_type mancante e non stimato" }, legBroad: "Latifoglia", legPalm: "Palma",
     legNeedle: "Aghifoglia", legNoLeaf: "Tipo di foglia non specificato",
     legDeciduous: "Caducifoglia", legEvergreen: "Sempreverde", legNoCycle: "Ciclo fogliare non specificato", legNote: "Tronco e forme da zoom 16",
     rank: "Classifica errori", rankWas: (n, d) => `${n}ª posizione il ${d}`,
@@ -438,7 +441,9 @@ const I18N = {
       masafTip: "Alberi dell'elenco degli alberi monumentali d'Italia del MASAF già su OpenStreetMap: quelli con un elemento che ha il loro codice in ref:masaf, o con un albero monumentale dello stesso genere entro 25 m.",
       masafLeft: n => `${n} non ancora su OSM`,
       masafSoon: "Il conteggio «X di Y» e le regioni arriveranno con il prossimo aggiornamento della mappa dei monumentali.",
+      dio: "Piante dioiche", sex: "Sesso", hlSex: "Evidenziati: dioici senza sex=*",
       tips: {
+        sex: (k, g, s) => `${k("sex")}: male o female. Vale per le specie dioiche, con fiori maschili e femminili su alberi diversi: la barra conta solo gli alberi di queste specie nella vista (generi ${g}; specie ${s}) e si vede solo se ce n'è almeno uno. Si riconosce dai fiori e dai frutti, nella loro stagione.`,
         species: k => `${k("species")}: il nome scientifico, genere ed epiteto (es. Quercus robur). Si riconosce da foglie, corteccia, fiori e frutti, o da un cartellino sul posto. Se si conosce solo il genere, va in ${k("genus")}.`,
         leaf_type: k => `${k("leaf_type")}: broadleaved (latifoglia), needleleaved (aghifoglia), palm (palma) o leafless (senza foglie). Si vede guardando le foglie.`,
         leaf_cycle: k => `${k("leaf_cycle")}: deciduous (perde le foglie per una parte dell'anno) o evergreen (le tiene tutto l'anno); ci sono anche semi_deciduous e semi_evergreen. Si vede sul posto nella stagione fredda o secca.`,
@@ -482,6 +487,12 @@ const I18N = {
     countAll: n => `Alberi in vista: ${n}`,
     countWorldLow: n => `Alberi in vista: ${n} (avvicinati per vederli tutti)`,
     updated: d => `Dati aggiornati al ${d}`,
+    // dati di una regione aggiornati più di OLD_DAYS giorni fa (issue #59)
+    oldData: n => `${n} giorni fa`,
+    requestUpdate: "Chiedi un aggiornamento della regione",
+    // età da start_date nella scheda (issue #61)
+    age: n => n < 1 ? "meno di un anno" : n === 1 ? "1 anno" : `${n.toLocaleString(LOC)} anni`,
+    ageRange: (a, b) => `${a.toLocaleString(LOC)}–${b.toLocaleString(LOC)} anni`,
     worldTitle: { monumental: "Mappa degli alberi monumentali" },
     worldLink: { monumental: "Mappa mondiale degli alberi monumentali" },
     backToQa: "← Torna al tool QA", seeInQa: "vedi nel tool QA",
@@ -581,8 +592,8 @@ const I18N = {
     },
     sexPhotoAlt: { "Ginkgo biloba": { female: "Semi di Ginkgo biloba", male: "Coni maschili di Ginkgo biloba" } },
     fromDiameter: " (da diameter)",
-    // finestra «Vedi a confronto» dei check too_slender, too_slender_species e too_stocky (issue #14)
-    cmp: { btn: "Vedi a confronto", title: "Tronco a confronto", close: "Chiudi", pick: "Confronta con il tronco tipico (tasto C)",
+    // finestra «Tronco a confronto» (issue #14), dall'iconcina accanto all'altezza o dal tasto C
+    cmp: { title: "Tronco a confronto", close: "Chiudi", pick: "Confronta con il tronco tipico (tasto C)",
       pickScale: "Vedi l'albero in scala (tasto C)",
       svg: "Disegno in scala del tronco, descritto sotto",
       same: "Il tronco è largo quanto quello tipico della specie, entro il 10%.",
@@ -653,7 +664,7 @@ const I18N = {
       genus_mismatch: "La prima parola di species=* è il genere, e deve coincidere con genus=*.",
       leaf_type: "Valori documentati: broadleaved, needleleaved, leafless, palm.",
       leaf_cycle: "Valori documentati: deciduous, semi_deciduous, evergreen, semi_evergreen.",
-      leaf_type_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. palm vale come broadleaved.",
+      leaf_type_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. Per le palme (Arecaceae) valgono sia palm sia broadleaved; palm è ammesso anche per le piante dall'aspetto di palma (Yucca, Cordyline, Dracaena, Cycas, Musa…), non per le altre latifoglie. Con leaf_type=palm il genere si prende anche da taxon.",
       leaf_cycle_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. I valori semi_ valgono come quelli pieni.",
       link_format: "wikidata vuole un QID (Q…), wikimedia_commons il prefisso File: o Category:, panoramax un UUID, image un indirizzo http(s).",
       broken_link: "Segnalati: pagine 404 o 410, siti che non esistono più e file assenti su Commons. Non sono segnalati 403, 429, errori del server e timeout, che spesso sono blocchi verso i programmi automatici.",
@@ -802,9 +813,10 @@ const I18N = {
       legStump: "natural=tree_stump",
       legXmas: "xmas:feature=tree (from 8 December to 6 January, from zoom 16)",
       legColors: "Crown colour from the species. Autumn: red species=Quercus rubra · Liquidambar styraciflua · Nyssa sylvatica · Acer rubrum (October and November); yellow Ginkgo biloba (November) · Larix decidua (October and November); russet Taxodium distichum · Metasequoia glyptostroboides (October and November). Silver Elaeagnus angustifolia (April to October). Blue Picea pungens · Eucalyptus cinerea · Eucalyptus pulverulenta (all year). In the southern hemisphere the months shift by 6. Autumn colours need the seasons on (“Deciduous” entry)",
-      legBroad: "leaf_type=broadleaved or palm, or estimated",
+      legBroad: "leaf_type=broadleaved, or estimated",
+      legPalm: "leaf_type=palm · taxon:family, family or taxon=Arecaceae · taxon:en=Palm · crown_type=I · genus or species of a palm (Phoenix, Washingtonia, Trachycarpus…), even with another leaf_type",
       legNeedle: "leaf_type=needleleaved, or estimated",
-      legNoLeaf: "leaf_type missing and not estimated" }, legBroad: "Broadleaved or palm",
+      legNoLeaf: "leaf_type missing and not estimated" }, legBroad: "Broadleaved", legPalm: "Palm",
     legNeedle: "Needleleaved", legNoLeaf: "Leaf type not specified",
     legDeciduous: "Deciduous", legEvergreen: "Evergreen", legNoCycle: "Leaf cycle not specified", legNote: "Trunks and shapes from zoom 16",
     rank: "Error ranking", rankWas: (n, d) => `Position ${n} on ${d}`,
@@ -826,7 +838,9 @@ const I18N = {
       masafTip: "Trees of the MASAF list of monumental trees of Italy already on OpenStreetMap: those with an element carrying their code in ref:masaf, or with a monumental tree of the same genus within 25 m.",
       masafLeft: n => `${n} not yet on OSM`,
       masafSoon: "The \"X of Y\" count and the regions will arrive with the next update of the monumental trees map.",
+      dio: "Dioecious trees", sex: "Sex", hlSex: "Highlighted: dioecious, no sex=*",
       tips: {
+        sex: (k, g, s) => `${k("sex")}: male or female. It applies to dioecious species, with male and female flowers on separate trees: the bar counts only the trees of these species in view (genera ${g}; species ${s}) and appears only if there is at least one. It is recognised from flowers and fruits, in their season.`,
         species: k => `${k("species")}: the scientific name, genus and epithet (e.g. Quercus robur). It is recognised from leaves, bark, flowers and fruits, or from a label on site. If only the genus is known, it goes in ${k("genus")}.`,
         leaf_type: k => `${k("leaf_type")}: broadleaved, needleleaved, palm or leafless. It can be seen by looking at the leaves.`,
         leaf_cycle: k => `${k("leaf_cycle")}: deciduous (loses its leaves for part of the year) or evergreen (keeps them all year); there are also semi_deciduous and semi_evergreen. It can be seen on site in the cold or dry season.`,
@@ -869,6 +883,10 @@ const I18N = {
     countAll: n => `Trees in view: ${n}`,
     countWorldLow: n => `Trees in view: ${n} (zoom in to see all)`,
     updated: d => `Data updated on ${d}`,
+    oldData: n => `${n} days ago`,
+    requestUpdate: "Request an update of the region",
+    age: n => n < 1 ? "less than a year" : n === 1 ? "1 year" : `${n.toLocaleString(LOC)} years`,
+    ageRange: (a, b) => `${a.toLocaleString(LOC)}–${b.toLocaleString(LOC)} years`,
     worldTitle: { monumental: "Map of monumental trees" },
     worldLink: { monumental: "World map of monumental trees" },
     backToQa: "← Back to the QA tool", seeInQa: "see in the QA tool",
@@ -962,7 +980,7 @@ const I18N = {
     },
     sexPhotoAlt: { "Ginkgo biloba": { female: "Ginkgo biloba seeds", male: "Ginkgo biloba male cones" } },
     fromDiameter: " (from diameter)",
-    cmp: { btn: "Compare visually", title: "Trunk comparison", close: "Close", pick: "Compare with the typical trunk (C key)",
+    cmp: { title: "Trunk comparison", close: "Close", pick: "Compare with the typical trunk (C key)",
       pickScale: "View the tree to scale (C key)",
       svg: "Scale drawing of the trunk, described below",
       same: "The trunk is as wide as the typical one for the species, within 10%.",
@@ -1029,7 +1047,7 @@ const I18N = {
       genus_mismatch: "The first word of species=* is the genus, and it must match genus=*.",
       leaf_type: "Documented values: broadleaved, needleleaved, leafless, palm.",
       leaf_cycle: "Documented values: deciduous, semi_deciduous, evergreen, semi_evergreen.",
-      leaf_type_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. palm counts as broadleaved.",
+      leaf_type_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. For palms (Arecaceae) both palm and broadleaved are accepted; palm is also accepted for palm-like plants (Yucca, Cordyline, Dracaena, Cycas, Musa…), not for other broadleaved trees. With leaf_type=palm the genus is also taken from taxon.",
       leaf_cycle_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. semi_ values count as the full ones.",
       link_format: "wikidata needs a QID (Q…), wikimedia_commons the File: or Category: prefix, panoramax a UUID, image an http(s) address.",
       broken_link: "Reported: 404 or 410 pages, sites that no longer exist and files missing on Commons. 403, 429, server errors and timeouts are not reported, as they are often blocks against automated tools.",
@@ -1214,7 +1232,7 @@ const px = (prop, minPx, z) => ["max", minPx, metersPx(["get", prop], z)];
 const radius = (prop, minPx, div = 1) => ["interpolate", ["exponential", 2], ["zoom"],
   ...Array.from({ length: 23 }, (_, z) => [z, div === 1 ? px(prop, minPx, z) : ["/", px(prop, minPx, z), div]]).flat()];
 const isMon = p => !!p.imp || String(p.denotation || "").split(";").includes("natural_monument");   // come hasDen sulla mappa
-const leafOf = p => p.lt || p.leaf_type;   // lt = leaf_type stimato dalla lista di specie quando il tag manca
+const leafOf = p => p.lt || p.leaf_type;   // lt = leaf_type stimato dalle liste quando il tag manca; palm per le palme, anche con un altro leaf_type (#55)
 // Alberi di Natale (xmas:feature=tree, #7): dall'8 dicembre al 6 gennaio, nella data di chi guarda, chioma
 // aghifoglia con lucine colorate e stella. #xmas=1 nell'indirizzo li mostra anche fuori periodo (per provarli).
 const XMAS = (() => { const d = new Date(), m = d.getMonth() + 1, g = d.getDate();
@@ -1437,13 +1455,31 @@ map.on("load", async () => {
   const NOSHAPE = ["all", ["!", ["in", ["coalesce", ["get", "lt"], ["get", "leaf_type"], ""], ["literal", ["broadleaved", "palm", "needleleaved"]]]],
     ...(XMAS ? [["!", ["all", ["has", "xmas"], ["!", ["has", "lt"]], ["!", ["has", "leaf_type"]]]]] : [])];
   const isSpiky = p => SPIKY.has(leafOf(p)) || (isXmas(p) && !leafOf(p));
+  // palma: leaf_type=palm, o lt=palm (fetch_trees.py: genere di palma, taxon:family, family, taxon=Arecaceae,
+  // taxon:en=Palm, crown_type=I), che vale anche più di un leaf_type diverso
+  const isPalm = p => leafOf(p) === "palm";
+  const PALM = ["==", ["coalesce", ["get", "lt"], ["get", "leaf_type"], ""], "palm"];
   const isShaped = ft => !ft.properties.stump && (BLOB.has(leafOf(ft.properties)) || isSpiky(ft.properties));
 
   const shapeRing = ft => {
     const [lon, lat] = ft.geometry.coordinates, p = ft.properties, r = p.cr;
     const kx = 1 / (111320 * Math.cos(lat * Math.PI / 180)), ky = 1 / 111320;
     const pts = [];
-    if (isSpiky(p)) {                           // stella fitta a 14 punte corte, ruotata in modo diverso per ogni albero
+    if (isPalm(p)) {                              // palma (#55): 8, 9 o 10 fronde a lancia, con incavi profondi
+      const n = 8 + (p.id % 3), M = 8, rot = hash01(p.id, 4) * 2 * Math.PI, kin = 0.3, rr = [];   // kin = incavo / punta
+      for (let f = 0; f < n; f++) {
+        const len = 1 + (hash01(p.id, 20 + f) - 0.5) * 0.16;          // ogni fronda un po' più lunga o più corta
+        for (let j = 0; j < M; j++) {
+          const d = Math.abs(2 * j / M - 1);                          // 0 = punta della fronda, 1 = incavo
+          rr.push(kin + (len - kin) * Math.pow(1 - d, 0.6));
+        }
+      }
+      const da = 2 * Math.PI / rr.length;
+      let area = 0; rr.forEach((v, k) => area += 0.5 * v * rr[(k + 1) % rr.length] * Math.sin(da));
+      const sc = r * Math.sqrt(Math.PI / area);                        // stessa area del cerchio
+      rr.forEach((v, k) => pts.push([lon + sc * v * Math.cos(rot + k * da) * kx, lat + sc * v * Math.sin(rot + k * da) * ky]));
+    } else
+    if (isSpiky(p)) {                          // stella fitta a 14 punte corte, ruotata in modo diverso per ogni albero
       const n = 14, kin = 0.74, rot = (p.id % 11) / 11 * (2 * Math.PI / n);   // kin = raggio interno / esterno
       const R = r * Math.sqrt(Math.PI / (n * kin * Math.sin(Math.PI / n)));      // stessa area del cerchio
       for (let k = 0; k < 2 * n; k++) {
@@ -1609,6 +1645,11 @@ map.on("load", async () => {
   const DEFS = [
     { id: "crown", spec: tier => ({ type: "circle", source: tier.src, minzoom: tier.minZ, maxzoom: SHAPE_Z, paint: circlePaint() }) },
     { id: "crown-plain", base: NOSHAPE, spec: tier => ({ type: "circle", source: tier.src, minzoom: SHAPE_Z, paint: circlePaint() }) },
+    // palme: un velo quasi invisibile, rotondo, sotto la sagoma, perché la chioma resti cliccabile anche negli incavi
+    // tra le fronde
+    { id: "crown-palm", base: PALM, spec: tier => ({ type: "circle", source: tier.src, minzoom: SHAPE_Z, paint: {
+      "circle-radius": radius("cr", 3), "circle-color": "#1f6b35", "circle-opacity": 0.02, "circle-pitch-alignment": "map",
+      "circle-pitch-scale": "map" } }) },
     { id: "crown-poly", spec: () => ({ type: "fill", source: "shapes", paint: {
       "fill-color": crownExpr(true, seasonsOn), "fill-opacity": opacityExpr(true, seasonsOn, true) } }) },
     { id: "crown-poly-line", spec: () => ({ type: "line", source: "shapes", layout: { "line-join": "round" }, paint: {
@@ -1910,6 +1951,7 @@ map.on("load", async () => {
     map.setFilter("crown-issues-wait", ["all", ISSUE_MID, ...rest]);
     for (const id of ["masaf", "masaf-fill", "masaf-shape", "masaf-shape-line", "masaf-hl"])   // alberi MASAF: genere e specie
       if (map.getLayer(id)) map.setFilter(id, rest.length ? ["all", ...rest] : null);
+    if (map.getLayer("masaf-palm")) map.setFilter("masaf-palm", ["all", PALM, ...rest]);
     if (map.getLayer("masaf-trunk")) map.setFilter("masaf-trunk", ["all", ["has", "tr"], ...rest]);
     REST = rest; applyHl();                           // evidenziazione della scheda Completezza: stessi filtri
     update();
@@ -2126,6 +2168,19 @@ map.on("load", async () => {
     : g.type === "MultiPolygon" ? g.coordinates.some(p => inPolygon(pt, p)) : false;
   const hasTag = k => p => p[k] != null && p[k] !== "";
   const noTag = k => ["==", ["coalesce", ["get", k], ""], ""];
+  // Voce «Sesso» (issue #58): solo per le piante dioiche (fiori maschili e femminili su alberi diversi), generi interi
+  // o singole specie; ci devono essere tutte le chiavi di L.sexTraits. La riga conta gli alberi dioici nella vista
+  // (among) e si vede solo se ce n'è almeno uno. Un albero è dioico se genus=* o la prima parola di species=* è uno
+  // dei generi, o se species=* è una delle specie (anche seguita da autore o cultivar)
+  const DIO_GENERA = ["Broussonetia", "Cephalotaxus", "Cercidiphyllum", "Chamaerops", "Ginkgo", "Gymnocladus", "Hippophae",
+    "Ilex", "Laurus", "Maclura", "Phellodendron", "Phoenix", "Pistacia", "Podocarpus", "Populus", "Salix", "Taxus", "Torreya", "Trachycarpus"];
+  const DIO_SPECIES = ["Acer negundo", "Ailanthus altissima", "Araucaria araucana", "Ceratonia siliqua", "Diospyros lotus",
+    "Diospyros virginiana", "Juniperus communis", "Juniperus oxycedrus", "Juniperus virginiana", "Phytolacca dioica", "Schinus molle"];
+  const isDio = p => { const sp = String(p.species || "");
+    return DIO_GENERA.includes(p.genus) || DIO_GENERA.includes(sp.split(" ")[0]) || DIO_SPECIES.some(s => sp === s || sp.startsWith(s + " ")); };
+  const SP = ["coalesce", ["get", "species"], ""], spStarts = s => ["==", ["index-of", s, SP], 0];
+  const DIO_EXPR = ["any", ["in", ["coalesce", ["get", "genus"], ""], ["literal", DIO_GENERA]], ["in", SP, ["literal", DIO_GENERA]],
+    ...DIO_GENERA.map(g => spStarts(g + " ")), ...DIO_SPECIES.map(s => ["any", ["==", SP, s], spStarts(s + " ")])];
   const COMP = {
     species: { has: hasTag("species"), miss: noTag("species") },
     leaf_type: { has: hasTag("leaf_type"), miss: noTag("leaf_type") },
@@ -2136,12 +2191,14 @@ map.on("load", async () => {
     photo: { has: p => !!(p.wikimedia_commons || p.panoramax || p["image:fotoshi"] || p.wd_img || /^https?:\/\//.test(p.image || "")),
       miss: ["all", noTag("wikimedia_commons"), noTag("panoramax"), noTag("image:fotoshi"), noTag("wd_img"),
         ["!=", ["slice", ["to-string", ["coalesce", ["get", "image"], ""]], 0, 4], "http"]] },
+    sex: { has: hasTag("sex"), miss: ["all", DIO_EXPR, noTag("sex")], among: isDio, hlText: L.cp.hlSex },
   };
-  for (const k in COMP) COMP[k].label = k === "photo" ? L.cp.photo : L.rows[k];
+  for (const k in COMP) COMP[k].label = k === "photo" ? L.cp.photo : k === "sex" ? L.cp.sex : L.rows[k];
   // gruppi di voci: nel tool QA i dati di base e, a parte, misure e foto; nella mappa dei monumentali il diametro
-  // della chioma è l'unica voce facoltativa
-  const COMP_GROUPS = WORLD ? [[L.cp.inView, "", ["species", "height", "circumference", "photo"]], [L.cp.optional, "", ["diameter_crown"]]]
-    : [[L.cp.basic, L.cp.basicSub, ["species", "leaf_type", "leaf_cycle"]], [L.cp.extra, L.cp.extraSub, ["height", "circumference", "diameter_crown", "photo"]]];
+  // della chioma è l'unica voce facoltativa. In fondo, in entrambe, le piante dioiche (gruppo nascosto se non ce ne sono)
+  const COMP_GROUPS = (WORLD ? [[L.cp.inView, "", ["species", "height", "circumference", "photo"]], [L.cp.optional, "", ["diameter_crown"]]]
+    : [[L.cp.basic, L.cp.basicSub, ["species", "leaf_type", "leaf_cycle"]], [L.cp.extra, L.cp.extraSub, ["height", "circumference", "diameter_crown", "photo"]]])
+    .concat([[L.cp.dio, "", ["sex"]]]);
   const COMP_KEYS = COMP_GROUPS.flatMap(g => g[2]);
   // Evidenziazione: cerchi fucsia sopra gli alberi a cui manca il dato scelto (hl = chiave di COMP), con gli stessi
   // criteri dei livelli della mappa (zoom e filtri dei menu, in REST); hl = "masaf": gli alberi MASAF non su OSM
@@ -2165,7 +2222,7 @@ map.on("load", async () => {
     }
     if (map.getLayer("masaf-hl")) map.setLayoutProperty("masaf-hl", "visibility", hl === "masaf" ? "visible" : "none");
     hlChip.hidden = !hl;
-    hlChip.innerHTML = hl ? `<span>${esc(hl === "masaf" ? L.cp.hlMasaf : L.cp.hl(item.label.toLowerCase()))}</span><b>×</b>` : "";
+    hlChip.innerHTML = hl ? `<span>${esc(hl === "masaf" ? L.cp.hlMasaf : item.hlText || L.cp.hl(item.label.toLowerCase()))}</span><b>×</b>` : "";
     compEl.querySelectorAll(".cp-row").forEach(r => {
       r.classList.toggle("on", r.dataset.key === hl); r.setAttribute("aria-pressed", r.dataset.key === hl); });
   };
@@ -2249,11 +2306,12 @@ map.on("load", async () => {
         .catch(() => { italy = null; }).then(() => { showMasaf(); fitSideLists(); });
     }
     compMsg = el("div", "note"); compRows = el("div"); compNote = el("div", "note");
+    const dioList = DIO_GENERA.join(", "), dioSp = DIO_SPECIES.join(", ");
     for (const [title, sub, keys] of COMP_GROUPS) {
       const h = el("h4", "", title);
       if (sub) h.append(" ", el("small", "", "· " + sub));
-      compRows.append(h, ...keys.map(k => COMP[k].row = compRow(k, COMP[k].label,
-        L.cp.tips[k](wikiKey) + (k === "photo" ? "" : " " + esc(L.cp.measured)), L.cp.rowTitle)));
+      compRows.append(h, ...keys.map(k => { COMP[k].head = h; return COMP[k].row = compRow(k, COMP[k].label,
+        L.cp.tips[k](wikiKey, dioList, dioSp) + (k === "photo" ? "" : " " + esc(L.cp.measured)), L.cp.rowTitle); }));
     }
     compEl.append(compMsg, compRows, compNote);
     applyHl();
@@ -2264,16 +2322,22 @@ map.on("load", async () => {
     const first = !compBuilt;
     if (first) buildComp();
     showMasaf();
-    const z = map.getZoom(), cnt = Object.fromEntries(COMP_KEYS.map(k => [k, 0]));
+    // cnt: alberi con il dato; den: alberi a cui la voce si applica (tutti, o quelli di among, es. i dioici per il sesso)
+    const z = map.getZoom(), cnt = Object.fromEntries(COMP_KEYS.map(k => [k, 0])), den = { ...cnt };
     let tot = 0;
-    eachInView(p => { tot++; for (const k of COMP_KEYS) if (COMP[k].has(p)) cnt[k]++; });
+    eachInView(p => { tot++;
+      for (const k of COMP_KEYS) { const c = COMP[k]; if (c.among && !c.among(p)) continue; den[k]++; if (c.has(p)) cnt[k]++; } });
     // stati vuoti: nessuna regione, dati ancora in arrivo (del file della regione c'è solo la parte ridotta, o la
     // mappa dei monumentali non è ancora caricata), nessun albero nella vista
     const msg = !current ? L.cp.noRegion : !ALL.length || (partial && z >= ALL_Z) ? L.cp.loading : !tot ? L.cp.noTrees : "";
     compMsg.textContent = msg; compMsg.hidden = !msg; compRows.hidden = !!msg;
     const note = msg ? "" : WORLD ? (z < FULL_Z ? L.cp.partialWorld : "") : z < ALL_Z ? L.cp.partialQa : "";
     compNote.textContent = note; compNote.hidden = !note;
-    if (!msg) for (const k of COMP_KEYS) setCompRow(COMP[k].row, cnt[k], tot);
+    if (!msg) {
+      for (const k of COMP_KEYS) { COMP[k].row.hidden = !den[k]; setCompRow(COMP[k].row, cnt[k], den[k]); }
+      // un gruppo senza righe visibili (piante dioiche assenti dalla vista) non mostra neanche il titolo
+      for (const [, , keys] of COMP_GROUPS) COMP[keys[0]].head.hidden = keys.every(k => !den[k]);
+    }
     if (first) fitSideLists();
   };
   onCompToggle = renderComp;
@@ -2481,17 +2545,16 @@ map.on("load", async () => {
     if (e.target.closest?.("input, select, textarea, [contenteditable], dialog")) return;
     map.flyTo({ center: cardPopup.getLngLat(), zoom: 19 });
   });
-  // tasto C (Confronta / Compare): con una scheda aperta, la finestra del tronco a confronto, se l'albero ce l'ha:
-  // quella del primo «Vedi a confronto» o, senza check sul rapporto, dell'iconcina accanto all'altezza; come Z, non
-  // mentre si scrive in un campo o con una finestra aperta
+  // tasto C (Confronta / Compare): con una scheda aperta, la finestra del tronco a confronto, se l'albero ce l'ha (la
+  // stessa dell'iconcina accanto all'altezza); come Z, non mentre si scrive in un campo o con una finestra aperta
   addEventListener("keydown", e => {
     if (e.key.toLowerCase() !== "c" || e.ctrlKey || e.metaKey || e.altKey || !cardPopup) return;
     if (e.target.closest?.("input, select, textarea, [contenteditable], dialog") || document.querySelector("dialog[open]")) return;
-    const b = cardPopup.getElement().querySelector(".cmp-btn, .cmp-pick");
+    const b = cardPopup.getElement().querySelector(".cmp-pick");
     if (b) { e.preventDefault(); openCompare(b); }
   });
   // anche i tronchi (singoli e multipli) aprono la scheda: da zoom 16 sono disegnati sopra la chioma
-  for (const id of [...CROWN_IDS, ...TIERS.map(t => "trunk" + t.suf), ...TIERS.map(t => "stem" + t.suf),
+  for (const id of [...CROWN_IDS, ...TIERS.map(t => "crown-palm" + t.suf), ...TIERS.map(t => "trunk" + t.suf), ...TIERS.map(t => "stem" + t.suf),
     "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"]) {
     map.on("click", id, e => {
       const g = e.features[0].geometry, pos = g.type === "Point" ? g.coordinates : [e.lngLat.lng, e.lngLat.lat];
@@ -2526,6 +2589,9 @@ map.on("load", async () => {
     map.addLayer({ id: "masaf", type: "symbol", source: "masaf", minzoom: FULL_Z, maxzoom: SHAPE_Z,
       layout: { "icon-image": "masaf-ring", "icon-allow-overlap": true, "icon-ignore-placement": true,
         "icon-size": byZoom(z => ["/", ["+", crownPx(z), 3], 28.5]) } });
+    // palme: velo rotondo quasi invisibile sotto la sagoma, come "crown-palm", per i clic negli incavi tra le fronde
+    map.addLayer({ id: "masaf-palm", type: "circle", source: "masaf", minzoom: SHAPE_Z, filter: PALM,
+      paint: { "circle-radius": byZoom(z => crownPx(z)), "circle-color": "#1f6b35", "circle-opacity": 0.02, "circle-pitch-alignment": "map" } });
     map.addLayer({ id: "masaf-shape", type: "fill", source: "masaf-shapes", minzoom: SHAPE_Z,
       paint: { "fill-color": crownExpr(colorsOn, seasonsOn), "fill-opacity": masafOpacity() } });
     map.addLayer({ id: "masaf-shape-line", type: "line", source: "masaf-shapes", minzoom: SHAPE_Z,
@@ -2561,7 +2627,7 @@ map.on("load", async () => {
       map.getSource("masaf").setData(fc);
       map.getSource("masaf-shapes").setData({ type: "FeatureCollection", features: fc.features.map(masafShape) });
     }).catch(() => {});
-    for (const id of ["masaf", "masaf-fill", "masaf-shape", "masaf-hl"]) {
+    for (const id of ["masaf", "masaf-fill", "masaf-palm", "masaf-shape", "masaf-hl"]) {
       map.on("click", id, e => {
         const f = e.features[0];
         if (map.queryRenderedFeatures(e.point, { layers: CROWN_IDS }).length) return;   // un albero OSM ha la precedenza
@@ -2655,7 +2721,7 @@ map.on("load", async () => {
     const min = WORLD ? null : await getGz(`data/regions/${slug}.min.geojson.gz`).catch(() => null);
     if (seq !== loadSeq) return;                      // nel frattempo è stata scelta un'altra regione
     taxSel.value = ""; taxSig = "";                   // l'elenco genus/specie dipende dalla regione
-    info.textContent = r.updated ? L.updated(new Date(r.updated).toLocaleDateString(LOC)) : "";
+    info.innerHTML = r.updated ? esc(L.updated(new Date(r.updated).toLocaleDateString(LOC))) + (WORLD ? "" : oldNote(regionName(slug), r.updated)) : "";
     map.getSource("trees").setData(EMPTY);            // gli alberi della regione precedente
     if (min) { partial = true; apply(); fitTo(min.features); show(min, "trees-min"); setWait(true); }
     else map.getSource("trees-min").setData(EMPTY);
@@ -3169,7 +3235,33 @@ const recShow = (k, p, m) => {
 const ROW_KEYS = ["species", "sp_common", "genus", "taxon", "denotation", "leaf_type", "lt", "leaf_cycle", "lc",
   "circumference", "diameter", "height", "diameter_crown", "start_date"];
 const ROW_FMT = { denotation: v => tr(L.denotation, v), leaf_type: v => tr(L.leafType, v), lt: v => tr(L.leafType, v),
-  leaf_cycle: v => tr(L.leafCycle, v), lc: v => tr(L.leafCycle, v), circumference: fmtM, diameter: fmtD, height: fmtM, diameter_crown: fmtM };
+  leaf_cycle: v => tr(L.leafCycle, v), lc: v => tr(L.leafCycle, v), circumference: fmtM, diameter: fmtD, height: fmtM, diameter_crown: fmtM,
+  start_date: v => { const a = sdAge(v); return a ? `${v} (${a})` : String(v); } };
+// sdAge: età da start_date (issue #61), oggi meno la data, con le forme lette da sdKey. Con il giorno gli anni
+// compiuti; con il mese uno in meno finché quel mese non arriva; con il solo anno la differenza degli anni (avanti
+// Cristo senza l'anno zero). «~» per ~, decennio e secolo, «>» per before, «<» per after; un intervallo dà le due età
+// (1500..1600 → 426–526 anni). null se la data non si legge o è nel futuro
+const sdAge = v => {
+  const now = new Date(), ny = now.getFullYear(), nm = now.getMonth() + 1, nd = now.getDate();
+  const one = s => {
+    const k = sdKey(s);
+    if (k == null) return null;
+    const y = Math.floor(k / 10000), m = k > 0 ? Math.floor(k / 100) % 100 : 0, d = k > 0 ? k % 100 : 0;
+    let n = y < 0 ? ny - y - 1 : ny - y;
+    if (m && (nm < m || (nm === m && d && nd < d))) n--;
+    return n < 0 ? null : n;
+  };
+  const raw = String(v ?? "").trim(), parts = raw.split("..");
+  if (parts.length === 2) {
+    const a = one(parts[0]), b = one(parts[1]);
+    if (a != null && b != null && a > b) return L.ageRange(b, a);
+  }
+  const n = one(raw);
+  if (n == null) return null;
+  const p = sdPrec(raw);
+  const pre = /^before\s/i.test(raw) ? "> " : /^after\s/i.test(raw) ? "< " : p % 1 || p === 3 || p === 4 ? "~" : "";
+  return n < 1 && !pre ? L.age(0) : pre + L.age(n);
+};
 // sex=male/female (piante dioiche, es. ginkgo, tasso): ♂ / ♀ accanto al titolo della scheda, in grigio; altri valori
 // non si mostrano. Un clic (o tocco, Invio, spazio) apre sotto il titolo un riquadro con «Esemplare femminile/maschile»
 // e, per le specie e i generi in L.sexTraits, i tratti che lo distinguono, con una foto di Commons se c'è in SEX_PHOTO
@@ -3313,6 +3405,19 @@ const ICNF_URL = "https://www.icnf.pt/";            // heritage:operator=icnf (P
 const ANF_URL = "https://anf.gouvernement.lu/";     // heritage:operator=anf (Lussemburgo)
 const CONTACT_URL ="https://www.openstreetmap.org/messages/new/ivanbranco";   // richieste di nuove regioni
 const ISSUE_URL = "https://github.com/ivanbranco/tree-osm-qa/issues/new?template=region.yml";   // idem, come issue
+// Dati di una regione aggiornati almeno OLD_DAYS giorni fa (issue #59): dopo «Dati aggiornati al …» un avviso in
+// arancione con i giorni e un'iconcina che apre la issue di richiesta già compilata (tipo «Update of an existing
+// region» e nome della regione: i campi kind e region di .github/ISSUE_TEMPLATE/region.yml)
+const OLD_DAYS = 7;
+const UPDATE_ICON = '<svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8A5.5 5.5 0 1 1 11.9 4.1M12.5 1.5v3h-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const oldNote = (name, updated) => {
+  const days = Math.floor((Date.now() - new Date(updated)) / 86400000);
+  if (!(days >= OLD_DAYS)) return "";
+  const url = `${ISSUE_URL}&kind=${encodeURIComponent("Update of an existing region")}&region=${encodeURIComponent(name)}`
+    + `&title=${encodeURIComponent("Region: " + name)}`;
+  return ` · <span class="old">⚠ ${esc(L.oldData(days))}</span> <a class="req-upd" href="${esc(url)}" target="_blank" rel="noopener"`
+    + ` title="${esc(L.requestUpdate)}" aria-label="${esc(L.requestUpdate)}">${UPDATE_ICON}</a>`;
+};
 // tipi di albero sacro: nome e voce di Wikipedia in inglese (in italiano non ci sono). Per i rag tree non c'è una
 // voce propria (Wikidata Q107257053): la più vicina è quella sui clootie well. Goshinboku: religion=shinto
 const SACRED_NAME = { zapis: "zapis", rag_tree: "rag tree", goshinboku: "goshinboku" };
@@ -3623,7 +3728,7 @@ function card(p, pos) {
       + (p.imp && implicitSources(p) ? `<div class="hint"><span class="why" tabindex="0">ⓘ<span class="tip">${esc(L.implicitMonTip(implicitSources(p)))}</span></span> ${esc(L.implicitMon(implicitSourceNames(p)))}</div>` : "")
       + (p.imp && p.hint_ms ? (([c, s]) => `<div class="hint"><span class="why" tabindex="0">ⓘ<span class="tip">${esc(L.masafSizeMonTip)}</span></span> ${esc(L.masafSizeMon(fmtM(c), fmtM(s), p.sp_clean || p.species))}</div>`)(p.hint_ms.split("|")) : "")
     : issues.flatMap(([i, x]) => { const w = L.why[i]; return x.split("\n").map(line => [typeof w === "function" ? w(p) : w, line, i]); }).map(([why, x, i]) =>
-      `<div class="bad">${why ? `<span class="why" tabindex="0">⚠<span class="tip">${esc(why)}</span></span>` : "⚠"} ${esc(x)}${compareBtn(i, p)}</div>`).join("")}
+      `<div class="bad">${why ? `<span class="why" tabindex="0">⚠<span class="tip">${esc(why)}</span></span>` : "⚠"} ${esc(x)}</div>`).join("")}
     ${WORLD ? "" : hints(p, pos).map(h => `<div class="hint">ⓘ ${typeof h === "string" ? esc(h) : h.html}</div>`).join("")}
     <div>${links.join(" · ")}</div></div>`;
 }
@@ -3751,11 +3856,7 @@ function compareData(i, p) {
   if (!(h > 0 && c > 0 && (r0 > 0 || !i))) return null;
   return { h, c, r0, sp: bySpecies && r0 ? p.species : "", s: p.species || "", fd, ...(i ? {} : { n: 1 }) };
 }
-function compareBtn(i, p) {
-  const d = CMP_CHECKS.includes(i) && compareData(i, p);
-  return d ? ` <button type="button" class="cmp-btn" data-cmp="${esc(JSON.stringify(d))}" onclick="openCompare(this)">${esc(L.cmp.btn)}</button>` : "";
-}
-// Confronto dalla scheda (iconcina accanto all'altezza e tasto C): la stessa finestra del primo check sul rapporto, se
+// Confronto dalla scheda (iconcina accanto all'altezza e tasto C): la finestra del primo check sul rapporto, se
 // c'è; altrimenti il confronto con la specie (sp_ratio, hc_ratio, hc_circ: fetch_trees.py) o, se la specie non ha un
 // rapporto noto, il solo disegno in scala con i riferimenti; sempre con altezza e circonferenza mappate. Niente per i
 // ceppi e senza quei dati
@@ -3766,12 +3867,11 @@ function cardCompare(p) {
 }
 // pittogramma: tronco dell'albero, tronco tipico (tratteggiato) e persona sul terreno
 const CMP_ICON = '<svg viewBox="0 0 18 15" aria-hidden="true"><rect x="1.5" y="1" width="3.5" height="13"/><rect x="8" y="1" width="2.2" height="13" stroke-dasharray="2 1.3"/><circle cx="14.5" cy="8" r="1.2"/><path d="M14.5 9.6V14M0 14.4h18"/></svg>';
-// l'iconcina solo per il confronto senza check (d.n): con un check sul rapporto c'è già «Vedi a confronto», che apre la
-// stessa finestra (anche con il tasto C)
+// l'iconcina c'è anche con un check sul rapporto (issue #62: niente più il link «Vedi a confronto» dopo il check)
 function comparePick(p) {
   const d = cardCompare(p);
   const t = d?.r0 ? L.cmp.pick : L.cmp.pickScale;
-  return d?.n ? `<button type="button" class="cmp-pick" data-cmp="${esc(JSON.stringify(d))}" onclick="openCompare(this)" title="${esc(t)}" aria-label="${esc(t)}">${CMP_ICON}</button>` : "";
+  return d ? `<button type="button" class="cmp-pick" data-cmp="${esc(JSON.stringify(d))}" onclick="openCompare(this)" title="${esc(t)}" aria-label="${esc(t)}">${CMP_ICON}</button>` : "";
 }
 const cmpM = v => fmtM(Math.round(v * 1000) / 1000);
 // diametri: ricavati da una circonferenza arrotondata a 2 decimali, quindi al centimetro (al millimetro sotto 10 cm)
