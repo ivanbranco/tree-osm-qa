@@ -648,11 +648,11 @@
   },
   "piemonte": {
    "count": 72979,
-   "errors": 129,
+   "errors": 131,
    "name": "Piemonte",
-   "sha1": "d0a7e89dc6de0a20dc789f6cde868c36cfe2bb2c",
+   "sha1": "7705ba060ac70444ab2df4f8e344a3f9da58a072",
    "tried": "2026-11-14",
-   "updated": "2026-11-14T09:27:05Z"
+   "updated": "2026-11-14T11:54:19Z"
   },
   "podkarpackie": {
    "count": 90420,
