@@ -219,6 +219,11 @@
   .pop:focus-visible{outline:1px dotted currentColor}
   .pop.open .tip{display:block}
   .card .rec{margin:4px 0}
+  /* riconoscimento di un ente (MASAF, RAMI, ICNF, ANF): ★ davanti, le righe a capo allineate al testo; i criteri MASAF
+     (.sub) rientrano allo stesso punto, sotto la riga MASAF */
+  .card .rec.off{padding-left:1.2em;text-indent:-1.2em}
+  .card .rec.off::before{content:"★";content:"★" / "";display:inline-block;width:1.2em;text-indent:0;color:#b8860b}
+  .card .rec.sub{padding-left:1.2em;margin-top:-2px}
   .osm-menu{display:inline-block;position:relative}
   .osm-menu summary{display:inline;cursor:pointer;color:#1a5fb4;list-style:none}
   .osm-menu summary::-webkit-details-marker{display:none}
@@ -3537,21 +3542,23 @@ function monumentalTreesUrl(p) {
 
 const link = (href, text) => `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(text)}</a>`;
 
+// righe sotto i dati: [classe, html]. "off" = riconoscimento di un ente (★ davanti); "sub" = dettaglio della riga
+// sopra (i criteri sotto la riga MASAF, rientrati); "" = le altre (albero sacro, monumentaltrees.com), senza simbolo
 function recognitions(p) {
   const r = [];
   // albero rimosso dall'elenco (check masaf_removed): "un tempo inserito", per non contraddire l'avviso sotto
-  if (p["ref:masaf"]) r.push((String(p.issues || "").includes("|masaf_removed|") ? L.recMasafRemoved : L.recMasaf)(t => link(MASAF_URL, t), esc(p["ref:masaf"])));
+  if (p["ref:masaf"]) r.push(["off", (String(p.issues || "").includes("|masaf_removed|") ? L.recMasafRemoved : L.recMasaf)(t => link(MASAF_URL, t), esc(p["ref:masaf"]))]);
   if (p["masaf:criteria"]) {   // es. "a2.1,a2.2" -> "circonferenza, altezza", senza i codici; i codici sconosciuti restano come sono
     const codes = String(p["masaf:criteria"]).split(/[,;]/).map(c => c.trim().toLowerCase().replace(/\)$/, "")).filter(Boolean);
-    r.push(esc(L.recCriteria(codes.map(c => L.masafCriteria[c] || c).join(", "))));
+    r.push([p["ref:masaf"] ? "sub" : "", esc(L.recCriteria(codes.map(c => L.masafCriteria[c] || c).join(", ")))]);
   }
-  if (p["ref:rami"]) r.push(L.recRami(t => link(RAMI_URL, t), esc(p["ref:rami"])));
+  if (p["ref:rami"]) r.push(["off", L.recRami(t => link(RAMI_URL, t), esc(p["ref:rami"]))]);
   const ops = String(p["heritage:operator"] || "").split(";").map(x => x.trim().toLowerCase());
-  if (ops.includes("icnf")) r.push(L.recIcnf(t => link(ICNF_URL, t), p["ref:icnf"] ? esc(p["ref:icnf"]) : ""));
-  if (ops.includes("anf")) r.push(L.recAnf(t => link(ANF_URL, t)));
-  if (p.sacred) r.push(L.recSacred(link, sacredKind(p)));
+  if (ops.includes("icnf")) r.push(["off", L.recIcnf(t => link(ICNF_URL, t), p["ref:icnf"] ? esc(p["ref:icnf"]) : "")]);
+  if (ops.includes("anf")) r.push(["off", L.recAnf(t => link(ANF_URL, t))]);
+  if (p.sacred) r.push(["", L.recSacred(link, sacredKind(p))]);
   const mt = monumentalTreesUrl(p);
-  if (mt) r.push(L.recMt(link(mt, "monumentaltrees.com")));
+  if (mt) r.push(["", L.recMt(link(mt, "monumentaltrees.com"))]);
   return r;
 }
 
@@ -3778,7 +3785,7 @@ function masafCard(p, pos) {
     [L.rows.height, p.h ? esc(fmtM(p.h)) : ""], [L.rows.circumference, p.ci ? esc(fmtM(p.ci)) : ""],
     [L.masafRows.criteria, esc(crit)]].filter(([, v]) => v).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
   return `<div class="card"><h3>${esc(name)}</h3><dl>${rows}</dl>
-    <div class="rec">${L.masafNote(t => link(MASAF_URL, t), esc(p.masaf))}</div>
+    <div class="rec off">${L.masafNote(t => link(MASAF_URL, t), esc(p.masaf))}</div>
     <div class="note">${esc(L.masafSource)}</div>
     <div>${link(osmAt(pos), L.openOnOsm)}</div></div>`;
 }
@@ -3820,7 +3827,7 @@ function card(p, pos) {
   return `<div class="card"><h3>${titleHtml}${sexMark(p)}</h3>
     ${photo}
     <dl>${rows}</dl>
-    ${rec.map(x => `<div class="rec">${x}</div>`).join("")}
+    ${rec.map(([c, x]) => `<div class="rec${c ? " " + c : ""}">${x}</div>`).join("")}
     ${WORLD ? (issues.length && p.qa   // mappa mondiale: solo un link al tool QA, se l'albero è in una regione coperta
       ? `<div class="bad">⚠ <a href="${esc(`${BASE}#region=${p.qa}&node=${p.id}`)}">${esc(L.seeInQa)}</a></div>` : "")
       + (p.imp && implicitSources(p) ? `<div class="hint"><span class="why" tabindex="0">ⓘ<span class="tip">${esc(L.implicitMonTip(implicitSources(p)))}</span></span> ${esc(L.implicitMon(implicitSourceNames(p)))}</div>` : "")
