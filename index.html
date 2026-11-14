@@ -3706,11 +3706,14 @@ function osmMenu(p, pos) {
 const capFirst = v => String(v).replace(/^(\s*×?\s*)(\p{Ll})/u, (m, a, b) => a + b.toUpperCase());
 // tag dei consigli (ⓘ, hints): aggiunte di tag che mancano e due correzioni di forma. Non quelli che chiedono una
 // verifica sul posto (specie da Wikidata dell'albero, hint_sp), una scelta (notable) o non danno un tag (soglia MASAF)
-const FEET_SPACE = /^\s*\d+\s*'\s+\d+(?:\.\d+)?\s*"\s*$|^\s*\d+\s+'(?:\s*\d+(?:\.\d+)?\s*")?\s*$/;   // come in hints
+// valore per species dai consigli: solo un nome di almeno due parole (un genere come «Pinus» non è una specie;
+// i dati generati prima del controllo sul rango in fetch_trees.py possono ancora contenerne)
+const binomialHint = n => /\S\s+\S/.test(String(n || "").replace(/×/g, " ").trim()) ? n : undefined;
+const FEET_SPACE =/^\s*\d+\s*'\s+\d+(?:\.\d+)?\s*"\s*$|^\s*\d+\s+'(?:\s*\d+(?:\.\d+)?\s*")?\s*$/;   // come in hints
 const HINT_FIXES = [
   [p => ["circumference", "height", "diameter_crown", "diameter"].filter(k => FEET_SPACE.test(p[k] || ""))
     .map(k => [k, String(p[k]).replace(/\s+/g, "")]), "feet and inches without spaces"],
-  [p => p.stump || p.species ? [] : [["species", p.hint_sn || p.hint_wn || MONOTYPIC[String(p.genus || "").trim()]]], "add species"],
+  [p => p.stump || p.species ? [] : [["species", binomialHint(p.hint_sn) || binomialHint(p.hint_wn) || MONOTYPIC[String(p.genus || "").trim()]]], "add species"],
   [p => p.stump ? [] : [["species:wikidata", p.hint_sw || p.hint_wp]], "add species:wikidata"],
   [p => p.stump ? [] : [["species:it", p.hint_it]], "capitalise species:it"],
   [p => p.stump || p["masaf:criteria"] ? [] : [["masaf:criteria", p.hint_mc]], "add masaf:criteria"],
@@ -4365,11 +4368,11 @@ function hints(p, pos) {
     if (/^\s*\d+\s*'\s+\d+(?:\.\d+)?\s*"\s*$|^\s*\d+\s+'(?:\s*\d+(?:\.\d+)?\s*")?\s*$/.test(p[k] || ""))
       out.push(H.feetInchSpace(k, p[k], String(p[k]).replace(/\s+/g, "")));
   if (p.stump) return out;
-  if (p.hint_sp) out.push(H.wdSpecies(p.hint_sp));
-  if (p.hint_sn) out.push(H.speciesFromWd(p.hint_sn));
+  if (binomialHint(p.hint_sp)) out.push(H.wdSpecies(p.hint_sp));
+  if (binomialHint(p.hint_sn)) out.push(H.speciesFromWd(p.hint_sn));
   if (p.hint_sw) out.push(H.speciesWikidata(p.hint_sw));
   if (p.hint_wp) out.push(H.wikipediaNoWikidata(p.hint_wp));
-  if (p.hint_wn) out.push(H.speciesFromWp(p.hint_wn));
+  if (binomialHint(p.hint_wn)) out.push(H.speciesFromWp(p.hint_wn));
   if (p.hint_it) out.push(H.speciesIt(p.hint_it));
   if (p.hint_mc) out.push(H.masafCriteria(p.hint_mc));
   // import (source=*, scripts/imports.json): un consiglio con il link alla documentazione è HTML ({html}), già escapato

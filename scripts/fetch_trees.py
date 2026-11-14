@@ -652,6 +652,11 @@ def wikidata_tree_species(t):
     return out
 
 
+def species_name(n):
+    """Il nome, se può essere un valore di species: almeno due parole (un genere come «Pinus» non lo è)."""
+    return n if len(n.replace("×", " ").split()) >= 2 else None
+
+
 def hint_props(t):
     """Dati per i consigli della scheda (ⓘ: informazioni, non errori; index.html li mostra e non li segnala sulla
     mappa). Solo quelli che la pagina non può ricavare da sola:
@@ -659,7 +664,7 @@ def hint_props(t):
     -> nome scientifico;
     hint_sw: species (dalla lista wiki) senza species:wikidata -> QID della specie nella lista;
     hint_sn: species:wikidata (un taxon, non di rango genere o superiore) senza species -> nome scientifico
-    dell'elemento (P225);
+    dell'elemento (P225), solo se di almeno due parole (vale anche per hint_sp e hint_wn);
     hint_it: species:it con l'iniziale minuscola -> lo stesso valore con la maiuscola (su OSM il 98% dei valori la ha,
     ma non è una regola scritta: per questo è un consiglio e non un errore), ogni parte separata da ";";
     hint_wp: species:wikipedia senza species:wikidata (e senza il QID della lista, che dà già hint_sw) -> QID
@@ -694,7 +699,7 @@ def hint_props(t):
     if not sp and not t.get("genus"):
         for q in qids(t, "wikidata"):
             names = [n for tx in WD_ITEMS.get(q, {}).get("taxa", []) if not rank_problem("species:wikidata", tx)
-                     for n in taxon_names(tx)]
+                     for n in taxon_names(tx) if species_name(n)]
             if taxon_status(q) is not True and names:
                 out["hint_sp"] = names[0]
                 break
@@ -709,10 +714,11 @@ def hint_props(t):
     if not sp:
         for q in qids(t, "species:wikidata"):
             # un elemento di rango genere o superiore non dà un valore per species (lo segnala già wikidata_rank)
-            if taxon_status(q) is True and not rank_problem("species:wikidata", q) and (names := taxon_names(q)):
+            if (taxon_status(q) is True and not rank_problem("species:wikidata", q)
+                    and (names := [n for n in taxon_names(q) if species_name(n)])):
                 out["hint_sn"] = names[0]
                 break
-        if wq and "hint_sn" not in out and "hint_sp" not in out and (names := taxon_names(wq)):
+        if wq and "hint_sn" not in out and "hint_sp" not in out and (names := [n for n in taxon_names(wq) if species_name(n)]):
             out["hint_wn"] = names[0]
     return out
 
