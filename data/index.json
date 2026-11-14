@@ -93,12 +93,12 @@
    "updated": "2026-11-11T11:04:34Z"
   },
   "bosnia-erzegovina": {
-   "count": 35880,
-   "diam": "mm",
-   "errors": 45,
+   "count": 35881,
+   "errors": 54,
    "name": "Bosnia ed Erzegovina",
-   "sha1": "acff7c043a1e27ccf2806597d61c4e61ae775ce7",
-   "updated": "2026-11-10T21:44:24Z"
+   "sha1": "ebb681a831aa414641e80ff55ed36a433bb6a121",
+   "tried": "2026-11-13",
+   "updated": "2026-11-13T23:31:36Z"
   },
   "bretagna": {
    "count": 135358,
@@ -543,11 +543,11 @@
   },
   "montenegro": {
    "count": 5797,
-   "diam": "mm",
-   "errors": 44,
+   "errors": 49,
    "name": "Montenegro",
-   "sha1": "5310ff615039bd0eb86e67706247f7c0b213342a",
-   "updated": "2026-11-10T21:44:59Z"
+   "sha1": "a0f1e5e4d40bf50a89337fb3b0e5c9a6d45fa2c1",
+   "tried": "2026-11-14",
+   "updated": "2026-11-14T00:19:44Z"
   },
   "munster": {
    "count": 246633,
