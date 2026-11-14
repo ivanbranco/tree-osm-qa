@@ -28,5 +28,20 @@
   "Prunus avium": {"height": 39.6, "circumference": 5.79, "height_circ_ratio": 11.32, "crown_circ_ratio": 7.27},
   "Fagus sylvatica": {"height": 51.1, "circumference": 10.5, "height_circ_ratio": 12.61, "crown_circ_ratio": 6.74},
   "Taxus baccata": {"height": 29.8, "circumference": 12.44, "height_circ_ratio": 10.00, "crown_circ_ratio": 6.82},
-  "Prunus serrulata": {"height": 16.0, "circumference": 3.94, "height_circ_ratio": 10.00, "crown_circ_ratio": 6.67}
+  "Prunus serrulata": {"height": 16.0, "circumference": 3.94, "height_circ_ratio": 10.00, "crown_circ_ratio": 6.67},
+  "Fraxinus ornus": {"height": 24.8, "circumference": 4.4, "height_circ_ratio": 12.50, "crown_circ_ratio": 6.98},
+  "Pinus sylvestris": {"height": 46.6, "circumference": 7.36, "height_circ_ratio": 12.90, "crown_circ_ratio": 5.45},
+  "Prunus cerasifera": {"height": 13, "circumference": 3.31, "height_circ_ratio": 9.59, "crown_circ_ratio": 7.21},
+  "Alnus glutinosa": {"height": 40, "circumference": 9.06, "height_circ_ratio": 15.71, "crown_circ_ratio": 6.25},
+  "Ginkgo biloba": {"height": 33.8, "circumference": 15.06, "height_circ_ratio": 15.56, "crown_circ_ratio": 7.00},
+  "Acer negundo": {"height": 25.2, "circumference": 7.2, "height_circ_ratio": 11.42, "crown_circ_ratio": 7.35},
+  "Acer saccharinum": {"height": 33.6, "circumference": 7.89, "height_circ_ratio": 14.00, "crown_circ_ratio": 6.73},
+  "Liquidambar styraciflua": {"height": 41, "circumference": 5.75, "height_circ_ratio": 16.07, "crown_circ_ratio": 7.96},
+  "Picea abies": {"height": 62.7, "circumference": 6.85, "height_circ_ratio": 13.76, "crown_circ_ratio": 5.40},
+  "Liriodendron tulipifera": {"height": 58.5, "circumference": 10.25, "height_circ_ratio": 15.00, "crown_circ_ratio": 7.69},
+  "Quercus cerris": {"height": 41.2, "circumference": 9.43, "height_circ_ratio": 20.00, "crown_circ_ratio": 8.00},
+  "Fraxinus angustifolia": {"height": 38, "circumference": 13, "height_circ_ratio": 15.91, "crown_circ_ratio": 8.89},
+  "Salix alba": {"height": 34.6, "circumference": 12, "height_circ_ratio": 10.92, "crown_circ_ratio": 5.69},
+  "Koelreuteria paniculata": {"height": 18, "circumference": 3, "height_circ_ratio": 12.00, "crown_circ_ratio": 7.35},
+  "Populus alba": {"height": 45.4, "circumference": 10.13, "height_circ_ratio": 11.46, "crown_circ_ratio": 5.47}
 }
