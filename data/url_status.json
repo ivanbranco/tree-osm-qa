@@ -287,6 +287,14 @@
 "d": "2026-11-09",
 "s": "ok"
 },
+"commons:File:Annual decorated Christmas tree in Jugla, Riga, Latvia.jpg": {
+"d": "2026-11-14",
+"s": "ok"
+},
+"commons:File:Annual decorated Christmas tree in front of Akrapole Alfa shopping mall in Riga, Latvia.jpg": {
+"d": "2026-11-14",
+"s": "ok"
+},
 "commons:File:Arbre aux 40 écus (à côté du cyprès de Lawson) dans le parc Kennedy (Vichy) 2023-06-25.JPG": {
 "d": "2026-11-08",
 "s": "ok"
@@ -3274,6 +3282,22 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Annual decorated Christmas tree in Jugla, Riga, Latvia.jpg": {
+"c": [
+56.9898685,
+24.2412791,
+"object"
+],
+"d": "2026-11-14"
+},
+"geo:File:Annual decorated Christmas tree in front of Akrapole Alfa shopping mall in Riga, Latvia.jpg": {
+"c": [
+56.9831575,
+24.2025642,
+"object"
+],
+"d": "2026-11-14"
 },
 "geo:File:Arbre aux 40 écus (à côté du cyprès de Lawson) dans le parc Kennedy (Vichy) 2023-06-25.JPG": {
 "c": [
