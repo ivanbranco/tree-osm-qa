@@ -41,11 +41,12 @@
    "updated": "2026-11-11T11:03:35Z"
   },
   "andalusia": {
-   "count": 190012,
-   "errors": 2949,
+   "count": 190042,
+   "errors": 2979,
    "name": "Andalusia",
-   "sha1": "c481afe2191e2c78267d4805515786d406a9ecfe",
-   "updated": "2026-11-12T16:36:47Z"
+   "sha1": "a747a095bcf4e2a2917e45f6f394fbe29f88343e",
+   "tried": "2026-11-14",
+   "updated": "2026-11-14T11:41:41Z"
   },
   "andorra": {
    "count": 849,
@@ -178,11 +179,12 @@
    "updated": "2026-11-14T11:35:23Z"
   },
   "catalogna": {
-   "count": 366882,
+   "count": 366998,
    "errors": 1544,
    "name": "Catalogna",
-   "sha1": "c9213f738ece76a185bfb321f23953610625aab0",
-   "updated": "2026-11-12T16:48:04Z"
+   "sha1": "6a4b3f144ceb36bb6f0e06b91870d4ea3d24bd37",
+   "tried": "2026-11-14",
+   "updated": "2026-11-14T11:37:59Z"
   },
   "centro-valle-della-loira": {
    "count": 189468,
@@ -211,9 +213,9 @@
    "count": 167924,
    "errors": 1710,
    "name": "Comunità Valenciana",
-   "sha1": "cdb9877c0c2e1fbbe0d31c2db338b3a64d3ad751",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T20:55:34Z"
+   "sha1": "0b19738c18b42508249482ca4e24628bf35b30bb",
+   "tried": "2026-11-14",
+   "updated": "2026-11-14T11:38:51Z"
   },
   "connacht": {
    "count": 45804,
@@ -344,8 +346,9 @@
    "count": 9362,
    "errors": 352,
    "name": "Isole Baleari",
-   "sha1": "cd9ae1921c95a6bf46248ab496b4ec18952cc917",
-   "updated": "2026-11-12T16:38:42Z"
+   "sha1": "badfdbcfc631adc1eb66164d09c7fb82fe16fb37",
+   "tried": "2026-11-14",
+   "updated": "2026-11-14T11:36:41Z"
   },
   "kosovo": {
    "count": 5569,
@@ -684,12 +687,12 @@
    "updated": "2026-11-10T15:27:35Z"
   },
   "provenza-alpi-costa-azzurra": {
-   "count": 185745,
+   "count": 185831,
    "errors": 1022,
    "name": "Provenza-Alpi-Costa Azzurra",
-   "sha1": "83ef3a06afadd75499c8e7b50212d446db2445a7",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T11:22:54Z"
+   "sha1": "003f1c6f46c1ee2d11d2d2b773659c29bf9d3919",
+   "tried": "2026-11-14",
+   "updated": "2026-11-14T11:40:44Z"
   },
   "puglia": {
    "count": 52920,
@@ -811,12 +814,12 @@
    "updated": "2026-11-11T15:40:41Z"
   },
   "toscana": {
-   "count": 117364,
+   "count": 117363,
    "errors": 296,
    "name": "Toscana",
-   "sha1": "a0e22017297dd45dd7e2dcbefe299e3c1e25caa8",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:07:59Z"
+   "sha1": "257f71b4b738f13e21ba44773459b2749304b5ca",
+   "tried": "2026-11-14",
+   "updated": "2026-11-14T11:39:42Z"
   },
   "trentino-alto-adige": {
    "count": 67787,
