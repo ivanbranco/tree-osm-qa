@@ -171,11 +171,11 @@
   },
   "castiglia-la-mancia": {
    "count": 58005,
-   "errors": 37,
+   "errors": 5,
    "name": "Castiglia-La Mancia",
-   "sha1": "b7ced54ca0dc5a1d95340e7d9fd5d535774fa55e",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T20:53:38Z"
+   "sha1": "f17b06598e616fdb1de1d110164906438d71f944",
+   "tried": "2026-11-14",
+   "updated": "2026-11-14T11:35:23Z"
   },
   "catalogna": {
    "count": 366882,
