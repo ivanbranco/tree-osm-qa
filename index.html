@@ -383,7 +383,7 @@ const I18N = {
     pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente", subtitle: "Controllo qualità degli alberi di OpenStreetMap",
     osmAttribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
     editMenu: "Modifica", osmPage: "Pagina su OpenStreetMap", editId: "Modifica con iD", editJosm: "Apri in JOSM", editMapComplete: "Apri in MapComplete",
-    fixJosm: "Sistema con JOSM",
+    fixJosm: "Sistema con JOSM", fixRemoved: "(da togliere)",
     allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
     requestRegion: "+ Richiedi una nuova regione…", reqAsk: "Vuoi aggiungere questa regione a DendrOSM?",
     reqContact: (gh, osm) => `${gh("Apri una issue")} o ${osm("scrivimi")}`,
@@ -744,6 +744,8 @@ const I18N = {
       species_lang_only: kv => `c'è ${kv} ma manca species=* (il nome scientifico)`,
       species_lang_genus: (k, v, g, add) => `${k}=${v} è il nome del genere ${g}: usare ${k.replace("species:", "genus:")}=${spName(v)}` + (add ? ` e genus=${g}` : ""),
       species_lang_gx: (k, v, g, g2) => `${k}=${v} è il nome del genere ${g}, ma c'è genus=${g2}`,
+      species_lang_gdup: (k, v, g, gk, add) => `${k}=${v} è il nome del genere ${g}, che è già in ${gk}: togliere ${k}` + (add ? ` e aggiungere genus=${g}` : ""),
+      species_lang_gkx: (k, v, g, gkv) => `${k}=${v} è il nome del genere ${g}, ma c'è ${gkv}`,
       species_lang_sp: (k, v, s, g2) => `${k}=${v} è il nome della specie ${s}` + (g2 ? `, ma c'è genus=${g2}` : `: aggiungere species=${s}`),
       species_lang_single: (k, v, g, s) => `${k}=${v} è il nome del genere ${g}; ${g} ha una sola specie: aggiungere species=${s}`,
       wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
@@ -807,7 +809,7 @@ const I18N = {
     pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code", subtitle: "Quality checks for OpenStreetMap trees",
     osmAttribution: "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
     editMenu: "Edit", osmPage: "OpenStreetMap page", editId: "Edit with iD", editJosm: "Open in JOSM", editMapComplete: "Open in MapComplete",
-    fixJosm: "Fix with JOSM",
+    fixJosm: "Fix with JOSM", fixRemoved: "(removed)",
     allRegions: "← All countries", chooseRegion: "Choose a region…",
     requestRegion: "+ Request a new region…", reqAsk: "Would you like this region on DendrOSM?",
     reqContact: (gh, osm) => `${gh("Open an issue")} or ${osm("message me")}`,
@@ -1149,6 +1151,8 @@ const I18N = {
       species_lang_only: kv => `${kv} is present but species=* (the scientific name) is missing`,
       species_lang_genus: (k, v, g, add) => `${k}=${v} is the name of the genus ${g}: use ${k.replace("species:", "genus:")}=${spName(v)}` + (add ? ` and genus=${g}` : ""),
       species_lang_gx: (k, v, g, g2) => `${k}=${v} is the name of the genus ${g}, but genus=${g2} is present`,
+      species_lang_gdup: (k, v, g, gk, add) => `${k}=${v} is the name of the genus ${g}, already in ${gk}: remove ${k}` + (add ? ` and add genus=${g}` : ""),
+      species_lang_gkx: (k, v, g, gkv) => `${k}=${v} is the name of the genus ${g}, but ${gkv} is present`,
       species_lang_sp: (k, v, s, g2) => `${k}=${v} is the name of the species ${s}` + (g2 ? `, but genus=${g2} is present` : `: add species=${s}`),
       species_lang_single: (k, v, g, s) => `${k}=${v} is the name of the genus ${g}; ${g} has a single species: add species=${s}`,
       wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
@@ -3427,12 +3431,21 @@ const issueBase = (i, p) => {
       // diverso da quello della specie si segnala l'incongruenza
       const sp = new Map(String(p.sp_lang_sp || "").split("\n").map(x => /^(.*)\|([^|]+)$/.exec(x))
         .filter(Boolean).map(m => [m[1], m[2]]));
-      const rest = String(p.sp_lang || "").split("\n").filter(kv => kv && !gen.has(kv) && !gx.has(kv) && !sp.has(kv));
-      const out = [...gen].map(([kv, [g, s]]) => { const j = kv.indexOf("=");
-        return s ? T.species_lang_single(kv.slice(0, j), kv.slice(j + 1), g, s)
-                 : T.species_lang_genus(kv.slice(0, j), kv.slice(j + 1), g, !p.genus); });
+      // sp_lang_gk: chiavi species:xx il cui nome è già in genus:xx; sp_lang_gkx: "species:pl=Dąb|Quercus|genus:pl=Buk",
+      // quando genus:xx ha un altro nome (si segnala l'incongruenza)
+      const gk = new Set(String(p.sp_lang_gk || "").split("\n").filter(Boolean));
+      const gkx = new Map(String(p.sp_lang_gkx || "").split("\n").map(x => /^(.*)\|([^|\s]+)\|(genus:[^=]+=.*)$/.exec(x))
+        .filter(Boolean).map(m => [m[1], [m[2], m[3]]]));
+      const rest = String(p.sp_lang || "").split("\n")
+        .filter(kv => kv && !gen.has(kv) && !gx.has(kv) && !gkx.has(kv) && !sp.has(kv));
+      const out = [...gen].map(([kv, [g, s]]) => { const j = kv.indexOf("="), k = kv.slice(0, j);
+        return s ? T.species_lang_single(k, kv.slice(j + 1), g, s)
+             : gk.has(k) ? T.species_lang_gdup(k, kv.slice(j + 1), g, k.replace("species:", "genus:"), !p.genus)
+             : T.species_lang_genus(k, kv.slice(j + 1), g, !p.genus); });
       out.push(...[...gx].map(([kv, g]) => { const j = kv.indexOf("=");
         return T.species_lang_gx(kv.slice(0, j), kv.slice(j + 1), g, p.genus); }));
+      out.push(...[...gkx].map(([kv, [g, gkv]]) => { const j = kv.indexOf("=");
+        return T.species_lang_gkx(kv.slice(0, j), kv.slice(j + 1), g, gkv); }));
       const g0 = String(p.genus || "").trim();
       out.push(...[...sp].map(([kv, s]) => { const j = kv.indexOf("=");
         const other = g0 && g0.toLowerCase() !== s.split(" ")[0].toLowerCase();
@@ -3740,25 +3753,55 @@ const FIXES = {
     .map(k => [k, p[k].replace(",", ".")]), "decimal point instead of comma"],
   // unit_fix: righe "chiave|valore|correzione|…" (fetch_trees.py); solo con una correzione, e se il valore è lo stesso
   unit_format: [p => String(p.unit_fix || "").split("\n").map(x => x.split("|"))
-    .filter(([k, v, ...fix]) => fix.length === 1 && p[k] === v).map(([k, , f]) => [k, f]), "standard unit format"]
+    .filter(([k, v, ...fix]) => fix.length === 1 && p[k] === v).map(([k, , f]) => [k, f]), "standard unit format"],
+  // species:xx senza species (righe sp_lang_genus, sp_lang_gk, sp_lang_gkx e sp_lang_sp, come in issueText). Nome di un
+  // genere: species:xx si toglie e diventa genus:xx (senza «sp.»; se genus:xx ha già quel nome si toglie e basta), più
+  // genus se manca; solo se tutti i nomi indicano lo stesso genere, nessun genus:xx ha un altro nome (sp_lang_gkx) e i
+  // dati hanno il confronto con genus:xx (sp_lang_gk c'è, anche vuoto: genus:xx non è tra le proprietà della feature).
+  // Genere con una sola specie e nome di una specie (senza un genus diverso): species=<la specie>. Queste correzioni
+  // possono aggiungere tag (quarto elemento true)
+  species_lang_only: [p => {
+    const out = [], g0 = String(p.genus || "").trim().toLowerCase();
+    const gen = String(p.sp_lang_genus || "").split("\n")
+      .map(x => /^(species:[^=]+)=(.*)\|([^|\s]+)(?:\|([^|]+))?$/.exec(x)).filter(Boolean);
+    const many = gen.filter(m => !m[4]);
+    if (many.length && p.sp_lang_gk != null && !p.sp_lang_gkx && new Set(many.map(m => m[3])).size === 1) {
+      const w = "common name of the genus in genus:xx instead of species:xx";
+      const gk = new Set(String(p.sp_lang_gk).split("\n"));
+      // species:xx non è tra le proprietà della feature: il vecchio valore (quinto elemento) viene da sp_lang_genus
+      many.forEach(([, k, v]) => out.push([k, REMOVE, w, false, v],
+        ...gk.has(k) ? [] : [[k.replace("species:", "genus:"), spName(v), w, true]]));
+      if (!g0) out.push(["genus", many[0][3], w, true]);
+    }
+    gen.filter(m => m[4]).forEach(m => out.push(["species", m[4], "add species", true]));
+    String(p.sp_lang_sp || "").split("\n").map(x => /^(species:[^=]+)=(.*)\|([^|]+)$/.exec(x)).filter(Boolean)
+      .filter(m => !g0 || g0 === m[3].split(" ")[0].toLowerCase())
+      .forEach(m => out.push(["species", m[3], "add species", true]));
+    return out;
+  }, ""]
 };
+// valore delle correzioni che toglie un tag (in addtags di JOSM un valore vuoto toglie il tag)
+const REMOVE = Symbol("remove");
 // [[chiave, vecchio, nuovo, tipo]] (tipo: "bad" per un errore, "hint" per un consiglio) e i commenti usati. Gli errori
-// correggono un valore che c'è; i consigli possono aggiungere un tag. Se due proposte danno valori diversi per la stessa
-// chiave la chiave si scarta; anche i valori con "|" (separa i tag nel link di JOSM) o, per species e genus, con ";".
+// correggono un valore che c'è (o lo tolgono, REMOVE: nuovo valore ""), salvo le proposte con il quarto elemento true;
+// i consigli possono aggiungere un tag. Il terzo elemento di una proposta, se c'è, è il suo commento al posto di quello
+// del check. Se due proposte danno valori diversi per la stessa chiave la chiave si scarta; anche i valori con "|"
+// (separa i tag nel link di JOSM) o, per species e genus, con ";".
 // Niente sulla mappa dei monumentali, che non mostra errori né consigli
 function fixList(p) {
-  const by = new Map(), why = new Map(), kind = new Map();
-  const add = (list, w, k_) => list.forEach(([k, n]) => {
-    const o = p[k];
-    if (!n || n === o || (k_ === "bad" && o == null) || /\|/.test((o ?? "") + n)
+  const by = new Map(), why = new Map(), kind = new Map(), old = new Map();
+  const add = (list, w0, k_) => list.forEach(([k, n, w = w0, canAdd, o0]) => {
+    const o = p[k] ?? o0, rm = n === REMOVE;
+    if (rm) n = "";
+    if ((!n && !rm) || n === o || (o == null && (rm || (k_ === "bad" && !canAdd))) || /\|/.test((o ?? "") + n)
         || (["species", "genus"].includes(k) && /;/.test((o ?? "") + n))) return;
     if (by.has(k) && by.get(k) !== n) { by.set(k, null); return; }
-    by.set(k, n); why.set(k, [...(why.get(k) || []), w]); kind.set(k, [...(kind.get(k) || []), k_]);
+    by.set(k, n); why.set(k, [...(why.get(k) || []), w]); kind.set(k, [...(kind.get(k) || []), k_]); old.set(k, o);
   });
   if (WORLD) return [[], []];
   String(p.issues || "").split("|").filter(i => FIXES[i]).forEach(i => add(FIXES[i][0](p), FIXES[i][1], "bad"));
   HINT_FIXES.forEach(([f, w]) => add(f(p), w, "hint"));
-  const out = [...by].filter(([, n]) => n != null).map(([k, n]) => [k, p[k], n, kind.get(k)]);
+  const out = [...by].filter(([, n]) => n != null).map(([k, n]) => [k, old.get(k), n, kind.get(k)]);
   return [out, [...new Set(out.flatMap(([k]) => why.get(k)))]];
 }
 // Voce «Sistema con JOSM» del menu Modifica, al posto di «Apri in JOSM» se c'è una correzione: [url, testo, tooltip].
@@ -3771,7 +3814,8 @@ function josmFix(p, pos) {
   const comment = why.join("; ").replace(/^./, c => c.toUpperCase());
   const url = josmUrl(p, pos, `&addtags=${encodeURIComponent(fixes.map(([k, , n]) => `${k}=${n}`).join("|"))}`
     + `&changeset_comment=${encodeURIComponent(comment)}`);
-  return [url, `${mark} ${L.fixJosm}`, fixes.map(([k, o, n]) => o == null ? `${k}=${n}` : `${k}: ${o} → ${n}`).join("\n")];
+  return [url, `${mark} ${L.fixJosm}`, fixes.map(([k, o, n]) =>
+    o == null ? `${k}=${n}` : `${k}: ${o} → ${n === "" ? L.fixRemoved : n}`).join("\n")];
 }
 
 // Scheda di un albero dell'elenco MASAF non ancora su OpenStreetMap (mappa dei monumentali): i dati dell'elenco, la

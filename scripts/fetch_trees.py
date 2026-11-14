@@ -1599,18 +1599,27 @@ def species_lang_genus(t, lang):
     (species:fr=Tilleul -> Tilia; species:en-GB vale come en; species:pl=Klon sp. come Klon): (ok, altro).
     ok = [(chiave, valore, genere, specie)] se genus manca o è già quel genere; specie è l'unica specie del genere
     (SINGLE_SPECIES, es. Cognassier -> Cydonia oblonga), altrimenti "". altro = [(chiave, valore, genere)] se genus è
-    un genere diverso (species:pl=Dąb con genus=Acer)."""
+    un genere diverso (species:pl=Dąb con genus=Acer). Con la stessa lingua in genus:xx (genus:pl per species:pl):
+    gk = chiavi species:xx il cui nome è già in genus:xx (senza «sp.» e maiuscole); gkx = [(chiave, valore, genere,
+    "genus:xx=valore")] se genus:xx ha un altro nome (species:pl=Dąb con genus:pl=Buk): due generi, nessun consiglio."""
     g = (t.get("genus") or "").strip()
-    ok, other = [], []
+    ok, other, gk, gkx = [], [], [], []
     for k, v in lang:
-        gen = GENUS_NAMES.get((re.split(r"[-_]", k[8:])[0], SP_SUFFIX.sub("", v.strip()).casefold()))
+        name = SP_SUFFIX.sub("", v.strip())
+        gen = GENUS_NAMES.get((re.split(r"[-_]", k[8:])[0], name.casefold()))
         if not gen:
             continue
-        if not g or g.casefold() == gen.casefold():
-            ok.append((k, v, gen, SINGLE_SPECIES.get(gen, "")))
-        else:
+        gkey = "genus:" + k[8:]
+        gv = (t.get(gkey) or "").strip()
+        if g and g.casefold() != gen.casefold():
             other.append((k, v, gen))
-    return ok, other
+        elif gv and SP_SUFFIX.sub("", gv).casefold() != name.casefold():
+            gkx.append((k, v, gen, f"{gkey}={t[gkey]}"))
+        else:
+            ok.append((k, v, gen, SINGLE_SPECIES.get(gen, "")))
+            if gv:
+                gk.append(k)
+    return ok, other, gk, gkx
 
 
 def species_lang_species(t, lang):
@@ -1769,12 +1778,17 @@ def checks(t, pos, osm_id=None):
         # specie del genere se c'è: "species:fr=Cognassier|Cydonia|Cydonia oblonga". sp_lang_gx: le stesse righe
         # "species:pl=Dąb|Quercus" quando genus è un altro genere (l'incongruenza si segnala)
         # sp_lang_sp: righe "species:pl=Klon zwyczajny|Acer platanoides" per i nomi di una specie (species_names)
-        gl, gx = species_lang_genus(t, lang)
+        # sp_lang_gk: chiavi species:xx (righe) il cui nome è già in genus:xx; c'è sempre insieme a sp_lang_genus, anche
+        # vuoto, così index.html riconosce i dati che hanno il confronto con genus:xx (la correzione con JOSM lo richiede).
+        # sp_lang_gkx: righe "species:pl=Dąb|Quercus|genus:pl=Buk" quando genus:xx ha un altro nome
+        gl, gx, gk, gkx = species_lang_genus(t, lang)
         sl = species_lang_species(t, lang)
         flag("species_lang_only", sp_lang="\n".join(f"{k}={v}" for k, v in lang),
              **({"sp_lang_sp": "\n".join(f"{k}={v}|{s}" for k, v, s in sl)} if sl else {}),
-             **({"sp_lang_genus": "\n".join(f"{k}={v}|{g}" + (f"|{s}" if s else "") for k, v, g, s in gl)} if gl else {}),
-             **({"sp_lang_gx": "\n".join(f"{k}={v}|{g}" for k, v, g in gx)} if gx else {}))
+             **({"sp_lang_genus": "\n".join(f"{k}={v}|{g}" + (f"|{s}" if s else "") for k, v, g, s in gl),
+                 "sp_lang_gk": "\n".join(gk)} if gl else {}),
+             **({"sp_lang_gx": "\n".join(f"{k}={v}|{g}" for k, v, g in gx)} if gx else {}),
+             **({"sp_lang_gkx": "\n".join(f"{k}={v}|{g}|{x}" for k, v, g, x in gkx)} if gkx else {}))
     g = t.get("genus")
     gf = None if "genus" in eq or "genus" in nl else g   # genus per i check sulla forma del nome
     gw = genus_words(gf) if gf is not None else None    # senza il segno di ibrido (× Sycoparrotia)

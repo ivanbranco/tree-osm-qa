@@ -15,8 +15,8 @@
            "Olivier": "Olea", "Orme": "Ulmus", "Peuplier": "Populus", "Platane": "Platanus", "Poirier": "Pyrus",
            "Pommier": "Malus", "Saule": "Salix", "Tilleul": "Tilia"},
     "pl": {"Brzoza": "Betula", "Dąb": "Quercus", "Jesion": "Fraxinus", "Kasztanowiec": "Aesculus", "Klon": "Acer",
-           "Lipa": "Tilia", "Modrzew": "Larix", "Platan": "Platanus", "Topola": "Populus", "Wiąz": "Ulmus",
-           "Wierzba": "Salix"}
+           "Lipa": "Tilia", "Modrzew": "Larix", "Olcha": "Alnus", "Platan": "Platanus", "Sosna": "Pinus",
+           "Topola": "Populus", "Wiąz": "Ulmus", "Wierzba": "Salix"}
   },
   "species_names": {
     "pl": {"Dąb szypułkowy": "Quercus robur", "Jesion wyniosły": "Fraxinus excelsior", "Klon jawor": "Acer pseudoplatanus",

@@ -46,6 +46,8 @@
     {"key": "species:fr", "object_types": ["node"], "description": "Without species: used for a QA check; if the value is the French name of a genus in the OSM wiki list of genera, genus:fr is suggested."},
     {"key": "genus:en", "object_types": ["node"], "description": "Suggested instead of species:en when its value is the English name of a genus in the OSM wiki list of genera."},
     {"key": "genus:fr", "object_types": ["node"], "description": "Suggested instead of species:fr when its value is the French name of a genus in the OSM wiki list of genera."},
+    {"key": "species:pl", "object_types": ["node"], "description": "Without species: used for a QA check; if the value is the Polish name of a genus in the site's list, genus:pl is suggested and the 'Fix with JOSM' link moves it there."},
+    {"key": "genus:pl", "object_types": ["node"], "description": "Suggested instead of species:pl when its value is the Polish name of a genus; set by the 'Fix with JOSM' link."},
     {"key": "genus:wikidata", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "leaf_type", "object_types": ["node"], "description": "Used to render the crown shape and the seasons (broadleaved deciduous trees take autumn colours; needleleaved deciduous ones are only drawn bare in winter), for QA checks and the Completeness tab (share of trees with the tag)."},
     {"key": "leaf_type", "value": "palm", "object_types": ["node"], "description": "Rendered with a palm crown (lance-shaped fronds), without seasons. Reported by a QA check on trees that the OSM wiki lists give as broadleaved and that are neither palms nor palm-like plants."},
