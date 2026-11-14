@@ -387,11 +387,12 @@
    "updated": "2026-11-12T22:49:13Z"
   },
   "lettonia": {
-   "count": 102776,
-   "errors": 22,
+   "count": 103083,
+   "errors": 65,
    "name": "Lettonia",
-   "sha1": "40a727412a089f94d84c2c25e8f45e52cf53164a",
-   "updated": "2026-11-12T11:33:02Z"
+   "sha1": "5b4681561c4d5b30b47be040b5eb2547575e47fd",
+   "tried": "2026-11-14",
+   "updated": "2026-11-14T10:02:37Z"
   },
   "liechtenstein": {
    "count": 11859,
