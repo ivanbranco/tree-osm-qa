@@ -155,7 +155,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  test:   # i casi di prova dei check: se falliscono, il job "update" non parte e non si pubblica niente
+    uses: ./.github/workflows/test-checks.yml
   update:
+    needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:

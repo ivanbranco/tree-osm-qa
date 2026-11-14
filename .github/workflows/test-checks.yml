@@ -1,0 +1,30 @@
+name: Test checks
+
+# Runs the table of test cases of the QA checks (scripts/test_checks.py): no network, a few seconds.
+on:
+  push:
+    paths:
+      - "scripts/**"
+      - ".github/workflows/test-checks.yml"
+  pull_request:
+    paths:
+      - "scripts/**"
+      - ".github/workflows/test-checks.yml"
+  workflow_dispatch:
+  workflow_call:   # "Update tree data" runs it before downloading the data
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install requests   # fetch_trees.py lo importa; il test non usa la rete
+      - name: Test the checks
+        run: python scripts/test_checks.py

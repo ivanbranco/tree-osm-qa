@@ -35,7 +35,7 @@ A new region can be requested from the menu ("+ Request a new region…") or by 
 * [Data and updates](docs/dati.md): data files, the update Action, the world map and the repository structure
 * [Every Door plugin](docs/everydoor.md): installing it, tree types and icons, species shortcuts, the DendrOSM mode
 
-The site is static (GitHub Pages, MapLibre GL JS); data is downloaded from Overpass by GitHub Actions, which are started manually.
+The site is static (GitHub Pages, MapLibre GL JS); data is downloaded from Overpass by GitHub Actions, which are started manually. The checks have automatic tests (`python scripts/test_checks.py`), run at every push that changes `scripts/` and before every data update.
 
 ## License and attribution
 
