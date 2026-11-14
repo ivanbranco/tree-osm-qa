@@ -644,11 +644,11 @@
   },
   "piemonte": {
    "count": 72979,
-   "errors": 131,
+   "errors": 129,
    "name": "Piemonte",
-   "sha1": "16733fa66b17f4896620dc2aa2816fa3213f16bb",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T16:50:16Z"
+   "sha1": "d0a7e89dc6de0a20dc789f6cde868c36cfe2bb2c",
+   "tried": "2026-11-14",
+   "updated": "2026-11-14T09:27:05Z"
   },
   "podkarpackie": {
    "count": 90371,
@@ -862,6 +862,14 @@
    "sha1": "507667394ca531e0c773431d78727f433ac8add4",
    "tried": "2026-11-13",
    "updated": "2026-11-13T00:05:18Z"
+  },
+  "venezuela": {
+   "count": 62864,
+   "errors": 1435,
+   "name": "Venezuela",
+   "sha1": "53522f366771e84a1cec3c78fe572b06d86b2388",
+   "tried": "2026-11-14",
+   "updated": "2026-11-14T09:18:20Z"
   },
   "vienna": {
    "count": 173152,

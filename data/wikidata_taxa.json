@@ -3301,6 +3301,21 @@
 ],
 "taxon": true
 },
+"Q1247964": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Erythrina fusca",
+"it": "Erythrina fusca",
+"names": [
+"Erythrina fusca"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q1249099": {
 "alias": {
 "en": [
@@ -15467,6 +15482,23 @@
 ],
 "taxon": true
 },
+"Q2001703": {
+"alias": {
+"en": [
+"sandbox tree"
+],
+"it": []
+},
+"en": "Hura crepitans",
+"it": "Hura crepitans",
+"names": [
+"Hura crepitans"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q2004978": {
 "alias": {
 "en": [
@@ -16292,6 +16324,23 @@
 "it": "Aesculus glabra glabra",
 "names": [
 "Aesculus glabra subsp. glabra"
+],
+"ranks": [
+"Q68947"
+],
+"taxon": true
+},
+"Q21384616": {
+"alias": {
+"en": [
+"Spathodea campanulata subsp. campanulata"
+],
+"it": []
+},
+"en": "Spathodea campanulata campanulata",
+"it": "Spathodea campanulata campanulata",
+"names": [
+"Spathodea campanulata subsp. campanulata"
 ],
 "ranks": [
 "Q68947"
@@ -18885,6 +18934,21 @@
 "ranks": [],
 "taxon": false
 },
+"Q287313": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Bauhinia",
+"it": "Bauhinia",
+"names": [
+"Bauhinia"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q28811747": {
 "alias": {
 "en": [],
@@ -18987,6 +19051,23 @@
 "it": "Betula cordifolia",
 "names": [
 "Betula cordifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2900918": {
+"alias": {
+"en": [
+"Caribbean pine"
+],
+"it": []
+},
+"en": "Pinus caribaea",
+"it": "Pinus caribaea",
+"names": [
+"Pinus caribaea"
 ],
 "ranks": [
 "Q7432"
@@ -23470,6 +23551,24 @@
 "it": "Amelanchier ×grandiflora",
 "names": [
 "Amelanchier ×grandiflora"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4754500": {
+"alias": {
+"en": [],
+"it": []
+},
+"basionyms": [
+"Geoffroea inermis"
+],
+"en": "Andira inermis",
+"it": "Andira inermis",
+"names": [
+"Andira inermis"
 ],
 "ranks": [
 "Q7432"

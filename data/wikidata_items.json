@@ -27821,6 +27821,7 @@
 ],
 "taxon": false,
 "wp": {
+"en": "https://en.wikipedia.org/wiki/Lime_tree_of_Macugnaga",
 "it": "https://it.wikipedia.org/wiki/Tiglio_di_Macugnaga"
 }
 },
@@ -32809,7 +32810,7 @@
 ]
 ],
 "heritage": [],
-"image": "Arbra dal Porti (65101).jpg",
+"image": "Arbra dal Porti.jpg",
 "mon": true,
 "mt": "ita/piedmont/alessandria/34829_po",
 "taxa": [
@@ -32941,6 +32942,7 @@
 "mt": "ita/piedmont/asti/17840_churchofsantamaria/",
 "taxa": [],
 "taxon": false,
+"winter": "Ippocastano di Casorzo in inverno.jpg",
 "wp": {
 "it": "https://it.wikipedia.org/wiki/La_Castagna"
 }
@@ -33182,12 +33184,12 @@
 "Q55742305": {
 "coords": [
 [
-7.297222,
-44.5625
-],
-[
 7.297445622,
 44.562637721
+],
+[
+7.297222,
+44.5625
 ]
 ],
 "heritage": [
@@ -33199,7 +33201,7 @@
 "image": "Castagno monumentale di Melle.jpg",
 "mon": true,
 "taxa": [
-"Q756"
+"Q22699"
 ],
 "taxon": false,
 "wp": {
@@ -35657,6 +35659,25 @@
 "taxa": [
 "Q22699"
 ],
+"taxon": false,
+"wp": {}
+},
+"Q5760025": {
+"coords": [
+[
+-66.915444444,
+10.504388888
+]
+],
+"heritage": [
+[
+"National historical monument of Venezuela",
+"National historical monument of Venezuela"
+]
+],
+"image": "",
+"mon": true,
+"taxa": [],
 "taxon": false,
 "wp": {}
 },
