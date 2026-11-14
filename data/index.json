@@ -863,6 +863,14 @@
    "tried": "2026-11-13",
    "updated": "2026-11-13T00:05:18Z"
   },
+  "venezuela": {
+   "count": 62864,
+   "errors": 1435,
+   "name": "Venezuela",
+   "sha1": "53522f366771e84a1cec3c78fe572b06d86b2388",
+   "tried": "2026-11-14",
+   "updated": "2026-11-14T09:18:20Z"
+  },
   "vienna": {
    "count": 173152,
    "errors": 6595,
