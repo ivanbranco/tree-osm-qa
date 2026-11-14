@@ -543,11 +543,11 @@
   },
   "montenegro": {
    "count": 5797,
-   "diam": "mm",
-   "errors": 44,
+   "errors": 49,
    "name": "Montenegro",
-   "sha1": "5310ff615039bd0eb86e67706247f7c0b213342a",
-   "updated": "2026-11-10T21:44:59Z"
+   "sha1": "a0f1e5e4d40bf50a89337fb3b0e5c9a6d45fa2c1",
+   "tried": "2026-11-14",
+   "updated": "2026-11-14T00:19:44Z"
   },
   "munster": {
    "count": 246633,
