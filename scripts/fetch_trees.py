@@ -2158,8 +2158,9 @@ RECORD_MIN_H = 2.0     # m: sotto, niente rapporto altezza/diametro (alberelli a
 RECORD_TOP = 10        # alberi scritti nel file per ogni primato di una regione (la lista dei primi dieci)
 RECORD_LOW = {"stocky", "oldest"}   # primati in cui vince il valore più basso
 # tr e tr_est: il tronco disegnato sulla mappa, per il confronto dei primi tre più alti quando manca la circonferenza
+# leaf_type e lt (stimato) servono alla sagoma delle chiome nel confronto dall'alto di «Chioma più larga» (issue #60)
 RECORD_KEEP = ("id", "name", "species", "sp_it", "sp_en", "genus", "height", "circumference", "diameter",
-               "diameter_crown", "start_date", "issues", "comma", "unit_fix", "eq_keys", "tr", "tr_est")
+               "diameter_crown", "start_date", "issues", "comma", "unit_fix", "eq_keys", "tr", "tr_est", "leaf_type", "lt")
 # Frasi sull'anno per «Più vecchio» (pulsante nella riga del sito): una voce per anno, decennio o secolo, scritta a
 # mano. Le chiavi sono quelle di start_date_event_key
 YEAR_EVENTS = HERE / "year_events.json"

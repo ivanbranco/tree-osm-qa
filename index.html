@@ -82,7 +82,8 @@
   .rc-warn{flex:none;color:#b00020}
   .rc-sub{color:#777;font-size:12px;overflow-wrap:anywhere}
   .rc-how{border-bottom:1px dotted #888}
-  /* accanto al nome del primato (issue #48): l'iconcina del confronto dei primi tre (solo «Più alto») e il triangolino
+  /* accanto al nome del primato (issue #48): l'iconcina del confronto dei primi tre («Più alto»; dall'alto «Tronco più
+     spesso» e «Chioma più larga», issue #60) e il triangolino
      che apre la lista dei primi dieci (punta a destra; aperta, in basso) */
   #rec h4{display:flex;align-items:center;gap:4px}
   #rec h4 button{flex:none;display:flex;align-items:center;justify-content:center;width:22px;height:18px;padding:0;border:0;border-radius:3px;
@@ -225,15 +226,17 @@
   .osm-menu div a{display:block;padding:3px 12px}
   .osm-menu div a:hover{background:#f2f2f2}
   /* iconcina accanto all'altezza: apre la finestra #cmp (issue #14, #62; anche tasto C) */
-  .card .cmp-pick{background:none;border:0;padding:1px 2px;margin-left:4px;border-radius:3px;color:#1a5fb4;cursor:pointer;vertical-align:-3px;line-height:0}
-  .card .cmp-pick:hover{background:#eef3fb}
-  .card .cmp-pick svg{width:18px;height:15px;fill:none;stroke:currentColor;stroke-width:1.2}
+  /* accanto alla circonferenza: il tronco visto dall'alto (.plan-pick, issue #60), nella stessa finestra */
+  .card .cmp-pick,.card .plan-pick{background:none;border:0;padding:1px 2px;margin-left:4px;border-radius:3px;color:#1a5fb4;cursor:pointer;vertical-align:-3px;line-height:0}
+  .card .cmp-pick:hover,.card .plan-pick:hover{background:#eef3fb}
+  .card .cmp-pick svg,.card .plan-pick svg{width:18px;height:15px;fill:none;stroke:currentColor;stroke-width:1.2}
   /* finestra con il disegno del tronco: i colori del disegno sono variabili, la pagina non ha un tema scuro.
      Tronchi con il colore della specie, come sulla mappa (issue #47): bianco (Betula utilis) con un bordo sottile
      (--cmp-white-edge) che lo stacca dal fondo chiaro, rosso-arancio (Acer griseum); l'arcobaleno di Eucalyptus
      deglupta è una sfumatura nel disegno */
   #cmp{--cmp-bg:#fff;--cmp-text:#222;--cmp-muted:#666;--cmp-trunk:#7b4a1e;--cmp-bark:#55310f;--cmp-ref:#8b929c;--cmp-ground:#555;
     --cmp-white:#f4f1e8;--cmp-white-edge:#8a8a8a;--cmp-white-bark:#a39d8c;--cmp-cin:#b5532b;--cmp-cin-bark:#6f2a12;
+    --plan-crown:#5fa36f;--plan-crown-edge:#1b6b2c;
     width:440px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);box-sizing:border-box;padding:0;border:0;border-radius:8px;
     background:var(--cmp-bg);color:var(--cmp-text);box-shadow:0 4px 24px #0006;overflow-x:hidden;overflow-y:auto;outline:none}
   #cmp::backdrop{background:#0006}
@@ -629,7 +632,28 @@ const I18N = {
       topWarn: "⚠: altezza segnalata da un check.",
       topEstNote: "Tronco più chiaro con il bordo a puntini (⌀ ~): la circonferenza non è mappata e il diametro è stimato dall'altezza o dalla chioma, come il tronco stimato sulla mappa.",
       topNoTrunkNote: "Linea tratteggiata (⌀ ?): la circonferenza non è mappata e non c'è una stima del tronco; è disegnata solo l'altezza.",
-      topThin: "I tronchi sotto una freccia sono più sottili di 1 px a questa scala: sono disegnati larghi 1 px." },
+      topThin: "I tronchi sotto una freccia sono più sottili di 1 px a questa scala: sono disegnati larghi 1 px.",
+      // tronchi e chiome visti dall'alto (issue #60): iconcina accanto alla circonferenza, «Tronco più spesso» e «Chioma più larga»
+      plan: { title: "Tronco visto dall'alto", pick: "Vedi il tronco dall'alto, con quello tipico della specie", pickScale: "Vedi il tronco dall'alto, in scala",
+        svg: "Disegno in scala del tronco visto dall'alto, descritto sotto", svgTrunks: "Disegno in scala dei tronchi visti dall'alto, descritto sotto",
+        svgCrowns: "Disegno in scala delle chiome viste dall'alto, descritto sotto",
+        topTrunks: n => n > 2 ? "I tre tronchi più spessi a confronto" : "I due tronchi più spessi a confronto",
+        topCrowns: n => n > 2 ? "Le tre chiome più larghe a confronto" : "Le due chiome più larghe a confronto",
+        desc: (c, d) => `Questo albero: circonferenza ${c}, diametro del tronco ${d}.`,
+        topTrunk: (c, d) => `circonferenza ${c}, diametro del tronco ${d}.`,
+        topCrown: (d, lt) => `diametro della chioma ${d}${lt ? `, ${lt.toLowerCase()}` : ""}.`,
+        subj: { trunk: "Il diametro del tronco", trunk1: "Il diametro del tronco 1", crown1: "Il diametro della chioma 1" },
+        is: (s, x, r) => `${s} è circa ${x} ${r.of}.`, same: (s, r) => `${s} è circa uguale ${r.to}.`, times: (s, k, r) => `${s} è circa ${k} volte ${r.the}.`,
+        ref: { person: { name: "persona", of: "della larghezza delle spalle di una persona", to: "alla larghezza delle spalle di una persona", the: "la larghezza delle spalle di una persona", ref: (w, h) => `le spalle di una persona (${w} × ${h})` },
+          car: { name: "auto", of: "della lunghezza di un'auto", to: "alla lunghezza di un'auto", the: "la lunghezza di un'auto", ref: (w, h) => `un'auto (${w} × ${h})` },
+          bus: { name: "autobus", of: "della lunghezza di un autobus", to: "alla lunghezza di un autobus", the: "la lunghezza di un autobus", ref: (w, h) => `un autobus urbano (${w} × ${h})` },
+          tennis: { name: "campo da tennis", of: "della lunghezza di un campo da tennis", to: "alla lunghezza di un campo da tennis", the: "la lunghezza di un campo da tennis", ref: (w, h) => `un campo da tennis (${w} × ${h}, con le corsie del doppio)` },
+          pitch: { name: "campo da calcio", of: "della lunghezza di un campo da calcio", to: "alla lunghezza di un campo da calcio", the: "la lunghezza di un campo da calcio", ref: (w, h) => `un campo da calcio (${w} × ${h})` },
+          col: { name: "Colosseo", of: "della lunghezza del Colosseo", to: "alla lunghezza del Colosseo", the: "la lunghezza del Colosseo", ref: (w, h) => `il Colosseo (${w} × ${h}; arena e gradinate schematiche)` } },
+        refs: x => `Riferimento, alla stessa scala: ${x}.`,
+        warnTrunk: "⚠: circonferenza segnalata da un check.", warnCrown: "⚠: diametro della chioma segnalato da un check.",
+        crownNote: "Le chiome hanno la sagoma della mappa, con la stessa area del cerchio di diameter_crown: a lobi per le latifoglie, a stella per le aghifoglie, a fronde per le palme (leaf_type=*, o stimato dalla specie); un cerchio se il tipo non è noto.",
+        note: "Disegno in scala visto dall'alto: i cerchi stanno uno dentro l'altro, sullo stesso centro, per confrontarne la grandezza." } },
     // spiegazione del check, nel pop-up sul simbolo ⚠ della scheda
     why: {
       circumference: "43 m è la circonferenza più grande registrata, nei baobab africani (Adansonia digitata; fonte: Guinness World Records). Il valore va in metri.",
@@ -1016,7 +1040,27 @@ const I18N = {
       topWarn: "⚠: height reported by a check.",
       topEstNote: "Lighter trunk with a dotted outline (⌀ ~): the circumference is not mapped and the diameter is estimated from the height or the crown, like the estimated trunk on the map.",
       topNoTrunkNote: "Dashed line (⌀ ?): the circumference is not mapped and there is no trunk estimate; only the height is drawn.",
-      topThin: "The trunks below an arrow are thinner than 1 px at this scale: they are drawn 1 px wide." },
+      topThin: "The trunks below an arrow are thinner than 1 px at this scale: they are drawn 1 px wide.",
+      plan: { title: "Trunk from above", pick: "View the trunk from above, with the typical one for the species", pickScale: "View the trunk from above, to scale",
+        svg: "Scale drawing of the trunk seen from above, described below", svgTrunks: "Scale drawing of the trunks seen from above, described below",
+        svgCrowns: "Scale drawing of the crowns seen from above, described below",
+        topTrunks: n => n > 2 ? "The three thickest trunks compared" : "The two thickest trunks compared",
+        topCrowns: n => n > 2 ? "The three widest crowns compared" : "The two widest crowns compared",
+        desc: (c, d) => `This tree: circumference ${c}, trunk diameter ${d}.`,
+        topTrunk: (c, d) => `circumference ${c}, trunk diameter ${d}.`,
+        topCrown: (d, lt) => `crown diameter ${d}${lt ? `, ${lt.toLowerCase()}` : ""}.`,
+        subj: { trunk: "The trunk diameter", trunk1: "The diameter of trunk 1", crown1: "The diameter of crown 1" },
+        is: (s, x, r) => `${s} is about ${x} ${r.of}.`, same: (s, r) => `${s} is about the same as ${r.to}.`, times: (s, k, r) => `${s} is about ${k} times ${r.the}.`,
+        ref: { person: { name: "person", of: "of the shoulder width of a person", to: "the shoulder width of a person", the: "the shoulder width of a person", ref: (w, h) => `the shoulders of a person (${w} × ${h})` },
+          car: { name: "car", of: "of the length of a car", to: "the length of a car", the: "the length of a car", ref: (w, h) => `a car (${w} × ${h})` },
+          bus: { name: "bus", of: "of the length of a bus", to: "the length of a bus", the: "the length of a bus", ref: (w, h) => `a city bus (${w} × ${h})` },
+          tennis: { name: "tennis court", of: "of the length of a tennis court", to: "the length of a tennis court", the: "the length of a tennis court", ref: (w, h) => `a tennis court (${w} × ${h}, with the doubles alleys)` },
+          pitch: { name: "football pitch", of: "of the length of a football pitch", to: "the length of a football pitch", the: "the length of a football pitch", ref: (w, h) => `a football pitch (${w} × ${h})` },
+          col: { name: "Colosseum", of: "of the length of the Colosseum", to: "the length of the Colosseum", the: "the length of the Colosseum", ref: (w, h) => `the Colosseum (${w} × ${h}; arena and seating schematic)` } },
+        refs: x => `Reference, at the same scale: ${x}.`,
+        warnTrunk: "⚠: circumference reported by a check.", warnCrown: "⚠: crown diameter reported by a check.",
+        crownNote: "The crowns have the outline used on the map, with the same area as the circle of diameter_crown: lobed for broadleaved trees, star-shaped for needleleaved trees, with fronds for palms (leaf_type=*, or estimated from the species); a circle if the type is not known.",
+        note: "Scale drawing seen from above: the circles are drawn one inside the other, on the same centre, to compare their size." } },
     why: {
       circumference: "43 m is the largest girth recorded, in African baobabs (Adansonia digitata; source: Guinness World Records). The value is in metres.",
       height: "116.22 m is the height of the tallest measured tree, Hyperion (Sequoia sempervirens, Redwood National Park, California; source: monumentaltrees.com). The value is in metres.",
@@ -1266,6 +1310,42 @@ const SPECIES_COLORS = {
 const COLORS_ALWAYS = hashParams().get("colors") === "1";
 const localMonth = lat => { const m = new Date().getMonth() + 1; return lat < 0 ? (m + 5) % 12 + 1 : m; };
 // numero stabile tra 0 e 1 ricavato dall'id dell'albero (k = quale scelta): lo stesso a ogni ricarica e per chiunque
+// Sagoma della chioma vista dall'alto: punti [x, y] in metri attorno al centro, con la stessa area del cerchio di
+// raggio r. La usano la mappa (shapeRing, da SHAPE_Z) e il disegno delle chiome a confronto (issue #60, planSvg).
+// kind: "palm" (#55: 8, 9 o 10 fronde a lancia), "spiky" (stella a 14 punte corte, aghifoglie), "blob" (lobi
+// arrotondati, latifoglie); id = id del nodo, che varia lobi e rotazione da un albero all'altro
+const crownOutline = (kind, id, r) => {
+  const pts = [];
+  if (kind === "palm") {
+    const n = 8 + (id % 3), M = 8, rot = hash01(id, 4) * 2 * Math.PI, kin = 0.3, rr = [];   // kin = incavo / punta
+    for (let f = 0; f < n; f++) {
+      const len = 1 + (hash01(id, 20 + f) - 0.5) * 0.16;          // ogni fronda un po' più lunga o più corta
+      for (let j = 0; j < M; j++) {
+        const d = Math.abs(2 * j / M - 1);                        // 0 = punta della fronda, 1 = incavo
+        rr.push(kin + (len - kin) * Math.pow(1 - d, 0.6));
+      }
+    }
+    const da = 2 * Math.PI / rr.length;
+    let area = 0; rr.forEach((v, k) => area += 0.5 * v * rr[(k + 1) % rr.length] * Math.sin(da));
+    const sc = r * Math.sqrt(Math.PI / area);                      // stessa area del cerchio
+    rr.forEach((v, k) => pts.push([sc * v * Math.cos(rot + k * da), sc * v * Math.sin(rot + k * da)]));
+  } else if (kind === "spiky") {                                   // ruotata in modo diverso per ogni albero
+    const n = 14, kin = 0.74, rot = (id % 11) / 11 * (2 * Math.PI / n);   // kin = raggio interno / esterno
+    const R = r * Math.sqrt(Math.PI / (n * kin * Math.sin(Math.PI / n)));   // stessa area del cerchio
+    for (let k = 0; k < 2 * n; k++) {
+      const a = rot + k * Math.PI / n, Rk = k % 2 ? R * kin : R;
+      pts.push([Rk * Math.cos(a), Rk * Math.sin(a)]);
+    }
+  } else {                                                         // leggermente diversa per ogni albero
+    const lobes = 6 + (id % 3), ph = (id % 97) * 0.37, N = 56;
+    for (let k = 0; k < N; k++) {
+      const a = k / N * 2 * Math.PI;
+      const R = r * 1.06 * (0.84 + 0.16 * Math.abs(Math.sin(lobes / 2 * a + ph)));   // area ≈ cerchio
+      pts.push([R * Math.cos(a), R * Math.sin(a)]);
+    }
+  }
+  return pts;
+};
 const hash01 = (id, k) => { let x = (id * 2654435761 + k * 40503) >>> 0; x ^= x >>> 15; x = Math.imul(x, 2246822507) >>> 0;
   x ^= x >>> 13; return (x >>> 0) / 4294967296; };
 // Stagioni (issue #51): gli alberi caducifogli a foglia larga (leaf_cycle e leaf_type scritti o stimati dalla specie)
@@ -1467,39 +1547,11 @@ map.on("load", async () => {
   const PALM = ["==", ["coalesce", ["get", "lt"], ["get", "leaf_type"], ""], "palm"];
   const isShaped = ft => !ft.properties.stump && (BLOB.has(leafOf(ft.properties)) || isSpiky(ft.properties));
 
+  // sagoma della chioma (crownOutline): fronde per le palme, stella per le aghifoglie, lobi per le latifoglie
   const shapeRing = ft => {
-    const [lon, lat] = ft.geometry.coordinates, p = ft.properties, r = p.cr;
+    const [lon, lat] = ft.geometry.coordinates, p = ft.properties;
     const kx = 1 / (111320 * Math.cos(lat * Math.PI / 180)), ky = 1 / 111320;
-    const pts = [];
-    if (isPalm(p)) {                              // palma (#55): 8, 9 o 10 fronde a lancia, con incavi profondi
-      const n = 8 + (p.id % 3), M = 8, rot = hash01(p.id, 4) * 2 * Math.PI, kin = 0.3, rr = [];   // kin = incavo / punta
-      for (let f = 0; f < n; f++) {
-        const len = 1 + (hash01(p.id, 20 + f) - 0.5) * 0.16;          // ogni fronda un po' più lunga o più corta
-        for (let j = 0; j < M; j++) {
-          const d = Math.abs(2 * j / M - 1);                          // 0 = punta della fronda, 1 = incavo
-          rr.push(kin + (len - kin) * Math.pow(1 - d, 0.6));
-        }
-      }
-      const da = 2 * Math.PI / rr.length;
-      let area = 0; rr.forEach((v, k) => area += 0.5 * v * rr[(k + 1) % rr.length] * Math.sin(da));
-      const sc = r * Math.sqrt(Math.PI / area);                        // stessa area del cerchio
-      rr.forEach((v, k) => pts.push([lon + sc * v * Math.cos(rot + k * da) * kx, lat + sc * v * Math.sin(rot + k * da) * ky]));
-    } else
-    if (isSpiky(p)) {                          // stella fitta a 14 punte corte, ruotata in modo diverso per ogni albero
-      const n = 14, kin = 0.74, rot = (p.id % 11) / 11 * (2 * Math.PI / n);   // kin = raggio interno / esterno
-      const R = r * Math.sqrt(Math.PI / (n * kin * Math.sin(Math.PI / n)));      // stessa area del cerchio
-      for (let k = 0; k < 2 * n; k++) {
-        const a = rot + k * Math.PI / n, Rk = k % 2 ? R * kin : R;
-        pts.push([lon + Rk * Math.cos(a) * kx, lat + Rk * Math.sin(a) * ky]);
-      }
-    } else {                                      // sagoma a lobi arrotondati, leggermente diversa per ogni albero
-      const lobes = 6 + (p.id % 3), ph = (p.id % 97) * 0.37, N = 56;
-      for (let k = 0; k < N; k++) {
-        const a = k / N * 2 * Math.PI;
-        const R = r * 1.06 * (0.84 + 0.16 * Math.abs(Math.sin(lobes / 2 * a + ph)));  // area ≈ cerchio
-        pts.push([lon + R * Math.cos(a) * kx, lat + R * Math.sin(a) * ky]);
-      }
-    }
+    const pts = crownOutline(isPalm(p) ? "palm" : isSpiky(p) ? "spiky" : "blob", p.id, p.cr).map(([x, y]) => [lon + x * kx, lat + y * ky]);
     pts.push(pts[0]);
     return [pts];
   };
@@ -2479,7 +2531,8 @@ map.on("load", async () => {
         const more = b && b.more > 0 && (open || b.list[n - 1].rank === 1);
         const togT = open ? L.rc.topClose : L.rc.topOpen;
         return `<h4>${tip("rc-how", esc(L.rc.names[k]), L.rc.how[k] + " " + L.rc.howAll)}`
-          + (k === "height" && n >= 2 ? `<button type="button" class="rc-cmp" title="${esc(L.rc.topCmp(Math.min(n, 3)))}" aria-label="${esc(L.rc.topCmp(Math.min(n, 3)))}">${CMP_ICON}</button>` : "")
+          // «Più alto»: di profilo (openCompareTop); «Tronco più spesso» e «Chioma più larga»: dall'alto (openPlanTop, issue #60)
+          + (["height", "trunk", "crown"].includes(k) && n >= 2 ? `<button type="button" class="rc-cmp" data-cmp="${k}" title="${esc(L.rc.topCmp(Math.min(n, 3)))}" aria-label="${esc(L.rc.topCmp(Math.min(n, 3)))}">${k === "height" ? CMP_ICON : PLAN_ICON}</button>` : "")
           + (b ? `<button type="button" class="rc-tog" data-tog="${k}" aria-expanded="${open}" title="${esc(togT)}" aria-label="${esc(togT)}"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 1l6 4-6 4z"/></svg></button>` : "")
           + `</h4>`
           + (b ? rows + (more ? `<div class="note rc-none">${esc(L.rc.more(fmtN(b.more)))}</div>` : "")
@@ -2522,7 +2575,10 @@ map.on("load", async () => {
       if (e.type !== "click") return;
       if (b.classList.contains("rc-tog")) { recOpen = recOpen === b.dataset.tog ? null : b.dataset.tog; renderRec(); recEl.querySelector(`.rc-tog[data-tog="${b.dataset.tog}"]`)?.focus(); }
       else if (b.classList.contains("rc-ev")) { recEv = recEv === b.dataset.ev ? null : b.dataset.ev; renderRec(); recEl.querySelector(`.rc-ev[data-ev="${b.dataset.ev}"]`)?.focus(); }
-      else if (b.classList.contains("rc-cmp") && (recShown.height || []).length >= 2) openCompareTop(b, recShown.height);
+      else if (b.classList.contains("rc-cmp")) {
+        const k = b.dataset.cmp, list = recShown[k] || [];
+        if (list.length >= 2) k === "height" ? openCompareTop(b, list) : openPlanTop(b, k, list);
+      }
       return;                                         // i pulsanti non aprono la scheda dell'albero
     }
     const r = e.target.closest?.(".rc-row");
@@ -3741,8 +3797,8 @@ function card(p, pos) {
   const dm = p.circumference == null && p.diameter ? lenM(p.diameter, 0.001) : null;
   const fromDiam = dm > 0;
   const rows = ROWS.filter(([k]) => (k === "diameter" ? p[k] && !fromDiam : p[k] || (k === "circumference" && fromDiam)) && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => k === "circumference" && fromDiam
-    ? `<dt>${label}</dt><dd>${esc(fmtM(String(Number((dm * Math.PI).toFixed(3)))) + L.fromDiameter)}</dd>`
-    : `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : ""}</dd>`).join("");
+    ? `<dt>${label}</dt><dd>${esc(fmtM(String(Number((dm * Math.PI).toFixed(3)))) + L.fromDiameter)}${planPick(p)}</dd>`
+    : `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
   const rec = recognitions(p);
   const links = [osmMenu(p, pos)];
@@ -4115,6 +4171,169 @@ function openCompareTop(btn, list) {
     g.thin.tree && T.topThin, g.front && T.backFront(B.ref0), refs + T.note];
   document.getElementById("cmp-body").innerHTML = g.svg + lines.join("") + notes.filter(Boolean).map(x => `<p class="note">${esc(x)}</p>`).join("");
   document.getElementById("cmp-title").textContent = T.topTitle(d.trees.length);
+  cmpOpener = btn;
+  dlg.showModal();
+  dlg.focus();
+}
+// ---- Tronchi e chiome visti dall'alto (issue #60): la stessa finestra #cmp, con un disegno in pianta. I cerchi (o le
+// sagome delle chiome, crownOutline) stanno uno dentro l'altro sullo stesso centro, dal più grande, per confrontarne la
+// grandezza; accanto, alla stessa scala, un riferimento visto dall'alto (PLAN_REFS). Dalla scheda (iconcina accanto
+// alla circonferenza): il tronco dell'albero e quello tipico della specie alla stessa altezza; dalla scheda Alberi da
+// record: i primi tre di «Tronco più spesso» e di «Chioma più larga».
+// Riferimenti, dal più piccolo, in metri (w lungo l'asse x, h in larghezza), disegnati dall'angolo in alto a sinistra:
+// le spalle di una persona; un'auto e un autobus urbano di misure comuni (4,5 × 1,8 m; 12 m di lunghezza e 2,55 m, la
+// larghezza massima dei veicoli nell'UE); il campo da tennis del doppio (23,77 × 10,97 m, regole ITF); il campo da
+// calcio di 105 × 68 m (le misure raccomandate da FIFA e UEFA); il Colosseo (189 × 156 m, come CMP_COL_W; l'arena e
+// le gradinate sono schematiche). Si usa quello con la lunghezza più vicina (in rapporto) al cerchio più grande
+const PLAN_LINE = `fill="none" stroke="var(--cmp-bg)" stroke-width=".9" vector-effect="non-scaling-stroke"`;
+const PLAN_REFS = [
+  { k: "person", w: 0.5, h: 0.3, svg: `<ellipse cx=".25" cy=".15" rx=".25" ry=".12" fill="var(--cmp-ref)"/>`
+    + `<circle cx=".25" cy=".15" r=".1" fill="var(--cmp-ref)" stroke="var(--cmp-bg)" stroke-width=".7" vector-effect="non-scaling-stroke"/>` },
+  // auto: muso e coda arrotondati, specchietti che sporgono; in colore di sfondo parabrezza, lunotto e finestrini
+  { k: "car", w: 4.5, h: 1.8, svg: `<path d="M.1 .9C.1 .3.35.08.9.05L3.8.07C4.3.1 4.45.3 4.45.9S4.3 1.7 3.8 1.73L.9 1.75C.35 1.72.1 1.5.1.9z`
+    + `M1.35.1L1.45-.14H1.66L1.62.1zM1.35 1.7L1.45 1.94H1.66L1.62 1.7z" fill="var(--cmp-ref)"/>`
+    + `<path d="M1.15.24Q.98.9 1.15 1.56L1.75 1.43Q1.66.9 1.75.37zM3.45.4Q3.52.9 3.45 1.4L3.88 1.5Q3.98.9 3.88.3z`
+    + `M1.88.16H3.35L3.3.29H1.92zM1.88 1.64H3.35L3.3 1.51H1.92z" fill="var(--cmp-bg)"/>` },
+  { k: "bus", w: 12, h: 2.55, svg: `<rect width="12" height="2.55" rx=".35" fill="var(--cmp-ref)"/><path d="M.3 0L.4-.3H.6L.55 0zM.3 2.55L.4 2.85H.6L.55 2.55z" fill="var(--cmp-ref)"/>`
+    + `<path d="M.15 .3h.35v1.95H.15zM3.5 .85h1.2v.85H3.5zM8 .85h1.2v.85H8z" fill="var(--cmp-bg)"/>` },
+  { k: "tennis", w: 23.77, h: 10.97, svg: `<rect width="23.77" height="10.97" fill="var(--cmp-ref)"/>`
+    + `<path d="M0 0H23.77V10.97H0zM0 1.37H23.77M0 9.6H23.77M11.885 0V10.97M5.485 1.37V9.6M18.285 1.37V9.6M5.485 5.485H18.285" ${PLAN_LINE}/>` },
+  { k: "pitch", w: 105, h: 68, svg: `<rect width="105" height="68" fill="var(--cmp-ref)"/>`
+    + `<path d="M0 0H105V68H0zM52.5 0V68M0 13.84H16.5V54.16H0M105 13.84H88.5V54.16H105M0 24.84H5.5V43.16H0M105 24.84H99.5V43.16H105" ${PLAN_LINE}/>`
+    + `<circle cx="52.5" cy="34" r="9.15" ${PLAN_LINE}/>` },
+  { k: "col", w: 189, h: 156, svg: `<ellipse cx="94.5" cy="78" rx="94.5" ry="78" fill="var(--cmp-ref)"/>`
+    + `<ellipse cx="94.5" cy="78" rx="72" ry="58" ${PLAN_LINE}/><ellipse cx="94.5" cy="78" rx="43" ry="27" fill="var(--cmp-bg)"/>` }];
+// pittogramma: due cerchi concentrici
+const PLAN_ICON = '<svg viewBox="0 0 18 15" aria-hidden="true"><circle cx="9" cy="7.5" r="6.3"/><circle cx="9" cy="7.5" r="2.8"/></svg>';
+// tratteggio del bordo dei cerchi dei primati, per distinguerli dove si sovrappongono: 1 pieno, 2 a trattini, 3 a puntini
+const PLAN_DASH = ["", "5 3", "1.2 2.4"];
+// angoli (gradi, 0 = destra, -90 = in alto) a cui sta il numero sul bordo dei primi tre, diversi perché i bordi di
+// cerchi quasi uguali non mettano i numeri uno sopra l'altro
+const PLAN_NUM_A = [-45, -90, -135];
+// forma della chioma da leaf_type (o stimato, lt): sagoma della mappa; senza tipo, cerchio (null)
+const planKind = p => ({ palm: "palm", needleleaved: "spiky", broadleaved: "blob" })[leafOf(p)] || null;
+// Disegno: rings = [{ d diametro in m, mode "trunk" (tronco misurato), "typ" (tronco tipico) o "crown", n numero sul
+// bordo (primati), s specie (colore del tronco), kind e id (sagoma della chioma), t righe della didascalia }].
+// La scala è la più grande con cui il cerchio più grande e il riferimento entrano affiancati
+function planSvg(rings, label) {
+  const W = 420, PAD = 8, TOP = 12, PLOT = 190, GAP = 24, REF_MIN = 24, LBL_MIN = 24;
+  const D = Math.max(...rings.map(r => r.d));
+  const ref = PLAN_REFS.reduce((a, b) => Math.abs(Math.log(b.w / D)) < Math.abs(Math.log(a.w / D)) ? b : a);
+  // ingombro: le punte della stella e delle fronde escono dal cerchio di pari area, quindi lo spazio si misura sulla sagoma
+  const ext = r => r.mode === "crown" && r.kind ? Math.max(...crownOutline(r.kind, Number(r.id) || 0, 1).map(([x, y]) => Math.hypot(x, y))) : 1;
+  const DX = Math.max(...rings.map(r => r.d * ext(r)));
+  // il riferimento sta in verticale (lunghezza dall'alto in basso), accanto ai cerchi: diametro e lunghezza si
+  // confrontano alla stessa altezza
+  const room = W - 2 * PAD, total = s => Math.max(DX * s, LBL_MIN) + GAP + Math.max(ref.h * s, REF_MIN);
+  let s = Math.min(PLOT / DX, PLOT / ref.w);
+  if (total(s) > room) { let lo = 0, hi = s;   // troppo largo: la scala più grande che entra, per bisezione
+    for (let n = 0; n < 40; n++) { const mid = (lo + hi) / 2; if (total(mid) > room) hi = mid; else lo = mid; }
+    s = lo; }
+  const f = v => +v.toFixed(2), dh = Math.max(DX * s, ref.w * s, 1), cy = TOP + dh / 2;
+  const slotC = Math.max(DX * s, LBL_MIN), x0 = PAD + (room - total(s)) / 2, cx = x0 + slotC / 2;
+  const LY = TOP + dh + 18, H = LY + 13 * (rings.length + 1) + 16;
+  let out = "";
+  // dal più grande al più piccolo, così i più piccoli restano sopra
+  const order = rings.map((r, i) => ({ ...r, i })).sort((a, b) => b.d - a.d);
+  for (const r of order) {
+    const R = Math.max(r.d * s / 2, r.mode === "typ" ? 2 : 0.75), dash = r.n ? PLAN_DASH[r.n - 1] || "" : "";
+    const shape = r.mode === "crown" && r.kind
+      ? `<path d="M${crownOutline(r.kind, Number(r.id) || 0, R).map(([x, y]) => `${f(cx + x)} ${f(cy + y)}`).join("L")}z"`
+      : `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(R)}"`;
+    const P = CMP_PAINT[cmpBark(r.s)];
+    if (r.mode === "crown")
+      out += `${shape} fill="var(--plan-crown)" fill-opacity=".28" stroke="var(--plan-crown-edge)" stroke-width="1.2"${dash ? ` stroke-dasharray="${dash}"` : ""} stroke-linejoin="round"/>`;
+    // tronco tipico: più grande del tronco (sotto, sul fondo) tenue con il bordo tratteggiato scuro; più piccolo (sopra
+    // il tronco) schiarito di bianco, con il bordo tratteggiato bianco su un bordo scuro, che si vede sul marrone
+    else if (r.mode === "typ") out += r.d === D
+      ? `${shape} fill="${P.fill}" fill-opacity=".25" stroke="var(--cmp-text)" stroke-width="1" stroke-dasharray="3 2"/>`
+      : `${shape} fill="var(--cmp-bg)" fill-opacity=".45" stroke="var(--cmp-text)" stroke-width="2.6"/>${shape} fill="none" stroke="var(--cmp-bg)" stroke-width="1.6" stroke-dasharray="4 2.5"/>`;
+    else if (r.n)                // primati: tronchi trasparenti, uno sopra l'altro, con il bordo del loro tratteggio
+      out += `${shape} fill="${P.fill}" fill-opacity=".35" stroke="${P.edge || "var(--cmp-text)"}" stroke-width="1"${dash ? ` stroke-dasharray="${dash}"` : ""}/>`;
+    else out += `${shape} fill="${P.fill}"${P.edge ? ` stroke="${P.edge}" stroke-width=".8"` : ""}/>`;
+  }
+  // numeri sul bordo, con un alone del colore di sfondo
+  for (const r of rings) if (r.n) {
+    const a = PLAN_NUM_A[r.n - 1] * Math.PI / 180, R = Math.max(r.d * s / 2, 0.75);
+    out += `<text x="${f(cx + R * Math.cos(a))}" y="${f(cy + R * Math.sin(a) + 3.5)}" text-anchor="middle" font-weight="600" stroke="var(--cmp-bg)" stroke-width="3" paint-order="stroke">${r.n}</text>`;
+  }
+  // riferimento, centrato in altezza sui cerchi, ruotato di 90° (il muso dell'auto e dell'autobus in alto)
+  const rx = x0 + slotC + GAP + (Math.max(ref.h * s, REF_MIN) - ref.h * s) / 2;
+  out += `<g transform="translate(${f(rx + ref.h * s)} ${f(cy - ref.w * s / 2)}) rotate(90) scale(${s})">${ref.svg}</g>`;
+  // legenda sotto il disegno, allineata a sinistra: una riga per cerchio (t: HTML già pronto; davanti un trattino con il
+  // bordo del cerchio, per i primati) e l'ultima per il riferimento
+  const LX = PAD + 2, T = L.cmp.plan.ref[ref.k];
+  rings.forEach((r, n) => { const y = LY + 13 * n;
+    if (r.n) out += `<path d="M${LX} ${y - 3.5}h16" stroke="${r.mode === "crown" ? "var(--plan-crown-edge)" : "var(--cmp-text)"}" stroke-width="1.4"${PLAN_DASH[r.n - 1] ? ` stroke-dasharray="${PLAN_DASH[r.n - 1]}"` : ""}/>`;
+    out += `<text x="${r.n ? LX + 21 : LX}" y="${y}">${r.t}</text>`; });
+  out += `<text x="${LX}" y="${LY + 13 * rings.length}"><tspan fill="var(--cmp-ref)">■ </tspan>${esc(T.name)} <tspan class="m">${esc(cmpM(ref.w) + " × " + cmpM(ref.h))}</tspan></text>`;
+  const p10 = 10 ** Math.floor(Math.log10(90 / s)), bar = [5, 2, 1].find(k => k * p10 * s <= 90) * p10, by = H - 6, bx = f(PAD + bar * s);
+  return { ref, svg: `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">` + CMP_DEFS + out
+    + `<path d="M${PAD} ${by - 3}v6M${PAD} ${by}H${bx}M${bx} ${by - 3}v6" fill="none" stroke="var(--cmp-muted)"/>`
+    + `<text class="m" x="${f(bx + 5)}" y="${by + 3.5}">${esc(cmpM(bar))}</text></svg>` };
+}
+// frase sul riferimento: il diametro (dia, in m) rispetto alla lunghezza del riferimento, come in openCompare: una
+// frazione semplice se ce n'è una entro il 10%, altrimenti in percentuale; entro il 5% «circa uguale», oltre «volte»
+function planRefLine(subj, dia, ref) {
+  const T = L.cmp, P = T.plan, R = P.ref[ref.k], q = dia / ref.w;
+  const fr = [[1, 2], [1, 3], [1, 4], [1, 5], [1, 10], [2, 3], [3, 4]]
+    .map(([a, b]) => ({ k: `${a}/${b}`, e: Math.abs(q * b / a - 1) })).sort((x, y) => x.e - y.e)[0];
+  return Math.abs(q - 1) <= 0.05 ? P.same(subj, R)
+    : q > 1 ? P.times(subj, q.toLocaleString(LOC, { maximumSignificantDigits: 2 }), R)
+    : P.is(subj, fr.e <= 0.1 ? T.colFrac[fr.k] : T.colPct(Math.round(q * 100)), R);
+}
+// Dalla scheda: circonferenza mappata (anche da diameter: fromD) e, se la specie ha un rapporto altezza/circonferenza
+// noto (sp_ratio) e l'albero ha un'altezza, il tronco tipico della specie alla stessa altezza. Niente per i ceppi
+function planData(p) {
+  if (p.stump) return null;
+  const m = recMeasure(p);
+  if (!(m.c > 0)) return null;
+  const r0 = Number(p.sp_ratio) || 0, h = m.h > 0 ? m.h : 0;
+  return { c: m.c, fd: m.fromD ? 1 : 0, h, r0: h && r0 ? r0 : 0, s: p.species || "" };
+}
+function planPick(p) {
+  const d = planData(p), t = d?.r0 ? L.cmp.plan.pick : L.cmp.plan.pickScale;
+  return d ? `<button type="button" class="plan-pick" data-plan="${esc(JSON.stringify(d))}" onclick="openPlan(this)" title="${esc(t)}" aria-label="${esc(t)}">${PLAN_ICON}</button>` : "";
+}
+const cmpSw = (fill, edge, dash) => `<tspan fill="${fill}"${edge ? ` stroke="${edge}" stroke-width=".5"` : ""}>${dash ? "◌" : "●"} </tspan>`;
+function openPlan(btn) {
+  const d = JSON.parse(btn.dataset.plan), T = L.cmp, P = T.plan, dlg = document.getElementById("cmp");
+  const dia = d.c / Math.PI, diaT = d.r0 ? d.h / d.r0 / Math.PI : 0, B = CMP_PAINT[cmpBark(d.s)];
+  const sp = d.s.length <= 24 ? d.s : d.s.replace(/^(\S)\S+ /, "$1. ");
+  const rings = [{ d: dia, mode: "trunk", s: d.s, t: cmpSw(B.fill, B.edge) + esc(T.tree) + ` <tspan class="m">⌀ ${esc(cmpD(dia))}</tspan>` }];
+  if (diaT) rings.push({ d: diaT, mode: "typ", s: d.s,
+    t: cmpSw("var(--cmp-text)", "", 1) + esc(T.typicalFor) + ` <tspan font-style="italic">${esc(sp)}</tspan> <tspan class="m">⌀ ${esc(cmpD(diaT))}</tspan>` });
+  const g = planSvg(rings, P.svg);
+  const lines = [P.desc(cmpM(d.c) + (d.fd ? L.fromDiameter : ""), cmpD(dia))];
+  if (diaT) { const k = dia / diaT;
+    lines.push(T.typSpecies(cmpM(d.h), cmpD(diaT), d.s, Number(d.r0).toLocaleString(LOC)),
+      Math.abs(k - 1) <= 0.1 ? T.same : T.times(k.toLocaleString(LOC, { maximumSignificantDigits: 2 }))); }
+  lines.push(planRefLine(P.subj.trunk, dia, g.ref));
+  document.getElementById("cmp-body").innerHTML = g.svg + lines.map(x => `<p>${esc(x)}</p>`).join("")
+    + [P.refs(P.ref[g.ref.k].ref(cmpM(g.ref.w), cmpM(g.ref.h))) + " " + P.note].map(x => `<p class="note">${esc(x)}</p>`).join("");
+  document.getElementById("cmp-title").textContent = P.title;
+  cmpOpener = btn;
+  dlg.showModal();
+  dlg.focus();
+}
+// Dalla scheda Alberi da record: i primi tre (o due) di «Tronco più spesso» (k = "trunk") o di «Chioma più larga»
+// ("crown"), nell'ordine della lista, numerati. list = righe della scheda ({ p, … })
+function openPlanTop(btn, k, list) {
+  const T = L.cmp, P = T.plan, dlg = document.getElementById("cmp"), crown = k === "crown";
+  const trees = list.slice(0, 3).map(({ p }, i) => {
+    const m = recMeasure(p), d = crown ? m.cd : m.d, lt = leafOf(p);
+    return { p, m, d, n: i + 1, lt, warn: recWarn(k, p, m).length > 0 };
+  });
+  const rings = trees.map(t => ({ d: t.d, n: t.n, mode: crown ? "crown" : "trunk", s: t.p.species || "", kind: crown ? planKind(t.p) : null, id: t.p.id,
+    t: `<tspan font-weight="600">${t.n}</tspan> · ${t.warn ? "⚠ " : ""}<tspan class="m">⌀ ${esc(crown ? cmpM(t.d) : cmpD(t.d))}</tspan>` }));
+  const g = planSvg(rings, crown ? P.svgCrowns : P.svgTrunks);
+  const lines = trees.map(t => `<p>${t.n}. ${t.warn ? "⚠ " : ""}${title({ ...t.p, sp_common: t.p["sp_" + LANG] })[0]}: `
+    + esc(crown ? P.topCrown(cmpM(t.d), t.lt ? tr(L.leafType, t.lt) : "") : P.topTrunk(cmpM(t.m.c) + (t.m.fromD ? L.fromDiameter : ""), cmpD(t.d))) + `</p>`);
+  lines.push(`<p>${esc(planRefLine(crown ? P.subj.crown1 : P.subj.trunk1, trees[0].d, g.ref))}</p>`);
+  const notes = [trees.some(t => t.warn) && (crown ? P.warnCrown : P.warnTrunk), crown && P.crownNote,
+    P.refs(P.ref[g.ref.k].ref(cmpM(g.ref.w), cmpM(g.ref.h))) + " " + P.note];
+  document.getElementById("cmp-body").innerHTML = g.svg + lines.join("") + notes.filter(Boolean).map(x => `<p class="note">${esc(x)}</p>`).join("");
+  document.getElementById("cmp-title").textContent = (crown ? P.topCrowns : P.topTrunks)(trees.length);
   cmpOpener = btn;
   dlg.showModal();
   dlg.focus();
