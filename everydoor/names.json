@@ -1,0 +1,5206 @@
+{
+ "Abies alba": {
+  "it": "Abete bianco",
+  "en": "Silver Fir",
+  "words": [
+   "Abeti bianchi",
+   "Abies pectinata",
+   "European silver fir"
+  ]
+ },
+ "Abies balsamea": {
+  "it": null,
+  "en": "Balsam Fir",
+  "words": [
+   "Canadian Fir",
+   "Balm of Gilead",
+   "Canadian balsam fir",
+   "fir balsam"
+  ]
+ },
+ "Abies bracteata": {
+  "it": "Abete dai coni bratteati",
+  "en": "Bristlecone Fir",
+  "words": [
+   "Santa Lucia Fir",
+   "Abies venusta"
+  ]
+ },
+ "Abies cephalonica": {
+  "it": "abete greco",
+  "en": "Greek Fir",
+  "words": [
+   "abeti greci",
+   "Grecian Fir",
+   "Meyer's dwarf"
+  ]
+ },
+ "Abies cilicica": {
+  "it": null,
+  "en": "Cilician Fir",
+  "words": [
+   "Syrian fir",
+   "Cilicica Fir",
+   "Taurus Fir"
+  ]
+ },
+ "Abies concolor": {
+  "it": null,
+  "en": "White Fir",
+  "words": [
+   "California White Fir",
+   "Colorado Fir",
+   "Low's Fir",
+   "Rocky Mountain white fir",
+   "Balsam fir",
+   "White silver fir",
+   "Concolor Fir"
+  ]
+ },
+ "Abies fraseri": {
+  "it": null,
+  "en": "Fraser's Fir",
+  "words": [
+   "Fraser Fir",
+   "She Balsam"
+  ]
+ },
+ "Abies grandis": {
+  "it": "Abete di Vancouver",
+  "en": "Grand Fir",
+  "words": [
+   "Giant Fir",
+   "Lowland Fir",
+   "lowland white fir",
+   "great silver fir",
+   "western white fir",
+   "Vancouver fir",
+   "Oregon fir",
+   "hem fir",
+   "coast grand fir",
+   "interior grand fir"
+  ]
+ },
+ "Abies kawakamii": {
+  "it": null,
+  "en": "Taiwan Fir",
+  "words": []
+ },
+ "Abies koreana": {
+  "it": null,
+  "en": "Korean Fir",
+  "words": []
+ },
+ "Abies lasiocarpa": {
+  "it": null,
+  "en": "Subalpine Fir",
+  "words": [
+   "Alpine Fir"
+  ]
+ },
+ "Abies nordmanniana": {
+  "it": "Abete del Caucaso",
+  "en": "Caucasian Fir",
+  "words": [
+   "Kazazdagi Fir",
+   "Nordmann Fir"
+  ]
+ },
+ "Abies pindrow": {
+  "it": null,
+  "en": "Pindrow Fir",
+  "words": [
+   "West Himalayan Fir"
+  ]
+ },
+ "Abies pinsapo": {
+  "it": "Abete di Spagna",
+  "en": "Spanish Fir",
+  "words": []
+ },
+ "Abies recurvata": {
+  "it": null,
+  "en": "Min Fir",
+  "words": []
+ },
+ "Abies sachalinensis": {
+  "it": null,
+  "en": "Sakhalin Fir",
+  "words": []
+ },
+ "Acacia baileyana": {
+  "it": null,
+  "en": "cootamundra wattle",
+  "words": []
+ },
+ "Acacia dealbata": {
+  "it": "mimosa",
+  "en": "Silver Wattle",
+  "words": []
+ },
+ "Acacia floribunda": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Acacia implexa": {
+  "it": null,
+  "en": "screw-pod wattle",
+  "words": []
+ },
+ "Acacia iteaphylla": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Acacia mearnsii": {
+  "it": null,
+  "en": "black wattle",
+  "words": [
+   "tan wattle"
+  ]
+ },
+ "Acacia melanoxylon": {
+  "it": null,
+  "en": "blackwood",
+  "words": [
+   "Australian blackwood",
+   "Tasmanian blackwood",
+   "sally wattle",
+   "mudgerabah",
+   "hickory",
+   "blackwood acacia"
+  ]
+ },
+ "Acacia pycnantha": {
+  "it": null,
+  "en": "golden wattle",
+  "words": []
+ },
+ "Acer buergerianum": {
+  "it": null,
+  "en": "trident maple",
+  "words": [
+   "three-toothed maple"
+  ]
+ },
+ "Acer campestre": {
+  "it": "Acero campestre",
+  "en": "Field Maple",
+  "words": [
+   "Acero oppio",
+   "Testucchio",
+   "Testucchi",
+   "Hedge maple"
+  ]
+ },
+ "Acer capillipes": {
+  "it": null,
+  "en": "Kyushu Maple",
+  "words": [
+   "red snakebark maple"
+  ]
+ },
+ "Acer cappadocicum": {
+  "it": null,
+  "en": "Cappadocian maple",
+  "words": []
+ },
+ "Acer circinatum": {
+  "it": null,
+  "en": "vine maple",
+  "words": []
+ },
+ "Acer davidii": {
+  "it": null,
+  "en": "Père David's maple",
+  "words": []
+ },
+ "Acer diabolicum": {
+  "it": null,
+  "en": "Horned maple",
+  "words": [
+   "Devil maple"
+  ]
+ },
+ "Acer fabri": {
+  "it": null,
+  "en": "Faber's maple",
+  "words": []
+ },
+ "Acer floridanum": {
+  "it": null,
+  "en": "Florida maple",
+  "words": [
+   "Southern sugar maple",
+   "hammock maple"
+  ]
+ },
+ "Acer glabrum": {
+  "it": null,
+  "en": "Rocky Mountain maple",
+  "words": []
+ },
+ "Acer grandidentatum": {
+  "it": null,
+  "en": "bigtooth maple",
+  "words": [
+   "western sugar maple"
+  ]
+ },
+ "Acer griseum": {
+  "it": null,
+  "en": "paperbark maple",
+  "words": []
+ },
+ "Acer griseum × pseudoplatanus": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Acer henryi": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Acer japonicum": {
+  "it": null,
+  "en": "Fullmoon Maple",
+  "words": []
+ },
+ "Acer leucoderme": {
+  "it": null,
+  "en": "Chalk Maple",
+  "words": []
+ },
+ "Acer lobelii": {
+  "it": "Acero lobato",
+  "en": "Lobel's Maple",
+  "words": []
+ },
+ "Acer macrophyllum": {
+  "it": null,
+  "en": "Bigleaf Maple",
+  "words": [
+   "Acer macrophylla",
+   "Oregon maple",
+   "big leaf maple",
+   "big-leaf maple"
+  ]
+ },
+ "Acer miyabei": {
+  "it": null,
+  "en": "Miyabe maple",
+  "words": [
+   "Miyabe's maple"
+  ]
+ },
+ "Acer monspessulanum": {
+  "it": "Acero minore",
+  "en": "Montpellier Maple",
+  "words": [
+   "Aceri minori",
+   "Acero trilobo",
+   "Cestuccio",
+   "Acero spino",
+   "Acero di Montpellier"
+  ]
+ },
+ "Acer negundo": {
+  "it": "Acero americano",
+  "en": "Manitoba Maple",
+  "words": [
+   "Acero negundo",
+   "boxelder",
+   "box elder",
+   "box-elder",
+   "ash-leaved maple",
+   "ashleaf maple",
+   "boxelder maple",
+   "california boxelder",
+   "western boxelder",
+   "three-leaf maple"
+  ]
+ },
+ "Acer nigrum": {
+  "it": null,
+  "en": "black maple",
+  "words": [
+   "Acer saccharum subsp. nigrum",
+   "Acer saccharum ssp. nigrum"
+  ]
+ },
+ "Acer opalus": {
+  "it": "Acero alpino",
+  "en": "Italian Maple",
+  "words": [
+   "Acero opalo"
+  ]
+ },
+ "Acer palmatum": {
+  "it": "Momiji",
+  "en": "Japanese maple",
+  "words": []
+ },
+ "Acer pensylvanicum": {
+  "it": null,
+  "en": "Striped Maple",
+  "words": [
+   "moosewood",
+   "goosefoot maple",
+   "moose maple"
+  ]
+ },
+ "Acer pictum": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Acer platanoides": {
+  "it": "acero riccio",
+  "en": "Norway Maple",
+  "words": [
+   "Acero platanoide"
+  ]
+ },
+ "Acer pseudoplatanus": {
+  "it": "Acero montano",
+  "en": "Sycamore",
+  "words": [
+   "acero di monte",
+   "Sicomori",
+   "sycamore maple"
+  ]
+ },
+ "Acer pseudosieboldianum": {
+  "it": null,
+  "en": "Keijo Maple",
+  "words": [
+   "Korean maple",
+   "purplebloom maple"
+  ]
+ },
+ "Acer rubrum": {
+  "it": null,
+  "en": "Red Maple",
+  "words": [
+   "Swamp Maple",
+   "water maple",
+   "soft maple"
+  ]
+ },
+ "Acer saccharinum": {
+  "it": "Acero saccarino",
+  "en": "silver maple",
+  "words": [
+   "Acer saccarinum",
+   "soft maple",
+   "white maple",
+   "river maple"
+  ]
+ },
+ "Acer saccharum": {
+  "it": "Acero canadese",
+  "en": "sugar maple",
+  "words": []
+ },
+ "Acer spicatum": {
+  "it": null,
+  "en": "mountain maple",
+  "words": [
+   "dwarf maple",
+   "moose maple",
+   "white maple"
+  ]
+ },
+ "Acer tataricum": {
+  "it": null,
+  "en": "Tatar Maple",
+  "words": [
+   "tatarian maple"
+  ]
+ },
+ "Acer triflorum": {
+  "it": null,
+  "en": "Chosen Maple",
+  "words": []
+ },
+ "Acer × freemanii": {
+  "it": null,
+  "en": "Freeman maple",
+  "words": [
+   "Acer ×freemanii",
+   "Acer freemanii-x [A. rubrum ×A. saccharinum]",
+   "Freeman's maple",
+   "Freemans maple",
+   "Acer freemanii-× [A. rubrum ×A. saccharinum]"
+  ]
+ },
+ "Acer × zoeschense": {
+  "it": null,
+  "en": "Zöschen maple",
+  "words": []
+ },
+ "Adansonia digitata": {
+  "it": "Baobab",
+  "en": "African Baobab",
+  "words": [
+   "common baobab"
+  ]
+ },
+ "Aesculus californica": {
+  "it": null,
+  "en": "California buckeye",
+  "words": [
+   "California horse chestnut"
+  ]
+ },
+ "Aesculus chinensis": {
+  "it": null,
+  "en": "Chinese Horse-chestnut",
+  "words": [
+   "Chinese horse chestnut",
+   "Chinese buckeye",
+   "Aesculus chekiangensis",
+   "Aesculus wilsonii"
+  ]
+ },
+ "Aesculus flava": {
+  "it": null,
+  "en": "yellow buckeye",
+  "words": [
+   "Common buckeye",
+   "Sweet buckeye"
+  ]
+ },
+ "Aesculus glabra": {
+  "it": null,
+  "en": "Ohio buckeye",
+  "words": [
+   "American buckeye",
+   "fetid buckeye",
+   "Texas buckeye",
+   "Aesculus echinata",
+   "Aesculus muricata",
+   "Aesculus ochroleuca",
+   "Aesculus pallida",
+   "Aesculus rubella",
+   "Aesculus verrucosa",
+   "Aesculus watsoniana"
+  ]
+ },
+ "Aesculus hippocastanum": {
+  "it": "Ippocastano",
+  "en": "Horse-chestnut",
+  "words": [
+   "Castagno d'India",
+   "Ippocastani",
+   "Horse Chestnut",
+   "White Horse Chestnut",
+   "European horsechestnut",
+   "buckeye",
+   "Spanish chestnut",
+   "common horse chestnut",
+   "conker tree",
+   "European horse chestnut"
+  ]
+ },
+ "Aesculus indica": {
+  "it": null,
+  "en": "Indian horse chestnut",
+  "words": [
+   "Himalayas horse chestnut"
+  ]
+ },
+ "Aesculus parviflora": {
+  "it": null,
+  "en": "Bottlebrush Buckeye",
+  "words": [
+   "Small-flowered buckeye",
+   "Aesculus alba",
+   "Aesculus macrostachya",
+   "Aesculus macrostachys",
+   "Aesculus odorata"
+  ]
+ },
+ "Aesculus pavia": {
+  "it": null,
+  "en": "red buckeye",
+  "words": [
+   "firecracker plant"
+  ]
+ },
+ "Aesculus sylvatica": {
+  "it": null,
+  "en": "Painted Buckeye",
+  "words": [
+   "Aesculus georgiana",
+   "Aesculus microcarpa"
+  ]
+ },
+ "Aesculus × carnea": {
+  "it": "Ippocastano Rosso",
+  "en": "red horse-chestnut",
+  "words": []
+ },
+ "Aesculus × mutabilis": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Aesculus mutabilis"
+  ]
+ },
+ "Aesculus × neglecta": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Aesculus neglecta"
+  ]
+ },
+ "Aesculus × woerlitzensis": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Aesculus woerlitzensis"
+  ]
+ },
+ "Ailanthus altissima": {
+  "it": "Ailanto",
+  "en": "Tree of Heaven",
+  "words": [
+   "Tree-of-heaven",
+   "Ailanthus glandulosa Desf.",
+   "Toxicodendron altissimum Mill.",
+   "ailanthus",
+   "Varnish Tree",
+   "chouchun"
+  ]
+ },
+ "Albizia julibrissin": {
+  "it": "Acacia julibrissin",
+  "en": "silktree",
+  "words": [
+   "Acacia di Costantinopoli",
+   "pink siris tree",
+   "silk tree"
+  ]
+ },
+ "Allocasuarina verticillata": {
+  "it": null,
+  "en": "drooping she-oak",
+  "words": [
+   "Drooping Sheoak"
+  ]
+ },
+ "Alnus alnobetula": {
+  "it": null,
+  "en": "Green Alder",
+  "words": [
+   "European Green Alder",
+   "Alnus viridis"
+  ]
+ },
+ "Alnus cordata": {
+  "it": "Ontano napoletano",
+  "en": "Italian Alder",
+  "words": [
+   "Alder of Corsica"
+  ]
+ },
+ "Alnus formosana": {
+  "it": null,
+  "en": "Formosan alder",
+  "words": []
+ },
+ "Alnus glutinosa": {
+  "it": "Ontano nero",
+  "en": "Common Alder",
+  "words": [
+   "Ontano comune",
+   "Black Alder",
+   "European Alder",
+   "European black alder",
+   "alder"
+  ]
+ },
+ "Alnus hirsuta": {
+  "it": null,
+  "en": "Manchurian Alder",
+  "words": [
+   "Siberian alder"
+  ]
+ },
+ "Alnus incana": {
+  "it": "Ontano bianco",
+  "en": "Grey Alder",
+  "words": [
+   "speckled alder"
+  ]
+ },
+ "Alnus japonica": {
+  "it": null,
+  "en": "Japanese alder",
+  "words": []
+ },
+ "Alnus maritima": {
+  "it": null,
+  "en": "seaside alder",
+  "words": [
+   "Brook alder"
+  ]
+ },
+ "Alnus nitida": {
+  "it": null,
+  "en": "Himalayan Alder",
+  "words": [
+   "west Himalayan alder"
+  ]
+ },
+ "Alnus oblongifolia": {
+  "it": null,
+  "en": "Arizona alder",
+  "words": [
+   "Mexican alder",
+   "New Mexican alder"
+  ]
+ },
+ "Alnus pendula": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Alnus rhombifolia": {
+  "it": null,
+  "en": "white alder",
+  "words": [
+   "California alder"
+  ]
+ },
+ "Alnus rubra": {
+  "it": "Ontano rosso",
+  "en": "Red Alder",
+  "words": [
+   "Oregon Alder",
+   "Western alder"
+  ]
+ },
+ "Alnus serrulata": {
+  "it": null,
+  "en": "hazel alder",
+  "words": [
+   "Brookside alder",
+   "Common alder",
+   "Smooth alder",
+   "Tag alder"
+  ]
+ },
+ "Alnus subcordata": {
+  "it": null,
+  "en": "Caucasian alder",
+  "words": []
+ },
+ "Alnus × spaethii": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Alnus ×spaethii"
+  ]
+ },
+ "Amelanchier alnifolia": {
+  "it": null,
+  "en": "Saskatoon serviceberry",
+  "words": [
+   "Serviceberry",
+   "Saskatoon",
+   "Cusick's serviceberry",
+   "Pacific serviceberry",
+   "western juneberry",
+   "alder-leaf shadbush",
+   "saskatoon berry"
+  ]
+ },
+ "Amelanchier arborea": {
+  "it": null,
+  "en": "common serviceberry",
+  "words": [
+   "downy serviceberry"
+  ]
+ },
+ "Amelanchier canadensis": {
+  "it": null,
+  "en": "Canadian serviceberry",
+  "words": [
+   "Eastern Serviceberry",
+   "serviceberry",
+   "shadblow serviceberry",
+   "Canada serviceberry",
+   "shadbush",
+   "Juneberry",
+   "swamp shadbush",
+   "shadblow",
+   "thicket serviceberry",
+   "bilberry"
+  ]
+ },
+ "Amelanchier laevis": {
+  "it": null,
+  "en": "Allegheny serviceberry",
+  "words": [
+   "Allegheny shadblow",
+   "smooth serviceberry",
+   "Smooth Shadbush",
+   "Currant Tree"
+  ]
+ },
+ "Amelanchier ovalis": {
+  "it": "Pero corvino",
+  "en": "Snowy Mespilus",
+  "words": []
+ },
+ "Amelanchier × lamarckii": {
+  "it": null,
+  "en": "juneberry",
+  "words": [
+   "Amelanchier grandiflora",
+   "serviceberry",
+   "shadbush",
+   "snowy mespilus",
+   "snowy mespil"
+  ]
+ },
+ "Araucaria araucana": {
+  "it": "Albero della scimmia",
+  "en": "Monkey-puzzle",
+  "words": [
+   "Pehuen",
+   "Monkey Puzzle",
+   "monkeypuzzle tree",
+   "monkey puzzle tree",
+   "monkey tail tree",
+   "piñonero",
+   "pewen",
+   "Chilean pine",
+   "xupa la corneta carlitos uribe"
+  ]
+ },
+ "Araucaria heterophylla": {
+  "it": "Abete di Norfolk",
+  "en": "Norfolk Island Araucaria",
+  "words": [
+   "Norfolk Island Pine",
+   "Star Pine",
+   "Norfolk pine",
+   "Araucaria excelsa"
+  ]
+ },
+ "Arbutus unedo": {
+  "it": "corbezzolo",
+  "en": "Strawberry-tree",
+  "words": [
+   "cerasa marina",
+   "Mamkamla",
+   "Irish strawberry tree",
+   "strawberry tree"
+  ]
+ },
+ "Aria edulis": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Aria torminalis": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Artocarpus altilis": {
+  "it": "albero del pane",
+  "en": "breadfruit",
+  "words": [
+   "dugdug",
+   "Breadfruit Tree",
+   "Breadnut",
+   "bread fruit",
+   "breadfruit-tree"
+  ]
+ },
+ "Barringtonia racemosa": {
+  "it": null,
+  "en": "freshwater mangrove",
+  "words": [
+   "cassowary pine",
+   "mango pine",
+   "barringtonia"
+  ]
+ },
+ "Betula alleghaniensis": {
+  "it": null,
+  "en": "yellow birch",
+  "words": [
+   "Gray birch",
+   "Silver birch",
+   "Swamp birch"
+  ]
+ },
+ "Betula delavayi": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Betula ermanii": {
+  "it": null,
+  "en": "Erman's Birch",
+  "words": [
+   "Stone Birch"
+  ]
+ },
+ "Betula lenta": {
+  "it": null,
+  "en": "sweet birch",
+  "words": [
+   "Black birch",
+   "Cherry birch",
+   "Round-leaf Birch",
+   "Mahogany birch",
+   "Spice birch",
+   "red birch"
+  ]
+ },
+ "Betula nana": {
+  "it": null,
+  "en": "dwarf birch",
+  "words": [
+   "Arctic dwarf birch",
+   "Bog birch",
+   "Scrub birch",
+   "Swamp birch"
+  ]
+ },
+ "Betula nigra": {
+  "it": null,
+  "en": "river birch",
+  "words": [
+   "Black birch",
+   "Red birch",
+   "Water birch"
+  ]
+ },
+ "Betula papyrifera": {
+  "it": null,
+  "en": "paper birch",
+  "words": [
+   "Canoe birch",
+   "Silver birch",
+   "White birch"
+  ]
+ },
+ "Betula pendula": {
+  "it": "Betulla",
+  "en": "Silver Birch",
+  "words": [
+   "Common Birch",
+   "warty birch",
+   "European white birch",
+   "East Asian white birch"
+  ]
+ },
+ "Betula populifolia": {
+  "it": null,
+  "en": "gray birch",
+  "words": [
+   "Fire birch",
+   "Old field birch",
+   "White birch",
+   "Wire birch"
+  ]
+ },
+ "Betula pubescens": {
+  "it": null,
+  "en": "Downy Birch",
+  "words": [
+   "Brown Birch",
+   "Mountain Birch",
+   "White Birch",
+   "moor birch",
+   "European white birch",
+   "hairy birch"
+  ]
+ },
+ "Betula utilis": {
+  "it": null,
+  "en": "Himalayan Birch",
+  "words": [
+   "bhojpatra",
+   "Bhûrja",
+   "Bhurja"
+  ]
+ },
+ "Brachychiton populneus": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Brachychiton populneum"
+  ]
+ },
+ "Buxus sempervirens": {
+  "it": "Bosso comune",
+  "en": "common box",
+  "words": [
+   "Holaaaaaa",
+   "Boxwood",
+   "Common Boxwood",
+   "European box"
+  ]
+ },
+ "Callitris preissii": {
+  "it": null,
+  "en": "Mallee Pine",
+  "words": [
+   "Rottnest Island Pine"
+  ]
+ },
+ "Callitropsis nootkatensis": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Carpinus betulus": {
+  "it": "Carpino bianco",
+  "en": "European hornbeam",
+  "words": [
+   "Caucasian Hornbeam",
+   "Common Hornbeam",
+   "Hornbeam"
+  ]
+ },
+ "Carpinus caroliniana": {
+  "it": null,
+  "en": "American hornbeam",
+  "words": [
+   "Blue beech",
+   "Hornbeam",
+   "Musclewood",
+   "blue-beech",
+   "ironwood",
+   "muscle beech"
+  ]
+ },
+ "Carpinus japonica": {
+  "it": null,
+  "en": "Japanese Hornbeam",
+  "words": []
+ },
+ "Carpinus orientalis": {
+  "it": null,
+  "en": "Oriental Hornbeam",
+  "words": [
+   "Eastern Hornbeam",
+   "Turkey hornbeam"
+  ]
+ },
+ "Carpinus turczaninovii": {
+  "it": null,
+  "en": "Turczaninow's Hornbeam",
+  "words": [
+   "Turczaninow hornbeam",
+   "Korean hornbeam"
+  ]
+ },
+ "Carya cordiformis": {
+  "it": null,
+  "en": "bitternut hickory",
+  "words": []
+ },
+ "Carya illinoinensis": {
+  "it": "pecan",
+  "en": "pecan",
+  "words": [
+   "pekan",
+   "sweet pecan",
+   "Carya illinoensis",
+   "Carya illinoiensis"
+  ]
+ },
+ "Carya laciniosa": {
+  "it": null,
+  "en": "shellbark hickory",
+  "words": []
+ },
+ "Carya ovata": {
+  "it": null,
+  "en": "shagbark hickory",
+  "words": [
+   "upland hickory"
+  ]
+ },
+ "Castanea crenata": {
+  "it": null,
+  "en": "Japanese chestnut",
+  "words": []
+ },
+ "Castanea dentata": {
+  "it": null,
+  "en": "American chestnut",
+  "words": []
+ },
+ "Castanea mollissima": {
+  "it": null,
+  "en": "Chinese Chestnut",
+  "words": []
+ },
+ "Castanea ozarkensis": {
+  "it": null,
+  "en": "Ozark chinkapin",
+  "words": []
+ },
+ "Castanea pumila": {
+  "it": null,
+  "en": "chinkapin",
+  "words": [
+   "chinquapin",
+   "Allegheny chinquapin",
+   "American chinquapin",
+   "dwarf chestnut"
+  ]
+ },
+ "Castanea sativa": {
+  "it": "Castagno europeo",
+  "en": "Sweet Chestnut",
+  "words": [
+   "Castagno",
+   "Spanish chestnut"
+  ]
+ },
+ "Casuarina cunninghamiana": {
+  "it": null,
+  "en": "river sheoak",
+  "words": [
+   "river oak",
+   "river she-oak"
+  ]
+ },
+ "Catalpa bignonioides": {
+  "it": null,
+  "en": "southern catalpa",
+  "words": [
+   "Bignonia catalpa",
+   "cigartree",
+   "Indian-bean-tree",
+   "Indian bean tree"
+  ]
+ },
+ "Catalpa ovata": {
+  "it": null,
+  "en": "Chinese catalpa",
+  "words": []
+ },
+ "Catalpa speciosa": {
+  "it": null,
+  "en": "northern catalpa",
+  "words": []
+ },
+ "Catalpa × erubescens": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Catalpa ×erubescens"
+  ]
+ },
+ "Cedrus atlantica": {
+  "it": "cedro dell'Atlante",
+  "en": "Atlas Cedar",
+  "words": [
+   "Cedri dell'Atlante",
+   "Atlantic cedar"
+  ]
+ },
+ "Cedrus deodara": {
+  "it": "Cedro dell'Himalaya",
+  "en": "Deodar Cedar",
+  "words": [
+   "Cedri Deodara",
+   "Cedro deodara",
+   "Cedri dell'Himalaya",
+   "Himalayan Cedar"
+  ]
+ },
+ "Cedrus libani": {
+  "it": "cedro del Libano",
+  "en": "Lebanon Cedar",
+  "words": [
+   "Pinus cedrus",
+   "Cedri del Libano",
+   "Cedar of Lebanon",
+   "Lebanese cedar"
+  ]
+ },
+ "Ceiba speciosa": {
+  "it": "Albero bottiglia",
+  "en": "Silk floss tree",
+  "words": [
+   "Chorisia speciosa"
+  ]
+ },
+ "Celtis australis": {
+  "it": "bagolaro",
+  "en": "Nettle Tree",
+  "words": [
+   "buzzarago",
+   "romiglia",
+   "spaccasassi",
+   "albero dei rosari",
+   "buzzaraco",
+   "buzzaragolo",
+   "caccamo",
+   "falsarago",
+   "fausaracio",
+   "fraggiracolo"
+  ]
+ },
+ "Celtis occidentalis": {
+  "it": null,
+  "en": "common hackberry",
+  "words": [
+   "beaverwood",
+   "nettle tree",
+   "hackberry",
+   "nettletree",
+   "sugarberry",
+   "northern hackberry",
+   "American hackberry"
+  ]
+ },
+ "Ceratonia siliqua": {
+  "it": "carrubo",
+  "en": "Carob Tree",
+  "words": [
+   "Carruba",
+   "St. John's Bread",
+   "locust bean",
+   "St John's-bread",
+   "locust-tree"
+  ]
+ },
+ "Cercidiphyllum japonicum": {
+  "it": null,
+  "en": "katsura tree",
+  "words": [
+   "Cercidiphyllum japonicum bis",
+   "katsura"
+  ]
+ },
+ "Cercis canadensis": {
+  "it": null,
+  "en": "eastern redbud",
+  "words": []
+ },
+ "Cercis siliquastrum": {
+  "it": "Siliquastro",
+  "en": "Judas-tree",
+  "words": [
+   "Albero di Giuda",
+   "Alberi di Giuda",
+   "Judas tree"
+  ]
+ },
+ "Chamaecyparis lawsoniana": {
+  "it": "Cipresso di Lawson",
+  "en": "Lawson's Cypress",
+  "words": [
+   "Port Orford Cypress",
+   "Port Orford cedar",
+   "Lawson cypress"
+  ]
+ },
+ "Chamaecyparis obtusa": {
+  "it": null,
+  "en": "Hinoki Cypress",
+  "words": [
+   "Japanese cypress",
+   "hinoki"
+  ]
+ },
+ "Chamaecyparis pisifera": {
+  "it": null,
+  "en": "Sawara Cypress",
+  "words": []
+ },
+ "Chamaecyparis thyoides": {
+  "it": null,
+  "en": "White Cypress",
+  "words": [
+   "Atlantic White Cypress",
+   "Atlantic White Cedar",
+   "White Cedar Tree",
+   "Atlantic white-cedar",
+   "southern white-cedar",
+   "southern white cedar",
+   "whitecedar",
+   "false-cypress"
+  ]
+ },
+ "Chamaerops humilis": {
+  "it": "Palma nana",
+  "en": "Kiko Rivera",
+  "words": [
+   "Palme nane",
+   "Chamaerops umilis",
+   "Palma nana mediterranea",
+   "Blue Mediterranean fan palm",
+   "European fan palm",
+   "Hair palm",
+   "Mediterranean fan palm",
+   "Windmill palm",
+   "Fan palm"
+  ]
+ },
+ "Chionanthus retusus": {
+  "it": null,
+  "en": "Chinese Fringetree",
+  "words": []
+ },
+ "Cinnamomum camphora": {
+  "it": "albero della canfora",
+  "en": "camphortree",
+  "words": [
+   "Canforo",
+   "Camphor laurel",
+   "Camphor tree",
+   "Camphorwood",
+   "Camphora officinarum"
+  ]
+ },
+ "Citrus × aurantium": {
+  "it": "Zhi shi",
+  "en": "sour orange",
+  "words": [
+   "Melangolo",
+   "Arancio amaro",
+   "Arancia amara",
+   "Citrus aurantium",
+   "Bitter orange",
+   "bigarade orange",
+   "marmalade orange",
+   "Citrus x aurantium",
+   "Seville orange"
+  ]
+ },
+ "Citrus × limon": {
+  "it": "limone",
+  "en": "lemon",
+  "words": [
+   "Citrus x limon",
+   "Citrus limon",
+   "Citrus ×limon",
+   "lemon tree"
+  ]
+ },
+ "Cladrastis kentukea": {
+  "it": null,
+  "en": "Kentucky yellowwood",
+  "words": []
+ },
+ "Cocos nucifera": {
+  "it": "palma da cocco",
+  "en": "coconut palm",
+  "words": [
+   "palme da cocco",
+   "Coconut",
+   "coconut tree",
+   "cocoanut",
+   "coconut palm tree"
+  ]
+ },
+ "Cormus domestica": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Cornus alba": {
+  "it": "Swida alba",
+  "en": "Red-Barked Dogwood",
+  "words": [
+   "Siberian Dogwood",
+   "White Dogwood",
+   "Conus alba"
+  ]
+ },
+ "Cornus alternifolia": {
+  "it": null,
+  "en": "alternateleaf dogwood",
+  "words": [
+   "green osier",
+   "alternate-leaved dogwood",
+   "pagoda dogwood"
+  ]
+ },
+ "Cornus amomum": {
+  "it": null,
+  "en": "silky dogwood",
+  "words": [
+   "red willow",
+   "silky cornel",
+   "kinnikinnick",
+   "squawbush"
+  ]
+ },
+ "Cornus asperifolia": {
+  "it": null,
+  "en": "toughleaf dogwood",
+  "words": []
+ },
+ "Cornus drummondii": {
+  "it": null,
+  "en": "roughleaf dogwood",
+  "words": []
+ },
+ "Cornus florida": {
+  "it": null,
+  "en": "flowering dogwood",
+  "words": []
+ },
+ "Cornus foemina": {
+  "it": null,
+  "en": "stiff dogwood",
+  "words": [
+   "swamp dogwood"
+  ]
+ },
+ "Cornus glabrata": {
+  "it": null,
+  "en": "brown dogwood",
+  "words": [
+   "smooth dogwood",
+   "western cornel"
+  ]
+ },
+ "Cornus kousa": {
+  "it": null,
+  "en": "kousa dogwood",
+  "words": [
+   "Chinese dogwood",
+   "kousa",
+   "Korean dogwood",
+   "Japanese dogwood"
+  ]
+ },
+ "Cornus mas": {
+  "it": "Corniolo",
+  "en": "Cornelian-cherry",
+  "words": [
+   "Cornelian cherry dogwood",
+   "dogwood",
+   "European cornel",
+   "cornelian cherry"
+  ]
+ },
+ "Cornus nuttallii": {
+  "it": null,
+  "en": "Pacific dogwood",
+  "words": [
+   "western dogwood",
+   "mountain dogwood"
+  ]
+ },
+ "Cornus rugosa": {
+  "it": null,
+  "en": "roundleaf dogwood",
+  "words": []
+ },
+ "Cornus sanguinea": {
+  "it": "Sanguinello",
+  "en": "bloodtwig dogwood",
+  "words": [
+   "Sanguinella",
+   "dogwood",
+   "common dogwood",
+   "bloody dogwood"
+  ]
+ },
+ "Cornus sericea": {
+  "it": null,
+  "en": "redosier dogwood",
+  "words": [
+   "red osier",
+   "red-osier dogwood",
+   "red brush",
+   "red willow",
+   "redstem dogwood",
+   "redtwig dogwood",
+   "red-rood",
+   "American dogwood",
+   "creek dogwood",
+   "western dogwood"
+  ]
+ },
+ "Cornus sessilis": {
+  "it": null,
+  "en": "blackfruit dogwood",
+  "words": [
+   "blackfruit cornel",
+   "miner's dogwood"
+  ]
+ },
+ "Corylus avellana": {
+  "it": "Nocciolo",
+  "en": "Hazel",
+  "words": [
+   "Common Hazel",
+   "European hazel",
+   "Cobnut"
+  ]
+ },
+ "Corylus colurna": {
+  "it": null,
+  "en": "Turkish Hazel",
+  "words": [
+   "Turkish hazelnut",
+   "Turkish filbert"
+  ]
+ },
+ "Corylus cornuta": {
+  "it": null,
+  "en": "beaked hazelnut",
+  "words": [
+   "Beaked Hazel"
+  ]
+ },
+ "Corymbia maculata": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Cotinus coggygria": {
+  "it": null,
+  "en": "European smoketree",
+  "words": [
+   "Rhus cotinus"
+  ]
+ },
+ "Cotinus obovatus": {
+  "it": null,
+  "en": "American smoketree",
+  "words": []
+ },
+ "Cotoneaster coriaceus": {
+  "it": null,
+  "en": "late cotoneaster",
+  "words": [
+   "milkflower cotoneaster",
+   "milk flower cotoneaster",
+   "milk-flower cotoneaster",
+   "thickleaf cotoneaster",
+   "thickleaved cotoneaster",
+   "thick leaved cotoneaster",
+   "thick-leaved cotoneaster",
+   "Parney cotoneaster",
+   "Parney's cotoneaster"
+  ]
+ },
+ "Cotoneaster frigidus": {
+  "it": null,
+  "en": "Tree Cotoneaster",
+  "words": []
+ },
+ "Crataegus aestivalis": {
+  "it": null,
+  "en": "may hawthorn",
+  "words": []
+ },
+ "Crataegus aprica": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Crataegus azarolus": {
+  "it": "Azzeruolo",
+  "en": "azarole",
+  "words": [
+   "Crataegus aronia",
+   "Crataegus ruscinonensis",
+   "Mespilus azarolus",
+   "Lazzeruolo",
+   "Azzaruolo",
+   "Crete Hawthorn",
+   "Mediterranean Hawthorn",
+   "Mediterranian Medler",
+   "Mosfilia",
+   "Oriental Hawthorn"
+  ]
+ },
+ "Crataegus berberifolia": {
+  "it": null,
+  "en": "barberry hawthorn",
+  "words": []
+ },
+ "Crataegus brachyacantha": {
+  "it": null,
+  "en": "blueberry hawthorn",
+  "words": []
+ },
+ "Crataegus brainerdii": {
+  "it": null,
+  "en": "Brainerd's hawthorn",
+  "words": []
+ },
+ "Crataegus calpodendron": {
+  "it": null,
+  "en": "pear hawthorn",
+  "words": [
+   "late hawthorn"
+  ]
+ },
+ "Crataegus castlegarensis": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Crataegus chrysocarpa": {
+  "it": null,
+  "en": "fireberry hawthorn",
+  "words": []
+ },
+ "Crataegus coccinea": {
+  "it": null,
+  "en": "Pear-fruited Cockspurthorn",
+  "words": []
+ },
+ "Crataegus coccinioides": {
+  "it": null,
+  "en": "Kansas hawthorn",
+  "words": []
+ },
+ "Crataegus collina": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Crataegus crus-galli": {
+  "it": null,
+  "en": "cockspur hawthorn",
+  "words": [
+   "cockspur thorn"
+  ]
+ },
+ "Crataegus dodgei": {
+  "it": null,
+  "en": "Dodge's hawthorn",
+  "words": []
+ },
+ "Crataegus douglasii": {
+  "it": null,
+  "en": "black hawthorn",
+  "words": [
+   "Douglas' thornapple"
+  ]
+ },
+ "Crataegus enderbyensis": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Crataegus erythropoda": {
+  "it": null,
+  "en": "cerro hawthorn",
+  "words": []
+ },
+ "Crataegus flabellata": {
+  "it": null,
+  "en": "fanleaf hawthorn",
+  "words": []
+ },
+ "Crataegus germanica": {
+  "it": "Nespolo comune",
+  "en": "Medlar",
+  "words": [
+   "nespolo europeo",
+   "Mespilus germanica"
+  ]
+ },
+ "Crataegus greggiana": {
+  "it": null,
+  "en": "Gregg's hawthorn",
+  "words": []
+ },
+ "Crataegus harbisonii": {
+  "it": null,
+  "en": "Harbison's hawthorn",
+  "words": []
+ },
+ "Crataegus holmesiana": {
+  "it": null,
+  "en": "Holmes' hawthorn",
+  "words": []
+ },
+ "Crataegus intricata": {
+  "it": null,
+  "en": "Copenhagen hawthorn",
+  "words": []
+ },
+ "Crataegus iracunda": {
+  "it": null,
+  "en": "stolonbearing hawthorn",
+  "words": []
+ },
+ "Crataegus lacrimata": {
+  "it": null,
+  "en": "Pensacola hawthorn",
+  "words": []
+ },
+ "Crataegus laevigata": {
+  "it": "Biancospino",
+  "en": "Midland Hawthorn",
+  "words": [
+   "smooth hawthorn",
+   "English hawthorn"
+  ]
+ },
+ "Crataegus macrosperma": {
+  "it": null,
+  "en": "bigfruit hawthorn",
+  "words": []
+ },
+ "Crataegus margaretta": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Crataegus marshallii": {
+  "it": null,
+  "en": "parsley hawthorn",
+  "words": []
+ },
+ "Crataegus media": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Crataegus × media"
+  ]
+ },
+ "Crataegus mollis": {
+  "it": null,
+  "en": "downy hawthorn",
+  "words": []
+ },
+ "Crataegus monogyna": {
+  "it": "Biancospino",
+  "en": "Hawthorn",
+  "words": [
+   "Crataegus curvisepala",
+   "Prunbianco",
+   "Biancospini",
+   "Crataegus oxyacantha",
+   "Common Hawthorn"
+  ]
+ },
+ "Crataegus okennonii": {
+  "it": null,
+  "en": "O'kennon's hawthorn",
+  "words": []
+ },
+ "Crataegus opaca": {
+  "it": null,
+  "en": "riverflat hawthorn",
+  "words": [
+   "mayhaw",
+   "western mayhaw"
+  ]
+ },
+ "Crataegus pentagyna": {
+  "it": null,
+  "en": "Small-flowered Black Hawthorn",
+  "words": []
+ },
+ "Crataegus persimilis": {
+  "it": null,
+  "en": "plumleaf hawthorn",
+  "words": []
+ },
+ "Crataegus phaenopyrum": {
+  "it": null,
+  "en": "Washington hawthorn",
+  "words": []
+ },
+ "Crataegus phippsii": {
+  "it": null,
+  "en": "Phipps' hawthorn",
+  "words": []
+ },
+ "Crataegus pruinosa": {
+  "it": null,
+  "en": "waxyfruit hawthorn",
+  "words": []
+ },
+ "Crataegus pulcherrima": {
+  "it": null,
+  "en": "beautiful hawthorn",
+  "words": []
+ },
+ "Crataegus punctata": {
+  "it": null,
+  "en": "dotted hawthorn",
+  "words": []
+ },
+ "Crataegus reverchonii": {
+  "it": null,
+  "en": "Reverchon's hawthorn",
+  "words": []
+ },
+ "Crataegus rhipidophylla": {
+  "it": "Biancospino con foglie a ventaglio",
+  "en": "Calycine Hawthorn",
+  "words": []
+ },
+ "Crataegus rivularis": {
+  "it": null,
+  "en": "river hawthorn",
+  "words": []
+ },
+ "Crataegus saligna": {
+  "it": null,
+  "en": "willow hawthorn",
+  "words": []
+ },
+ "Crataegus schuettei": {
+  "it": null,
+  "en": "Schuette's hawthorn",
+  "words": []
+ },
+ "Crataegus sheila-phippsiae": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Crataegus spathulata": {
+  "it": null,
+  "en": "littlehip hawthorn",
+  "words": []
+ },
+ "Crataegus succulenta": {
+  "it": null,
+  "en": "fleshy hawthorn",
+  "words": []
+ },
+ "Crataegus suksdorfii": {
+  "it": null,
+  "en": "Suksdorf's hawthorn",
+  "words": []
+ },
+ "Crataegus tracyi": {
+  "it": null,
+  "en": "Tracy's hawthorn",
+  "words": []
+ },
+ "Crataegus triflora": {
+  "it": null,
+  "en": "threeflower hawthorn",
+  "words": []
+ },
+ "Crataegus turnerorum": {
+  "it": null,
+  "en": "Turner's hawthorn",
+  "words": []
+ },
+ "Crataegus uniflora": {
+  "it": null,
+  "en": "dwarf hawthorn",
+  "words": []
+ },
+ "Crataegus viridis": {
+  "it": null,
+  "en": "green hawthorn",
+  "words": []
+ },
+ "Crataegus wootoniana": {
+  "it": null,
+  "en": "Wooton's hawthorn",
+  "words": []
+ },
+ "Crataegus × grignonensis": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Crataegus ×grignonensis"
+  ]
+ },
+ "Crataegus × lavalleei": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Crataegus ×lavallei",
+   "Crataegus ×lavalleei"
+  ]
+ },
+ "Cryptomeria japonica": {
+  "it": "Criptomeria",
+  "en": "Sugi",
+  "words": [
+   "Cryptomeria",
+   "Japanese Cedar"
+  ]
+ },
+ "Cunninghamia lanceolata": {
+  "it": null,
+  "en": "Chinese fir",
+  "words": []
+ },
+ "Cupressus cashmeriana": {
+  "it": null,
+  "en": "Bhutan Cypress",
+  "words": [
+   "Weeping Cypress",
+   "Cupressus tortulosa",
+   "Kashmir cypress"
+  ]
+ },
+ "Cupressus sempervirens": {
+  "it": "Cipresso",
+  "en": "Mediterranean Cypress",
+  "words": [
+   "Cipresso mediterraneo",
+   "Italian Cypress"
+  ]
+ },
+ "Cydonia oblonga": {
+  "it": "Mela cotogna",
+  "en": "quince",
+  "words": [
+   "Melo cotogno",
+   "Mele cotogne",
+   "Cotogno",
+   "Pero cotogno",
+   "Cotogna",
+   "Pera cotogna",
+   "Pyrus cydonia",
+   "quince tree"
+  ]
+ },
+ "Davidia involucrata": {
+  "it": null,
+  "en": "dove-tree",
+  "words": []
+ },
+ "Delonix regia": {
+  "it": "Poinciana regia",
+  "en": "royal poinciana",
+  "words": [
+   "Flamboyant",
+   "Flame Tree",
+   "Gold Mohar",
+   "flamboyan",
+   "tabachin",
+   "peacock flower",
+   "royal peacock flower"
+  ]
+ },
+ "Diospyros kaki": {
+  "it": "Cachi",
+  "en": "japanese persimmon",
+  "words": [
+   "Caco",
+   "Diospero",
+   "Diospiro",
+   "Kaki",
+   "Loto",
+   "Loto del Giappone",
+   "Asian Persimmon",
+   "Korean Mango",
+   "Sharon Fruit",
+   "kaki persimmon"
+  ]
+ },
+ "Diospyros lotus": {
+  "it": null,
+  "en": "date plum",
+  "words": []
+ },
+ "Ehretia dicksonii": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Elaeagnus angustifolia": {
+  "it": null,
+  "en": "Russian olive",
+  "words": [
+   "oleaster",
+   "Russian silverberry",
+   "Russian-olive",
+   "Persian olive",
+   "Silver berry",
+   "Oleastar",
+   "Wild olive"
+  ]
+ },
+ "Eriobotrya japonica": {
+  "it": "Rhaphiolepis bibas",
+  "en": "loquat",
+  "words": [
+   "Mespilus japonicus",
+   "nespolo del Giappone",
+   "nespola",
+   "Japanese medlar",
+   "Chinese plum",
+   "Japanese plum"
+  ]
+ },
+ "Eriolobus trilobatus": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Eucalyptus camaldulensis": {
+  "it": "Eucaliptus camaldulensis",
+  "en": "river redgum",
+  "words": [
+   "Eucalyptus rostrata",
+   "River Red Gum",
+   "Murray red gum"
+  ]
+ },
+ "Eucalyptus cladocalyx": {
+  "it": null,
+  "en": "sugargum",
+  "words": [
+   "sugar gum"
+  ]
+ },
+ "Eucalyptus globulus": {
+  "it": "Eucaljptus globulus",
+  "en": "Tasmanian bluegum",
+  "words": [
+   "blue gum",
+   "southern blue gum",
+   "Tasmanian blue gum"
+  ]
+ },
+ "Eucalyptus gunnii": {
+  "it": null,
+  "en": "cider gum",
+  "words": []
+ },
+ "Eucalyptus leucoxylon": {
+  "it": null,
+  "en": "white ironbark",
+  "words": []
+ },
+ "Eucalyptus ovata": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Eucalyptus sideroxylon": {
+  "it": null,
+  "en": "red ironbark",
+  "words": [
+   "mugga ironbark"
+  ]
+ },
+ "Euonymus europaeus": {
+  "it": "Evonymus europaeus",
+  "en": "Spindle",
+  "words": [
+   "Euonymus europaea",
+   "berretta del prete",
+   "fusaggine",
+   "evonimo",
+   "European spindletree",
+   "spindletree",
+   "European spindle tree",
+   "European spindle-tree",
+   "Spindle tree",
+   "Skewer wood"
+  ]
+ },
+ "Euonymus japonicus": {
+  "it": null,
+  "en": "Japanese spindletree",
+  "words": []
+ },
+ "Euonymus latifolius": {
+  "it": null,
+  "en": "broad-leaved spindle",
+  "words": [
+   "broad-leaved spindle tree",
+   "large-fruited spindle tree",
+   "large-fruited spindle",
+   "large-leaved spindle"
+  ]
+ },
+ "Fagus grandifolia": {
+  "it": null,
+  "en": "American Beech",
+  "words": []
+ },
+ "Fagus orientalis": {
+  "it": null,
+  "en": "Oriental Beech",
+  "words": []
+ },
+ "Fagus sylvatica": {
+  "it": "Faggio",
+  "en": "European Beech",
+  "words": [
+   "european beech, common beech"
+  ]
+ },
+ "Ficus carica": {
+  "it": "Ficoraccia",
+  "en": "Fig",
+  "words": [
+   "Caprifico",
+   "fico",
+   "edible fig",
+   "common fig",
+   "fig plant"
+  ]
+ },
+ "Ficus macrophylla": {
+  "it": null,
+  "en": "Moreton Bay fig",
+  "words": [
+   "Australian banyan"
+  ]
+ },
+ "Frangula alnus": {
+  "it": "Frangola",
+  "en": "Alder Buckthorn",
+  "words": [
+   "Rhamnus frangula",
+   "glossy buckthorn"
+  ]
+ },
+ "Fraxinus americana": {
+  "it": "Frassino bianco americano",
+  "en": "white ash",
+  "words": [
+   "American Ash"
+  ]
+ },
+ "Fraxinus angustifolia": {
+  "it": null,
+  "en": "Narrow-leafed Ash",
+  "words": [
+   "Fraxinus oxycarpa"
+  ]
+ },
+ "Fraxinus excelsior": {
+  "it": "Frassino maggiore",
+  "en": "European ash",
+  "words": [
+   "Frassino comune",
+   "ash",
+   "ash tree"
+  ]
+ },
+ "Fraxinus ornus": {
+  "it": "Orniello",
+  "en": "Manna Ash",
+  "words": [
+   "Albero della manna",
+   "Orno",
+   "Ornelli",
+   "Frassino da manna",
+   "Ornello"
+  ]
+ },
+ "Fraxinus pennsylvanica": {
+  "it": null,
+  "en": "green ash",
+  "words": [
+   "red ash",
+   "swamp ash",
+   "downy ash",
+   "water ash"
+  ]
+ },
+ "Garrya elliptica": {
+  "it": null,
+  "en": "Coast Silk Tassel",
+  "words": []
+ },
+ "Ginkgo biloba": {
+  "it": "Ginco",
+  "en": "Maidenhair Tree",
+  "words": [
+   "Ginko biloba",
+   "Gingko biloba",
+   "Ginkgo",
+   "silver apricot",
+   "ginkgo plant",
+   "ginkgo tree"
+  ]
+ },
+ "Gleditsia aquatica": {
+  "it": null,
+  "en": "water locust",
+  "words": [
+   "swamp locust"
+  ]
+ },
+ "Gleditsia caspica": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Gleditsia caspia (emendation)",
+   "Gleditsia horrida subsp. caspica"
+  ]
+ },
+ "Gleditsia japonica": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Gleditsia sinensis": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Gleditsia triacanthos": {
+  "it": "Spino di Giuda",
+  "en": "honeylocust",
+  "words": [
+   "Honey Locust",
+   "Thornless honey locust",
+   "Honey shuck",
+   "thorny honeylocust",
+   "thorny locust"
+  ]
+ },
+ "Gleditsia × texana": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Gleditsia ×texana"
+  ]
+ },
+ "Gymnocladus dioicus": {
+  "it": null,
+  "en": "Kentucky Coffeetree",
+  "words": []
+ },
+ "Halesia carolina": {
+  "it": null,
+  "en": "Carolina silverbell",
+  "words": []
+ },
+ "Halesia diptera": {
+  "it": null,
+  "en": "two-wing silverbell",
+  "words": []
+ },
+ "Hamamelis virginiana": {
+  "it": "Amamelide",
+  "en": "American witchhazel",
+  "words": [
+   "witch-hazel",
+   "common witch hazel",
+   "American witch-hazel"
+  ]
+ },
+ "Hedlundia intermedia": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Hesperocyparis abramsiana": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Hesperocyparis arizonica": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Hesperocyparis bakeri": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Hesperocyparis guadalupensis": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Hesperocyparis lusitanica": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Hesperocyparis arizonica"
+  ]
+ },
+ "Hesperocyparis macrocarpa": {
+  "it": null,
+  "en": "Monterey cypress",
+  "words": []
+ },
+ "Hesperocyparis sargentii": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Hibiscus syriacus": {
+  "it": "Ibisco cinese",
+  "en": "rose of Sharon",
+  "words": [
+   "Althaea frutex"
+  ]
+ },
+ "Hoheria × sexangusta": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Hoheria sexangusta"
+  ]
+ },
+ "Hovenia dulcis": {
+  "it": "Albero dell'uva passa",
+  "en": "Japanese raisintree",
+  "words": [
+   "Japanese raisin tree",
+   "Oriental raisin tree"
+  ]
+ },
+ "Hovenia tomentella": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Ilex ambigua": {
+  "it": null,
+  "en": "Carolina holly",
+  "words": [
+   "sand holly"
+  ]
+ },
+ "Ilex amelanchier": {
+  "it": null,
+  "en": "sarvis holly",
+  "words": [
+   "swamp holly"
+  ]
+ },
+ "Ilex aquifolium": {
+  "it": "agrifoglio",
+  "en": "English holly",
+  "words": [
+   "agrifogli",
+   "holly",
+   "Ilex perado subsp. iberica",
+   "common holly",
+   "European holly",
+   "Christmas holly"
+  ]
+ },
+ "Ilex canariensis": {
+  "it": null,
+  "en": "Small-leaved holly",
+  "words": []
+ },
+ "Ilex cassine": {
+  "it": null,
+  "en": "dahoon",
+  "words": [
+   "dahoon holly",
+   "cassena"
+  ]
+ },
+ "Ilex coriacea": {
+  "it": null,
+  "en": "large gallberry",
+  "words": [
+   "sweet gallberry"
+  ]
+ },
+ "Ilex cornuta": {
+  "it": null,
+  "en": "Camarón de Tejeda",
+  "words": [
+   "Camaron de Tejeda",
+   "Camarón",
+   "Camaron"
+  ]
+ },
+ "Ilex cuthbertii": {
+  "it": null,
+  "en": "Cuthbert's holly",
+  "words": []
+ },
+ "Ilex decidua": {
+  "it": null,
+  "en": "possumhaw",
+  "words": []
+ },
+ "Ilex krugiana": {
+  "it": null,
+  "en": "tawnyberry holly",
+  "words": []
+ },
+ "Ilex latifolia": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Ilex longipes": {
+  "it": null,
+  "en": "Georgia holly",
+  "words": []
+ },
+ "Ilex montana": {
+  "it": null,
+  "en": "mountain holly",
+  "words": [
+   "Mountain Winterberry"
+  ]
+ },
+ "Ilex mucronata": {
+  "it": null,
+  "en": "catberry",
+  "words": [
+   "mountain holly"
+  ]
+ },
+ "Ilex myrtifolia": {
+  "it": null,
+  "en": "myrtle dahoon",
+  "words": []
+ },
+ "Ilex opaca": {
+  "it": null,
+  "en": "American Holly",
+  "words": []
+ },
+ "Ilex rotunda": {
+  "it": null,
+  "en": "Kurogane holly",
+  "words": []
+ },
+ "Ilex verticillata": {
+  "it": null,
+  "en": "common winterberry",
+  "words": [
+   "black alder",
+   "coralberry",
+   "Michigan holly",
+   "winterberry",
+   "Canada holly",
+   "fever bush",
+   "winterberry holly"
+  ]
+ },
+ "Ilex vomitoria": {
+  "it": null,
+  "en": "yaupon",
+  "words": [
+   "Cassina",
+   "Yaupon Holly"
+  ]
+ },
+ "Ilex × altaclerensis": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Ilex ×altaclerensis"
+  ]
+ },
+ "Jacaranda mimosifolia": {
+  "it": null,
+  "en": "black poui",
+  "words": []
+ },
+ "Jubaea chilensis": {
+  "it": null,
+  "en": "Chile cocopalm",
+  "words": [
+   "Chilean wine palm",
+   "Honey palm",
+   "Chilean cocopalm",
+   "Syrup palm",
+   "Wine palm",
+   "Coquito palm"
+  ]
+ },
+ "Juglans ailantifolia": {
+  "it": null,
+  "en": "Japanese Walnut",
+  "words": [
+   "Juglans ailanthifolia"
+  ]
+ },
+ "Juglans californica": {
+  "it": null,
+  "en": "Southern California Black Walnut",
+  "words": [
+   "Southern California walnut",
+   "Northern California Black Walnut",
+   "California black walnut",
+   "California walnut"
+  ]
+ },
+ "Juglans cinerea": {
+  "it": null,
+  "en": "butternut",
+  "words": [
+   "White walnut",
+   "Butternut Tree"
+  ]
+ },
+ "Juglans mandshurica": {
+  "it": null,
+  "en": "Manchurian Walnut",
+  "words": [
+   "Juglans mandschurica"
+  ]
+ },
+ "Juglans nigra": {
+  "it": "noce nero",
+  "en": "Black Walnut",
+  "words": [
+   "American black walnut",
+   "eastern black walnut"
+  ]
+ },
+ "Juglans regia": {
+  "it": "noce da frutto",
+  "en": "Persian Walnut",
+  "words": [
+   "noce bianco",
+   "Common Walnut",
+   "walnut",
+   "Old World Walnut",
+   "Juglans fallax"
+  ]
+ },
+ "Juglans sigillata": {
+  "it": null,
+  "en": "Iron Walnut",
+  "words": []
+ },
+ "Juniperus communis": {
+  "it": "ginepro",
+  "en": "Common Juniper",
+  "words": [
+   "Juniper",
+   "Ground Juniper",
+   "mountain juniper"
+  ]
+ },
+ "Juniperus scopulorum": {
+  "it": null,
+  "en": "Rocky Mountain Juniper",
+  "words": [
+   "River Juniper",
+   "Red-cedar",
+   "Rocky Mountain Red-Cedar",
+   "seaside juniper",
+   "Rocky Mountain redcedar"
+  ]
+ },
+ "Juniperus virginiana": {
+  "it": "Ginepro della Virginia",
+  "en": "Eastern Juniper",
+  "words": [
+   "Sabina virginiana",
+   "Eastern Redcedar",
+   "Virginian juniper",
+   "eastern red cedar",
+   "red cedar",
+   "red juniper",
+   "pencil cedar",
+   "aromatic cedar",
+   "Virginia cedar",
+   "Virginian cedar"
+  ]
+ },
+ "Koelreuteria paniculata": {
+  "it": "Albero delle lanterne cinesi",
+  "en": "goldenrain tree",
+  "words": [
+   "Panicled Goldenrain Tree",
+   "Golden-rain tree",
+   "China tree",
+   "pride of India",
+   "varnish tree"
+  ]
+ },
+ "Laburnum alpinum": {
+  "it": null,
+  "en": "Alpine Laburnum",
+  "words": [
+   "Laburnum",
+   "Scottish laburnum"
+  ]
+ },
+ "Laburnum anagyroides": {
+  "it": "Avorniello",
+  "en": "Common Laburnum",
+  "words": [
+   "Maggiociondolo"
+  ]
+ },
+ "Laburnum × watereri": {
+  "it": null,
+  "en": "Voss's Laburnum",
+  "words": [
+   "Laburnum ×watereri",
+   "Laburnum watereri",
+   "Goldenchain Tree",
+   "golden-chaintree"
+  ]
+ },
+ "Lagerstroemia indica": {
+  "it": null,
+  "en": "crapemyrtle",
+  "words": [
+   "Crape myrtle",
+   "crepe myrtle",
+   "common crape myrtle",
+   "Indian crape myrtle",
+   "June rose",
+   "carrion tree",
+   "cannonball",
+   "lilac of the south",
+   "crepe-myrtle",
+   "crepemyrtle"
+  ]
+ },
+ "Lagunaria patersonia": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Lagunaria patersonii"
+  ]
+ },
+ "Larix decidua": {
+  "it": "Larice comune",
+  "en": "European Larch",
+  "words": []
+ },
+ "Larix gmelinii": {
+  "it": null,
+  "en": "Dahurian Larch",
+  "words": []
+ },
+ "Larix kaempferi": {
+  "it": null,
+  "en": "Japanese Larch",
+  "words": []
+ },
+ "Larix laricina": {
+  "it": null,
+  "en": "Eastern Larch",
+  "words": [
+   "Tamarack",
+   "American Larch",
+   "hackmatack"
+  ]
+ },
+ "Laurus nobilis": {
+  "it": "alloro",
+  "en": "sweet bay",
+  "words": [
+   "bay laurel",
+   "laurel"
+  ]
+ },
+ "Ligustrum compactum": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Ligustrum japonicum": {
+  "it": null,
+  "en": "Japanese privet",
+  "words": [
+   "L. japonicum",
+   "Wax-leaf privet",
+   "Curlyleaf ligustrum",
+   "Japanese liguster"
+  ]
+ },
+ "Ligustrum lucidum": {
+  "it": null,
+  "en": "glossy privet",
+  "words": []
+ },
+ "Liquidambar formosana": {
+  "it": null,
+  "en": "Sweet Gum",
+  "words": []
+ },
+ "Liquidambar orientalis": {
+  "it": null,
+  "en": "Oriental Sweetgum",
+  "words": []
+ },
+ "Liquidambar styraciflua": {
+  "it": "Storace americano",
+  "en": "American Sweetgum",
+  "words": [
+   "Sweet Gum",
+   "sweetgum",
+   "American storax",
+   "hazel pine",
+   "bilsted",
+   "redgum",
+   "satin-walnut",
+   "star-leaved gum",
+   "alligatorwood"
+  ]
+ },
+ "Liriodendron chinense": {
+  "it": null,
+  "en": "Chinese tuliptree",
+  "words": [
+   "Chinese Tulip Tree",
+   "Chinese Whitewood"
+  ]
+ },
+ "Liriodendron tulipifera": {
+  "it": "Albero dei tulipani",
+  "en": "tuliptree",
+  "words": [
+   "Albero del tulipano",
+   "Toulipier",
+   "Tulip tree",
+   "Yellow poplar",
+   "tulip poplar",
+   "American tulip tree"
+  ]
+ },
+ "Livistona chinensis": {
+  "it": null,
+  "en": "fountain palm",
+  "words": [
+   "fan palm",
+   "Chinese fan palm",
+   "Chinese fountain palm"
+  ]
+ },
+ "Lophostemon confertus": {
+  "it": null,
+  "en": "vinegartree",
+  "words": [
+   "Brush box"
+  ]
+ },
+ "Luma apiculata": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Maackia amurensis": {
+  "it": null,
+  "en": "Amur maackia",
+  "words": []
+ },
+ "Maclura pomifera": {
+  "it": "Spino degli Osagi",
+  "en": "Osage-orange",
+  "words": [
+   "Gelso degli Osagi",
+   "Horse-apple",
+   "Osage orange",
+   "Bois d'Arc",
+   "bodark",
+   "bow-wood",
+   "yellowwood",
+   "hedge tree",
+   "hedge apple"
+  ]
+ },
+ "Macromeles tschonoskii": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Magnolia acuminata": {
+  "it": null,
+  "en": "Cucumber Magnolia",
+  "words": [
+   "cucumber-tree",
+   "Cucumber tree",
+   "Mountain Magnolia",
+   "Yellow Cucumbertree",
+   "cucumbertree",
+   "blue magnolia"
+  ]
+ },
+ "Magnolia amabilis": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Magnolia amoena": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Magnolia aromatica": {
+  "it": "Manglietia aromatica",
+  "en": null,
+  "words": []
+ },
+ "Magnolia biondii": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Magnolia campbellii": {
+  "it": null,
+  "en": "Campbell's Magnolia",
+  "words": []
+ },
+ "Magnolia cylindrica": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Magnolia delavayi": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Magnolia denudata": {
+  "it": null,
+  "en": "lilytree",
+  "words": [
+   "Yulan Magnolia",
+   "Lily Tree"
+  ]
+ },
+ "Magnolia grandiflora": {
+  "it": null,
+  "en": "southern magnolia",
+  "words": [
+   "Big-laurel",
+   "Bull-bay",
+   "Evergreen Magnolia",
+   "bull bay",
+   "magnolia"
+  ]
+ },
+ "Magnolia kobus": {
+  "it": null,
+  "en": "Kobus magnolia",
+  "words": [
+   "Kobushi Magnolia",
+   "Northern Japanese Magnolia"
+  ]
+ },
+ "Magnolia liliiflora": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Magnolia obovata": {
+  "it": "Magnolia giapponese",
+  "en": "Japanese Big Leaf Magnolia",
+  "words": [
+   "Japanese Whitebark Magnolia",
+   "Whiteleaf Japanese Magnolia",
+   "Honoki Magnolia"
+  ]
+ },
+ "Magnolia sieboldii": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Magnolia stellata": {
+  "it": null,
+  "en": "star magnolia",
+  "words": []
+ },
+ "Magnolia tripetala": {
+  "it": null,
+  "en": "umbrella-tree",
+  "words": [
+   "Umbrella Magnolia"
+  ]
+ },
+ "Magnolia virginiana": {
+  "it": null,
+  "en": "sweetbay",
+  "words": [
+   "Swamp Bay",
+   "Swamp Laurel",
+   "Sweet Bay",
+   "Sweet Magnolia",
+   "White Bay",
+   "beavertail",
+   "Magnolia glauca",
+   "sweetbay magnolia",
+   "laurel magnolia",
+   "swampbay"
+  ]
+ },
+ "Magnolia yulan": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Magnolia × alba": {
+  "it": null,
+  "en": "White Champa",
+  "words": [
+   "Magnolia ×alba",
+   "Magnolia alba",
+   "White Champak",
+   "Pak lan",
+   "White jade orchid tree"
+  ]
+ },
+ "Magnolia × brooklynensis": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Magnolia ×brooklynensis"
+  ]
+ },
+ "Magnolia × foggii": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Magnolia ×foggii"
+  ]
+ },
+ "Magnolia × gotoburgensis": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Magnolia × loebneri": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Magnolia ×loebneri"
+  ]
+ },
+ "Magnolia × proctoriana": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Magnolia proctoriana"
+  ]
+ },
+ "Magnolia × pruhoniciana": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Magnolia ×pruhoniciana"
+  ]
+ },
+ "Magnolia × soulangeana": {
+  "it": null,
+  "en": "Saucer magnolia",
+  "words": [
+   "Tulip Magnolia",
+   "Magnolia x soulangeana"
+  ]
+ },
+ "Magnolia × thomsoniana": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Magnolia × veitchii": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Magnolia ×veitchii"
+  ]
+ },
+ "Magnolia × wieseneri": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Magnolia ×wiesneri"
+  ]
+ },
+ "Malus baccata": {
+  "it": null,
+  "en": "Siberian crab apple",
+  "words": [
+   "Siberian Crabapple",
+   "flowering crabapple",
+   "Pyrus baccata"
+  ]
+ },
+ "Malus domestica": {
+  "it": "melo",
+  "en": "apple tree",
+  "words": [
+   "Malus x domestica Borkh.",
+   "Malus domestica Borkhausen",
+   "Malus x domestica Borkhausen"
+  ]
+ },
+ "Malus hupehensis": {
+  "it": null,
+  "en": "Chinese crab apple",
+  "words": [
+   "Hupeh crab",
+   "tea crab apple",
+   "Tea Crabapple",
+   "flowering tea crabapple",
+   "Hupeh Crabapple"
+  ]
+ },
+ "Malus spectabilis": {
+  "it": null,
+  "en": "Asiatic apple",
+  "words": []
+ },
+ "Malus sylvestris": {
+  "it": "Melo selvatico",
+  "en": "European Crab Apple",
+  "words": [
+   "Crab Apple",
+   "Pommier Sauvage"
+  ]
+ },
+ "Mangifera indica": {
+  "it": "mango",
+  "en": "mangoso",
+  "words": [
+   "mango tree",
+   "common mango",
+   "Indian mango"
+  ]
+ },
+ "Maytenus boaria": {
+  "it": null,
+  "en": "mayten",
+  "words": []
+ },
+ "Melaleuca armillaris": {
+  "it": null,
+  "en": "Bracelet honey myrtle",
+  "words": []
+ },
+ "Melaleuca linariifolia": {
+  "it": null,
+  "en": "cajeput tree",
+  "words": []
+ },
+ "Melaleuca styphelioides": {
+  "it": null,
+  "en": "prickly-leaf teatree",
+  "words": []
+ },
+ "Melaleuca viminalis": {
+  "it": null,
+  "en": "creek bottlebrush",
+  "words": [
+   "weeping bottlebrush"
+  ]
+ },
+ "Melia azedarach": {
+  "it": "Mindi",
+  "en": "Chinaberrytree",
+  "words": [
+   "Albero dei paternostri",
+   "Chinaberry",
+   "China-Berry",
+   "Texas umbrella tree",
+   "Chinaberry tree",
+   "Indian lilac",
+   "lelah",
+   "paraiso",
+   "pride of India",
+   "white cedar"
+  ]
+ },
+ "Metasequoia glyptostroboides": {
+  "it": null,
+  "en": "Dawn Redwood",
+  "words": [
+   "Chinese redwood"
+  ]
+ },
+ "Morus alba": {
+  "it": "Gelso bianco",
+  "en": "White Mulberry",
+  "words": [
+   "moro bianco",
+   "Weeping mulberry",
+   "silkworm mulberry",
+   "Russian mulberry"
+  ]
+ },
+ "Morus nigra": {
+  "it": "Moro",
+  "en": "Black Mulberry",
+  "words": [
+   "gelso nero",
+   "blackberry"
+  ]
+ },
+ "Morus papyrifera": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Morus rubra": {
+  "it": null,
+  "en": "red mulberry",
+  "words": []
+ },
+ "Nothofagus antarctica": {
+  "it": null,
+  "en": "Southern Beech",
+  "words": []
+ },
+ "Nothofagus obliqua": {
+  "it": null,
+  "en": "roble beech",
+  "words": [
+   "southern beech"
+  ]
+ },
+ "Nyssa sylvatica": {
+  "it": null,
+  "en": "blackgum",
+  "words": [
+   "Sour gum",
+   "Tupelo"
+  ]
+ },
+ "Olea europaea": {
+  "it": "olivo",
+  "en": "olive tree",
+  "words": [
+   "ulivi",
+   "olivi",
+   "patogeni chiave dell'olivo",
+   "olivastro",
+   "ulivo",
+   "olive"
+  ]
+ },
+ "Ostrya carpinifolia": {
+  "it": "Carpino nero",
+  "en": "European Hop-hornbeam",
+  "words": [
+   "Hop Hornbeam"
+  ]
+ },
+ "Ostrya knowltonii": {
+  "it": null,
+  "en": "Knowlton's hophornbeam",
+  "words": [
+   "Canyon ironwood",
+   "Ironwood",
+   "Knowlton’s hop-hornbeam",
+   "Western hop-hornbeam",
+   "western hophornbeam",
+   "woolly hophornbeam",
+   "wolf hophornbeam"
+  ]
+ },
+ "Ostrya virginiana": {
+  "it": null,
+  "en": "hophornbeam",
+  "words": [
+   "American Hophornbeam",
+   "Eastern hop hornbeam",
+   "Ironwood",
+   "Hop hornbeam",
+   "eastern hophornbeam",
+   "hardhack",
+   "leverwood"
+  ]
+ },
+ "Parrotia persica": {
+  "it": null,
+  "en": "Persian ironwood",
+  "words": []
+ },
+ "Paulownia tomentosa": {
+  "it": "Pauluwnia tomentosa",
+  "en": "princesstree",
+  "words": [
+   "princess tree",
+   "Empress tree",
+   "Foxglove tree",
+   "Royal empress tree",
+   "Paulownia tree"
+  ]
+ },
+ "Persea americana": {
+  "it": "Avocado",
+  "en": "Avocado",
+  "words": [
+   "alligator pear",
+   "avocado pear",
+   "avocados",
+   "avocadoes"
+  ]
+ },
+ "Phellodendron amurense": {
+  "it": null,
+  "en": "Amur Cork Tree",
+  "words": [
+   "Amur corktree"
+  ]
+ },
+ "Phoenix canariensis": {
+  "it": "Palma delle Canarie",
+  "en": "Canary Island date palm",
+  "words": [
+   "Phoenix canariens"
+  ]
+ },
+ "Phoenix dactylifera": {
+  "it": "palma da datteri",
+  "en": "date palm",
+  "words": []
+ },
+ "Phoenix sylvestris": {
+  "it": null,
+  "en": "wild date palm",
+  "words": [
+   "Indian date",
+   "sugar date palm",
+   "East Indian wine palm",
+   "India date palm",
+   "Date-sugar palm"
+  ]
+ },
+ "Photinia serratifolia": {
+  "it": null,
+  "en": "Taiwanese photinia",
+  "words": []
+ },
+ "Photinia × fraseri": {
+  "it": null,
+  "en": "Fraser's photinia",
+  "words": [
+   "Photinia x fraseri",
+   "Photinia fraseri"
+  ]
+ },
+ "Picea abies": {
+  "it": "Abete rosso",
+  "en": "Norway Spruce",
+  "words": [
+   "Abeti rossi",
+   "Picea excelsa",
+   "European spruce"
+  ]
+ },
+ "Picea asperata": {
+  "it": "Peccio del drago",
+  "en": "Dragon Spruce",
+  "words": []
+ },
+ "Picea brachytyla": {
+  "it": null,
+  "en": "Sargent's Spruce",
+  "words": []
+ },
+ "Picea glauca": {
+  "it": null,
+  "en": "White Spruce",
+  "words": [
+   "Canadian Spruce",
+   "Picea canadensis"
+  ]
+ },
+ "Picea glehnii": {
+  "it": "peccio di Sachalin",
+  "en": "Sakhalin Spruce",
+  "words": []
+ },
+ "Picea laxa": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Picea maximowiczii": {
+  "it": "Peccio di Maximowicz",
+  "en": "Japanese Bush Spruce",
+  "words": [
+   "Maximowicz's Spruce"
+  ]
+ },
+ "Picea omorika": {
+  "it": "Abete di Serbia",
+  "en": "Serbian Spruce",
+  "words": [
+   "Peccio di Serbia",
+   "Pančić spruce"
+  ]
+ },
+ "Picea pungens": {
+  "it": "Peccio del Colorado",
+  "en": "Blue Spruce",
+  "words": [
+   "Colorado Spruce",
+   "Colorado blue spruce"
+  ]
+ },
+ "Picea sitchensis": {
+  "it": "Peccio di Sitka",
+  "en": "Sitka Spruce",
+  "words": []
+ },
+ "Picea smithiana": {
+  "it": "Peccio dell'Himalaya",
+  "en": "Morinda Spruce",
+  "words": [
+   "West Himalayan Spruce",
+   "Indian Spruce",
+   "Himalayan Spruce",
+   "Picea morinda"
+  ]
+ },
+ "Pinus bungeana": {
+  "it": null,
+  "en": "Lacebark Pine",
+  "words": [
+   "Lace-bark Pine",
+   "Bunge's pine",
+   "white-barked pine"
+  ]
+ },
+ "Pinus cembra": {
+  "it": "Cembro",
+  "en": "Swiss Pine",
+  "words": [
+   "cirmolo",
+   "Pino cembro",
+   "Arolla Pine",
+   "Swiss Stone Pine",
+   "Austrian stone pine",
+   "stone pine",
+   "borovice limba"
+  ]
+ },
+ "Pinus densiflora": {
+  "it": "pino rosso del Giappone",
+  "en": "Japanese Red Pine",
+  "words": [
+   "Pinus funebris",
+   "Korean red pine",
+   "tanyosho pine",
+   "Japanese umbrella pine"
+  ]
+ },
+ "Pinus flexilis": {
+  "it": null,
+  "en": "Limber Pine",
+  "words": [
+   "Rocky Mountain White Pine"
+  ]
+ },
+ "Pinus glabra": {
+  "it": null,
+  "en": "Spruce Pine",
+  "words": [
+   "Poor Pine"
+  ]
+ },
+ "Pinus heldreichii": {
+  "it": "Pino loricato",
+  "en": "Bosnian Pine",
+  "words": [
+   "Pinus leucodermis",
+   "Heldreich's Pine"
+  ]
+ },
+ "Pinus mugo": {
+  "it": "Pinus pumilio",
+  "en": "Mountain Pine",
+  "words": [
+   "Pinus Montana",
+   "pino mugo",
+   "pino uncinato",
+   "pini mughi",
+   "mugo",
+   "pino di montagna",
+   "creeping pine",
+   "dwarf mountainpine",
+   "scrub mountain pine",
+   "Swiss mountain pine"
+  ]
+ },
+ "Pinus nigra": {
+  "it": "Pino nero",
+  "en": "European Black Pine",
+  "words": [
+   "pino nero calabro",
+   "pino austriaco",
+   "Black Pine"
+  ]
+ },
+ "Pinus parviflora": {
+  "it": "pino bianco giapponese",
+  "en": "Japanese White Pine",
+  "words": [
+   "five-needle pine",
+   "Japanese five needle pine"
+  ]
+ },
+ "Pinus pinaster": {
+  "it": "Pini marittimi",
+  "en": "Maritime Pine",
+  "words": [
+   "Pinastro",
+   "Pino marittimo"
+  ]
+ },
+ "Pinus pinea": {
+  "it": "Pino da pinoli",
+  "en": "Stone Pine",
+  "words": [
+   "Pino italico",
+   "Pinus sativa",
+   "Pino domestico",
+   "Pinus domestica",
+   "Pinus maderiensis",
+   "Pinus esculenta",
+   "Pinus fastuosa",
+   "pino",
+   "Italian Stone Pine",
+   "Umbrella Pine"
+  ]
+ },
+ "Pinus radiata": {
+  "it": null,
+  "en": "Monterey Pine",
+  "words": [
+   "Radiata Pine",
+   "Cedros Island Pine",
+   "Guadalupe Island Pine",
+   "Insignis Pine"
+  ]
+ },
+ "Pinus resinosa": {
+  "it": null,
+  "en": "Red Pine",
+  "words": [
+   "Norway Pine"
+  ]
+ },
+ "Pinus strobus": {
+  "it": "Pino strobo",
+  "en": "Eastern White Pine",
+  "words": [
+   "Pino bianco orientale",
+   "Pino di Weymouth",
+   "Weymouth Pine",
+   "soft pine",
+   "northern white pine",
+   "white pine"
+  ]
+ },
+ "Pinus sylvestris": {
+  "it": "Pini silvestri",
+  "en": "Scots Pine",
+  "words": [
+   "Pinus silvestris",
+   "Pinus sylvestris hamata",
+   "Pino silvestre",
+   "Scotch Pine"
+  ]
+ },
+ "Pinus wallichiana": {
+  "it": null,
+  "en": "Blue Pine",
+  "words": [
+   "Himalayan White Pine",
+   "Himalayan Pine",
+   "Bhutan Pine",
+   "Pinus excelsa"
+  ]
+ },
+ "Platanus glabrata": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Platanus mexicana": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Platanus occidentalis": {
+  "it": "Platano occidentale",
+  "en": "American sycamore",
+  "words": [
+   "Platano americano",
+   "Sicomoro americano",
+   "American planetree",
+   "occidental plane",
+   "buttonwood"
+  ]
+ },
+ "Platanus orientalis": {
+  "it": "Platano orientale",
+  "en": "Oriental Plane",
+  "words": [
+   "Oriental Plane-tree",
+   "Plantanus orientalis",
+   "Chinar"
+  ]
+ },
+ "Platanus racemosa": {
+  "it": null,
+  "en": "California sycamore",
+  "words": []
+ },
+ "Platanus rzedowskii": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Platanus × hispanica": {
+  "it": "Platano comune",
+  "en": "London Plane",
+  "words": [
+   "Platano ibrido",
+   "Platano spagnolo",
+   "Platano londinese"
+  ]
+ },
+ "Platycladus orientalis": {
+  "it": null,
+  "en": "Oriental Arbor-vitae",
+  "words": [
+   "Thuja orientalis",
+   "Oriental arborvitae",
+   "Chinese arborvitae",
+   "Oriental Thuja"
+  ]
+ },
+ "Podocarpus nubigenus": {
+  "it": null,
+  "en": "Chilean podocarp",
+  "words": []
+ },
+ "Populus alba": {
+  "it": "Pioppo bianco",
+  "en": "White Poplar",
+  "words": [
+   "Pioppi bianchi",
+   "Gattice",
+   "silver poplar",
+   "silverleaf poplar"
+  ]
+ },
+ "Populus balsamifera": {
+  "it": null,
+  "en": "balsam poplar",
+  "words": [
+   "Ontario Balsam Poplar",
+   "bam",
+   "bamtree",
+   "eastern balsam-poplar",
+   "hackmatack",
+   "tacamahac poplar",
+   "tacamahaca"
+  ]
+ },
+ "Populus deltoides": {
+  "it": null,
+  "en": "eastern cottonwood",
+  "words": [
+   "necklace poplar"
+  ]
+ },
+ "Populus nigra": {
+  "it": "Pioppo nero",
+  "en": "Black Poplar",
+  "words": [
+   "black populars"
+  ]
+ },
+ "Populus simonii": {
+  "it": null,
+  "en": "Simon poplar",
+  "words": [
+   "Simon's poplar"
+  ]
+ },
+ "Populus tremula": {
+  "it": "Pioppo tremulo",
+  "en": "Eurasian Aspen",
+  "words": [
+   "aspen",
+   "Common Aspen",
+   "European aspen",
+   "quaking aspen"
+  ]
+ },
+ "Populus tremuloides": {
+  "it": null,
+  "en": "quaking aspen",
+  "words": [
+   "trembling aspen",
+   "American aspen",
+   "mountain apen",
+   "golden aspen",
+   "trembling poplar",
+   "white poplar",
+   "popple",
+   "quakies"
+  ]
+ },
+ "Populus × berolinensis": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Populus ×berolinensis",
+   "Populus berolinensis"
+  ]
+ },
+ "Populus × canadensis": {
+  "it": null,
+  "en": "Hybrid Black Poplar",
+  "words": [
+   "Carolina poplar"
+  ]
+ },
+ "Populus × canescens": {
+  "it": "Pioppo canescente",
+  "en": "Grey Poplar",
+  "words": [
+   "Populus canescens"
+  ]
+ },
+ "Prunus amygdalus": {
+  "it": null,
+  "en": "almond tree",
+  "words": [
+   "almond",
+   "Prunus dulcis"
+  ]
+ },
+ "Prunus armeniaca": {
+  "it": "albicocco",
+  "en": "apricot",
+  "words": [
+   "apricot tree"
+  ]
+ },
+ "Prunus avium": {
+  "it": "ciliegio",
+  "en": "Wild Cherry",
+  "words": [
+   "ciliegio dolce",
+   "sweet cherry",
+   "bird cherry",
+   "gean, wild cherry",
+   "gean"
+  ]
+ },
+ "Prunus brigantina": {
+  "it": null,
+  "en": "Briançon Apricot",
+  "words": []
+ },
+ "Prunus cerasifera": {
+  "it": "Rusticano",
+  "en": "Cherry Plum",
+  "words": [
+   "Mirabolano",
+   "Amolo",
+   "Myrobalan Plum",
+   "myrobalan"
+  ]
+ },
+ "Prunus cerasus": {
+  "it": "Ciliegio aspro",
+  "en": "sour cherry",
+  "words": [
+   "Ciliegio acido",
+   "tart cherry",
+   "dwarf cherry",
+   "Grintche"
+  ]
+ },
+ "Prunus domestica": {
+  "it": "prugno",
+  "en": "European plum",
+  "words": [
+   "susino",
+   "plum tree"
+  ]
+ },
+ "Prunus incana": {
+  "it": null,
+  "en": "hoary cherry",
+  "words": [
+   "willow leaf cherry"
+  ]
+ },
+ "Prunus incisa": {
+  "it": null,
+  "en": "Fuji cherry",
+  "words": []
+ },
+ "Prunus japonica": {
+  "it": null,
+  "en": "Japanese bush cherry",
+  "words": []
+ },
+ "Prunus laurocerasus": {
+  "it": "Lauroceraso",
+  "en": "Cherry-laurel",
+  "words": [
+   "cherry laurel",
+   "English laurel",
+   "common laurel"
+  ]
+ },
+ "Prunus lusitanica": {
+  "it": null,
+  "en": "Portugal laurel",
+  "words": []
+ },
+ "Prunus maackii": {
+  "it": null,
+  "en": "Amur chokecherry",
+  "words": [
+   "Manchurian Cherry",
+   "Amur cherry"
+  ]
+ },
+ "Prunus mahaleb": {
+  "it": "ciliegio di Santa Lucia",
+  "en": "St Lucie Cherry",
+  "words": [
+   "ciliegio canino"
+  ]
+ },
+ "Prunus padus": {
+  "it": "Ciliegio a grappoli",
+  "en": "Bird Cherry",
+  "words": [
+   "Pado",
+   "European bird cherry",
+   "birdcherry",
+   "Padus racemosa",
+   "Bird-cherry"
+  ]
+ },
+ "Prunus persica": {
+  "it": "Pesco",
+  "en": "peach",
+  "words": [
+   "peach tree",
+   "peachtree"
+  ]
+ },
+ "Prunus sargentii": {
+  "it": null,
+  "en": "Sargent's cherry",
+  "words": [
+   "North Japanese hill cherry"
+  ]
+ },
+ "Prunus serotina": {
+  "it": null,
+  "en": "black cherry",
+  "words": [
+   "American bird cherry",
+   "rum cherry, black cherry",
+   "wild black cherry"
+  ]
+ },
+ "Prunus serrula": {
+  "it": null,
+  "en": "birch bark cherry",
+  "words": [
+   "birchbark cherry",
+   "paperbark cherry",
+   "Tibetan cherry",
+   "Prunus odontocalyx"
+  ]
+ },
+ "Prunus serrulata": {
+  "it": "Sakura",
+  "en": "Japanese flowering cherry",
+  "words": [
+   "Oriental Cherry",
+   "hill cherry",
+   "Japanese cherry",
+   "East Asian cherry"
+  ]
+ },
+ "Prunus spinosa": {
+  "it": "Prugnolo",
+  "en": "blackthorn",
+  "words": [
+   "Prugno spinoso",
+   "sloe, blackthorn",
+   "sloe"
+  ]
+ },
+ "Prunus umbellata": {
+  "it": null,
+  "en": "hog plum",
+  "words": []
+ },
+ "Prunus virginiana": {
+  "it": null,
+  "en": "chokecherry",
+  "words": [
+   "bitterberry",
+   "Virginia bird cherry",
+   "western chokecherry",
+   "black chokecherry"
+  ]
+ },
+ "Prunus × fruticans": {
+  "it": "Prunus fruticans",
+  "en": "Prunus fruticans",
+  "words": [
+   "Prunus x fruticans"
+  ]
+ },
+ "Prunus × subhirtella": {
+  "it": null,
+  "en": "winter-flowering cherry",
+  "words": [
+   "Prunus subhirtella",
+   "Edo higan",
+   "Higan cherry",
+   "Prunus x subhirtella"
+  ]
+ },
+ "Prunus × yedoensis": {
+  "it": null,
+  "en": "Tokyo cherry",
+  "words": [
+   "Prunus ×yedoensis",
+   "Prunus speciosa × Prunus itosakura"
+  ]
+ },
+ "Pseudolarix amabilis": {
+  "it": "Pseudolarice",
+  "en": "Golden-larch",
+  "words": [
+   "Pseudolarix kaempferi",
+   "Falso larice",
+   "Falso Lerice",
+   "Chinese golden-larch",
+   "Chinese Golden Larch",
+   "Golden larch"
+  ]
+ },
+ "Pseudotsuga menziesii": {
+  "it": "Abete di Douglas",
+  "en": "Douglas-fir",
+  "words": [
+   "Douglasia",
+   "Pino dell'Oregon",
+   "Douglas Fir",
+   "Pseudotsuga taxifolia",
+   "Columbian pine",
+   "Oregon pine",
+   "Douglas spruce"
+  ]
+ },
+ "Pterocarya fraxinifolia": {
+  "it": "Noce del Caucaso",
+  "en": "Caucasian Wingnut",
+  "words": []
+ },
+ "Pyrus calleryana": {
+  "it": null,
+  "en": "Callery Pear",
+  "words": [
+   "Bradford Pear",
+   "Callery 'Bradford' Pear"
+  ]
+ },
+ "Pyrus communis": {
+  "it": null,
+  "en": "European Pear",
+  "words": [
+   "common pear",
+   "wild pear",
+   "pear"
+  ]
+ },
+ "Pyrus cordata": {
+  "it": null,
+  "en": "Plymouth pear",
+  "words": []
+ },
+ "Quercus acerifolia": {
+  "it": null,
+  "en": "mapleleaf oak",
+  "words": [
+   "Maple-leaved Oak"
+  ]
+ },
+ "Quercus acuta": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Quercus acutissima": {
+  "it": null,
+  "en": "sawtooth oak",
+  "words": [
+   "Saw-tooth Oak",
+   "Chinese oak",
+   "bristle oak"
+  ]
+ },
+ "Quercus agrifolia": {
+  "it": null,
+  "en": "Coast Live Oak",
+  "words": [
+   "California live oak"
+  ]
+ },
+ "Quercus ajoensis": {
+  "it": null,
+  "en": "Ajo Mountain scrub oak",
+  "words": []
+ },
+ "Quercus alba": {
+  "it": null,
+  "en": "White Oak",
+  "words": [
+   "eastern white oak",
+   "stave oak"
+  ]
+ },
+ "Quercus arizonica": {
+  "it": null,
+  "en": "Arizona white oak",
+  "words": []
+ },
+ "Quercus arkansana": {
+  "it": null,
+  "en": "Arkansas oak",
+  "words": []
+ },
+ "Quercus austrina": {
+  "it": null,
+  "en": "bastard white oak",
+  "words": [
+   "bluff oak"
+  ]
+ },
+ "Quercus berberidifolia": {
+  "it": null,
+  "en": "scrub oak",
+  "words": [
+   "California Scrub Oak",
+   "Quercus agrifolia var. berberidifolia",
+   "Quercus dumosa f. berberidifolia",
+   "Quercus dumosa var. munita"
+  ]
+ },
+ "Quercus bicolor": {
+  "it": null,
+  "en": "swamp white oak",
+  "words": []
+ },
+ "Quercus boyntonii": {
+  "it": null,
+  "en": "Boynton sand post oak",
+  "words": [
+   "Boynton Oak",
+   "Boynton's post oak"
+  ]
+ },
+ "Quercus buckleyi": {
+  "it": null,
+  "en": "Buckley oak",
+  "words": [
+   "Texas Red Oak",
+   "Buckley's oak"
+  ]
+ },
+ "Quercus carmenensis": {
+  "it": null,
+  "en": "Mexican oak",
+  "words": []
+ },
+ "Quercus cedrosensis": {
+  "it": null,
+  "en": "Cedros Island oak",
+  "words": []
+ },
+ "Quercus cerris": {
+  "it": "Cerro",
+  "en": "Turkey Oak",
+  "words": [
+   "Cerri",
+   "European turkey oak",
+   "Mossy-cup oak",
+   "Austrian oak"
+  ]
+ },
+ "Quercus chapmanii": {
+  "it": null,
+  "en": "Chapman oak",
+  "words": []
+ },
+ "Quercus chihuahuensis": {
+  "it": null,
+  "en": "Chihuahuan oak",
+  "words": []
+ },
+ "Quercus chrysolepis": {
+  "it": null,
+  "en": "Canyon Live Oak",
+  "words": [
+   "Canyon Oak",
+   "Goldcup Oak",
+   "Maul Oak",
+   "golden oak"
+  ]
+ },
+ "Quercus coccifera": {
+  "it": "Quercia spinosa",
+  "en": "Kermes Oak",
+  "words": []
+ },
+ "Quercus coccinea": {
+  "it": null,
+  "en": "Scarlet Oak",
+  "words": [
+   "Red Oak"
+  ]
+ },
+ "Quercus douglasii": {
+  "it": null,
+  "en": "blue oak",
+  "words": [
+   "Iron Oak",
+   "Mountain Oak"
+  ]
+ },
+ "Quercus ellipsoidalis": {
+  "it": null,
+  "en": "northern pin oak",
+  "words": [
+   "Hill's Oak"
+  ]
+ },
+ "Quercus emoryi": {
+  "it": null,
+  "en": "Emory oak",
+  "words": []
+ },
+ "Quercus engelmannii": {
+  "it": null,
+  "en": "Engelmann oak",
+  "words": []
+ },
+ "Quercus falcata": {
+  "it": null,
+  "en": "Southern Red Oak",
+  "words": [
+   "Spanish Oak",
+   "bottomland red oak",
+   "three-lobed red oak"
+  ]
+ },
+ "Quercus frainetto": {
+  "it": "Farnetto",
+  "en": "Hungarian Oak",
+  "words": []
+ },
+ "Quercus fusiformis": {
+  "it": null,
+  "en": "Texas live oak",
+  "words": []
+ },
+ "Quercus gambelii": {
+  "it": null,
+  "en": "Gambel oak",
+  "words": [
+   "Scrub Oak"
+  ]
+ },
+ "Quercus garryana": {
+  "it": null,
+  "en": "Oregon white oak",
+  "words": [
+   "Brewer Oak",
+   "Garry Oak",
+   "Post Oak",
+   "Oregon oak"
+  ]
+ },
+ "Quercus geminata": {
+  "it": null,
+  "en": "sand live oak",
+  "words": []
+ },
+ "Quercus georgiana": {
+  "it": null,
+  "en": "Georgia Oak",
+  "words": []
+ },
+ "Quercus graciliformis": {
+  "it": null,
+  "en": "Chisos oak",
+  "words": [
+   "Slender Oak"
+  ]
+ },
+ "Quercus gravesii": {
+  "it": null,
+  "en": "Chisos red oak",
+  "words": [
+   "Grave's Oak"
+  ]
+ },
+ "Quercus grisea": {
+  "it": null,
+  "en": "gray oak",
+  "words": [
+   "shin oak"
+  ]
+ },
+ "Quercus havardii": {
+  "it": null,
+  "en": "Havard oak",
+  "words": [
+   "Harvard Oak",
+   "Shinnery Oak"
+  ]
+ },
+ "Quercus hemisphaerica": {
+  "it": null,
+  "en": "Darlington oak",
+  "words": [
+   "sand laurel oak",
+   "laurel oak",
+   "laurel-leaf oak"
+  ]
+ },
+ "Quercus hypoleucoides": {
+  "it": null,
+  "en": "silverleaf oak",
+  "words": []
+ },
+ "Quercus ilex": {
+  "it": "leccio",
+  "en": "Holm Oak",
+  "words": [
+   "Elce"
+  ]
+ },
+ "Quercus ilicifolia": {
+  "it": null,
+  "en": "bear oak",
+  "words": [
+   "Scrub Oak"
+  ]
+ },
+ "Quercus imbricaria": {
+  "it": null,
+  "en": "shingle oak",
+  "words": [
+   "Laurel Oak"
+  ]
+ },
+ "Quercus incana": {
+  "it": null,
+  "en": "bluejack oak",
+  "words": []
+ },
+ "Quercus kelloggii": {
+  "it": null,
+  "en": "California black oak",
+  "words": [
+   "Kellogg oak",
+   "black oak"
+  ]
+ },
+ "Quercus laceyi": {
+  "it": null,
+  "en": "Lacey oak",
+  "words": [
+   "Texas Blue Oak"
+  ]
+ },
+ "Quercus laevis": {
+  "it": null,
+  "en": "turkey oak",
+  "words": []
+ },
+ "Quercus laurifolia": {
+  "it": null,
+  "en": "laurel oak",
+  "words": [
+   "Swamp Laurel Oak",
+   "Diamond Leaf Oak",
+   "Darlington Oak",
+   "diamond-leaf oak",
+   "water oak",
+   "obtusa oak"
+  ]
+ },
+ "Quercus lobata": {
+  "it": null,
+  "en": "valley oak",
+  "words": []
+ },
+ "Quercus lyrata": {
+  "it": null,
+  "en": "overcup oak",
+  "words": []
+ },
+ "Quercus macrocarpa": {
+  "it": null,
+  "en": "Bur Oak",
+  "words": [
+   "Mossy cup oak",
+   "blue oak",
+   "savannah oak",
+   "overcup oak",
+   "prairie oak",
+   "mossy-cup oak",
+   "burr oak",
+   "mossycup white oak",
+   "scrub oak",
+   "bur acorn"
+  ]
+ },
+ "Quercus margaretta": {
+  "it": null,
+  "en": "runner oak",
+  "words": [
+   "Quercus margarettae",
+   "Dwarf Post Oak",
+   "Sand Post Oak"
+  ]
+ },
+ "Quercus marilandica": {
+  "it": null,
+  "en": "blackjack oak",
+  "words": [
+   "Scrub oak"
+  ]
+ },
+ "Quercus michauxii": {
+  "it": null,
+  "en": "swamp chestnut oak",
+  "words": [
+   "Basket Oak",
+   "Cow Oak"
+  ]
+ },
+ "Quercus mohriana": {
+  "it": null,
+  "en": "Mohr oak",
+  "words": []
+ },
+ "Quercus montana": {
+  "it": null,
+  "en": "Chestnut Oak",
+  "words": [
+   "Rock chestnut oak",
+   "rock oak"
+  ]
+ },
+ "Quercus muehlenbergii": {
+  "it": null,
+  "en": "chinkapin oak",
+  "words": [
+   "Yellow Chestnut Oak",
+   "chinquapin oak",
+   "chinkapin",
+   "Quercus muhlenbergii"
+  ]
+ },
+ "Quercus myrtifolia": {
+  "it": null,
+  "en": "myrtle oak",
+  "words": []
+ },
+ "Quercus nigra": {
+  "it": null,
+  "en": "water oak",
+  "words": [
+   "spotted oak",
+   "duck oak",
+   "punk oak",
+   "orange oak",
+   "possum oak"
+  ]
+ },
+ "Quercus oblongifolia": {
+  "it": null,
+  "en": "Mexican blue oak",
+  "words": []
+ },
+ "Quercus oglethorpensis": {
+  "it": null,
+  "en": "Oglethorpe oak",
+  "words": []
+ },
+ "Quercus pacifica": {
+  "it": null,
+  "en": "Channel Island scrub oak",
+  "words": [
+   "Island Scrub Oak",
+   "Pacific Oak"
+  ]
+ },
+ "Quercus pagoda": {
+  "it": null,
+  "en": "cherrybark oak",
+  "words": [
+   "Swamp spanish oak"
+  ]
+ },
+ "Quercus palmeri": {
+  "it": null,
+  "en": "Palmer oak",
+  "words": []
+ },
+ "Quercus palustris": {
+  "it": null,
+  "en": "Pin Oak",
+  "words": [
+   "Water oak",
+   "swamp oak",
+   "swamp Spanish oak"
+  ]
+ },
+ "Quercus petraea": {
+  "it": "Quercia rovere",
+  "en": "Sessile Oak",
+  "words": [
+   "Rovere",
+   "durmast oak",
+   "sessile oak, durmast oak",
+   "Cornish oak",
+   "Irish oak"
+  ]
+ },
+ "Quercus phellos": {
+  "it": null,
+  "en": "willow oak",
+  "words": []
+ },
+ "Quercus polymorpha": {
+  "it": null,
+  "en": "netleaf white oak",
+  "words": []
+ },
+ "Quercus prinoides": {
+  "it": null,
+  "en": "dwarf chinkapin oak",
+  "words": [
+   "Dwarf Chinquapin Oak"
+  ]
+ },
+ "Quercus pubescens": {
+  "it": "roverella",
+  "en": "Italian oak",
+  "words": [
+   "Roverelle",
+   "Downy oak"
+  ]
+ },
+ "Quercus pungens": {
+  "it": null,
+  "en": "pungent oak",
+  "words": [
+   "Sandpaper Oak"
+  ]
+ },
+ "Quercus pyrenaica": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Quercus robur": {
+  "it": "farnia",
+  "en": "Pedunculate Oak",
+  "words": [
+   "Farnie",
+   "European Oak",
+   "English Oak",
+   "Truffle Oak",
+   "French oak",
+   "common oak"
+  ]
+ },
+ "Quercus rubra": {
+  "it": "Quercia rossa",
+  "en": "Northern Red Oak",
+  "words": [
+   "Red oak",
+   "American red oak"
+  ]
+ },
+ "Quercus rugosa": {
+  "it": null,
+  "en": "netleaf oak",
+  "words": [
+   "Evergreen oak",
+   "Net-veined oak"
+  ]
+ },
+ "Quercus shumardii": {
+  "it": null,
+  "en": "Shumard's oak",
+  "words": [
+   "Shumard Oak",
+   "Schneck's oak",
+   "swamp red oak",
+   "Shumard Red Oak",
+   "Schneck's red oak"
+  ]
+ },
+ "Quercus similis": {
+  "it": null,
+  "en": "bottomland post oak",
+  "words": [
+   "Delta Post Oak",
+   "Swamp Post Oak"
+  ]
+ },
+ "Quercus sinuata": {
+  "it": null,
+  "en": "bastard oak",
+  "words": [
+   "Durand Oak"
+  ]
+ },
+ "Quercus stellata": {
+  "it": null,
+  "en": "post oak",
+  "words": [
+   "Iron Oak"
+  ]
+ },
+ "Quercus suber": {
+  "it": "Sughera",
+  "en": "cork oak",
+  "words": [
+   "Sughereta",
+   "Quercia da sughero"
+  ]
+ },
+ "Quercus tardifolia": {
+  "it": null,
+  "en": "lateleaf oak",
+  "words": [
+   "Chisos Mountains Oak"
+  ]
+ },
+ "Quercus texana": {
+  "it": null,
+  "en": "Texas red oak",
+  "words": [
+   "Nuttall Oak",
+   "Nuttall's oak"
+  ]
+ },
+ "Quercus tomentella": {
+  "it": null,
+  "en": "island live oak",
+  "words": [
+   "Island Oak"
+  ]
+ },
+ "Quercus toumeyi": {
+  "it": null,
+  "en": "Toumey oak",
+  "words": []
+ },
+ "Quercus turbinella": {
+  "it": null,
+  "en": "Sonoran scrub oak",
+  "words": [
+   "Desert Scrub Oak",
+   "Turbinella Oak",
+   "Shrub Live Oak",
+   "shrub oak",
+   "gray oak"
+  ]
+ },
+ "Quercus variabilis": {
+  "it": null,
+  "en": "Chinese cork oak",
+  "words": []
+ },
+ "Quercus vaseyana": {
+  "it": null,
+  "en": "sandpaper oak",
+  "words": []
+ },
+ "Quercus velutina": {
+  "it": null,
+  "en": "black oak",
+  "words": [
+   "Yellow-barked Oak",
+   "eastern black oak"
+  ]
+ },
+ "Quercus viminea": {
+  "it": null,
+  "en": "Sonoran oak",
+  "words": []
+ },
+ "Quercus virginiana": {
+  "it": null,
+  "en": "live oak",
+  "words": [
+   "Southern Live Oak",
+   "Virginia Live Oak"
+  ]
+ },
+ "Quercus wislizeni": {
+  "it": null,
+  "en": "interior live oak",
+  "words": [
+   "Quercus wislizenii"
+  ]
+ },
+ "Quercus × hispanica": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Quercus hispanica"
+  ]
+ },
+ "Quercus × undulata": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Quercus undulata"
+  ]
+ },
+ "Rhamnus cathartica": {
+  "it": "Spino cervino",
+  "en": "common buckthorn",
+  "words": [
+   "Rhamnus catharticus",
+   "purging buckthorn",
+   "Buckthorn",
+   "European buckthorn"
+  ]
+ },
+ "Rhus typhina": {
+  "it": null,
+  "en": "staghorn sumac",
+  "words": []
+ },
+ "Robinia hispida": {
+  "it": null,
+  "en": "bristly locust",
+  "words": [
+   "Rose Acacia"
+  ]
+ },
+ "Robinia neomexicana": {
+  "it": null,
+  "en": "New Mexico locust",
+  "words": [
+   "rose locust"
+  ]
+ },
+ "Robinia pseudoacacia": {
+  "it": "Maruga",
+  "en": "Black Locust",
+  "words": [
+   "Robinie",
+   "Robinia",
+   "Falsa acacia",
+   "false acacia",
+   "locust tree"
+  ]
+ },
+ "Robinia viscosa": {
+  "it": null,
+  "en": "clammy locust",
+  "words": [
+   "rose acacia"
+  ]
+ },
+ "Robinia × ambigua": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Robinia ×ambigua"
+  ]
+ },
+ "Robinia × holdtii": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Robinia ×holdtii"
+  ]
+ },
+ "Robinia × longiloba": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Robinia ×longiloba"
+  ]
+ },
+ "Robinia × margaretta": {
+  "it": null,
+  "en": null,
+  "words": [
+   "Robinia margaretta"
+  ]
+ },
+ "Roystonea oleracea": {
+  "it": null,
+  "en": "Imperial Palm",
+  "words": [
+   "Chaguaramo",
+   "Cabbage palm",
+   "West Indians' cabbage palm",
+   "Caribbean royal palm",
+   "West Indies royal palm",
+   "South American royal palm",
+   "Venezuelan royal palm"
+  ]
+ },
+ "Roystonea regia": {
+  "it": "Palma reale",
+  "en": "Cuban Royal Palm",
+  "words": [
+   "Florida royal palm",
+   "Royal palm"
+  ]
+ },
+ "Sabal palmetto": {
+  "it": null,
+  "en": "Cabbage Palmetto",
+  "words": [
+   "Cabbage Palm",
+   "cabbage-palm",
+   "palmetto",
+   "blue palmetto",
+   "Carolina palmetto",
+   "common palmetto",
+   "swamp cabbage",
+   "sabal palm",
+   "Palmetto palm"
+  ]
+ },
+ "Salix alba": {
+  "it": "Salice bianco",
+  "en": "white willow",
+  "words": [
+   "Salice da pertiche",
+   "golden willow"
+  ]
+ },
+ "Salix atrocinerea": {
+  "it": null,
+  "en": "large gray willow",
+  "words": [
+   "grey willow"
+  ]
+ },
+ "Salix aurita": {
+  "it": null,
+  "en": "eared willow",
+  "words": []
+ },
+ "Salix babylonica": {
+  "it": "Salice piangente",
+  "en": "Peking Willow",
+  "words": [
+   "Weeping Willow",
+   "Babylon willow"
+  ]
+ },
+ "Salix caprea": {
+  "it": "Salicone",
+  "en": "Goat Willow",
+  "words": [
+   "Salice delle capre",
+   "Salcio di montagna",
+   "pussy willow",
+   "great sallow"
+  ]
+ },
+ "Salix cinerea": {
+  "it": null,
+  "en": "Grey Willow",
+  "words": [
+   "common sallow",
+   "grey sallow",
+   "grey-leaved sallow",
+   "large grey willow",
+   "pussy willow",
+   "rusty sallow"
+  ]
+ },
+ "Salix euxina": {
+  "it": null,
+  "en": "eastern crack-willow",
+  "words": [
+   "eastern crack willow"
+  ]
+ },
+ "Salix fragilis": {
+  "it": null,
+  "en": "crack willow",
+  "words": [
+   "brittle willow"
+  ]
+ },
+ "Salix pentandra": {
+  "it": null,
+  "en": "Bay Willow",
+  "words": []
+ },
+ "Salix viminalis": {
+  "it": "Vinco",
+  "en": "Osier",
+  "words": [
+   "Common osier",
+   "basket willow"
+  ]
+ },
+ "Salix × pendulina": {
+  "it": null,
+  "en": "Wisconsin weeping willow",
+  "words": [
+   "Salix ×pendulina"
+  ]
+ },
+ "Sambucus canadensis": {
+  "it": null,
+  "en": "American black elderberry",
+  "words": [
+   "Canada elderberry",
+   "common elderberry"
+  ]
+ },
+ "Sambucus nigra": {
+  "it": "sambuco comune",
+  "en": "Elder",
+  "words": [
+   "sambuco",
+   "black elderberry",
+   "European black elderberry",
+   "black elder",
+   "European elder",
+   "European elderberry",
+   "elderberry"
+  ]
+ },
+ "Schinus molle": {
+  "it": "Pepe rosa",
+  "en": "Peruvian peppertree",
+  "words": [
+   "Albero del pepe",
+   "Falso pepe",
+   "Peruvian pepper",
+   "American pepper",
+   "false pepper",
+   "pepper tree",
+   "peppercorn tree",
+   "California pepper tree",
+   "pepperina",
+   "Peruvian mastica"
+  ]
+ },
+ "Sequoia sempervirens": {
+  "it": "Sequoia sempreverde",
+  "en": "Coast Redwood",
+  "words": [
+   "Sequoie",
+   "California Redwood",
+   "Redwood",
+   "coastal redwood"
+  ]
+ },
+ "Sequoiadendron giganteum": {
+  "it": "Sequoia gigante",
+  "en": "Giant Sequoia",
+  "words": [
+   "Bigtree",
+   "Sequoia",
+   "Sierra Redwood",
+   "Sequoia gigantea",
+   "giant redwood",
+   "Sierran redwood",
+   "Wellingtonia",
+   "big tree"
+  ]
+ },
+ "Sophora tomentosa": {
+  "it": null,
+  "en": "yellow necklacepod",
+  "words": []
+ },
+ "Sorbus aucuparia": {
+  "it": "Sorbo degli uccellatori",
+  "en": "Rowan",
+  "words": [
+   "sorbo",
+   "European Rowan",
+   "European mountain ash",
+   "European mountain-ash",
+   "rowan-berry"
+  ]
+ },
+ "Sorbus scalaris": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Sorbus vilmorinii": {
+  "it": null,
+  "en": "Vilmorin's rowan",
+  "words": [
+   "Vilmorin's mountain ash",
+   "Vilmorin's mountain-ash"
+  ]
+ },
+ "Stewartia pseudocamellia": {
+  "it": null,
+  "en": "Japanese stewartia",
+  "words": []
+ },
+ "Styphnolobium japonicum": {
+  "it": "sofora del Giappone",
+  "en": "Japanese pagoda tree",
+  "words": [
+   "Acacia del Giappone",
+   "Scholar tree"
+  ]
+ },
+ "Styrax americanus": {
+  "it": null,
+  "en": "American snowbell",
+  "words": [
+   "Styrax americanum"
+  ]
+ },
+ "Styrax grandifolius": {
+  "it": null,
+  "en": "bigleaf snowbell",
+  "words": []
+ },
+ "Styrax japonicus": {
+  "it": null,
+  "en": "Japanese snowbell",
+  "words": []
+ },
+ "Styrax platanifolius": {
+  "it": null,
+  "en": "sycamoreleaf snowbell",
+  "words": []
+ },
+ "Syringa pekinensis": {
+  "it": null,
+  "en": "Peking tree lilac",
+  "words": []
+ },
+ "Syringa reticulata": {
+  "it": null,
+  "en": "Japanese tree lilac",
+  "words": []
+ },
+ "Syringa vulgaris": {
+  "it": "lillà comune",
+  "en": "Common Lilac",
+  "words": [
+   "lilac"
+  ]
+ },
+ "Taiwania cryptomerioides": {
+  "it": null,
+  "en": "Coffin Tree",
+  "words": [
+   "Taiwania",
+   "Taiwan Cedar"
+  ]
+ },
+ "Taxodium distichum": {
+  "it": "Cipresso di palude",
+  "en": "Baldcypress",
+  "words": [
+   "Bald Cypress",
+   "swamp cypress",
+   "Gulf cypress",
+   "red cypress",
+   "southern cypress",
+   "tidewater red cypress",
+   "white cypress",
+   "yellow cypress"
+  ]
+ },
+ "Taxus baccata": {
+  "it": "tasso",
+  "en": "European Yew",
+  "words": [
+   "Tasso comune",
+   "Nasso",
+   "Albero della morte",
+   "Common Yew",
+   "yew",
+   "English yew"
+  ]
+ },
+ "Taxus brevifolia": {
+  "it": "Nojimaia",
+  "en": "Nojimaia",
+  "words": []
+ },
+ "Taxus canadensis": {
+  "it": null,
+  "en": "Canadian Yew",
+  "words": [
+   "Canada yew",
+   "American yew"
+  ]
+ },
+ "Taxus cuspidata": {
+  "it": null,
+  "en": "Japanese Yew",
+  "words": [
+   "spreading yew"
+  ]
+ },
+ "Terminalia boivinii": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Tetradium daniellii": {
+  "it": null,
+  "en": "bee-bee tree",
+  "words": []
+ },
+ "Thuja occidentalis": {
+  "it": "tuia occidentale",
+  "en": "Northern Whitecedar",
+  "words": [
+   "Thuya occidentalis",
+   "Eastern Arborvitae",
+   "arborvitae",
+   "Arbor-vitae",
+   "Eastern White-cedar",
+   "Northern White Cedar",
+   "Swamp Cedar",
+   "White Cedar"
+  ]
+ },
+ "Thuja plicata": {
+  "it": "Cedro gigante",
+  "en": "Western Redcedar",
+  "words": [
+   "Western Red-cedar",
+   "Giant Arbor-vitae",
+   "Pacific Red-cedar",
+   "Shinglewood",
+   "Western or Giant Arborvitae",
+   "Western red cedar",
+   "Giant Cedar",
+   "Canoe Cedar",
+   "western arborvitae",
+   "giant arborvitae"
+  ]
+ },
+ "Tilia americana": {
+  "it": null,
+  "en": "American basswood",
+  "words": [
+   "American linden",
+   "basswood",
+   "American lime"
+  ]
+ },
+ "Tilia cordata": {
+  "it": "Tiglio selvatico",
+  "en": "Small-leaved Lime",
+  "words": [
+   "Littleleaf Linden",
+   "small-leaved linden",
+   "little-leaf",
+   "pry",
+   "pry tree"
+  ]
+ },
+ "Tilia dasystyla": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Tilia henryana": {
+  "it": null,
+  "en": "Henry's Lime",
+  "words": []
+ },
+ "Tilia mongolica": {
+  "it": null,
+  "en": "Mongolian Lime",
+  "words": [
+   "Mongolian Linden"
+  ]
+ },
+ "Tilia platyphyllos": {
+  "it": "Tiglio nostrale",
+  "en": "Large-leaved Lime",
+  "words": [
+   "large-leaved linden",
+   "largeleaf linden"
+  ]
+ },
+ "Tilia tomentosa": {
+  "it": null,
+  "en": "Silver Lime",
+  "words": [
+   "Silver Linden",
+   "white linden",
+   "Tilia argentea"
+  ]
+ },
+ "Tilia × euchlora": {
+  "it": null,
+  "en": "Crimean Lime",
+  "words": [
+   "Crimean Linden",
+   "Caucasian lime"
+  ]
+ },
+ "Tilia × europaea": {
+  "it": null,
+  "en": "Common Lime",
+  "words": [
+   "common linden"
+  ]
+ },
+ "Tipuana tipu": {
+  "it": null,
+  "en": "tipa",
+  "words": []
+ },
+ "Torminalis glaberrima": {
+  "it": "Sorbo ciavardello",
+  "en": "Wild Service Tree",
+  "words": []
+ },
+ "Trachycarpus fortunei": {
+  "it": "Palma di Fortune",
+  "en": "Chusan Palm",
+  "words": [
+   "Chinese windmill palm",
+   "Windmill palm",
+   "Chinese hemp palm",
+   "Hemp palm"
+  ]
+ },
+ "Trachycarpus martianus": {
+  "it": null,
+  "en": "Khasia Hills Fan Palm",
+  "words": [
+   "Martius' Himalayan Fan Palm"
+  ]
+ },
+ "Tsuga canadensis": {
+  "it": null,
+  "en": "Eastern Hemlock",
+  "words": [
+   "Canada Hemlock",
+   "Eastern Hemlock-spruce",
+   "Canadian hemlock",
+   "Tsuga americana",
+   "common hemlock",
+   "hemlock spruce",
+   "New England hemlock"
+  ]
+ },
+ "Tsuga heterophylla": {
+  "it": null,
+  "en": "Western Hemlock",
+  "words": [
+   "Pacific Hemlock",
+   "Western Hemlock-spruce"
+  ]
+ },
+ "Ulmus americana": {
+  "it": null,
+  "en": "American elm",
+  "words": [
+   "white elm",
+   "water elm"
+  ]
+ },
+ "Ulmus carpinifolia": {
+  "it": null,
+  "en": "Smooth-leafed elm",
+  "words": []
+ },
+ "Ulmus crassifolia": {
+  "it": null,
+  "en": "cedar elm",
+  "words": [
+   "Texas cedar elm"
+  ]
+ },
+ "Ulmus davidiana": {
+  "it": null,
+  "en": "Japanese elm",
+  "words": []
+ },
+ "Ulmus glabra": {
+  "it": "Olmo montano",
+  "en": "Wych Elm",
+  "words": [
+   "Scots elm",
+   "wyth elm",
+   "mountain elm",
+   "Scotch Elm",
+   "Scot's Elm"
+  ]
+ },
+ "Ulmus laevis": {
+  "it": "Olmo ciliato",
+  "en": "European White Elm",
+  "words": [
+   "Ulmus ciliata",
+   "Olmo bianco",
+   "Eurasian elm"
+  ]
+ },
+ "Ulmus minor": {
+  "it": "Olmo campestre",
+  "en": "Small-leaved Elm",
+  "words": [
+   "Olmo comune"
+  ]
+ },
+ "Ulmus parvifolia": {
+  "it": null,
+  "en": "Chinese elm",
+  "words": []
+ },
+ "Ulmus pumila": {
+  "it": "Olmo siberiano",
+  "en": "Siberian elm",
+  "words": []
+ },
+ "Ulmus × hollandica": {
+  "it": null,
+  "en": "Dutch elm",
+  "words": [
+   "Ulmus hollandica"
+  ]
+ },
+ "Umbellularia californica": {
+  "it": null,
+  "en": "California laurel",
+  "words": []
+ },
+ "Viburnum opulus": {
+  "it": "Oppio",
+  "en": "Guelder-rose",
+  "words": [
+   "European cranberrybush",
+   "guelder rose",
+   "Cranberry-tree",
+   "Vibernum opulus",
+   "kalyna",
+   "water elder",
+   "cramp bark",
+   "snowball tree",
+   "common snowball"
+  ]
+ },
+ "Viburnum rugosum": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "Viburnum tinus": {
+  "it": "Viburno",
+  "en": "Laurustinus",
+  "words": [
+   "Viburno tino"
+  ]
+ },
+ "Washingtonia filifera": {
+  "it": "Palma californiana",
+  "en": "California fan palm",
+  "words": [
+   "Pritchardia filamentosa",
+   "Brahea filamentosa",
+   "Desert Palm",
+   "Cotton palm",
+   "Petticoat palm",
+   "Desert fan palm",
+   "Washington palm",
+   "American cotton palm",
+   "Fan palm",
+   "California washingtonia"
+  ]
+ },
+ "Wollemia nobilis": {
+  "it": "Wollemia Pine",
+  "en": "Wollemi pine",
+  "words": [
+   "Jurassic Pine",
+   "Pino wollemi",
+   "Wollemi-pine"
+  ]
+ },
+ "Zelkova carpinifolia": {
+  "it": "olmo del  Caucaso",
+  "en": "Caucasian zelkova",
+  "words": []
+ },
+ "Zelkova serrata": {
+  "it": null,
+  "en": "Japanese zelkova",
+  "words": [
+   "Japanese-elm",
+   "keyaki",
+   "saw-leaf zelkova",
+   "water-elm"
+  ]
+ },
+ "Zelkova sinica": {
+  "it": null,
+  "en": "Chinese Zelkova",
+  "words": []
+ },
+ "Ziziphus jujuba": {
+  "it": "Giuggiolo",
+  "en": "Jujube",
+  "words": [
+   "Chinese Dates",
+   "Common Jujuba",
+   "Chinese jujube",
+   "Ziziphus jujube"
+  ]
+ },
+ "latanuss wrightii": {
+  "it": null,
+  "en": "Arizona sycamore",
+  "words": [
+   "Platanus wrightii"
+  ]
+ },
+ "× Arsorbus thuringiaca": {
+  "it": null,
+  "en": null,
+  "words": []
+ },
+ "× Hesperotropsis leylandii": {
+  "it": null,
+  "en": "x Hesperotropsis leylandii",
+  "words": [
+   "×Hesperotropsis leylandii"
+  ]
+ }
+}

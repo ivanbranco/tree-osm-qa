@@ -6,3 +6,5 @@ __pycache__/
 *.kml
 # PDF MASAF delle circonferenze minime: nel repository va solo la trascrizione scripts/masaf_thresholds.json
 Tabellacirconferenze*.pdf
+# Plugin di Every Door: contenuto non compresso di everydoor/dendrosm.edp, rigenerato da everydoor/build_plugin.py
+everydoor/plugin/
