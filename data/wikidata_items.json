@@ -16550,7 +16550,7 @@
 "Q147492": {
 "coords": [],
 "heritage": [],
-"image": "Ulmus laevis (Flatter-Ulme) IMG 2383.jpg",
+"image": "Ulme Obertheres, 2.jpg",
 "taxa": [],
 "taxon": true,
 "wp": {
@@ -17387,7 +17387,7 @@
 "Q161253": {
 "coords": [],
 "heritage": [],
-"image": "Quercus palustris 001.jpg",
+"image": "Pin oak quercus palustris.jpg",
 "taxa": [],
 "taxon": true,
 "wp": {
@@ -39696,12 +39696,12 @@
 "Q812618": {
 "coords": [
 [
-19.487416666,
-54.295833333
-],
-[
 19.483333,
 54.299998
+],
+[
+19.487416666,
+54.295833333
 ]
 ],
 "heritage": [
@@ -40067,7 +40067,7 @@
 ]
 ],
 "heritage": [],
-"image": "2016 The Oak of Bolko PL.jpg",
+"image": "Dąb Bolko w Hniszowie.JPG",
 "mon": true,
 "taxa": [
 "Q165145"
@@ -40446,6 +40446,7 @@
 "Q147064"
 ],
 "taxon": false,
+"winter": "Plac Litewski w Lublinie, baobab1.jpg",
 "wp": {}
 },
 "Q93892427": {
