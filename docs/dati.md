@@ -48,7 +48,7 @@ The page in the folder loads `index.html` setting the mode (`window.DENDROSM_MOD
 
 ## Height bands for the estimated trunk
 
-When a tree has `height=*` but no `circumference=*` (or `diameter=*`), the trunk is drawn from an estimated circumference: height divided by a height/circumference ratio. The ratio is chosen in this order: the ratio of the species (`height_circ_ratio` in `scripts/species_limits.json`), then the ratio of the tree's height band, then the single general value (12). A tree without a height does not use the bands. The bands are the same for all species ([issue #39](https://github.com/ivanbranco/tree-osm-qa/issues/39)):
+When a tree has `height=*` but no `circumference=*` (or `diameter=*`), the trunk is drawn from an estimated circumference: height divided by a height/circumference ratio. The ratio is chosen in this order: the ratio of the species (`height_circ_ratio` in `scripts/species_limits.json`), then the ratio of the tree's height band, then the single general value (12). Some species have height bands of their own, or use the general bands before their single ratio: see [Height bands per species](#height-bands-per-species). A tree without a height does not use the bands. The general bands are the same for all species ([issue #39](https://github.com/ivanbranco/tree-osm-qa/issues/39)):
 
 | Height (m) | Trees in the sample | Height/circumference ratio |
 |---|---|---|
@@ -68,6 +68,44 @@ The lower bound belongs to the band (a tree of exactly 6 m is in 6–8), and the
 * **Fixed values**: the medians were computed once and are written in `height_circ_ratio_bands` under `_default` in `scripts/species_limits.json` (rows `[minimum height, ratio]`); region updates do not recompute them
 * The bands are used only to draw the trunk: the thresholds of the checks on the height/circumference ratio do not use them
 
+### Height bands per species
+
+For nine species the order is different ([issue #42](https://github.com/ivanbranco/tree-osm-qa/issues/42)). Four have height bands of their own, used before the single ratio of the species:
+
+| Species | Trees in the sample | Bands: height (m), ratio, trees |
+|---|---|---|
+| Aesculus hippocastanum | 22,635 | 0–6: 15.4 (1,172) · 6–8: 11.5 (1,934) · 8–15: 9.3 (12,549) · 15–20: 9.0 (4,993) · 20 and above: 10.0 (1,987) |
+| Carpinus betulus | 7,226 | 0–6: 19.9 (2,794) · 6–8: 16.3 (1,296) · 8–15: 14.3 (2,657) · 15 and above: 15.5 (479) |
+| Gleditsia triacanthos | 3,214 | 0–8: 20.0 (1,571) · 8–15: 12.9 (1,335) · 15 and above: 13.0 (308) |
+| Liriodendron tulipifera | 1,523 | 0–8: 19.1 (671) · 8 and above: 13.5 (852) |
+
+For five species the general bands are used before the single ratio of the species: Acer platanoides, Acer pseudoplatanus, Celtis australis, Salix alba, Tilia cordata. For all the other species the order is the one described above.
+
+Median error of the estimate (same measure as for the general bands), with the single ratio of the species, the general bands and the bands of the species. "Held-out regions" is the error of the bands of the species when they are computed without one region and measured on that region, in turn for every region:
+
+| Species | Single ratio | General bands | Bands of the species | Bands of the species, held-out regions | Regions where they beat the general bands |
+|---|---|---|---|---|---|
+| Aesculus hippocastanum | 0.244 | 0.259 | 0.206 | 0.215 | 5 of 6 |
+| Carpinus betulus | 0.313 | 0.360 | 0.263 | 0.290 | 6 of 6 |
+| Gleditsia triacanthos | 0.250 | 0.261 | 0.197 | 0.223 | 3 of 4 |
+| Liriodendron tulipifera | 0.243 | 0.273 | 0.195 | 0.209 | 5 of 5 |
+| Acer platanoides | 0.276 | 0.248 | 0.239 | 0.242 | 5 of 7 |
+| Acer pseudoplatanus | 0.278 | 0.230 | 0.224 | 0.246 | 1 of 6 |
+| Celtis australis | 0.329 | 0.261 | 0.223 | 0.236 | 4 of 5 |
+| Salix alba | 0.453 | 0.423 | 0.403 | 0.474 | 1 of 5 |
+| Tilia cordata | 0.293 | 0.238 | 0.222 | 0.245 | 4 of 7 |
+
+* **Sample and measure**: the same as for the general bands, recomputed in November 2026 (352,042 trees). The names of a group of synonyms count as one species, as in the rest of the map
+* **Regions**: 7 regions hold almost all the sample (Vienna 34%, Île-de-France 23%, Grand Est 15%), and for most species one region has 40–70% of the trees. With a random split of the trees almost every species improves with bands of its own; with held-out regions many of these gains disappear (Tilia cordata: 0.222 on the whole sample, 0.245 with held-out regions, against 0.238 of the general bands). The held-out regions are the test that decides
+* **Minimum per species**: 1,000 trees and 3 regions with at least 100 trees each. With fewer trees the uncertainty of the median error (0.01–0.02) is as large as the gains; with fewer regions the test cannot be done. 50 species have 1,000 trees, 39 of them in 3 regions
+* **Minimum per band**: 300 trees; a band with fewer is merged with a neighbouring one. With 300 trees the uncertainty of the median of a band is about 3%, and the bands of a species differ by 10–40%
+* **Boundaries**: those of the general bands. Boundaries chosen on the data of each species (successive splits at whole metres) gave a higher error with held-out regions in 8 of the 12 most numerous species, and a lower one in 3. In Gleditsia triacanthos and Liriodendron tulipifera 0–6 and 6–8 are one band: the two medians were equal in the first (20.0) and in reverse order in the second (16.7 and 20.0)
+* **Bands of the species**: only if, with held-out regions, their error is lower than both the general bands and the single ratio (90% interval of the difference, from resampling the trees, entirely below zero), lower than the general bands in most regions, and lower also on the trees outside the region with the most trees. Acer platanoides meets these conditions with a difference of 0.007 from the general bands, and Celtis australis does not meet the last one (outside Vienna 0.276 against 0.261): both use the general bands
+* **General bands before the single ratio**: among the 43 species with a single ratio, in 11 its error is higher than that of the general bands (90% interval entirely above zero), in 12 the two are equal within the interval, in 20 it is lower. The order changes only for the species where the general bands are better also in most regions and outside the region with the most trees. Fraxinus excelsior, Quercus robur, Corylus colurna and Fraxinus ornus do not meet these two conditions; Quercus rubra (948 trees) and Olea europaea (72) are below the minimum per species
+* **Fixed values**: computed once and written in `height_circ_ratio_bands` in the entry of the species in `scripts/species_limits.json`: rows `[minimum height, ratio]` for the bands of the species, `"default"` for the general bands before the single ratio. Region updates do not recompute them
+* `height_circ_ratio` of these species is unchanged: the check on the height/circumference ratio of the species and the trunk comparison window use it as before
+* The trees of the MASAF list that are not on OSM (monumental trees map) get the same estimate, from the same function
+
 ## Structure
 
 * `scripts/fetch_trees.py` – downloads from Overpass, computes the checks, writes the data
@@ -76,7 +114,7 @@ The lower bound belongs to the band (a tree of exactly 6 m is in 6–8), and the
 * `scripts/regions.json` – list of regions
 * `scripts/update_boundaries.py` – downloads the region boundaries into `data/regions_boundaries.geojson`
 * `scripts/update_reference_lists.py` – downloads the species and genus lists from the OSM wiki into `scripts/species_list.json` and `scripts/genus_list.json` (for genera also the common names of the `genus:xx` columns, under `names`), and the `denotation` values with the number of uses from Taginfo into `scripts/denotation_values.json`
-* `scripts/species_limits.json` – per species: height and circumference limits, ratios used to estimate missing dimensions; the entry of a name in the wiki list also applies to its synonyms in `scripts/whitelist.json` and to the other spellings of the group's names (`x` instead of `×`, for example `Platanus x acerifolia` uses `Platanus × hispanica`); under `_default`, the general ratios and the height bands (`height_circ_ratio_bands`, see [Height bands for the estimated trunk](#height-bands-for-the-estimated-trunk))
+* `scripts/species_limits.json` – per species: height and circumference limits, ratios used to estimate missing dimensions; the entry of a name in the wiki list also applies to its synonyms in `scripts/whitelist.json` and to the other spellings of the group's names (`x` instead of `×`, for example `Platanus x acerifolia` uses `Platanus × hispanica`); under `_default`, the general ratios and the height bands (`height_circ_ratio_bands`, see [Height bands for the estimated trunk](#height-bands-for-the-estimated-trunk)); `height_circ_ratio_bands` in the entry of a species gives its own bands, or `"default"` (see [Height bands per species](#height-bands-per-species))
 * `scripts/update_masaf.py` – from the KML file of the MASAF list of monumental trees of Italy (downloaded manually from the [list page](https://www.masaf.gov.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/11260); about 30 MB, it does not go in the repository) writes `scripts/masaf_list.json`: each code with its status, listed or removed (reason and decree), for the check on removed trees; and `scripts/masaf_trees.json`, the listed trees with position, species, place, measurements and criteria, for the monumental trees map. It is rerun manually when a new version of the list comes out: `python scripts/update_masaf.py "Alberi monumentali d'Italia.kml"`. The loaded version is at the top of `scripts/masaf_list.json` (`"version"`, read from the KML description: currently "X Aggiornamento, D.Dir. n. 364243 del 24/07/2026"); if a new KML has the same version, the script says so
 * `scripts/year_events.json` – sentences about the year for the Oldest record of the Record trees tab, see above
 * `scripts/masaf_thresholds.json` – the MASAF indicative minimum circumferences per species (January 2020 table, from the PDF of [issue #1](https://github.com/ivanbranco/tree-osm-qa/issues/1)), transcribed by hand, for the hint on Italian trees that reach the threshold. The PDF does not go in the repository

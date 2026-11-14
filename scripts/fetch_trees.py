@@ -195,7 +195,8 @@ _RAW_LIMITS = load_json(HERE / "species_limits.json")
 DEFAULT_RATIOS = _RAW_LIMITS.pop("_default", {})
 SPECIES_LIMITS = {" ".join(k.split()).lower(): v for k, v in _RAW_LIMITS.items()}
 # Rapporto altezza/circonferenza per fasce d'altezza (issue #39), solo per stimare la circonferenza da disegnare quando
-# la specie non ha un rapporto proprio: "height_circ_ratio_bands" in "_default", righe [altezza minima in m, rapporto],
+# la specie non ha un rapporto proprio (o quando la sua voce dice di usarle prima, vedi height_ratios):
+# "height_circ_ratio_bands" in "_default", righe [altezza minima in m, rapporto],
 # estremo inferiore incluso (6 m sta nella fascia 6–8), l'ultima fascia senza limite superiore. Sono valori fissi: le
 # mediane di 351.785 alberi di data/regions con altezza e circonferenza mappate e senza denotation=natural_monument
 # (novembre 2026), non ricalcolate agli aggiornamenti delle regioni. I monumentali sono esclusi perché tra gli alberi
@@ -207,11 +208,35 @@ SPECIES_LIMITS = {" ".join(k.split()).lower(): v for k, v in _RAW_LIMITS.items()
 HEIGHT_BANDS = sorted((float(lo), float(r)) for lo, r in DEFAULT_RATIOS.get("height_circ_ratio_bands", []))
 
 
-def band_ratio(h):
-    """Rapporto altezza/circonferenza della fascia d'altezza di h (m); None senza altezza o sotto la prima fascia."""
+def band_ratio(h, bands=None):
+    """Rapporto altezza/circonferenza della fascia d'altezza di h (m), nelle fasce generali o in quelle date (righe
+    [altezza minima, rapporto] ordinate); None senza altezza o sotto la prima fascia."""
     if not h or h <= 0:
         return None
-    return next((r for lo, r in reversed(HEIGHT_BANDS) if h >= lo), None)
+    return next((r for lo, r in reversed(HEIGHT_BANDS if bands is None else bands) if h >= lo), None)
+
+
+# Fasce d'altezza per specie (issue #42), sempre solo per disegnare il tronco: "height_circ_ratio_bands" nella voce
+# della specie in species_limits.json. Una lista di righe [altezza minima, rapporto] = fasce proprie della specie, che
+# vengono prima del suo rapporto unico; "default" = per questa specie le fasce generali vengono prima del rapporto
+# unico, che sul campione sbaglia di più. Senza la chiave vale l'ordine di sempre: rapporto unico, poi fasce generali.
+# Stesso campione e stessa misura dell'errore delle fasce generali (352.042 alberi, novembre 2026); valori fissi, non
+# ricalcolati agli aggiornamenti. Una specie ha fasce proprie solo con almeno 1.000 alberi e 3 regioni da 100 alberi,
+# fasce da almeno 300 alberi sui confini generali, e solo se, calcolando le fasce senza una regione e misurandole su
+# quella (a turno per tutte), l'errore mediano è più basso sia delle fasce generali sia del rapporto unico, nella
+# maggioranza delle regioni e anche fuori dalla regione con più alberi. Criteri e numeri in docs/dati.md.
+# height_circ_ratio resta com'è: lo usano il check too_slender_species e la finestra «Tronco a confronto».
+def height_ratios(lim, h):
+    """Rapporti altezza/circonferenza da provare in ordine per stimare la circonferenza di un albero alto h (m) con
+    la voce lim di species_limits.json ({} se la specie non ne ha una)."""
+    own, single, general = lim.get("height_circ_ratio_bands"), lim.get("height_circ_ratio"), band_ratio(h)
+    if isinstance(own, list):
+        order = (band_ratio(h, sorted((float(lo), float(r)) for lo, r in own)), single, general)
+    elif own == "default":
+        order = (general, single)
+    else:
+        order = (single, general)
+    return [r for r in (*order, DEFAULT_RATIOS.get("height_circ_ratio")) if r]
 
 
 # apici e virgolette (dritti, tipografici, accento grave/acuto) non contano nei nomi: Ulmus 'New Horizon' è
@@ -1929,13 +1954,14 @@ def sizes(t):
     (anche da diameter), la stima da height o da diameter_crown con i rapporti della specie
     (height_circ_ratio = altezza/circonferenza, crown_circ_ratio = diametro chioma/circonferenza) o,
     se la specie non ne ha, con quelli di "_default" in species_limits.json: per l'altezza prima il rapporto
-    della fascia d'altezza (band_ratio, issue #39), poi quello generale. Se un rapporto dà una circonferenza
-    impossibile si passa al successivo. Le stime servono solo al rendering.
+    della fascia d'altezza (band_ratio, issue #39), poi quello generale. Alcune specie hanno fasce d'altezza
+    proprie, o le fasce generali prima del rapporto unico (height_ratios, issue #42). Se un rapporto dà una
+    circonferenza impossibile si passa al successivo. Le stime servono solo al rendering.
     """
     lim = species_limit(t) or {}
     h, c, cd = num(t.get("height")), circ_value(t)[0], num(t.get("diameter_crown"))
     max_c, max_h = lim.get("circumference", MAX_CIRCUMFERENCE), lim.get("height", MAX_HEIGHT)
-    rh = [r for r in (lim.get("height_circ_ratio"), band_ratio(h), DEFAULT_RATIOS.get("height_circ_ratio")) if r]
+    rh = height_ratios(lim, h)
     rc = [r for r in (lim.get("crown_circ_ratio"), DEFAULT_RATIOS.get("crown_circ_ratio")) if r]
 
     circ, circ_est = (c, False) if c and c > 0 else (None, False)
