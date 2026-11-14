@@ -653,7 +653,8 @@ const I18N = {
         refs: x => `Riferimento, alla stessa scala: ${x}.`,
         warnTrunk: "⚠: circonferenza segnalata da un check.", warnCrown: "⚠: diametro della chioma segnalato da un check.",
         crownNote: "Le chiome hanno la sagoma della mappa, con la stessa area del cerchio di diameter_crown.",
-        note: "Disegno in scala visto dall'alto: i cerchi stanno uno dentro l'altro, sullo stesso centro, per confrontarne la grandezza." } },
+        note: "Disegno in scala visto dall'alto: i cerchi stanno uno dentro l'altro, sullo stesso centro, per confrontarne la grandezza.",
+        note1: "Disegno in scala visto dall'alto." } },
     // spiegazione del check, nel pop-up sul simbolo ⚠ della scheda
     why: {
       circumference: "43 m è la circonferenza più grande registrata, nei baobab africani (Adansonia digitata; fonte: Guinness World Records). Il valore va in metri.",
@@ -1060,7 +1061,8 @@ const I18N = {
         refs: x => `Reference, at the same scale: ${x}.`,
         warnTrunk: "⚠: circumference reported by a check.", warnCrown: "⚠: crown diameter reported by a check.",
         crownNote: "The crowns have the outline used on the map, with the same area as the circle of diameter_crown.",
-        note: "Scale drawing seen from above: the circles are drawn one inside the other, on the same centre, to compare their size." } },
+        note: "Scale drawing seen from above: the circles are drawn one inside the other, on the same centre, to compare their size.",
+        note1: "Scale drawing seen from above." } },
     why: {
       circumference: "43 m is the largest girth recorded, in African baobabs (Adansonia digitata; source: Guinness World Records). The value is in metres.",
       height: "116.22 m is the height of the tallest measured tree, Hyperion (Sequoia sempervirens, Redwood National Park, California; source: monumentaltrees.com). The value is in metres.",
@@ -4313,7 +4315,7 @@ function openPlan(btn) {
       Math.abs(k - 1) <= 0.1 ? T.same : T.times(k.toLocaleString(LOC, { maximumSignificantDigits: 2 }))); }
   lines.push(planRefLine(P.subj.trunk, dia, g.ref));
   document.getElementById("cmp-body").innerHTML = g.svg + lines.map(x => `<p>${esc(x)}</p>`).join("")
-    + [P.refs(P.ref[g.ref.k].ref(cmpM(g.ref.w), cmpM(g.ref.h))) + " " + P.note].map(x => `<p class="note">${esc(x)}</p>`).join("");
+    + [P.refs(P.ref[g.ref.k].ref(cmpM(g.ref.w), cmpM(g.ref.h))) + " " + (diaT ? P.note : P.note1)].map(x => `<p class="note">${esc(x)}</p>`).join("");
   document.getElementById("cmp-title").textContent = P.title;
   cmpOpener = btn;
   dlg.showModal();
@@ -4334,7 +4336,7 @@ function openPlanTop(btn, k, list) {
     + esc(crown ? P.topCrown(cmpM(t.d), t.lt ? tr(L.leafType, t.lt) : "") : P.topTrunk(cmpM(t.m.c) + (t.m.fromD ? L.fromDiameter : ""), cmpD(t.d))) + `</p>`);
   lines.push(`<p>${esc(planRefLine(crown ? P.subj.crown1 : P.subj.trunk1, trees[0].d, g.ref))}</p>`);
   const notes = [trees.some(t => t.warn) && (crown ? P.warnCrown : P.warnTrunk), crown && P.crownNote,
-    P.refs(P.ref[g.ref.k].ref(cmpM(g.ref.w), cmpM(g.ref.h))) + " " + P.note];
+    P.refs(P.ref[g.ref.k].ref(cmpM(g.ref.w), cmpM(g.ref.h))) + " " + (trees.length > 1 ? P.note : P.note1)];
   document.getElementById("cmp-body").innerHTML = g.svg + lines.join("") + notes.filter(Boolean).map(x => `<p class="note">${esc(x)}</p>`).join("");
   document.getElementById("cmp-title").textContent = (crown ? P.topCrowns : P.topTrunks)(trees.length);
   cmpOpener = btn;
