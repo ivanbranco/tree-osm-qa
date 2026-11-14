@@ -99,6 +99,8 @@
   .rc-ev{flex:none;display:flex;align-items:center;padding:1px 2px;border:0;border-radius:3px;background:none;color:#1a5fb4;cursor:pointer}
   .rc-ev:hover,.rc-ev[aria-expanded="true"]{background:#e3ecf9}
   .rc-ev svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round}
+  .rc-wp{font:14px/1 "Linux Libertine","Georgia","Times New Roman",serif;color:#222;text-decoration:none}
+  .rc-wp:hover{color:#0645ad}
   .rc-evt{margin:0 6px 4px;padding:4px 8px;border-left:3px solid #c9d8ef;background:#f5f8fd;border-radius:0 4px 4px 0;font-size:12px;line-height:1.4;overflow-wrap:anywhere}
   /* spiegazioni (nome del primato, ⚠): al passaggio del mouse o al tocco (focus); posizione dallo script, come .cp-info */
   .rc-tip{cursor:help;outline:none}
@@ -467,7 +469,7 @@ const I18N = {
       topCmp: n => n > 2 ? "Vedi i primi tre a confronto" : "Vedi i primi due a confronto",
       missingTop: n => n === 1 ? "La lista dei primi dieci di 1 regione non è ancora completa: arriva con il suo prossimo aggiornamento."
         : `La lista dei primi dieci di ${n} regioni non è ancora completa: arriva con il loro prossimo aggiornamento.`,
-      evBtn: "Che cosa successe quell'anno", evSrc: "Fonte:",
+      evBtn: "Che cosa successe quell'anno", evSrc: "Fonte: Wikipedia",
       loading: "Caricamento degli alberi…", loadingRec: "Caricamento dei primati…",
       unavailable: "Primati non ancora disponibili: arrivano con il prossimo aggiornamento dei dati (Action \"Update tree data\").",
       missing: n => `Mancano i primati di ${n} regioni: arrivano con il loro prossimo aggiornamento.`,
@@ -710,8 +712,10 @@ const I18N = {
       tag_in_value: kv => `${kv} contiene "=": probabilmente un tag scritto nel valore`,
       not_latin: kv => `${kv} non è in alfabeto latino, come i nomi scientifici: il nome nella lingua locale va in species:xx (es. species:bg)`,
       species_lang_only: kv => `c'è ${kv} ma manca species=* (il nome scientifico)`,
-      species_lang_genus: (k, v, g, add) => `${k}=${v} è il nome del genere ${g} nella lista dei generi della wiki OSM: usare ${k.replace("species:", "genus:")}=${v}` + (add ? ` e genus=${g}` : ""),
-      species_lang_single: (k, v, g, s) => `${k}=${v} è il nome del genere ${g} nella lista dei generi della wiki OSM; ${g} ha una sola specie: aggiungere species=${s}`,
+      species_lang_genus: (k, v, g, add) => `${k}=${v} è il nome del genere ${g}: usare ${k.replace("species:", "genus:")}=${spName(v)}` + (add ? ` e genus=${g}` : ""),
+      species_lang_gx: (k, v, g, g2) => `${k}=${v} è il nome del genere ${g}, ma c'è genus=${g2}`,
+      species_lang_sp: (k, v, s, g2) => `${k}=${v} è il nome della specie ${s}` + (g2 ? `, ma c'è genus=${g2}` : `: aggiungere species=${s}`),
+      species_lang_single: (k, v, g, s) => `${k}=${v} è il nome del genere ${g}; ${g} ha una sola specie: aggiungere species=${s}`,
       wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
       wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: le coordinate dell'elemento su Wikidata sono a ${km} km da questo albero`,
@@ -722,7 +726,7 @@ const I18N = {
       linkWhy: { "404": "pagina inesistente (404)", "410": "pagina rimossa (410)", dns: "il sito non esiste più",
         missing: "file inesistente su Commons" },
       wikidata_name_mismatch: (kq, name, val) => `${kq} su Wikidata è ${name}, non ${val}`,
-      wikidata_tree_species: (q, name) => `su Wikidata l'albero (wikidata=${q}) è ${name}`,
+      wikidata_tree_species: (q, name) => `su Wikidata l'albero${q ? ` (wikidata=${q})` : ""} è ${name}`,
       rankSpecies: "specie", rankGenus: "genere",
       ranks: { Q7432: "specie", Q34740: "genere", Q35409: "famiglia", Q68947: "sottospecie", Q767728: "varietà", Q279749: "forma",
         Q36602: "ordine", Q3238261: "sottogenere", Q3181348: "sezione", Q5998839: "sottosezione", Q3025161: "serie",
@@ -863,7 +867,7 @@ const I18N = {
       topCmp: n => n > 2 ? "Compare the top three visually" : "Compare the top two visually",
       missingTop: n => n === 1 ? "The top ten list of 1 region is not complete yet: it arrives with its next update."
         : `The top ten list of ${n} regions is not complete yet: it arrives with their next update.`,
-      evBtn: "What happened that year", evSrc: "Source:",
+      evBtn: "What happened that year", evSrc: "Source: Wikipedia",
       loading: "Loading trees…", loadingRec: "Loading records…",
       unavailable: "Records not available yet: they arrive with the next data update (\"Update tree data\" Action).",
       missing: n => `The records of ${n} regions are missing: they arrive with their next update.`,
@@ -1092,8 +1096,10 @@ const I18N = {
       tag_in_value: kv => `${kv} contains "=": probably a tag written in the value`,
       not_latin: kv => `${kv} is not in the Latin script, unlike scientific names: the name in the local language goes in species:xx (e.g. species:bg)`,
       species_lang_only: kv => `${kv} is present but species=* (the scientific name) is missing`,
-      species_lang_genus: (k, v, g, add) => `${k}=${v} is the name of the genus ${g} in the OSM wiki list of genera: use ${k.replace("species:", "genus:")}=${v}` + (add ? ` and genus=${g}` : ""),
-      species_lang_single: (k, v, g, s) => `${k}=${v} is the name of the genus ${g} in the OSM wiki list of genera; ${g} has a single species: add species=${s}`,
+      species_lang_genus: (k, v, g, add) => `${k}=${v} is the name of the genus ${g}: use ${k.replace("species:", "genus:")}=${spName(v)}` + (add ? ` and genus=${g}` : ""),
+      species_lang_gx: (k, v, g, g2) => `${k}=${v} is the name of the genus ${g}, but genus=${g2} is present`,
+      species_lang_sp: (k, v, s, g2) => `${k}=${v} is the name of the species ${s}` + (g2 ? `, but genus=${g2} is present` : `: add species=${s}`),
+      species_lang_single: (k, v, g, s) => `${k}=${v} is the name of the genus ${g}; ${g} has a single species: add species=${s}`,
       wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
       wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: the coordinates of the Wikidata item are ${km} km from this tree`,
@@ -1104,7 +1110,7 @@ const I18N = {
       linkWhy: { "404": "page not found (404)", "410": "page removed (410)", dns: "the website no longer exists",
         missing: "file not found on Commons" },
       wikidata_name_mismatch: (kq, name, val) => `${kq} is ${name} on Wikidata, not ${val}`,
-      wikidata_tree_species: (q, name) => `on Wikidata the tree (wikidata=${q}) is ${name}`,
+      wikidata_tree_species: (q, name) => `on Wikidata the tree${q ? ` (wikidata=${q})` : ""} is ${name}`,
       rankSpecies: "species", rankGenus: "genus",
       ranks: { Q7432: "species", Q34740: "genus", Q35409: "family", Q68947: "subspecies", Q767728: "variety", Q279749: "form",
         Q36602: "order", Q3238261: "subgenus", Q3181348: "section", Q5998839: "subsection", Q3025161: "series",
@@ -2452,7 +2458,7 @@ map.on("load", async () => {
       const place = places && t.slug ? [regionName(t.slug), groupOf(t.slug) && groupName(groupOf(t.slug))]
         .filter((x, j, a) => x && a.indexOf(x) === j).join(" · ") : "";
       // «Più vecchio»: il pulsante con la frase sull'anno, solo se l'anno ha una voce; la frase aperta sta sotto la riga
-      const ev = k === "oldest" && recEvents ? recEvents[sdEvent(p.start_date)] : null, evOpen = ev && recEv === String(p.id);
+      const ev = k === "oldest" && recEvents ? yearEvent(recEvents, sdEvent(p.start_date)) : null, evOpen = ev && recEv === String(p.id);
       const src = ev && (ev["wiki_" + LANG] || ev.wiki_en);
       return `<div class="rc-row" role="button" tabindex="0" data-k="${k}" data-i="${i}" title="${esc(L.rc.rowTitle)}">`
         + `<div class="rc-top">` + (t.rank > 1 ? `<span class="rc-pos">${t.rank}.</span>` : "")
@@ -2461,7 +2467,8 @@ map.on("load", async () => {
         + (ev ? `<button type="button" class="rc-ev" data-ev="${esc(p.id)}" aria-expanded="${!!evOpen}" title="${esc(L.rc.evBtn)}" aria-label="${esc(L.rc.evBtn)}">${REC_EV_ICON}</button>` : "")
         + `<span class="rc-val" title="${esc(val)}">${esc(val)}</span></div>`
         + [detail, place].filter(Boolean).map(x => `<div class="rc-sub">${esc(x)}</div>`).join("") + `</div>`
-        + (evOpen ? `<div class="rc-evt">${esc(ev[LANG] || ev.en)}` + (src ? ` ${esc(L.rc.evSrc)} <a href="https://${ev["wiki_" + LANG] ? LANG : "en"}.wikipedia.org/wiki/${encodeURIComponent(src.replace(/ /g, "_"))}" target="_blank" rel="noopener">Wikipedia</a>` : "") + `</div>` : "");
+        // la fonte: una «W» di Wikipedia che apre la voce (il testo per esteso è nel title)
+        + (evOpen ? `<div class="rc-evt">${esc(ev[LANG] || ev.en)}` + (src ? ` <a class="rc-wp" href="https://${ev["wiki_" + LANG] ? LANG : "en"}.wikipedia.org/wiki/${encodeURIComponent(src.replace(/ /g, "_"))}" target="_blank" rel="noopener" title="${esc(L.rc.evSrc)}" aria-label="${esc(L.rc.evSrc)}">W</a>` : "") + `</div>` : "");
     };
     const html = `<div class="note">${esc(sub)}</div>`
       + (filters.length ? `<div class="rc-filter">${esc(L.rc.filter(filters.join(" · ")))}</div>` : "")
@@ -3154,6 +3161,13 @@ const sdEvent = v => {
   return (m = SD_BC.exec(s)) ? `${Number(m[1])} BC` : (m = SD_DATE.exec(s)) ? String(Number(m[1]))
     : (m = SD_DECADE.exec(s)) ? `${Number(m[1])}s` : (m = SD_CENTURY.exec(s)) ? `C${Number(m[2])}` : null;
 };
+// sdEventDecade: la voce di ripiego per un anno senza voce, il suo decennio ("1853" -> "1850s", "975 BC" -> "970s BC"),
+// come year_event_decade in fetch_trees.py; null per decenni e secoli
+// spName: il nome comune di un genere senza "sp." o "spp." (Klon sp. -> Klon), come SP_SUFFIX in fetch_trees.py
+const spName = v => String(v).replace(/\s+spp?\.?$/i, "");
+const sdEventDecade = k => { const m = /^(\d+)( BC)?$/.exec(k || "");
+  return m ? `${Math.floor(Number(m[1]) / 10) * 10}s${m[2] || ""}` : null; };
+const yearEvent = (ev, k) => ev[k] || ev[sdEventDecade(k)] || null;
 const REC_KEYS = ["height", "trunk", "slender", "stocky", "crown", "oldest"];
 const REC_LOW = new Set(["stocky", "oldest"]);   // primati in cui vince il valore più basso
 const REC_MIN_H = 2;     // m: sotto, niente rapporto altezza/diametro del tronco
@@ -3337,16 +3351,29 @@ const issueBase = (i, p) => {
     case "underscore": return String(p.und_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");
     case "tag_in_value": return String(p.eq_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // eq_keys: fetch_trees.py
     case "not_latin": return String(p.nl_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // nl_keys: fetch_trees.py
-    // sp_lang: righe "species:xx=valore"; sp_lang_genus: righe "species:fr=Tilleul|Tilia", nomi di un genere della
-    // lista wiki, con l'unica specie del genere se c'è ("species:fr=Cognassier|Cydonia|Cydonia oblonga",
-    // fetch_trees.py): per quelli il consiglio preciso, per gli altri il messaggio generico
+    // sp_lang: righe "species:xx=valore"; sp_lang_genus: righe "species:fr=Tilleul|Tilia", nomi di un genere (lista
+    // wiki e whitelist.json), con l'unica specie del genere se c'è ("species:fr=Cognassier|Cydonia|Cydonia oblonga",
+    // fetch_trees.py): per quelli il consiglio preciso, per gli altri il messaggio generico. sp_lang_gx: le stesse
+    // righe ("species:pl=Dąb|Quercus") quando genus è un altro genere: si segnala l'incongruenza
     case "species_lang_only": {
       const gen = new Map(String(p.sp_lang_genus || "").split("\n").map(x => /^(.*)\|([^|\s]+)(?:\|([^|]+))?$/.exec(x))
         .filter(Boolean).map(m => [m[1], [m[2], m[3]]]));
-      const rest = String(p.sp_lang || "").split("\n").filter(kv => kv && !gen.has(kv));
+      const gx = new Map(String(p.sp_lang_gx || "").split("\n").map(x => /^(.*)\|([^|]+)$/.exec(x))
+        .filter(Boolean).map(m => [m[1], m[2]]));
+      // sp_lang_sp: "species:pl=Klon zwyczajny|Acer platanoides", nomi di una specie (whitelist.json); con un genus
+      // diverso da quello della specie si segnala l'incongruenza
+      const sp = new Map(String(p.sp_lang_sp || "").split("\n").map(x => /^(.*)\|([^|]+)$/.exec(x))
+        .filter(Boolean).map(m => [m[1], m[2]]));
+      const rest = String(p.sp_lang || "").split("\n").filter(kv => kv && !gen.has(kv) && !gx.has(kv) && !sp.has(kv));
       const out = [...gen].map(([kv, [g, s]]) => { const j = kv.indexOf("=");
         return s ? T.species_lang_single(kv.slice(0, j), kv.slice(j + 1), g, s)
                  : T.species_lang_genus(kv.slice(0, j), kv.slice(j + 1), g, !p.genus); });
+      out.push(...[...gx].map(([kv, g]) => { const j = kv.indexOf("=");
+        return T.species_lang_gx(kv.slice(0, j), kv.slice(j + 1), g, p.genus); }));
+      const g0 = String(p.genus || "").trim();
+      out.push(...[...sp].map(([kv, s]) => { const j = kv.indexOf("=");
+        const other = g0 && g0.toLowerCase() !== s.split(" ")[0].toLowerCase();
+        return T.species_lang_sp(kv.slice(0, j), kv.slice(j + 1), s, other ? g0 : ""); }));
       if (rest.length) out.push(T[i](rest.join(", ")));
       return out.join("\n");
     }
@@ -3357,8 +3384,10 @@ const issueBase = (i, p) => {
       T[i](`${k}=${q}`, T.ranks[r] || r, k === "species:wikidata" ? T.rankSpecies : T.rankGenus)).join("\n");
     case "wikidata_name_mismatch": return wdParts(p.wd_name).map(([k, q, n]) =>
       T[i](`${k}=${q}`, n, k === "species:wikidata" ? p.species : p.genus)).join("\n");
-    case "wikidata_tree_species": return String(p.wd_tree_sp || "").split(";").map(x => { const j = x.indexOf(":");
-      return T[i](x.slice(0, j), x.slice(j + 1)); }).join("\n");
+    // l'elemento Wikidata si scrive solo se wikidata=* ne ha più di uno: il link è già sotto, tra i pulsanti
+    case "wikidata_tree_species": { const xs = String(p.wd_tree_sp || "").split(";");
+      return xs.map(x => { const j = x.indexOf(":");
+        return T[i](xs.length > 1 ? x.slice(0, j) : "", x.slice(j + 1)); }).join("\n"); }
     case "broken_link":          // bad_url: righe "chiave=valore (stato)" (fetch_trees.py)
       return String(p.bad_url || "").split("\n").filter(Boolean).map(x => { const m = /^(.*) \((\w+)\)$/.exec(x);
         return m ? T[i](m[1], T.linkWhy[m[2]] || m[2]) : x; }).join("\n");

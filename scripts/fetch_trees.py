@@ -267,7 +267,8 @@ GROUP_NAME = {m: _name for _alt, _name in SYNONYMS.items() for m in (norm_specie
 # Lista dei generi della wiki OSM (scripts/update_reference_lists.py): leaf_cycle (uno o entrambi) e leaf_type
 _GENERA = load_json(HERE / "genus_list.json", "genera")
 GENUS_REF = {k.lstrip("× ").casefold(): (k, v) for k, v in _GENERA.items()}
-# nomi comuni dei generi (colonne genus:en, genus:fr della lista) -> genere, per il consiglio di species_lang_only
+# nomi comuni dei generi (colonne genus:en, genus:fr della lista e genus_names di whitelist.json per le altre lingue,
+# es. pl) -> genere, per il consiglio di species_lang_only
 # (issue #35): {("fr", "tilleul"): "Tilia"}. Valgono solo le coppie nome-genere che sono anche in genus_names di
 # whitelist.json (nomi senza dubbi); per sicurezza un nome di più generi nella lista wiki non dà comunque consigli
 _GN = {}
@@ -277,6 +278,12 @@ for _g, _v in _GENERA.items():
             _GN.setdefault((_lang, _n.casefold()), set()).add(_g)
 _GN_OK = {(lang, n.casefold()): g for lang, d in _WL.get("genus_names", {}).items() for n, g in d.items()}
 GENUS_NAMES = {k: g for k, v in _GN.items() if len(v) == 1 and _GN_OK.get(k) == (g := next(iter(v)))}
+# le lingue senza una colonna nella lista wiki (species:pl=Dąb -> Quercus) valgono solo da whitelist.json
+_GN_LANGS = {lang for lang, _ in _GN}
+GENUS_NAMES.update({k: g for k, g in _GN_OK.items() if k[0] not in _GN_LANGS})
+# nomi comuni delle specie (species_names di whitelist.json, scritti a mano): {("pl", "klon zwyczajny"): "Acer
+# platanoides"}; per questi si propone species=<la specie>
+SPECIES_NAMES = {(lang, n.casefold()): s for lang, d in _WL.get("species_names", {}).items() for n, s in d.items()}
 # generi con una sola specie (whitelist.json): per i loro nomi si propone species=<la specie> (Cognassier -> Cydonia oblonga)
 SINGLE_SPECIES = _WL.get("single_species_genera", {})
 # alberi monumentali piccoli davvero (id dei nodi), da non segnalare con small_monument
@@ -1577,18 +1584,33 @@ def species_lang_only(t):
     return sorted((k, v) for k, v in t.items() if k.startswith("species:") and SPECIES_LANG.match(k))
 
 
+# "sp." o "spp." dopo il nome comune: species:pl=Klon sp. vale come Klon (sp_name in index.html)
+SP_SUFFIX = re.compile(r"\s+spp?\.?$", re.I)
+
+
 def species_lang_genus(t, lang):
     """Nomi di species_lang_only che nella lista dei generi sono il nome comune di un genere nella stessa lingua
-    (species:fr=Tilleul -> Tilia; species:en-GB vale come en): [(chiave, valore, genere, specie)]. specie è l'unica
-    specie del genere (SINGLE_SPECIES, es. Cognassier -> Cydonia oblonga), altrimenti "". Solo se genus manca o è
-    già quel genere."""
+    (species:fr=Tilleul -> Tilia; species:en-GB vale come en; species:pl=Klon sp. come Klon): (ok, altro).
+    ok = [(chiave, valore, genere, specie)] se genus manca o è già quel genere; specie è l'unica specie del genere
+    (SINGLE_SPECIES, es. Cognassier -> Cydonia oblonga), altrimenti "". altro = [(chiave, valore, genere)] se genus è
+    un genere diverso (species:pl=Dąb con genus=Acer)."""
     g = (t.get("genus") or "").strip()
-    out = []
+    ok, other = [], []
     for k, v in lang:
-        gen = GENUS_NAMES.get((re.split(r"[-_]", k[8:])[0], v.strip().casefold()))
-        if gen and (not g or g.casefold() == gen.casefold()):
-            out.append((k, v, gen, SINGLE_SPECIES.get(gen, "")))
-    return out
+        gen = GENUS_NAMES.get((re.split(r"[-_]", k[8:])[0], SP_SUFFIX.sub("", v.strip()).casefold()))
+        if not gen:
+            continue
+        if not g or g.casefold() == gen.casefold():
+            ok.append((k, v, gen, SINGLE_SPECIES.get(gen, "")))
+        else:
+            other.append((k, v, gen))
+    return ok, other
+
+
+def species_lang_species(t, lang):
+    """Nomi di species_lang_only che sono il nome comune di una specie in SPECIES_NAMES (species:pl=Klon zwyczajny
+    -> Acer platanoides): [(chiave, valore, specie)]. Il confronto con genus lo fa index.html."""
+    return [(k, v, s) for k, v in lang if (s := SPECIES_NAMES.get((re.split(r"[-_]", k[8:])[0], v.strip().casefold())))]
 
 
 def undocumented_tags(t):
@@ -1738,10 +1760,15 @@ def checks(t, pos, osm_id=None):
         flag("species_typo", sp_sugg=typo)
     if lang := species_lang_only(t):    # "species:it=Leccio" separati da "\n" (i valori possono contenere ";")
         # sp_lang_genus: righe "species:fr=Tilleul|Tilia" per i nomi di un genere della lista (issue #35), con l'unica
-        # specie del genere se c'è: "species:fr=Cognassier|Cydonia|Cydonia oblonga"
-        gl = species_lang_genus(t, lang)
+        # specie del genere se c'è: "species:fr=Cognassier|Cydonia|Cydonia oblonga". sp_lang_gx: le stesse righe
+        # "species:pl=Dąb|Quercus" quando genus è un altro genere (l'incongruenza si segnala)
+        # sp_lang_sp: righe "species:pl=Klon zwyczajny|Acer platanoides" per i nomi di una specie (species_names)
+        gl, gx = species_lang_genus(t, lang)
+        sl = species_lang_species(t, lang)
         flag("species_lang_only", sp_lang="\n".join(f"{k}={v}" for k, v in lang),
-             **({"sp_lang_genus": "\n".join(f"{k}={v}|{g}" + (f"|{s}" if s else "") for k, v, g, s in gl)} if gl else {}))
+             **({"sp_lang_sp": "\n".join(f"{k}={v}|{s}" for k, v, s in sl)} if sl else {}),
+             **({"sp_lang_genus": "\n".join(f"{k}={v}|{g}" + (f"|{s}" if s else "") for k, v, g, s in gl)} if gl else {}),
+             **({"sp_lang_gx": "\n".join(f"{k}={v}|{g}" for k, v, g in gx)} if gx else {}))
     g = t.get("genus")
     gf = None if "genus" in eq or "genus" in nl else g   # genus per i check sulla forma del nome
     gw = genus_words(gf) if gf is not None else None    # senza il segno di ibrido (× Sycoparrotia)
@@ -2213,6 +2240,19 @@ def start_date_event_key(v):
     return None
 
 
+def year_event_decade(key):
+    """Voce di ripiego per un anno senza voce in YEAR_EVENTS (sdEventDecade in index.html): il suo decennio, "1853"
+    -> "1850s", "975 BC" -> "970s BC"; None per decenni e secoli."""
+    if m := re.fullmatch(r"(\d+)( BC)?", key or ""):
+        return f"{int(m.group(1)) // 10 * 10}s{m.group(2) or ''}"
+    return None
+
+
+def year_event(key, events):
+    """La voce di YEAR_EVENTS per la chiave, o in mancanza quella del suo decennio; None se mancano entrambe."""
+    return events.get(key) or events.get(year_event_decade(key))
+
+
 def record_values(p):
     """Valori di un albero per i primati, dalle proprietà della feature: {primato: valore}. Vuoto per i ceppi."""
     if p.get("stump"):
@@ -2304,29 +2344,34 @@ def save_records(slug, feats):
 
 def missing_year_events():
     """Chiavi (anni, decenni, secoli) delle date nelle liste di «Più vecchio» di tutte le regioni di RECORDS_FILE che
-    non hanno una voce in YEAR_EVENTS, dalla più vecchia. I primi dieci di una nazione o di tutte le regioni sono
-    sempre tra i primi dieci delle regioni, quindi l'elenco copre tutti i livelli del sito."""
+    non hanno una voce in YEAR_EVENTS, né per l'anno né per il suo decennio, dalla più vecchia. I primi dieci di una nazione o di tutte le regioni sono
+    sempre tra i primi dieci delle regioni, quindi l'elenco copre tutti i livelli del sito. Valore: [(chiave, regioni)],
+    le regioni (slug) in cui la data è tra i primi dieci, perché le regioni aggiornate nell'Action non sono le sole."""
     events = load_json(YEAR_EVENTS)
-    found = {}
-    for rec in load_json(RECORDS_FILE).values():
+    found, where = {}, collections.defaultdict(set)
+    for slug, rec in load_json(RECORDS_FILE).items():
         for t in (rec.get("oldest") or {}).get("t", []):
             key = start_date_event_key(t.get("start_date"))
-            if key and key not in events:
+            if key and not year_event(key, events):     # un anno con la voce del decennio non manca
                 found[key] = min(found.get(key, math.inf), start_date_key(t["start_date"]))
-    return sorted(found, key=lambda x: (found[x], x))
+                where[key].add(slug)
+    return [(k, sorted(where[k])) for k in sorted(found, key=lambda x: (found[x], x))]
 
 
 def report_year_events():
-    """Riepilogo dell'Action (e log): le voci che mancano in year_events.json, da aggiungere a mano."""
+    """Riepilogo dell'Action (e log): le voci che mancano in year_events.json, da aggiungere a mano, ognuna con le
+    regioni da cui viene."""
     missing = missing_year_events()
     if not missing:
         return
-    print(f"Anni senza una voce in scripts/year_events.json ({len(missing)}): {', '.join(missing)}")
+    text = ", ".join(f"{k} ({', '.join(r)})" for k, r in missing)
+    print(f"Anni senza una voce in scripts/year_events.json ({len(missing)}): {text}")
     if path := os.environ.get("GITHUB_STEP_SUMMARY"):
         with open(path, "a", encoding="utf-8") as f:
             f.write(f"### Years without an entry in `scripts/year_events.json` ({len(missing)})\n\n"
-                    "They appear in the top ten of \"Oldest\" (Record trees) of at least one region and have no "
-                    "\"what happened that year\" sentence yet.\n\n```\n" + ", ".join(missing) + "\n```\n")
+                    "They appear in the top ten of \"Oldest\" (Record trees) of at least one region, of any region "
+                    "and not only the ones updated by this run, and have no \"what happened that year\" sentence yet. "
+                    "The regions are in brackets.\n\n```\n" + text + "\n```\n")
 
 
 def update_region(region, regions_index):
