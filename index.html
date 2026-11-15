@@ -39,11 +39,14 @@
   #tabs>details[open]{order:1;grid-column:1/-1;padding:0 12px 10px}
   #tabs>details[open]>summary{font-size:14px;padding:10px 0 0;text-align:left;white-space:normal;border-radius:0}
   #tabs>details[open]>summary::before{content:"▾";display:inline-block;width:14px;color:#888}
-  /* scelta dell'ordine della classifica: numero di alberi con errori o percentuale (solo con la scheda aperta) */
-  #rank-box:not([open]) #rank-mode{display:none}
-  /* scheda Andamenti: icona per passare dal grafico degli errori a quello degli alberi (solo con la scheda aperta) */
-  #chart-box:not([open]) #chart-mode{display:none}
-  #chart-mode{float:right;display:flex;padding:1px 3px;border:1px solid #ccc;border-radius:3px;background:#fff;color:#555;cursor:pointer}
+  /* scelta dell'ordine della classifica (numero di alberi con errori o percentuale) e, negli Andamenti, icona per
+     passare dal grafico degli errori a quello degli alberi: fuori dal <summary> (un pulsante lì dentro non si usa bene
+     con la tastiera), in alto a destra sulla riga del titolo; con la scheda chiusa il browser li nasconde da solo */
+  #rank-box,#chart-box{position:relative}
+  #rank-mode,#chart-mode{position:absolute;top:9px;right:12px}
+  #rank-box>summary{padding-right:52px!important}
+  #chart-box>summary{padding-right:28px!important}
+  #chart-mode{display:flex;padding:1px 3px;border:1px solid #ccc;border-radius:3px;background:#fff;color:#555;cursor:pointer}
   #chart-mode:hover{color:#1a5fb4;border-color:#1a5fb4}
   /* scheda Completezza: una barra per voce (quanti alberi in vista hanno quel dato); un tocco sulla riga evidenzia
      sulla mappa gli alberi a cui manca */
@@ -116,7 +119,7 @@
   .rc-tip .tip{display:none;position:fixed;z-index:6;box-sizing:border-box;background:#fff;color:#222;font-size:12px;font-weight:400;line-height:1.4;
     text-transform:none;letter-spacing:0;border:1px solid #ddd;border-radius:4px;box-shadow:0 2px 8px #0003;padding:6px 8px;cursor:default;white-space:normal}
   .rc-tip:hover .tip,.rc-tip:focus .tip{display:block}
-  #rank-mode{float:right;display:flex;gap:2px}
+  #rank-mode{display:flex;gap:2px}
   #rank-mode button{font:600 11px system-ui,sans-serif;min-width:22px;padding:1px 4px;border:1px solid #ccc;border-radius:3px;background:#fff;color:#777;cursor:pointer}
   #rank-mode button.on{background:#555;border-color:#555;color:#fff}
   /* posizione rispetto all'aggiornamento precedente: ▲ sale (più errori delle altre), ▼ scende, = stessa posizione */
@@ -314,11 +317,13 @@
     <div class="note" data-i18n="legNote">Tronco e forme da zoom 16</div>
   </details>
   <details id="rank-box" class="box">
-    <summary><span data-i18n="rank">Classifica errori</span><span id="rank-mode"><button type="button" data-mode="p">%</button><button type="button" data-mode="n">#</button></span></summary>
+    <summary><span data-i18n="rank">Classifica errori</span></summary>
+    <span id="rank-mode"><button type="button" data-mode="p">%</button><button type="button" data-mode="n">#</button></span>
     <div id="rank"></div>  </details>
   <details id="chart-box" class="box" hidden>
     <!-- titolo dallo script: «Andamenti» da chiusa, «Andamento errori» o «Andamento alberi» da aperta (renderChart) -->
-    <summary><span id="chart-name" data-i18n="trends">Andamenti</span><button id="chart-mode" type="button"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 5h11M10 2l3 3-3 3M14 11H3M6 8l-3 3 3 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></summary>
+    <summary><span id="chart-name" data-i18n="trends">Andamenti</span></summary>
+    <button id="chart-mode" type="button"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 5h11M10 2l3 3-3 3M14 11H3M6 8l-3 3 3 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <div id="chart-title"></div>
     <div id="chart"></div>
     <div id="chart-note" class="note" data-i18n="chartNote">Quota di alberi con almeno un errore, a ogni aggiornamento.</div>
@@ -3077,6 +3082,7 @@ map.on("load", async () => {
     for (const nat of list) { nat.regions.sort(order); rankShade(nat.regions); }   // regioni: colori tra loro
     document.querySelectorAll("#rank-mode button").forEach(b => {
       b.classList.toggle("on", b.dataset.mode === rankMode);
+      b.setAttribute("aria-pressed", b.dataset.mode === rankMode);
       b.title = b.dataset.mode === "p" ? L.rankByP : L.rankByN;
     });
     if (list.every(n => n.cur.errors == null)) {
@@ -3107,8 +3113,7 @@ map.on("load", async () => {
     }));
   };
   const openNations = new Set();   // nazioni aperte nella classifica: restano aperte cambiando ordine
-  document.querySelectorAll("#rank-mode button").forEach(b => b.onclick = ev => {
-    ev.preventDefault(); ev.stopPropagation();   // il clic non apre e non chiude il riquadro
+  document.querySelectorAll("#rank-mode button").forEach(b => b.onclick = () => {
     rankMode = b.dataset.mode;
     try { localStorage.setItem("rankMode", rankMode); } catch (e) {}
     renderRank();
@@ -3196,8 +3201,7 @@ map.on("load", async () => {
     document.getElementById("chart").replaceChildren(svg);
   };
   // icona della scheda: passa dagli errori agli alberi e viceversa; riaprendo la scheda si riparte dagli errori
-  chartModeBtn.onclick = ev => {
-    ev.preventDefault(); ev.stopPropagation();   // il clic non chiude il riquadro
+  chartModeBtn.onclick = () => {
     chartMode = chartMode === "t" ? "e" : "t";
     renderChart();
   };
