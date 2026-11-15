@@ -418,7 +418,7 @@ const I18N = {
     legFruitAlways: "Frutti (sempre)", legFruitOff: "Frutti (nascosti)",
     legFruitToggle: "Clic per cambiare: frutti solo nella loro stagione, sempre, o nascosti",    // pop-up sulle icone della legenda: i tag che le producono (chiave = data-i18n della voce)
     legTips: {
-      legMonument: "denotation=natural_monument",
+      legMonument: "denotation=natural_monument, o membro di una relazione con ref:masaf (insieme omogeneo dell'elenco MASAF)",
       legSacred: "ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree o religion=shinto",
       legMonSacred: "denotation=natural_monument e anche ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree o religion=shinto (da zoom 16)",
       legMasaf: "Alberi dell'elenco degli alberi monumentali d'Italia del MASAF che su OpenStreetMap non hanno ancora un nodo con il loro ref:masaf né un albero monumentale dello stesso genere entro 25 m (da zoom 7)",
@@ -695,7 +695,7 @@ const I18N = {
       too_slender: "Soglia: altezza più di 100 volte la circonferenza. È larga di proposito, per evitare falsi positivi.",
       too_slender_species: p => `Il rapporto tipico di questa specie è ${Number(p.sp_ratio).toLocaleString(LOC)} (mediana dei dati OSM, pagina wiki «Tree species records»). Segnalato oltre 4 volte quel valore (e comunque oltre 40), solo per alberi alti almeno 10 m: gli alberelli appena piantati sono sottili.`,
       too_stocky: "Soglia: circonferenza più di 3 volte l'altezza. Gli alberi reali più tozzi, come gli olivi monumentali, hanno un rapporto altezza/circonferenza intorno a 0,5.",
-      small_monument: "L'albero ha denotation=natural_monument o una fonte monumentale (ref:masaf, ref:rami, monumentaltrees.com…), ma è alto meno di 1,5 m o ha una circonferenza sotto 20 cm, le misure di una piccola pianta o di una canna di bambù. Le soglie sono basse di proposito, per evitare falsi positivi.",
+      small_monument: "L'albero ha denotation=natural_monument o una fonte monumentale (ref:masaf, ref:rami, monumentaltrees.com…), o è membro di una relazione con ref:masaf, ma è alto meno di 1,5 m o ha una circonferenza sotto 20 cm, le misure di una piccola pianta o di una canna di bambù. Le soglie sono basse di proposito, per evitare falsi positivi.",
       comma: "In OSM il separatore decimale è il punto (2.9, non 2,9).",
       diameter_unit: "Senza unità, diameter è in millimetri (wiki OSM, Key:diameter): questo valore sarebbe un tronco di meno di 1 cm. Se è in metri, va scritta l'unità (es. diameter=0.5 m); meglio ancora usare circumference, in metri. Il valore non è usato per disegnare il tronco.",
       unit_format: "In OSM un'unità di misura si scrive dopo il numero, separata da uno spazio e in minuscolo (150 cm), e piedi e pollici con gli apici ' e \", senza spazi: 30', 7'4\" (wiki OSM, Map features/Units; come Osmose, anche 30 ft è segnalato). Per i metri l'unità si può omettere, tranne in diameter, dove senza unità il valore è in millimetri. Il valore è comunque usato per disegnare l'albero.",
@@ -827,6 +827,10 @@ const I18N = {
     genusOf: g => `il genere ${g}`, or: " o ",
     recMasaf: (l, ref) => `Albero inserito nell’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${ref})`,
     recMasafRemoved: (l, ref) => `Albero un tempo inserito nell’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${ref})`,
+    // membro di un insieme omogeneo MASAF (relazione con ref:masaf, "mg" di fetch_trees.py): name = nome della
+    // relazione (già con l'escape) o ""; rel(testo) = link alla relazione su OpenStreetMap
+    recMasafGroup: (l, ref, name, rel) => `Fa parte di un insieme omogeneo inserito nell’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${ref})${name ? `, «${name}»` : ""} · ${rel("relazione su OpenStreetMap")}`,
+    recMasafGroupRemoved: (l, ref, name, rel) => `Fa parte di un insieme omogeneo un tempo inserito nell’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${ref})${name ? `, «${name}»` : ""} · ${rel("relazione su OpenStreetMap")}`,
     recRami: (l, ref) => `Albero inserito nel ${l("registro RAMI")} (${ref})`,
     recIcnf: (l, ref) => `Albero di interesse pubblico, tutelato in Portogallo dall’${l("ICNF")}${ref ? ` (${ref})` : ""}`,
     recAnf: l => `Albero tutelato in Lussemburgo dall’${l("ANF")}`,
@@ -870,7 +874,7 @@ const I18N = {
     legColorsToggle: "Click to switch the species colours off or on (when off, crowns take the leaf cycle colour)",
     legFruitAlways: "Fruits (always)", legFruitOff: "Fruits (hidden)",
     legFruitToggle: "Click to switch: fruits only in their season, always, or hidden",    legTips: {
-      legMonument: "denotation=natural_monument",
+      legMonument: "denotation=natural_monument, or member of a relation with ref:masaf (homogeneous group of the MASAF list)",
       legSacred: "ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree or religion=shinto",
       legMonSacred: "denotation=natural_monument and also ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree or religion=shinto (from zoom 16)",
       legMasaf: "Trees of the MASAF list of monumental trees of Italy that on OpenStreetMap have no node with their ref:masaf yet, nor a monumental tree of the same genus within 25 m (from zoom 7)",
@@ -1129,7 +1133,7 @@ const I18N = {
       too_slender: "Threshold: height more than 100 times the circumference. It is deliberately loose, to avoid false positives.",
       too_slender_species: p => `The typical ratio for this species is ${Number(p.sp_ratio).toLocaleString(LOC)} (median of OSM data, OSM wiki page "Tree species records"). Reported above 4 times that value (and anyway above 40), only for trees at least 10 m tall: newly planted saplings are thin.`,
       too_stocky: "Threshold: circumference more than 3 times the height. The stockiest real trees, like monumental olive trees, have a height/circumference ratio around 0.5.",
-      small_monument: "The tree has denotation=natural_monument or a monumental source (ref:masaf, ref:rami, monumentaltrees.com…), but it is less than 1.5 m tall or has a circumference under 20 cm, the size of a small plant or a bamboo cane. The thresholds are deliberately low, to avoid false positives.",
+      small_monument: "The tree has denotation=natural_monument or a monumental source (ref:masaf, ref:rami, monumentaltrees.com…), or is a member of a relation with ref:masaf, but it is less than 1.5 m tall or has a circumference under 20 cm, the size of a small plant or a bamboo cane. The thresholds are deliberately low, to avoid false positives.",
       comma: "In OSM the decimal separator is the point (2.9, not 2,9).",
       diameter_unit: "Without a unit, diameter is in millimetres (OSM wiki, Key:diameter): this value would be a trunk under 1 cm. If it is in metres, the unit must be written (e.g. diameter=0.5 m); better still, use circumference, in metres. The value is not used to draw the trunk.",
       unit_format: "In OSM a unit is written after the number, separated by a space and in lowercase (150 cm), and feet and inches with the ' and \" marks, without spaces: 30', 7'4\" (OSM wiki, Map features/Units; as in Osmose, 30 ft is reported too). For metres the unit can be omitted, except in diameter, where without a unit the value is in millimetres. The value is used to draw the tree anyway.",
@@ -1259,6 +1263,8 @@ const I18N = {
     genusOf: g => `the genus ${g}`, or: " or ",
     recMasaf: (l, ref) => `Listed in the MASAF ${l("list of monumental trees of Italy")} (${ref})`,
     recMasafRemoved: (l, ref) => `Formerly listed in the MASAF ${l("list of monumental trees of Italy")} (${ref})`,
+    recMasafGroup: (l, ref, name, rel) => `Part of a homogeneous group listed in the MASAF ${l("list of monumental trees of Italy")} (${ref})${name ? `, “${name}”` : ""} · ${rel("relation on OpenStreetMap")}`,
+    recMasafGroupRemoved: (l, ref, name, rel) => `Part of a homogeneous group formerly listed in the MASAF ${l("list of monumental trees of Italy")} (${ref})${name ? `, “${name}”` : ""} · ${rel("relation on OpenStreetMap")}`,
     recRami: (l, ref) => `Listed in the ${l("RAMI register")} (${ref})`,
     recIcnf: (l, ref) => `Tree of public interest, protected in Portugal by the ${l("ICNF")}${ref ? ` (${ref})` : ""}`,
     recAnf: l => `Tree protected in Luxembourg by the ${l("ANF")}`,
@@ -1354,7 +1360,9 @@ const px = (prop, minPx, z) => ["max", minPx, metersPx(["get", prop], z)];
 // raggio in pixel = max(minimo, metri / (m per pixel)); uno stop per ogni zoom intero, così il minimo è un vero max
 const radius = (prop, minPx, div = 1) => ["interpolate", ["exponential", 2], ["zoom"],
   ...Array.from({ length: 23 }, (_, z) => [z, div === 1 ? px(prop, minPx, z) : ["/", px(prop, minPx, z), div]]).flat()];
-const isMon = p => !!p.imp || String(p.denotation || "").split(";").includes("natural_monument");   // come hasDen sulla mappa
+// monumentale: denotation=natural_monument, "implicito" (imp, mappa dei monumentali) o membro di un insieme omogeneo
+// MASAF (mg, fetch_trees.py); come hasDen sulla mappa
+const isMon = p => !!p.imp || !!p.mg || String(p.denotation || "").split(";").includes("natural_monument");
 const leafOf = p => p.lt || p.leaf_type;   // lt = leaf_type stimato dalle liste quando il tag manca; palm per le palme, anche con un altro leaf_type (#55)
 // Alberi di Natale (xmas:feature=tree, #7): dall'8 dicembre al 6 gennaio, nella data di chi guarda, chioma
 // aghifoglia con lucine colorate e stella. #xmas=1 nell'indirizzo li mostra anche fuori periodo (per provarli).
@@ -1598,9 +1606,10 @@ map.on("load", async () => {
   // denotation può avere più valori (natural_monument;landmark): si cerca ";valore;" in ";denotation;", come fa
   // fetch_trees.py dividendo sui ";"
   // monumentale "implicito" (imp, solo nella mappa dei monumentali: monumentale per altre fonti, vedi fetch_world.py):
-  // disegnato come denotation=natural_monument
+  // disegnato come denotation=natural_monument; così anche il membro di un insieme omogeneo MASAF (mg, relazione con
+  // ref:masaf, issue #9), in entrambe le mappe
   const hasDen = v => ["any", ["in", `;${v};`, ["concat", ";", ["coalesce", ["get", "denotation"], ""], ";"]],
-    ...(v === "natural_monument" ? [["has", "imp"]] : [])];
+    ...(v === "natural_monument" ? [["has", "imp"], ["has", "mg"]] : [])];
   // errore: precedenza massima (non nelle mappe mondiali, che non mostrano la parte QA)
   const HAS_ISSUE = WORLD ? false : ["!=", ["get", "issues"], "|"];
   const STROKE_COLOR = ["case",
@@ -3803,6 +3812,15 @@ function recognitions(p) {
   if (p["masaf:criteria"]) {   // es. "a2.1,a2.2" -> "circonferenza, altezza", senza i codici; i codici sconosciuti restano come sono
     const codes = String(p["masaf:criteria"]).split(/[,;]/).map(c => c.trim().toLowerCase().replace(/\)$/, "")).filter(Boolean);
     r.push([p["ref:masaf"] ? "sub" : "", esc(L.recCriteria(codes.map(c => L.masafCriteria[c] || c).join(", ")))]);
+  }
+  // membro di insiemi omogenei MASAF (mg, fetch_trees.py): una riga per relazione "id|rimosso|ref:masaf|criteri|name",
+  // con sotto i criteri di masaf:criteria della relazione (solo i nomi, come per l'albero)
+  for (const row of String(p.mg || "").split("\n").filter(Boolean)) {
+    const [id, rm, ref, crit, ...name] = row.split("|");
+    r.push(["off", (rm === "1" ? L.recMasafGroupRemoved : L.recMasafGroup)(t => link(MASAF_URL, t), esc(ref), esc(name.join("|")),
+      t => link(`https://www.openstreetmap.org/relation/${id}`, t))]);
+    const codes = crit.split(/[,;]/).map(c => c.trim().toLowerCase().replace(/\)$/, "")).filter(Boolean);
+    if (codes.length) r.push(["sub", esc(L.recCriteria(codes.map(c => L.masafCriteria[c] || c).join(", ")))]);
   }
   if (p["ref:rami"]) r.push(["off", L.recRami(t => link(RAMI_URL, t), esc(p["ref:rami"]))]);
   const ops = String(p["heritage:operator"] || "").split(";").map(x => x.trim().toLowerCase());

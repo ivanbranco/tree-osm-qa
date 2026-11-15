@@ -71,12 +71,16 @@ def warn(msg):
         print(f"::warning::{msg}")
 
 
+def area_of(region):
+    """Area OSM della regione per Overpass, nel set .a."""
+    if region.get("rel"):
+        return f"area({3600000000 + region['rel']})->.a;"
+    return f'area["ISO3166-2"="{region["iso"]}"]["admin_level"="4"]->.a;'
+
+
 def query(region, bbox):
     s, w, n, e = bbox
-    if region.get("rel"):
-        area = f"area({3600000000 + region['rel']})->.a;"
-    else:
-        area = f'area["ISO3166-2"="{region["iso"]}"]["admin_level"="4"]->.a;'
+    area = area_of(region)
     return f"""[out:json][timeout:360];
 {area}
 (
@@ -698,7 +702,7 @@ def species_name(n):
     return n if len(n.replace("×", " ").split()) >= 2 else None
 
 
-def hint_props(t):
+def hint_props(t, osm_id=None):
     """Dati per i consigli della scheda (ⓘ: informazioni, non errori; index.html li mostra e non li segnala sulla
     mappa). Solo quelli che la pagina non può ricavare da sola:
     hint_sp: nessun species né genus, ma l'elemento di wikidata=* indica la specie (P10241, non un genere o più su)
@@ -715,7 +719,8 @@ def hint_props(t):
     hint_imp_d: source=* di un import documentato -> "valore|pagina della wiki";
     hint_mc: ref:masaf senza masaf:criteria -> i criteri dell'elenco MASAF (masaf_trees.json) per quei codici;
     hint_ms: solo nelle regioni italiane, albero senza denotation=natural_monument/landmark né ref:masaf con la
-    circonferenza (taggata, o da diameter) almeno pari alla soglia MASAF della specie -> "circonferenza|soglia" in m."""
+    circonferenza (taggata, o da diameter) almeno pari alla soglia MASAF della specie -> "circonferenza|soglia" in m;
+    non per i membri di un insieme omogeneo MASAF (osm_id in MASAF_GROUPS), che valgono già come monumentali."""
     out = {}
     if imp := import_source(t):
         if imp[0] == "d":
@@ -725,7 +730,7 @@ def hint_props(t):
     den = {x.strip() for x in str(t.get("denotation", "")).split(";")}
     sp_bin = binomial(t.get("species") or "") if ";" not in str(t.get("species", "")) else ""
     if (IN_ITALY and t.get("natural") == "tree" and not t.get("ref:masaf") and not den & {"natural_monument", "landmark"}
-            and (min_cm := MASAF_MIN_CIRC.get(sp_bin))):
+            and not masaf_member(osm_id) and (min_cm := MASAF_MIN_CIRC.get(sp_bin))):
         c, _ = circ_value(t)
         if c is not None and c * 100 >= min_cm:
             out["hint_ms"] = f"{round(c, 2):g}|{min_cm / 100:g}"
@@ -1549,6 +1554,75 @@ def masaf_unknown(t):
             if raw and (masaf_code(raw) not in MASAF_LIST or len(re.sub(r"\s+", "", raw).split("/")[0]) < 2)]
 
 
+# --- Insiemi omogenei MASAF (issue #9) ---
+# L'elenco MASAF a volte censisce un gruppo di alberi con un solo codice. La wiki (IT:Key:ref:masaf, «Gli "insiemi
+# omogenei"») lo mappa con una relazione type=site + ref:masaf + natural=tree_group + denotation=natural_monument che ha
+# per membri gli alberi; i singoli alberi hanno specie e misure e una denotation diversa (park, urban…). Nelle regioni
+# italiane un nodo natural=tree membro di almeno una relazione con ref:masaf (basta quel tag sulla relazione) vale
+# come un albero con denotation=natural_monument: disegno, chioma di ripiego, file ridotto, mappa dei monumentali
+# (fetch_world.py) e check small_monument; niente consiglio hint_ms. Non è una fonte di monument_denotation (l'albero è
+# mappato come dice la wiki) e sulla relazione non ci sono check. I ceppi e gli altri membri (vie, relazioni, nodi non
+# natural=tree) non cambiano.
+# Proprietà "mg" della feature: una riga per relazione, separate da "\n", "id|rimosso|ref:masaf|masaf:criteria|name"
+# (rimosso = 1 se l'elenco MASAF dà come rimosso almeno un codice della relazione, come masaf_removed per gli alberi;
+# name per ultimo, perché può contenere "|"). Il sito ne ricava la riga del gruppo nella scheda.
+MASAF_GROUPS = {}   # id del nodo -> [righe di "mg"], per la regione che si sta aggiornando (update_region)
+
+
+def masaf_groups_query(region):
+    """Relazioni con ref:masaf che hanno almeno un membro nell'area della regione, con tag e membri."""
+    return f"""[out:json][timeout:180];
+{area_of(region)}
+rel["ref:masaf"](area.a);
+out body;"""
+
+
+def masaf_groups(elements):
+    """{id del nodo: [righe di "mg"]} dalle relazioni con ref:masaf di una risposta di Overpass. Solo i membri nodo:
+    quali sono alberi lo decide to_feature (natural=tree). Una relazione senza nodi membri non dà niente."""
+    out = collections.defaultdict(set)
+    for el in elements:
+        t = el.get("tags", {})
+        ref = " ".join(str(t.get("ref:masaf", "")).split())
+        if el.get("type") != "relation" or not ref:
+            continue
+        rm = any(MASAF_LIST.get(masaf_code(c)) for c in (x.strip() for x in ref.split(";")) if c)
+        row = "|".join([str(el["id"]), "1" if rm else "0", ref, str(t.get("masaf:criteria", "")).strip(),
+                        " ".join(str(t.get("name", "")).split())])
+        for m in el.get("members", []):
+            if m.get("type") == "node":
+                out[m["ref"]].add(row)
+    return {k: sorted(v, key=lambda r: int(r.split("|")[0])) for k, v in out.items()}
+
+
+def previous_groups(path):
+    """Righe "mg" dell'ultimo aggiornamento della regione (file path), per quando le relazioni non si leggono."""
+    if not path.exists():
+        return {}
+    return {f["properties"]["id"]: f["properties"]["mg"].split("\n")
+            for f in json.loads(gzip.decompress(path.read_bytes()))["features"] if f["properties"].get("mg")}
+
+
+def load_masaf_groups(region, path):
+    """MASAF_GROUPS della regione (solo in Italia). Se Overpass non risponde l'aggiornamento continua con un avviso e
+    con i gruppi dell'ultimo aggiornamento (dal file della regione), per gli alberi che ci sono ancora."""
+    data = run_overpass(masaf_groups_query(region), f"{region['slug']} relazioni con ref:masaf", False, http_timeout=240)
+    if data is not None:
+        groups = masaf_groups(data["elements"])
+        rels = sum(1 for el in data["elements"] if el.get("type") == "relation")
+        print(f"{region['slug']}: {rels} relazioni con ref:masaf, {len(groups)} nodi membri")
+        return groups
+    groups = previous_groups(path)
+    warn(f"{region['slug']}: relazioni con ref:masaf non lette (Overpass non risponde), uso i gruppi dell'ultimo "
+         f"aggiornamento ({len(groups)} alberi membri)")
+    return groups
+
+
+def masaf_member(osm_id):
+    """Vero se il nodo è membro di una relazione con ref:masaf (MASAF_GROUPS)."""
+    return osm_id is not None and bool(MASAF_GROUPS.get(osm_id))
+
+
 # --- Forma di species: specie non identificata (sp., spp.) e autore del nome (L., (L.) Kuntze, Merr.…) ---
 UNIDENTIFIED = re.compile(r"^\s*(×\s*)?(\S+)\s+(sp|spp)\.?\s*$", re.I)
 INFRA = {"subsp.", "ssp.", "var.", "subvar.", "f.", "forma", "cv.", "nothosubsp.", "nothovar."}
@@ -2027,10 +2101,11 @@ def checks(t, pos, osm_id=None):
         if hr:
             q, (label_it, label_en) = hr[0]
             props.update(wd_her_q=q, wd_her_it=label_it, wd_her_en=label_en)
-    # albero monumentale (natural_monument o una fonte monumentale) molto piccolo, non in whitelist (issue #34). Non
-    # si ripete la misura che un check sul rapporto altezza/circonferenza dà già per sbagliata: la circonferenza se
-    # l'albero è troppo slanciato, l'altezza se è troppo tozzo. sm_keys: misure sotto la soglia, separate da ";"
-    if ((src or "natural_monument" in [x.strip() for x in t.get("denotation", "").split(";")])
+    # albero monumentale (natural_monument, una fonte monumentale o membro di un insieme omogeneo MASAF) molto piccolo,
+    # non in whitelist (issue #34). Non si ripete la misura che un check sul rapporto altezza/circonferenza dà già per
+    # sbagliata: la circonferenza se l'albero è troppo slanciato, l'altezza se è troppo tozzo. sm_keys: misure sotto la
+    # soglia, separate da ";". Essere membro di un insieme omogeneo non è una fonte di monument_denotation (MASAF_GROUPS)
+    if ((src or masaf_member(osm_id) or "natural_monument" in [x.strip() for x in t.get("denotation", "").split(";")])
             and t.get("natural") != "tree_stump" and osm_id not in SMALL_MON_WHITELIST):
         sm = []
         if h is not None and 0 < h < SMALL_MON_HEIGHT and "too_stocky" not in issues:
@@ -2181,9 +2256,14 @@ def to_feature(el):
         else:
             p["sr"], p["sr_est"] = DEFAULT_STUMP_R, True
     else:
+        # membro di un insieme omogeneo MASAF (MASAF_GROUPS): le relazioni, per la scheda; vale come monumentale
+        if grp := MASAF_GROUPS.get(el["id"]):
+            p["mg"] = "\n".join(grp)
         crown, circ, circ_est = sizes(t)
-        # chioma: diameter_crown, altrimenti raggio di ripiego con variazione casuale (non per monumentali e landmark)
-        p["cr"] = round(crown / 2, 2) if crown else round(default_crown_r(t) * jitter(el["id"], t), 2)
+        # chioma: diameter_crown, altrimenti raggio di ripiego con variazione casuale (non per monumentali e landmark;
+        # i membri di un insieme omogeneo hanno quello dei monumentali)
+        tc = {**t, "denotation": "natural_monument"} if grp else t
+        p["cr"] = round(crown / 2, 2) if crown else round(default_crown_r(tc) * jitter(el["id"], tc), 2)
         p["cr_est"] = crown is None
         c, from_d = circ_value(t)
         if from_d and c:
@@ -2237,7 +2317,7 @@ def to_feature(el):
     if r is not None and r0:
         p.update(hc_ratio=round(r, 3), hc_circ=round(circ_value(t)[0], 2), sp_ratio=r0)
     p.update(props)
-    p.update(hint_props(t))               # consigli della scheda (non errori)
+    p.update(hint_props(t, el["id"]))     # consigli della scheda (non errori)
     if SLENDER_CHECKS & set(iss):          # rapporto altezza/circonferenza segnalato: niente consiglio sulla soglia MASAF
         p.pop("hint_ms", None)
     return {"type": "Feature", "properties": p,
@@ -2346,8 +2426,9 @@ def write_gz(path, raw):
 
 def minimal(fc):
     """File ridotto per il caricamento in due fasi: solo gli alberi visibili a zoom basso (con errori o
-    monumentali). Il sito lo carica e lo mostra subito, mentre il file completo si carica in secondo piano."""
-    feats = [f for f in fc["features"] if f["properties"]["issues"] != "|"
+    monumentali, anche i membri di un insieme omogeneo MASAF). Il sito lo carica e lo mostra subito, mentre il file
+    completo si carica in secondo piano."""
+    feats = [f for f in fc["features"] if f["properties"]["issues"] != "|" or f["properties"].get("mg")
              or "natural_monument" in str(f["properties"].get("denotation", "")).split(";")]
     return json.dumps({"type": "FeatureCollection", "features": feats}, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
@@ -2619,10 +2700,11 @@ def report_year_events():
 
 
 def update_region(region, regions_index):
-    global IN_ITALY, COUNTRY
+    global IN_ITALY, COUNTRY, MASAF_GROUPS
     slug = region["slug"]
     IN_ITALY = region.get("iso", "").startswith("IT")   # consiglio hint_ms (soglie MASAF)
     COUNTRY = region.get("iso", "")[:2]                 # check register_country
+    MASAF_GROUPS = {}                                   # i membri della regione precedente non valgono qui
     s, w, n, e = region["bbox"]
     bbox = (s - BBOX_PAD, w - BBOX_PAD, n + BBOX_PAD, e + BBOX_PAD)
     area = (n - s) * (e - w)
@@ -2647,6 +2729,7 @@ def update_region(region, regions_index):
     update_wikidata_cache(data["elements"])   # prima dei check: servono ai check su Wikidata (taxon e distanza)
     update_url_cache(data["elements"])        # e al check sui link rotti
     update_fotoshi_cache(data["elements"])    # autore e licenza delle foto di Fotoshi, per la scheda
+    MASAF_GROUPS = load_masaf_groups(region, path) if IN_ITALY else {}   # insiemi omogenei MASAF, solo in Italia
     fc = build(data)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     digest = hashlib.sha1(raw).hexdigest()

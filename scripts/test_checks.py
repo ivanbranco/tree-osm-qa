@@ -12,6 +12,9 @@ ricava da quei file sono sostituite dalle piccole tabelle finte scritte qui sott
 inventati. Le soglie fisse dei check (MAX_HEIGHT, SLENDER_MAX, …) sono invece quelle vere: i casi usano valori lontani
 dalle soglie, ma se una soglia cambia molto vanno riguardati.
 
+HINT_CASES prova il consiglio hint_ms; GROUP_ELEMENTS e feature_failures la lettura delle relazioni con ref:masaf
+(insiemi omogenei, issue #9) e i loro membri nelle feature.
+
 Quando si aggiunge o si cambia un check: aggiornare CASES. Un codice che checks() può segnalare e che nessun caso
 si aspetta fa fallire il test.
 """
@@ -28,6 +31,7 @@ FAR = [13.0, 43.0]          # un punto a più di 100 km
 COUNTRY = "IT"              # nazione della regione degli alberi finti, se il caso non ne indica un'altra
 REMOVED = "001/A001/RM/01"  # codice MASAF finto, rimosso dall'elenco
 LISTED = "002/A002/RM/02"   # codice MASAF finto, iscritto
+MEMBER = 9001               # id di un nodo membro di un insieme omogeneo MASAF (FIXTURES["MASAF_GROUPS"])
 
 _SPECIES = {
     "Quercus robur": {"wikidata": "Q920001", "leaf_type": "broadleaved", "leaf_cycle": "deciduous"},
@@ -64,6 +68,10 @@ FIXTURES = {
     "DEN_COUNTS": _DEN,
     "DEN_COMMON": sorted((v for v, n in _DEN.items() if n >= ft.DEN_COMMON_MIN), key=len, reverse=True),
     "MASAF_LIST": {ft.masaf_code(REMOVED): ["morte naturale", "D.M. 1/2020"], ft.masaf_code(LISTED): None},
+    # membri di insiemi omogenei MASAF (relazioni con ref:masaf): id del nodo -> righe "mg" (come masaf_groups)
+    "MASAF_GROUPS": {MEMBER: [f"17460265|0|{LISTED}|a1|Glicini"]},
+    # soglie MASAF di circonferenza (cm) per il consiglio hint_ms (HINT_CASES)
+    "MASAF_MIN_CIRC": {ft.binomial("Quercus robur"): 400},
     # elementi di wikidata=* (i singoli alberi)
     "WD_ITEMS": {
         "Q910001": {"taxon": False, "coords": [POS]},                 # vicino
@@ -294,6 +302,16 @@ CASES = [
      ["too_stocky"]),
     ("dipendenza: con too_slender niente small_monument per la circonferenza",
      {**MON, "height": "24", "circumference": "0.01"}, ["too_slender"]),
+    # membri di un insieme omogeneo MASAF (relazione con ref:masaf, issue #9): monumentali senza natural_monument
+    ("insieme omogeneo: membro senza natural_monument non è un errore", {**OAK, "denotation": "park"}, [], MEMBER),
+    ("insieme omogeneo: membro con natural_monument", {**MON}, [], MEMBER),
+    ("insieme omogeneo: membro con un ref:masaf suo", {"natural": "tree", "ref:masaf": LISTED},
+     ["monument_denotation"], MEMBER),
+    ("insieme omogeneo: membro con un ref:masaf suo rimosso", {**MON, "ref:masaf": REMOVED}, ["masaf_removed"], MEMBER),
+    ("small_monument: membro di un insieme omogeneo", {"natural": "tree", "denotation": "park", "height": "1"},
+     ["small_monument"], MEMBER),
+    ("small_monument: non per un ceppo membro di un insieme omogeneo", {"natural": "tree_stump", "height": "1"}, [],
+     MEMBER),
     ("masaf_criteria", {"natural": "tree", "masaf:criteria": "a1,B"}, ["masaf_criteria"]),
     ("masaf:criteria validi", {"natural": "tree", "masaf:criteria": "a1,b"}, []),
     ("masaf_removed", {**MON, "ref:masaf": REMOVED}, ["masaf_removed"]),
@@ -351,6 +369,58 @@ CASES = [
 ]
 
 
+# Consiglio hint_ms (soglia MASAF di circonferenza, solo nelle regioni italiane): (nome, tag, id del nodo, atteso)
+HINT_CASES = [
+    ("hint_ms: circonferenza oltre la soglia", {**OAK, "circumference": "5"}, None, True),
+    ("hint_ms: non con natural_monument", {**MON, **OAK, "circumference": "5"}, None, False),
+    ("hint_ms: non per un membro di un insieme omogeneo", {**OAK, "denotation": "park", "circumference": "5"}, MEMBER,
+     False),
+]
+
+# Relazioni con ref:masaf (masaf_groups): elementi finti di una risposta di Overpass -> righe "mg" attese per nodo
+_REL = lambda i, tags, members: {"type": "relation", "id": i, "tags": tags,
+                                  "members": [{"type": k, "ref": r, "role": ""} for k, r in members]}
+GROUP_ELEMENTS = [
+    # insieme omogeneo come dice la wiki, con due codici (uno rimosso): membri due nodi, una via e una relazione
+    _REL(10, {"type": "site", "natural": "tree_group", "denotation": "natural_monument", "ref:masaf": f"{LISTED};{REMOVED}",
+              "masaf:criteria": "a1,a2.3", "name": "Glicini | del chiostro"},
+         [("node", 1), ("node", 2), ("way", 3), ("relation", 4)]),
+    _REL(11, {"ref:masaf": LISTED}, [("node", 1)]),                          # solo ref:masaf: vale lo stesso
+    _REL(12, {"type": "site", "denotation": "natural_monument"}, [("node", 5)]),   # senza ref:masaf: niente
+    _REL(13, {"ref:masaf": LISTED}, [("way", 6)]),                           # senza nodi membri: niente
+]
+GROUP_EXPECTED = {1: [f"10|1|{LISTED};{REMOVED}|a1,a2.3|Glicini | del chiostro", f"11|0|{LISTED}||"],
+                  2: [f"10|1|{LISTED};{REMOVED}|a1,a2.3|Glicini | del chiostro"]}
+
+
+def feature_failures():
+    """Membri di un insieme omogeneo nelle feature (to_feature, minimal) e lettura delle relazioni (masaf_groups)."""
+    out = []
+    ft.IN_ITALY, ft.COUNTRY = True, "IT"
+    for name, tags, osm_id, want in HINT_CASES:
+        got = "hint_ms" in ft.hint_props(dict(tags), osm_id)
+        if got != want:
+            out.append(f"FALLITO: {name}\n  tag:     {tags}\n  atteso:  {'hint_ms' if want else 'niente hint_ms'}")
+    if (got := ft.masaf_groups(GROUP_ELEMENTS)) != GROUP_EXPECTED:
+        out.append(f"FALLITO: masaf_groups\n  atteso:  {GROUP_EXPECTED}\n  uscito:  {got}")
+    node = lambda i, tags: {"type": "node", "id": i, "lat": POS[1], "lon": POS[0], "tags": tags}
+    tags = {**OAK, "denotation": "park", "circumference": "5"}
+    try:
+        mem, other = ft.to_feature(node(MEMBER, tags))["properties"], ft.to_feature(node(9002, tags))["properties"]
+        stump = ft.to_feature(node(MEMBER, {"natural": "tree_stump"}))["properties"]
+        small = ft.minimal({"features": [{"properties": mem}, {"properties": other}]})
+    except Exception as e:
+        return out + [f"ERRORE: to_feature dei membri si è fermata: {type(e).__name__}: {e}"]
+    checks = [("membro: proprietà mg", mem.get("mg") == FIXTURES["MASAF_GROUPS"][MEMBER][0]),
+              ("membro: chioma di ripiego dei monumentali (5 m, senza variazione)", mem.get("cr") == 5.0),
+              ("membro: niente hint_ms", "hint_ms" not in mem),
+              ("non membro: niente mg, hint_ms", "mg" not in other and "hint_ms" in other),
+              ("ceppo membro: resta un ceppo, senza mg", stump.get("stump") == 1 and "mg" not in stump),
+              ("file ridotto: il membro c'è, l'albero qualsiasi no", f'"id":{MEMBER}' in small.decode() and '"id":9002' not in small.decode())]
+    out += [f"FALLITO: {n}" for n, ok in checks if not ok]
+    return out
+
+
 def known_codes():
     """Codici che checks() può segnalare, letti dal codice: flag("…") in checks() e issues.append("…") in
     species_list_mismatches()."""
@@ -395,6 +465,7 @@ def main():
             if len(got) != len(set(got)):
                 lines.append("  un codice è uscito due volte")
             failures.append("\n".join(lines))
+    failures += feature_failures()
     codes = known_codes()
     if uncovered := sorted(codes - covered):
         failures.append("CHECK SENZA CASI: " + ", ".join(uncovered)
@@ -406,7 +477,8 @@ def main():
         print("\n\n".join(failures))
         print(f"\nTest dei check: {len(failures)} problemi su {len(CASES)} casi e {len(codes)} check")
         sys.exit(1)
-    print(f"Test dei check: {len(CASES)} casi, {len(codes)} check, tutto a posto")
+    print(f"Test dei check: {len(CASES)} casi, {len(codes)} check, {len(HINT_CASES)} casi dei consigli, "
+          "insiemi omogenei MASAF: tutto a posto")
 
 
 if __name__ == "__main__":

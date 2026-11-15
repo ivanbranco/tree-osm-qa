@@ -1,7 +1,7 @@
 {
   "data_format": 1,
   "data_url": "https://raw.githubusercontent.com/ivanbranco/tree-osm-qa/main/taginfo.json",
-  "data_updated": "20261113T000000Z",
+  "data_updated": "20261115T000000Z",
   "project": {
     "name": "DendrOSM",
     "description": "Quality assurance map of OSM trees.",
@@ -71,6 +71,9 @@
     {"key": "denotation", "value": "orchard", "object_types": ["node"], "description": "Used to estimate diameter_crown when missing."},
     {"key": "ref:masaf", "object_types": ["node"], "description": "Used for QA checks (also: code not in the MASAF list), hints and the info panel."},
     {"key": "masaf:criteria", "object_types": ["node"], "description": "Used for QA checks, the info panel and a hint (criteria from the MASAF list when missing)."},
+    {"key": "ref:masaf", "object_types": ["relation"], "description": "Homogeneous group of the MASAF list (e.g. type=site + natural=tree_group): the member natural=tree nodes are rendered as monumental trees, also on the world map of monumental trees, and their info panel shows the code with a link to the relation. The code also counts the MASAF tree as already on OSM."},
+    {"key": "masaf:criteria", "object_types": ["relation"], "description": "On a relation with ref:masaf (homogeneous group): shown in the info panel of the member trees."},
+    {"key": "name", "object_types": ["relation"], "description": "On a relation with ref:masaf (homogeneous group): shown in the info panel of the member trees."},
     {"key": "ref:rami", "object_types": ["node"], "description": "Used for QA checks (also: tag outside Italy) and the info panel."},
     {"key": "heritage:operator", "value": "icnf", "object_types": ["node"], "description": "Tree of public interest in Portugal: used for QA checks and the info panel."},
     {"key": "heritage:operator", "value": "anf", "object_types": ["node"], "description": "Protected tree in Luxembourg: used for QA checks and the info panel."},

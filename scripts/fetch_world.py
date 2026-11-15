@@ -102,7 +102,8 @@ def add_min_zoom(fc):
 # Alberi dell'elenco MASAF (scripts/masaf_trees.json, da update_masaf.py) non ancora su OpenStreetMap: la mappa dei
 # monumentali li mostra con il contorno tratteggiato. Un albero dell'elenco è già su OSM se un nodo (in Italia, anche
 # non monumentale), una via o una relazione (es. una coppia di glicini mappata come relazione) ha il suo codice in
-# ref:masaf, oppure se un albero OSM monumentale dello stesso genere è entro MASAF_NEAR metri (mappato senza ref:masaf).
+# ref:masaf, oppure se un albero OSM monumentale dello stesso genere è entro MASAF_NEAR metri (mappato senza ref:masaf;
+# non i membri di un insieme omogeneo monumentali solo per il gruppo, group_only: il codice del gruppo conta già).
 MASAF_TREES = ft.HERE / "masaf_trees.json"
 MASAF_NEAR = 25
 MASAF_CROWN_R = 5.0        # m, come DEFAULT_CROWN_R_BY_DENOTATION per natural_monument in fetch_trees.py
@@ -151,6 +152,8 @@ def masaf_missing(fc):
     for f in fc["features"]:
         p = f["properties"]
         codes.update(ft.masaf_code(r) for r in str(p.get("ref:masaf", "")).split(";") if r.strip())
+        if group_only(p):                  # monumentale solo come membro di un insieme omogeneo: niente vicinanza
+            continue
         genus = (p.get("genus") or str(p.get("species", "")).split(" ")[0]).lower()
         mon.append((f["geometry"]["coordinates"], genus))
     grid = {}
@@ -214,12 +217,24 @@ def masaf_missing(fc):
 # specie, senza denotation=natural_monument/landmark né ref:masaf): la scheda lo dice con una nota a parte. Non quelli
 # con un errore sulla circonferenza (BAD_CIRC), perché la misura non è affidabile.
 IMPLICIT_CHECKS = ("|monument_denotation|", "|wikidata_heritage|")
+# Membri di un insieme omogeneo MASAF (proprietà "mg" dei dati delle regioni italiane, vedi MASAF_GROUPS in
+# fetch_trees.py): si prendono anche loro dalle regioni del tool QA e sulla mappa sono monumentali come gli altri, senza
+# "imp" (la scheda li spiega con la riga del gruppo, non con la nota delle altre fonti), anche quando hanno un ref:masaf
+# loro senza natural_monument. A quelli che hanno già denotation=natural_monument (arrivati dalla query) si aggiunge solo
+# "mg". Quelli monumentali solo per il gruppo (group_only) non contano nel confronto per vicinanza con l'elenco MASAF
+# (masaf_missing) né nella divisione in riquadri (plan_tiles).
+
+
+def group_only(p):
+    """Vero per un membro di un insieme omogeneo MASAF senza denotation=natural_monument."""
+    return bool(p.get("mg")) and "natural_monument" not in str(p.get("denotation", "")).split(";")
 
 
 def implicit_monuments():
     """Feature degli alberi monumentali solo per altre fonti o per la soglia MASAF, dalle regioni del tool QA con dati
-    (con "qa" e "imp"); restituisce (feature, quanti solo per la soglia MASAF)."""
-    feats, n_ms = [], 0
+    (con "qa" e "imp"), e dei membri di insiemi omogenei MASAF (con "qa"); restituisce (feature, quanti solo per la
+    soglia MASAF, {id: feature dei membri})."""
+    feats, n_ms, members = [], 0, {}
     for slug in ft.load_json(ft.INDEX, "regions"):
         path = ft.OUT_DIR / f"{slug}.geojson.gz"
         if not path.exists():
@@ -228,6 +243,10 @@ def implicit_monuments():
             p = f["properties"]
             if p.get("stump"):
                 continue
+            if p.get("mg"):
+                p["qa"] = slug
+                members[p["id"]] = f
+                continue
             other = any(c in p.get("issues", "") for c in IMPLICIT_CHECKS)
             if p.get("hint_ms") and BAD_CIRC & set(p.get("issues", "").strip("|").split("|")):
                 del p["hint_ms"]                   # circonferenza non affidabile: niente nota sulla soglia
@@ -235,7 +254,7 @@ def implicit_monuments():
                 p["imp"], p["qa"] = 1, slug
                 feats.append(f)
                 n_ms += not other
-    return feats, n_ms
+    return feats, n_ms, members
 
 
 def in_ring(x, y, ring):
@@ -299,7 +318,7 @@ def plan_tiles(key):
     pts = []
     if path.exists():
         pts = [f["geometry"]["coordinates"] for f in json.loads(gzip.decompress(path.read_bytes()))["features"]
-               if not f["properties"].get("imp")]
+               if not f["properties"].get("imp") and not group_only(f["properties"])]
     if not pts:
         return [(t, 1) for t in split4(WORLD_BBOX)]
 
@@ -379,10 +398,14 @@ def update_map(key, index):
         slug = region_of(*f["geometry"]["coordinates"], regions)
         if slug:
             f["properties"]["qa"] = slug
-    implicit, n_ms = implicit_monuments() if key == "monumental" else ([], 0)
-    fc["features"] += implicit
+    implicit, n_ms, members = implicit_monuments() if key == "monumental" else ([], 0, {})
+    for f in fc["features"]:                   # membri con natural_monument: solo le righe del gruppo
+        if m := members.pop(f["properties"]["id"], None):
+            f["properties"]["mg"] = m["properties"]["mg"]
+    groups = sorted(members.values(), key=lambda f: f["properties"]["id"])
+    fc["features"] += implicit + groups
     print(f"{key}: {len(implicit)} alberi monumentali solo per altre fonti (dalle regioni del tool QA), "
-          f"{n_ms} dei quali solo per la soglia MASAF")
+          f"{n_ms} dei quali solo per la soglia MASAF; {len(groups)} solo come membri di un insieme omogeneo MASAF")
     n_low = add_min_zoom(fc)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     path = WORLD_DIR / f"{key}.geojson.gz"
