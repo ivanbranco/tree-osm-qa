@@ -1463,6 +1463,43 @@ setTimeout(revealMap, 8000);
 // alberi anche a zoom bassi MapLibre impiegava diversi secondi a ridisegnarli a ogni cambio di zoom (12 s a zoom 3
 // sull'Europa). Vista iniziale: l'Europa.
 const FULL_Z = 7, WORLD_START = { center: [11, 48], zoom: 4 };
+// Sfondo in scala di grigi (issue #72): lo stile Positron di OpenFreeMap (tessere vettoriali, server con
+// Access-Control-Allow-Origin, senza chiave). Si scarica solo alla prima richiesta (tasto B, non mentre si scrive in un
+// campo o con una finestra aperta); i suoi livelli vanno subito sopra "osm" e sotto quelli degli alberi, con gli id
+// preceduti da "pz-". Poi il tasto B alterna i due sfondi cambiando solo la visibilità: MapLibre non scarica le tessere
+// di una sorgente i cui livelli sono tutti nascosti, e il credito di ciascuna compare solo quando la si vede.
+const POSITRON_URL = "https://tiles.openfreemap.org/styles/positron";
+let grayIds = null, grayOn = false, grayBusy = false;
+async function toggleGray() {
+  if (grayBusy) return;
+  if (!grayIds) {
+    grayBusy = true;
+    try {
+      const st = await fetch(POSITRON_URL).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+      if (st.glyphs) map.setGlyphs(st.glyphs);
+      if (st.sprite) map.setSprite(st.sprite);
+      for (const [id, src] of Object.entries(st.sources)) map.addSource("pz-" + id, src);
+      const all = map.getStyle().layers, before = all[all.findIndex(l => l.id === "osm") + 1]?.id;
+      grayIds = [];
+      for (const l of st.layers) {
+        const nl = { ...l, id: "pz-" + l.id, layout: { ...(l.layout || {}), visibility: "none" } };
+        if (l.source) nl.source = "pz-" + l.source;
+        map.addLayer(nl, before);
+        grayIds.push(nl.id);
+      }
+    } catch (err) { console.warn("Positron:", err); grayIds = null; return; }
+    finally { grayBusy = false; }
+  }
+  grayOn = !grayOn;
+  for (const id of grayIds) map.setLayoutProperty(id, "visibility", grayOn ? "visible" : "none");
+  map.setLayoutProperty("osm", "visibility", grayOn ? "none" : "visible");
+}
+addEventListener("keydown", e => {
+  // map.isStyleLoaded() qui non va: resta false finché si scaricano tessere
+  if (e.key.toLowerCase() !== "b" || e.ctrlKey || e.metaKey || e.altKey || !map.style?._loaded) return;
+  if (e.target.closest?.("input, select, textarea, [contenteditable], dialog") || document.querySelector("dialog[open]")) return;
+  toggleGray();
+});
 map.dragRotate.disable();
 map.touchZoomRotate.disableRotation();
 map.keyboard.disableRotation();
