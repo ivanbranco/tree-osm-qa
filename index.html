@@ -223,7 +223,7 @@
   .pop:focus-visible{outline:1px dotted currentColor}
   .pop.open .tip{display:block}
   .card .rec{margin:4px 0}
-  /* riconoscimento di un ente (MASAF, RAMI, ICNF, ANF): ★ davanti, le righe a capo allineate al testo; i criteri MASAF
+  /* riconoscimento di un ente (MASAF, RAMI, ICNF, ANF, CRFOP): ★ davanti, le righe a capo allineate al testo; i criteri MASAF
      (.sub) rientrano allo stesso punto, sotto la riga MASAF */
   .card .rec.off{padding-left:1.2em;text-indent:-1.2em}
   .card .rec.off::before{content:"★";content:"★" / "";display:inline-block;width:1.2em;text-indent:0;color:#b8860b}
@@ -563,7 +563,7 @@ const I18N = {
       leaf_type_mismatch: "leaf_type diverso da quello della specie", leaf_cycle_mismatch: "leaf_cycle diverso da quello della specie",
       monument_denotation: "Fonte monumentale senza natural_monument",
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
-      masaf_removed: "Albero rimosso dall'elenco MASAF",
+      masaf_removed: "Albero rimosso dall'elenco MASAF", register_country: "Tag di un registro di un'altra nazione",
       undocumented_tag: "Tag non documentato (tree, type)", key_typo: "Chiave scritta male (heigth, Species…)", circumference_species: "Circonferenza > limite della specie",
       height_species: "Altezza > limite della specie", species_typo: "Species forse scritta male",
       species_epithet_case: "Species con l'epiteto maiuscolo", species_common_name: "Species non scientifica (nome comune?)",
@@ -710,7 +710,8 @@ const I18N = {
       link_format: "wikidata vuole un QID (Q…), wikimedia_commons il prefisso File: o Category:, panoramax un UUID, image un indirizzo http(s).",
       broken_link: "Segnalati: pagine 404 o 410, siti che non esistono più e file assenti su Commons. Non sono segnalati 403, 429, errori del server e timeout, che spesso sono blocchi verso i programmi automatici.",
       commons_far: "Le coordinate del file di Commons collegato (wikimedia_commons o image) distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
-      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) o con una tutela (P1435) indicano un albero monumentale, che in OSM ha denotation=natural_monument.",
+      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) o con una tutela (P1435) indicano un albero monumentale, che in OSM ha denotation=natural_monument. Sui ceppi ref:CRFOP e ref:gid non sono segnalati.",
+      register_country: "Tag dei registri nazionali degli alberi monumentali: ref:masaf, masaf:criteria e ref:rami (Italia), ref:icnf e heritage:operator=icnf (Portogallo), heritage:operator=anf (Lussemburgo), ref:CRFOP e ref:gid (Polonia). Segnalati sugli alberi delle regioni di altre nazioni.",
       masaf_criteria: "Codici ammessi: a–g, a1, a2, a2.1, a2.2, a2.3, separati da virgole senza spazi.",
       masaf_removed: "Il codice ref:masaf corrisponde a un albero che l'elenco degli alberi monumentali d'Italia dà come rimosso. Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       denotation_value: "Confronto con gli usi su Taginfo: segnalati i valori usati al massimo 10 volte, quelli con un formato non valido e quelli comuni con altro testo attaccato.",
@@ -738,6 +739,7 @@ const I18N = {
       number_invalid: t => `valore non numerico, intervallo o zero in ${t}`,
       link_format: t => `formato non valido in ${t}`,
       monument_denotation: t => `${t} senza denotation=natural_monument`,
+      register_country: (t, c) => `${t}: tag di un registro nazionale (${c}) su un albero di un'altra nazione`,
       // fonti da Wikidata (mon_src "wikidata=Q… (P9704)" o "(Q811534)", tutela wd_her_*), tra parentesi dopo "Wikidata"
       monWd: { Q811534: "pianta monumentale", P9704: "scheda su monumentaltrees.com", her: label => `tutelato: ${label}` },
       crown: v => `diametro chioma ${v} > 60,4 m (record per un albero vivo a tronco singolo)`,
@@ -805,6 +807,7 @@ const I18N = {
     recRami: (l, ref) => `Albero inserito nel ${l("registro RAMI")} (${ref})`,
     recIcnf: (l, ref) => `Albero di interesse pubblico, tutelato in Portogallo dall’${l("ICNF")}${ref ? ` (${ref})` : ""}`,
     recAnf: l => `Albero tutelato in Lussemburgo dall’${l("ANF")}`,
+    recCrfop: (l, ref) => `Monumento naturale (pomnik przyrody) iscritto nel ${l("registro CRFOP")} della Polonia${ref ? ` (${ref})` : ""}`,
     // l(url, testo): link; kind = "zapis" (ref:zapis; il numero, di una lista non ufficiale, non si mostra),
     // "rag_tree" (sacred_tree=rag_tree), "goshinboku" (religion=shinto) o null
     recSacred: (l, kind) => kind ? `Albero sacro: ${l(SACRED_WP[kind], SACRED_NAME[kind])}` : "Albero sacro",
@@ -984,7 +987,7 @@ const I18N = {
       leaf_type_mismatch: "leaf_type differs from the species", leaf_cycle_mismatch: "leaf_cycle differs from the species",
       monument_denotation: "Monumental source without natural_monument",
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
-      masaf_removed: "Tree removed from the MASAF list",
+      masaf_removed: "Tree removed from the MASAF list", register_country: "Register tag from another country",
       undocumented_tag: "Undocumented tag (tree, type)", key_typo: "Misspelled key (heigth, Species…)", circumference_species: "Circumference > species limit",
       height_species: "Height > species limit", species_typo: "Possibly misspelled species",
       species_epithet_case: "Species with uppercase epithet", species_common_name: "Non-scientific species (common name?)",
@@ -1123,7 +1126,8 @@ const I18N = {
       link_format: "wikidata needs a QID (Q…), wikimedia_commons the File: or Category: prefix, panoramax a UUID, image an http(s) address.",
       broken_link: "Reported: 404 or 410 pages, sites that no longer exist and files missing on Commons. 403, 429, server errors and timeouts are not reported, as they are often blocks against automated tools.",
       commons_far: "The coordinates of the linked Commons file (wikimedia_commons or image) are more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
-      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) or with a heritage designation (P1435) indicate a monumental tree, which in OSM has denotation=natural_monument.",
+      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) or with a heritage designation (P1435) indicate a monumental tree, which in OSM has denotation=natural_monument. On tree stumps ref:CRFOP and ref:gid are not reported.",
+      register_country: "Tags of the national registers of monumental trees: ref:masaf, masaf:criteria and ref:rami (Italy), ref:icnf and heritage:operator=icnf (Portugal), heritage:operator=anf (Luxembourg), ref:CRFOP and ref:gid (Poland). Reported on trees of regions in other countries.",
       masaf_criteria: "Allowed codes: a–g, a1, a2, a2.1, a2.2, a2.3, separated by commas without spaces.",
       masaf_removed: "The ref:masaf code belongs to a tree that the list of monumental trees of Italy reports as removed. Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format and common values with other text attached.",
@@ -1151,6 +1155,7 @@ const I18N = {
       number_invalid: t => `non-numeric value, range or zero in ${t}`,
       link_format: t => `invalid format in ${t}`,
       monument_denotation: t => `${t} without denotation=natural_monument`,
+      register_country: (t, c) => `${t}: tag of a national register (${c}) on a tree in another country`,
       monWd: { Q811534: "remarkable tree", P9704: "monumentaltrees.com page", her: label => `protected: ${label}` },
       crown: v => `crown diameter ${v} > 60.4 m (record for a living single-trunk tree)`,
       species_typo: (sp, s) => `species=${sp} is not in the species list: did you mean ${s}?`,
@@ -1216,6 +1221,7 @@ const I18N = {
     recRami: (l, ref) => `Listed in the ${l("RAMI register")} (${ref})`,
     recIcnf: (l, ref) => `Tree of public interest, protected in Portugal by the ${l("ICNF")}${ref ? ` (${ref})` : ""}`,
     recAnf: l => `Tree protected in Luxembourg by the ${l("ANF")}`,
+    recCrfop: (l, ref) => `Natural monument (pomnik przyrody) listed in the Polish ${l("CRFOP register")}${ref ? ` (${ref})` : ""}`,
     recSacred: (l, kind) => kind ? `Sacred tree: ${l(SACRED_WP[kind], SACRED_NAME[kind])}` : "Sacred tree",
     recCriteria: list => `MASAF monumentality criteria: ${list}`,
     masafCriteria: { a: "age and/or size", a1: "age", a2: "size", "a2.1": "circumference", "a2.2": "height",
@@ -2126,7 +2132,7 @@ map.on("load", async () => {
       "not_latin", "genus", "genus_lowercase", "genus_mismatch"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
       "wikidata_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
-    ["links", ["link_format", "broken_link", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed"]],
+    ["links", ["link_format", "broken_link", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed", "register_country"]],
   ];
   const issueGroupOf = code => (ISSUE_GROUPS.find(([, codes]) => codes.includes(code)) || ["other"])[0];
   // filtro di MapLibre per una voce del menu: un errore, oppure (g:<gruppo>) uno qualsiasi degli errori del gruppo
@@ -3627,6 +3633,9 @@ const issueBase = (i, p) => {
     case "masaf_removed":        // masaf_rm: righe "codice|motivo|decreto" (fetch_trees.py)
       return String(p.masaf_rm || "").split("\n").filter(Boolean).map(x => { const [c, r, d] = x.split("|");
         return T[i](c, T.masafRemovedWhy[r] ?? "", d).replace(/ +\(/, " (").replace(/ $/, ""); }).join("\n");
+    case "register_country":     // reg_out: "tag|codice ISO della nazione;…" (fetch_trees.py)
+      return String(p.reg_out || "").split(";").filter(Boolean).map(x => { const [t, cc] = x.split("|");
+        return T[i](t, countryName(cc)); }).join("\n");
     case "masaf_criteria":       // masaf_bad: parti non valide separate da "," (fetch_trees.py)
       return T[i](p["masaf:criteria"] ?? "", String(p.masaf_bad ?? "").split(",").map(x => x === "" ? T.empty : `"${x}"`));
     case "denotation_value": {    // den_bad, den_why, den_n: valori, motivi e usi, separati da ";" (fetch_trees.py)
@@ -3651,6 +3660,9 @@ const MASAF_URL = "https://www.masaf.gov.it/flex/cm/pages/ServeBLOB.php/L/IT/IDP
 const RAMI_URL = "https://ilregistrodeglialberi.it/cerca";
 const ICNF_URL = "https://www.icnf.pt/";            // heritage:operator=icnf (Portogallo)
 const ANF_URL = "https://anf.gouvernement.lu/";     // heritage:operator=anf (Lussemburgo)
+const CRFOP_URL = "https://crfop.gdos.gov.pl/";      // ref:CRFOP, ref:gid (Polonia)
+// nome della nazione di un codice ISO nella lingua della pagina (check register_country); il codice se non si sa
+const countryName = cc => { try { return new Intl.DisplayNames([LANG], { type: "region" }).of(cc) || cc; } catch (e) { return cc; } };
 const CONTACT_URL ="https://www.openstreetmap.org/messages/new/ivanbranco";   // richieste di nuove regioni
 const ISSUE_URL = "https://github.com/ivanbranco/tree-osm-qa/issues/new?template=region.yml";   // idem, come issue
 // Dati di una regione aggiornati almeno OLD_DAYS giorni fa (issue #59): dopo «Dati aggiornati al …» un avviso in
@@ -3704,6 +3716,9 @@ function recognitions(p) {
   const ops = String(p["heritage:operator"] || "").split(";").map(x => x.trim().toLowerCase());
   if (ops.includes("icnf")) r.push(["off", L.recIcnf(t => link(ICNF_URL, t), p["ref:icnf"] ? esc(p["ref:icnf"]) : "")]);
   if (ops.includes("anf")) r.push(["off", L.recAnf(t => link(ANF_URL, t))]);
+  // ref:CRFOP e ref:gid sono codici dello stesso registro: una riga sola, con ref:CRFOP se c'è
+  const crfop = p["ref:CRFOP"] || p["ref:gid"];
+  if (crfop) r.push(["off", L.recCrfop(t => link(CRFOP_URL, t), esc(crfop))]);
   if (p.sacred) r.push(["", L.recSacred(link, sacredKind(p))]);
   const mt = monumentalTreesUrl(p);
   if (mt) r.push(["", L.recMt(link(mt, "monumentaltrees.com"))]);
@@ -3729,7 +3744,8 @@ function implicitSources(p) {
 // le stesse fonti con nomi per chi non conosce i tag (mappa dei monumentali, issue #13): "MASAF e Wikidata"
 function implicitSourceNames(p) {
   const name = s => s.startsWith("wikidata=") ? "Wikidata" : s.startsWith("heritage:operator=") ? s.slice(18).toUpperCase()
-    : { "ref:masaf": "MASAF", "ref:rami": "RAMI", "ref:monumentaltrees": "monumentaltrees.com" }[s] || s;
+    : { "ref:masaf": "MASAF", "ref:rami": "RAMI", "ref:monumentaltrees": "monumentaltrees.com",
+        "ref:CRFOP": "CRFOP", "ref:gid": "CRFOP" }[s] || s;
   const src = String(p.mon_src || "").split(";").filter(Boolean).map(name);
   if (p.wd_her_q) src.push("Wikidata");
   return new Intl.ListFormat(LANG, { type: "conjunction" }).format([...new Set(src)]);

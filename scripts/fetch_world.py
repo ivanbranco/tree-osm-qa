@@ -206,7 +206,7 @@ def masaf_missing(fc):
 
 
 # Alberi monumentali secondo altre fonti ma senza denotation=natural_monument su OSM (issue #13): quelli che nel tool
-# QA hanno il check monument_denotation (ref:masaf, ref:rami, monumentaltrees.com, heritage:operator, P9704 o Q811534
+# QA hanno il check monument_denotation (ref:masaf, ref:rami, ref:CRFOP, ref:gid, monumentaltrees.com, heritage:operator, P9704 o Q811534
 # o tutela P1435 su Wikidata; wikidata_heritage è il vecchio codice della tutela, nei dati non ancora aggiornati). Si prendono dai dati delle regioni del tool QA, già
 # controllati, e sulla mappa si disegnano come monumentali; "imp" = 1, e la scheda spiega da dove viene la monumentalità
 # (mon_src, wd_her_*).

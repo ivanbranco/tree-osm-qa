@@ -25,6 +25,7 @@ import fetch_trees as ft   # noqa: E402
 
 POS = [12.0, 42.0]          # posizione degli alberi finti ([lon, lat])
 FAR = [13.0, 43.0]          # un punto a più di 100 km
+COUNTRY = "IT"              # nazione della regione degli alberi finti, se il caso non ne indica un'altra
 REMOVED = "001/A001/RM/01"  # codice MASAF finto, rimosso dall'elenco
 LISTED = "002/A002/RM/02"   # codice MASAF finto, iscritto
 
@@ -92,7 +93,8 @@ FIXTURES = {
 OAK = {"natural": "tree", "species": "Quercus robur"}
 MON = {"natural": "tree", "denotation": "natural_monument"}
 
-# (nome del caso, tag, codici attesi[, id del nodo]). L'ordine dei codici non conta.
+# (nome del caso, tag, codici attesi[, id del nodo[, nazione della regione]]). L'ordine dei codici non conta; la
+# nazione (codice ISO, "" = non nota) è COUNTRY se il caso non la indica.
 CASES = [
     # --- alberi corretti ---
     ("albero corretto, con tutti i tag", {**OAK, "genus": "Quercus", "leaf_type": "broadleaved",
@@ -232,6 +234,13 @@ CASES = [
     # --- alberi monumentali ---
     ("monument_denotation: ref:masaf", {"natural": "tree", "ref:masaf": LISTED}, ["monument_denotation"]),
     ("monument_denotation: heritage:operator", {"natural": "tree", "heritage:operator": "ICNF"},
+     ["monument_denotation"], None, "PT"),
+    ("monument_denotation: ref:CRFOP", {"natural": "tree", "ref:CRFOP": "81025"}, ["monument_denotation"], None, "PL"),
+    ("monument_denotation: ref:gid", {"natural": "tree", "ref:gid": "243066"}, ["monument_denotation"], None, "PL"),
+    ("ref:CRFOP e ref:gid con natural_monument", {**MON, "ref:CRFOP": "81025", "ref:gid": "243066"}, [], None, "PL"),
+    ("monument_denotation: non per ref:CRFOP su un ceppo", {"natural": "tree_stump", "ref:CRFOP": "81025"}, [],
+     None, "PL"),
+    ("monument_denotation: ref:masaf su un ceppo", {"natural": "tree_stump", "ref:masaf": LISTED},
      ["monument_denotation"]),
     ("monument_denotation: monumentaltrees.com",
      {"natural": "tree", "website": "https://www.monumentaltrees.com/en/ita/lazio/1/"}, ["monument_denotation"]),
@@ -255,6 +264,15 @@ CASES = [
     ("masaf_removed", {**MON, "ref:masaf": REMOVED}, ["masaf_removed"]),
     ("masaf_removed: non per i ceppi", {"natural": "tree_stump", "denotation": "natural_monument",
                                         "ref:masaf": REMOVED}, []),
+    ("register_country: ref:CRFOP in Italia", {**MON, "ref:CRFOP": "81025"}, ["register_country"]),
+    ("register_country: ref:masaf in Polonia", {**MON, "ref:masaf": LISTED}, ["register_country"], None, "PL"),
+    ("register_country: ref:rami in Polonia", {**MON, "ref:rami": "123"}, ["register_country"], None, "PL"),
+    ("ref:rami in Italia", {**MON, "ref:rami": "123"}, []),
+    ("register_country: heritage:operator=anf in Portogallo", {**MON, "heritage:operator": "icnf;ANF"},
+     ["register_country"], None, "PT"),
+    ("register_country: anche sui ceppi", {"natural": "tree_stump", "ref:gid": "243066"}, ["register_country"]),
+    ("register_country: heritage:operator di un altro ente", {"natural": "tree", "heritage:operator": "comune"}, []),
+    ("register_country: nazione della regione non nota", {**MON, "ref:CRFOP": "81025"}, [], None, ""),
 
     # --- denotation, tag non documentati, chiavi ---
     ("denotation_value: formato", {"natural": "tree", "denotation": "Urban"}, ["denotation_value"]),
@@ -303,6 +321,7 @@ def main():
         if name in names:
             failures.append(f"CASO DOPPIO: {name}\n  due casi hanno lo stesso nome")
         names.add(name)
+        ft.COUNTRY = rest[1] if len(rest) > 1 else COUNTRY   # nazione della regione (check register_country)
         try:
             got = ft.checks(dict(tags), POS, rest[0] if rest else None)[0]
         except Exception as e:   # un errore in un caso non ferma gli altri

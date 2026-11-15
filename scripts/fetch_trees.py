@@ -1420,12 +1420,40 @@ def is_monumentaltrees(v):
 # heritage:operator degli enti che tutelano gli alberi monumentali: ICNF (Portogallo, árvores de interesse público)
 # e ANF (Lussemburgo, Administration de la nature et des forêts)
 HERITAGE_OPERATORS = ("icnf", "anf")
+# codici del CRFOP (Centralny Rejestr Form Ochrony Przyrody, registro polacco dei pomniki przyrody, issue #8):
+# ref:CRFOP e ref:gid. Su un ceppo sono normali (il monumento naturale di un albero che non c'è più)
+CRFOP_KEYS = ("ref:CRFOP", "ref:gid")
+
+# tag dei registri nazionali degli alberi monumentali: (chiave, valore o None per qualsiasi valore, codice ISO della
+# nazione). Check register_country: il tag su un albero di una regione di un'altra nazione
+NATIONAL_TAGS = (("ref:masaf", None, "IT"), ("masaf:criteria", None, "IT"), ("ref:rami", None, "IT"),
+                 ("ref:icnf", None, "PT"), ("heritage:operator", "icnf", "PT"),
+                 ("heritage:operator", "anf", "LU"),
+                 ("ref:CRFOP", None, "PL"), ("ref:gid", None, "PL"))
+COUNTRY = ""   # codice ISO della nazione della regione che si sta aggiornando (update_region); "" = non noto
+
+
+def register_out_of_country(t):
+    """[(tag, nazione)] dei tag di NATIONAL_TAGS di un'altra nazione rispetto a COUNTRY: "ref:masaf" o
+    "heritage:operator=anf" e il codice ISO della nazione del registro. Vuota se la nazione della regione non è nota."""
+    if not COUNTRY:
+        return []
+    out = []
+    for k, v, cc in NATIONAL_TAGS:
+        if cc == COUNTRY or not t.get(k):
+            continue
+        if v is None:
+            out.append((k, cc))
+        elif v in (x.strip().lower() for x in str(t[k]).split(";")):
+            out.append((f"{k}={v}", cc))
+    return out
 
 
 def monument_sources(t):
-    """Fonti che indicano un albero monumentale: ref:masaf, ref:rami, ref:monumentaltrees, heritage:operator di
-    HERITAGE_OPERATORS, elemento di wikidata=* con P9704 o istanza di Q811534, link a monumentaltrees.com."""
-    src = [k for k in ("ref:masaf", "ref:rami", "ref:monumentaltrees") if t.get(k)]
+    """Fonti che indicano un albero monumentale: ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid,
+    heritage:operator di HERITAGE_OPERATORS, elemento di wikidata=* con P9704 o istanza di Q811534, link a
+    monumentaltrees.com."""
+    src = [k for k in ("ref:masaf", "ref:rami", "ref:monumentaltrees", *CRFOP_KEYS) if t.get(k)]
     if "heritage:operator" in t:
         src += [f"heritage:operator={v}" for v in (x.strip().lower() for x in str(t["heritage:operator"]).split(";"))
                 if v in HERITAGE_OPERATORS]
@@ -1702,7 +1730,7 @@ KNOWN_KEYS = ("natural", "species", "genus", "taxon", "leaf_type", "leaf_cycle",
               "genus:wikipedia", "taxon:wikidata", "taxon:wikipedia", "ref:masaf", "masaf:criteria", "ref:rami",
               "ref:monumentaltrees", "heritage:operator", "panoramax", "website", "multi_stemmed", "sex",
               "sacred_tree", "religion", "operator", "source", "description", "check_date", "survey:date",
-              "protected", "image:fotoshi", "ref:zapis", "ref:icnf")
+              "protected", "image:fotoshi", "ref:zapis", "ref:icnf", "ref:CRFOP", "ref:gid")
 KNOWN_KEY_SET = set(KNOWN_KEYS)
 NUMBERED_KEY = re.compile(r"[:_ ]?\d+$")   # image2, panoramax:1: varianti numerate, non errori
 
@@ -1908,9 +1936,12 @@ def checks(t, pos, osm_id=None):
         flag("commons_far", cm_far="\n".join(f"{m}|{k}|{f}" for f, m, k in cf))
     # un solo check per tutte le fonti monumentali, anche la tutela su Wikidata (P1435, wd_her_*): chiedono tutte
     # la stessa correzione
+    # Su un ceppo i codici CRFOP non chiedono natural_monument (CRFOP_KEYS)
     hr = wikidata_heritage(t)
-    if ((src := monument_sources(t)) or hr) and "natural_monument" not in t.get("denotation", "").split(";"):
-        flag("monument_denotation", mon_src=";".join(src))
+    src = monument_sources(t)
+    den_src = [s for s in src if s not in CRFOP_KEYS] if t.get("natural") == "tree_stump" else src
+    if (den_src or hr) and "natural_monument" not in t.get("denotation", "").split(";"):
+        flag("monument_denotation", mon_src=";".join(den_src))
         if hr:
             q, (label_it, label_en) = hr[0]
             props.update(wd_her_q=q, wd_her_it=label_it, wd_her_en=label_en)
@@ -1933,6 +1964,8 @@ def checks(t, pos, osm_id=None):
         flag("masaf_criteria", masaf_bad=",".join(bad))
     if rm := masaf_removed(t):          # righe "codice|motivo|decreto" separate da "\n"
         flag("masaf_removed", masaf_rm="\n".join(f"{c}|{r}|{d}" for c, r, d in rm))
+    if ro := register_out_of_country(t):   # "tag|nazione;…" (tag: "ref:masaf" o "heritage:operator=anf")
+        flag("register_country", reg_out=";".join(f"{k}|{cc}" for k, cc in ro))
     if undoc := undocumented_tags(t):  # i tag non sono in KEEP: il valore va nella proprietà tag_<chiave>
         flag("undocumented_tag", **{"tag_" + k: v for k, v in undoc})
     if kt := key_typos(t):              # righe "chiave|chiave nota|valore" separate da "\n" (il valore può contenere "|")
@@ -1944,7 +1977,7 @@ KEEP = ["name", "species", "genus", "taxon",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
         "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion", "multi_stemmed",
-        "heritage:operator", "ref:icnf", "sex"]
+        "heritage:operator", "ref:icnf", "ref:CRFOP", "ref:gid", "sex"]
 
 # Alberi da frutto (rendering: puntini colorati sulla chioma, issue #3): mele, noci, limoni e arance. Solo specie
 # coltivate per i frutti, non i generi interi (molti Malus e Prunus sono ornamentali). Colore del frutto per specie.
@@ -2466,9 +2499,10 @@ def report_year_events():
 
 
 def update_region(region, regions_index):
-    global IN_ITALY
+    global IN_ITALY, COUNTRY
     slug = region["slug"]
     IN_ITALY = region.get("iso", "").startswith("IT")   # consiglio hint_ms (soglie MASAF)
+    COUNTRY = region.get("iso", "")[:2]                 # check register_country
     s, w, n, e = region["bbox"]
     bbox = (s - BBOX_PAD, w - BBOX_PAD, n + BBOX_PAD, e + BBOX_PAD)
     area = (n - s) * (e - w)
