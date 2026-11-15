@@ -19,7 +19,7 @@
            "Topola": "Populus", "Wiąz": "Ulmus", "Wierzba": "Salix"}
   },
   "species_names": {
-    "en": {"Bur Oak": "Quercus macrocarpa", "Southern Red Oak": "Quercus falcata"},
+    "en": {"Bur Oak": "Quercus macrocarpa", "Northern Red Oak": "Quercus rubra", "Southern Red Oak": "Quercus falcata"},
     "pl": {"Dąb szypułkowy": "Quercus robur", "Jesion wyniosły": "Fraxinus excelsior", "Klon jawor": "Acer pseudoplatanus",
            "Klon zwyczajny": "Acer platanoides", "Platan klonolistny": "Platanus × hispanica",
            "Robinia akacjowa": "Robinia pseudoacacia"}

@@ -15,6 +15,10 @@
   /* la mappa si mostra solo quando è nella posizione iniziale (vista d'insieme, regione o indirizzo): prima sarebbe
      centrata sull'Italia, la posizione con cui nasce, e poi salterebbe altrove */
   #map.wait .maplibregl-canvas{visibility:hidden}
+  /* pulsante dello sfondo in grigio (issue #72), sotto + e −: contorno scuro come le loro icone, pieno quando è attivo */
+  .gray-bg{display:flex;align-items:center;justify-content:center}
+  .gray-bg svg{stroke:#333;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round;fill:none}
+  .gray-bg[aria-pressed="true"] svg path:first-child{fill:#999}
   /* pannello a sinistra: se con legenda e classifica aperte è più alto della finestra, scorre lui (non la pagina, che
      sotto la mappa mostrerebbe una zona bianca). Il margine interno di 6 px lascia vedere le ombre dei riquadri. */
   #side{position:absolute;top:4px;left:4px;z-index:2;display:flex;flex-direction:column;gap:8px;width:230px;padding:6px;
@@ -382,6 +386,8 @@ const I18N = {
   it: {
     pageTitle: "DendrOSM – QA degli alberi di OpenStreetMap", title: "DendrOSM", github: "Codice sorgente", subtitle: "Controllo qualità degli alberi di OpenStreetMap",
     osmAttribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
+    grayBg: "Sfondo in scala di grigi (tasto B)",
+    colorBg: "Sfondo a colori (tasto B)",
     editMenu: "Modifica", osmPage: "Pagina su OpenStreetMap", editId: "Modifica con iD", editJosm: "Apri in JOSM", editMapComplete: "Apri in MapComplete",
     fixJosm: "Sistema con JOSM", fixRemoved: "(da togliere)",
     allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
@@ -808,6 +814,8 @@ const I18N = {
   en: {
     pageTitle: "DendrOSM – OpenStreetMap tree QA", title: "DendrOSM", github: "Source code", subtitle: "Quality checks for OpenStreetMap trees",
     osmAttribution: "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
+    grayBg: "Grayscale background (B key)",
+    colorBg: "Colour background (B key)",
     editMenu: "Edit", osmPage: "OpenStreetMap page", editId: "Edit with iD", editJosm: "Open in JOSM", editMapComplete: "Open in MapComplete",
     fixJosm: "Fix with JOSM", fixRemoved: "(removed)",
     allRegions: "← All countries", chooseRegion: "Choose a region…",
@@ -1471,7 +1479,8 @@ const FULL_Z = 7, WORLD_START = { center: [11, 48], zoom: 4 };
 const POSITRON_URL = "https://tiles.openfreemap.org/styles/positron";
 let grayIds = null, grayOn = false, grayBusy = false;
 async function toggleGray() {
-  if (grayBusy) return;
+  // map.isStyleLoaded() qui non va: resta false finché si scaricano tessere
+  if (grayBusy || !map.style?._loaded) return;
   if (!grayIds) {
     grayBusy = true;
     try {
@@ -1493,10 +1502,22 @@ async function toggleGray() {
   grayOn = !grayOn;
   for (const id of grayIds) map.setLayoutProperty(id, "visibility", grayOn ? "visible" : "none");
   map.setLayoutProperty("osm", "visibility", grayOn ? "none" : "visible");
+  // il suggerimento dice cosa fa il clic (l'altro sfondo); l'aria-label resta lo stesso, con aria-pressed che dice se è attivo
+  grayBtn.setAttribute("aria-pressed", grayOn);
+  grayBtn.title = grayOn ? L.colorBg : L.grayBg;
 }
+// lo stesso cambio con un pulsante piccolo come + e −, subito sotto (per chi non ha la tastiera): due fogli sovrapposti,
+// pieni di grigio quando lo sfondo grigio è attivo
+const grayBtn = document.createElement("button");
+grayBtn.type = "button"; grayBtn.className = "gray-bg"; grayBtn.title = L.grayBg;
+grayBtn.setAttribute("aria-label", L.grayBg); grayBtn.setAttribute("aria-pressed", "false");
+grayBtn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 4 21 9 12 14 3 9Z"/>`
+  + `<path d="M3 14 12 19 21 14" fill="none"/></svg>`;
+grayBtn.onclick = () => toggleGray();
+map.addControl({ onAdd() { const d = document.createElement("div"); d.className = "maplibregl-ctrl maplibregl-ctrl-group"; d.append(grayBtn); return d; },
+  onRemove() {} }, "top-right");
 addEventListener("keydown", e => {
-  // map.isStyleLoaded() qui non va: resta false finché si scaricano tessere
-  if (e.key.toLowerCase() !== "b" || e.ctrlKey || e.metaKey || e.altKey || !map.style?._loaded) return;
+  if (e.key.toLowerCase() !== "b" || e.ctrlKey || e.metaKey || e.altKey) return;
   if (e.target.closest?.("input, select, textarea, [contenteditable], dialog") || document.querySelector("dialog[open]")) return;
   toggleGray();
 });
@@ -3474,8 +3495,9 @@ const issueBase = (i, p) => {
       const gx = new Map(String(p.sp_lang_gx || "").split("\n").map(x => /^(.*)\|([^|]+)$/.exec(x))
         .filter(Boolean).map(m => [m[1], m[2]]));
       // sp_lang_sp: "species:pl=Klon zwyczajny|Acer platanoides", nomi di una specie (whitelist.json); con un genus
-      // diverso da quello della specie si segnala l'incongruenza
-      const sp = new Map(String(p.sp_lang_sp || "").split("\n").map(x => /^(.*)\|([^|]+)$/.exec(x))
+      // diverso da quello della specie si segnala l'incongruenza. La terza parte, se c'è, è il nome con le maiuscole
+      // della lista ("species:en=bur oak|Quercus macrocarpa|Bur Oak"): serve solo alla correzione con JOSM
+      const sp = new Map(String(p.sp_lang_sp || "").split("\n").map(x => /^(.*?)\|([^|]+)(?:\|[^|]+)?$/.exec(x))
         .filter(Boolean).map(m => [m[1], m[2]]));
       // sp_lang_gk: chiavi species:xx il cui nome è già in genus:xx; sp_lang_gkx: "species:pl=Dąb|Quercus|genus:pl=Buk",
       // quando genus:xx ha un altro nome (si segnala l'incongruenza)
@@ -3823,9 +3845,12 @@ const FIXES = {
     }
     const added = new Set();   // specie proposte
     gen.filter(m => m[4]).forEach(m => { added.add(m[4]); out.push(["species", m[4], "add species", true]); });
-    String(p.sp_lang_sp || "").split("\n").map(x => /^(species:[^=]+)=(.*)\|([^|]+)$/.exec(x)).filter(Boolean)
-      .filter(m => !g0 || g0 === m[3].split(" ")[0].toLowerCase())
-      .forEach(m => { added.add(m[3]); out.push(["species", m[3], "add species", true]); });
+    // nome di una specie con le maiuscole diverse da quelle della lista (quarta parte, m[4]): species:xx si riscrive
+    // (il vecchio valore, quinto elemento, viene da sp_lang_sp)
+    String(p.sp_lang_sp || "").split("\n").map(x => /^(species:[^=]+)=(.*?)\|([^|]+)(?:\|([^|]+))?$/.exec(x))
+      .filter(Boolean).filter(m => !g0 || g0 === m[3].split(" ")[0].toLowerCase())
+      .forEach(m => { added.add(m[3]); out.push(["species", m[3], "add species", true],
+        ...m[4] ? [[m[1], m[4], "fix capitalization of species:xx", false, m[2]]] : []); });
     // con una sola specie proposta, anche i tag che ne derivano e che mancano (sp_lang_wd, sp_lang_lt, sp_lang_lc:
     // fetch_trees.py li calcola per quella specie)
     if (added.size === 1) out.push(["species:wikidata", p.sp_lang_wd, "add species:wikidata", true],

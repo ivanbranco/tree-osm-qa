@@ -309,6 +309,9 @@ GENUS_NAMES.update({k: g for k, g in _GN_OK.items() if k[0] not in _GN_LANGS})
 # nomi comuni delle specie (species_names di whitelist.json, scritti a mano): {("pl", "klon zwyczajny"): "Acer
 # platanoides"}; per questi si propone species=<la specie>
 SPECIES_NAMES = {(lang, n.casefold()): s for lang, d in _WL.get("species_names", {}).items() for n, s in d.items()}
+# gli stessi nomi scritti come in whitelist.json ({("en", "northern red oak"): "Northern Red Oak"}): la correzione con
+# JOSM sistema le maiuscole di species:xx
+SPECIES_NAME_FORM = {(lang, n.casefold()): n for lang, d in _WL.get("species_names", {}).items() for n in d}
 # generi con una sola specie (whitelist.json): per i loro nomi si propone species=<la specie> (Cognassier -> Cydonia oblonga)
 SINGLE_SPECIES = _WL.get("single_species_genera", {})
 # alberi monumentali piccoli davvero (id dei nodi), da non segnalare con small_monument
@@ -1652,8 +1655,16 @@ def species_lang_genus(t, lang):
 
 def species_lang_species(t, lang):
     """Nomi di species_lang_only che sono il nome comune di una specie in SPECIES_NAMES (species:pl=Klon zwyczajny
-    -> Acer platanoides): [(chiave, valore, specie)]. Il confronto con genus lo fa index.html."""
-    return [(k, v, s) for k, v in lang if (s := SPECIES_NAMES.get((re.split(r"[-_]", k[8:])[0], v.strip().casefold())))]
+    -> Acer platanoides): [(chiave, valore, specie, nome)], con nome = il nome scritto come in whitelist.json se le
+    maiuscole sono diverse (species:en=northern red oak -> Northern Red Oak), altrimenti "". Il confronto con genus lo
+    fa index.html."""
+    out = []
+    for k, v in lang:
+        key = (re.split(r"[-_]", k[8:])[0], v.strip().casefold())
+        if s := SPECIES_NAMES.get(key):
+            form = SPECIES_NAME_FORM.get(key, "")
+            out.append((k, v, s, form if form != v.strip() else ""))
+    return out
 
 
 def species_lang_extras(t, species):
@@ -1829,7 +1840,8 @@ def checks(t, pos, osm_id=None):
         # sp_lang_genus: righe "species:fr=Tilleul|Tilia" per i nomi di un genere della lista (issue #35), con l'unica
         # specie del genere se c'è: "species:fr=Cognassier|Cydonia|Cydonia oblonga". sp_lang_gx: le stesse righe
         # "species:pl=Dąb|Quercus" quando genus è un altro genere (l'incongruenza si segnala)
-        # sp_lang_sp: righe "species:pl=Klon zwyczajny|Acer platanoides" per i nomi di una specie (species_names)
+        # sp_lang_sp: righe "species:pl=Klon zwyczajny|Acer platanoides" per i nomi di una specie (species_names), con il
+        # nome scritto come nella lista se le maiuscole sono diverse: "species:en=bur oak|Quercus macrocarpa|Bur Oak"
         # sp_lang_gk: chiavi species:xx (righe) il cui nome è già in genus:xx; c'è sempre insieme a sp_lang_genus, anche
         # vuoto, così index.html riconosce i dati che hanno il confronto con genus:xx (la correzione con JOSM lo richiede).
         # sp_lang_gkx: righe "species:pl=Dąb|Quercus|genus:pl=Buk" quando genus:xx ha un altro nome
@@ -1837,11 +1849,11 @@ def checks(t, pos, osm_id=None):
         sl = species_lang_species(t, lang)
         # sp_lang_wd, sp_lang_lt, sp_lang_lc: species:wikidata, leaf_type e leaf_cycle che mancano, per la specie
         # proposta (se è una sola): la correzione con JOSM li aggiunge insieme a species
-        cand = {s for _, _, s in sl} | {s for _, _, _, s in gl if s}
+        cand = {s for _, _, s, _ in sl} | {s for _, _, _, s in gl if s}
         if len(cand) == 1:
             props.update(species_lang_extras(t, next(iter(cand))))
         flag("species_lang_only", sp_lang="\n".join(f"{k}={v}" for k, v in lang),
-             **({"sp_lang_sp": "\n".join(f"{k}={v}|{s}" for k, v, s in sl)} if sl else {}),
+             **({"sp_lang_sp": "\n".join(f"{k}={v}|{s}" + (f"|{n}" if n else "") for k, v, s, n in sl)} if sl else {}),
              **({"sp_lang_genus": "\n".join(f"{k}={v}|{g}" + (f"|{s}" if s else "") for k, v, g, s in gl),
                  "sp_lang_gk": "\n".join(gk)} if gl else {}),
              **({"sp_lang_gx": "\n".join(f"{k}={v}|{g}" for k, v, g in gx)} if gx else {}),
