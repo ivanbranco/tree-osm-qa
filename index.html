@@ -497,6 +497,10 @@ const I18N = {
       filter: f => `Filtro attivo: ${f}`, rowTitle: "Apri la scheda dell'albero e centra la mappa" },
     rankEmpty: "Conteggi non ancora disponibili: lancia l'Action \"Update tree data\".",
     loadError: "Errore nel caricamento dei dati", noData: "Nessun dato: lancia l'Action di aggiornamento",
+    // #node=<id> nell'indirizzo (n = link al nodo su osm.org)
+    nodeNotInData: n => `nodo ${n} non presente nei dati della regione`,
+    nodeNoRegion: n => `nodo ${n} fuori dalle regioni disponibili`,
+    nodeNoPos: n => `posizione del nodo ${n} non disponibile da OpenStreetMap`,
     pickRegion: "Scegli una regione sulla mappa o dal menu", loadingAll: "caricamento di tutti gli alberi…", loading: name => `Caricamento di ${name}…`,
     countIssues: n => `Alberi problematici in vista: ${n} (ingrandisci per vedere i monumentali)`,
     countMid: n => `Problematici e monumentali in vista: ${n} (ingrandisci per vedere tutti)`,
@@ -921,6 +925,9 @@ const I18N = {
       filter: f => `Active filter: ${f}`, rowTitle: "Open the tree's card and centre the map" },
     rankEmpty: "Counts not available yet: run the \"Update tree data\" Action.",
     loadError: "Error loading data", noData: "No data: run the update Action",
+    nodeNotInData: n => `node ${n} not in the region's data`,
+    nodeNoRegion: n => `node ${n} outside the available regions`,
+    nodeNoPos: n => `position of node ${n} not available from OpenStreetMap`,
     pickRegion: "Choose a region on the map or from the menu", loadingAll: "loading all trees…", loading: name => `Loading ${name}…`,
     countIssues: n => `Trees with errors in view: ${n} (zoom in to see monumental trees)`,
     countMid: n => `Trees with errors and monumental trees in view: ${n} (zoom in to see all)`,
@@ -3167,6 +3174,57 @@ map.on("load", async () => {
     showRequest(e.lngLat, country);
   });
 
+  // avviso sul nodo dell'indirizzo, in coda alla riga dell'aggiornamento (sotto il conteggio)
+  const nodeLink = id => `<a href="https://www.openstreetmap.org/node/${id}" target="_blank" rel="noopener">${id}</a>`;
+  const NOTE_TAG = '<span class="old node-note">';   // un solo avviso alla volta: il nuovo sostituisce il vecchio
+  const addNote = html => {
+    const base = info.innerHTML.split(NOTE_TAG)[0].replace(/ · $/, "");
+    info.innerHTML = base + (base ? " · " : "") + NOTE_TAG + `⚠ ${html}</span>`;
+  };
+  // #node=<id> senza #region (es. un link scritto a mano): la regione si ricava dalla posizione attuale del nodo, chiesta
+  // all'API di OSM. Candidate: le regioni il cui confine contiene il punto, poi quelle che lo contengono spostandolo di
+  // 0,01° in una delle 8 direzioni (i confini sono semplificati di 0,005°, vedi update_boundaries.py). Si caricano in
+  // quest'ordine finché il nodo non è tra gli alberi; se non c'è in nessuna resta caricata la prima, con un avviso.
+  // view: posizione della mappa dall'indirizzo (se c'è, la vista non si sposta)
+  let nodeSeq = 0;
+  const openNodeAlone = async (id, view) => {
+    closeCard();                                     // la scheda di un altro albero
+    const seq = ++nodeSeq, ls = loadSeq;
+    let pt = null;
+    try {
+      const r = await fetch(`https://api.openstreetmap.org/api/0.6/node/${id}.json`);
+      const el = r.ok ? ((await r.json()).elements || [])[0] : null;
+      if (el && el.lat != null) pt = [el.lon, el.lat];
+    } catch (e) {}
+    if (seq !== nodeSeq || ls !== loadSeq) return;   // nel frattempo un altro nodo o un'altra regione scelta a mano
+    if (!pt) { addNote(L.nodeNoPos(nodeLink(id))); return; }
+    if (!view) map.jumpTo({ center: pt, zoom: 19 });
+    const feats = boundaries ? boundaries.features.filter(f => idx[f.properties.key]) : [];   // senza le nazioni (g:…)
+    const D = 0.01, cands = [];
+    for (const [dx, dy] of [[0, 0], [D, 0], [-D, 0], [0, D], [0, -D], [D, D], [D, -D], [-D, D], [-D, -D]])
+      for (const f of feats)
+        if (!cands.includes(f.properties.key) && inGeometry([pt[0] + dx, pt[1] + dy], f.geometry)) cands.push(f.properties.key);
+    if (!cands.length) { addNote(L.nodeNoRegion(nodeLink(id))); return; }
+    const load = async slug => {
+      if (slug === current) return true;
+      closeCard(); hashSlug = slug;
+      await loadRegion(slug, false);
+      return seq === nodeSeq && current === slug;    // false: nel frattempo scelta un'altra regione o un altro nodo
+    };
+    for (const slug of cands.slice(0, 4)) {
+      if (!await load(slug)) return;
+      const f = ALL.find(x => x.properties.id === id);
+      if (f) {
+        if (!view) map.jumpTo({ center: f.geometry.coordinates, zoom: 19 });
+        openCard(f.properties, f.geometry.coordinates);
+        return;
+      }
+    }
+    if (!await load(cands[0])) return;
+    setHash();
+    addNote(L.nodeNotInData(nodeLink(id)));
+  };
+
   // avvio dall'indirizzo: regione e, se c'è, posizione della mappa (altrimenti la vista della regione o d'insieme).
   // Mappa mondiale: si carica subito il suo unico file (la "regione" monumental di data/world/index.json).
   const fromHash = WORLD ? MODE : hashParams().get("region"), startView = parseMapHash(hashParams().get("map"));
@@ -3189,8 +3247,13 @@ map.on("load", async () => {
       const box = unitBox[fromHash] || (ALL.length ? bboxOf(ALL.map(x => x.geometry.coordinates)) : null);
       if (box) map.fitBounds(box, { padding: 30, duration: 0 });
     }
+    if (nodeFromHash && !f && !WORLD) addNote(L.nodeNotInData(nodeLink(nodeFromHash)));
   }
-  else { if (!startView) fitAll(); revealMap(); update(); }
+  else {
+    if (!startView) fitAll(); revealMap(); update();
+    // solo #node: la regione si cerca dalla posizione del nodo (intanto si vede la vista d'insieme)
+    if (nodeFromHash && !WORLD) openNodeAlone(nodeFromHash, startView);
+  }
   let hashTimer;   // a ogni spostamento la posizione finisce nell'indirizzo (pronto da condividere)
   map.on("moveend", () => { clearTimeout(hashTimer); hashTimer = setTimeout(() => setHash(), 300); });
   setHash();
@@ -3212,6 +3275,8 @@ map.on("load", async () => {
       if (!view) map.jumpTo({ center: f.geometry.coordinates, zoom: 19 });
       openCard(f.properties, f.geometry.coordinates);
     } else if (!node) closeCard();
+    else if (!WORLD && !h.get("region")) openNodeAlone(node, view);   // nodo fuori dalla regione caricata
+    else if (!WORLD) addNote(L.nodeNotInData(nodeLink(node)));
   });
 });
 

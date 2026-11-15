@@ -71,14 +71,16 @@ Parameters go after `#` in the address, joined by `&` (for example `#region=lomb
 | Parameter | What it does | Kept when the map moves |
 |---|---|---|
 | `region=<slug>` | opens that region (the slugs are in `scripts/regions.json`), see [Data and updates](dati.md) | yes |
-| `node=<id>` | opens the card of that OSM node; without `map`, centres it ([The tree card](scheda.md)) | while the card is open |
+| `node=<id>` | opens the card of that OSM node; without `map`, centres it ([The tree card](scheda.md)). Also works without `region` | while the card is open |
 | `map=<zoom>/<lat>/<lon>` | map position, e.g. `map=17.00/45.46420/9.18990` | yes (updated) |
 | `lang=it` / `lang=en` | forces the language ([Language](#language)) | yes |
 | `season=leaves` / `autumn` / `bare` | forces that seasonal phase for all the trees that can have it, whatever the date; `bare` also shows the winter view of the Wikidata photo on the card ([Rendering](#rendering)) | yes |
 | `colors=1` | shows the seasonal species colours outside their months ([Rendering](#rendering)) | no |
 | `xmas=1` | shows the Christmas trees outside 8 December – 6 January ([Rendering](#rendering)) | no |
 
-The address contains the region and the map position (`#region=lombardia&map=17.00/45.46420/9.18990`): copying it shares the exact point. With a tree's card open it also contains its OSM node (`#region=molise&node=6311161280&map=…`): the link reopens the card, and without `map` it centres the tree. If the node no longer exists the region is shown.
+The address contains the region and the map position (`#region=lombardia&map=17.00/45.46420/9.18990`): copying it shares the exact point. With a tree's card open it also contains its OSM node (`#region=molise&node=6311161280&map=…`): the link reopens the card, and without `map` it centres the tree. If the node is not in the region's data, the region is shown with a note under the count.
+
+`#node=<id>` alone (e.g. `#node=13798129808`) also works: the page asks the OpenStreetMap API for the node's current position, opens the region that contains it and adds `region` to the address. Near a border the neighbouring regions are tried too. If the position is not available, or it is outside the regions on the map, a note under the count says so; if the node is not in the region's data, the map is centred on its position.
 
 `colors=1` and `xmas=1` are read when the page opens: they disappear from the address as soon as the map moves, but their effect stays until the page is reloaded. Changing `region`, `node` or `map` by hand in the address bar takes effect without reloading; changing `lang` reloads the page. On the monumental trees map `region` is not used.
 
