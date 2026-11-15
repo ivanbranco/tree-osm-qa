@@ -547,6 +547,7 @@ const I18N = {
       wikipediaNoWikidata: q => `La voce di species:wikipedia corrisponde a ${q}: si potrebbe aggiungere species:wikidata=${q}`,
       speciesFromWp: n => `species:wikipedia indica ${n}: si potrebbe aggiungere species=${n}`,
       speciesIt: v => `Su OSM quasi tutti i valori di species:it iniziano con la maiuscola: species:it=${v}`,
+      hybridSign: (k, v) => `Il segno di ibrido si scrive × al posto della lettera x: ${k}=${v}`,
       masafCriteria: v => `Secondo l'elenco MASAF si potrebbe aggiungere masaf:criteria=${v}`,
       importUndoc: v => `Albero da un import non documentato (source=${v})`,
       importDoc: v => `Albero importato (source=${v}):`, importDocLink: "documentazione dell'import",
@@ -587,7 +588,7 @@ const I18N = {
       height_species: "Altezza > limite della specie", species_typo: "Species forse scritta male",
       species_epithet_case: "Species con maiuscole sbagliate", species_common_name: "Species non scientifica (nome comune?)",
       species_unidentified: "Species non identificata (sp., spp.)", species_parentheses: "Parentesi in species", species_author: "Species con l'autore del nome",
-      underscore: "Trattino basso (_) in species o genus", tag_in_value: "Tag scritto nel valore (=)",
+      underscore: "Trattino basso (_) in species o genus", multiple_values: "Più valori (;) in species o genus", tag_in_value: "Tag scritto nel valore (=)",
       not_latin: "Species o genus in alfabeto non latino",
       species_lang_only: "species:xx senza species",
       not_a_tree: "Pianta che non è un albero (Agave americana)",
@@ -721,6 +722,7 @@ const I18N = {
       species_lang_only: "species:xx affianca species=*, non lo sostituisce: il nome scientifico è lo stesso in tutte le lingue.",
       not_a_tree: "species=* o species:wikidata=* indicano una pianta che non è un albero, come l'agave americana (Agave americana, species:wikidata=Q161115). Le piante che non sono alberi si mappano con natural=plant.",
       underscore: "Nei nomi scientifici le parole sono separate da spazi.",
+      multiple_values: "Un nodo natural=tree è un solo albero, con un solo genere e una sola specie.",
       tag_in_value: "Questi tag non contengono «=»: il valore ha la forma di un tag (chiave=valore).",
       not_latin: "I nomi scientifici si scrivono in alfabeto latino.",
       genus_mismatch: "La prima parola di species=* è il genere, e deve coincidere con genus=*.",
@@ -728,7 +730,7 @@ const I18N = {
       leaf_cycle: "Valori documentati: deciduous, semi_deciduous, evergreen, semi_evergreen.",
       leaf_type_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. Per le palme (Arecaceae) valgono sia palm sia broadleaved; palm è ammesso anche per le piante dall'aspetto di palma (Yucca, Cordyline, Dracaena, Cycas, Musa…), non per le altre latifoglie. Con leaf_type=palm il genere si prende anche da taxon.",
       leaf_cycle_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. I valori semi_ valgono come quelli pieni.",
-      link_format: "wikidata vuole un QID (Q…), wikimedia_commons il prefisso File: o Category:, panoramax un UUID, image un indirizzo http(s).",
+      link_format: "wikidata vuole un QID (Q…), wikimedia_commons il prefisso File: o Category:, panoramax un UUID, image un solo indirizzo http(s).",
       broken_link: "Segnalati: pagine 404 o 410, siti che non esistono più e file assenti su Commons. Non sono segnalati 403, 429, errori del server e timeout, che spesso sono blocchi verso i programmi automatici.",
       commons_far: "Le coordinate del file di Commons collegato (wikimedia_commons o image) distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
       monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) o con una tutela (P1435) indicano un albero monumentale, che in OSM ha denotation=natural_monument. Sui ceppi ref:CRFOP e ref:gid non sono segnalati.",
@@ -774,6 +776,7 @@ const I18N = {
       species_common_name: (sp, s) => `species=${sp} non ha la forma di un nome scientifico (Genere epiteto)` + (s ? `: species=${s}?` : ""),
       species_author: (sp, c) => `species=${sp} contiene l'autore del nome: species=${c}`,
       underscore: kv => `${kv} contiene un trattino basso (_) al posto dello spazio`,
+      multiple_values: kv => `${kv} contiene più valori separati da «;»`,
       tag_in_value: kv => `${kv} contiene "=": probabilmente un tag scritto nel valore`,
       not_latin: kv => `${kv} non è in alfabeto latino, come i nomi scientifici: il nome nella lingua locale va in species:xx (es. species:bg)`,
       species_lang_only: kv => `c'è ${kv} ma manca species=* (il nome scientifico)`,
@@ -994,6 +997,7 @@ const I18N = {
       wikipediaNoWikidata: q => `The species:wikipedia article matches ${q}: species:wikidata=${q} could be added`,
       speciesFromWp: n => `species:wikipedia points to ${n}: species=${n} could be added`,
       speciesIt: v => `On OSM almost all species:it values start with a capital letter: species:it=${v}`,
+      hybridSign: (k, v) => `The hybrid sign is written × instead of the letter x: ${k}=${v}`,
       masafCriteria: v => `According to the MASAF list, masaf:criteria=${v} could be added`,
       importUndoc: v => `Tree from an undocumented import (source=${v})`,
       importDoc: v => `Imported tree (source=${v}):`, importDocLink: "import documentation",
@@ -1033,7 +1037,7 @@ const I18N = {
       height_species: "Height > species limit", species_typo: "Possibly misspelled species",
       species_epithet_case: "Species with wrong capitalisation", species_common_name: "Non-scientific species (common name?)",
       species_unidentified: "Unidentified species (sp., spp.)", species_parentheses: "Parentheses in species", species_author: "Species with the author name",
-      underscore: "Underscore (_) in species or genus", tag_in_value: "Tag written in the value (=)",
+      underscore: "Underscore (_) in species or genus", multiple_values: "Multiple values (;) in species or genus", tag_in_value: "Tag written in the value (=)",
       not_latin: "Species or genus in a non-Latin script",
       species_lang_only: "species:xx without species",
       not_a_tree: "Plant that is not a tree (Agave americana)",
@@ -1159,6 +1163,7 @@ const I18N = {
       species_lang_only: "species:xx goes alongside species=*, not instead of it: the scientific name is the same in every language.",
       not_a_tree: "species=* or species:wikidata=* indicate a plant that is not a tree, such as the century plant (Agave americana, species:wikidata=Q161115). Plants that are not trees are mapped with natural=plant.",
       underscore: "In scientific names words are separated by spaces.",
+      multiple_values: "A natural=tree node is a single tree, with a single genus and a single species.",
       tag_in_value: "These tags never contain \"=\": the value has the form of a tag (key=value).",
       not_latin: "Scientific names are written in the Latin script.",
       genus_mismatch: "The first word of species=* is the genus, and it must match genus=*.",
@@ -1166,7 +1171,7 @@ const I18N = {
       leaf_cycle: "Documented values: deciduous, semi_deciduous, evergreen, semi_evergreen.",
       leaf_type_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. For palms (Arecaceae) both palm and broadleaved are accepted; palm is also accepted for palm-like plants (Yucca, Cordyline, Dracaena, Cycas, Musa…), not for other broadleaved trees. With leaf_type=palm the genus is also taken from taxon.",
       leaf_cycle_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. semi_ values count as the full ones.",
-      link_format: "wikidata needs a QID (Q…), wikimedia_commons the File: or Category: prefix, panoramax a UUID, image an http(s) address.",
+      link_format: "wikidata needs a QID (Q…), wikimedia_commons the File: or Category: prefix, panoramax a UUID, image a single http(s) address.",
       broken_link: "Reported: 404 or 410 pages, sites that no longer exist and files missing on Commons. 403, 429, server errors and timeouts are not reported, as they are often blocks against automated tools.",
       commons_far: "The coordinates of the linked Commons file (wikimedia_commons or image) are more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
       monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) or with a heritage designation (P1435) indicate a monumental tree, which in OSM has denotation=natural_monument. On tree stumps ref:CRFOP and ref:gid are not reported.",
@@ -1211,6 +1216,7 @@ const I18N = {
       species_common_name: (sp, s) => `species=${sp} is not a scientific name (Genus epithet)` + (s ? `: species=${s}?` : ""),
       species_author: (sp, c) => `species=${sp} contains the author name: species=${c}`,
       underscore: kv => `${kv} contains an underscore (_) instead of a space`,
+      multiple_values: kv => `${kv} contains multiple values separated by ";"`,
       tag_in_value: kv => `${kv} contains "=": probably a tag written in the value`,
       not_latin: kv => `${kv} is not in the Latin script, unlike scientific names: the name in the local language goes in species:xx (e.g. species:bg)`,
       species_lang_only: kv => `${kv} is present but species=* (the scientific name) is missing`,
@@ -1367,7 +1373,7 @@ const radius = (prop, minPx, div = 1) => ["interpolate", ["exponential", 2], ["z
   ...Array.from({ length: 23 }, (_, z) => [z, div === 1 ? px(prop, minPx, z) : ["/", px(prop, minPx, z), div]]).flat()];
 // monumentale: denotation=natural_monument, "implicito" (imp, mappa dei monumentali) o membro di un insieme omogeneo
 // MASAF (mg, fetch_trees.py); come hasDen sulla mappa
-const isMon = p => !!p.imp || !!p.mg || String(p.denotation || "").split(";").includes("natural_monument");
+const isMon = p => !!p.imp || !!p.mg || String(p.denotation || "").split(";").some(v => v.trim() === "natural_monument");
 const leafOf = p => p.lt || p.leaf_type;   // lt = leaf_type stimato dalle liste quando il tag manca; palm per le palme, anche con un altro leaf_type (#55)
 // Alberi di Natale (xmas:feature=tree, #7): dall'8 dicembre al 6 gennaio, nella data di chi guarda, chioma
 // aghifoglia con lucine colorate e stella. #xmas=1 nell'indirizzo li mostra anche fuori periodo (per provarli).
@@ -2183,7 +2189,7 @@ map.on("load", async () => {
     ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "unit_format", "circ_diam_mismatch", "trunk_overlap", "number_invalid", "circumference_species", "height_species",
       "too_slender", "too_slender_species", "too_stocky", "small_monument"]],
     ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_common_name",
-      "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "not_a_tree", "underscore", "tag_in_value",
+      "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "not_a_tree", "underscore", "multiple_values", "tag_in_value",
       "not_latin", "genus", "genus_lowercase", "genus_mismatch"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
       "wikidata_is_taxon", "wikipedia_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
@@ -3660,6 +3666,7 @@ const issueBase = (i, p) => {
     case "species_parentheses": return T[i](p.species);
     case "not_a_tree": return T[i](p.nt_sp);                                  // nt_sp: fetch_trees.py
     case "underscore": return String(p.und_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");
+    case "multiple_values": return String(p.mv_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");   // mv_keys: fetch_trees.py
     case "tag_in_value": return String(p.eq_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // eq_keys: fetch_trees.py
     case "not_latin": return String(p.nl_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // nl_keys: fetch_trees.py
     // sp_lang: righe "species:xx=valore"; sp_lang_genus: righe "species:fr=Tilleul|Tilia", nomi di un genere (lista
@@ -4016,12 +4023,22 @@ const commonsOfImage = p => {
   }
   return undefined;
 };
+// Segno di ibrido scritto con la lettera x (o X) come parola a sé, all'inizio o in mezzo al nome ("x Chitalpa
+// tashkentensis", "Platanus x hispanica"): [[chiave, valore con ×]] per species e genus. Non con più valori (";") né
+// con un errore sulla forma del nome, che propone già una sua correzione
+const HYBRID_X = /(^|\s)[xX](?=\s+\S)/g;
+const HYBRID_SKIP = { species: /\|(species|species_\w+|tag_in_value|not_latin|underscore|multiple_values)\|/,
+  genus: /\|(genus|genus_lowercase|tag_in_value|not_latin|underscore|multiple_values)\|/ };
+const hybridX = p => ["species", "genus"].filter(k => p[k] && !String(p[k]).includes(";")
+    && !HYBRID_SKIP[k].test(String(p.issues || "")) && String(p[k]).replace(HYBRID_X, "$1×") !== p[k])
+  .map(k => [k, String(p[k]).replace(HYBRID_X, "$1×")]);
 const HINT_FIXES = [
   [p => ["circumference", "height", "diameter_crown", "diameter"].filter(k => FEET_SPACE.test(p[k] || ""))
     .map(k => [k, String(p[k]).replace(/\s+/g, "")]), "feet and inches without spaces"],
   [p => p.stump || p.species ? [] : [["species", binomialHint(p.hint_sn) || binomialHint(p.hint_wn) || MONOTYPIC[String(p.genus || "").trim()]]], "add species"],
   [p => p.stump ? [] : [["species:wikidata", p.hint_sw || p.hint_wp]], "add species:wikidata"],
   [p => p.stump ? [] : [["species:it", p.hint_it]], "capitalise species:it"],
+  [p => p.stump ? [] : hybridX(p), "hybrid sign × instead of x"],
   [p => p.stump || p["masaf:criteria"] ? [] : [["masaf:criteria", p.hint_mc]], "add masaf:criteria"],
   [p => p.stump ? [] : [["leaf_type", !p.leaf_type && p.lt]], "add leaf_type"],
   [p => p.stump ? [] : [["leaf_cycle", !p.leaf_cycle && p.lc]], "add leaf_cycle"],
@@ -4735,6 +4752,7 @@ function hints(p, pos) {
   if (p.hint_wp) out.push(H.wikipediaNoWikidata(p.hint_wp));
   if (binomialHint(p.hint_wn)) out.push(H.speciesFromWp(p.hint_wn));
   if (p.hint_it) out.push(H.speciesIt(p.hint_it));
+  for (const [k, v] of hybridX(p)) out.push(H.hybridSign(k, v));
   if (p.hint_mc) out.push(H.masafCriteria(p.hint_mc));
   // import (source=*, scripts/imports.json): un consiglio con il link alla documentazione è HTML ({html}), già escapato
   if (p.hint_imp_u) out.push(H.importUndoc(p.hint_imp_u));
@@ -4759,7 +4777,7 @@ function hints(p, pos) {
     if (n && tags.length) out.push(H.leaf(n, tags));
   }
   // wikidata=* senza natural_monument né landmark (e senza un errore che lo dica già)
-  const den = String(p.denotation || "").split(";");
+  const den = String(p.denotation || "").split(";").map(v => v.trim());
   if (p.wikidata && !den.includes("natural_monument") && !den.includes("landmark")
       && !/\|(wikidata_is_taxon|wikidata_not_taxon|monument_denotation)\|/.test(codes)) out.push(H.notable);
   // Ginkgo biloba (o genus=Ginkgo, genere con una sola specie) senza sex=*: da aprile a novembre (da ottobre a maggio

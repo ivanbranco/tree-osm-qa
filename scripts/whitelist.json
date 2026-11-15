@@ -50,7 +50,8 @@
            "Klon zwyczajny": "Acer platanoides", "Platan klonolistny": "Platanus × hispanica",
            "Robinia akacjowa": "Robinia pseudoacacia"}
   },
-  "species_typo": ["Quercus virgiliana", "Myrtus communis", "Prunus × incam"],
+  "species_typo": ["Quercus virgiliana", "Myrtus communis", "Prunus × incam", "Quercus humilis", "Betula humilis",
+                   "Quercus salicifolia", "Quercus lanata", "Ilex kingiana"],
   "synonyms": {
     "Crataegus × lavallei": "Crataegus × lavalleei",
     "Platanus × acerifolia": "Platanus × hispanica",

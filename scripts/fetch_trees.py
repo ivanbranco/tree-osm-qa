@@ -246,6 +246,14 @@ def height_ratios(lim, h):
 # apici e virgolette (dritti, tipografici, accento grave/acuto) non contano nei nomi: Ulmus 'New Horizon' è
 # uguale a Ulmus ‘New Horizon’ e a Ulmus `New Horizon`
 QUOTES = str.maketrans("", "", "'‘’`´\"“”")
+HYBRID_SIGNS = ("×", "x", "X")   # segno di ibrido scritto come parola a sé: "x Chitalpa tashkentensis"
+
+
+def name_words(sp):
+    """Parole di species senza il segno di ibrido: "×" ovunque, "x" o "X" solo all'inizio ("x Chitalpa tashkentensis",
+    "x carnea"). In mezzo al nome "x" e "X" restano una parola: "Platanus X hispanica" è segnalato per la maiuscola."""
+    words = [w for w in sp.split() if w != "×"]
+    return words[1:] if words and words[0] in HYBRID_SIGNS else words
 
 
 # lru_cache sulle funzioni che dipendono solo dal valore di species: in una regione gli stessi nomi si ripetono
@@ -827,16 +835,21 @@ def commons_files(t):
 # Pagina di un file su Commons in image=* (https://commons.wikimedia.org/wiki/File:…, anche con il prefisso
 # File: in un'altra lingua)
 COMMONS_FILE_URL = re.compile(r"^https?://commons\.(?:m\.)?wikimedia\.org/wiki/[^/:?#]+:([^?#]+)", re.I)
+# Indirizzo del file su upload.wikimedia.org, anche di una miniatura (…/commons/thumb/a/ab/<file>/800px-<file>): come
+# COMMONS_UPLOAD in index.html (consiglio su wikimedia_commons)
+COMMONS_UPLOAD_URL = re.compile(r"^https?://upload\.wikimedia\.org/wikipedia/commons/(?:thumb/)?[0-9a-f]/[0-9a-f]{2}/([^/?#]+)",
+                                re.I)
 
 
 def commons_photo_files(t):
     """File di Commons collegati all'albero: wikimedia_commons=File:… e image=* che punta alla pagina di un file
-    su Commons; titoli "File:…" con gli spazi al posto dei trattini bassi, senza doppioni."""
+    su Commons o al file stesso su upload.wikimedia.org; titoli "File:…" con gli spazi al posto dei trattini bassi,
+    senza doppioni."""
     if "wikimedia_commons" not in t and "image" not in t:
         return []
     out =[f.replace("_", " ") for f in commons_files(t)]
     for u in str(t.get("image", "")).split(";"):
-        if m := COMMONS_FILE_URL.match(u.strip()):
+        if m := COMMONS_FILE_URL.match(u.strip()) or COMMONS_UPLOAD_URL.match(u.strip()):
             out.append("File:" + unquote(m.group(1)).replace("_", " ").strip())
     return list(dict.fromkeys(out))
 
@@ -1166,6 +1179,10 @@ def species_typo(sp):
     """Specie della lista che species probabilmente voleva scrivere, o None."""
     if ";" in sp:
         return None
+    # genere e cultivar senza epiteto (Magnolia 'Susan'): la cultivar non è un epiteto da confrontare
+    words = name_words(sp)
+    if len(words) > 1 and words[1][:1] in "'‘’`´\"“”":
+        return None
     b = binomial(sp)
     # in whitelist (genere ed epiteto, senza ×: vale anche con la cultivar, Prunus × incam 'Okame')
     if b in TYPO_WHITELIST:
@@ -1188,6 +1205,7 @@ def species_list_mismatches(t):
     """Incoerenze con le liste della wiki OSM: (codici, proprietà per i messaggi). species:wikidata si
     confronta con la lista delle specie; leaf_type e leaf_cycle con la specie e, se non è in lista, con il genere."""
     issues, props = [], {}
+    from_genus = False   # exp_for è un genere: exp_genus, scritto solo insieme a un errore
     sp = t.get("species")
     if sp and ";" in sp:
         return issues, props
@@ -1209,14 +1227,13 @@ def species_list_mismatches(t):
     else:
         g = genus_ref(t)
         exp_for, exp_lt, exp_lc = (g[0], g[1].get("leaf_type"), g[1].get("leaf_cycle") or []) if g else (None, None, [])
-        if g:
-            props["exp_genus"] = True   # exp_for è un genere: il sito scrive "il genere X" / "the genus X"
+        from_genus = bool(g)            # exp_for è un genere: il sito scrive "il genere X" / "the genus X"
     lt, lc = t.get("leaf_type"), t.get("leaf_cycle")
     # leaf_type=palm senza species né genus confrontabili: il genere si prende anche dalla prima parola di taxon
     # (taxon=Ginkgo biloba), solo per questo confronto
     if lt == "palm" and not exp_for and not palm_like(t) and (g := GENUS_REF.get(tree_genus(t))):
         exp_for, exp_lt = g[0], g[1].get("leaf_type")
-        props["exp_genus"] = True
+        from_genus = True
     # leaf_type=palm su un albero che per la lista è broadleaved si segnala, tranne che per le palme e le piante
     # dall'aspetto di palma (palm_like); una palma con leaf_type=broadleaved non si segnala
     if exp_for and lt in LEAF_TYPE and exp_lt and not type_ok(lt, exp_lt, palm_like(t)):
@@ -1225,6 +1242,8 @@ def species_list_mismatches(t):
     if exp_for and lc in LEAF_CYCLE and exp_lc and not cycle_ok(lc, exp_lc):
         issues.append("leaf_cycle_mismatch")
         props.update(exp_lc=";".join(exp_lc), exp_for=exp_for)   # più cicli separati da ";": li unisce il sito
+    if issues and from_genus and "exp_for" in props:
+        props["exp_genus"] = True
     return issues, props
 
 
@@ -1238,8 +1257,28 @@ def species_limit(t):
     return SPECIES_LIMITS.get(" ".join(sp.split()).lower())
 
 
+@functools.lru_cache(maxsize=None)
+def _limit_by_binomial(sp):
+    b = binomial(sp)
+    return next((v for k, v in SPECIES_LIMITS.items() if binomial(k) == b), None)
+
+
+def species_max_limit(t):
+    """Limiti massimi (altezza e circonferenza) per i check height_species e circumference_species: quelli di
+    species_limit o, se il nome ha altro dopo genere ed epiteto (cultivar, autore, rango: Pyrus calleryana
+    'Chanticleer'), quelli della specie con lo stesso genere ed epiteto. I rapporti (height_circ_ratio) restano solo
+    del nome esatto: una cultivar colonnare o nana ha un'altra forma."""
+    if lim := species_limit(t):
+        return lim
+    sp = t.get("species")
+    # non per un ibrido scritto con i due genitori (Salix alba × fragilis): non è la prima specie
+    if not sp or ";" in sp or any(w in HYBRID_SIGNS for w in sp.split()[2:]):
+        return None
+    return _limit_by_binomial(sp)
+
+
 LEAF_TYPE = {"broadleaved", "needleleaved", "leafless", "palm"}
-LEAF_CYCLE = {"deciduous", "semi_deciduous", "evergreen", "semi_evergreen"}
+LEAF_CYCLE ={"deciduous", "semi_deciduous", "evergreen", "semi_evergreen"}
 
 # Raggio di default della chioma (m) quando manca diameter_crown; più grande per gli alberi monumentali
 # e i landmark, più piccolo per parcheggi e ornamentali (di solito alberelli) e per gli alberi agricoli e dei
@@ -1419,7 +1458,9 @@ def bad_link_tags(t):
         parts = [x.strip() for x in t["panoramax"].split(";")]
         if not all(UUID_START.match(x) for x in parts):
             bad.append("panoramax")
-    if "image" in t and not URL.match(t["image"].strip()):
+    # image: un solo indirizzo; più indirizzi separati da ";" (con o senza spazi) sono segnalati
+    if "image" in t and (not URL.match(t["image"].strip())
+                         or sum(1 for x in t["image"].split(";") if URL.match(x.strip())) > 1):
         bad.append("image")
     return bad
 
@@ -1658,7 +1699,7 @@ def species_common_name(sp):
     None se species ha la forma di un nome scientifico. Le cultivar tra virgolette e gli autori non contano."""
     if not sp or ";" in sp:
         return None
-    words = [w for w in sp.split() if w != "×"]
+    words = name_words(sp)                       # senza "x" iniziale: x Chitalpa tashkentensis
     if len(words) < 2:
         return None                              # una parola sola: c'è già il check apposito
     second = words[1]
@@ -1886,7 +1927,10 @@ NUMBERED_KEY = re.compile(r"[:_ ]?\d+$")   # image2, panoramax:1: varianti numer
 def key_tolerance(k):
     """Differenze ammesse rispetto a una chiave nota (distanza di Damerau-Levenshtein, oltre al maiuscolo): nessuna
     per le chiavi corte (name, sex), dove una lettera fa un'altra parola; 1 da 5 lettere; 2 da 12 lettere
-    (circumfence, diameter_crwn), dove due lettere non bastano a fare un'altra chiave."""
+    (circumfence, diameter_crwn), dove due lettere non bastano a fare un'altra chiave. Per le chiavi ref:… conta la
+    parte dopo "ref:": ref:gid, ref:rami e ref:icnf valgono come chiavi corte (ref:uid e ref:fid sono altre chiavi)."""
+    if k.startswith("ref:"):
+        k = k[4:]
     return 0 if len(k) < 5 else 1 if len(k) < 12 else 2
 
 
@@ -1962,11 +2006,12 @@ def checks(t, pos, osm_id=None):
     if "circumference" in t and c and c > 0 and (d := diameter_m(t)) and abs(c / (math.pi * d) - 1) > CIRC_DIAM_TOL:
         flag("circ_diam_mismatch", cd_circ=round(math.pi * d, 2))   # circonferenza che corrisponde a diameter
     lim = species_limit(t) or {}  # limite per specie: solo se non è già scattato quello generico
-    if "circumference" in lim and c is not None and "circumference" not in issues and c > lim["circumference"]:
-        flag("circumference_species", lim_c=lim["circumference"],
-             **({"lim_c_src": lim["circumference_source"]} if "circumference_source" in lim else {}))
-    if "height" in lim and h is not None and "height" not in issues and h > lim["height"]:
-        flag("height_species", lim_h=lim["height"], **({"lim_h_src": lim["height_source"]} if "height_source" in lim else {}))
+    mx = species_max_limit(t) or {}   # limiti massimi: anche per cultivar, autore e rango della stessa specie
+    if "circumference" in mx and c is not None and "circumference" not in issues and c > mx["circumference"]:
+        flag("circumference_species", lim_c=mx["circumference"],
+             **({"lim_c_src": mx["circumference_source"]} if "circumference_source" in mx else {}))
+    if "height" in mx and h is not None and "height" not in issues and h > mx["height"]:
+        flag("height_species", lim_h=mx["height"], **({"lim_h_src": mx["height_source"]} if "height_source" in mx else {}))
     r = slenderness(t)  # solo se non è già segnalata la misura sbagliata (circonferenza o altezza oltre i limiti)
     if r is not None and r > SLENDER_MAX and not {"height", "height_species"} & set(issues):
         flag("too_slender", hc_ratio=round(r, 3), hc_circ=round(c, 2))
@@ -1987,12 +2032,16 @@ def checks(t, pos, osm_id=None):
         flag("not_latin", nl_keys=";".join(nl))
     sp = t.get("species")
     spf = None if "species" in eq or "species" in nl else sp   # species per i check sulla forma del nome
-    one_word = spf is not None and len(spf.split()) == 1
+    # parole di species senza il segno di ibrido scritto a sé (× o x): "x carnea" è una parola sola
+    spw = name_words(spf) if spf is not None else []
+    # genere seguito dal solo autore ("Tilia L.", "Malus Hybr."): vale come una parola sola
+    genus_author = len(spw) == 2 and bool(AUTHOR.match(spw[1])) and not species_unidentified(spf)
+    one_word = len(spw) == 1 or genus_author
     if one_word:
         # se la parola è un genere della lista wiki (es. species=magnolia), la scheda propone genus=Magnolia
         # se è il nome comune di un genere (species=oak), propone genus=Quercus (sp_common_genus)
-        gr = GENUS_REF.get(spf.strip().lstrip("× ").casefold())
-        cg = None if gr else common_name_genus(spf)
+        gr = GENUS_REF.get(spw[0].lstrip("×").casefold())
+        cg = None if gr else common_name_genus(spw[0])
         flag("species", **({"sp_as_genus": gr[0]} if gr else {"sp_common_genus": cg} if cg else {}))
     # Una sola correzione per le maiuscole, perché le proposte non si contraddicano: con l'autore la propone
     # species_author (sp_clean già con le maiuscole giuste), altrimenti species_epithet_case, che sistema anche
@@ -2000,7 +2049,8 @@ def checks(t, pos, osm_id=None):
     no_auth = species_without_author(spf) if spf else None
     ec = species_epithet_case(spf) if spf and not no_auth else None
     # con una sola parola basta l'errore precedente: la correzione è la stessa, minuscola o no
-    if spf is not None and not one_word and spf.strip()[:1].islower() and not no_auth and not ec:
+    # il segno di ibrido iniziale scritto "x" non è un'iniziale minuscola
+    if len(spw) > 1 and not one_word and spw[0].lstrip("×")[:1].islower() and not no_auth and not ec:
         flag("species_lowercase")
     if spf and (g_un := species_unidentified(spf)):
         flag("species_unidentified", sp_genus=g_un)
@@ -2016,6 +2066,9 @@ def checks(t, pos, osm_id=None):
         flag("species_parentheses")
     if und := [k for k in ("species", "genus") if "_" in str(t.get(k, "")) and k not in eq]:
         flag("underscore", und_keys=";".join(und))
+    # più valori separati da ";" in species o genus: un nodo è un solo albero, con un solo genere e una sola specie
+    if mv := [k for k in ("species", "genus") if ";" in str(t.get(k, "")) and k not in eq]:
+        flag("multiple_values", mv_keys=";".join(mv))
     if spf and SPECIES_BIN and (typo := species_typo(spf)):
         flag("species_typo", sp_sugg=typo)
     if lang := species_lang_only(t):    # "species:it=Leccio" separati da "\n" (i valori possono contenere ";")
@@ -2054,8 +2107,12 @@ def checks(t, pos, osm_id=None):
     if "leaf_cycle" in t and t["leaf_cycle"] not in LEAF_CYCLE:
         flag("leaf_cycle")
     # species di una sola parola minuscola (es. species=alba): è un epiteto, non un genere da confrontare
-    sp_epithet = sp is not None and len(sp.split()) == 1 and sp.strip()[:1].islower()
-    if g is not None and sp is not None and len(gw := genus_words(g)) == 1 and not sp_epithet and not nl:
+    # (anche dopo il segno di ibrido: "x carnea"). Con più valori in genus o in species (Crataegus;Quercus) non si
+    # confronta: il genere di una specie non è quello delle altre
+    sp_words = name_words(sp) if sp is not None else []
+    sp_epithet = len(sp_words) == 1 and sp_words[0][:1].islower()
+    if (g is not None and sp is not None and ";" not in g and ";" not in sp and len(gw := genus_words(g)) == 1
+            and not sp_epithet and not nl):
         sg = genus_of_species(sp).lstrip("×")   # il segno di ibrido non conta, né nel genus né nella species
         if sg and gw[0].casefold() != sg.casefold():
             flag("genus_mismatch")
@@ -2096,7 +2153,7 @@ def checks(t, pos, osm_id=None):
     hr = wikidata_heritage(t)
     src = monument_sources(t)
     den_src = [s for s in src if s not in CRFOP_KEYS] if t.get("natural") == "tree_stump" else src
-    if (den_src or hr) and "natural_monument" not in t.get("denotation", "").split(";"):
+    if (den_src or hr) and "natural_monument" not in [x.strip() for x in t.get("denotation", "").split(";")]:
         flag("monument_denotation", mon_src=";".join(den_src))
         if hr:
             q, (label_it, label_en) = hr[0]
@@ -2185,7 +2242,7 @@ def is_sacred(t):
     """Albero sacro: zapis serbo (ref:zapis=*), place_of_worship=sacred_tree o la sua sottocategoria sacred_tree=*
     (es. sacred_tree=rag_tree, i rag tree di Irlanda e Scozia), goshinboku giapponese (religion=shinto,
     https://wiki.openstreetmap.org/wiki/Tag:religion%3Dshinto)."""
-    return ("ref:zapis" in t or t.get("place_of_worship") == "sacred_tree" or "sacred_tree" in t
+    return ("ref:zapis" in t or t.get("place_of_worship") == "sacred_tree" or t.get("sacred_tree", "no") != "no"
             or t.get("religion") == "shinto")
 
 
@@ -2429,7 +2486,7 @@ def minimal(fc):
     monumentali, anche i membri di un insieme omogeneo MASAF). Il sito lo carica e lo mostra subito, mentre il file
     completo si carica in secondo piano."""
     feats = [f for f in fc["features"] if f["properties"]["issues"] != "|" or f["properties"].get("mg")
-             or "natural_monument" in str(f["properties"].get("denotation", "")).split(";")]
+             or "natural_monument" in [x.strip() for x in str(f["properties"].get("denotation", "")).split(";")]]
     return json.dumps({"type": "FeatureCollection", "features": feats}, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
 
@@ -2502,23 +2559,39 @@ SD_DECADE_PART = re.compile(r"^(?:early|mid|late)\s+(\d{2,3}0s)$", re.I)
 def start_date_problem(v, today=None):
     """Perché start_date va segnalato: "invalid" se una parte (prima e dopo ".." in un intervallo) non è in una delle
     forme della wiki (vedi sopra; anche early/mid/late 1850s) o è una data che non esiste (2020-02-30), "future" se
-    la data più vecchia che indica è dopo oggi (anche con before: un albero mappato esiste già oggi); None se va bene."""
+    la data più vecchia che indica è dopo oggi (anche con before: un albero mappato esiste già oggi); None se va bene.
+    Più severa di start_date_key, che per i primati legge anche queste forme: mese o giorno di una cifra (1990-5-3),
+    più di un prefisso (~~1850, before after 1850), il secolo con la c minuscola (c16) e un intervallo che finisce
+    prima di cominciare (1900..1800) sono "invalid"."""
     s = " ".join(str(v).split())
     parts = s.split("..")
     if len(parts) > 2 or not all(p.strip() for p in parts):   # anche il valore vuoto
         return "invalid"
-    keys = []
+    keys, ends = [], []
     for part in (p.strip() for p in parts):
-        k = start_date_key(SD_DECADE_PART.sub(r"\1", part))
+        plain = SD_DECADE_PART.sub(r"\1", part)
+        k = start_date_key(plain)
         if k is None:
             return "invalid"
-        m = SD_DATE.match(_sd_parts(part)[0])
+        pre = SD_PREFIX.match(part)
+        core = part[pre.end():] if pre else part
+        if SD_PREFIX.match(core) or re.search(r"\bc\d", core):
+            return "invalid"
+        m = SD_DATE.match(core)
+        if m and any(x is not None and len(x) != 2 for x in m.group(2, 3)):
+            return "invalid"
         if m and m.group(3):
             try:
                 datetime.date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
             except ValueError:
                 return "invalid"
         keys.append(k)
+        # ultimo anno che la parte indica: un decennio arriva a 9 anni dopo, un secolo a 99 (un suo terzo a 33)
+        c = SD_CENTURY.match(_sd_parts(plain)[0])
+        span = 9 if SD_DECADE.match(_sd_parts(plain)[0]) else (33 if c.group(1) else 99) if c else 0
+        ends.append(k + span * 10000 + (1231 if span or k % 10000 == 0 else 0))
+    if len(keys) == 2 and ends[1] < keys[0]:
+        return "invalid"
     today = today or datetime.date.today()
     if keys[0] > today.year * 10000 + today.month * 100 + today.day:
         return "future"
