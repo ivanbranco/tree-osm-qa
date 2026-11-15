@@ -281,12 +281,12 @@
    "updated": "2026-11-12T16:49:46Z"
   },
   "friuli-venezia-giulia": {
-   "count": 29936,
+   "count": 29950,
    "errors": 327,
    "name": "Friuli-Venezia Giulia",
-   "sha1": "3392e5c3f89d91457bd7bb3d0b6e970367d14493",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:05:37Z"
+   "sha1": "8e270d0afef2dd5ea39d3aa949f00145cad99659",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T07:59:01Z"
   },
   "galizia": {
    "count": 55003,
