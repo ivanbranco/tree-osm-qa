@@ -1500,15 +1500,37 @@ const addScale = fc => {
     f.properties.mk = c45 / Math.cos(f.geometry.coordinates[1] * Math.PI / 180);
   return fc;
 };
+// Chioma di ripiego: i dati hanno "cr" (raggio in metri) solo per gli alberi con diameter_crown. Per gli altri il
+// raggio si ricava qui: quello della denotation (se ha più valori vince il primo di CROWN_R_BY_DEN), con una variazione
+// di ±15% casuale ma sempre uguale per lo stesso albero (dall'id OSM), non per monumentali e landmark; i membri di un
+// insieme omogeneo MASAF ("mg") hanno quello dei monumentali. "cr_est" = raggio di ripiego (chioma più trasparente).
+// I file scritti prima di questa regola hanno già "cr" e "cr_est" in ogni albero e restano come sono.
+const CROWN_R = 3, CROWN_JITTER = 0.15;
+const CROWN_R_BY_DEN = [["natural_monument", 5], ["landmark", 5], ["parking", 2], ["decoration", 2], ["agricultural", 2.5], ["orchard", 2.5]];
+const fallbackCrown = p => {
+  const den = p.mg ? ["natural_monument"] : p.denotation == null ? null : String(p.denotation).split(";").map(x => x.trim());
+  const r = den ? (CROWN_R_BY_DEN.find(([name]) => den.includes(name)) || [0, CROWN_R])[1] : CROWN_R;
+  if (den && (den.includes("natural_monument") || den.includes("landmark"))) return r;
+  // (id × 2654435761) mod 2^32: bastano i 32 bit bassi dell'id, e Math.imul dà i 32 bit bassi del prodotto
+  const j = 1 - CROWN_JITTER + 2 * CROWN_JITTER * (Math.imul(p.id % 4294967296, 2654435761) >>> 0) / 4294967296;
+  return Math.round(r * j * 100) / 100;
+};
+const addCrown = fc => {
+  for (const feats of [fc.features, fc.xmas]) for (const f of feats || []) {
+    const p = f.properties;
+    if (p.cr === undefined && !p.stump && typeof p.id === "number") { p.cr = fallbackCrown(p); p.cr_est = true; }
+  }
+  return fc;
+};
 async function getGz(u) {   // file .geojson.gz: se il server non lo ha già decompresso, lo fa il browser
   const r = await fetch(u);
   if (!r.ok) throw new Error(u + " " + r.status);
   const buf = await r.arrayBuffer(), u8 = new Uint8Array(buf);
   if (u8[0] === 0x1f && u8[1] === 0x8b) {
     if (typeof DecompressionStream === "undefined") throw new Error("browser non supportato");
-    return addScale(JSON.parse(await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"))).text()));
+    return addCrown(addScale(JSON.parse(await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"))).text())));
   }
-  return addScale(JSON.parse(new TextDecoder().decode(buf)));
+  return addCrown(addScale(JSON.parse(new TextDecoder().decode(buf))));
 }
 const indexP = getJSON(BASE + (WORLD ? "data/world/index.json" : "data/index.json"));
 indexP.catch(() => {});
@@ -1648,7 +1670,7 @@ map.on("load", async () => {
   const tinted = (sc, se) => { const c = [...(se && sc ? [["has", "asc"]] : []), ...(se ? [["has", "at"]] : []), ...(sc ? [["has", "sc"]] : [])];
     return c.length ? ["any", ...c] : null; };
   const opacityExpr = (sc, se = true, poly = false) => {
-    const t = tinted(sc, se), base = ["case", ["get", "cr_est"], t ? ["case", t, 0.45, 0.3] : 0.3, t ? ["case", t, 0.7, 0.55] : 0.55];
+    const t = tinted(sc, se), base = ["case", ["to-boolean", ["get", "cr_est"]], t ? ["case", t, 0.45, 0.3] : 0.3, t ? ["case", t, 0.7, 0.55] : 0.55];
     return se ? ["case", BARE, poly ? 0.02 : 0.35, base] : base;
   };
   // colore della chioma da leaf_cycle (o dalla stima lc delle liste wiki): caducifoglie più chiare, sempreverdi più scure

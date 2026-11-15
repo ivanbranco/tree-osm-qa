@@ -106,7 +106,7 @@ def add_min_zoom(fc):
 # non i membri di un insieme omogeneo monumentali solo per il gruppo, group_only: il codice del gruppo conta già).
 MASAF_TREES = ft.HERE / "masaf_trees.json"
 MASAF_NEAR = 25
-MASAF_CROWN_R = 5.0        # m, come DEFAULT_CROWN_R_BY_DENOTATION per natural_monument in fetch_trees.py
+MASAF_CROWN_R = 5.0        # m, come CROWN_R_BY_DEN per natural_monument in index.html
 MASAF_CROWN_R_WIDE = 6.0   # m, per gli alberi iscritti anche per l'ampiezza della chioma (criterio a2.3)
 # ref:masaf su vie e relazioni (i dati del tool hanno solo i nodi): una query leggera, solo i tag
 MASAF_OTHER_QUERY = """[out:json][timeout:300];

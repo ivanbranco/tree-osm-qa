@@ -1280,23 +1280,9 @@ def species_max_limit(t):
 LEAF_TYPE = {"broadleaved", "needleleaved", "leafless", "palm"}
 LEAF_CYCLE ={"deciduous", "semi_deciduous", "evergreen", "semi_evergreen"}
 
-# Raggio di default della chioma (m) quando manca diameter_crown; più grande per gli alberi monumentali
-# e i landmark, più piccolo per parcheggi e ornamentali (di solito alberelli) e per gli alberi agricoli e dei
-# frutteti (potati bassi). In caso di più valori vince il primo della lista.
-DEFAULT_CROWN_R = 3.0
+# Il raggio di ripiego della chioma (quando manca diameter_crown) non è nei dati: lo ricava il sito da id, denotation
+# e "mg" (fallbackCrown in index.html)
 DEFAULT_STUMP_R = 0.25  # m, raggio della X di un ceppo senza circumference
-DEFAULT_CROWN_R_BY_DENOTATION = (("natural_monument", 5.0), ("landmark", 5.0), ("parking", 2.0), ("decoration", 2.0),
-                                 ("agricultural", 2.5), ("orchard", 2.5))
-
-
-def default_crown_r(t):
-    if "denotation" not in t:
-        return DEFAULT_CROWN_R
-    den =[x.strip() for x in str(t.get("denotation", "")).split(";")]
-    for name, r in DEFAULT_CROWN_R_BY_DENOTATION:
-        if name in den:
-            return r
-    return DEFAULT_CROWN_R
 
 
 # --- misure con unità (https://wiki.openstreetmap.org/wiki/Map_features/Units) ---
@@ -2275,23 +2261,9 @@ def sizes(t):
     return crown, circ, circ_est
 
 
-JITTER = 0.15   # variazione massima (±15%) del raggio di ripiego della chioma
-
-
-NO_JITTER_DENOTATION = {"natural_monument", "landmark"}   # questi tengono il raggio di ripiego esatto
-
-
-def jitter(osm_id, t):
-    """Fattore tra 1 - JITTER e 1 + JITTER, casuale ma sempre uguale per lo stesso albero (dall'id OSM):
-    varia il raggio di ripiego della chioma, solo per l'aspetto della mappa. 1 per monumentali e landmark."""
-    if "denotation" in t and NO_JITTER_DENOTATION & {x.strip() for x in str(t["denotation"]).split(";")}:
-        return 1.0
-    return 1 - JITTER + 2 * JITTER * ((osm_id * 2654435761) % 2**32) / 2**32
-
-
 def bare_feature(el, natural):
     """Feature di un albero (o ceppo) che ha il solo tag natural: nessun errore, nessun consiglio, chioma di ripiego
-    (per il ceppo la X di default). Le stesse proprietà, nello stesso ordine, che darebbe il percorso completo di
+    (ricavata dal sito, quindi senza "cr"; per il ceppo la X di default). Le stesse proprietà, nello stesso ordine, che darebbe il percorso completo di
     to_feature: lo verifica test_checks.py (feature_failures). Se un nuovo check o consiglio vale anche per un albero
     senza altri tag, quel confronto fallisce e questa funzione va aggiornata."""
     p = {"id": el["id"]}
@@ -2299,8 +2271,6 @@ def bare_feature(el, natural):
         p["ts"] = ts[:10]
     if natural == "tree_stump":
         p["stump"], p["sr"], p["sr_est"] = 1, DEFAULT_STUMP_R, True
-    else:
-        p["cr"], p["cr_est"] = round(DEFAULT_CROWN_R * jitter(el["id"], el["tags"]), 2), True
     p["issues"] = "|"
     return {"type": "Feature", "properties": p,
             "geometry": {"type": "Point", "coordinates": [round(el["lon"], 7), round(el["lat"], 7)]}}
@@ -2342,11 +2312,10 @@ def to_feature(el, fast=True):
         if grp := MASAF_GROUPS.get(el["id"]):
             p["mg"] = "\n".join(grp)
         crown, circ, circ_est = sizes(t)
-        # chioma: diameter_crown, altrimenti raggio di ripiego con variazione casuale (non per monumentali e landmark;
-        # i membri di un insieme omogeneo hanno quello dei monumentali)
-        tc = {**t, "denotation": "natural_monument"} if grp else t
-        p["cr"] = round(crown / 2, 2) if crown else round(default_crown_r(tc) * jitter(el["id"], tc), 2)
-        p["cr_est"] = crown is None
+        # chioma: "cr" solo con diameter_crown; senza, il raggio di ripiego lo ricava il sito (fallbackCrown in
+        # index.html: dipende da id e denotation; i membri di un insieme omogeneo hanno quello dei monumentali)
+        if crown:
+            p["cr"] = round(crown / 2, 2)
         c, from_d = circ_value(t)
         if from_d and c:
             p["diam_used"] = True
@@ -2478,8 +2447,8 @@ def xmas_feature(el):
         p.pop("leaf_type", None)
     p.update({"id": el["id"], "xmas": 1, "issues": "|"})
     crown, _, _ = sizes(t)
-    p["cr"] = round(crown / 2, 2) if crown else round(default_crown_r(t) * jitter(el["id"], t), 2)
-    p["cr_est"] = crown is None
+    if crown:
+        p["cr"] = round(crown / 2, 2)
     return {"type": "Feature", "properties": p,
             "geometry": {"type": "Point", "coordinates": [round(el["lon"], 7), round(el["lat"], 7)]}}
 

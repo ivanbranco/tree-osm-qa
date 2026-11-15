@@ -475,7 +475,10 @@ def feature_failures():
               ("file ridotto: natural_monument dopo uno spazio", b'"id":7' in ft.minimal({"features": [{"properties": {
                   "id": 7, "issues": "|", "denotation": "urban; natural_monument"}}]})),
               ("membro: proprietà mg", mem.get("mg") == FIXTURES["MASAF_GROUPS"][MEMBER][0]),
-              ("membro: chioma di ripiego dei monumentali (5 m, senza variazione)", mem.get("cr") == 5.0),
+              # la chioma di ripiego la ricava il sito (fallbackCrown in index.html): nei dati "cr" c'è solo con diameter_crown
+              ("chioma di ripiego: niente cr né cr_est", not {"cr", "cr_est"} & (set(mem) | set(other))),
+              ("diameter_crown: cr = metà, senza cr_est", (pc := ft.to_feature(node(9002, {**tags, "diameter_crown": "8"}))["properties"])
+               .get("cr") == 4.0 and "cr_est" not in pc),
               ("membro: niente hint_ms", "hint_ms" not in mem),
               ("non membro: niente mg, hint_ms", "mg" not in other and "hint_ms" in other),
               ("ceppo membro: resta un ceppo, senza mg", stump.get("stump") == 1 and "mg" not in stump),
