@@ -41,6 +41,10 @@
   #tabs>details[open]>summary::before{content:"▾";display:inline-block;width:14px;color:#888}
   /* scelta dell'ordine della classifica: numero di alberi con errori o percentuale (solo con la scheda aperta) */
   #rank-box:not([open]) #rank-mode{display:none}
+  /* scheda Andamenti: icona per passare dal grafico degli errori a quello degli alberi (solo con la scheda aperta) */
+  #chart-box:not([open]) #chart-mode{display:none}
+  #chart-mode{float:right;display:flex;padding:1px 3px;border:1px solid #ccc;border-radius:3px;background:#fff;color:#555;cursor:pointer}
+  #chart-mode:hover{color:#1a5fb4;border-color:#1a5fb4}
   /* scheda Completezza: una barra per voce (quanti alberi in vista hanno quel dato); un tocco sulla riga evidenzia
      sulla mappa gli alberi a cui manca */
   #comp{margin-top:8px;font-size:13px;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
@@ -313,10 +317,11 @@
     <summary><span data-i18n="rank">Classifica errori</span><span id="rank-mode"><button type="button" data-mode="p">%</button><button type="button" data-mode="n">#</button></span></summary>
     <div id="rank"></div>  </details>
   <details id="chart-box" class="box" hidden>
-    <summary data-i18n="chart">Andamento errori</summary>
+    <!-- titolo dallo script: «Andamenti» da chiusa, «Andamento errori» o «Andamento alberi» da aperta (renderChart) -->
+    <summary><span id="chart-name" data-i18n="trends">Andamenti</span><button id="chart-mode" type="button"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 5h11M10 2l3 3-3 3M14 11H3M6 8l-3 3 3 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></summary>
     <div id="chart-title"></div>
     <div id="chart"></div>
-    <div class="note" data-i18n="chartNote">Quota di alberi con almeno un errore, a ogni aggiornamento.</div>
+    <div id="chart-note" class="note" data-i18n="chartNote">Quota di alberi con almeno un errore, a ogni aggiornamento.</div>
   </details>
   <!-- Completezza (issue #31): quanti alberi in vista hanno i dati principali; riempita da renderComp -->
   <details id="comp-box" class="box">
@@ -397,6 +402,7 @@ const I18N = {
     regionOpt: (name, n) => `${name} (${fmtN(n)} alberi)`,
     allTaxa: "Tutti i genus e le specie", unknown: "Sconosciuto", withSpecies: "Con species", genusGroup: "Genus", speciesGroup: "Specie",
     allIssues: "Tutti gli errori", onlyIssues: "Solo gli errori", noIssues: "Nessun errore",
+    recentIssues: n => `Modificati negli ultimi ${n} giorni`,
     allOfGroup: g => `Tutti gli errori di «${g}»`,
     download: "Scarica questi errori di tutta la regione (GeoJSON)",
     issueGroups: { size: "Misure", name: "Nome della specie e del genere", wikidata: "Wikidata",
@@ -438,8 +444,13 @@ const I18N = {
     legDeciduous: "Caducifoglia", legEvergreen: "Sempreverde", legNoCycle: "Ciclo fogliare non specificato", legNote: "Tronco e forme da zoom 16",
     rank: "Classifica errori", rankWas: (n, d) => `${n}ª posizione il ${d}`,
     rankByN: "Ordina per numero di alberi con errori", rankByP: "Ordina per percentuale di alberi con errori",
-    chart: "Andamento errori", chartAll: "Tutte le regioni", chartNote: "Quota di alberi con almeno un errore, a ogni aggiornamento.",
+    trends: "Andamenti", chart: "Andamento errori", chartTrees: "Andamento alberi", chartAll: "Tutte le regioni",
+    chartNote: "Quota di alberi con almeno un errore, a ogni aggiornamento.",
+    chartNoteTrees: "Numero di alberi (ceppi compresi), a ogni aggiornamento.",
     chartTip: (d, p, e, c) => `${d}: ${p} (${e} alberi con errori su ${c})`,
+    chartTreesTip: (d, c) => `${d}: ${c} alberi`,
+    chartToTrees: "Mostra il numero di alberi", chartToErrors: "Mostra gli errori",
+    chartJoin: (d, names) => `${d}: ${names.length > 1 ? "entrano" : "entra"} ${names.join(", ")}`,
     // scheda Completezza (issue #31). I nomi delle voci sono quelli della scheda dell'albero (rows), tranne «Foto».
     // tips: k(chiave) = il tag con il link alla wiki OSM
     comp: "Completezza",
@@ -841,6 +852,7 @@ const I18N = {
     regionOpt: (name, n) => `${name} (${fmtN(n)} trees)`,
     allTaxa: "All genera and species", unknown: "Unknown", withSpecies: "With species", genusGroup: "Genus", speciesGroup: "Species",
     allIssues: "All errors", onlyIssues: "Errors only", noIssues: "No errors",
+    recentIssues: n => `Edited in the last ${n} days`,
     allOfGroup: g => `All "${g}" errors`,
     download: "Download these errors for the whole region (GeoJSON)",
     issueGroups: { size: "Measurements", name: "Species and genus name", wikidata: "Wikidata",
@@ -881,8 +893,13 @@ const I18N = {
     legDeciduous: "Deciduous", legEvergreen: "Evergreen", legNoCycle: "Leaf cycle not specified", legNote: "Trunks and shapes from zoom 16",
     rank: "Error ranking", rankWas: (n, d) => `Position ${n} on ${d}`,
     rankByN: "Sort by number of trees with errors", rankByP: "Sort by share of trees with errors",
-    chart: "Error trend", chartAll: "All regions", chartNote: "Share of trees with at least one error, at each update.",
+    trends: "Trends", chart: "Error trend", chartTrees: "Tree trend", chartAll: "All regions",
+    chartNote: "Share of trees with at least one error, at each update.",
+    chartNoteTrees: "Number of trees (stumps included), at each update.",
     chartTip: (d, p, e, c) => `${d}: ${p} (${e} trees with errors out of ${c})`,
+    chartTreesTip: (d, c) => `${d}: ${c} trees`,
+    chartToTrees: "Show the number of trees", chartToErrors: "Show the errors",
+    chartJoin: (d, names) => `${d}: ${names.join(", ")} ${names.length > 1 ? "join" : "joins"}`,
     comp: "Completeness",
     cp: { basic: "Basics", basicSub: "essential", extra: "Measurements and photo", extraSub: "extra",
       inView: "Trees in view", optional: "Optional", photo: "Photo", of: "of",
@@ -2154,9 +2171,14 @@ map.on("load", async () => {
       "register_country"]],
   ];
   const issueGroupOf = code => (ISSUE_GROUPS.find(([, codes]) => codes.includes(code)) || ["other"])[0];
+  const RECENT_DAYS = 30, RECENT_CUT = new Date(Date.now() - RECENT_DAYS * 864e5).toISOString().slice(0, 10);
+  const isRecent = p => (p.ts || "") >= RECENT_CUT;
   // filtro di MapLibre per una voce del menu: un errore, oppure (g:<gruppo>) uno qualsiasi degli errori del gruppo
   // "only" (Solo gli errori): ogni albero con almeno un errore; nasconde gli altri, monumentali e alberi MASAF compresi
+  // "recent": alberi con almeno un errore il cui nodo è stato modificato negli ultimi RECENT_DAYS giorni rispetto a
+  // oggi ("ts" = giorno dell'ultima modifica, da fetch_trees.py; le regioni scaricate prima non ce l'hanno)
   const issueFilter = v => v === "only" ? ["all", ["has", "issues"], ["!=", ["get", "issues"], "|"]]
+    : v === "recent" ? ["all", ["has", "issues"], ["!=", ["get", "issues"], "|"], [">=", ["coalesce", ["get", "ts"], ""], RECENT_CUT]]
     : !v.startsWith("g:") ? ["in", `|${v}|`, ["get", "issues"]]
     : ["any", ...Object.keys(L.issueOpts).filter(c => issueGroupOf(c) === v.slice(2)).map(c => ["in", `|${c}|`, ["get", "issues"]])];
   let taxSig = "", issSig = "";
@@ -2177,7 +2199,7 @@ map.on("load", async () => {
     const west = b.getWest(), east = b.getEast(), south = b.getSouth(), north = b.getNorth();
     const G = new Map(), S = new Map(), I = new Map(), GI = new Map();   // GI: alberi con errori per gruppo
     const inc = (m, k) => m.set(k, (m.get(k) || 0) + 1);
-    let U = 0, WS = 0;   // senza genus né species; con species
+    let U = 0, WS = 0, R = 0;   // senza genus né species; con species; con errori e modificati di recente
     for (const ft of ALL) {
       const [x, y] = ft.geometry.coordinates;
       if (x < west || x > east || y < south || y > north) continue;
@@ -2189,6 +2211,7 @@ map.on("load", async () => {
         const codes = p.issues.split("|").filter(Boolean);
         codes.forEach(i => inc(I, i));
         new Set(codes.map(issueGroupOf)).forEach(g => inc(GI, g));
+        if (isRecent(p)) R++;
       }
       if (!p.genus && !p.species) { U++; continue; }
       // genere: quello di genus e quello di species, contato una volta sola se coincidono
@@ -2201,18 +2224,21 @@ map.on("load", async () => {
     // errori: solo quelli presenti in vista, nell'ordine del menu; il selezionato resta anche se fuori vista
     const curI = issSel.value;
     if (curI.startsWith("g:") && !GI.has(curI.slice(2))) GI.set(curI.slice(2), 0);
-    else if (curI && curI !== "only" && !curI.startsWith("g:") && !I.has(curI)) I.set(curI, 0);
+    else if (curI && curI !== "only" && curI !== "recent" && !curI.startsWith("g:") && !I.has(curI)) I.set(curI, 0);
     const iList = ISSUE_OPTS.filter(([k]) => I.has(k));
     // "Solo gli errori" serve solo da ALL_Z, quando compaiono anche gli alberi senza errori (resta se è quella scelta)
     const showOnly = !WORLD && (z >= ALL_Z || curI === "only");
-    const iSig = JSON.stringify([iList.map(([k]) => [k, I.get(k)]), [...GI], showOnly, noIss]);
+    // "Modificati di recente": a ogni zoom, se in vista ce n'è almeno uno (resta se è quella scelta)
+    const showRecent = !WORLD && (R > 0 || curI === "recent");
+    const iSig = JSON.stringify([iList.map(([k]) => [k, I.get(k)]), [...GI], showOnly, noIss, showRecent && R]);
     if (iSig !== issSig) {
       issSig = iSig;
       // voci raggruppate per tema (ISSUE_GROUPS), ognuna con in testa "tutti gli errori del gruppo" (g:<gruppo>);
       // un gruppo compare solo se ha errori in vista
       const groups = [...ISSUE_GROUPS.map(([g]) => g), "other"].filter(g => GI.has(g))
         .map(g => [g, iList.filter(([k]) => issueGroupOf(k) === g)]);
-      issSel.replaceChildren(opt("", noIss ? L.noIssues : L.allIssues), ...(showOnly && !noIss ?[opt("only", L.onlyIssues)] : []), ...groups.map(([g, l]) => {
+      issSel.replaceChildren(opt("", noIss ? L.noIssues : L.allIssues), ...(showOnly && !noIss ?[opt("only", L.onlyIssues)] : []),
+        ...(showRecent && !noIss ? [opt("recent", `${L.recentIssues(RECENT_DAYS)} (${fmtN(R)})`)] : []), ...groups.map(([g, l]) => {
         const og = document.createElement("optgroup"); og.label = L.issueGroups[g];
         // con un solo tipo di errore in vista la voce del gruppo sarebbe identica: si omette (salvo se è quella scelta)
         if (l.length > 1 || curI === "g:" + g)
@@ -2258,6 +2284,7 @@ map.on("load", async () => {
     if (p.issues === "|") return false;              // nessun errore: il caso più comune, senza dividere la stringa
     const codes = p.issues.split("|").filter(Boolean);
     if (!v || v === "only") return codes.length > 0; // "Tutti/Solo gli errori": ogni albero con almeno un errore
+    if (v === "recent") return codes.length > 0 && isRecent(p);
     return v.startsWith("g:") ? codes.some(c => issueGroupOf(c) === v.slice(2)) : codes.includes(v);
   };
   const matchTaxon = (v, p) => {
@@ -2297,6 +2324,7 @@ map.on("load", async () => {
       out.natural = p.stump ? "tree_stump" : "tree";
       for (const k of ["species", "genus", "denotation", "circumference", "height", "diameter_crown", "wikidata"])
         if (p[k] !== undefined && p[k] !== "") out[k] = p[k];
+      if (p.ts) out.last_edit = p.ts;                  // giorno dell'ultima modifica del nodo
       return { type: "Feature", geometry: f.geometry, properties: out };
     });
     const blob = new Blob([JSON.stringify({ type: "FeatureCollection", features: feats }, null, 1)], { type: "application/geo+json" });
@@ -3072,6 +3100,8 @@ map.on("load", async () => {
   // regione) per la regione caricata, la nazione aperta o tutte le regioni. Per una nazione o per tutte, a ogni data
   // si somma l'ultimo valore noto di ogni regione. Compare solo con almeno due date.
   const chartBox = document.getElementById("chart-box");
+  const chartName = document.getElementById("chart-name"), chartModeBtn = document.getElementById("chart-mode");
+  let chartMode = "e";   // "e" = quota di alberi con errori, "t" = numero di alberi
   const renderChart = () => {
     let slugs, title;
     if (current) { slugs = [current]; title = regionName(current); }
@@ -3089,18 +3119,33 @@ map.on("load", async () => {
     });
     chartBox.hidden = pts.length < 2;
     if (chartBox.hidden) return;
+    const trees = chartMode === "t";
+    chartName.textContent = !chartBox.open ? L.trends : trees ? L.chartTrees : L.chart;
+    chartModeBtn.title = trees ? L.chartToErrors : L.chartToTrees;
+    chartModeBtn.setAttribute("aria-label", chartModeBtn.title);
+    document.getElementById("chart-note").textContent = trees ? L.chartNoteTrees : L.chartNote;
     document.getElementById("chart-title").textContent = title;
+    // valore disegnato: quota di alberi con errori (%) o numero di alberi
+    const val = x => trees ? x.c : x.p;
     // asse verticale stretto attorno ai valori (0,2% → da 0,1 a 0,3), mai sotto lo zero
-    const ps = pts.map(x => x.p), lo = Math.min(...ps), hi = Math.max(...ps);
-    const pad = hi > lo ? (hi - lo) * 0.25 : (hi / 2 || 0.1);
+    const ps = pts.map(val), lo = Math.min(...ps), hi = Math.max(...ps);
+    const pad = hi > lo ? (hi - lo) * 0.25 : trees ? Math.max(1, hi * 0.01) : (hi / 2 || 0.1);
     const y0 = Math.max(0, lo - pad), y1 = hi + pad;
-    const W = 206, H = 110, L0 = 34, R0 = 6, T0 = 8, B0 = 18;
+    const digits = Math.max(0, Math.min(3, 1 - Math.floor(Math.log10(y1 - y0))));
+    const fp = trees ? v => fmtN(Math.round(v))
+      : p => p.toLocaleString(LOC, { minimumFractionDigits: digits, maximumFractionDigits: digits }) + "%";
+    // margine sinistro largo quanto l'etichetta più lunga dell'asse (i numeri di alberi possono avere sette cifre)
+    const W = 206, H = 110, R0 = 6, T0 = 8, B0 = 18;
+    const L0 = Math.max(34, 6 + 5.2 * Math.max(...[y0, (y0 + y1) / 2, y1].map(v => fp(v).length)));
     const t = d => Date.parse(d), tA = t(dates[0]), tB = t(dates[dates.length - 1]);
     const X = d => L0 + (W - L0 - R0) * (t(d) - tA) / (tB - tA);
     const Y = p => T0 + (H - T0 - B0) * (1 - (p - y0) / (y1 - y0));
-    const digits = Math.max(0, Math.min(3, 1 - Math.floor(Math.log10(y1 - y0))));
-    const fp = p => p.toLocaleString(LOC, { minimumFractionDigits: digits, maximumFractionDigits: digits }) + "%";
     const fd = fmtDay;
+    const color = trees ? "#1b6b2c" : "#b00020";
+    // regioni entrate dopo la prima data (solo nelle somme): un segno verticale nel giorno della loro prima riga
+    const joins = new Map();
+    if (slugs.length > 1)
+      slugs.forEach(s => { const d = (HIST[s] || [])[0]?.[0]; if (d && d > dates[0]) joins.set(d, [...(joins.get(d) || []), regionName(s)]); });
     const ns = "http://www.w3.org/2000/svg", el = (n, a, txt) => {
       const x = document.createElementNS(ns, n);
       for (const k in a) x.setAttribute(k, a[k]);
@@ -3114,15 +3159,33 @@ map.on("load", async () => {
     }
     svg.append(el("text", { x: L0, y: H - 4, "font-size": 9, fill: "#777" }, fd(dates[0])),
       el("text", { x: W - R0, y: H - 4, "text-anchor": "end", "font-size": 9, fill: "#777" }, fd(dates[dates.length - 1])));
-    svg.append(el("polyline", { points: pts.map(x => `${X(x.d)},${Y(x.p)}`).join(" "), fill: "none",
-      stroke: "#b00020", "stroke-width": 1.5, "stroke-linejoin": "round" }));
+    const day = d => new Date(d + "T00:00:00").toLocaleDateString(LOC);
+    for (const [d, names] of [...joins].sort()) {   // sotto la linea; una linea larga e trasparente porta il tooltip
+      const g = el("g", {});
+      g.append(el("line", { x1: X(d), x2: X(d), y1: T0, y2: H - B0, stroke: "#999", "stroke-width": 1, "stroke-dasharray": "2 2" }),
+        el("line", { x1: X(d), x2: X(d), y1: T0, y2: H - B0, stroke: "transparent", "stroke-width": 6 }),
+        el("title", {}, L.chartJoin(day(d), names)));
+      svg.append(g);
+    }
+    svg.append(el("polyline", { points: pts.map(x => `${X(x.d)},${Y(val(x))}`).join(" "), fill: "none",
+      stroke: color, "stroke-width": 1.5, "stroke-linejoin": "round" }));
     for (const x of pts) {
-      const c = el("circle", { cx: X(x.d), cy: Y(x.p), r: 2.5, fill: "#b00020" });
-      c.append(el("title", {}, L.chartTip(new Date(x.d + "T00:00:00").toLocaleDateString(LOC), fp(x.p), fmtN(x.e), fmtN(x.c))));
+      const c = el("circle", { cx: X(x.d), cy: Y(val(x)), r: 2.5, fill: color });
+      c.append(el("title", {}, trees ? L.chartTreesTip(day(x.d), fmtN(x.c)) : L.chartTip(day(x.d), fp(x.p), fmtN(x.e), fmtN(x.c))));
       svg.append(c);
     }
     document.getElementById("chart").replaceChildren(svg);
   };
+  // icona della scheda: passa dagli errori agli alberi e viceversa; riaprendo la scheda si riparte dagli errori
+  chartModeBtn.onclick = ev => {
+    ev.preventDefault(); ev.stopPropagation();   // il clic non chiude il riquadro
+    chartMode = chartMode === "t" ? "e" : "t";
+    renderChart();
+  };
+  chartBox.addEventListener("toggle", () => {
+    if (chartBox.open) chartMode = "e";
+    renderChart();
+  });
   onContextChange = () => { renderChart(); renderRec(); };   // i primati seguono il livello aperto
   renderChart();
 

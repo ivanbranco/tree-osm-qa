@@ -2,11 +2,11 @@
 
 # The panel tabs
 
-The collapsible tabs of the panel: how they are laid out, Completeness, Record trees, Error ranking and Error trend. The entries of the Legend tab are described in [The map](mappa.md#rendering).
+The collapsible tabs of the panel: how they are laid out, Completeness, Record trees, Error ranking and Trends. The entries of the Legend tab are described in [The map](mappa.md#rendering).
 
 ## Layout
 
-The collapsible tabs of the panel (Legend, Error ranking, Error trend, Completeness, Record trees) open one at a time. The closed tabs sit in two columns of equal width, two per row; when their number is odd, the last one is alone on its row and takes the whole row, and the open tab is below them, full width. Opening a closed tab sends the open one back to its place in the grid; tapping the open tab closes it, and all go back to the grid. The same applies to the monumental trees map, which has Legend, Completeness and Record trees. The legend list, the ranking list, the Completeness tab and the Record trees tab are as tall as the space left in the window (recalculated when a tab opens, the window is resized or the box on top changes): if the entries do not fit, only the list scrolls. If the panel is still taller than the window, the panel scrolls and not the page
+The collapsible tabs of the panel (Legend, Error ranking, Trends, Completeness, Record trees) open one at a time. The closed tabs sit in two columns of equal width, two per row; when their number is odd, the last one is alone on its row and takes the whole row, and the open tab is below them, full width. Opening a closed tab sends the open one back to its place in the grid; tapping the open tab closes it, and all go back to the grid. The same applies to the monumental trees map, which has Legend, Completeness and Record trees. The legend list, the ranking list, the Completeness tab and the Record trees tab are as tall as the space left in the window (recalculated when a tab opens, the window is resized or the box on top changes): if the entries do not fit, only the list scrolls. If the panel is still taller than the window, the panel scrolls and not the page
 
 ## Completeness
 
@@ -54,6 +54,11 @@ When a filter is active, a yellow notice in the tab names it ("Active filter: Qu
 
 The "Error ranking" tab: countries in order of share of trees with at least one error and, inside each country, the regions; tapping a region opens it. The counts are in the `errors` field of `data/index.json` and are filled in when the data is updated. The `%` and `#` buttons next to the title, visible only when the tab is open, sort by percentage (the default) or by number of trees with errors; the choice is saved in the browser. Numbers are coloured according to position, with the same scale as the map (from green, last place, to orange up to red, first place): countries among themselves and the regions of each country among themselves; rows without counts are grey. Next to each row, the position compared with 7 days before the latest date in `data/history.json` (for each region the last value recorded up to that day; if the history is shorter, the oldest date; `RANK_DAYS` in `index.html`), so a movement stays visible for a week even if in the meantime the data is updated again without changing: red ▲ if it goes up towards first place (more errors than the others), green ▼ if it goes down, grey = if it stays the same; nothing if the region has no previous value. Positions are compared only among rows that have both the current and the previous value: a newly added country or region does not push down those below it. The position can also change without the region's data changing, when the others are updated
 
-## Error trend
+## Trends
 
-The "Error trend" tab: the share of trees with at least one error over time, for the loaded region, for the open country or for all regions (the subtitle says which). The values come from `data/history.json`; for a country or for all regions, at each date the last known value of each region is summed. The vertical axis narrows around the values (for example from 0.1% to 0.3% if the share is 0.2%). The box appears only with at least two dates. When a check is added the share goes up even if the data has not changed
+The "Trends" tab: two charts over time, for the loaded region, for the open country or for all regions (the subtitle says which). The title of the closed tab is "Trends"; when it is opened it becomes "Error trend", and the ⇄ icon next to the title, visible only when the tab is open, switches to "Tree trend" and back. Reopening the tab always starts from "Error trend".
+
+* **Error trend**: the share of trees with at least one error. When a check is added the share goes up even if the data has not changed
+* **Tree trend**: the number of trees (stumps included), useful for example to spot imports
+
+The values come from `data/history.json`; for a country or for all regions, at each date the last known value of each region is summed. The vertical axis narrows around the values (for example from 0.1% to 0.3% if the share is 0.2%). For a country or for all regions, a dashed vertical line marks the dates on which regions were added (their names are in the tooltip of the line): from that date their trees are added to the sum. The box appears only with at least two dates

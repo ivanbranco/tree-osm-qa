@@ -84,7 +84,7 @@ def query(region, bbox):
   node["natural"="tree_stump"](area.a)({s},{w},{n},{e});
   node["xmas:feature"="tree"](area.a)({s},{w},{n},{e});
 );
-out body qt;"""
+out meta qt;"""   # meta: serve solo la data dell'ultima modifica (to_feature, "ts"); utente e changeset non si salvano
 
 
 def run_overpass(q, label, can_split, http_timeout=420):
@@ -2114,6 +2114,8 @@ def to_feature(el):
     t = el.get("tags", {})
     p = {k: t[k] for k in KEEP if k in t}
     p["id"] = el["id"]
+    if ts := el.get("timestamp"):   # giorno dell'ultima modifica del nodo (AAAA-MM-GG): voce «modificati di recente» del menu errori
+        p["ts"] = ts[:10]
     if (sp := t.get("species")) and (gn := GROUP_NAME.get(norm_species(sp))) and sp != gn:
         p["sp_key"] = gn   # la stessa specie con un altro nome: il sito la conta e la filtra con gli altri
     if is_sacred(t):   # contorno azzurro sulla mappa
