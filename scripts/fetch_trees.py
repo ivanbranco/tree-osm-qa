@@ -266,7 +266,7 @@ for _name, _v in _LIST.items():
 # species vere che il check sugli errori di battitura scambierebbe per una specie della lista
 _WL = load_json(HERE / "whitelist.json")
 WD_WHITELIST = {norm_species(k): set(v) for k, v in _WL.get("wikidata_mismatch", {}).items()}
-TYPO_WHITELIST = {norm_species(k) for k in _WL.get("species_typo", [])}
+TYPO_WHITELIST = {" ".join(w for w in norm_species(k).split() if w != "×") for k in _WL.get("species_typo", [])}
 # sinonimi: nome alternativo -> nome della lista wiki (es. "Crataegus × lavallei" -> "Crataegus × lavalleei"); il
 # nome alternativo vale come quello della lista in tutti i controlli (errori di battitura, species:wikidata, nome su
 # Wikidata, stime di leaf_type e leaf_cycle)
@@ -1143,9 +1143,12 @@ def levenshtein(a, b, limit):
 @functools.lru_cache(maxsize=None)
 def species_typo(sp):
     """Specie della lista che species probabilmente voleva scrivere, o None."""
-    if ";" in sp or norm_species(sp) in TYPO_WHITELIST:
+    if ";" in sp:
         return None
     b = binomial(sp)
+    # in whitelist (genere ed epiteto, senza ×: vale anche con la cultivar, Prunus × incam 'Okame')
+    if b in TYPO_WHITELIST:
+        return None
     if len(b.split()) < 2 or b in SPECIES_BIN:   # una parola: c'è già il check; in lista (anche cultivar): ok
         return None
     best, dist = None, 3
@@ -1653,6 +1656,28 @@ def species_lang_species(t, lang):
     return [(k, v, s) for k, v in lang if (s := SPECIES_NAMES.get((re.split(r"[-_]", k[8:])[0], v.strip().casefold())))]
 
 
+def species_lang_extras(t, species):
+    """Tag che mancano e che la specie proposta per un species:xx (species, un solo nome) permette di aggiungere
+    insieme a species=*: {"sp_lang_wd": species:wikidata della lista wiki, "sp_lang_lt": leaf_type, "sp_lang_lc":
+    leaf_cycle}. Servono alla correzione con JOSM, che aggiunge species."""
+    t2 = {**t, "species": species}
+    out = {}
+    if "species:wikidata" not in t and (q := list_qid(species)):
+        out["sp_lang_wd"] = q
+    if "leaf_type" not in t and (lt := leaf_type_estimate(t2)):
+        out["sp_lang_lt"] = lt
+    if "leaf_cycle" not in t and (lc := leaf_cycle_estimate(t2)):
+        out["sp_lang_lc"] = lc
+    return out
+
+
+def common_name_genus(word):
+    """Genere di cui word è il nome comune in una lingua di GENUS_NAMES (species=oak -> Quercus), se è uno solo."""
+    w = word.strip().casefold()
+    genera = {g for (_, n), g in GENUS_NAMES.items() if n == w}
+    return next(iter(genera)) if len(genera) == 1 else None
+
+
 def undocumented_tags(t):
     """Tag non documentati presenti: [(chiave, valore)], esclusi quelli in UNDOC_IGNORE."""
     return [(k, t[k]) for k in UNDOC_TAGS if k in t and (k, t[k].strip()) not in UNDOC_IGNORE]
@@ -1778,8 +1803,10 @@ def checks(t, pos, osm_id=None):
     one_word = spf is not None and len(spf.split()) == 1
     if one_word:
         # se la parola è un genere della lista wiki (es. species=magnolia), la scheda propone genus=Magnolia
+        # se è il nome comune di un genere (species=oak), propone genus=Quercus (sp_common_genus)
         gr = GENUS_REF.get(spf.strip().lstrip("× ").casefold())
-        flag("species", **({"sp_as_genus": gr[0]} if gr else {}))
+        cg = None if gr else common_name_genus(spf)
+        flag("species", **({"sp_as_genus": gr[0]} if gr else {"sp_common_genus": cg} if cg else {}))
     # con una sola parola basta l'errore precedente: la correzione è la stessa, minuscola o no
     if spf is not None and not one_word and spf.strip()[:1].islower():
         flag("species_lowercase")
@@ -1808,6 +1835,11 @@ def checks(t, pos, osm_id=None):
         # sp_lang_gkx: righe "species:pl=Dąb|Quercus|genus:pl=Buk" quando genus:xx ha un altro nome
         gl, gx, gk, gkx = species_lang_genus(t, lang)
         sl = species_lang_species(t, lang)
+        # sp_lang_wd, sp_lang_lt, sp_lang_lc: species:wikidata, leaf_type e leaf_cycle che mancano, per la specie
+        # proposta (se è una sola): la correzione con JOSM li aggiunge insieme a species
+        cand = {s for _, _, s in sl} | {s for _, _, _, s in gl if s}
+        if len(cand) == 1:
+            props.update(species_lang_extras(t, next(iter(cand))))
         flag("species_lang_only", sp_lang="\n".join(f"{k}={v}" for k, v in lang),
              **({"sp_lang_sp": "\n".join(f"{k}={v}|{s}" for k, v, s in sl)} if sl else {}),
              **({"sp_lang_genus": "\n".join(f"{k}={v}|{g}" + (f"|{s}" if s else "") for k, v, g, s in gl),
