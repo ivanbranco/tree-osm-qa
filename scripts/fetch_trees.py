@@ -517,8 +517,9 @@ def wd_prop(p):
     return f"(wdt:{p}|owl:sameAs/wdt:{p})"
 
 
-# data/wikipedia_qids.json: voci di species:wikipedia -> QID dell'elemento Wikidata collegato (o null se la voce non
-# esiste o non ha un elemento), per i consigli su species:wikidata e species: {"en:Quercus robur": "Q165145", …}
+# data/wikipedia_qids.json: voci di species:wikipedia e wikipedia -> QID dell'elemento Wikidata collegato (o null se la
+# voce non esiste o non ha un elemento), per i consigli su species:wikidata e species e per il check
+# wikipedia_is_taxon: {"en:Quercus robur": "Q165145", …}
 WP_QIDS_FILE = DATA / "wikipedia_qids.json"
 WP_QIDS = load_json(WP_QIDS_FILE)
 WP_VALUE = re.compile(r"^\s*([a-z][a-z-]{1,11})\s*:\s*(\S.*?)\s*$")
@@ -534,11 +535,11 @@ def wp_key(v):
 
 
 def resolve_wikipedia(tags):
-    """QID degli elementi Wikidata delle voci di species:wikipedia, dall'API della Wikipedia di ogni lingua
+    """QID degli elementi Wikidata delle voci di species:wikipedia e wikipedia, dall'API della Wikipedia di ogni lingua
     (pageprops wikibase_item, a blocchi di 50 titoli; si seguono normalizzazioni e redirect). Si rileggono a ogni
     aggiornamento, come i QID; se Wikipedia non risponde resta la cache. Restituisce i QID trovati, da aggiungere
     alle specie da chiedere a Wikidata."""
-    keys = sorted({k for t in tags if (k := wp_key(t.get("species:wikipedia")))})
+    keys = sorted({k for t in tags for key in ("species:wikipedia", "wikipedia") if (k := wp_key(t.get(key)))})
     by_lang = {}
     for k in keys:
         lang, title = k.split(":", 1)
@@ -574,6 +575,15 @@ def wikipedia_qid(t):
     return WP_QIDS.get(wp_key(t.get("species:wikipedia")) or "")
 
 
+def wikipedia_taxon(t):
+    """QID dell'elemento Wikidata della voce di wikipedia=* se è un taxon (wikipedia dovrebbe indicare la voce del
+    singolo albero, come wikidata), altrimenti None."""
+    if "wikipedia" not in t:
+        return None
+    q = WP_QIDS.get(wp_key(t["wikipedia"]) or "")
+    return q if q and taxon_status(q) is True else None
+
+
 def update_wikidata_cache(elements):
     """Chiede a Wikidata i dati dei QID usati dalla regione: per wikidata=* (alberi) se è un taxon,
     coordinate, immagine, specie (P10241), tutela (P1435), voci di Wikipedia, id di monumentaltrees.com (P9704) e se è
@@ -599,7 +609,8 @@ def update_wikidata_cache(elements):
     # specie: quelle dei tag, quelle indicate da P10241 degli alberi e quelle della lista wiki per i valori di species
     # (per il nome comune)
     listed = {q for t in tags if (q := list_qid(t.get("species")))}
-    from_wp = resolve_wikipedia(tags)   # elementi delle voci di species:wikipedia, per i consigli
+    # elementi delle voci di species:wikipedia (per i consigli) e di wikipedia (check wikipedia_is_taxon)
+    from_wp = resolve_wikipedia(tags)
     todo_taxa = sorted(({q for t in tags for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k)}
                         | {x for q in wd for x in WD_ITEMS.get(q, {}).get("taxa", [])} | listed | from_wp))
     ask_wikidata(todo_taxa, lambda v: "SELECT ?item ?name ?rank ?it ?en ?bas WHERE { VALUES ?item { " + v + " } "
@@ -1526,6 +1537,16 @@ def masaf_removed(t):
     return out
 
 
+def masaf_unknown(t):
+    """Codici di ref:masaf che non sono nell'elenco MASAF, né tra gli iscritti né tra i rimossi. Il primo numero può
+    avere due o tre cifre (02/G114/CN/01 vale come 002/G114/CN/01, masaf_code), non una sola (2/G114/CN/01 si
+    segnala). Niente se l'elenco non è caricato o se la regione è di un'altra nazione (lo segnala già register_country)."""
+    if "ref:masaf" not in t or not MASAF_LIST or (COUNTRY and COUNTRY != "IT"):
+        return []
+    return [raw for raw in (x.strip() for x in str(t["ref:masaf"]).split(";"))
+            if raw and (masaf_code(raw) not in MASAF_LIST or len(re.sub(r"\s+", "", raw).split("/")[0]) < 2)]
+
+
 # --- Forma di species: specie non identificata (sp., spp.) e autore del nome (L., (L.) Kuntze, Merr.…) ---
 UNIDENTIFIED = re.compile(r"^\s*(×\s*)?(\S+)\s+(sp|spp)\.?\s*$", re.I)
 INFRA = {"subsp.", "ssp.", "var.", "subvar.", "f.", "forma", "cv.", "nothosubsp.", "nothovar."}
@@ -1695,13 +1716,27 @@ def species_lang_species(t, lang):
     return out
 
 
+def cached_species_qid(species):
+    """QID di una specie che non è nella lista wiki (species:it=Pino d'Aleppo -> Pinus halepensis), dalla cache di
+    Wikidata: l'unico elemento taxon di rango specie con quel nome scientifico (P225), altrimenti None."""
+    return _cached_species_qid(species, len(WD_TAXA))   # la cache cresce da una regione all'altra
+
+
+@functools.lru_cache(maxsize=None)
+def _cached_species_qid(species, _n):
+    b = binomial(species)
+    found = {q for q, e in WD_TAXA.items() if e.get("taxon") and "Q7432" in e.get("ranks", [])
+             and any(binomial(n) == b for n in e.get("names", []))}
+    return next(iter(found)) if len(found) == 1 else None
+
+
 def species_lang_extras(t, species):
     """Tag che mancano e che la specie proposta per un species:xx (species, un solo nome) permette di aggiungere
     insieme a species=*: {"sp_lang_wd": species:wikidata della lista wiki, "sp_lang_lt": leaf_type, "sp_lang_lc":
     leaf_cycle}. Servono alla correzione con JOSM, che aggiunge species."""
     t2 = {**t, "species": species}
     out = {}
-    if "species:wikidata" not in t and (q := list_qid(species)):
+    if "species:wikidata" not in t and (q := list_qid(species) or cached_species_qid(species)):
         out["sp_lang_wd"] = q
     if "leaf_type" not in t and (lt := leaf_type_estimate(t2)):
         out["sp_lang_lt"] = lt
@@ -1964,6 +1999,12 @@ def checks(t, pos, osm_id=None):
         flag("masaf_criteria", masaf_bad=",".join(bad))
     if rm := masaf_removed(t):          # righe "codice|motivo|decreto" separate da "\n"
         flag("masaf_removed", masaf_rm="\n".join(f"{c}|{r}|{d}" for c, r, d in rm))
+    if unk := masaf_unknown(t):         # codici separati da ";"
+        flag("masaf_unknown", masaf_unk=";".join(unk))
+    if "start_date" in t and "start_date" not in eq and (why := start_date_problem(t["start_date"])):
+        flag("start_date_invalid", **({"sd_future": 1} if why == "future" else {}))
+    if wpt := wikipedia_taxon(t):       # voce di wikipedia=* (wp_v) il cui elemento Wikidata (wp_tx) è un taxon
+        flag("wikipedia_is_taxon", wp_tx=wpt, wp_v=t["wikipedia"])
     if ro := register_out_of_country(t):   # "tag|nazione;…" (tag: "ref:masaf" o "heritage:operator=anf")
         flag("register_country", reg_out=";".join(f"{k}|{cc}" for k, cc in ro))
     if undoc := undocumented_tags(t):  # i tag non sono in KEEP: il valore va nella proprietà tag_<chiave>
@@ -2321,6 +2362,36 @@ def start_date_key(v):
         if not int(m.group(2)):
             return None
         return ((int(m.group(2)) - 1) * 100 + SD_THIRD[(m.group(1) or "early").lower()]) * 10000
+    return None
+
+
+# early/mid/late davanti a un decennio (early 1850s): la wiki lo ammette; start_date_key non lo legge
+SD_DECADE_PART = re.compile(r"^(?:early|mid|late)\s+(\d{2,3}0s)$", re.I)
+
+
+def start_date_problem(v, today=None):
+    """Perché start_date va segnalato: "invalid" se una parte (prima e dopo ".." in un intervallo) non è in una delle
+    forme della wiki (vedi sopra; anche early/mid/late 1850s) o è una data che non esiste (2020-02-30), "future" se
+    la data più vecchia che indica è dopo oggi (anche con before: un albero mappato esiste già oggi); None se va bene."""
+    s = " ".join(str(v).split())
+    parts = s.split("..")
+    if len(parts) > 2 or not all(p.strip() for p in parts):   # anche il valore vuoto
+        return "invalid"
+    keys = []
+    for part in (p.strip() for p in parts):
+        k = start_date_key(SD_DECADE_PART.sub(r"\1", part))
+        if k is None:
+            return "invalid"
+        m = SD_DATE.match(_sd_parts(part)[0])
+        if m and m.group(3):
+            try:
+                datetime.date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+            except ValueError:
+                return "invalid"
+        keys.append(k)
+    today = today or datetime.date.today()
+    if keys[0] > today.year * 10000 + today.month * 100 + today.day:
+        return "future"
     return None
 
 

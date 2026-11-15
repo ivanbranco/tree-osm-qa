@@ -177,7 +177,7 @@
   #scale{display:flex;align-items:center;gap:6px;font-size:11px;color:#777;margin-top:6px}
   #scale[hidden]{display:none}
   #scale i{flex:1;height:8px;border-radius:4px;background:linear-gradient(90deg,#2e9e45,#f0a020,#d00020);opacity:.8}
-  #gh{color:#999;display:flex}
+  #gh{color:#999;display:flex;position:relative;top:.5px}   /* più in basso: centrato sulle maiuscole di «IT · EN» */
   #gh:hover{color:#222}
   #panel label{display:block;margin:2px 0}
   #panel select{width:100%;margin-bottom:6px}
@@ -535,6 +535,7 @@ const I18N = {
       importUndoc: v => `Albero da un import non documentato (source=${v})`,
       importDoc: v => `Albero importato (source=${v}):`, importDocLink: "documentazione dell'import",
       masafSize: (c, s, n) => `La circonferenza (${c}) raggiunge la soglia MASAF per ${n} (${s}): potrebbe essere un albero monumentale`,
+      commonsImage: f => `image=* punta a un file di Wikimedia Commons: si potrebbe sostituire con wikimedia_commons=${f}`,
       feetInchSpace: (k, v, fix) => `${k}=${v}: la wiki indica di scrivere piedi e pollici senza spazi (${fix})`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,      notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
       // issue #25; seeds(t): HTML delle parole che aprono la foto dei semi (south: emisfero australe)
@@ -563,7 +564,9 @@ const I18N = {
       leaf_type_mismatch: "leaf_type diverso da quello della specie", leaf_cycle_mismatch: "leaf_cycle diverso da quello della specie",
       monument_denotation: "Fonte monumentale senza natural_monument",
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
-      masaf_removed: "Albero rimosso dall'elenco MASAF", register_country: "Tag di un registro di un'altra nazione",
+      masaf_removed: "Albero rimosso dall'elenco MASAF", masaf_unknown: "ref:masaf non presente nell'elenco MASAF",
+      register_country: "Tag di un registro di un'altra nazione", start_date_invalid: "start_date non valido o nel futuro",
+      wikipedia_is_taxon: "wikipedia è un taxon",
       undocumented_tag: "Tag non documentato (tree, type)", key_typo: "Chiave scritta male (heigth, Species…)", circumference_species: "Circonferenza > limite della specie",
       height_species: "Altezza > limite della specie", species_typo: "Species forse scritta male",
       species_epithet_case: "Species con l'epiteto maiuscolo", species_common_name: "Species non scientifica (nome comune?)",
@@ -714,6 +717,9 @@ const I18N = {
       register_country: "Tag dei registri nazionali degli alberi monumentali: ref:masaf, masaf:criteria e ref:rami (Italia), ref:icnf e heritage:operator=icnf (Portogallo), heritage:operator=anf (Lussemburgo), ref:CRFOP e ref:gid (Polonia). Segnalati sugli alberi delle regioni di altre nazioni.",
       masaf_criteria: "Codici ammessi: a–g, a1, a2, a2.1, a2.2, a2.3, separati da virgole senza spazi.",
       masaf_removed: "Il codice ref:masaf corrisponde a un albero che l'elenco degli alberi monumentali d'Italia dà come rimosso. Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
+      masaf_unknown: "Il codice ref:masaf non è nell'elenco degli alberi monumentali d'Italia, né tra gli alberi iscritti né tra quelli rimossi. Lo zero iniziale del primo numero non conta (01/G114/CN/01 vale come 001/G114/CN/01). Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
+      start_date_invalid: "Forme della wiki OSM (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 e gli intervalli 1850..1900. Sono segnalate anche le date che non esistono (2020-02-30) e quelle dopo la data dell'aggiornamento dei dati.",
+      wikipedia_is_taxon: "wikipedia=* collega la voce del singolo albero; la voce della specie si collega con species:wikipedia=*. L'elemento Wikidata collegato alla voce è un taxon (ha un nome scientifico, P225).",
       denotation_value: "Confronto con gli usi su Taginfo: segnalati i valori usati al massimo 10 volte, quelli con un formato non valido e quelli comuni con altro testo attaccato.",
       undocumented_tag: "tree=* e type=* non sono documentati per gli alberi nella wiki OSM.",
       key_typo: "La chiave non è tra quelle usate per gli alberi, ma differisce da una di esse solo per le maiuscole, per una lettera (due nelle chiavi di almeno 12 lettere) o per due lettere vicine scambiate. Le chiavi in OSM sono minuscole. Il valore non è usato per disegnare l'albero.",
@@ -784,6 +790,9 @@ const I18N = {
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "codici non validi" : "codice non valido"} ${bad.join(", ")} (ammessi a–g, a1, a2, a2.1–a2.3, separati da virgole senza spazi)`,
       // senza il codice: compare già nella riga «Albero inserito nell'elenco…» della scheda
       masaf_removed: (code, why) => `L'albero è stato rimosso dall'elenco MASAF ${why}`,
+      masaf_unknown: code => `ref:masaf=${code} non è nell'elenco MASAF`,
+      start_date_invalid: (v, future) => future ? `start_date=${v} è nel futuro` : `start_date=${v} non è in una delle forme della wiki`,
+      wikipedia_is_taxon: (v, q) => `wikipedia=${v} è la voce di un taxon (${q}): wikipedia indica il singolo albero, la voce della specie va in species:wikipedia`,
       masafRemovedWhy: { death: "per morte naturale", felled: "per abbattimento", requirements: "per perdita dei requisiti",
         downgraded: "per declassamento", other: "" },
       empty: "(vuoto)",
@@ -960,6 +969,7 @@ const I18N = {
       importUndoc: v => `Tree from an undocumented import (source=${v})`,
       importDoc: v => `Imported tree (source=${v}):`, importDocLink: "import documentation",
       masafSize: (c, s, n) => `The circumference (${c}) reaches the MASAF threshold for ${n} (${s}): it could be a monumental tree`,
+      commonsImage: f => `image=* points to a Wikimedia Commons file: it could be replaced with wikimedia_commons=${f}`,
       feetInchSpace: (k, v, fix) => `${k}=${v}: the wiki writes feet and inches without spaces (${fix})`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,      notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
       ginkgoSex: (south, seeds) => `If this ginkgo is a female tree, sex=female could be added. ${south ? "October to May" : "April to November"} is a good time to check: females bear paired ovules in spring and fleshy, ${seeds("foul-smelling seeds")} that fall in autumn, often lying under the canopy.`,
@@ -987,7 +997,9 @@ const I18N = {
       leaf_type_mismatch: "leaf_type differs from the species", leaf_cycle_mismatch: "leaf_cycle differs from the species",
       monument_denotation: "Monumental source without natural_monument",
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
-      masaf_removed: "Tree removed from the MASAF list", register_country: "Register tag from another country",
+      masaf_removed: "Tree removed from the MASAF list", masaf_unknown: "ref:masaf not in the MASAF list",
+      register_country: "Register tag from another country", start_date_invalid: "Invalid or future start_date",
+      wikipedia_is_taxon: "wikipedia is a taxon",
       undocumented_tag: "Undocumented tag (tree, type)", key_typo: "Misspelled key (heigth, Species…)", circumference_species: "Circumference > species limit",
       height_species: "Height > species limit", species_typo: "Possibly misspelled species",
       species_epithet_case: "Species with uppercase epithet", species_common_name: "Non-scientific species (common name?)",
@@ -1130,6 +1142,9 @@ const I18N = {
       register_country: "Tags of the national registers of monumental trees: ref:masaf, masaf:criteria and ref:rami (Italy), ref:icnf and heritage:operator=icnf (Portugal), heritage:operator=anf (Luxembourg), ref:CRFOP and ref:gid (Poland). Reported on trees of regions in other countries.",
       masaf_criteria: "Allowed codes: a–g, a1, a2, a2.1, a2.2, a2.3, separated by commas without spaces.",
       masaf_removed: "The ref:masaf code belongs to a tree that the list of monumental trees of Italy reports as removed. Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
+      masaf_unknown: "The ref:masaf code is not in the list of monumental trees of Italy, neither among the listed trees nor among the removed ones. The leading zero of the first number does not count (01/G114/CN/01 is the same as 001/G114/CN/01). Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
+      start_date_invalid: "Forms on the OSM wiki (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 and the ranges 1850..1900. Dates that do not exist (2020-02-30) and dates after the data update are reported too.",
+      wikipedia_is_taxon: "wikipedia=* links the article about the individual tree; the species article is linked with species:wikipedia=*. The Wikidata item linked to the article is a taxon (it has a scientific name, P225).",
       denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format and common values with other text attached.",
       undocumented_tag: "tree=* and type=* are not documented for trees on the OSM wiki.",
       key_typo: "The key is not one of those used for trees, but differs from one of them only in capitalisation, by one letter (two in keys of at least 12 letters) or by two adjacent letters swapped. OSM keys are lowercase. The value is not used to draw the tree.",
@@ -1198,6 +1213,9 @@ const I18N = {
       smH: v => `height ${v}`, smC: v => `circumference ${v}`,
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "invalid codes" : "invalid code"} ${bad.join(", ")} (allowed a–g, a1, a2, a2.1–a2.3, comma-separated without spaces)`,
       masaf_removed: (code, why) => `The tree was removed from the MASAF list ${why}`,
+      masaf_unknown: code => `ref:masaf=${code} is not in the MASAF list`,
+      start_date_invalid: (v, future) => future ? `start_date=${v} is in the future` : `start_date=${v} is not in one of the wiki forms`,
+      wikipedia_is_taxon: (v, q) => `wikipedia=${v} is the article of a taxon (${q}): wikipedia is for the individual tree, the species article goes in species:wikipedia`,
       masafRemovedWhy: { death: "after its natural death", felled: "after being felled", requirements: "for loss of requirements",
         downgraded: "after being downgraded", other: "" },
       empty: "(empty)",
@@ -2131,8 +2149,9 @@ map.on("load", async () => {
       "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "underscore", "tag_in_value",
       "not_latin", "genus", "genus_lowercase", "genus_mismatch"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
-      "wikidata_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
-    ["links", ["link_format", "broken_link", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed", "register_country"]],
+      "wikidata_is_taxon", "wikipedia_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
+    ["links", ["link_format", "broken_link", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed", "masaf_unknown",
+      "register_country"]],
   ];
   const issueGroupOf = code => (ISSUE_GROUPS.find(([, codes]) => codes.includes(code)) || ["other"])[0];
   // filtro di MapLibre per una voce del menu: un errore, oppure (g:<gruppo>) uno qualsiasi degli errori del gruppo
@@ -3633,6 +3652,9 @@ const issueBase = (i, p) => {
     case "masaf_removed":        // masaf_rm: righe "codice|motivo|decreto" (fetch_trees.py)
       return String(p.masaf_rm || "").split("\n").filter(Boolean).map(x => { const [c, r, d] = x.split("|");
         return T[i](c, T.masafRemovedWhy[r] ?? "", d).replace(/ +\(/, " (").replace(/ $/, ""); }).join("\n");
+    case "masaf_unknown": return String(p.masaf_unk || "").split(";").filter(Boolean).map(c => T[i](c)).join("\n");   // masaf_unk: fetch_trees.py
+    case "start_date_invalid": return T[i](p.start_date ?? "", !!p.sd_future);   // sd_future: fetch_trees.py
+    case "wikipedia_is_taxon": return T[i](p.wp_v ?? "", p.wp_tx);               // wp_v, wp_tx: fetch_trees.py
     case "register_country":     // reg_out: "tag|codice ISO della nazione;…" (fetch_trees.py)
       return String(p.reg_out || "").split(";").filter(Boolean).map(x => { const [t, cc] = x.split("|");
         return T[i](t, countryName(cc)); }).join("\n");
@@ -3883,6 +3905,21 @@ const capFirst = v => String(v).replace(/^(\s*×?\s*)(\p{Ll})/u, (m, a, b) => a 
 // i dati generati prima del controllo sul rango in fetch_trees.py possono ancora contenerne)
 const binomialHint = n => /\S\s+\S/.test(String(n || "").replace(/×/g, " ").trim()) ? n : undefined;
 const FEET_SPACE =/^\s*\d+\s*'\s+\d+(?:\.\d+)?\s*"\s*$|^\s*\d+\s+'(?:\s*\d+(?:\.\d+)?\s*")?\s*$/;   // come in hints
+// image=* che punta a un file di Wikimedia Commons (la pagina del file, come COMMONS_FILE_URL in fetch_trees.py, o
+// l'indirizzo del file su upload.wikimedia.org, anche di una miniatura) senza wikimedia_commons=*: "File:…" o undefined.
+// L'indirizzo si decodifica prima del confronto (File%3A…); solo nomi con un'estensione, così una categoria non vale
+const COMMONS_PAGE = /^https?:\/\/commons\.(?:m\.)?wikimedia\.org\/wiki\/[^\/:?#]+:([^?#]+)/i;
+const COMMONS_UPLOAD = /^https?:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/(?:thumb\/)?[0-9a-f]\/[0-9a-f]{2}\/([^\/?#]+)/i;
+const commonsOfImage = p => {
+  if (p.wikimedia_commons || !p.image) return undefined;
+  for (let u of String(p.image).split(";")) {
+    try { u = decodeURIComponent(u.trim()); } catch (e) { u = u.trim(); }
+    const m = COMMONS_PAGE.exec(u) || COMMONS_UPLOAD.exec(u);
+    const f = m && m[1].replace(/_/g, " ").trim();
+    if (f && /\.[a-z0-9]{2,5}$/i.test(f)) return "File:" + f;
+  }
+  return undefined;
+};
 const HINT_FIXES = [
   [p => ["circumference", "height", "diameter_crown", "diameter"].filter(k => FEET_SPACE.test(p[k] || ""))
     .map(k => [k, String(p[k]).replace(/\s+/g, "")]), "feet and inches without spaces"],
@@ -3891,7 +3928,10 @@ const HINT_FIXES = [
   [p => p.stump ? [] : [["species:it", p.hint_it]], "capitalise species:it"],
   [p => p.stump || p["masaf:criteria"] ? [] : [["masaf:criteria", p.hint_mc]], "add masaf:criteria"],
   [p => p.stump ? [] : [["leaf_type", !p.leaf_type && p.lt]], "add leaf_type"],
-  [p => p.stump ? [] : [["leaf_cycle", !p.leaf_cycle && p.lc]], "add leaf_cycle"]
+  [p => p.stump ? [] : [["leaf_cycle", !p.leaf_cycle && p.lc]], "add leaf_cycle"],
+  // wikimedia_commons sostituisce image (non vanno insieme): solo con un valore solo in image
+  [p => { const f = !String(p.image || "").includes(";") && commonsOfImage(p);
+    return f ? [["wikimedia_commons", f], ["image", REMOVE]] : []; }, "replace image with wikimedia_commons"]
 ];
 const FIXES = {
   species_author: [p => [["species", p.sp_clean]], "remove the author name from species"],
@@ -3934,8 +3974,10 @@ const FIXES = {
         ...m[4] ? [[m[1], m[4], "fix capitalization of species:xx", false, m[2]]] : []); });
     // con una sola specie proposta, anche i tag che ne derivano e che mancano (sp_lang_wd, sp_lang_lt, sp_lang_lc:
     // fetch_trees.py li calcola per quella specie)
+    // e genus (la prima parola della specie) se manca
     if (added.size === 1) out.push(["species:wikidata", p.sp_lang_wd, "add species:wikidata", true],
-      ["leaf_type", p.sp_lang_lt, "add leaf_type", true], ["leaf_cycle", p.sp_lang_lc, "add leaf_cycle", true]);
+      ["leaf_type", p.sp_lang_lt, "add leaf_type", true], ["leaf_cycle", p.sp_lang_lc, "add leaf_cycle", true],
+      ...g0 ? [] : [["genus", [...added][0].replace(/^×\s*/, "").split(" ")[0], "add genus", true]]);
     return out;
   }, ""]
 };
@@ -4579,6 +4621,9 @@ function hints(p, pos) {
   for (const k of ["circumference", "height", "diameter_crown", "diameter"])
     if (/^\s*\d+\s*'\s+\d+(?:\.\d+)?\s*"\s*$|^\s*\d+\s+'(?:\s*\d+(?:\.\d+)?\s*")?\s*$/.test(p[k] || ""))
       out.push(H.feetInchSpace(k, p[k], String(p[k]).replace(/\s+/g, "")));
+  // image=* su un file di Commons senza wikimedia_commons=* (anche sui ceppi)
+  const cf = commonsOfImage(p);
+  if (cf) out.push(H.commonsImage(cf));
   if (p.stump) return out;
   if (binomialHint(p.hint_sp)) out.push(H.wdSpecies(p.hint_sp));
   if (binomialHint(p.hint_sn)) out.push(H.speciesFromWd(p.hint_sn));
