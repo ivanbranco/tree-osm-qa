@@ -531,12 +531,12 @@
    "updated": "2026-11-12T02:25:42Z"
   },
   "molise": {
-   "count": 57728,
-   "errors": 9,
+   "count": 57853,
+   "errors": 10,
    "name": "Molise",
-   "sha1": "04ae543afd3341f701ee3004ae13da1ae2353b68",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:10:34Z"
+   "sha1": "252c58ca6fa02dfd1abdb86a45541881b2277b75",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T20:58:31Z"
   },
   "monaco": {
    "count": 658,
