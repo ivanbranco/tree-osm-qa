@@ -9,12 +9,12 @@
    "updated": "2026-11-13T00:10:19Z"
   },
   "albania": {
-   "count": 18013,
-   "diam": "mm",
-   "errors": 1681,
+   "count": 18014,
+   "errors": 1702,
    "name": "Albania",
-   "sha1": "a759e00c6ada7226e5eec14dcac1df40d1aee882",
-   "updated": "2026-11-10T21:43:45Z"
+   "sha1": "affd52f66d833adef87101a9252ee44af12185d7",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T12:23:48Z"
   },
   "alta-austria": {
    "count": 97944,
