@@ -13323,6 +13323,11 @@
 ],
 "taxon": true
 },
+"Q16332808": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1633311": {
 "alias": {
 "en": [
@@ -22646,6 +22651,12 @@
 ],
 "taxon": true
 },
+"Q41258556": {
+"en": "Plane Tree of Arta",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q41297396": {
 "alias": {
 "en": [],
@@ -27065,6 +27076,13 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q7087240": {
+"en": "Olive tree of Vouves",
+"it": "Ulivo di Vouves",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q709649": {
 "alias": {
