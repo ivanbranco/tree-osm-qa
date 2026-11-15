@@ -21,14 +21,24 @@ WORLD_DIR = ft.DATA / "world"
 WORLD_INDEX = WORLD_DIR / "index.json"
 BOUNDARIES = ft.DATA / "regions_boundaries.geojson"
 
+# La query si fa a riquadri ({bbox} = sud,ovest,nord,est): in una sola query mondiale (circa 90.000 nodi, novembre
+# 2026) Overpass superava il tempo massimo durante la stampa dei risultati ("Query timed out in print").
 MAPS = {
     "monumental": {
         "name": "Alberi monumentali",
-        "query": """[out:json][timeout:900][maxsize:2147483648];
-node["denotation"~"(^|;)natural_monument(;|$)"]["natural"="tree"];
+        "query": """[out:json][timeout:300];
+node["natural"="tree"]["denotation"~"(^|;)natural_monument(;|$)"]({bbox});
 out body qt;""",
     },
 }
+# Riquadri: si parte dal mondo e si divide in 4 (come fetch_bbox di fetch_trees.py) finché un riquadro ha al massimo
+# TILE_MAX alberi nei dati dell'aggiornamento precedente (al massimo TILE_MAX_DEPTH livelli); un riquadro che non
+# risponde si divide ancora, al massimo TILE_EXTRA_DEPTH livelli in più (Overpass risponde 504 anche quando è solo
+# sovraccarico: così le richieste non si moltiplicano). Senza dati precedenti si parte dai 4 quadranti del mondo.
+TILE_MAX = 15000           # con i dati di novembre 2026: 22 riquadri
+TILE_MAX_DEPTH = 9
+TILE_EXTRA_DEPTH = 2
+TILE_HTTP_TIMEOUT = 360    # secondi di attesa della risposta (la query ha [timeout:300])
 
 
 # Sfoltimento per zoom: sotto FULL_Z la pagina mostra solo alcuni alberi, uno per zona. Per ogni zoom z < FULL_Z il
@@ -266,10 +276,77 @@ def region_of(x, y, regions):
     return None
 
 
+WORLD_BBOX = (-90.0, -180.0, 90.0, 180.0)   # sud, ovest, nord, est
+
+
+def split4(b):
+    s, w, n, e = b
+    ms, mw = (s + n) / 2, (w + e) / 2
+    return [(s, w, ms, mw), (s, mw, ms, e), (ms, w, n, mw), (ms, mw, n, e)]
+
+
+def plan_tiles(key):
+    """[(bbox, livello)] da scaricare: divisione del mondo in base agli alberi dell'aggiornamento precedente (solo
+    quelli della query, senza i monumentali impliciti "imp"); i riquadri senza alberi restano, per quelli nuovi."""
+    path = WORLD_DIR / f"{key}.geojson.gz"
+    pts = []
+    if path.exists():
+        pts = [f["geometry"]["coordinates"] for f in json.loads(gzip.decompress(path.read_bytes()))["features"]
+               if not f["properties"].get("imp")]
+    if not pts:
+        return [(t, 1) for t in split4(WORLD_BBOX)]
+
+    def rec(b, pts, depth):
+        if len(pts) <= TILE_MAX or depth >= TILE_MAX_DEPTH:
+            return [(b, depth)]
+        out = []
+        for t in split4(b):
+            s, w, n, e = t
+            out += rec(t, [p for p in pts if w <= p[0] <= e and s <= p[1] <= n], depth + 1)
+        return out
+    return rec(WORLD_BBOX, pts, 0)
+
+
+def fetch_tile(key, query, b, depth, max_depth):
+    """Elementi di un riquadro; se non risponde lo divide in 4 (fino a max_depth). None se una parte manca."""
+    bbox = ",".join(f"{round(x, 6):g}" for x in b)
+    data = ft.run_overpass(query.replace("{bbox}", bbox), f"{key} {bbox}", depth < max_depth,
+                           http_timeout=TILE_HTTP_TIMEOUT)
+    if data is not None:
+        return data["elements"]
+    if depth >= max_depth:
+        return None
+    print(f" -> divido il riquadro {bbox} in 4 (livello {depth + 1})", flush=True)
+    out = []
+    for t in split4(b):
+        part = fetch_tile(key, query, t, depth + 1, max_depth)
+        if part is None:
+            return None      # meglio i dati precedenti che dati incompleti
+        out += part
+        time.sleep(3)
+    return out
+
+
+def fetch_map(key, query):
+    """{"elements": [...]} di tutti i riquadri (senza doppioni sui bordi), None se un riquadro non risponde."""
+    tiles = plan_tiles(key)
+    print(f"{key}: {len(tiles)} riquadri", flush=True)
+    merged = {}
+    for i, (b, depth) in enumerate(tiles, 1):
+        part = fetch_tile(key, query, b, depth, depth + TILE_EXTRA_DEPTH)
+        if part is None:
+            return None
+        for el in part:
+            merged[(el["type"], el["id"])] = el
+        print(f" riquadro {i}/{len(tiles)}: {len(part)} elementi", flush=True)
+        time.sleep(3)
+    return {"elements": list(merged.values())}
+
+
 def update_map(key, index):
     spec = MAPS[key]
     print(f"== {spec['name']}", flush=True)
-    data = ft.run_overpass(spec["query"], key, False, http_timeout=960)   # la query ha [timeout:900]
+    data = fetch_map(key, spec["query"])
     if not data:
         ft.warn(f"{key}: Overpass non ha risposto, mantengo i dati precedenti")
         return False
