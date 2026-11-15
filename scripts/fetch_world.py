@@ -23,11 +23,18 @@ BOUNDARIES = ft.DATA / "regions_boundaries.geojson"
 
 # La query si fa a riquadri ({bbox} = sud,ovest,nord,est): in una sola query mondiale (circa 90.000 nodi, novembre
 # 2026) Overpass superava il tempo massimo durante la stampa dei risultati ("Query timed out in print").
+# Nei riquadri solo il valore esatto denotation=natural_monument, senza ["natural"="tree"]: con quel filtro anche i
+# riquadri quasi vuoti superavano i 120 s ("timed out in query"); natural=tree si controlla dopo, in Python. I valori
+# multipli (natural_monument;landmark, una manciata di nodi su Taginfo a novembre 2026) arrivano da "multi", una
+# query mondiale a parte che esclude il valore esatto.
 MAPS = {
     "monumental": {
         "name": "Alberi monumentali",
         "query": """[out:json][timeout:300];
-node["natural"="tree"]["denotation"~"(^|;)natural_monument(;|$)"]({bbox});
+node["denotation"="natural_monument"]({bbox});
+out body qt;""",
+        "multi": """[out:json][timeout:300];
+node["denotation"~"(^|;)natural_monument(;|$)"]["denotation"!="natural_monument"];
 out body qt;""",
     },
 }
@@ -327,26 +334,35 @@ def fetch_tile(key, query, b, depth, max_depth):
     return out
 
 
-def fetch_map(key, query):
-    """{"elements": [...]} di tutti i riquadri (senza doppioni sui bordi), None se un riquadro non risponde."""
+def fetch_map(key, spec):
+    """{"elements": [...]} degli alberi (natural=tree) di tutti i riquadri e della query "multi", senza doppioni sui
+    bordi; None se un riquadro non risponde. Se non risponde "multi" si continua con un avviso."""
     tiles = plan_tiles(key)
     print(f"{key}: {len(tiles)} riquadri", flush=True)
     merged = {}
     for i, (b, depth) in enumerate(tiles, 1):
-        part = fetch_tile(key, query, b, depth, depth + TILE_EXTRA_DEPTH)
+        part = fetch_tile(key, spec["query"], b, depth, depth + TILE_EXTRA_DEPTH)
         if part is None:
             return None
         for el in part:
             merged[(el["type"], el["id"])] = el
         print(f" riquadro {i}/{len(tiles)}: {len(part)} elementi", flush=True)
         time.sleep(3)
-    return {"elements": list(merged.values())}
+    if spec.get("multi"):
+        data = ft.run_overpass(spec["multi"], f"{key} valori multipli", False, http_timeout=TILE_HTTP_TIMEOUT)
+        if data is None:
+            ft.warn(f"{key}: Overpass non risponde, mancano gli alberi con denotation a valori multipli")
+        for el in data["elements"] if data else []:
+            merged[(el["type"], el["id"])] = el
+    trees = [el for el in merged.values() if el.get("tags", {}).get("natural") == "tree"]
+    print(f"{key}: {len(merged)} elementi, {len(trees)} con natural=tree", flush=True)
+    return {"elements": trees}
 
 
 def update_map(key, index):
     spec = MAPS[key]
     print(f"== {spec['name']}", flush=True)
-    data = fetch_map(key, spec["query"])
+    data = fetch_map(key, spec)
     if not data:
         ft.warn(f"{key}: Overpass non ha risposto, mantengo i dati precedenti")
         return False
