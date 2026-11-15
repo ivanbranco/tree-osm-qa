@@ -1598,9 +1598,11 @@ def species_common_name(sp):
 def species_epithet_case(sp):
     """Se species è un nome scientifico scritto con l'epiteto maiuscolo: il nome corretto. Vale per i nomi della
     lista ("Catalpa Bignonioides" -> "Catalpa bignonioides") e per i nomi di due parole con un genere noto
-    ("Wisteria Sinensis" -> "Wisteria sinensis"); altrimenti None."""
+    ("Wisteria Sinensis" -> "Wisteria sinensis"); altrimenti None. Anche l'epiteto con l'iniziale minuscola ma una
+    maiuscola dentro ("Ginkgo biloBa") e il genere con maiuscole dopo l'iniziale ("GINKGO biloba"), vedi
+    species_inner_case."""
     if species_common_name(sp) is None:
-        return None
+        return species_inner_case(sp)
     if binomial(sp) in SPECIES_BIN:
         return SPECIES_BIN[binomial(sp)]
     words = [w for w in sp.split() if w != "×"]
@@ -1608,6 +1610,32 @@ def species_epithet_case(sp):
         # il genere con la sola iniziale maiuscola ("PRUNUS Comunis" -> "Prunus comunis", non "PRUNUS comunis")
         return f"{words[0][:1].upper()}{words[0][1:].lower()} {words[1].lower()}"
     return None
+
+
+def species_inner_case(sp):
+    """Se l'epiteto ha l'iniziale minuscola e c'è una maiuscola fuori posto, nell'epiteto ("Ginkgo biloBa",
+    "Platanus ×hispaNica") o nel genere dopo l'iniziale ("GINKGO biloba", "GinKgo biloba"): species con genere ed
+    epiteto scritti bene ("Ginkgo biloba"), il resto (autore, cultivar) com'è. Il genere con la sola iniziale
+    minuscola ("ginkgo biloba") non conta: c'è species_lowercase. Solo per i nomi della lista e per i nomi di due
+    parole con un genere noto, come species_epithet_case; altrimenti None."""
+    if not sp or ";" in sp:
+        return None
+    words = sp.split()
+    pos = [i for i, w in enumerate(words) if w not in ("×", "x", "X")]
+    if len(pos) < 2:
+        return None
+    g, e = words[pos[0]], words[pos[1]]
+    gp = g[:len(g) - len(g.lstrip("×"))]                    # "×" attaccato al genere (×Chitalpa)
+    gn, ep = g[len(gp):], e.lstrip("×")
+    if not ep[:1].islower() or any(q in g + e for q in "'‘’`´\"“”"):
+        return None
+    if ep == ep.lower() and gn[1:] == gn[1:].lower():
+        return None                                         # nessuna maiuscola fuori posto
+    if binomial(sp) not in SPECIES_BIN and not (len(pos) == 2 and gn.casefold() in KNOWN_GENERA):
+        return None
+    words[pos[0]] = gp + gn[:1].upper() + gn[1:].lower()
+    words[pos[1]] = e.lower()
+    return " ".join(words)
 
 
 @functools.lru_cache(maxsize=None)
@@ -1892,17 +1920,23 @@ def checks(t, pos, osm_id=None):
         gr = GENUS_REF.get(spf.strip().lstrip("× ").casefold())
         cg = None if gr else common_name_genus(spf)
         flag("species", **({"sp_as_genus": gr[0]} if gr else {"sp_common_genus": cg} if cg else {}))
+    # Una sola correzione per le maiuscole, perché le proposte non si contraddicano: con l'autore la propone
+    # species_author (sp_clean già con le maiuscole giuste), altrimenti species_epithet_case, che sistema anche
+    # l'iniziale del genere; species_lowercase resta per i nomi che hanno solo l'iniziale minuscola
+    no_auth = species_without_author(spf) if spf else None
+    ec = species_epithet_case(spf) if spf and not no_auth else None
     # con una sola parola basta l'errore precedente: la correzione è la stessa, minuscola o no
-    if spf is not None and not one_word and spf.strip()[:1].islower():
+    if spf is not None and not one_word and spf.strip()[:1].islower() and not no_auth and not ec:
         flag("species_lowercase")
     if spf and (g_un := species_unidentified(spf)):
         flag("species_unidentified", sp_genus=g_un)
-    if spf and (ec := species_epithet_case(spf)):                # nome della lista con l'epiteto maiuscolo
+    if ec:                                                        # maiuscole sbagliate nel nome scientifico
         flag("species_epithet_case", sp_sci=ec)
     elif spf and (common := species_common_name(spf)) is not None:  # "" se non c'è un nome scientifico da proporre
         flag("species_common_name", **({"sp_sci": common} if common else {}))
-    if spf and (no_auth := species_without_author(spf)):
-        flag("species_author", sp_clean=no_auth)
+    if no_auth:
+        clean = species_inner_case(no_auth) or no_auth
+        flag("species_author", sp_clean=clean[:1].upper() + clean[1:])
     # nessun nome scientifico contiene parentesi; non si ripete se le spiegano già l'autore o il nome comune
     if spf and ("(" in spf or ")" in spf) and not {"species_author", "species_common_name"} & set(issues):
         flag("species_parentheses")
