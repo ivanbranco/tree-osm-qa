@@ -2289,8 +2289,33 @@ def jitter(osm_id, t):
     return 1 - JITTER + 2 * JITTER * ((osm_id * 2654435761) % 2**32) / 2**32
 
 
-def to_feature(el):
+def bare_feature(el, natural):
+    """Feature di un albero (o ceppo) che ha il solo tag natural: nessun errore, nessun consiglio, chioma di ripiego
+    (per il ceppo la X di default). Le stesse proprietà, nello stesso ordine, che darebbe il percorso completo di
+    to_feature: lo verifica test_checks.py (feature_failures). Se un nuovo check o consiglio vale anche per un albero
+    senza altri tag, quel confronto fallisce e questa funzione va aggiornata."""
+    p = {"id": el["id"]}
+    if ts := el.get("timestamp"):
+        p["ts"] = ts[:10]
+    if natural == "tree_stump":
+        p["stump"], p["sr"], p["sr_est"] = 1, DEFAULT_STUMP_R, True
+    else:
+        p["cr"], p["cr_est"] = round(DEFAULT_CROWN_R * jitter(el["id"], el["tags"]), 2), True
+    p["issues"] = "|"
+    return {"type": "Feature", "properties": p,
+            "geometry": {"type": "Point", "coordinates": [round(el["lon"], 7), round(el["lat"], 7)]}}
+
+
+def to_feature(el, fast=True):
+    """Feature GeoJSON di un albero. fast=False salta l'uscita rapida degli alberi con il solo tag natural (serve a
+    test_checks.py per confrontare i due percorsi)."""
     t = el.get("tags", {})
+    # uscita rapida: più di metà degli alberi ha il solo tag natural, e il risultato non dipende da altro che da id,
+    # data e posizione. Non per i membri di un insieme omogeneo MASAF (mg, chioma dei monumentali); i ceppi membri
+    # invece non cambiano
+    if (fast and len(t) == 1 and (nat := t.get("natural")) in ("tree", "tree_stump")
+            and (nat == "tree_stump" or not MASAF_GROUPS.get(el["id"]))):
+        return bare_feature(el, nat)
     p = {k: t[k] for k in KEEP if k in t}
     p["id"] = el["id"]
     if ts := el.get("timestamp"):   # giorno dell'ultima modifica del nodo (AAAA-MM-GG): voce «modificati di recente» del menu errori

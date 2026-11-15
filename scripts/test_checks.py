@@ -452,6 +452,22 @@ def feature_failures():
         small = ft.minimal({"features": [{"properties": mem}, {"properties": other}]})
     except Exception as e:
         return out + [f"ERRORE: to_feature dei membri si è fermata: {type(e).__name__}: {e}"]
+    # uscita rapida degli alberi con il solo tag natural (bare_feature): stesse proprietà, nello stesso ordine, del
+    # percorso completo; in Italia e fuori, membro di un insieme omogeneo o no, con e senza data
+    for nat in ("tree", "tree_stump"):
+        for i in (MEMBER, 9002, 3000000000):
+            for italy, extra in ((True, {}), (False, {"timestamp": "2026-11-15T10:00:00Z"})):
+                ft.IN_ITALY, ft.COUNTRY = italy, "IT" if italy else "FR"
+                el = {**node(i, {"natural": nat}), **extra}
+                try:
+                    fast, full = ft.to_feature(el), ft.to_feature(el, fast=False)
+                except Exception as e:
+                    return out + [f"ERRORE: to_feature di natural={nat} si è fermata: {type(e).__name__}: {e}"]
+                if list(fast["properties"].items()) != list(full["properties"].items()) or fast["geometry"] != full["geometry"]:
+                    out.append(f"FALLITO: uscita rapida di natural={nat} (id {i}) diversa dal percorso completo: aggiornare "
+                               f"bare_feature in fetch_trees.py\n  rapida:    {fast['properties']}\n"
+                               f"  completa:  {full['properties']}")
+    ft.IN_ITALY, ft.COUNTRY = True, "IT"
     checks = [("exp_genus solo insieme a un errore", ft.checks({"natural": "tree", "genus": "Quercus"}, POS)[1] == {}
                and ft.checks({"natural": "tree", "genus": "Pinus", "leaf_type": "broadleaved"}, POS)[1].get("exp_genus") is True),
               ("sacred_tree=no non è un albero sacro", not ft.is_sacred({"sacred_tree": "no"})
