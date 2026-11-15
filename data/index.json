@@ -352,11 +352,11 @@
   },
   "kosovo": {
    "count": 5569,
-   "diam": "mm",
    "errors": 38,
    "name": "Kosovo",
-   "sha1": "bd99115b71bf73f377477b2704493496ed715b14",
-   "updated": "2026-11-10T21:45:09Z"
+   "sha1": "d8a7e26ce8b8bf107843ed0101da9f09ccc83b8f",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T17:33:29Z"
   },
   "kujawsko-pomorskie": {
    "count": 53562,
