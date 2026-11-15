@@ -314,6 +314,8 @@ SPECIES_NAMES = {(lang, n.casefold()): s for lang, d in _WL.get("species_names",
 SPECIES_NAME_FORM = {(lang, n.casefold()): n for lang, d in _WL.get("species_names", {}).items() for n in d}
 # generi con una sola specie (whitelist.json): per i loro nomi si propone species=<la specie> (Cognassier -> Cydonia oblonga)
 SINGLE_SPECIES = _WL.get("single_species_genera", {})
+# piante che non sono alberi (whitelist.json): {"Agave americana": "Q161115"}, species -> QID (check not_a_tree)
+NOT_TREES = _WL.get("not_trees", {})
 # alberi monumentali piccoli davvero (id dei nodi), da non segnalare con small_monument
 SMALL_MON_WHITELIST = {int(k) for k in _WL.get("small_monument", {})}
 
@@ -1745,6 +1747,15 @@ def species_lang_extras(t, species):
     return out
 
 
+def not_a_tree(t):
+    """Pianta di NOT_TREES (non un albero, es. Agave americana) indicata da species=* (genere ed epiteto, anche con
+    autore o cultivar) o da species:wikidata=*, su un natural=tree: il nome della specie, altrimenti None."""
+    if t.get("natural") != "tree":
+        return None
+    b, qs = binomial(t.get("species") or ""), qids(t, "species:wikidata")
+    return next((s for s, q in NOT_TREES.items() if (b and binomial(s) == b) or q in qs), None)
+
+
 def common_name_genus(word):
     """Genere di cui word è il nome comune in una lingua di GENUS_NAMES (species=oak -> Quercus), se è uno solo."""
     w = word.strip().casefold()
@@ -1921,6 +1932,8 @@ def checks(t, pos, osm_id=None):
                  "sp_lang_gk": "\n".join(gk)} if gl else {}),
              **({"sp_lang_gx": "\n".join(f"{k}={v}|{g}" for k, v, g in gx)} if gx else {}),
              **({"sp_lang_gkx": "\n".join(f"{k}={v}|{g}|{x}" for k, v, g, x in gkx)} if gkx else {}))
+    if nt_sp := not_a_tree(t):          # una pianta che non è un albero: natural=plant (nt_sp: il nome della specie)
+        flag("not_a_tree", nt_sp=nt_sp)
     g = t.get("genus")
     gf = None if "genus" in eq or "genus" in nl else g   # genus per i check sulla forma del nome
     gw = genus_words(gf) if gf is not None else None    # senza il segno di ibrido (× Sycoparrotia)

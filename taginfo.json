@@ -14,6 +14,7 @@
   "tags": [
     {"key": "natural", "value": "tree", "object_types": ["node"], "description": "Trees shown on the map and checked."},
     {"key": "natural", "value": "tree_stump", "object_types": ["node"], "description": "Tree stumps shown on the map and checked."},
+    {"key": "natural", "value": "plant", "object_types": ["node"], "description": "Suggested by a QA check (and by \"Fix with JOSM\") in place of natural=tree for plants that are not trees, such as Agave americana."},
     {"key": "species", "object_types": ["node"], "description": "Used for filtering, QA checks, the info panel and the Completeness tab (share of trees with the tag)."},
     {"key": "species", "value": "Betula utilis", "object_types": ["node"], "description": "Rendered with a white trunk (also with a variety, e.g. var. jacquemontii), on the map and in the trunk comparison drawing."},
     {"key": "species", "value": "Acer griseum", "object_types": ["node"], "description": "Rendered with an orange-red trunk, on the map and in the trunk comparison drawing."},
@@ -39,7 +40,7 @@
     {"key": "species", "value": "Eucalyptus pulverulenta", "object_types": ["node"], "description": "Rendered with a silver-blue crown, all year."},
     {"key": "genus", "object_types": ["node"], "description": "Used for filtering, QA checks and the info panel. A palm genus (Phoenix, Washingtonia, Trachycarpus…) or genus=Arecaceae makes the tree rendered as a palm."},
     {"key": "taxon", "object_types": ["node"], "description": "Shown in the info panel. Without genus and species, its first word is used as the genus to recognise palms."},
-    {"key": "species:wikidata", "object_types": ["node"], "description": "Used for QA checks and to show the common name in the info panel."},
+    {"key": "species:wikidata", "object_types": ["node"], "description": "Used for QA checks (also to find plants that are not trees, such as Q161115 Agave americana) and to show the common name in the info panel."},
     {"key": "species:wikipedia", "object_types": ["node"], "description": "Used for hints: species:wikidata and species from the linked Wikidata item, when missing."},
     {"key": "species:it", "object_types": ["node"], "description": "Used for a hint in the info panel (almost all values start with a capital letter). Without species: used for a QA check; if the value is the Italian name of a species in the site's list (e.g. Bagolaro), species is suggested and the 'Fix with JOSM' link adds it with the species tags; if it is the Italian name of a genus (e.g. Quercia), genus:it is suggested and the link moves it there."},
     {"key": "species:en", "object_types": ["node"], "description": "Without species: used for a QA check; if the value is the English name of a genus in the OSM wiki list of genera, genus:en is suggested."},

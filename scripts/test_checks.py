@@ -60,6 +60,7 @@ FIXTURES = {
     "SPECIES_NAMES": {("pl", "klon zwyczajny"): "Acer platanoides", ("it", "bagolaro"): "Celtis australis"},
     "SPECIES_NAME_FORM": {("pl", "klon zwyczajny"): "Klon zwyczajny", ("it", "bagolaro"): "Bagolaro"},
     "SINGLE_SPECIES": {},
+    "NOT_TREES": {"Agave americana": "Q920007"},
     "DEN_COUNTS": _DEN,
     "DEN_COMMON": sorted((v for v, n in _DEN.items() if n >= ft.DEN_COMMON_MIN), key=len, reverse=True),
     "MASAF_LIST": {ft.masaf_code(REMOVED): ["morte naturale", "D.M. 1/2020"], ft.masaf_code(LISTED): None},
@@ -80,6 +81,7 @@ FIXTURES = {
         "Q920004": {"taxon": False},                                  # non è un taxon
         "Q920005": {"taxon": True, "names": ["Pinus"], "ranks": ["Q34740"]},
         "Q920006": {"taxon": True, "names": ["Acer campestre"], "ranks": ["Q7432"]},   # specie non in lista
+        "Q920007": {"taxon": True, "names": ["Agave americana"], "ranks": ["Q7432"]},  # non è un albero (NOT_TREES)
     },
     # voci di Wikipedia -> QID (wikipedia=* e species:wikipedia)
     "WP_QIDS": {"it:Quercus robur": "Q920001", "it:Quercia delle streghe": "Q910001"},
@@ -181,6 +183,14 @@ CASES = [
     ("species_lang_only: nome italiano di un genere", {"natural": "tree", "species:it": "Quercia"},
      ["species_lang_only"]),
     ("species:xx insieme a species", {**OAK, "species:it": "Farnia"}, []),
+    ("not_a_tree: species", {"natural": "tree", "species": "Agave americana"}, ["not_a_tree"]),
+    ("not_a_tree: species con autore", {"natural": "tree", "species": "Agave americana L."},
+     ["not_a_tree", "species_author"]),
+    ("not_a_tree: solo species:wikidata", {"natural": "tree", "species:wikidata": "Q920007"}, ["not_a_tree"]),
+    ("not_a_tree: species e species:wikidata", {"natural": "tree", "species": "Agave americana",
+                                                "species:wikidata": "Q920007"}, ["not_a_tree"]),
+    ("not_a_tree: non per i ceppi", {"natural": "tree_stump", "species": "Agave americana"}, []),
+    ("not_a_tree: altra specie dello stesso genere", {"natural": "tree", "species": "Agave sisalana"}, []),
     ("genus: più parole", {"natural": "tree", "genus": "Quercus robur"}, ["genus"]),
     ("genus_lowercase", {"natural": "tree", "genus": "quercus"}, ["genus_lowercase"]),
     ("genus_mismatch", {**OAK, "genus": "Pinus"}, ["genus_mismatch"]),
