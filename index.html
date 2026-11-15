@@ -542,6 +542,7 @@ const I18N = {
     // consigli della scheda (ⓘ)
     hint: {
       wdSpecies: n => `Su Wikidata questo albero è un ${n}: si potrebbe aggiungere species=${n} dopo una verifica sul posto`,
+      wdGenusOnly: g => `Su Wikidata questo albero ha solo il genere ${g}: lì si potrebbe precisare la specie, citando una fonte compatibile con la licenza di Wikidata.`,
       speciesFromWd: n => `species:wikidata indica ${n}: si potrebbe aggiungere species=${n}`,
       speciesWikidata: q => `Si potrebbe aggiungere species:wikidata=${q}`,
       wikipediaNoWikidata: q => `La voce di species:wikipedia corrisponde a ${q}: si potrebbe aggiungere species:wikidata=${q}`,
@@ -992,6 +993,7 @@ const I18N = {
     masafRows: { place: "Place", type: "Type", criteria: "Criteria" }, openOnOsm: "Open on OpenStreetMap",
     hint: {
       wdSpecies: n => `On Wikidata this tree is a ${n}: species=${n} could be added after a survey`,
+      wdGenusOnly: g => `On Wikidata this tree only has the genus ${g}: the species could be added there, citing a source compatible with the Wikidata licence.`,
       speciesFromWd: n => `species:wikidata points to ${n}: species=${n} could be added`,
       speciesWikidata: q => `species:wikidata=${q} could be added`,
       wikipediaNoWikidata: q => `The species:wikipedia article matches ${q}: species:wikidata=${q} could be added`,
@@ -4775,6 +4777,8 @@ function hints(p, pos) {
   if (cf) out.push(H.commonsImage(cf));
   if (p.stump) return out;
   if (binomialHint(p.hint_sp)) out.push(H.wdSpecies(p.hint_sp));
+  // l'elemento Wikidata dell'albero ha solo il genere della specie taggata (hint_wg = "QID|genere", fetch_trees.py)
+  if (p.hint_wg) { const [q, g] = String(p.hint_wg).split("|"); if (q && g) out.push(H.wdGenusOnly(g)); }
   if (binomialHint(p.hint_sn)) out.push(H.speciesFromWd(p.hint_sn));
   if (p.hint_sw) out.push(H.speciesWikidata(p.hint_sw));
   if (p.hint_wp) out.push(H.wikipediaNoWikidata(p.hint_wp));

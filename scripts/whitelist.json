@@ -55,12 +55,18 @@
   "species_typo": ["Quercus virgiliana", "Myrtus communis", "Prunus × incam", "Quercus humilis", "Betula humilis",
                    "Quercus salicifolia", "Quercus lanata", "Ilex kingiana"],
   "synonyms": {
+    "Camphora officinarum": "Cinnamomum camphora",
+    "Cerasus × yedoensis": "Prunus × yedoensis",
     "Crataegus × lavallei": "Crataegus × lavalleei",
     "Platanus × acerifolia": "Platanus × hispanica",
     "Platanus acerifolia": "Platanus × hispanica",
-    "Platanus hispanica": "Platanus × hispanica"
+    "Platanus hispanica": "Platanus × hispanica",
+    "Prunus dulcis": "Prunus amygdalus",
+    "Tilia × vulgaris": "Tilia × europaea"
   },
   "wikidata_mismatch": {
+    "Aria edulis": ["Q157960"],
+    "Hedlundia intermedia": ["Q27980"],
     "Platanus × hispanica": ["Q24853030"],
     "Platanus × acerifolia": ["Q161374"],
     "Populus × euramericana": ["Q149622"]

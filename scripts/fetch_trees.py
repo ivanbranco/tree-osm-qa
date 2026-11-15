@@ -684,6 +684,9 @@ def wikidata_name_problems(t, skip_species):
                 alts = {binomial(val)} | ({binomial(SYNONYMS[norm_species(val)])} if norm_species(val) in SYNONYMS else set())
                 # accettato anche il QID che la lista wiki associa a species (la lista può usare un altro nome)
                 ok = q in WD_WHITELIST.get(norm_species(val), ()) or bool(alts & wd_names(q)) or list_qid(val) == q
+                # QID della specie che species voleva scrivere: basta l'errore di battitura (species_typo)
+                if not ok and (typo := species_typo(val)):
+                    ok = binomial(typo) in wd_names(q) or same_species(typo, QID_TO_SPECIES.get(q, ""))
             else:
                 ok = genus_key(val) in {genus_key(n) for n in names}
             if not ok:
@@ -702,9 +705,22 @@ def wikidata_tree_species(t):
         names = [n for tx in taxa for n in taxon_names(tx)]
         if taxon_status(q) is True or not names or set(sw) & set(taxa) or not own:
             continue
-        if not own & {binomial(n) for n in names}:
+        # anche i sinonimi di species (whitelist.json): Platanus acerifolia = Platanus × hispanica
+        if sp and ";" not in sp and not own & {binomial(n) for n in names}:
+            g = group_name(sp)
+            own |= {binomial(m) for m, n in GROUP_NAME.items() if norm_species(n) == g}
+        if not own & {binomial(n) for n in names} and not wd_tree_genus_only(names, own):
             out.append((q, names[0]))
     return out
+
+
+def wd_tree_genus_only(names, own):
+    """Il genere, se l'elemento Wikidata dell'albero indica solo il genere della specie taggata (nomi di P10241 tutti
+    di una parola, quel genere): non è un errore su OSM, ma un consiglio per Wikidata (hint_wg)."""
+    genera = {o.split()[0] for o in own if o}
+    if names and all(len(binomial(n).split()) == 1 and binomial(n) in genera for n in names):
+        return names[0]
+    return None
 
 
 def species_name(n):
@@ -717,6 +733,8 @@ def hint_props(t, osm_id=None):
     mappa). Solo quelli che la pagina non può ricavare da sola:
     hint_sp: nessun species né genus, ma l'elemento di wikidata=* indica la specie (P10241, non un genere o più su)
     -> nome scientifico;
+    hint_wg: species, ma l'elemento di wikidata=* indica solo il suo genere (P10241) -> "QID|genere": su Wikidata si
+    potrebbe precisare la specie, con una fonte compatibile con la sua licenza (i dati di OSM non lo sono);
     hint_sw: species (dalla lista wiki) senza species:wikidata -> QID della specie nella lista;
     hint_sn: species:wikidata (un taxon, non di rango genere o superiore) senza species -> nome scientifico
     dell'elemento (P225), solo se di almeno due parole (vale anche per hint_sp e hint_wn);
@@ -758,6 +776,13 @@ def hint_props(t, osm_id=None):
                      for n in taxon_names(tx) if species_name(n)]
             if taxon_status(q) is not True and names:
                 out["hint_sp"] = names[0]
+                break
+    # l'elemento Wikidata dell'albero indica solo il genere della specie taggata: lo si potrebbe precisare su Wikidata
+    if sp and ";" not in sp and species_name(sp):
+        for q in qids(t, "wikidata"):
+            names = [n for tx in WD_ITEMS.get(q, {}).get("taxa", []) for n in taxon_names(tx)]
+            if taxon_status(q) is not True and (g := wd_tree_genus_only(names, {binomial(sp)})):
+                out["hint_wg"] = f"{q}|{g}"
                 break
     # elemento Wikidata della voce di species:wikipedia, se è una specie (un taxon non di rango genere o superiore)
     wq = wikipedia_qid(t) if t.get("species:wikipedia") else None
@@ -1177,6 +1202,7 @@ def levenshtein(a, b, limit):
 
 
 @functools.lru_cache(maxsize=None)
+@functools.lru_cache(maxsize=None)
 def species_typo(sp):
     """Specie della lista che species probabilmente voleva scrivere, o None."""
     if ";" in sp:
@@ -1203,6 +1229,17 @@ def species_typo(sp):
     return best[1]
 
 
+def group_name(sp):
+    """Nome normalizzato della specie, uguale per un nome e i suoi sinonimi (whitelist.json)."""
+    n = norm_species(sp)
+    return norm_species(GROUP_NAME.get(n, n))
+
+
+def same_species(a, b):
+    """a e b sono la stessa specie della lista o della whitelist (a può essere None)."""
+    return bool(a) and group_name(a) == group_name(b)
+
+
 def species_list_mismatches(t):
     """Incoerenze con le liste della wiki OSM: (codici, proprietà per i messaggi). species:wikidata si
     confronta con la lista delle specie; leaf_type e leaf_cycle con la specie e, se non è in lista, con il genere."""
@@ -1220,7 +1257,9 @@ def species_list_mismatches(t):
         if ref and ref.get("wikidata") and wd != ref["wikidata"]:
             issues.append("wikidata_mismatch")
             props.update(sp_wd=wd, exp_wd=ref["wikidata"])
-        elif not ref and wd in QID_TO_SPECIES:  # QID noto, ma assegnato a un'altra specie
+        # QID noto, ma assegnato a un'altra specie; non se è la specie che species voleva scrivere (errore di
+        # battitura: lo segnala species_typo, e correggendo species il QID va già bene)
+        elif not ref and wd in QID_TO_SPECIES and not same_species(species_typo(sp.strip()), QID_TO_SPECIES[wd]):
             issues.append("wikidata_mismatch")
             props.update(sp_wd=wd, exp_sp=QID_TO_SPECIES[wd])
     if ref:

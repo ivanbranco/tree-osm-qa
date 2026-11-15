@@ -12,7 +12,7 @@ ricava da quei file sono sostituite dalle piccole tabelle finte scritte qui sott
 inventati. Le soglie fisse dei check (MAX_HEIGHT, SLENDER_MAX, …) sono invece quelle vere: i casi usano valori lontani
 dalle soglie, ma se una soglia cambia molto vanno riguardati.
 
-HINT_CASES prova il consiglio hint_ms; GROUP_ELEMENTS e feature_failures la lettura delle relazioni con ref:masaf
+HINT_CASES prova i consigli hint_ms e hint_wg; GROUP_ELEMENTS e feature_failures la lettura delle relazioni con ref:masaf
 (insiemi omogenei, issue #9) e i loro membri nelle feature.
 
 Quando si aggiunge o si cambia un check: aggiornare CASES. Un codice che checks() può segnalare e che nessun caso
@@ -82,6 +82,8 @@ FIXTURES = {
         "Q910004": {"taxon": False, "heritage": [["monumento naturale", "natural monument"]]},   # tutela (P1435)
         "Q910005": {"taxon": False, "mt": "12345"},                   # id di monumentaltrees.com (P9704)
         "Q910006": {"taxon": False, "image": "Far_tree.jpg"},         # foto (P18), senza coordinate
+        "Q910007": {"taxon": False, "taxa": ["Q920001"]},             # individuo di Quercus robur (P10241)
+        "Q910008": {"taxon": False, "taxa": ["Q920003"]},             # individuo del genere Quercus
     },
     # elementi di species:wikidata e genus:wikidata
     "WD_TAXA": {
@@ -264,6 +266,9 @@ CASES = [
     ("wikidata_mismatch: QID di un'altra specie della lista",
      {"natural": "tree", "species": "Fagus sylvatica", "species:wikidata": "Q920001"}, ["wikidata_mismatch"]),
     ("wikidata_mismatch: eccezione in whitelist", {**OAK, "species:wikidata": "Q920009"}, []),
+    ("wikidata_mismatch: non con il QID della specie proposta da species_typo",
+     {"natural": "tree", "species": "Quercus rubur", "species:wikidata": "Q920001"},
+     ["species_typo"]),        # né wikidata_name_mismatch: il QID va bene per la specie corretta
     ("wikidata_not_taxon", {**OAK, "species:wikidata": "Q920004"},
      ["wikidata_not_taxon"]),  # dipendenza: niente wikidata_mismatch per lo stesso tag
     ("wikidata_is_taxon", {"natural": "tree", "wikidata": "Q920001"}, ["wikidata_is_taxon"]),
@@ -279,6 +284,12 @@ CASES = [
     ("wikidata_tree_species", {**OAK, "wikidata": "Q910003"}, ["wikidata_tree_species"]),
     ("specie dell'albero su Wikidata uguale a species", {"natural": "tree", "species": "Pinus pinea",
                                                          "wikidata": "Q910003"}, []),
+    ("wikidata_tree_species: non se Wikidata ha solo il genere (consiglio hint_wg)", {**OAK, "wikidata": "Q910008"},
+     []),
+    ("wikidata_tree_species: genere su Wikidata diverso", {"natural": "tree", "species": "Pinus pinea",
+                                                           "wikidata": "Q910008"}, ["wikidata_tree_species"]),
+    ("specie dell'albero su Wikidata sinonimo di species", {"natural": "tree", "species": "Quercus pedunculata",
+                                                            "wikidata": "Q910007"}, []),
     ("wikipedia_is_taxon", {"natural": "tree", "wikipedia": "it:Quercus_robur"}, ["wikipedia_is_taxon"]),
     ("wikipedia: voce del singolo albero", {"natural": "tree", "wikipedia": "it:Quercia delle streghe"}, []),
     ("wikipedia: voce non ancora risolta", {"natural": "tree", "wikipedia": "it:Quercus ilex"}, []),
@@ -415,12 +426,17 @@ CASES = [
 ]
 
 
-# Consiglio hint_ms (soglia MASAF di circonferenza, solo nelle regioni italiane): (nome, tag, id del nodo, atteso)
+# Consigli di hint_props: (nome, tag, id del nodo, proprietà, atteso: True = c'è, False = non c'è, o il valore).
+# hint_ms: soglia MASAF di circonferenza, solo nelle regioni italiane; hint_wg: l'elemento Wikidata dell'albero ha
+# solo il genere della specie
 HINT_CASES = [
-    ("hint_ms: circonferenza oltre la soglia", {**OAK, "circumference": "5"}, None, True),
-    ("hint_ms: non con natural_monument", {**MON, **OAK, "circumference": "5"}, None, False),
+    ("hint_ms: circonferenza oltre la soglia", {**OAK, "circumference": "5"}, None, "hint_ms", True),
+    ("hint_ms: non con natural_monument", {**MON, **OAK, "circumference": "5"}, None, "hint_ms", False),
     ("hint_ms: non per un membro di un insieme omogeneo", {**OAK, "denotation": "park", "circumference": "5"}, MEMBER,
-     False),
+     "hint_ms", False),
+    ("hint_wg: Wikidata ha solo il genere", {**OAK, "wikidata": "Q910008"}, None, "hint_wg", "Q910008|Quercus"),
+    ("hint_wg: non per un altro genere", {"natural": "tree", "species": "Pinus pinea", "wikidata": "Q910008"}, None,
+     "hint_wg", False),
 ]
 
 # Relazioni con ref:masaf (masaf_groups): elementi finti di una risposta di Overpass -> righe "mg" attese per nodo
@@ -443,10 +459,11 @@ def feature_failures():
     """Membri di un insieme omogeneo nelle feature (to_feature, minimal) e lettura delle relazioni (masaf_groups)."""
     out = []
     ft.IN_ITALY, ft.COUNTRY = True, "IT"
-    for name, tags, osm_id, want in HINT_CASES:
-        got = "hint_ms" in ft.hint_props(dict(tags), osm_id)
+    for name, tags, osm_id, key, want in HINT_CASES:
+        val = ft.hint_props(dict(tags), osm_id).get(key)
+        got = (val is not None) if isinstance(want, bool) else val
         if got != want:
-            out.append(f"FALLITO: {name}\n  tag:     {tags}\n  atteso:  {'hint_ms' if want else 'niente hint_ms'}")
+            out.append(f"FALLITO: {name}\n  tag:     {tags}\n  atteso:  {key}={want}\n  uscito:  {key}={val}")
     if (got := ft.masaf_groups(GROUP_ELEMENTS)) != GROUP_EXPECTED:
         out.append(f"FALLITO: masaf_groups\n  atteso:  {GROUP_EXPECTED}\n  uscito:  {got}")
     node = lambda i, tags: {"type": "node", "id": i, "lat": POS[1], "lon": POS[0], "tags": tags}
