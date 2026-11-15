@@ -470,11 +470,11 @@
   },
   "macedonia-del-nord": {
    "count": 2186,
-   "diam": "mm",
    "errors": 0,
    "name": "Macedonia del Nord",
-   "sha1": "611075ac6f962b868d644c299f9a3951fa6f5d58",
-   "updated": "2026-11-10T21:45:42Z"
+   "sha1": "92903f753a6a3db473a842d78b7ed4afd7890e53",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T09:35:58Z"
   },
   "malopolskie": {
    "count": 257450,
