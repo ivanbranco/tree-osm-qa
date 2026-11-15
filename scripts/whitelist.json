@@ -24,6 +24,7 @@
   },
   "species_names": {
     "en": {"Bur Oak": "Quercus macrocarpa", "Northern Red Oak": "Quercus rubra", "Southern Red Oak": "Quercus falcata"},
+    "fr": {"Figuier": "Ficus carica"},
     "it": {"Abete bianco": "Abies alba", "Abete del Caucaso": "Abies nordmanniana", "Abete di Serbia": "Picea omorika",
            "Abete rosso": "Picea abies", "Acero campestre": "Acer campestre", "Acero di monte": "Acer pseudoplatanus",
            "Acero riccio": "Acer platanoides", "Agrifoglio": "Ilex aquifolium", "Ailanto": "Ailanthus altissima",

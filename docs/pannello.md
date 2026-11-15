@@ -59,6 +59,6 @@ The "Error ranking" tab: countries in order of share of trees with at least one 
 The "Trends" tab: two charts over time, for the loaded region, for the open country or for all regions (the subtitle says which). The title of the closed tab is "Trends"; when it is opened it becomes "Error trend", and the ⇄ icon next to the title, visible only when the tab is open, switches to "Tree trend" and back. Reopening the tab always starts from "Error trend".
 
 * **Error trend**: the share of trees with at least one error. When a check is added the share goes up even if the data has not changed
-* **Tree trend**: the number of trees (stumps included), useful for example to spot imports
+* **Tree trend**: the number of trees (stumps included), useful for example to spot imports. For a country or for all regions, the chart starts from the first date whose number of trees is at least 5% of the highest one: the earlier dates, with few regions, would be drawn at zero
 
 The values come from `data/history.json`; for a country or for all regions, at each date the last known value of each region is summed. The vertical axis narrows around the values (for example from 0.1% to 0.3% if the share is 0.2%). For a country or for all regions, a dashed vertical line marks the dates on which regions were added (their names are in the tooltip of the line): from that date their trees are added to the sum. The box appears only with at least two dates

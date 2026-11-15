@@ -44,8 +44,8 @@
      con la tastiera), in alto a destra sulla riga del titolo; con la scheda chiusa il browser li nasconde da solo */
   #rank-box,#chart-box{position:relative}
   #rank-mode,#chart-mode{position:absolute;top:9px;right:12px}
-  #rank-box>summary{padding-right:52px!important}
-  #chart-box>summary{padding-right:28px!important}
+  #rank-box[open]>summary{padding-right:52px}   /* solo da aperta: da chiusa il titolo resta centrato */
+  #chart-box[open]>summary{padding-right:28px}
   #chart-mode{display:flex;padding:1px 3px;border:1px solid #ccc;border-radius:3px;background:#fff;color:#555;cursor:pointer}
   #chart-mode:hover{color:#1a5fb4;border-color:#1a5fb4}
   /* scheda Completezza: una barra per voce (quanti alberi in vista hanno quel dato); un tocco sulla riga evidenzia
@@ -3180,7 +3180,13 @@ map.on("load", async () => {
     // valore disegnato: quota di alberi con errori (%) o numero di alberi
     const val = x => trees ? x.c : x.p;
     // asse verticale stretto attorno ai valori (0,2% → da 0,1 a 0,3), mai sotto lo zero
-    const ps = pts.map(val), lo = Math.min(...ps), hi = Math.max(...ps);
+    // Andamento alberi di una somma: le prime date, con poche regioni, hanno un numero di alberi che sul grafico non
+    // si distingue da zero (100.000 su 13 milioni) e schiaccia il resto. Si parte dalla prima data con almeno il 5%
+    // del valore più alto (se restano almeno due date)
+    const top = Math.max(...pts.map(x => x.c));
+    const i0 = trees && slugs.length > 1 ? Math.max(0, pts.findIndex(x => x.c >= top * 0.05)) : 0;
+    const vis = pts.length - i0 >= 2 ? pts.slice(i0) : pts, d0 = vis[0].d;
+    const ps = vis.map(val), lo = Math.min(...ps), hi = Math.max(...ps);
     const pad = hi > lo ? (hi - lo) * 0.25 : trees ? Math.max(1, hi * 0.01) : (hi / 2 || 0.1);
     const y0 = Math.max(0, lo - pad), y1 = hi + pad;
     const digits = Math.max(0, Math.min(3, 1 - Math.floor(Math.log10(y1 - y0))));
@@ -3189,7 +3195,7 @@ map.on("load", async () => {
     // margine sinistro largo quanto l'etichetta più lunga dell'asse (i numeri di alberi possono avere sette cifre)
     const W = 206, H = 110, R0 = 6, T0 = 8, B0 = 18;
     const L0 = Math.max(34, 6 + 5.2 * Math.max(...[y0, (y0 + y1) / 2, y1].map(v => fp(v).length)));
-    const t = d => Date.parse(d), tA = t(dates[0]), tB = t(dates[dates.length - 1]);
+    const t = d => Date.parse(d), tA = t(d0), tB = t(dates[dates.length - 1]);
     const X = d => L0 + (W - L0 - R0) * (t(d) - tA) / (tB - tA);
     const Y = p => T0 + (H - T0 - B0) * (1 - (p - y0) / (y1 - y0));
     const fd = fmtDay;
@@ -3197,7 +3203,7 @@ map.on("load", async () => {
     // regioni entrate dopo la prima data (solo nelle somme): un segno verticale nel giorno della loro prima riga
     const joins = new Map();
     if (slugs.length > 1)
-      slugs.forEach(s => { const d = (HIST[s] || [])[0]?.[0]; if (d && d > dates[0]) joins.set(d, [...(joins.get(d) || []), regionName(s)]); });
+      slugs.forEach(s => { const d = (HIST[s] || [])[0]?.[0]; if (d && d > d0) joins.set(d, [...(joins.get(d) || []), regionName(s)]); });
     const ns = "http://www.w3.org/2000/svg", el = (n, a, txt) => {
       const x = document.createElementNS(ns, n);
       for (const k in a) x.setAttribute(k, a[k]);
@@ -3209,7 +3215,7 @@ map.on("load", async () => {
       svg.append(el("line", { x1: L0, x2: W - R0, y1: Y(v), y2: Y(v), stroke: "#e4e4e4" }),
         el("text", { x: L0 - 4, y: Y(v) + 3, "text-anchor": "end", "font-size": 9, fill: "#777" }, fp(v)));
     }
-    svg.append(el("text", { x: L0, y: H - 4, "font-size": 9, fill: "#777" }, fd(dates[0])),
+    svg.append(el("text", { x: L0, y: H - 4, "font-size": 9, fill: "#777" }, fd(d0)),
       el("text", { x: W - R0, y: H - 4, "text-anchor": "end", "font-size": 9, fill: "#777" }, fd(dates[dates.length - 1])));
     const day = d => new Date(d + "T00:00:00").toLocaleDateString(LOC);
     for (const [d, names] of [...joins].sort()) {   // sotto la linea; una linea larga e trasparente porta il tooltip
@@ -3219,9 +3225,9 @@ map.on("load", async () => {
         el("title", {}, L.chartJoin(day(d), names)));
       svg.append(g);
     }
-    svg.append(el("polyline", { points: pts.map(x => `${X(x.d)},${Y(val(x))}`).join(" "), fill: "none",
+    svg.append(el("polyline", { points: vis.map(x => `${X(x.d)},${Y(val(x))}`).join(" "), fill: "none",
       stroke: color, "stroke-width": 1.5, "stroke-linejoin": "round" }));
-    for (const x of pts) {
+    for (const x of vis) {
       const c = el("circle", { cx: X(x.d), cy: Y(val(x)), r: 2.5, fill: color });
       c.append(el("title", {}, trees ? L.chartTreesTip(day(x.d), fmtN(x.c)) : L.chartTip(day(x.d), fp(x.p), fmtN(x.e), fmtN(x.c))));
       svg.append(c);
