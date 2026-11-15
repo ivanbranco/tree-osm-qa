@@ -1,5 +1,5 @@
 {
-"count": 681,
+"count": 682,
 "license": "CC BY-SA 2.0 (OpenStreetMap Wiki)",
 "source": "https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species",
 "species": {
@@ -2462,6 +2462,11 @@
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q3408658"
+},
+"Prunus × incam": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q21370429"
 },
 "Prunus × subhirtella": {
 "leaf_cycle": "deciduous",

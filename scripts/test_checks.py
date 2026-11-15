@@ -43,6 +43,7 @@ _GENERA = {
     "Tilia": {"leaf_type": "broadleaved", "leaf_cycle": ["deciduous"]},
     "Magnolia": {"leaf_type": "broadleaved", "leaf_cycle": ["deciduous", "evergreen"]},
     "Yucca": {"leaf_type": "broadleaved", "leaf_cycle": ["evergreen"]},
+    "Cycas": {"leaf_type": "needleleaved", "leaf_cycle": ["evergreen"]},
 }
 _DEN = {"natural_monument": 50000, "urban": 100000, "avenue": 50000, "park": 20000, "rarevalue": 3}
 
@@ -65,6 +66,7 @@ FIXTURES = {
     "SPECIES_NAME_FORM": {("pl", "klon zwyczajny"): "Klon zwyczajny", ("it", "bagolaro"): "Bagolaro"},
     "SINGLE_SPECIES": {},
     "NOT_TREES": {"Agave americana": "Q920007"},
+    "LEAF_TYPE_GENERA": {"cycas": {"needleleaved", "broadleaved", "palm"}},
     "DEN_COUNTS": _DEN,
     "DEN_COMMON": sorted((v for v, n in _DEN.items() if n >= ft.DEN_COMMON_MIN), key=len, reverse=True),
     "MASAF_LIST": {ft.masaf_code(REMOVED): ["morte naturale", "D.M. 1/2020"], ft.masaf_code(LISTED): None},
@@ -249,6 +251,9 @@ CASES = [
     ("leaf_type=palm su una latifoglia", {**OAK, "leaf_type": "palm"}, ["leaf_type_mismatch"]),
     ("leaf_type=palm su una pianta dall'aspetto di palma", {"natural": "tree", "genus": "Yucca", "leaf_type": "palm"},
      []),
+    ("leaf_types in whitelist: broadleaved", {"natural": "tree", "genus": "Cycas", "leaf_type": "broadleaved"}, []),
+    ("leaf_types in whitelist: palm, genere da species",
+     {"natural": "tree", "species": "Cycas revoluta", "leaf_type": "palm"}, []),
     ("leaf_cycle_mismatch", {**OAK, "leaf_cycle": "evergreen"}, ["leaf_cycle_mismatch"]),
     ("semi_deciduous vale come deciduous", {**OAK, "leaf_cycle": "semi_deciduous"}, []),
     ("genere con entrambi i leaf_cycle", {"natural": "tree", "genus": "Magnolia", "leaf_cycle": "evergreen"}, []),

@@ -328,6 +328,8 @@ SPECIES_NAME_FORM = {(lang, n.casefold()): n for lang, d in _WL.get("species_nam
 SINGLE_SPECIES = _WL.get("single_species_genera", {})
 # piante che non sono alberi (whitelist.json): {"Agave americana": "Q161115"}, species -> QID (check not_a_tree)
 NOT_TREES = _WL.get("not_trees", {})
+# generi per cui leaf_type_mismatch accetta più leaf_type (whitelist.json, "leaf_types"): genere minuscolo -> valori
+LEAF_TYPE_GENERA = {k.casefold(): set(v) for k, v in _WL.get("leaf_types", {}).items()}
 # alberi monumentali piccoli davvero (id dei nodi), da non segnalare con small_monument
 SMALL_MON_WHITELIST = {int(k) for k in _WL.get("small_monument", {})}
 
@@ -1235,8 +1237,10 @@ def species_list_mismatches(t):
         exp_for, exp_lt = g[0], g[1].get("leaf_type")
         from_genus = True
     # leaf_type=palm su un albero che per la lista è broadleaved si segnala, tranne che per le palme e le piante
-    # dall'aspetto di palma (palm_like); una palma con leaf_type=broadleaved non si segnala
-    if exp_for and lt in LEAF_TYPE and exp_lt and not type_ok(lt, exp_lt, palm_like(t)):
+    # dall'aspetto di palma (palm_like); una palma con leaf_type=broadleaved non si segnala. Per i generi di
+    # LEAF_TYPE_GENERA (Tamarix, Cycas) vale ogni leaf_type elencato in whitelist.json, anche con la specie in lista
+    if (exp_for and lt in LEAF_TYPE and exp_lt and not type_ok(lt, exp_lt, palm_like(t))
+            and lt not in LEAF_TYPE_GENERA.get(tree_genus(t), ())):
         issues.append("leaf_type_mismatch")
         props.update(exp_lt=exp_lt, exp_for=exp_for)
     if exp_for and lc in LEAF_CYCLE and exp_lc and not cycle_ok(lc, exp_lc):

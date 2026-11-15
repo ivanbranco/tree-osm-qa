@@ -932,7 +932,8 @@
 },
 "Ficus": {
 "leaf_cycle": [
-"deciduous"
+"deciduous",
+"evergreen"
 ],
 "leaf_type": "broadleaved"
 },
@@ -1614,7 +1615,8 @@
 },
 "Photinia": {
 "leaf_cycle": [
-"deciduous"
+"deciduous",
+"evergreen"
 ],
 "leaf_type": "broadleaved"
 },
