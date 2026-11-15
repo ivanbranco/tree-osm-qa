@@ -3371,6 +3371,15 @@ const sexMark = p => { const s = SEX_SVG[p.sex];
     onclick="togglePop(this, event)" onkeydown="togglePop(this, event)"><svg viewBox="0 0 24 24" aria-hidden="true">${s}</svg>`
     + `<span class="tip">${esc(text)}${photo}</span></span>`; };
 const ROWS = ROW_KEYS.map(k => [k, L.rows[k], ROW_FMT[k]]);
+// IMPERIAL: browser in en-US e sito in inglese: nella scheda altezza, circonferenza e chioma sono in piedi e pollici
+// (65 ft 7 in), con il valore in metri nel suggerimento; i messaggi dei check restano in metri
+const IMPERIAL = LANG === "en" && navigator.language === "en-US";
+const IMP_ROWS = new Set(["height", "circumference", "diameter_crown"]);
+const fmtFtIn = m => { const t = Math.round(m / 0.0254), f = Math.floor(t / 12), i = t % 12;
+  return f && i ? `${f} ft ${i} in` : f ? `${f} ft` : `${i} in`; };
+// valore di una di queste righe (HTML): in piedi e pollici con IMPERIAL se la misura si legge, altrimenti fmtM
+const cardLen = v => { const m = IMPERIAL ? lenM(v) : null;
+  return m > 0 ? `<span title="${esc(fmtM(v))}">${fmtFtIn(m)}</span>` : esc(fmtM(v)); };
 const list = v => String(v || "").split(";").join(", ");
 const fromD = (i, p) => p.diam_used && i.startsWith("circumference") ? L.fromDiameter : "";
 // exp_for: specie o genere (exp_genus) di riferimento; exp_lc: cicli fogliari separati da ";" (fetch_trees.py).
@@ -3833,7 +3842,7 @@ function masafCard(p, pos) {
   const rows = [[L.rows.species, p.sp_full ? `<i>${esc(p.sp_full)}</i>` : ""],
     [L.masafRows.place, esc([p.co && `${p.co}${p.pr && p.pr !== p.co ? ` (${p.pr})` : ""}`, p.lo].filter(Boolean).join(", "))],
     [L.masafRows.type, esc(p.t || "")],
-    [L.rows.height, p.h ? esc(fmtM(p.h)) : ""], [L.rows.circumference, p.ci ? esc(fmtM(p.ci)) : ""],
+    [L.rows.height, p.h ? cardLen(p.h) : ""], [L.rows.circumference, p.ci ? cardLen(p.ci) : ""],
     [L.masafRows.criteria, esc(crit)]].filter(([, v]) => v).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
   return `<div class="card"><h3>${esc(name)}</h3><dl>${rows}</dl>
     <div class="rec off">${L.masafNote(t => link(MASAF_URL, t), esc(p.masaf))}</div>
@@ -3860,8 +3869,8 @@ function card(p, pos) {
   const dm = p.circumference == null && p.diameter ? lenM(p.diameter, 0.001) : null;
   const fromDiam = dm > 0;
   const rows = ROWS.filter(([k]) => (k === "diameter" ? p[k] && !fromDiam : p[k] || (k === "circumference" && fromDiam)) && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => k === "circumference" && fromDiam
-    ? `<dt>${label}</dt><dd>${esc(fmtM(String(Number((dm * Math.PI).toFixed(3)))) + L.fromDiameter)}${planPick(p)}</dd>`
-    : `<dt>${label}</dt><dd>${esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
+    ? `<dt>${label}</dt><dd>${cardLen(String(Number((dm * Math.PI).toFixed(3))))}${esc(L.fromDiameter)}${planPick(p)}</dd>`
+    : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
   const rec = recognitions(p);
   const links = [osmMenu(p, pos)];
