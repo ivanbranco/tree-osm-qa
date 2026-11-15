@@ -31,7 +31,9 @@ A new region can be requested from the menu ("+ Request a new region…") or by 
 ## Documentation
 
 * [QA checks](docs/check.md): all the checks, with their thresholds and where they come from
-* [The map](docs/mappa.md): how trees are drawn, filters, card, completeness, ranking, trend and language
+* [The map](docs/mappa.md): how trees are drawn, filters, keyboard shortcuts, address parameters and language
+* [The tree card](docs/scheda.md): data, photo, errors and hints, Fix with JOSM, the trunk drawings to scale
+* [The panel tabs](docs/pannello.md): completeness, record trees, error ranking and error trend
 * [Data and updates](docs/dati.md): data files, the update Action, the world map and the repository structure
 * [Every Door plugin](docs/everydoor.md): installing it, tree types and icons, species shortcuts, the DendrOSM mode
 
