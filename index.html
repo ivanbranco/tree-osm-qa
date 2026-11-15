@@ -2496,7 +2496,11 @@ map.on("load", async () => {
         if (regs.length) {
           const d = el("details", "cp-reg"), fill = names => {
             for (const r of regs) { r.name = names[r.slug] || r.slug; r.row.querySelector(".lb").textContent = r.name; setCompRow(r.row, r.n, r.tot); }
-            d.replaceChildren(el("summary", "", L.cp.regions), ...regs.sort((a, b) => a.name.localeCompare(b.name, LOC)).map(r => r.row));
+            // dalla regione più completa; a parità della percentuale mostrata (arrotondata come in compPct), in
+            // ordine alfabetico
+            const q = r => { const x = r.tot ? 100 * r.n / r.tot : 0;
+              return r.n && x < 0.5 ? 0.5 : r.n < r.tot && x >= 99.5 ? 99.5 : Math.round(x); };
+            d.replaceChildren(el("summary", "", L.cp.regions), ...regs.sort((a, b) => q(b) - q(a) || a.name.localeCompare(b.name, LOC)).map(r => r.row));
           };
           fill({});
           // nomi delle regioni nella lingua del sito, da regions.json (la mappa dei monumentali non lo carica)
