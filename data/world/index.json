@@ -1,15 +1,98 @@
 {
  "regions": {
   "monumental": {
-   "count": 90229,
-   "diam": "mm",
-   "errors": 5239,
-   "implicit": 207,
-   "masaf": 3617,
+   "count": 93140,
+   "errors": 5616,
+   "implicit": 379,
+   "masaf": 3609,
+   "masaf_regions": {
+    "abruzzo": [
+     0,
+     323
+    ],
+    "basilicata": [
+     2,
+     181
+    ],
+    "calabria": [
+     13,
+     140
+    ],
+    "campania": [
+     5,
+     387
+    ],
+    "emilia-romagna": [
+     26,
+     135
+    ],
+    "friuli-venezia-giulia": [
+     117,
+     542
+    ],
+    "lazio": [
+     12,
+     212
+    ],
+    "liguria": [
+     46,
+     145
+    ],
+    "lombardia": [
+     192,
+     476
+    ],
+    "marche": [
+     27,
+     121
+    ],
+    "molise": [
+     6,
+     177
+    ],
+    "piemonte": [
+     193,
+     376
+    ],
+    "puglia": [
+     13,
+     282
+    ],
+    "sardegna": [
+     19,
+     431
+    ],
+    "sicilia": [
+     174,
+     177
+    ],
+    "toscana": [
+     164,
+     165
+    ],
+    "trentino-alto-adige": [
+     135,
+     137
+    ],
+    "umbria": [
+     42,
+     190
+    ],
+    "valle-d-aosta": [
+     13,
+     118
+    ],
+    "veneto": [
+     199,
+     292
+    ]
+   },
+   "masaf_size": 75,
+   "masaf_total": 5007,
    "masaf_version": "X Aggiornamento, D.Dir. n. 364243 del 24/07/2026",
    "name": "Alberi monumentali",
-   "sha1": "9e4a3f1ca1e07b2adb7c2531d6b8302ef165a36c",
-   "updated": "2026-11-12T01:54:22Z"
+   "sha1": "c84ceb37e3b8c0c1a009f89862fb92170903b6db",
+   "updated": "2026-11-15T05:39:23Z"
   }
  }
 }

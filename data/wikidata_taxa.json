@@ -16227,6 +16227,17 @@
 ],
 "taxon": true
 },
+"Q21370382": {
+"en": "Pinus × schwerinii",
+"it": "Pinus × schwerinii",
+"names": [
+"Pinus × schwerinii"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
 "Q21370428": {
 "alias": {
 "en": [
@@ -21010,6 +21021,16 @@
 ],
 "taxon": true
 },
+"Q3501488": {
+"it": "×Sorbopyrus",
+"names": [
+"× Sorbopyrus"
+],
+"ranks": [
+"Q6045742"
+],
+"taxon": true
+},
 "Q3518446": {
 "alias": {
 "en": [],
@@ -25754,6 +25775,12 @@
 "it": []
 },
 "en": "larch",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q62098595": {
+"en": "Lípa velkolistá",
 "names": [],
 "ranks": [],
 "taxon": false
