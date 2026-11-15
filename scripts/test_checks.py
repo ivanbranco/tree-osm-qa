@@ -205,6 +205,10 @@ CASES = [
     ("dipendenza: con species_author niente species_parentheses",
      {"natural": "tree", "species": "Camellia sinensis (L.) Kuntze"}, ["species_author"]),
     ("species_parentheses", {"natural": "tree", "species": "Quercus robur (red)"}, ["species_parentheses"]),
+    ("species_parentheses: sinonimi tra parentesi, non un autore",
+     {"natural": "tree", "species": "Ulmus laevis (Ulmus pedenculata, Ulmus effusa)"}, ["species_parentheses"]),
+    ("species_author: con altro prima del nome", {"natural": "tree", "species": "Insieme omogeneo di Fagus sylvatica L."},
+     ["species_author"]),
     ("underscore", {"natural": "tree", "genus": "Tilia_cordata"}, ["underscore"]),
     ("species_typo", {"natural": "tree", "species": "Quercus rubur"}, ["species_typo"]),
     ("species_typo: eccezione in whitelist", {"natural": "tree", "species": "Quercus robar"}, []),
@@ -439,6 +443,23 @@ HINT_CASES = [
      "hint_wg", False),
 ]
 
+# Proposta di species_author (sp_clean, quello che «Fix with JOSM» scrive in species): species -> valore atteso,
+# None = nessuna proposta
+SP_CLEAN_CASES = [
+    ("Quercus robur L.", "Quercus robur"),
+    ("Camellia sinensis (L.) Kuntze", "Camellia sinensis"),
+    ("Taxus cuspidata Siebold et Zucc.", "Taxus cuspidata"),                     # autore senza punto prima di "et"
+    ("Betula platyphylla Sukaczev var. japonica (Miq.) H.Hara", "Betula platyphylla var. japonica"),
+    ("Acer amoenum Carriere var. matsumurae", "Acer amoenum var. matsumurae"),  # autore senza punto prima del rango
+    ("Salix hultenii Flod. var. angustifolia Kimura", "Salix hultenii var. angustifolia"),
+    ("Malus toringo (Siebold) Siebold ex de Vriese", "Malus toringo"),
+    ("Pinus parviflora Siebold & Zucc. 'Glauca'", "Pinus parviflora 'Glauca'"),
+    ("Prunus serrulata (Siebold & Zucc.) Lindl.", "Prunus serrulata"),           # autore tra parentesi su più parole
+    ("Platanus x hispanica Mill.", "Platanus x hispanica"),
+    ("Cryptomeria japonica (Thunb. ex L. f.) D. Don var. elegans", "Cryptomeria japonica var. elegans"),
+    ("Insieme omogeneo di Fagus sylvatica L.", None),                            # resta altro oltre al nome
+]
+
 # Relazioni con ref:masaf (masaf_groups): elementi finti di una risposta di Overpass -> righe "mg" attese per nodo
 _REL = lambda i, tags, members: {"type": "relation", "id": i, "tags": tags,
                                   "members": [{"type": k, "ref": r, "role": ""} for k, r in members]}
@@ -464,6 +485,9 @@ def feature_failures():
         got = (val is not None) if isinstance(want, bool) else val
         if got != want:
             out.append(f"FALLITO: {name}\n  tag:     {tags}\n  atteso:  {key}={want}\n  uscito:  {key}={val}")
+    for sp, want in SP_CLEAN_CASES:
+        if (got := ft.checks({"natural": "tree", "species": sp}, POS)[1].get("sp_clean")) != want:
+            out.append(f"FALLITO: sp_clean di species={sp}\n  atteso:  {want}\n  uscito:  {got}")
     if (got := ft.masaf_groups(GROUP_ELEMENTS)) != GROUP_EXPECTED:
         out.append(f"FALLITO: masaf_groups\n  atteso:  {GROUP_EXPECTED}\n  uscito:  {got}")
     node = lambda i, tags: {"type": "node", "id": i, "lat": POS[1], "lon": POS[0], "tags": tags}

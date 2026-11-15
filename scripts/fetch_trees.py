@@ -1782,35 +1782,77 @@ def species_inner_case(sp):
     return " ".join(words)
 
 
+AUTHOR_PARTICLE = {"de", "van", "von", "der", "den", "du", "da", "di", "d'", "le", "la", "ter"}   # "Siebold ex de Vriese"
+
+
+def author_group(words):
+    """Vero se le parole di un gruppo tra parentesi ("(Siebold", "&", "Zucc.)") sono un autore: tutte con la maiuscola,
+    o parole che uniscono due autori, o particelle, o "f." (filius: "(Thunb. ex L. f.)"). "(Ulmus pedenculata, Ulmus
+    effusa)" non lo è (epiteti minuscoli)."""
+    parts = [w.strip("(),") for w in words]
+    return all(not w or w[:1].isupper() or w in AUTHOR_LINK or w in AUTHOR_PARTICLE or w == "f." for w in parts)
+
+
 @functools.lru_cache(maxsize=None)
-def species_without_author(sp):
-    """species senza l'autore del nome, se c'è (es. "Camellia sinensis (L.) Kuntze" -> "Camellia sinensis");
-    restano genere, epiteto, i ranghi infraspecifici (var., subsp. …) e le cultivar tra virgolette. None se non c'è
-    autore."""
+def split_author(sp):
+    """(species senza autore, autore trovato, resto incerto) per species_without_author e species_author_uncertain.
+    Resto incerto: parole tenute che non sono genere, epiteto, ranghi infraspecifici né cultivar tra virgolette
+    ("Insieme omogeneo di Fagus sylvatica L."): senza l'autore non resta un nome scientifico sicuro."""
     if not sp or ";" in sp or species_unidentified(sp):
-        return None
+        return None, False, False
     words = sp.split()
-    base = 3 if "×" in words[:2] else 2          # genere ed epiteto (con il segno di ibrido)
+    base = 3 if {"×", "x", "X"} & set(words[:2]) else 2   # genere ed epiteto (con il segno di ibrido)
     if len(words) <= base or not words[base - 1][:1].islower():
-        return None                               # epiteto maiuscolo: non è un nome scientifico (es. "Black Matipo (…)")
-    kept, found, in_author, quoted, i = words[:base], False, False, False, base
+        return None, False, False                # epiteto maiuscolo: non è un nome scientifico (es. "Black Matipo (…)")
+    kept, found, in_author, quoted, extra, i = words[:base], False, False, False, False, base
+    # pending: parole maiuscole senza punto dopo l'epiteto ("Siebold", "Sukaczev"): sono l'autore se dopo vengono un
+    # autore, una parola che unisce due autori o un rango (una cultivar non sta prima di un rango); altrimenti restano
+    pending = []
     while i < len(words):
         w = words[i]
         if quoted or w[:1] in "'‘`\"“":             # cultivar tra virgolette: si tiene tutta
-            kept.append(w)
+            kept += pending + [w]
+            pending, in_author = [], False
             quoted = not (w[-1:] in "'’`\"”" and (len(w) > 1 or quoted))
-            in_author = False
+        elif w[:1] == "(" and ")" not in w:          # parentesi su più parole: "(Siebold & Zucc.)", "(Ulmus …, …)"
+            j = next((k for k in range(i + 1, len(words)) if ")" in words[k]), len(words) - 1)
+            if author_group(words[i:j + 1]):
+                found, in_author, pending = True, True, []
+            else:
+                kept += pending + words[i:j + 1]
+                pending, in_author, extra = [], False, True
+            i = j
         elif w.lower() in INFRA and i + 1 < len(words):
+            found = found or bool(pending)
             kept += [w, words[i + 1]]
+            pending, in_author = [], False
             i += 1
-            in_author = False
-        elif AUTHOR.match(w) or (in_author and (w[:1].isupper() or w in AUTHOR_LINK)):
-            found = in_author = True
+        elif (AUTHOR.match(w) or (in_author and (w[:1].isupper() or w in AUTHOR_LINK))
+              or (w in AUTHOR_LINK and pending)
+              or (in_author and w in AUTHOR_PARTICLE and i + 1 < len(words) and words[i + 1][:1].isupper())):
+            found, in_author, pending = True, True, []
+        elif w[:1].isupper():
+            pending.append(w)
         else:
-            kept.append(w)
-            in_author = False
+            kept += pending + [w]
+            pending, in_author, extra = [], False, True
         i += 1
-    return " ".join(kept) if found else None
+    # dopo un rango con il suo epiteto, in un nome che ha già un autore: "… var. angustifolia Kimura"
+    if not (pending and found and len(kept) > base and kept[-2].lower() in INFRA):
+        kept += pending
+    return (" ".join(kept) if found else None), found, extra
+
+
+def species_without_author(sp):
+    """species senza l'autore del nome, se c'è (es. "Camellia sinensis (L.) Kuntze" -> "Camellia sinensis",
+    "Taxus cuspidata Siebold et Zucc." -> "Taxus cuspidata"); restano genere, epiteto, i ranghi infraspecifici
+    (var., subsp. …) e le cultivar tra virgolette. None se non c'è autore."""
+    return split_author(sp)[0]
+
+
+def species_author_uncertain(sp):
+    """Vero se species ha l'autore ma, tolto l'autore, resta altro oltre al nome scientifico (vedi split_author)."""
+    return split_author(sp)[2]
 
 
 def genus_of_species(sp):
@@ -2087,9 +2129,9 @@ def checks(t, pos, osm_id=None):
         flag("species_epithet_case", sp_sci=ec)
     elif spf and (common := species_common_name(spf)) is not None:  # "" se non c'è un nome scientifico da proporre
         flag("species_common_name", **({"sp_sci": common} if common else {}))
-    if no_auth:
+    if no_auth:   # senza proposta se, tolto l'autore, non resta solo il nome ("Insieme omogeneo di Fagus sylvatica L.")
         clean = species_inner_case(no_auth) or no_auth
-        flag("species_author", sp_clean=clean[:1].upper() + clean[1:])
+        flag("species_author", **({} if species_author_uncertain(spf) else {"sp_clean": clean[:1].upper() + clean[1:]}))
     # nessun nome scientifico contiene parentesi; non si ripete se le spiegano già l'autore o il nome comune
     if spf and ("(" in spf or ")" in spf) and not {"species_author", "species_common_name"} & set(issues):
         flag("species_parentheses")
