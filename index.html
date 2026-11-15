@@ -4031,6 +4031,13 @@ const HINT_FIXES = [
 ];
 const FIXES = {
   species_author: [p => [["species", p.sp_clean]], "remove the author name from species"],
+  // species di una parola che è un genere (sp_as_genus) o il nome comune di un genere (sp_common_genus): species si
+  // toglie e diventa genus, se manca. Con un genus diverso (maiuscole e segno di ibrido a parte) la correzione non è certa
+  species: [p => {
+    const g = p.sp_as_genus || p.sp_common_genus, norm = v => String(v || "").replace(/^\s*×\s*/, "").trim().toLowerCase();
+    if (!g || (norm(p.genus) && norm(p.genus) !== norm(g))) return [];
+    return [["species", REMOVE], ...norm(p.genus) ? [] : [["genus", g, undefined, true]]];
+  }, "genus instead of single-word species"],
   // natural non è tra le proprietà della feature: il vecchio valore (quinto elemento) è tree, l'unico per cui scatta
   not_a_tree: [p => [["natural", "plant", undefined, false, "tree"]], "plant that is not a tree: natural=plant"],
   species_epithet_case: [p => [["species", p.sp_sci]], "fix capitalisation in species"],
