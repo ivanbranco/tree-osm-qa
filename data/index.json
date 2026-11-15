@@ -304,12 +304,12 @@
    "updated": "2026-11-12T02:21:24Z"
   },
   "giappone": {
-   "count": 307589,
-   "errors": 13272,
+   "count": 305640,
+   "errors": 7607,
    "name": "Giappone",
-   "sha1": "5bd34a63f9b8bbc76ffe489bb2cf520b59357ceb",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T03:45:29Z"
+   "sha1": "2225014979d76d26b3b5c4bad031a9002cc40efc",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T23:16:30Z"
   },
   "grand-est": {
    "count": 253378,
