@@ -218,12 +218,12 @@
    "updated": "2026-11-14T11:38:51Z"
   },
   "connacht": {
-   "count": 45804,
+   "count": 45809,
    "errors": 21,
    "name": "Connacht",
-   "sha1": "372541559f9228649f196ec8dd91d171726e6f59",
-   "tried": "2026-11-12",
-   "updated": "2026-11-12T22:50:43Z"
+   "sha1": "79063a597c0ce21a758ae410932e43bf8d4e8ac8",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T23:52:17Z"
   },
   "corsica": {
    "count": 3560,
@@ -382,12 +382,12 @@
    "updated": "2026-11-13T00:09:17Z"
   },
   "leinster": {
-   "count": 600078,
-   "errors": 1104,
+   "count": 600143,
+   "errors": 1105,
    "name": "Leinster",
-   "sha1": "2a75d93ef7a733b117f80c3b19b218b5bbb79863",
-   "tried": "2026-11-12",
-   "updated": "2026-11-12T22:49:13Z"
+   "sha1": "de4fe5f815ffb6a4e031d28bef1917634ceda8a0",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T23:50:41Z"
   },
   "lettonia": {
    "count": 103083,
@@ -554,12 +554,12 @@
    "updated": "2026-11-14T00:19:44Z"
   },
   "munster": {
-   "count": 246633,
+   "count": 247377,
    "errors": 154,
    "name": "Munster",
-   "sha1": "66ea1077de712c4b877cea64893e503d08e08a4a",
-   "tried": "2026-11-12",
-   "updated": "2026-11-12T22:50:03Z"
+   "sha1": "9e4b4541e9baf2245f66e4d840c4ddf970895fc6",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T23:51:36Z"
   },
   "murcia": {
    "count": 49240,
@@ -831,11 +831,11 @@
   },
   "ulster-irlanda": {
    "count": 47000,
-   "errors": 2,
+   "errors": 0,
    "name": "Ulster",
-   "sha1": "3d307a7c9418a2834b26495627f5fa28fd761f27",
-   "tried": "2026-11-12",
-   "updated": "2026-11-12T22:51:19Z"
+   "sha1": "f37d7acc18df4ef52c17a068920e10608979548b",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T23:52:55Z"
   },
   "umbria": {
    "count": 17800,
