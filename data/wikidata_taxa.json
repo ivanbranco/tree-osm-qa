@@ -162,6 +162,17 @@
 ],
 "taxon": true
 },
+"Q102240169": {
+"en": "Salvia rosmarinus",
+"it": "Salvia rosmarinus",
+"names": [
+"Salvia rosmarinus"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q1023519": {
 "alias": {
 "en": [],
@@ -5598,6 +5609,17 @@
 ],
 "taxon": true
 },
+"Q133351": {
+"en": "Schefflera",
+"it": "Schefflera",
+"names": [
+"Schefflera"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q1334892": {
 "alias": {
 "en": [
@@ -9623,6 +9645,17 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q155874": {
+"en": "Agave",
+"it": "Agave",
+"names": [
+"Agave"
+],
+"ranks": [
+"Q34740"
 ],
 "taxon": true
 },
@@ -15519,6 +15552,17 @@
 ],
 "taxon": true
 },
+"Q201959": {
+"en": "Capsicum",
+"it": "Capsicum",
+"names": [
+"Capsicum"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q201996": {
 "alias": {
 "en": [],
@@ -16703,6 +16747,17 @@
 "it": "Quercus gambelii",
 "names": [
 "Quercus gambelii"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q22694": {
+"en": "marjoram",
+"it": "Origanum majorana",
+"names": [
+"Origanum majorana"
 ],
 "ranks": [
 "Q7432"
