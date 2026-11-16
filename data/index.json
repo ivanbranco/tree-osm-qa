@@ -873,8 +873,9 @@
    "count": 795,
    "errors": 0,
    "name": "Città del Vaticano",
-   "sha1": "3df11c9ee714cdb820067f1b42a68b521e90b1be",
-   "updated": "2026-11-12T18:27:49Z"
+   "sha1": "4e464632b69e3db0f23ddc08de517ffa8eaeb773",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T17:34:31Z"
   },
   "veneto": {
    "count": 149673,
