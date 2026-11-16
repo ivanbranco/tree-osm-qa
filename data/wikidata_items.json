@@ -3213,6 +3213,17 @@
 "taxon": false,
 "wp": {}
 },
+"Q1066106": {
+"coords": [],
+"heritage": [],
+"image": "Shelby Farms Park Memphis TN 2013-12-01 017.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Maclura_pomifera",
+"it": "https://it.wikipedia.org/wiki/Maclura_pomifera"
+}
+},
 "Q106612858": {
 "coords": [
 [
@@ -4722,6 +4733,17 @@
 "taxon": false,
 "wp": {}
 },
+"Q1107183": {
+"coords": [],
+"heritage": [],
+"image": "Nothofagus dombeyi.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Nothofagus_dombeyi",
+"it": "https://it.wikipedia.org/wiki/Nothofagus_dombeyi"
+}
+},
 "Q110777276": {
 "coords": [
 [
@@ -6230,6 +6252,17 @@
 "taxa": [],
 "taxon": false,
 "wp": {}
+},
+"Q1152753": {
+"coords": [],
+"heritage": [],
+"image": "Maitén.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Maytenus_boaria",
+"it": "https://it.wikipedia.org/wiki/Maytenus_boaria"
+}
 },
 "Q11543715": {
 "coords": [
@@ -10298,6 +10331,16 @@
 "taxon": false,
 "wp": {}
 },
+"Q1196169": {
+"coords": [],
+"heritage": [],
+"image": "Alnus japonica ハンノキ やしろの森公園DSCF8698.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Alnus_japonica"
+}
+},
 "Q119625503": {
 "coords": [
 [
@@ -13837,6 +13880,16 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q12334111": {
+"coords": [],
+"heritage": [],
+"image": "Starr 080716-9454 Escallonia rubra var. macrantha.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Escallonia_rubra"
+}
 },
 "Q123352032": {
 "coords": [
@@ -19484,6 +19537,14 @@
 "taxon": false,
 "wp": {}
 },
+"Q1433727": {
+"coords": [],
+"heritage": [],
+"image": "Saxegothea conspicua 3.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {}
+},
 "Q1438277": {
 "coords": [
 [
@@ -19697,6 +19758,16 @@
 "taxon": false,
 "wp": {}
 },
+"Q1486147": {
+"coords": [],
+"heritage": [],
+"image": "Nothofagus obliqua (8645995778).jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Nothofagus_obliqua"
+}
+},
 "Q149332": {
 "coords": [],
 "heritage": [],
@@ -19716,6 +19787,17 @@
 "taxon": true,
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Sequoioideae"
+}
+},
+"Q149372": {
+"coords": [],
+"heritage": [],
+"image": "Ribes sanguineum 5724.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Ribes_sanguineum",
+"it": "https://it.wikipedia.org/wiki/Ribes_sanguineum"
 }
 },
 "Q149548": {
@@ -19884,6 +19966,16 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q1520316": {
+"coords": [],
+"heritage": [],
+"image": "Yucca-aloifolia-20071002-2.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Yucca_aloifolia"
+}
 },
 "Q1520397": {
 "coords": [
@@ -20257,6 +20349,16 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q15544357": {
+"coords": [],
+"heritage": [],
+"image": "Vachellia caven 253364622.jpeg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Vachellia_caven"
+}
 },
 "Q15586282": {
 "coords": [
@@ -20687,6 +20789,17 @@
 "taxon": false,
 "wp": {}
 },
+"Q157393": {
+"coords": [],
+"heritage": [],
+"image": "Paulownia tomentosa JPG2a.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Paulownia_tomentosa",
+"it": "https://it.wikipedia.org/wiki/Paulownia_tomentosa"
+}
+},
 "Q1573933": {
 "coords": [
 [
@@ -20889,6 +21002,17 @@
 "it": "https://it.wikipedia.org/wiki/Acer_campestre"
 }
 },
+"Q158793": {
+"coords": [],
+"heritage": [],
+"image": "Washingtonia filifera.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Washingtonia",
+"it": "https://it.wikipedia.org/wiki/Washingtonia"
+}
+},
 "Q159204": {
 "coords": [],
 "heritage": [],
@@ -20914,6 +21038,17 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q159565": {
+"coords": [],
+"heritage": [],
+"image": "Salix caprea8.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Salix_caprea",
+"it": "https://it.wikipedia.org/wiki/Salix_caprea"
+}
 },
 "Q15975114": {
 "coords": [
@@ -21102,6 +21237,17 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Eucalyptus_camaldulensis",
 "it": "https://it.wikipedia.org/wiki/Eucalyptus_camaldulensis"
+}
+},
+"Q162849": {
+"coords": [],
+"heritage": [],
+"image": "Ceibo Uruguay.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Erythrina_crista-galli",
+"it": "https://it.wikipedia.org/wiki/Erythrina_crista-galli"
 }
 },
 "Q16293222": {
@@ -23546,6 +23692,17 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Bud",
 "it": "https://it.wikipedia.org/wiki/Gemma_(botanica)"
+}
+},
+"Q190545": {
+"coords": [],
+"heritage": [],
+"image": "Prunus-domestica.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Prunus",
+"it": "https://it.wikipedia.org/wiki/Prunus"
 }
 },
 "Q19290277": {
@@ -26013,6 +26170,17 @@
 "en": "https://en.wikipedia.org/wiki/Lime_in_Ciel%C4%99tniki"
 }
 },
+"Q2333372": {
+"coords": [],
+"heritage": [],
+"image": "Pieris japonica 10.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Pieris_japonica",
+"it": "https://it.wikipedia.org/wiki/Pieris_japonica"
+}
+},
 "Q23562633": {
 "coords": [],
 "heritage": [],
@@ -26103,6 +26271,17 @@
 "taxa": [],
 "taxon": false,
 "wp": {}
+},
+"Q2382775": {
+"coords": [],
+"heritage": [],
+"image": "Quillaja saponaria12.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Quillaja_saponaria",
+"it": "https://it.wikipedia.org/wiki/Quillaja_saponaria"
+}
 },
 "Q238486": {
 "coords": [],
@@ -27303,6 +27482,16 @@
 "en": "https://en.wikipedia.org/wiki/Koca_Katran"
 }
 },
+"Q2583123": {
+"coords": [],
+"heritage": [],
+"image": "Grevillea rosmarinifolia.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Grevillea_rosmarinifolia"
+}
+},
 "Q2586647": {
 "coords": [
 [
@@ -27442,6 +27631,16 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q2661699": {
+"coords": [],
+"heritage": [],
+"image": "Cryptocarya.PNG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Cryptocarya_alba"
+}
 },
 "Q26778892": {
 "coords": [
@@ -64458,6 +64657,37 @@
 "en": "https://en.wikipedia.org/wiki/Queen_Elizabeth_Oak"
 }
 },
+"Q2707036": {
+"coords": [],
+"heritage": [],
+"image": "Maqui chileno.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Aristotelia_chilensis"
+}
+},
+"Q2713347": {
+"coords": [],
+"heritage": [],
+"image": "Lithrea caustica.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Lithraea_caustica"
+}
+},
+"Q271582": {
+"coords": [],
+"heritage": [],
+"image": "Pinus pinea and ruins on Palatine Hill.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Pinus_pinaster",
+"it": "https://it.wikipedia.org/wiki/Pinus_pinaster"
+}
+},
 "Q27158877": {
 "coords": [
 [
@@ -64477,6 +64707,24 @@
 "Q43284"
 ],
 "taxon": false,
+"wp": {}
+},
+"Q2716551": {
+"coords": [],
+"heritage": [],
+"image": "Gevuina avellana 2.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Gevuina"
+}
+},
+"Q2716902": {
+"coords": [],
+"heritage": [],
+"image": "Tipuana tipu.jpg",
+"taxa": [],
+"taxon": true,
 "wp": {}
 },
 "Q27179241": {
@@ -64554,6 +64802,16 @@
 "taxon": false,
 "winter": "Drei-Annen-Hohne Feb-2017 DSC 0788.JPG",
 "wp": {}
+},
+"Q279482": {
+"coords": [],
+"heritage": [],
+"image": "Starr 010209-0260 Parkinsonia aculeata.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Parkinsonia_aculeata"
+}
 },
 "Q27980": {
 "coords": [],
@@ -64799,6 +65057,17 @@
 "taxon": false,
 "winter": "Alt-Karow Dorfkirche.jpg",
 "wp": {}
+},
+"Q290967": {
+"coords": [],
+"heritage": [],
+"image": "Jubaea chilensis Hyères gross.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Jubaea_chilensis",
+"it": "https://it.wikipedia.org/wiki/Jubaea_chilensis"
+}
 },
 "Q29346121": {
 "coords": [
@@ -65052,6 +65321,16 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q306504": {
+"coords": [],
+"heritage": [],
+"image": "Pitanga (do tupi 'ybapytanga) no pampa gaúcho 02.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Eugenia_uniflora"
+}
 },
 "Q3071706": {
 "coords": [],
@@ -66564,6 +66843,16 @@
 "taxon": false,
 "wp": {}
 },
+"Q3237144": {
+"coords": [],
+"heritage": [],
+"image": "Sophoracassioides14.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Sophora_cassioides"
+}
+},
 "Q3284219": {
 "coords": [],
 "heritage": [],
@@ -66573,6 +66862,14 @@
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Citronella_mucronata"
 }
+},
+"Q3299543": {
+"coords": [],
+"heritage": [],
+"image": "Acaciacaven29.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {}
 },
 "Q33036816": {
 "coords": [],
@@ -66747,6 +67044,16 @@
 "it": "https://it.wikipedia.org/wiki/Albero_del_Piccioni"
 }
 },
+"Q3609454": {
+"coords": [],
+"heritage": [],
+"image": "Porlieria3.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Porlieria_chilensis"
+}
+},
 "Q3662058": {
 "coords": [],
 "heritage": [],
@@ -66806,6 +67113,17 @@
 "it": "https://it.wikipedia.org/wiki/Olea_europaea"
 }
 },
+"Q37153": {
+"coords": [],
+"heritage": [],
+"image": "Persea americana fruit 2.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Avocado",
+"it": "https://it.wikipedia.org/wiki/Persea_americana"
+}
+},
 "Q3736402": {
 "coords": [
 [
@@ -66854,6 +67172,17 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q386585": {
+"coords": [],
+"heritage": [],
+"image": "Acacia melanoxylon 50D 2446.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Acacia_melanoxylon",
+"it": "https://it.wikipedia.org/wiki/Acacia_melanoxylon"
+}
 },
 "Q388443": {
 "coords": [
@@ -67578,6 +67907,16 @@
 "taxon": false,
 "wp": {}
 },
+"Q4747509": {
+"coords": [],
+"heritage": [],
+"image": "Amomyrtus luma-Luma.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Amomyrtus_luma"
+}
+},
 "Q47495576": {
 "coords": [],
 "heritage": [],
@@ -67707,6 +68046,26 @@
 "taxa": [],
 "taxon": false,
 "wp": {}
+},
+"Q4881246": {
+"coords": [],
+"heritage": [],
+"image": "Beilschmiedia berteroana.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Beilschmiedia_berteroana"
+}
+},
+"Q4881257": {
+"coords": [],
+"heritage": [],
+"image": "Beilschmiedia miersii b 03.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Beilschmiedia_miersii"
+}
 },
 "Q48816893": {
 "coords": [
@@ -70317,6 +70676,26 @@
 "taxon": false,
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Emancipation_Oak"
+}
+},
+"Q5411510": {
+"coords": [],
+"heritage": [],
+"image": "Lomatia dentata-hojas-haz.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Lomatia_dentata"
+}
+},
+"Q5475983": {
+"coords": [],
+"heritage": [],
+"image": "Pitao.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Pitavia_punctata"
 }
 },
 "Q54823827": {
@@ -74486,6 +74865,17 @@
 "en": "https://en.wikipedia.org/wiki/Wyndham%27s_Oak"
 }
 },
+"Q571422": {
+"coords": [],
+"heritage": [],
+"image": "Nothofagus antarctica - rama con brotes.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Nothofagus_antarctica",
+"it": "https://it.wikipedia.org/wiki/Nothofagus_antarctica"
+}
+},
 "Q57241744": {
 "coords": [
 [
@@ -76631,6 +77021,14 @@
 "taxon": false,
 "wp": {}
 },
+"Q5879975": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q589967": {
 "coords": [
 [
@@ -77770,6 +78168,16 @@
 "taxon": false,
 "wp": {}
 },
+"Q6669183": {
+"coords": [],
+"heritage": [],
+"image": "Lomatia ferruginea-hojas-haz.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Lomatia_ferruginea"
+}
+},
 "Q66760041": {
 "coords": [
 [
@@ -78018,6 +78426,16 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q699330": {
+"coords": [],
+"heritage": [],
+"image": "Quinchao – árbol cerca la carretera W-589, 2019.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Luma_apiculata"
+}
 },
 "Q7087240": {
 "coords": [
@@ -79672,6 +80090,17 @@
 "taxon": false,
 "wp": {}
 },
+"Q748888": {
+"coords": [],
+"heritage": [],
+"image": "Pinus radiata BigSur.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Pinus_radiata",
+"it": "https://it.wikipedia.org/wiki/Pinus_radiata"
+}
+},
 "Q750307": {
 "coords": [],
 "heritage": [],
@@ -79774,6 +80203,17 @@
 "taxa": [],
 "taxon": false,
 "wp": {}
+},
+"Q775529": {
+"coords": [],
+"heritage": [],
+"image": "Drimys winteri.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Drimys_winteri",
+"it": "https://it.wikipedia.org/wiki/Drimys_winteri"
+}
 },
 "Q7836941": {
 "coords": [
@@ -80094,6 +80534,17 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q833994": {
+"coords": [],
+"heritage": [],
+"image": "Peumus boldus - Köhler–s Medizinal-Pflanzen-104.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Boldo",
+"it": "https://it.wikipedia.org/wiki/Peumus_boldus"
+}
 },
 "Q838818": {
 "coords": [],
@@ -80481,6 +80932,16 @@
 "it": "https://it.wikipedia.org/wiki/Schinus_terebinthifolia"
 }
 },
+"Q9017042": {
+"coords": [],
+"heritage": [],
+"image": "Kageneckia oblonga2.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Kageneckia_oblonga"
+}
+},
 "Q90311536": {
 "coords": [
 [
@@ -80591,6 +81052,16 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q923204": {
+"coords": [],
+"heritage": [],
+"image": "Persea lingue.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Persea_lingue"
+}
 },
 "Q9249128": {
 "coords": [
@@ -80778,6 +81249,17 @@
 "taxon": false,
 "winter": "Plac Litewski w Lublinie, baobab1.jpg",
 "wp": {}
+},
+"Q937654": {
+"coords": [],
+"heritage": [],
+"image": "Umbu (do tupi umbu, com outro significado), Phytolacca dioica, em Bagé, RS, Brasil.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Phytolacca_dioica",
+"it": "https://it.wikipedia.org/wiki/Phytolacca_dioica"
+}
 },
 "Q93892427": {
 "coords": [
