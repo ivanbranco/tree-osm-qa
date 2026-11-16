@@ -552,6 +552,12 @@
 ],
 "taxon": true
 },
+"Q106488309": {
+"en": "Takezaki no Katsura",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1066106": {
 "alias": {
 "en": [
@@ -653,6 +659,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q106910580": {
+"en": "Yamanokami no Fuji",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1070125": {
 "alias": {
@@ -1089,6 +1101,12 @@
 ],
 "taxon": true
 },
+"Q10855733": {
+"en": "Great Cedar of Kiyosumi",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q10859220": {
 "alias": {
 "en": [
@@ -1123,6 +1141,12 @@
 "Q4886"
 ],
 "taxon": true
+},
+"Q10860801": {
+"en": "Jindai Zakura",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q10877943": {
 "alias": {
@@ -1185,6 +1209,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q10879191": {
+"en": "Kariyado no Gebazakura",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q10879444": {
 "alias": {
@@ -1838,6 +1868,12 @@
 ],
 "taxon": true
 },
+"Q110777276": {
+"en": "Hodashi no Keyaki",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q11083662": {
 "alias": {
 "en": [],
@@ -2027,6 +2063,18 @@
 ],
 "taxon": true
 },
+"Q111585833": {
+"en": "Dōgata no Shiinoki",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q111605751": {
+"en": "Arita no Icho",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1116374": {
 "alias": {
 "en": [
@@ -2097,6 +2145,30 @@
 ],
 "taxon": true
 },
+"Q111817882": {
+"en": "Great Ginkgo of Sayō",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q112080442": {
+"en": "Hagurosan Jijisugi",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q112167804": {
+"en": "Kawago no kusu",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q112169099": {
+"en": "Ushikubo-no-Nagi",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q11225022": {
 "alias": {
 "en": [],
@@ -2114,6 +2186,31 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q1124292": {
+"en": "Royal Oak",
+"it": "Royal Oak (albero)",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q112581469": {
+"en": "Yono no Okaya",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11263067": {
+"en": "Omiya's Pine Tree",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11288187": {
+"en": "Wilsons Stump",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q11291825": {
 "alias": {
@@ -2142,6 +2239,16 @@
 ],
 "ranks": [
 "Q767728"
+],
+"taxon": true
+},
+"Q11302429": {
+"en": "Prunus spachiana 'Komatsu-otome'",
+"names": [
+"Prunus spachiana 'Komatsu-otome'"
+],
+"ranks": [
+"Q4886"
 ],
 "taxon": true
 },
@@ -2250,6 +2357,23 @@
 ],
 "taxon": true
 },
+"Q11352772": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11355279": {
+"en": "Fragrant Olive at Mishima Taisha",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11359084": {
+"en": "Jonichiji no Icho",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1136117": {
 "basionyms": [
 "Mimosa cineraria"
@@ -2263,6 +2387,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q11363887": {
+"en": "Chūjō-hime Seigan-zakura",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q113688113": {
 "alias": {
@@ -2409,6 +2539,17 @@
 ],
 "taxon": true
 },
+"Q11398591": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11410214": {
+"en": "Matabei-zakura",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1141735": {
 "alias": {
 "en": [
@@ -2425,6 +2566,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q114289633": {
+"en": "Fujishima no Fuji",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1144409": {
 "alias": {
@@ -2447,6 +2594,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q11447792": {
+"en": "Great tea tree of Ureshino",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1144805": {
 "alias": {
@@ -2554,6 +2707,12 @@
 ],
 "taxon": true
 },
+"Q11480957": {
+"en": "Hahakigi",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q114854806": {
 "alias": {
 "en": [],
@@ -2597,6 +2756,18 @@
 ],
 "taxon": true
 },
+"Q11511121": {
+"en": "Castanopsis sieboldii at the Former Residence of the Hosokawa Family",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11516171": {
+"en": "Tsukize-no-Osugi",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1151932": {
 "alias": {
 "en": [
@@ -2634,6 +2805,18 @@
 ],
 "taxon": true
 },
+"Q11543715": {
+"en": "Tarumi-no-Ozakura",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11557197": {
+"en": "Asamai-no-Keyaki",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1156537": {
 "alias": {
 "en": [],
@@ -2648,6 +2831,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q11570113": {
+"en": "Wisteria in Ushijima",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q115914849": {
 "alias": {
@@ -2723,6 +2912,41 @@
 "Q4886"
 ],
 "taxon": true
+},
+"Q11608086": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11611985": {
+"en": "Nomanji no Sotetsu",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11612441": {
+"en": "Garyū-zakura",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11621332": {
+"en": "Kamō no Kusu",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11653596": {
+"en": "Chokozan Shidare-zakura",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11665779": {
+"en": "Tobiume",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1166864": {
 "alias": {
@@ -3023,6 +3247,11 @@
 ],
 "taxon": true
 },
+"Q120703507": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1207043": {
 "alias": {
 "en": [],
@@ -3260,6 +3489,16 @@
 ],
 "taxon": true
 },
+"Q123434781": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q123717399": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q12372598": {
 "alias": {
 "en": [
@@ -3287,6 +3526,18 @@
 "Q1306176"
 ],
 "taxon": true
+},
+"Q124285355": {
+"en": "Kozaki no Okusu",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q124719160": {
+"en": "Hachimanjinja no Isunoki",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1247582": {
 "alias": {
@@ -3406,6 +3657,16 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q125399311": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q125659015": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1257409": {
 "alias": {
@@ -3681,6 +3942,11 @@
 ],
 "taxon": true
 },
+"Q129055482": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1290970": {
 "alias": {
 "en": [
@@ -3933,6 +4199,11 @@
 "Q4886"
 ],
 "taxon": true
+},
+"Q130296651": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q130300780": {
 "alias": {
@@ -5756,6 +6027,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q134375795": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q134442807": {
 "alias": {
@@ -10129,6 +10405,13 @@
 ],
 "taxon": true
 },
+"Q157052": {
+"en": "Emperor Taishō",
+"it": "Taisho del Giappone",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q157214": {
 "en": "Araucaria",
 "it": "Araucaria",
@@ -13047,6 +13330,11 @@
 ],
 "taxon": true
 },
+"Q16332808": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1633311": {
 "alias": {
 "en": [
@@ -13805,6 +14093,11 @@
 ],
 "taxon": true
 },
+"Q16606999": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1669886": {
 "alias": {
 "en": [],
@@ -14066,6 +14359,23 @@
 ],
 "taxon": true
 },
+"Q17190671": {
+"en": "Aizen-katsura",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q17214933": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q17215169": {
+"en": "Tsukazaki no Kusu",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q17216": {
 "alias": {
 "en": [],
@@ -14073,6 +14383,18 @@
 },
 "en": "rootstock",
 "it": "portinnesto",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q17222727": {
+"en": "Ginkgo tree of Zenpuku-ji",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q17226861": {
+"en": "Hinpun Banyan Tree",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -15102,6 +15424,13 @@
 ],
 "taxon": true
 },
+"Q189838": {
+"en": "bud",
+"it": "gemma",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q190510": {
 "alias": {
 "en": [
@@ -15533,6 +15862,11 @@
 ],
 "taxon": true
 },
+"Q20032839": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2004978": {
 "alias": {
 "en": [
@@ -15954,6 +16288,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q2089641": {
+"en": "Phoenix Trees Exposed to the A-bomb",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q2091516": {
 "alias": {
@@ -17264,6 +17604,17 @@
 ],
 "taxon": true
 },
+"Q24862411": {
+"en": "Yōgō no Matsu",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q24868795": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q24877908": {
 "alias": {
 "en": [],
@@ -18473,6 +18824,11 @@
 ],
 "taxon": true
 },
+"Q27158877": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2716902": {
 "alias": {
 "en": [],
@@ -18524,6 +18880,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q27179241": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q2719018": {
 "alias": {
@@ -19834,6 +20195,17 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q30922759": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q30937292": {
+"en": "Hayakawa no Biranju",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q309537": {
 "alias": {
@@ -22296,6 +22668,12 @@
 ],
 "taxon": true
 },
+"Q41258556": {
+"en": "Plane Tree of Arta",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q41297396": {
 "alias": {
 "en": [],
@@ -23824,6 +24202,12 @@
 ],
 "taxon": true
 },
+"Q48756110": {
+"en": "Chiryu City History and Folklore Museum",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q489226": {
 "alias": {
 "en": [
@@ -24677,6 +25061,12 @@
 ],
 "taxon": true
 },
+"Q5353635": {
+"en": "Houkisugi at Nakagawa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q5366359": {
 "alias": {
 "en": [
@@ -24943,6 +25333,12 @@
 ],
 "taxon": true
 },
+"Q55527106": {
+"en": "Daigo zakura",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q55741369": {
 "alias": {
 "en": [],
@@ -25083,6 +25479,12 @@
 ],
 "taxon": true
 },
+"Q5600400": {
+"en": "Great sugi of Kayano",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q567948": {
 "alias": {
 "en": [],
@@ -25097,6 +25499,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q56867887": {
+"en": "Hungry Tree",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q568923": {
 "alias": {
@@ -25401,6 +25809,12 @@
 ],
 "taxon": true
 },
+"Q589967": {
+"en": "Jōmon Sugi",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q590101": {
 "en": "Yakusugi",
 "names": [],
@@ -25583,6 +25997,12 @@
 ],
 "taxon": true
 },
+"Q60403026": {
+"en": "Azusawakejinja-no-Okusu",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q60458657": {
 "alias": {
 "en": [],
@@ -25755,6 +26175,12 @@
 ],
 "taxon": true
 },
+"Q6125832": {
+"en": "Takata Matsubara",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q6134685": {
 "alias": {
 "en": [],
@@ -25822,6 +26248,11 @@
 ],
 "taxon": true
 },
+"Q61874645": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q61996280": {
 "alias": {
 "en": [
@@ -25869,6 +26300,12 @@
 "it": []
 },
 "en": "walnut tree",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q624558": {
+"en": "Ballad",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -26060,6 +26497,22 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q65234193": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q65271674": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q65286486": {
+"en": "Noma-no-Okeyaki",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q653466": {
 "alias": {
@@ -26647,6 +27100,13 @@
 ],
 "taxon": true
 },
+"Q7087240": {
+"en": "Olive tree of Vouves",
+"it": "Ulivo di Vouves",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q709649": {
 "alias": {
 "en": [
@@ -27026,6 +27486,12 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q7397301": {
+"en": "Sacred Nagi Tree of Kumano Hayatama Taisha",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q74068": {
 "alias": {
@@ -29628,6 +30094,12 @@
 ],
 "taxon": true
 },
+"Q95994298": {
+"en": "Big Ginkgo Tree of Asahi-chō",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q964952": {
 "en": "Nyssa",
 "it": "Nyssa",
@@ -29697,7 +30169,6 @@
 ],
 "it": []
 },
-"en": "Prunus 'Tai-haku'",
 "names": [
 "Prunus 'Tai-haku'"
 ],

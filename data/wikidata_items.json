@@ -6649,12 +6649,12 @@
 ],
 "heritage": [
 [
-"Natural Monument of Japan",
-"Natural Monument of Japan"
-],
-[
 "Special Natural Monument",
 "Special Natural Monument"
+],
+[
+"Natural Monument of Japan",
+"Natural Monument of Japan"
 ]
 ],
 "image": "Big Japanese cinnamon Kamo hachiman shrine.jpg",
@@ -6693,6 +6693,7 @@
 "Q157763"
 ],
 "taxon": false,
+"winter": "Tobiume Plum Tree of Dazaifu Temman Shrine 20150101.JPG",
 "wp": {}
 },
 "Q11681325": {
@@ -16817,12 +16818,12 @@
 "Q126918993": {
 "coords": [
 [
--7.2246427,
-52.4410735
-],
-[
 -7.224659265,
 52.441104263
+],
+[
+-7.2246427,
+52.4410735
 ]
 ],
 "heritage": [],
@@ -19561,7 +19562,7 @@
 "Q146198": {
 "coords": [],
 "heritage": [],
-"image": "Sorbus-aucuparia.JPG",
+"image": "Rowan berries.JPG",
 "taxa": [],
 "taxon": true,
 "wp": {
@@ -19598,7 +19599,7 @@
 "Q146951": {
 "coords": [],
 "heritage": [],
-"image": "Mirabellen am Baum HD.JPG",
+"image": "20140317Prunus cerasifera Hockenheimer Rheinbogen5.jpg",
 "taxa": [],
 "taxon": true,
 "wp": {
@@ -23539,7 +23540,7 @@
 "Q189838": {
 "coords": [],
 "heritage": [],
-"image": "Box Elder (Acer negundo) Buds - Guelph, Ontario 01.jpg",
+"image": "Baumknospe.jpg",
 "taxa": [],
 "taxon": false,
 "wp": {

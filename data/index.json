@@ -218,12 +218,12 @@
    "updated": "2026-11-14T11:38:51Z"
   },
   "connacht": {
-   "count": 45804,
+   "count": 45809,
    "errors": 21,
    "name": "Connacht",
-   "sha1": "372541559f9228649f196ec8dd91d171726e6f59",
-   "tried": "2026-11-12",
-   "updated": "2026-11-12T22:50:43Z"
+   "sha1": "79063a597c0ce21a758ae410932e43bf8d4e8ac8",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T23:52:17Z"
   },
   "corsica": {
    "count": 3560,
@@ -304,12 +304,12 @@
    "updated": "2026-11-12T02:21:24Z"
   },
   "giappone": {
-   "count": 307589,
-   "errors": 13272,
+   "count": 305640,
+   "errors": 7607,
    "name": "Giappone",
-   "sha1": "5bd34a63f9b8bbc76ffe489bb2cf520b59357ceb",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T03:45:29Z"
+   "sha1": "2225014979d76d26b3b5c4bad031a9002cc40efc",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T23:16:30Z"
   },
   "grand-est": {
    "count": 253378,
@@ -319,12 +319,12 @@
    "updated": "2026-11-12T16:08:34Z"
   },
   "grecia": {
-   "count": 62663,
-   "diam": "mm",
-   "errors": 522,
+   "count": 62681,
+   "errors": 350,
    "name": "Grecia",
-   "sha1": "e2bab3bd8f07dd38979eb5c55b9bba8b08eae68a",
-   "updated": "2026-11-10T21:42:17Z"
+   "sha1": "7be7191c21d57c19a4207d99557d3801136c51db",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T23:37:26Z"
   },
   "ile-de-france": {
    "count": 405650,
@@ -382,12 +382,12 @@
    "updated": "2026-11-13T00:09:17Z"
   },
   "leinster": {
-   "count": 600078,
-   "errors": 1104,
+   "count": 600143,
+   "errors": 1105,
    "name": "Leinster",
-   "sha1": "2a75d93ef7a733b117f80c3b19b218b5bbb79863",
-   "tried": "2026-11-12",
-   "updated": "2026-11-12T22:49:13Z"
+   "sha1": "de4fe5f815ffb6a4e031d28bef1917634ceda8a0",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T23:50:41Z"
   },
   "lettonia": {
    "count": 103083,
@@ -515,12 +515,12 @@
    "updated": "2026-11-12T16:51:48Z"
   },
   "midlands-occidentali": {
-   "count": 207005,
-   "diam": "mm",
-   "errors": 917,
+   "count": 207112,
+   "errors": 849,
    "name": "Midlands Occidentali",
-   "sha1": "55bc68ae2a12c38d58eb2662e87698d6a5061ec9",
-   "updated": "2026-11-12T02:26:40Z"
+   "sha1": "5d650025e51d07d09d361cbcb87b519321bcfe26",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T00:39:51Z"
   },
   "midlands-orientali": {
    "count": 197956,
@@ -554,12 +554,12 @@
    "updated": "2026-11-14T00:19:44Z"
   },
   "munster": {
-   "count": 246633,
+   "count": 247377,
    "errors": 154,
    "name": "Munster",
-   "sha1": "66ea1077de712c4b877cea64893e503d08e08a4a",
-   "tried": "2026-11-12",
-   "updated": "2026-11-12T22:50:03Z"
+   "sha1": "9e4b4541e9baf2245f66e4d840c4ddf970895fc6",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T23:51:36Z"
   },
   "murcia": {
    "count": 49240,
@@ -831,11 +831,11 @@
   },
   "ulster-irlanda": {
    "count": 47000,
-   "errors": 2,
+   "errors": 0,
    "name": "Ulster",
-   "sha1": "3d307a7c9418a2834b26495627f5fa28fd761f27",
-   "tried": "2026-11-12",
-   "updated": "2026-11-12T22:51:19Z"
+   "sha1": "f37d7acc18df4ef52c17a068920e10608979548b",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T23:52:55Z"
   },
   "umbria": {
    "count": 17800,
@@ -908,12 +908,12 @@
    "updated": "2026-11-12T11:57:24Z"
   },
   "wielkopolskie": {
-   "count": 109558,
-   "errors": 4990,
+   "count": 109560,
+   "errors": 5172,
    "name": "Grande Polonia",
-   "sha1": "7caeb1abe5b18a0ed1235f76debe42a86cad6fa0",
-   "tried": "2026-11-14",
-   "updated": "2026-11-14T10:59:02Z"
+   "sha1": "2f011925d647898c4559d2cbac30ba56df4d2606",
+   "tried": "2026-11-15",
+   "updated": "2026-11-15T23:55:24Z"
   },
   "yorkshire-e-humber": {
    "count": 76107,
