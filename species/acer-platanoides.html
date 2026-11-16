@@ -58,6 +58,15 @@
   .stat .n{font-size:12.5px;color:var(--muted)}
   .stat svg{display:block;width:100%;height:auto;margin-top:8px}
   .ratios{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-top:12px}
+  .ratios .card{position:relative}
+  .ratios h3{padding-right:28px}
+  /* (?) in alto a destra con la spiegazione del grafico: al passaggio del mouse o toccandolo */
+  .tip{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;border:1px solid var(--line);background:#fff;
+    color:var(--muted);font:600 13px/20px system-ui,sans-serif;text-align:center;cursor:help;outline:none}
+  .tip:hover,.tip:focus{color:#1a5fb4;border-color:#1a5fb4}
+  .tipbox{display:none;position:absolute;top:28px;right:0;z-index:5;width:min(300px,80vw);padding:8px 10px;border-radius:6px;
+    background:#fff;border:1px solid var(--line);box-shadow:0 4px 16px #0002;color:var(--ink);font:400 13px/1.45 system-ui,sans-serif;text-align:left;cursor:auto}
+  .tip:hover .tipbox,.tip:focus .tipbox{display:block}
   #map{height:480px;border-radius:8px;border:1px solid var(--line);overflow:hidden}
   .controls{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0 0 10px;font-size:14px}
   .seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
@@ -138,7 +147,7 @@ const I18N = {
     hc: "Altezza / circonferenza", crc: "Chioma / circonferenza",
     hcInfo: "Quanti metri di altezza per ogni metro di circonferenza: più è alto, più l'albero è slanciato.",
     crcInfo: "Quanti metri di chioma per ogni metro di circonferenza.",
-    axC: "Circonferenza del tronco (m)", axH: "Altezza (m)", axCr: "Diametro della chioma (m)",
+    scHelp: "Come leggere il grafico", axC: "Circonferenza del tronco (m)", axH: "Altezza (m)", axCr: "Diametro della chioma (m)",
     scInfo: "Ogni punto è un gruppo di alberi con misure vicine: più è scuro, più alberi ci sono. La linea tratteggiata è la mediana: sopra il rapporto è più alto, sotto più basso.",
     scOver: n => `${n} alberi oltre il 99° percentile non sono nel grafico.`,
     wikiAvg: v => `sulla wiki: ${v}`,
@@ -184,7 +193,7 @@ const I18N = {
     hc: "Height / circumference", crc: "Crown / circumference",
     hcInfo: "Metres of height for each metre of circumference: the higher, the more slender the tree.",
     crcInfo: "Metres of crown for each metre of circumference.",
-    axC: "Trunk circumference (m)", axH: "Height (m)", axCr: "Crown diameter (m)",
+    scHelp: "How to read the chart", axC: "Trunk circumference (m)", axH: "Height (m)", axCr: "Crown diameter (m)",
     scInfo: "Each dot is a group of trees with close values: the darker, the more trees. The dashed line is the median: above it the ratio is higher, below it lower.",
     scOver: n => `${n} trees above the 99th percentile are not in the chart.`,
     wikiAvg: v => `on the wiki: ${v}`,
@@ -334,10 +343,12 @@ function sizes() {
   const box = (title, s, unit) => `<div class="card stat"><h3 style="margin:0;font-size:14px">${title}</h3>${s.med == null
     ? `<div class="none">${T.few}</div>` : `<div><span class="big">${fmt(s.med, 2)} ${unit}</span> <span class="n">${T.median}, ${T.on(fmt(s.n))}</span></div>
     ${s.hist ? histSvg(s.hist, s.med, unit) : ""}`}</div>`;
-  const ratio = (title, s, info, wiki, yLabel) => `<div class="card stat"><h3 style="margin:0;font-size:14px">${title}</h3>${s.med == null
+  // spiegazione del grafico in un (?) in alto a destra: si apre passandoci sopra o toccandolo (focus)
+  const tip = sc => `<span class="tip" tabindex="0" role="button" aria-label="${esc(T.scHelp)}">?<span class="tipbox" role="tooltip">${T.scInfo}${sc.over ? " " + T.scOver(fmt(sc.over)) : ""}</span></span>`;
+  const ratio = (title, s, info, wiki, yLabel) => `<div class="card stat">${s.med != null && s.sc ? tip(s.sc) : ""}<h3 style="margin:0;font-size:14px">${title}</h3>${s.med == null
     ? `<div class="none">${T.few}</div>` : `<div><span class="big">${fmt(s.med, 2)}</span> <span class="n">${T.median}, ${T.on(fmt(s.n))}${wiki ? " · " + T.wikiAvg(fmt(wiki, 2)) : ""}</span></div>`}
     <div class="n" style="margin-top:4px">${info}</div>
-    ${s.med != null && s.sc ? scatterSvg(s.sc, s.med, yLabel) + `<div class="n">${T.scInfo}${s.sc.over ? " " + T.scOver(fmt(s.sc.over)) : ""}</div>` : ""}</div>`;
+    ${s.med != null && s.sc ? scatterSvg(s.sc, s.med, yLabel) : ""}</div>`;
   return `<section><h2>${T.sizeTitle}</h2><p class="lead">${T.sizeLead}</p>
     <div class="grid3">${box(T.height, S.height, "m")}${box(T.trunkM, S.trunk, "m")}${box(T.crownM, S.crown, "m")}</div>
     <div class="ratios">${ratio(T.hc, S.h_c, T.hcInfo, D.wiki.height_circ_ratio, T.axH)}${ratio(T.crc, S.cr_c, T.crcInfo, D.wiki.crown_circ_ratio, T.axCr)}</div></section>`;
