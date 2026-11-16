@@ -813,6 +813,14 @@
    "tried": "2026-11-14",
    "updated": "2026-11-14T10:57:28Z"
   },
+  "terre-australi-francesi": {
+   "count": 203,
+   "errors": 1,
+   "name": "Terre australi e antartiche francesi",
+   "sha1": "79813696ec2d4aabe19af7aecfdd72ad59710ae0",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T17:28:50Z"
+  },
   "tirolo": {
    "count": 48431,
    "errors": 81,
