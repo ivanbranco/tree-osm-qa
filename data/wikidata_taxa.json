@@ -16639,6 +16639,24 @@
 ],
 "taxon": true
 },
+"Q21370429": {
+"alias": {
+"en": [
+"Prunus incam"
+],
+"it": []
+},
+"en": "Prunus × incam",
+"it": "Prunus ×incam",
+"names": [
+"Prunus ×incam"
+],
+"ranks": [
+"Q1306176",
+"Q7432"
+],
+"taxon": true
+},
 "Q21370449": {
 "alias": {
 "en": [
@@ -17582,8 +17600,8 @@
 "Platanus ×acerifolia"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },

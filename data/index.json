@@ -639,12 +639,12 @@
    "updated": "2026-11-11T11:15:02Z"
   },
   "pennsylvania": {
-   "count": 97114,
-   "errors": 148,
+   "count": 97197,
+   "errors": 7,
    "name": "Pennsylvania",
-   "sha1": "98e5385426483109aa28ee897095bf54ca1604a9",
-   "tried": "2026-11-15",
-   "updated": "2026-11-15T03:56:19Z"
+   "sha1": "d9fed404f4ccdde1b28348671fa03f779c6ba047",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T08:27:59Z"
   },
   "piemonte": {
    "count": 73051,
