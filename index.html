@@ -4358,8 +4358,8 @@ const CMP_REF_MIN_PX = 7;
 // Riferimenti di larghezza per i tronchi con diametro oltre CMP_BACK_FROM (CMP_BACK, dal più piccolo): si disegnano
 // dietro il tronco, di profilo, sulla stessa linea del terreno e centrati sul suo asse. Si usa il più piccolo di cui il
 // tronco non supera CMP_BACK_NEXT della lunghezza, altrimenti l'ultimo; con uno di questi la persona non c'è mai.
-// Oltre CMP_BACK_FRONT della lunghezza il tronco coprirebbe il riferimento, che allora si disegna davanti (succede
-// solo con l'ultimo). Le sagome sono in metri, nel colore dei riferimenti, con i dettagli in colore di sfondo
+// Se il tronco coprirebbe più di CMP_BACK_FRONT del riferimento (quota della larghezza per quota dell'altezza), il
+// riferimento si disegna davanti, ma solo se così copre meno del tronco (succede solo con l'ultimo). Le sagome sono in metri, nel colore dei riferimenti, con i dettagli in colore di sfondo
 const CMP_BACK_FROM = 5, CMP_BACK_NEXT = 0.5, CMP_BACK_FRONT = 0.75;
 // Colosseo: asse maggiore 189 m, asse minore 156 m, muro esterno alto 48 m (fonte:
 // https://en.wikipedia.org/wiki/Colosseum), in vista laterale lungo l'asse maggiore
@@ -4526,7 +4526,10 @@ function compareSvg(d, label) {
   }
   // il disegno è alto quanto l'oggetto più alto alla scala scelta: con la scala ridotta non resta spazio vuoto sopra
   const GY = TOP + Math.ceil(tallest * s), H = GY + 64;
-  const front = col && dia > back.w * CMP_BACK_FRONT;
+  // davanti il riferimento solo se il tronco ne coprirebbe più di CMP_BACK_FRONT (in larghezza per altezza) e il
+  // riferimento, davanti, coprirebbe meno del tronco: un tronco largo ma più basso del Colosseo resta davanti
+  const bh = trees[bi].h, cover = (w1, h1, w2, h2) => Math.min(w1 / w2, 1) * Math.min(h1 / h2, 1);
+  const front = col && cover(dia, bh, back.w, back.h) > CMP_BACK_FRONT && cover(back.w, back.h, dia, bh) < cover(dia, bh, back.w, back.h);
   const f = v => +v.toFixed(2), thin = {};
   let x = PAD + (room - total(s)) / 2, out = "";
   for (const it of items) {
