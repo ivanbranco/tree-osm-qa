@@ -3,8 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- pagina di prova (issue #79): non ha link da nessuna parte e non va indicizzata finché non è pubblicata -->
-<meta name="robots" content="noindex, nofollow">
+<!-- scheda della specie (issue #79), generata da scripts/build_species.py -->
 <title>Acer platanoides (Norway maple) · DendrOSM</title>
 <meta name="description" content="Acer platanoides on OpenStreetMap: records, typical sizes, where it is mapped and monumental trees, from 54,847 mapped trees.">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -32,7 +31,6 @@
   .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
   .tag{font-size:12.5px;padding:2px 9px;border-radius:10px;background:#e8f0e9;color:var(--green)}
   .tag a{color:inherit}
-  .test{margin-top:12px;font-size:13px;color:var(--warn);background:#fff6e5;border:1px solid #f1d9a8;border-radius:6px;padding:6px 10px}
   section{margin-top:28px}
   h2{font-size:20px;margin:0 0 4px}
   .lead{color:var(--muted);margin:0 0 12px;font-size:14px}
@@ -93,8 +91,9 @@
   .kind{display:inline-block;font-size:11.5px;padding:1px 7px;border-radius:9px;margin-top:4px}
   .kind.gen{background:#eef0ee;color:var(--muted)}
   .kind.own{background:#e8f0e9;color:var(--green)}
-  .help{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;border:1px solid var(--line);background:#fff;
-    color:var(--muted);font:600 13px/1 system-ui,sans-serif;cursor:pointer}
+  /* (?) accanto al badge «Disegno generico» */
+  .help{width:18px;height:18px;margin-left:5px;padding:0;vertical-align:middle;border-radius:50%;border:1px solid var(--line);
+    background:#fff;color:var(--muted);font:600 11px/1 system-ui,sans-serif;cursor:pointer}
   .help:hover{color:#1a5fb4;border-color:#1a5fb4}
   dialog{max-width:440px;border:0;border-radius:10px;padding:18px 20px;box-shadow:0 6px 30px #0004;font-size:14.5px}
   dialog::backdrop{background:#0004}
@@ -128,7 +127,7 @@ let LANG = [hp.get("lang"), storedLang(), (navigator.language || "").slice(0, 2)
 
 const I18N = {
   it: {
-    other: "English", test: "Pagina di prova: non è ancora collegata dal sito.",
+    other: "English",
     trees: "alberi mappati nelle regioni di DendrOSM", regions: (n, t) => `regioni in cui è presente, su ${t}`,
     mon: "monumentali su OSM nel mondo", masaf: "nell'elenco dei monumentali d'Italia (MASAF)",
     issues: "alberi con almeno una segnalazione",
@@ -174,7 +173,7 @@ const I18N = {
     foot: d => `Dati OpenStreetMap (ODbL), aggiornati al ${d}. Record e medie sulla wiki: pagina <a href="${WIKI}" target="_blank" rel="noopener">«Tree species records»</a>.`
   },
   en: {
-    other: "Italiano", test: "Test page: not linked from the site yet.",
+    other: "Italiano",
     trees: "trees mapped in the DendrOSM regions", regions: (n, t) => `regions where it is present, out of ${t}`,
     mon: "monumental trees on OSM worldwide", masaf: "in the list of monumental trees of Italy (MASAF)",
     issues: "trees with at least one warning",
@@ -245,7 +244,7 @@ function hero() {
     <figcaption data-file="${esc(img)}">Wikimedia Commons</figcaption></figure>` : "";
   return `<div class="hero"><div class="txt"><h1>${esc(D.name)}</h1>${common ? `<div class="common">${esc(common)}</div>` : ""}
     <div class="tags">${tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
-    <div class="test">${T.test}</div></div>${photo}</div>
+</div>${photo}</div>
     <div class="kpis">${kpi(fmt(D.total), T.trees)}${kpi(fmt(D.n_regions), T.regions(D.n_regions, fmt(nReg)))}
     ${kpi(fmt(D.mon.length), T.mon)}${D.masaf && LANG === "it" ? kpi(fmt(D.masaf), T.masaf) : ""}
     ${kpi(fmt(D.issues), T.issues + ` (${fmt(100 * D.issues / Math.max(1, D.total), 1)}%)`)}</div>`;
@@ -508,25 +507,28 @@ const monthList = ms => { // mesi consecutivi uniti: [7,8,9] -> lug – set
   return out.join(", ");
 };
 // Ogni disegno è «della specie» (colore proprio in SPECIES_COLORS di index.html, frutti) o «generico» (lo stesso per
-// tutte le specie con quel tipo di foglia e quel ciclo): sui generici un (?) invita a proporne uno dedicato
+// tutte le specie con quel tipo di foglia e quel ciclo): sui generici un (?) accanto al badge invita a proporne uno dedicato.
+// Lo spoglio è uguale per tutti gli alberi caducifogli e non ha badge
 const ISSUE = "https://github.com/ivanbranco/tree-osm-qa/issues/new?template=species-rendering.yml";
 function looks() {
   const dec = /^(semi_)?deciduous$/.test(D.lc || ""), broad = D.lt === "broadleaved", sm = D.sample;
   const sc = D.spColor, scAut = sc && sc[2], scLeaf = sc && !sc[2];
   const link = season => sm ? `<p><a href="../index.html#region=${sm.r}&node=${sm.id}${season ? "&season=" + season : ""}">${T.see}</a></p>` : "";
-  const tile = (title, sub, body, season, own) => `<div class="look">${own ? "" : `<button class="help" type="button" title="${T.genTitle}" aria-label="${T.genTitle}">?</button>`}
-    <svg viewBox="0 0 200 200">${body}</svg><h3>${title}</h3><span class="kind ${own ? "own" : "gen"}">${own ? T.own : T.generic}</span><p>${sub}</p>${link(season)}</div>`;
+  // own === null: disegno uguale per tutte le specie (spoglio), senza badge né (?)
+  const badge = own => own === null ? "" : `<span class="kind ${own ? "own" : "gen"}">${own ? T.own : T.generic}</span>${own ? "" : `<button class="help" type="button" title="${T.genTitle}" aria-label="${T.genTitle}">?</button>`}`;
+  const tile = (title, sub, body, season, own) => `<div class="look">
+    <svg viewBox="0 0 200 200">${body}</svg><h3>${title}</h3>${badge(own)}<p>${sub}</p>${link(season)}</div>`;
   const base = CYCLE_COLOR(D.lc || "");
   const leafFill = scLeaf ? sc[0] : base;
   const leafSub = scLeaf && sc[1] ? monthList(sc[1]) : dec ? monthRange(4, 9) : T.evergreen;
-  const tiles = [tile(T.leaves, leafSub, treeSvg({ fill: leafFill, opacity: scLeaf ? 0.7 : 0.55 }), dec ? "leaves" : "", scLeaf)];
+  const tiles = [tile(T.leaves, leafSub, treeSvg({ fill: leafFill, opacity: scLeaf ? 0.7 : 0.55 }), dec ? "leaves" : "", !!scLeaf)];
   if (scAut) {
     tiles.push(tile(T.autumn, monthList(sc[1]), treeSvg({ fill: sc[0], opacity: 0.7 }), "autumn", true));
   } else if (dec && broad) {
     const four = AUTUMN_TONES.map((c, i) => treeSvg({ fill: c, opacity: 0.7, id: 1234567 + i * 7919 }, 55 + (i % 2) * 90, 55 + Math.floor(i / 2) * 90, 40)).join("");
     tiles.push(tile(T.autumn, `${monthRange(10, 11)}. ${T.autumnInfo}`, four, "autumn", false));
   }
-  if (dec) tiles.push(tile(T.bare, monthRange(12, 3), treeSvg({ fill: "#cdbb9f", opacity: 0.02, stroke: "#7d6650", sw: 1.6 }), "bare", false));
+  if (dec) tiles.push(tile(T.bare, monthRange(12, 3), treeSvg({ fill: "#cdbb9f", opacity: 0.02, stroke: "#7d6650", sw: 1.6 }), "bare", null));
   if (D.fruit) tiles.push(tile(T.fruits, monthList(D.fruit.months), treeSvg({ fill: base, fruits: D.fruit.color }), "", true));
   const issue = `${ISSUE}&title=${encodeURIComponent("Rendering: " + D.name)}&species=${encodeURIComponent(D.name)}`;
   return `<section><h2>${T.lookTitle}</h2><p class="lead">${T.lookLead}</p><div class="looks">${tiles.join("")}</div>

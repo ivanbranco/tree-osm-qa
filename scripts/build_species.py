@@ -1,8 +1,8 @@
 """Schede delle specie (issue #79): una pagina HTML per ogni specie della pagina wiki «Tree species records», con
 primati, misure tipiche, distribuzione nelle regioni del sito, monumentali e aspetto sulla mappa.
 
-Per ora le pagine sono di prova: non hanno link da nessuna parte e chiedono ai motori di ricerca di non indicizzarle
-(meta robots noindex). Si generano solo le specie indicate:
+Le schede degli alberi delle mappe ci portano con il link «Scheda della specie», per le specie elencate in
+species/index.json (scritto alla fine, con tutte le pagine della cartella). Si generano solo le specie indicate:
 
     python.exe -I scripts\\build_species.py "Acer platanoides" "Quercus robur" "Liriodendron tulipifera"
 
@@ -250,6 +250,21 @@ def main(names):
         out = OUT_DIR / f"{want[n]}.html"
         out.write_text(html, encoding="utf-8")
         print(f"{out.relative_to(ROOT)}: {data['total']} alberi, {len(js) // 1024} kB di dati")
+    write_index()
+
+
+def write_index():
+    """species/index.json: tutte le pagine della cartella (anche quelle generate prima), {nome in minuscolo: slug}.
+    Lo legge index.html per il link «Scheda della specie» nella scheda dell'albero; il nome è quello della lista wiki,
+    come sp_key degli alberi."""
+    pages = {}
+    for p in sorted(OUT_DIR.glob("*.html")):
+        m = re.search(r'"name":"([^"]+)","slug":"([^"]+)"', p.read_text(encoding="utf-8"))
+        if m and m.group(2) == p.stem:
+            pages[" ".join(m.group(1).split()).lower()] = p.stem
+    (OUT_DIR / "index.json").write_text(json.dumps({"pages": pages}, ensure_ascii=False, indent=1) + "\n",
+                                        encoding="utf-8")
+    print(f"species/index.json: {len(pages)} pagine")
 
 
 def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
