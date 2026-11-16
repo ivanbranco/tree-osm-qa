@@ -208,6 +208,13 @@
 ],
 "taxon": true
 },
+"Q1029194": {
+"en": "Pommier",
+"it": "Pommier",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1031120": {
 "alias": {
 "en": [],
@@ -3528,6 +3535,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q123685020": {
+"en": "Defynnog Yew",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q123717399": {
 "names": [],
 "ranks": [],
@@ -6083,6 +6096,13 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q1337956": {
+"en": "Erquinvillers",
+"it": "Erquinvillers",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q13399160": {
 "alias": {
@@ -20175,6 +20195,11 @@
 "ranks": [],
 "taxon": false
 },
+"Q2972108": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2983021": {
 "alias": {
 "en": [
@@ -21018,6 +21043,12 @@
 ],
 "taxon": true
 },
+"Q3220964": {
+"en": "Cherry tree",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q3236759": {
 "alias": {
 "en": [],
@@ -21246,6 +21277,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Cupressus macrocarpa"
+],
 "en": "Hesperocyparis macrocarpa",
 "it": "Hesperocyparis macrocarpa",
 "names": [
@@ -21827,6 +21861,17 @@
 "it": "Laburnum alpinum",
 "names": [
 "Laburnum alpinum"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3498187": {
+"en": "Viburnum farreri",
+"it": "Viburnum farreri",
+"names": [
+"Viburnum farreri"
 ],
 "ranks": [
 "Q7432"
@@ -22659,6 +22704,17 @@
 ],
 "taxon": true
 },
+"Q393278": {
+"en": "Ulex",
+"it": "Ulex",
+"names": [
+"Ulex"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q39529": {
 "alias": {
 "en": [],
@@ -23407,6 +23463,12 @@
 "it": []
 },
 "en": "Scarlet Pearmain",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q41782105": {
+"en": "Teint Frais",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -25304,6 +25366,12 @@
 ],
 "taxon": true
 },
+"Q52008894": {
+"en": "Oak at the Gate of the Dead",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q5220976": {
 "alias": {
 "en": [
@@ -25701,6 +25769,13 @@
 ],
 "taxon": true
 },
+"Q55100046": {
+"en": "freedom tree",
+"it": "albero della libertà",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q5524257": {
 "alias": {
 "en": [],
@@ -25729,6 +25804,12 @@
 },
 "Q55527106": {
 "en": "Daigo zakura",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q55605947": {
+"en": "Brimmon Oak",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -26125,6 +26206,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q58210870": {
+"en": "Chêne du Pouldu",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q5837303": {
 "alias": {

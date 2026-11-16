@@ -25,12 +25,12 @@
    "updated": "2026-11-16T17:13:13Z"
   },
   "alta-francia": {
-   "count": 127028,
-   "diam": "mm",
-   "errors": 331,
+   "count": 127408,
+   "errors": 370,
    "name": "Alta Francia",
-   "sha1": "22f09b6914ef75a81423909da508338b22b78d55",
-   "updated": "2026-11-11T11:07:40Z"
+   "sha1": "8871b5c41c0e8b588fbfdc8312f6e88f38574f4d",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T19:13:29Z"
   },
   "alvernia-rodano-alpi": {
    "count": 384015,
@@ -86,12 +86,12 @@
    "updated": "2026-11-13T00:12:27Z"
   },
   "bassa-austria": {
-   "count": 186096,
-   "errors": 471,
+   "count": 186104,
+   "errors": 482,
    "name": "Bassa Austria",
-   "sha1": "36fe816382bf0c3cbed0bef996633c56ec5a85f2",
+   "sha1": "18253595464c5ee9fe4b4f5be8ccc9cf9613b4aa",
    "tried": "2026-11-16",
-   "updated": "2026-11-16T17:11:52Z"
+   "updated": "2026-11-16T19:14:28Z"
   },
   "borgogna-franca-contea": {
    "count": 201219,
@@ -110,12 +110,12 @@
    "updated": "2026-11-13T23:31:36Z"
   },
   "bretagna": {
-   "count": 135358,
-   "diam": "mm",
-   "errors": 446,
+   "count": 135442,
+   "errors": 440,
    "name": "Bretagna",
-   "sha1": "62384e330444c0539783845fb48ba364d7dc91ec",
-   "updated": "2026-11-11T11:01:49Z"
+   "sha1": "36e956f429d704a0b0c37871c3d0e1fcdbfcf9a0",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T19:39:03Z"
   },
   "bulgaria": {
    "count": 29084,
@@ -304,12 +304,12 @@
    "updated": "2026-11-12T16:50:33Z"
   },
   "galles": {
-   "count": 59193,
-   "diam": "mm",
-   "errors": 30,
+   "count": 59293,
+   "errors": 37,
    "name": "Galles",
-   "sha1": "976388714bbe71d5615c8c43bdb51d8b2f36f1d8",
-   "updated": "2026-11-12T02:21:24Z"
+   "sha1": "1d3d33aa366796e49c6a7b99b20eb54c9c94bff1",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T19:15:15Z"
   },
   "giappone": {
    "count": 305640,
