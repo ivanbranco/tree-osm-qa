@@ -4495,6 +4495,14 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Dorflinde Klaus (Vorarlberg) von Westen.jpg": {
+"c": [
+47.3092727,
+9.64678085,
+"object"
+],
+"d": "2026-11-16"
+},
 "geo:File:Drzewo pomnik przyrody w użytku ekologicznym Dębina w Poznaniu - maj 2018 - 1.jpg": {
 "c": [],
 "d": "2026-11-10"
@@ -5759,6 +5767,10 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Madonna and Child with two Angels (by Filippo Lippi) – Galleria degli Uffizi, Florence.jpg": {
+"c": [],
+"d": "2026-11-16"
+},
 "geo:File:Magnolia Vercelli.jpg": {
 "c": [
 45.3176255,
@@ -5806,6 +5818,30 @@
 "camera"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Mapeak tree 3.jpeg": {
+"c": [
+47.66315045,
+15.58195071,
+"camera"
+],
+"d": "2026-11-16"
+},
+"geo:File:Mapeak tree 4.jpeg": {
+"c": [
+47.66226365,
+15.58415225,
+"camera"
+],
+"d": "2026-11-16"
+},
+"geo:File:Mapeak tree 5.jpeg": {
+"c": [
+47.66357558,
+15.58055921,
+"camera"
+],
+"d": "2026-11-16"
 },
 "geo:File:Marien-Marterl am Paschberg.jpg": {
 "c": [
@@ -6042,6 +6078,14 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Naturdenkmal in der Ortsmitte von Unterpinswang.jpg": {
+"c": [
+47.5439181,
+10.6739566,
+"object"
+],
+"d": "2026-11-16"
 },
 "geo:File:Naturpark Ötztal - Landschaftsschutzgebiet Achstürze-Piburger See - 19.jpg": {
 "c": [
@@ -50682,6 +50726,10 @@
 "https://www.infoanyksciai.lt/lankytinos-vietos/buivydu-uosis/": {
 "d": "2026-11-08",
 "s": "403"
+},
+"https://www.innsbruck.info/innsbruck-city/veranstaltungen/advent-und-weihnachten-in-innsbruck/christkindlmaerkte.html": {
+"d": "2026-11-16",
+"s": "200"
 },
 "https://www.instagram.com/somewhere_a_tree/": {
 "d": "2026-11-08",

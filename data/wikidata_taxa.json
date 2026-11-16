@@ -521,6 +521,13 @@
 ],
 "taxon": true
 },
+"Q1055111": {
+"en": "Madonna and Child",
+"it": "Lippina",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q10561666": {
 "alias": {
 "en": [],
@@ -6312,6 +6319,12 @@
 ],
 "taxon": true
 },
+"Q1349795": {
+"en": "Kaiserbuche",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q135222195": {
 "alias": {
 "en": [],
@@ -8965,6 +8978,17 @@
 ],
 "taxon": true
 },
+"Q15109818": {
+"en": "Dorflinde in Faistenau",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q15133783": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1520125": {
 "alias": {
 "en": [],
@@ -9601,6 +9625,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q1546587": {
+"en": "Kogelbaum",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q15471649": {
 "alias": {
@@ -11298,6 +11328,48 @@
 ],
 "taxon": true
 },
+"Q15829169": {
+"en": "list of natural monuments in Bezirk Bruck-Mürzzuschlag",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q15829174": {
+"en": "list of natural monuments in Bezirk Freistadt",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q15829186": {
+"en": "list of natural monuments in Bezirk Innsbruck-Land",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q15829197": {
+"en": "list of natural monuments in Bezirk Lienz",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q15829199": {
+"en": "list of natural monuments in Bezirk Lilienfeld",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q15829222": {
+"en": "list of natural monuments in Bezirk Voitsberg",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q15829234": {
+"en": "list of natural monuments in Graz",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q158301": {
 "alias": {
 "en": [
@@ -11947,6 +12019,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q15907520": {
+"en": "list of natural monuments in Innsbruck",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q159086": {
 "alias": {
@@ -14016,6 +14094,13 @@
 "it": []
 },
 "en": "10th Mechanized Infantry Division",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q164792": {
+"en": "Oak of Bad Blumau",
+"it": "Quercia millenaria di Bad Blumau",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -16139,6 +16224,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q2008900": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q201959": {
 "en": "Capsicum",
@@ -22129,6 +22219,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Betula alba var. carelica"
+],
 "en": "Betula pendula var. carelica",
 "it": "Betula pendula var. carelica",
 "names": [
@@ -29277,6 +29370,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q865771": {
+"en": "Pear tree at the Walserfeld",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q867776": {
 "alias": {
