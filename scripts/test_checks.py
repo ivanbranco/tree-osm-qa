@@ -198,6 +198,14 @@ CASES = [
     ("species_epithet_case: genere maiuscolo", {"natural": "tree", "species": "QUERCUS robur"}, ["species_epithet_case"]),
     ("species_epithet_case: maiuscola dentro il genere, genere noto", {"natural": "tree", "species": "TiLia cordata"},
      ["species_epithet_case"]),
+    ("species_epithet_case: segno di ibrido X, genere noto", {"natural": "tree", "species": "Tilia X europaea"},
+     ["species_epithet_case"]),
+    ("species_epithet_case: segno di ibrido X, genere sconosciuto", {"natural": "tree", "species": "Abies X alba"}, []),
+    ("species_epithet_case: segno di ibrido x minuscolo", {"natural": "tree", "species": "Tilia x europaea"}, []),
+    ("species_common_name: X seguita da una maiuscola", {"natural": "tree", "species": "Tilia X Europaea"},
+     ["species_common_name"]),
+    ("dipendenza: con species_author niente species_epithet_case per il segno X",
+     {"natural": "tree", "species": "Tilia X europaea L."}, ["species_author"]),
     ("dipendenza: con species_epithet_case niente species_lowercase", {"natural": "tree", "species": "quercus Robur"},
      ["species_epithet_case"]),
     ("dipendenza: con species_author niente species_epithet_case", {"natural": "tree", "species": "Quercus roBur L."},
@@ -518,6 +526,7 @@ SP_CLEAN_CASES = [
     ("Pinus parviflora Siebold & Zucc. 'Glauca'", "Pinus parviflora 'Glauca'"),
     ("Prunus serrulata (Siebold & Zucc.) Lindl.", "Prunus serrulata"),           # autore tra parentesi su più parole
     ("Platanus x hispanica Mill.", "Platanus x hispanica"),
+    ("Tilia X europaea L.", "Tilia × europaea"),                                 # segno di ibrido maiuscolo
     ("Cryptomeria japonica (Thunb. ex L. f.) D. Don var. elegans", "Cryptomeria japonica var. elegans"),
     ("Insieme omogeneo di Fagus sylvatica L.", None),                            # resta altro oltre al nome
 ]

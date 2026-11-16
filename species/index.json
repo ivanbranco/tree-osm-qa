@@ -5,5 +5,62 @@
   "liriodendron tulipifera": "liriodendron-tulipifera",
   "olea europaea": "olea-europaea",
   "quercus robur": "quercus-robur"
- }
+ },
+ "list": [
+  {
+   "name": "Acer platanoides",
+   "slug": "acer-platanoides",
+   "it": "Acero riccio",
+   "en": "Norway maple",
+   "n": 54864,
+   "mon": 936,
+   "lt": "broadleaved",
+   "lc": "deciduous",
+   "img": "Spitz-Ahorn(mbo).jpg"
+  },
+  {
+   "name": "Ginkgo biloba",
+   "slug": "ginkgo-biloba",
+   "it": "Ginco",
+   "en": "Maidenhair tree",
+   "n": 8431,
+   "mon": 275,
+   "lt": "broadleaved",
+   "lc": "deciduous",
+   "img": "GINKGOBAUM-2.jpg"
+  },
+  {
+   "name": "Liriodendron tulipifera",
+   "slug": "liriodendron-tulipifera",
+   "it": "Albero del tulipano",
+   "en": "American tulip tree",
+   "n": 5545,
+   "mon": 60,
+   "lt": "broadleaved",
+   "lc": "deciduous",
+   "img": "Liriodendron_tulipifera_(arbre)_-_Laeken.JPG"
+  },
+  {
+   "name": "Olea europaea",
+   "slug": "olea-europaea",
+   "it": "Olivo",
+   "en": "Olive tree",
+   "n": 36411,
+   "mon": 770,
+   "lt": "broadleaved",
+   "lc": "evergreen",
+   "img": "Olea_europaea_cuspidata-africana_Cape_Town.JPG"
+  },
+  {
+   "name": "Quercus robur",
+   "slug": "quercus-robur",
+   "it": "Farnie",
+   "en": "English oak",
+   "n": 28085,
+   "mon": 9627,
+   "lt": "broadleaved",
+   "lc": "deciduous",
+   "img": "Quercus_robur.jpg"
+  }
+ ]
 }

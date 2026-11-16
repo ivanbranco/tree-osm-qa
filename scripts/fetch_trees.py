@@ -5,7 +5,7 @@ calcola i check QA e scrive data/regions/<regione>.geojson.gz e data/index.json.
 Uso: python scripts/fetch_trees.py [all | gruppo | regione ...]   (es. "liguria veneto", "italia", "liguria,bulgaria")
 Le regioni (nome, codice ISO, bbox) sono in scripts/regions.json.
 """
-import collections, concurrent.futures, datetime, functools, gzip, hashlib, json, math, os, re, sys, time, unicodedata
+import calendar, collections, concurrent.futures, datetime, functools, gzip, hashlib, json, math, os, re, sys, time, unicodedata
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
@@ -149,15 +149,39 @@ def fetch_bbox(region, bbox, depth=0, min_depth=0):
     print(f" -> divido la bbox in 4 tile (livello {depth + 1})")
     s, w, n, e = bbox
     mlat, mlon = (s + n) / 2, (w + e) / 2
-    merged = {}
+    merged, bases, newest = {}, [], []
     for tile in [(s, w, mlat, mlon), (s, mlon, mlat, e), (mlat, w, n, mlon), (mlat, mlon, n, e)]:
         part = fetch_bbox(region, tile, depth + 1, min_depth)
         if part is None:
             return None  # meglio la cache che dati incompleti
         for el in part["elements"]:
             merged[el["id"]] = el
+        bases.append(osm_base(part))
+        newest.append(part["osm3s"].get("newest") or bases[-1])
         time.sleep(5)
-    return {"elements": list(merged.values())}
+    # la data dei dati di una regione divisa è quella del tile più vecchio (i tile possono venire da server diversi);
+    # se un tile non la dice, non si conosce. "newest": la data del tile più nuovo, per l'avviso di update_region
+    known = all(bases)
+    return {"elements": list(merged.values()),
+            "osm3s": {"timestamp_osm_base": min(bases) if known else "", "newest": max(newest) if known else ""}}
+
+
+# Data dei dati OSM di una risposta di Overpass: "osm3s.timestamp_osm_base" (AAAA-MM-GGTHH:MM:SSZ, si confronta come
+# testo). I server pubblici non sono aggiornati tutti allo stesso momento: update_region non sostituisce i dati di una
+# regione con dati più vecchi (campo "osm_base" di data/index.json), e avvisa se i tile di una regione divisa hanno
+# date che distano più di BASE_SPREAD_MAX
+OSM_BASE = re.compile(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$")
+BASE_SPREAD_MAX = 6 * 3600   # secondi
+
+
+def osm_base(data):
+    """Data dei dati OSM della risposta (vedi OSM_BASE); "" se manca o non è nella forma attesa."""
+    v = str((data.get("osm3s") or {}).get("timestamp_osm_base") or "")
+    return v if OSM_BASE.match(v) else ""
+
+
+def base_seconds(v):
+    return calendar.timegm(time.strptime(v, "%Y-%m-%dT%H:%M:%SZ"))
 
 
 # Soglie e valori ammessi
@@ -251,7 +275,8 @@ HYBRID_SIGNS = ("×", "x", "X")   # segno di ibrido scritto come parola a sé: "
 
 def name_words(sp):
     """Parole di species senza il segno di ibrido: "×" ovunque, "x" o "X" solo all'inizio ("x Chitalpa tashkentensis",
-    "x carnea"). In mezzo al nome "x" e "X" restano una parola: "Platanus X hispanica" è segnalato per la maiuscola."""
+    "x carnea"). In mezzo al nome "x" e "X" restano una parola: "Platanus X hispanica" è segnalato per la maiuscola
+    (species_inner_case)."""
     words = [w for w in sp.split() if w != "×"]
     return words[1:] if words and words[0] in HYBRID_SIGNS else words
 
@@ -1891,6 +1916,8 @@ def species_common_name(sp):
     second = words[1]
     if not second[:1].isupper() or second[:1] in "'‘`\"“(" or AUTHOR.match(second):
         return None
+    if second == "X" and len(words) > 2 and words[2][:1].islower():
+        return None                              # segno di ibrido scritto maiuscolo ("Crataegus X prunifolia")
     m = re.search(r"\(([^)]*)\)", sp)
     return m.group(1).strip() if m and SCI_NAME.match(m.group(1).strip()) else ""
 
@@ -1917,8 +1944,10 @@ def species_inner_case(sp):
     """Se l'epiteto ha l'iniziale minuscola e c'è una maiuscola fuori posto, nell'epiteto ("Ginkgo biloBa",
     "Platanus ×hispaNica") o nel genere dopo l'iniziale ("GINKGO biloba", "GinKgo biloba"): species con genere ed
     epiteto scritti bene ("Ginkgo biloba"), il resto (autore, cultivar) com'è. Il genere con la sola iniziale
-    minuscola ("ginkgo biloba") non conta: c'è species_lowercase. Solo per i nomi della lista e per i nomi di due
-    parole con un genere noto, come species_epithet_case; altrimenti None."""
+    minuscola ("ginkgo biloba") non conta: c'è species_lowercase. Vale anche il segno di ibrido scritto "X" tra
+    genere ed epiteto ("Crataegus X prunifolia" -> "Crataegus × prunifolia"); "x" minuscolo e "X" all'inizio non
+    contano. Solo per i nomi della lista e per i nomi di due parole con un genere noto, come species_epithet_case;
+    altrimenti None."""
     if not sp or ";" in sp:
         return None
     words = sp.split()
@@ -1930,12 +1959,15 @@ def species_inner_case(sp):
     gn, ep = g[len(gp):], e.lstrip("×")
     if not ep[:1].islower() or any(q in g + e for q in "'‘’`´\"“”"):
         return None
-    if ep == ep.lower() and gn[1:] == gn[1:].lower():
+    hx = [i for i in range(pos[0] + 1, pos[1]) if words[i] == "X"]   # segno di ibrido maiuscolo
+    if ep == ep.lower() and gn[1:] == gn[1:].lower() and not hx:
         return None                                         # nessuna maiuscola fuori posto
     if binomial(sp) not in SPECIES_BIN and not (len(pos) == 2 and gn.casefold() in KNOWN_GENERA):
         return None
     words[pos[0]] = gp + gn[:1].upper() + gn[1:].lower()
     words[pos[1]] = e.lower()
+    for i in hx:
+        words[i] = "×"
     return " ".join(words)
 
 
@@ -2399,9 +2431,11 @@ def checks(t, pos, osm_id=None):
         flag("leaf_cycle")
     # species di una sola parola minuscola (es. species=alba): è un epiteto, non un genere da confrontare
     # (anche dopo il segno di ibrido: "x carnea"). Con più valori in genus o in species (Crataegus;Quercus) non si
-    # confronta: il genere di una specie non è quello delle altre
+    # confronta: il genere di una specie non è quello delle altre. Dopo il segno di ibrido vale anche la parola
+    # maiuscola che non è un genere noto ("x Sepulcralis" con genus=Salix): è l'epiteto scritto maiuscolo
     sp_words = name_words(sp) if sp is not None else []
-    sp_epithet = len(sp_words) == 1 and sp_words[0][:1].islower()
+    sp_epithet = len(sp_words) == 1 and (sp_words[0][:1].islower() or (
+        sp.split()[0] in HYBRID_SIGNS and sp_words[0].lstrip("×").casefold() not in KNOWN_GENERA))
     if (g is not None and sp is not None and ";" not in g and ";" not in sp and len(gw := genus_words(g)) == 1
             and not sp_epithet and not nl):
         sg = genus_of_species(sp).lstrip("×")   # il segno di ibrido non conta, né nel genus né nella species
@@ -3357,6 +3391,16 @@ def update_region(region, regions_index):
         warn(f"{slug}: solo {nodes} alberi contro {prev} dell'ultimo aggiornamento: risposta di Overpass probabilmente "
              f"incompleta, mantengo i dati precedenti")
         return True
+    # Un server può anche rispondere con dati OSM più vecchi di quelli dell'ultimo aggiornamento (vedi OSM_BASE): i
+    # dati precedenti non si toccano
+    base, prev_base = osm_base(data), regions_index.get(slug, {}).get("osm_base", "")
+    if path.exists() and base and prev_base and base < prev_base:
+        warn(f"{slug}: i dati di Overpass sono del {base}, quelli dell'ultimo aggiornamento del {prev_base}: "
+             f"mantengo i dati precedenti")
+        return True
+    newest = data["osm3s"].get("newest") or base if base else ""
+    if base and base_seconds(newest) - base_seconds(base) > BASE_SPREAD_MAX:
+        warn(f"{slug}: i tile della regione hanno dati OSM di date diverse, dal {base} al {newest}")
     update_wikidata_cache(data["elements"])   # prima dei check: servono ai check su Wikidata (taxon e distanza)
     update_url_cache(data["elements"])        # e al check sui link rotti
     update_fotoshi_cache(data["elements"])    # autore e licenza delle foto di Fotoshi, per la scheda
@@ -3373,6 +3417,8 @@ def update_region(region, regions_index):
     if regions_index.get(slug, {}).get("sha1") == digest and path.exists():
         regions_index[slug]["errors"] = errors  # per gli indici scritti prima che esistesse il conteggio
         regions_index[slug].pop("diam", None)   # campo non più usato (era per fixDiameter, tolto da index.html)
+        if base:
+            regions_index[slug]["osm_base"] = base
         if not min_path.exists():               # regioni scaricate prima che esistesse il file ridotto
             write_gz(min_path, minimal(fc))
         record_history(slug, len(fc["features"]), errors)
@@ -3382,7 +3428,8 @@ def update_region(region, regions_index):
     write_gz(path, raw)
     write_gz(min_path, minimal(fc))
     regions_index[slug] = {"name": region["name"], "count": len(fc["features"]), "errors": errors,
-                           "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "sha1": digest}
+                           "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "sha1": digest,
+                           **({"osm_base": base} if base else {})}
     record_history(slug, len(fc["features"]), errors)
     print(f"{slug}: {len(fc['features'])} alberi -> {path} ({path.stat().st_size / 1e6:.1f} MB)")
     return True

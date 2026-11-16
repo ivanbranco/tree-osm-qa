@@ -6,6 +6,13 @@
 <!-- scheda della specie (issue #79), generata da scripts/build_species.py -->
 <title>{{TITLE}}</title>
 <meta name="description" content="{{DESC}}">
+<!-- anteprima sui social: la foto è quella della voce di Wikipedia (build_species.py, wikipedia_info) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DendrOSM">
+<meta property="og:title" content="{{TITLE}}">
+<meta property="og:description" content="{{DESC}}">
+<meta property="og:url" content="{{URL}}">
+{{OG_IMAGE}}<meta name="twitter:card" content="{{CARD}}">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../favicon.png" type="image/png" sizes="64x64">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
@@ -18,6 +25,8 @@
   header.top{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line)}
   header.top .brand{font-weight:700;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:6px}
   header.top .sp{flex:1}
+  header.top .crumb{color:var(--muted);text-decoration:none;margin-left:-4px}   /* «› Specie»: l'elenco delle schede */
+  header.top a.crumb:hover{text-decoration:underline}
   #lang{border:1px solid var(--line);background:#fff;border-radius:4px;padding:3px 8px;cursor:pointer;font:inherit;font-size:13px}
   main{max-width:1080px;margin:0 auto;padding:20px 16px 40px}
   .hero{display:flex;gap:20px;align-items:flex-start}
@@ -109,6 +118,7 @@
 <body>
 <header class="top">
   <a class="brand" href="../index.html"><img src="../favicon.svg" width="22" height="22" alt="">DendrOSM</a>
+  <span class="crumb">›</span><a class="crumb" id="crumb" href="index.html"></a>
   <span class="sp"></span>
   <button id="lang" type="button"></button>
 </header>
@@ -127,7 +137,7 @@ let LANG = [hp.get("lang"), storedLang(), (navigator.language || "").slice(0, 2)
 
 const I18N = {
   it: {
-    other: "English",
+    other: "English", crumb: "Specie",
     trees: "alberi mappati nelle regioni di DendrOSM", regions: (n, t) => `regioni in cui è presente, su ${t}`,
     mon: "monumentali su OSM nel mondo", masaf: "nell'elenco dei monumentali d'Italia (MASAF)",
     issues: "alberi con almeno una segnalazione",
@@ -176,7 +186,7 @@ const I18N = {
     foot: d => `Dati OpenStreetMap (ODbL), aggiornati al ${d}. Record e medie sulla wiki: pagina <a href="${WIKI}" target="_blank" rel="noopener">«Tree species records»</a>.`
   },
   en: {
-    other: "Italiano",
+    other: "Italiano", crumb: "Species",
     trees: "trees mapped in the DendrOSM regions", regions: (n, t) => `regions where it is present, out of ${t}`,
     mon: "monumental trees on OSM worldwide", masaf: "in the list of monumental trees of Italy (MASAF)",
     issues: "trees with at least one warning",
@@ -252,7 +262,7 @@ function hero() {
     <div class="tags">${tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
 </div>${photo}</div>
     <div class="kpis">${kpi(fmt(D.total), T.trees)}${kpi(fmt(D.n_regions), T.regions(D.n_regions, fmt(nReg)))}
-    ${kpi(fmt(D.mon.length), T.mon)}${D.masaf && LANG === "it" ? kpi(fmt(D.masaf), T.masaf) : ""}
+    ${kpi(fmt(D.mon_n), T.mon)}${D.masaf && LANG === "it" ? kpi(fmt(D.masaf), T.masaf) : ""}
     ${kpi(fmt(D.issues), T.issues + ` (${fmt(100 * D.issues / Math.max(1, D.total), 1)}%)`)}</div>`;
 }
 
@@ -370,6 +380,15 @@ const ABSENT = "#e4e4e4";
 let mapMode = "share", mapGroup = "reg", map = null, BOUNDS = null;
 let heatOn = false, monOn = false;              // densità e monumentali: spenti all'apertura
 const vis = on => on ? "visible" : "none";
+// monumentali della specie ([lon, lat, id, nome]): un file a parte (<slug>.mon.json), scaricato la prima volta che
+// si accende la casella; resta in memoria se la pagina viene ridisegnata (cambio di lingua)
+let MON = null;
+const monData = () => ({ type: "FeatureCollection", features: (MON || []).map(([x, y, id, name]) => ({ type: "Feature", properties: { id, name }, geometry: { type: "Point", coordinates: [x, y] } })) });
+async function loadMon() {
+  if (MON) return;
+  try { MON = await fetch(D.slug + ".mon.json").then(r => r.json()); } catch (e) { return; }
+  if (map && map.getSource("mon")) map.getSource("mon").setData(monData());
+}
 const valueOf = (s, mode) => !s || !s.sp ? null : mode === "share" ? 100 * s.n / s.sp : mode === "count" ? s.n : s.km2 ? s.n / s.km2 : null;
 function breaks(vals) {
   const v = vals.filter(x => x > 0).sort((a, b) => a - b);
@@ -390,7 +409,7 @@ function mapSection() {
     <div class="controls">${seg("mode", [["share", T.mShare], ["count", T.mCount], ["dens", T.mDens]], mapMode)}
       ${seg("group", [["reg", T.gReg], ["nat", T.gNat]], mapGroup)}
       <label><input type="checkbox" id="heat"${heatOn ? " checked" : ""}> ${T.heat}</label>
-      <label><input type="checkbox" id="monck"${monOn ? " checked" : ""}> <span style="color:#9a6a00">●</span> ${T.monL} (${fmt(D.mon.length)})</label></div>
+      <label><input type="checkbox" id="monck"${monOn ? " checked" : ""}> <span style="color:#9a6a00">●</span> ${T.monL} (${fmt(D.mon_n)})</label></div>
     <div id="map"></div><div class="legend" id="legend"></div>
     <div class="tables"><div><h3>${T.topShare}</h3>${table(byShare)}</div>
       <div><h3>${T.topCount}</h3>${table(byCount)}</div></div></section>`;
@@ -423,7 +442,6 @@ function initMap() {
     attributionControl: { compact: true }, cooperativeGestures: true });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
   const grid = { type: "FeatureCollection", features: D.grid.map(([x, y, c]) => ({ type: "Feature", properties: { c }, geometry: { type: "Point", coordinates: [x, y] } })) };
-  const mon = { type: "FeatureCollection", features: D.mon.map(([x, y, id, name]) => ({ type: "Feature", properties: { id, name }, geometry: { type: "Point", coordinates: [x, y] } })) };
   map.on("load", async () => {
     const first = map.getStyle().layers.find(l => l.type === "symbol")?.id;
     BOUNDS = await fetch("../data/regions_boundaries.geojson").then(r => r.json());
@@ -441,7 +459,7 @@ function initMap() {
     map.addLayer({ id: "cells", type: "circle", source: "grid", minzoom: 8, layout: { visibility: vis(heatOn) }, paint: {
       "circle-radius": ["interpolate", ["linear"], ["zoom"], 8, ["+", 2, ["*", 1.2, ["ln", ["+", 1, ["get", "c"]]]]], 12, ["+", 4, ["*", 3, ["ln", ["+", 1, ["get", "c"]]]]]],
       "circle-color": "#f03b20", "circle-opacity": ["interpolate", ["linear"], ["zoom"], 8, 0, 10, 0.6], "circle-stroke-width": 0 } });
-    map.addSource("mon", { type: "geojson", data: mon });
+    map.addSource("mon", { type: "geojson", data: monData() });
     map.addLayer({ id: "mon", type: "circle", source: "mon", layout: { visibility: vis(monOn) }, paint: {
       "circle-radius": ["interpolate", ["linear"], ["zoom"], 2, 2.2, 8, 4, 14, 7], "circle-color": "#ffd34d",
       "circle-stroke-color": "#9a6a00", "circle-stroke-width": 1 } });
@@ -470,7 +488,7 @@ function bindMap() {
   seg("mode", k => mapMode = k);
   seg("group", k => mapGroup = k);
   document.getElementById("heat").addEventListener("change", e => { heatOn = e.target.checked; for (const l of ["heat", "cells"]) map.setLayoutProperty(l, "visibility", vis(heatOn)); });
-  document.getElementById("monck").addEventListener("change", e => { monOn = e.target.checked; map.setLayoutProperty("mon", "visibility", vis(monOn)); });
+  document.getElementById("monck").addEventListener("change", e => { monOn = e.target.checked; if (monOn) loadMon(); map.setLayoutProperty("mon", "visibility", vis(monOn)); });
 }
 
 // ---------- aspetto sulla mappa (stessi colori e sagome di index.html) ----------
@@ -559,6 +577,7 @@ function render() {
   T = I18N[LANG]; LOC = LANG === "it" ? "it-IT" : "en-GB";
   document.documentElement.lang = LANG;
   document.getElementById("lang").textContent = T.other;
+  document.getElementById("crumb").textContent = T.crumb;
   const view = map ? { c: map.getCenter(), z: map.getZoom() } : null;
   if (map) { map.remove(); map = null; BOUNDS = null; }
   document.getElementById("main").innerHTML = hero() + looks() + records() + sizes() + mapSection();

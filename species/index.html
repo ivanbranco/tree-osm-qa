@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- elenco delle schede delle specie (issue #79). Pagina scritta a mano: le voci le legge da species/index.json
+     ("list"), che scripts/build_species.py riscrive a ogni generazione delle schede -->
+<title>Tree species · DendrOSM</title>
+<meta name="description" content="Tree species on OpenStreetMap: a page for each species with records, typical sizes, where it is mapped and monumental trees.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DendrOSM">
+<meta property="og:title" content="Tree species · DendrOSM">
+<meta property="og:description" content="Tree species on OpenStreetMap: a page for each species with records, typical sizes, where it is mapped and monumental trees.">
+<meta property="og:url" content="https://ivanbranco.github.io/tree-osm-qa/species/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon.png" type="image/png" sizes="64x64">
+<style>
+  /* stessi colori e intestazione delle schede (scripts/species_template.html) */
+  :root{--green:#1b6b2c;--ink:#1d2a20;--muted:#5d6b61;--line:#dfe5e0;--bg:#f6f8f6;--card:#fff}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif}
+  a{color:#1a5fb4}
+  header.top{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line)}
+  header.top .brand{font-weight:700;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:6px}
+  header.top .crumb{color:var(--muted);margin-left:-4px}
+  header.top .sp{flex:1}
+  #lang{border:1px solid var(--line);background:#fff;border-radius:4px;padding:3px 8px;cursor:pointer;font:inherit;font-size:13px}
+  main{max-width:1080px;margin:0 auto;padding:20px 16px 40px}
+  h1{margin:0;font-size:28px;font-weight:650;letter-spacing:-.01em}
+  .lead{color:var(--muted);margin:4px 0 16px;font-size:14px;max-width:70ch}
+  .controls{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-bottom:14px}
+  #q{flex:1;min-width:200px;max-width:360px;font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
+  .seg button{border:0;background:none;padding:5px 10px;font:inherit;font-size:13px;cursor:pointer;color:var(--ink)}
+  .seg button+button{border-left:1px solid var(--line)}
+  .seg button[aria-pressed="true"]{background:var(--green);color:#fff}
+  #count{font-size:13px;color:var(--muted)}
+  .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;list-style:none;margin:0;padding:0}
+  .sp-card{display:block;height:100%;background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;color:inherit;text-decoration:none}
+  .sp-card:hover,.sp-card:focus-visible{border-color:var(--green);box-shadow:0 2px 10px #0001}
+  .sp-card img,.sp-card .noimg{display:block;width:100%;height:150px;object-fit:cover;background:#e8ece8}
+  .sp-card .txt{padding:8px 12px 10px}
+  .sp-card .name{font-size:17px;font-style:italic;font-weight:650;overflow-wrap:anywhere}
+  .sp-card .common{color:var(--muted);font-size:14px}
+  .sp-card .nums{font-size:13px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
+  .none{color:var(--muted);font-style:italic}
+  footer{max-width:1080px;margin:0 auto;padding:0 16px 30px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="../index.html"><img src="../favicon.svg" width="22" height="22" alt="">DendrOSM</a>
+  <span class="crumb">›</span><span class="crumb" id="crumb"></span>
+  <span class="sp"></span>
+  <button id="lang" type="button"></button>
+</header>
+<main>
+  <h1 id="title"></h1>
+  <p class="lead" id="lead"></p>
+  <div class="controls">
+    <input id="q" type="search" autocomplete="off">
+    <span class="seg" id="sort"><button type="button" data-k="name"></button><button type="button" data-k="n"></button></span>
+    <span id="count"></span>
+  </div>
+  <ul class="list" id="list"></ul>
+</main>
+<footer id="foot"></footer>
+<script>
+"use strict";
+const hp = new URLSearchParams(location.hash.slice(1));
+const storedLang = () => { try { return localStorage.getItem("lang"); } catch (e) { return null; } };
+// stessa scelta della mappa e delle schede: #lang=, poi la lingua salvata, poi quella del browser
+let LANG = [hp.get("lang"), storedLang(), (navigator.language || "").slice(0, 2).toLowerCase() === "it" ? "it" : "en"]
+  .find(l => l === "it" || l === "en");
+const I18N = {
+  it: {
+    other: "English", crumb: "Specie", title: "Specie", docTitle: "Specie · DendrOSM",
+    lead: "Una scheda per ogni specie: alberi da record, misure tipiche, dove è mappata su OpenStreetMap e come DendrOSM la disegna. Si arriva alla scheda anche dalla specie nella scheda di un albero, sulla mappa.",
+    search: "Cerca per nome scientifico o comune", byName: "Nome", byCount: "Alberi",
+    count: (n, t) => n === t ? `${t} specie` : `${n} specie su ${t}`,
+    trees: n => `${n} alber${n === "1" ? "o" : "i"}`, mon: n => `${n} monumental${n === "1" ? "e" : "i"}`,
+    none: "Nessuna specie con questo nome.", error: "L'elenco delle specie non è disponibile.",
+    foot: "Dati OpenStreetMap (ODbL). Foto da Wikimedia Commons: autore e licenza sono nella scheda della specie."
+  },
+  en: {
+    other: "Italiano", crumb: "Species", title: "Species", docTitle: "Tree species · DendrOSM",
+    lead: "A page for each species: record trees, typical sizes, where it is mapped on OpenStreetMap and how DendrOSM draws it. The page of a species also opens from the species in a tree's card, on the map.",
+    search: "Search by scientific or common name", byName: "Name", byCount: "Trees",
+    count: (n, t) => n === t ? `${t} species` : `${n} of ${t} species`,
+    trees: n => `${n} tree${n === "1" ? "" : "s"}`, mon: n => `${n} monumental`,
+    none: "No species with this name.", error: "The list of species is not available.",
+    foot: "OpenStreetMap data (ODbL). Photos from Wikimedia Commons: author and licence are on the species page."
+  }
+};
+let T, LOC, LIST = null, FAILED = false, sortBy = "name";
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const fmt = v => Number(v).toLocaleString(LOC);
+// confronto senza maiuscole né accenti («farnia», «Érable»)
+const fold = s => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const common = r => LANG === "it" ? r.it || r.en : r.en || r.it;
+
+function draw() {
+  const el = document.getElementById("list"), cnt = document.getElementById("count");
+  if (!LIST) { el.innerHTML = FAILED ? `<li class="none">${T.error}</li>` : ""; cnt.textContent = ""; return; }
+  const q = fold(document.getElementById("q").value.trim());
+  const rows = LIST.filter(r => !q || [r.name, r.it, r.en].some(x => fold(x).includes(q)));
+  rows.sort(sortBy === "n" ? (a, b) => b.n - a.n || a.name.localeCompare(b.name) : (a, b) => a.name.localeCompare(b.name));
+  cnt.textContent = T.count(rows.length, LIST.length);
+  el.innerHTML = rows.length ? rows.map(r => {
+    const c = common(r);
+    const img = r.img ? `<img loading="lazy" alt="" src="https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(r.img)}?width=500">`
+      : `<div class="noimg"></div>`;
+    return `<li><a class="sp-card" href="${esc(r.slug)}.html">${img}<div class="txt"><div class="name">${esc(r.name)}</div>
+      ${c ? `<div class="common">${esc(c)}</div>` : ""}
+      <div class="nums">${T.trees(fmt(r.n))}${r.mon ? " · " + T.mon(fmt(r.mon)) : ""}</div></div></a></li>`;
+  }).join("") : `<li class="none">${T.none}</li>`;
+}
+function render() {
+  T = I18N[LANG]; LOC = LANG === "it" ? "it-IT" : "en-GB";
+  document.documentElement.lang = LANG;
+  document.title = T.docTitle;
+  document.getElementById("lang").textContent = T.other;
+  document.getElementById("crumb").textContent = T.crumb;
+  document.getElementById("title").textContent = T.title;
+  document.getElementById("lead").textContent = T.lead;
+  const q = document.getElementById("q");
+  q.placeholder = T.search; q.setAttribute("aria-label", T.search);
+  for (const b of document.getElementById("sort").children) {
+    b.textContent = b.dataset.k === "n" ? T.byCount : T.byName;
+    b.setAttribute("aria-pressed", b.dataset.k === sortBy);
+  }
+  document.getElementById("foot").textContent = T.foot;
+  draw();
+}
+document.getElementById("lang").addEventListener("click", () => {
+  LANG = LANG === "it" ? "en" : "it";
+  try { localStorage.setItem("lang", LANG); } catch (e) {}
+  render();
+});
+document.getElementById("q").addEventListener("input", draw);
+document.getElementById("sort").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  sortBy = b.dataset.k; render();
+});
+render();
+fetch("index.json").then(r => r.json()).then(d => { LIST = d.list || []; }).catch(() => { FAILED = true; }).finally(draw);
+</script>
+</body>
+</html>

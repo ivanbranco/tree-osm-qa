@@ -189,9 +189,9 @@
   #panel label{display:block;margin:2px 0}
   #panel select{width:100%;margin-bottom:6px}
   #panel select:disabled{opacity:.45;cursor:not-allowed}   /* menu senza alberi da filtrare (nessuna regione) */
-  #issue-row{display:flex;gap:4px;margin-bottom:6px}
-  #panel #issue-row select{margin-bottom:0;min-width:0;flex:1}
-  #dl{flex:none;display:flex;align-items:center;padding:0 6px;cursor:pointer;color:#333}
+  #issue-row,#taxon-row{display:flex;gap:4px;margin-bottom:6px}
+  #panel #issue-row select,#panel #taxon-row select{margin-bottom:0;min-width:0;flex:1}
+  #dl,#sp-pages{flex:none;display:flex;align-items:center;padding:0 6px;cursor:pointer;color:#333}
   #dl[hidden]{display:none}
   #count{color:#555;margin-top:6px;font-size:12px}
   .card{max-width:260px}
@@ -276,7 +276,8 @@
   <button id="back-qa" class="world-only" type="button" data-i18n="backToQa">← Torna al tool QA</button>
   <select id="region" autocomplete="off"></select>
   <button id="overview" type="button" hidden data-i18n="allRegions">← Tutte le regioni</button>
-  <select id="taxon" autocomplete="off"><option value="" data-i18n="allTaxa">Tutti i genus e le specie</option></select>
+  <!-- il tasto apre le schede delle specie (species/): l'elenco, o la scheda della specie scelta nel menu se ne ha una -->
+  <div id="taxon-row"><select id="taxon" autocomplete="off"><option value="" data-i18n="allTaxa">Tutti i genus e le specie</option></select><button id="sp-pages" type="button"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 2.5C7 2.5 3 6 3 10.5c0 1 .2 1.9.5 2.5 6-.2 10-4 10-10.5ZM2 14.5l6-6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
   <div id="issue-row"><select id="issue" autocomplete="off"><option value="" data-i18n="allIssues">Tutti gli errori</option></select><button id="dl" type="button" hidden><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v9M4 6.5l4 4 4-4M2 14h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
   <div id="count"></div>
   <button id="hl-chip" type="button" hidden></button>
@@ -415,6 +416,7 @@ const I18N = {
     recentIssues: n => `Modificati negli ultimi ${n} giorni`,
     allOfGroup: g => `Tutti gli errori di «${g}»`,
     download: "Scarica questi errori di tutta la regione (GeoJSON)",
+    speciesPages: "Schede delle specie", speciesPage: "Scheda della specie",
     issueGroups: { size: "Misure", name: "Nome della specie e del genere", wikidata: "Wikidata",
       links: "Link, fonti e monumentali", other: "Altri tag" },
     legend: "Legenda", legMonument: "Albero monumentale", legSacred: "Albero sacro", legLandmark: "Landmark", legIssues: "Con problemi",
@@ -737,7 +739,7 @@ const I18N = {
       species_lowercase: "Un nome scientifico inizia con il genere, che ha l'iniziale maiuscola.",
       genus_lowercase: "Il nome di un genere ha l'iniziale maiuscola.",
       species_typo: "Il nome non è nella lista delle specie della wiki OSM, ma differisce di una o due lettere da una specie che c'è.",
-      species_epithet_case: "In un nome scientifico è maiuscola solo l'iniziale del genere: il resto del genere e l'epiteto sono minuscoli (Taxus baccata).",
+      species_epithet_case: "In un nome scientifico è maiuscola solo l'iniziale del genere: il resto del genere e l'epiteto sono minuscoli (Taxus baccata). Il segno di ibrido è × (Platanus × hispanica), non una X maiuscola.",
       species_common_name: "species=* contiene il nome scientifico (Genere epiteto, con l'epiteto minuscolo). Il nome comune va in species:xx (es. species:it).",
       species_unidentified: "«sp.» e «spp.» indicano una specie non identificata: in OSM si indica solo il genere.",
       species_parentheses: "Nessun nome scientifico contiene parentesi.",
@@ -912,6 +914,7 @@ const I18N = {
     recentIssues: n => `Edited in the last ${n} days`,
     allOfGroup: g => `All "${g}" errors`,
     download: "Download these errors for the whole region (GeoJSON)",
+    speciesPages: "Species pages", speciesPage: "Species page",
     issueGroups: { size: "Measurements", name: "Species and genus name", wikidata: "Wikidata",
       links: "Links, sources and monumental trees", other: "Other tags" },
     legend: "Legend", legMonument: "Monumental tree", legSacred: "Sacred tree", legLandmark: "Landmark", legIssues: "With errors",
@@ -1211,7 +1214,7 @@ const I18N = {
       species_lowercase: "A scientific name starts with the genus, which is capitalised.",
       genus_lowercase: "A genus name is capitalised.",
       species_typo: "The name is not in the OSM wiki species list, but differs by one or two letters from a species that is.",
-      species_epithet_case: "In a scientific name only the initial of the genus is uppercase: the rest of the genus and the epithet are lowercase (Taxus baccata).",
+      species_epithet_case: "In a scientific name only the initial of the genus is uppercase: the rest of the genus and the epithet are lowercase (Taxus baccata). The hybrid sign is × (Platanus × hispanica), not an uppercase X.",
       species_common_name: "species=* holds the scientific name (Genus epithet, with a lowercase epithet). The common name goes in species:xx (e.g. species:en).",
       species_unidentified: "\"sp.\" and \"spp.\" mean an unidentified species: in OSM only the genus is tagged.",
       species_parentheses: "No scientific name contains parentheses.",
@@ -2311,6 +2314,14 @@ map.on("load", async () => {
 
   const taxSel = document.getElementById("taxon");
   const issSel = document.getElementById("issue");
+  // tasto accanto al menu delle specie: la scheda della specie scelta, se ne ha una (species/index.json), altrimenti
+  // l'elenco delle schede (species/index.html). Funziona anche senza regione caricata
+  const spBtn = document.getElementById("sp-pages");
+  const spBtnPage = () => { const v = taxSel.value; return v.startsWith("s:") ? speciesPage({ species: v.slice(2) }) : null; };
+  const spBtnTitle = () => { spBtn.title = spBtnPage() ? L.speciesPage : L.speciesPages; spBtn.setAttribute("aria-label", spBtn.title); };
+  spBtn.addEventListener("click", () => window.open(spBtnPage() || BASE + "species/index.html", "_blank", "noopener"));
+  spBtn.addEventListener("mouseenter", spBtnTitle); spBtn.addEventListener("focus", spBtnTitle);
+  spBtnTitle();
   // etichette e ordine degli errori nel menu (dai testi della lingua scelta)
   const ISSUE_OPTS = Object.entries(L.issueOpts);
   // gruppi del menu errori: i codici non elencati finiscono in "Altri tag"

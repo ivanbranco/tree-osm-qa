@@ -6,13 +6,20 @@ species/index.json (scritto alla fine, con tutte le pagine della cartella). Si g
 
     python.exe -I scripts\\build_species.py "Acer platanoides" "Quercus robur" "Liriodendron tulipifera"
 
+Con --keep-isolated non si interroga QLever (qualche minuto per specie): il «più isolato» resta quello della pagina
+generata prima. Serve quando è cambiato solo il modello. species/index.html (l'elenco delle schede) è scritta a mano
+e legge species/index.json.
+
 Legge data/regions/*.geojson.gz (gli alberi delle regioni), data/world/monumental.geojson.gz (i monumentali di tutto
 il mondo, anche fuori dalle regioni), scripts/masaf_trees.json (l'elenco MASAF), data/regions_boundaries.geojson e
 data/index.json; scrive species/<slug>.html dal modello scripts/species_template.html, con i dati della specie dentro
-la pagina. I contorni delle regioni li carica la pagina da data/regions_boundaries.geojson.
+la pagina, e species/<slug>.mon.json con i monumentali della specie ([lon, lat, id, nome]), che la pagina scarica
+solo quando si accende la casella «Monumentali». I contorni delle regioni li carica la pagina da
+data/regions_boundaries.geojson.
 """
 import collections
 import gzip
+import html
 import json
 import math
 import re
@@ -26,6 +33,7 @@ sys.path.insert(0, str(HERE))
 import fetch_trees as ft  # noqa: E402
 
 OUT_DIR = ROOT / "species"
+SITE = "https://ivanbranco.github.io/tree-osm-qa/"      # indirizzo del sito, per l'anteprima sui social (og:url)
 TEMPLATE = HERE / "species_template.html"
 GRID = 0.1            # lato in gradi delle celle della mappa di densità
 TOP = 5               # alberi per primato
@@ -149,6 +157,15 @@ def wikipedia_info(qid):
         p18 = ent.get("claims", {}).get("P18")
         if p18:
             out["p18"] = p18[0]["mainsnak"]["datavalue"]["value"]
+        # anteprima sui social (og:image): l'indirizzo diretto della foto della voce inglese (o italiana, o P18),
+        # larga 1200 px, chiesto a Commons
+        img = (out.get("en") or {}).get("img") or (out.get("it") or {}).get("img") or out.get("p18")
+        if img:
+            q = get("https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo"
+                    f"&iiprop=url&iiurlwidth=1200&titles={urllib.parse.quote('File:' + img)}")
+            info = (q["query"]["pages"][0].get("imageinfo") or [{}])[0]
+            if info.get("thumburl"):
+                out["og"] = info["thumburl"].split("?")[0]      # senza i parametri utm_* aggiunti dall'API
     except Exception as e:  # noqa: BLE001 - la foto non è indispensabile
         print(f"{qid}: Wikipedia non risponde ({e})", file=sys.stderr)
     return out
@@ -158,7 +175,7 @@ def most_common(c):
     return c.most_common(1)[0][0] if c else None
 
 
-def main(names):
+def main(names, keep_isolated=False):
     want = {n: slug_of(n) for n in names}
     for n in names:
         if " ".join(n.split()).lower() not in RAW_NAMES:
@@ -241,21 +258,31 @@ def main(names):
     rels = [rinfo[slug]["rel"] for slug in index if slug in rinfo and rinfo[slug].get("rel")]
     for n, s in S.items():
         data = build_data(n, s, rinfo, index, sp_trees, group_of, area, updated)
-        iso = species_isolated(n, s, rels)
-        if iso is None:     # QLever non risponde: resta la lista della pagina generata prima, se c'è
+        iso = None if keep_isolated else species_isolated(n, s, rels)
+        if iso is None:     # QLever non risponde o --keep-isolated: resta la lista della pagina generata prima, se c'è
             iso = prev_isolated(want[n])
         if iso:
             data["records"]["isolated"] = iso
         js = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
         sci = n
         en = data["names"].get("en") or ""
-        html = (template.replace("{{DATA}}", js)
-                .replace("{{TITLE}}", f"{sci}{' (' + en + ')' if en else ''} · DendrOSM")
-                .replace("{{DESC}}", f"{sci} on OpenStreetMap: records, typical sizes, where it is mapped and "
-                                     f"monumental trees, from {data['total']:,} mapped trees."))
+        # anteprima sui social: con la foto la scheda grande, senza solo titolo e descrizione
+        og = data["wp"].get("og")
+        og_img = (f'<meta property="og:image" content="{html.escape(og)}">\n'
+                  f'<meta property="og:image:alt" content="{html.escape(sci)}">\n') if og else ""
+        page = (template.replace("{{DATA}}", js)
+                .replace("{{TITLE}}", html.escape(f"{sci}{' (' + en + ')' if en else ''} · DendrOSM"))
+                .replace("{{DESC}}", html.escape(f"{sci} on OpenStreetMap: records, typical sizes, where it is mapped "
+                                                 f"and monumental trees, from {data['total']:,} mapped trees."))
+                .replace("{{URL}}", f"{SITE}species/{want[n]}.html")
+                .replace("{{OG_IMAGE}}", og_img)
+                .replace("{{CARD}}", "summary_large_image" if og else "summary"))
         out = OUT_DIR / f"{want[n]}.html"
-        out.write_text(html, encoding="utf-8")
-        print(f"{out.relative_to(ROOT)}: {data['total']} alberi, {len(js) // 1024} kB di dati")
+        out.write_text(page, encoding="utf-8")
+        mon = json.dumps(s["mon"], ensure_ascii=False, separators=(",", ":"))
+        (OUT_DIR / f"{want[n]}.mon.json").write_text(mon + "\n", encoding="utf-8")
+        print(f"{out.relative_to(ROOT)}: {data['total']} alberi, {len(js) // 1024} kB di dati, "
+              f"{len(mon) // 1024} kB di monumentali")
     write_index()
 
 
@@ -293,25 +320,38 @@ def species_isolated(n, s, rels):
 def prev_isolated(slug):
     """«Più isolato» della pagina species/<slug>.html generata prima (None se manca)."""
     p = OUT_DIR / f"{slug}.html"
-    if not p.exists():
-        return None
+    d = page_data(p) if p.exists() else None
+    return (d.get("records") or {}).get("isolated") if d else None
+
+
+def page_data(p):
+    """Dati dentro una pagina species/<slug>.html già scritta (None se non è una scheda)."""
     m = re.search(r'<script type="application/json" id="data">(.*?)</script>', p.read_text(encoding="utf-8"), re.S)
     try:
-        return json.loads(m.group(1).replace("<\\/", "</"))["records"].get("isolated") if m else None
-    except (ValueError, KeyError):
+        return json.loads(m.group(1).replace("<\\/", "</")) if m else None
+    except ValueError:
         return None
 
 
 def write_index():
-    """species/index.json: tutte le pagine della cartella (anche quelle generate prima), {nome in minuscolo: slug}.
-    Lo legge index.html per il link sulla specie nella scheda dell'albero; il nome è quello della lista wiki,
-    come sp_key degli alberi."""
-    pages = {}
+    """species/index.json, da tutte le schede della cartella (anche quelle generate prima):
+    - "pages": {nome in minuscolo: slug}. Lo legge index.html per il link sulla specie nella scheda dell'albero; il
+      nome è quello della lista wiki, come sp_key degli alberi;
+    - "list": una voce per scheda, in ordine di nome, per l'elenco species/index.html (pagina scritta a mano): nome,
+      slug, nomi comuni, alberi, monumentali, tipo di foglia e ciclo, foto (quella della scheda in inglese)."""
+    pages, rows = {}, []
     for p in sorted(OUT_DIR.glob("*.html")):
-        m = re.search(r'"name":"([^"]+)","slug":"([^"]+)"', p.read_text(encoding="utf-8"))
-        if m and m.group(2) == p.stem:
-            pages[" ".join(m.group(1).split()).lower()] = p.stem
-    (OUT_DIR / "index.json").write_text(json.dumps({"pages": pages}, ensure_ascii=False, indent=1) + "\n",
+        d = page_data(p)
+        if not d or d.get("slug") != p.stem:
+            continue
+        pages[" ".join(d["name"].split()).lower()] = p.stem
+        wp = d.get("wp") or {}
+        img = (wp.get("en") or {}).get("img") or (wp.get("it") or {}).get("img") or wp.get("p18")
+        row = {"name": d["name"], "slug": p.stem, "it": d["names"].get("it"), "en": d["names"].get("en"),
+               "n": d["total"], "mon": d.get("mon_n", 0), "lt": d.get("lt"), "lc": d.get("lc"), "img": img}
+        rows.append({k: v for k, v in row.items() if v is not None})
+    rows.sort(key=lambda r: r["name"].lower())
+    (OUT_DIR / "index.json").write_text(json.dumps({"pages": pages, "list": rows}, ensure_ascii=False, indent=1) + "\n",
                                         encoding="utf-8")
     print(f"species/index.json: {len(pages)} pagine")
 
@@ -388,7 +428,7 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
         "fruit": {"color": fruit[0], "months": [int(m) for m in fruit[1].split(",") if m]} if fruit else None,
         "total": sum(s["per_region"].values()), "issues": s["issues"],
         "n_regions": sum(1 for v in s["per_region"].values() if v),
-        "mon": s["mon"], "masaf": s["masaf"],
+        "mon_n": len(s["mon"]), "masaf": s["masaf"],      # i punti dei monumentali sono in <slug>.mon.json
         "records": records,
         "wiki": {k: lim.get(k) for k in ("height", "circumference", "height_circ_ratio", "crown_circ_ratio") if lim.get(k)},
         "stats": stats,
@@ -400,6 +440,7 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
+    args = [a for a in sys.argv[1:] if a != "--keep-isolated"]
+    if not args:
         sys.exit(__doc__)
-    main(sys.argv[1:])
+    main(args, keep_isolated=len(args) < len(sys.argv) - 1)
