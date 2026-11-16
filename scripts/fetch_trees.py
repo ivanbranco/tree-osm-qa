@@ -2842,9 +2842,142 @@ def region_records(feats):
     return out
 
 
-def save_records(slug, feats):
+# «Più isolato» (isolated): gli alberi più lontani dal più vicino tra gli altri alberi (natural=tree), i boschi
+# (natural=wood, landuse=forest) e i filari (natural=tree_row) di tutto il mondo, non solo della regione. Non si
+# calcola dal file della regione ma con QLever (OSM di tutto il pianeta, aggiornato con i suoi tempi), quindi il sito
+# non lo ricalcola: lo prende sempre da data/records.json. Due passaggi:
+# 1) candidati: gli ISO_CANDS alberi della regione (la sua relazione OSM) più lontani dall'albero più vicino;
+# 2) a gruppi di ISO_BATCH candidati, i boschi e i filari entro la distanza dall'albero più vicino del primo del
+#    gruppo (un bosco più lontano non cambia il risultato), al massimo ISO_CAP_KM.
+# L'isolamento è la distanza minore tra le due; ci si ferma quando il RECORD_TOP-esimo è già più isolato del prossimo
+# candidato, quindi la lista è esatta. Senza nulla entro ISO_CAP_KM l'isolamento vale ISO_CAP_KM ("cap": il sito
+# scrive «oltre»). Ceppi e alberi che non sono nel file della regione (QLever può essere indietro) non entrano.
+# Ogni albero della lista ha, oltre a RECORD_KEEP e "c": "iso" (km), "nk" (cosa c'è di più vicino: tree, wood,
+# forest, tree_row), "ni" (il suo elemento OSM, "node/123", "way/…", "relation/…"), "cap" se vale ISO_CAP_KM.
+# Se QLever non risponde restano i valori dell'aggiornamento precedente.
+QLEVER_URL = "https://qlever.dev/api/osm-planet"
+ISO_CANDS = 500
+ISO_BATCH = 50
+ISO_CAP_KM = 50
+QL_PREFIX = """PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX ogc: <http://www.opengis.net/rdf#>
+PREFIX osmrel: <https://www.openstreetmap.org/relation/>
+PREFIX osmnode: <https://www.openstreetmap.org/node/>
+PREFIX osmkey: <https://www.openstreetmap.org/wiki/Key:>
+PREFIX qlss: <https://qlever.cs.uni-freiburg.de/spatialSearch/>
+"""
+
+
+def qlever(q):
+    """Righe di una query a QLever ({variabile: valore}); un secondo tentativo dopo 30 s, poi solleva l'eccezione."""
+    for attempt in range(2):
+        try:
+            r = requests.post(QLEVER_URL, data={"query": QL_PREFIX + q}, timeout=300,
+                              headers={**HEADERS, "Accept": "application/sparql-results+json"})
+            r.raise_for_status()
+            return [{k: v["value"] for k, v in b.items()} for b in r.json()["results"]["bindings"]]
+        except Exception:
+            if attempt:
+                raise
+            time.sleep(30)
+
+
+def osm_ref(iri):
+    """'https://www.openstreetmap.org/node/123' -> 'node/123'."""
+    return "/".join(iri.rstrip("/").split("/")[-2:])
+
+
+def iso_candidates(rel):
+    """[(id del nodo, km dall'albero più vicino, suo elemento)] degli ISO_CANDS alberi della relazione più lontani."""
+    rows = qlever(f"""SELECT ?tree ?near ?dt WHERE {{
+  osmrel:{rel} ogc:sfContains ?tree .
+  ?tree osmkey:natural "tree" ; geo:hasGeometry/geo:asWKT ?g1 .
+  SERVICE qlss: {{
+    _:c qlss:algorithm qlss:s2 ; qlss:left ?g1 ; qlss:right ?g2 ; qlss:numNearestNeighbors 2 ;
+        qlss:bindDistance ?dt ; qlss:distanceUnit <http://qudt.org/vocab/unit/KiloM> ; qlss:payload ?near .
+    {{ ?near osmkey:natural "tree" ; geo:hasGeometry/geo:asWKT ?g2 . }}
+  }}
+  FILTER (?tree != ?near)
+}} ORDER BY DESC(?dt) LIMIT {ISO_CANDS}""")
+    return [(int(osm_ref(r["tree"]).split("/")[1]), float(r["dt"]), osm_ref(r["near"]))
+            for r in rows if "/node/" in r["tree"]]
+
+
+def iso_woods(ids, km):
+    """{id del nodo: (km, elemento, tipo)}: il bosco, la foresta o il filare più vicino entro km, per i nodi dati."""
+    rows = qlever(f"""SELECT ?tree ?wood ?kind ?dw WHERE {{
+  VALUES ?tree {{ {" ".join(f"osmnode:{i}" for i in ids)} }}
+  ?tree geo:hasGeometry/geo:asWKT ?g1 .
+  SERVICE qlss: {{
+    _:w qlss:algorithm qlss:libspatialjoin ; qlss:left ?g1 ; qlss:right ?gw ; qlss:joinType qlss:within-dist ;
+        qlss:maxDistance {max(1, math.ceil(km * 1000))} ; qlss:bindDistance ?dw ;
+        qlss:distanceUnit <http://qudt.org/vocab/unit/M> ; qlss:payload ?wood, ?kind .
+    {{ {{ ?wood osmkey:natural "wood" BIND("wood" AS ?kind) }} UNION {{ ?wood osmkey:landuse "forest" BIND("forest" AS ?kind) }}
+      UNION {{ ?wood osmkey:natural "tree_row" BIND("tree_row" AS ?kind) }}
+      ?wood geo:hasGeometry/geo:asWKT ?gw . }}
+  }}
+}}""")
+    out = {}
+    for r in rows:
+        i, d = int(osm_ref(r["tree"]).split("/")[1]), float(r["dw"]) / 1000
+        if i not in out or d < out[i][0]:
+            out[i] = (d, osm_ref(r["wood"]), r["kind"])
+    return out
+
+
+def region_isolated(region, feats):
+    """Primato «Più isolato» della regione, nella forma di region_records ({"t": [...], "m": 0}); None se QLever non
+    risponde o la regione non ha una relazione."""
+    if not region.get("rel"):
+        return None
+    by_id = {f["properties"]["id"]: f for f in feats
+             if not f["properties"].get("stump") and not f["properties"].get("xmas")}
+    try:
+        cands = [c for c in iso_candidates(region["rel"]) if c[0] in by_id]
+        done = {}           # id -> (km, elemento, tipo, cap)
+        for i in range(0, len(cands), ISO_BATCH):
+            batch = cands[i:i + ISO_BATCH]
+            best = sorted((v[0] for v in done.values()), reverse=True)
+            if len(best) >= RECORD_TOP and best[RECORD_TOP - 1] >= batch[0][1]:
+                break
+            lim = min(batch[0][1], ISO_CAP_KM)
+            woods = iso_woods([c[0] for c in batch], lim)
+            for tid, dt, near in batch:
+                w = woods.get(tid)
+                if w and w[0] < dt:
+                    done[tid] = (w[0], w[1], w[2], False)
+                elif dt <= lim:
+                    done[tid] = (dt, near, "tree", False)
+                else:       # nessun bosco entro ISO_CAP_KM e albero più lontano: «oltre ISO_CAP_KM»
+                    done[tid] = (ISO_CAP_KM, None, None, True)
+        else:
+            if len(cands) >= ISO_CANDS:
+                warn(f"{region['slug']}: «Più isolato» calcolato solo sui primi {ISO_CANDS} candidati")
+    except Exception as e:
+        warn(f"{region['slug']}: QLever non risponde ({str(e)[:150]}), «Più isolato» resta quello precedente")
+        return None
+    rows = sorted(done.items(), key=lambda x: (-record_round(x[1][0]), x[0]))[:RECORD_TOP]
+    out = []
+    for tid, (km, ref, kind, cap) in rows:
+        f = by_id[tid]
+        t = {**{x: f["properties"][x] for x in RECORD_KEEP if x in f["properties"]},
+             "c": f["geometry"]["coordinates"], "iso": round(km, 3)}
+        if cap:
+            t["cap"] = 1
+        else:
+            t["nk"], t["ni"] = kind, ref
+        out.append(t)
+    return {"t": out, "m": 0} if out else None
+
+
+def save_records(slug, feats, isolated=None):
+    """Scrive i primati della regione in RECORDS_FILE; isolated = «Più isolato» (region_isolated): se è None resta
+    quello già nel file."""
     rec = load_json(RECORDS_FILE)
+    prev = (rec.get(slug) or {}).get("isolated")
     rec[slug] = region_records(feats)
+    if isolated or prev:
+        rec[slug]["isolated"] = isolated or prev
     RECORDS_FILE.write_text("{\n" + ",\n".join(
         f"{json.dumps(k)}: {json.dumps(v, separators=(',', ':'), ensure_ascii=False, sort_keys=True)}"
         for k, v in sorted(rec.items())) + "\n}\n", encoding="utf-8")
@@ -2920,7 +3053,8 @@ def update_region(region, regions_index):
     digest = hashlib.sha1(raw).hexdigest()
     errors = sum(1 for f in fc["features"] if f["properties"]["issues"] != "|")  # alberi con almeno un errore
     min_path = OUT_DIR / f"{slug}.min.geojson.gz"
-    save_records(slug, fc["features"])          # primati della regione, anche quando i dati non cambiano
+    # primati della regione, anche quando i dati non cambiano; «Più isolato» con QLever
+    save_records(slug, fc["features"], region_isolated(region, fc["features"]))
     if regions_index.get(slug, {}).get("sha1") == digest and path.exists():
         regions_index[slug]["errors"] = errors  # per gli indici scritti prima che esistesse il conteggio
         regions_index[slug].pop("diam", None)   # campo non più usato (era per fixDiameter, tolto da index.html)

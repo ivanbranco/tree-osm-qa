@@ -490,13 +490,14 @@ const I18N = {
         photo: k => `Una foto dell'albero: ${k("wikimedia_commons")} (File:… o Category:…), ${k("panoramax")}, image:fotoshi=* o ${k("image")}. Conta anche la foto (P18) dell'elemento Wikidata di ${k("wikidata")}.` } },
     // scheda Alberi da record (issue #15). how: come si calcola ogni primato (al passaggio del mouse sul nome)
     rec: "Alberi da record",
-    rc: { names: { height: "Più alto", trunk: "Tronco più spesso", slender: "Più slanciato", stocky: "Più tozzo", crown: "Chioma più larga", oldest: "Più vecchio" },
+    rc: { names: { height: "Più alto", trunk: "Tronco più spesso", slender: "Più slanciato", stocky: "Più tozzo", crown: "Chioma più larga", oldest: "Più vecchio", isolated: "Più isolato" },
       how: { height: "Il valore più alto di height=*.",
         trunk: "La circonferenza del tronco più grande: circumference=*; se manca, diameter=* (senza unità è in millimetri) moltiplicato per π. I valori di multi_stemmed=* non si usano.",
         slender: "Il rapporto più alto tra l'altezza (height=*) e il diametro del tronco (diameter=*, o circumference=* diviso π). Solo alberi con entrambe le misure e alti almeno 2 m.",
         stocky: "Il rapporto più basso tra l'altezza (height=*) e il diametro del tronco (diameter=*, o circumference=* diviso π). Solo alberi con entrambe le misure e alti almeno 2 m.",
         crown: "Il valore più alto di diameter_crown=*.",
-        oldest: "La data più vecchia di start_date=*. Le date approssimative contano con l'anno più vecchio che indicano (~1500 e before 1500 = 1500, 1850s = 1850, C16 = 1500, 1500..1600 = 1500) e si mostrano come sono scritte su OSM. Le date dello stesso anno sono a pari merito: prima la più precisa (1850-05-01, poi 1850, poi 1850s)." },
+        oldest: "La data più vecchia di start_date=*. Le date approssimative contano con l'anno più vecchio che indicano (~1500 e before 1500 = 1500, 1850s = 1850, C16 = 1500, 1500..1600 = 1500) e si mostrano come sono scritte su OSM. Le date dello stesso anno sono a pari merito: prima la più precisa (1850-05-01, poi 1850, poi 1850s).",
+        isolated: "La distanza più grande dalla cosa più vicina tra gli altri alberi (natural=tree), i boschi (natural=wood, landuse=forest) e i filari (natural=tree_row) di OpenStreetMap, anche fuori dalla regione. Si calcola con QLever a ogni aggiornamento della regione, sui dati OSM di QLever, che possono essere indietro di qualche giorno; non segue i filtri. Oltre 50 km si scrive «oltre 50 km»." },
       howAll: "I valori con un'unità (cm, ft…) sono convertiti. I valori segnalati da un check contano lo stesso, con ⚠, e a pari merito vengono prima. Il triangolino apre la lista dei primi dieci.",
       warn: "Valore segnalato", ratio: (h, d) => `altezza ${h} / tronco ⌀ ${d}`,
       none: "Nessun albero con questa misura.", more: n => `e altri ${n} a pari merito`,
@@ -515,7 +516,11 @@ const I18N = {
       subWorld: "Alberi monumentali a schermo (non quelli dell'elenco MASAF non ancora su OSM).",
       onlyLoaded: "I primati riguardano solo le regioni caricate sul sito.",
       updatedRange: (a, b) => `Dati aggiornati tra il ${a} e il ${b}`,
-      filter: f => `Filtro attivo: ${f}`, rowTitle: "Apri la scheda dell'albero e centra la mappa" },
+      filter: f => `Filtro attivo: ${f}`, rowTitle: "Apri la scheda dell'albero e centra la mappa",
+      isoOver: km => `oltre ${km} km`, isoNothing: "Nessun albero, bosco o filare entro questa distanza",
+      isoNear: { tree: "Il più vicino: un albero", wood: "Il più vicino: un bosco", forest: "Il più vicino: una foresta", tree_row: "Il più vicino: un filare" },
+      isoNone: "Non ancora calcolato: arriva con il prossimo aggiornamento della regione.",
+      isoNoFilter: "Questo primato non segue i filtri: vale per tutti gli alberi." },
     rankEmpty: "Conteggi non ancora disponibili: lancia l'Action \"Update tree data\".",
     loadError: "Errore nel caricamento dei dati", noData: "Nessun dato: lancia l'Action di aggiornamento",
     // #node=<id> nell'indirizzo (n = link al nodo su osm.org)
@@ -952,13 +957,14 @@ const I18N = {
         diameter_crown: k => `${k("diameter_crown")}: crown diameter in metres (e.g. diameter_crown=8). It is measured on the ground, from one edge of the crown to the other through the trunk.`,
         photo: k => `A photo of the tree: ${k("wikimedia_commons")} (File:… or Category:…), ${k("panoramax")}, image:fotoshi=* or ${k("image")}. The photo (P18) of the Wikidata item of ${k("wikidata")} counts too.` } },
     rec: "Record trees",
-    rc: { names: { height: "Tallest", trunk: "Thickest trunk", slender: "Most slender", stocky: "Stockiest", crown: "Widest crown", oldest: "Oldest" },
+    rc: { names: { height: "Tallest", trunk: "Thickest trunk", slender: "Most slender", stocky: "Stockiest", crown: "Widest crown", oldest: "Oldest", isolated: "Most isolated" },
       how: { height: "The highest value of height=*.",
         trunk: "The largest trunk circumference: circumference=*; if missing, diameter=* (millimetres without a unit) multiplied by π. The values of multi_stemmed=* are not used.",
         slender: "The highest ratio between the height (height=*) and the trunk diameter (diameter=*, or circumference=* divided by π). Only trees with both measurements and at least 2 m tall.",
         stocky: "The lowest ratio between the height (height=*) and the trunk diameter (diameter=*, or circumference=* divided by π). Only trees with both measurements and at least 2 m tall.",
         crown: "The highest value of diameter_crown=*.",
-        oldest: "The oldest date of start_date=*. Approximate dates count with the oldest year they indicate (~1500 and before 1500 = 1500, 1850s = 1850, C16 = 1500, 1500..1600 = 1500) and are shown as written on OSM. Dates of the same year are tied: the most precise one comes first (1850-05-01, then 1850, then 1850s)." },
+        oldest: "The oldest date of start_date=*. Approximate dates count with the oldest year they indicate (~1500 and before 1500 = 1500, 1850s = 1850, C16 = 1500, 1500..1600 = 1500) and are shown as written on OSM. Dates of the same year are tied: the most precise one comes first (1850-05-01, then 1850, then 1850s).",
+        isolated: "The largest distance from the nearest of the other trees (natural=tree), woods (natural=wood, landuse=forest) and tree rows (natural=tree_row) on OpenStreetMap, also outside the region. It is computed with QLever at every update of the region, on QLever's OSM data, which can be a few days behind; it does not follow the filters. Beyond 50 km it shows «over 50 km»." },
       howAll: "Values with a unit (cm, ft…) are converted. Values reported by a check count too, with ⚠, and come first in a tie. The small triangle opens the top ten list.",
       warn: "Value reported", ratio: (h, d) => `height ${h} / trunk ⌀ ${d}`,
       none: "No tree with this measurement.", more: n => `and ${n} more tied`,
@@ -977,7 +983,11 @@ const I18N = {
       subWorld: "Monumental trees in view (not those of the MASAF list not yet on OSM).",
       onlyLoaded: "The records cover only the regions loaded on the site.",
       updatedRange: (a, b) => `Data updated between ${a} and ${b}`,
-      filter: f => `Active filter: ${f}`, rowTitle: "Open the tree's card and centre the map" },
+      filter: f => `Active filter: ${f}`, rowTitle: "Open the tree's card and centre the map",
+      isoOver: km => `over ${km} km`, isoNothing: "No tree, wood or tree row within this distance",
+      isoNear: { tree: "Nearest: a tree", wood: "Nearest: a wood", forest: "Nearest: a forest", tree_row: "Nearest: a tree row" },
+      isoNone: "Not computed yet: it arrives with the next update of the region.",
+      isoNoFilter: "This record does not follow the filters: it covers all trees." },
     rankEmpty: "Counts not available yet: run the \"Update tree data\" Action.",
     loadError: "Error loading data", noData: "No data: run the update Action",
     nodeNotInData: n => `node ${n} not in the region's data`,
@@ -2608,7 +2618,7 @@ map.on("load", async () => {
   };
   onCompToggle = renderComp;
 
-  // Scheda Alberi da record (issue #15): per sei primati (REC_KEYS) l'albero con il valore migliore, o tutti quelli a
+  // Scheda Alberi da record (issue #15): per sette primati (REC_KEYS; sei sulla mappa dei monumentali) l'albero con il valore migliore, o tutti quelli a
   // pari merito, e la lista dei primi dieci, che si apre dal triangolino accanto al nome (issue #48); regole in
   // recValues e recTop. L'insieme segue il livello aperto:
   // - tool QA con una regione caricata: tutti gli alberi della regione (non solo quelli a schermo), con i filtri dei menu;
@@ -2661,15 +2671,25 @@ map.on("load", async () => {
       sub = L.rc.subRegion(regionName(current)) + " " + recDates([current]);
       if (tx) filters.push(optLabel(taxSel));
       if (is) filters.push(optLabel(issSel));
+      if (recData === undefined) loadRecData();       // per «Più isolato», che c'è solo in data/records.json
       if (!ALL.length || partial) msg = L.rc.loading;
       else {
-        const key = [current, ALL.length, is, tx].join("|");
+        const key = [current, ALL.length, is, tx, recData === undefined].join("|");
         if (recCache.key !== key || recCache.src !== ALL) {
           const c = {};
           for (const ft of ALL) {
             const p = ft.properties;
             if ((is && !matchIssue(is, p)) || (tx && !matchTaxon(tx, p))) continue;
             recAdd(c, p, ft.geometry.coordinates, current);
+          }
+          // «Più isolato»: la lista già pronta, senza i filtri (vale per tutti gli alberi), con le proprietà
+          // dell'albero prese dai dati caricati quando c'è ancora
+          const iso = ((recData || {})[current] || {}).isolated;
+          if (iso && iso.t) {
+            const byId = new Map(iso.t.map(t => [t.id, t]));
+            const live = new Map(ALL.filter(f => byId.has(f.properties.id)).map(f => [f.properties.id, f]));
+            c.isolated = iso.t.map(t => { const f = live.get(t.id);
+              return { p: f ? { ...f.properties, iso: t.iso, cap: t.cap, nk: t.nk, ni: t.ni } : t, pos: f ? f.geometry.coordinates : t.c, slug: current, v: t.iso }; });
           }
           recCache = { key, src: ALL, best: tops(c) };
         }
@@ -2738,7 +2758,9 @@ map.on("load", async () => {
           + (b ? `<button type="button" class="rc-tog" data-tog="${k}" aria-expanded="${open}" title="${esc(togT)}" aria-label="${esc(togT)}"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 1l6 4-6 4z"/></svg></button>` : "")
           + `</h4>`
           + (b ? rows + (more ? `<div class="note rc-none">${esc(L.rc.more(fmtN(b.more)))}</div>` : "")
-            : `<div class="note rc-none">${esc(L.rc.none)}</div>`);
+            : `<div class="note rc-none">${esc(k === "isolated" ? L.rc.isoNone : L.rc.none)}</div>`)
+          // «Più isolato» non segue i filtri dei menu: lo si dice quando ce n'è uno attivo
+          + (k === "isolated" && b && filters.length ? `<div class="note rc-none">${esc(L.rc.isoNoFilter)}</div>` : "");
       }).join("") + (note ? `<div class="note">${esc(note)}</div>` : ""));
     // la scheda si riscrive solo se il contenuto cambia: update() arriva a ogni ridisegno della mappa, e riscriverla
     // chiuderebbe la spiegazione aperta
@@ -3563,7 +3585,9 @@ const yearEvent = (ev, k, iso) => {
     for (const y of [...pre.map(p => `${p}:${x}`), x]) if (ev[y]) return ev[y];
   return null;
 };
-const REC_KEYS = ["height", "trunk", "slender", "stocky", "crown", "oldest"];
+// isolated («Più isolato»): non si calcola dai tag ma con QLever in fetch_trees.py (region_isolated), quindi arriva
+// sempre da data/records.json, anche con una regione caricata; sulla mappa dei monumentali non c'è
+const REC_KEYS = ["height", "trunk", "slender", "stocky", "crown", "oldest", ...(WORLD ? [] : ["isolated"])];
 const REC_LOW = new Set(["stocky", "oldest"]);   // primati in cui vince il valore più basso
 const REC_MIN_H = 2;     // m: sotto, niente rapporto altezza/diametro del tronco
 const REC_TOP = 10;      // alberi nella lista di ogni primato (issue #48)
@@ -3582,6 +3606,7 @@ const recValues = (p, m = recMeasure(p)) => {
   if (m.c > 0) { o.trunk = m.c; if (m.h >= REC_MIN_H) o.slender = o.stocky = m.h / m.d; }
   if (m.cd > 0) o.crown = m.cd;
   if (m.y != null) o.oldest = Math.floor(m.y / 10000);   // l'anno: le date dello stesso anno sono a pari merito
+  if (p.iso > 0) o.isolated = p.iso;   // km, solo negli alberi di «Più isolato» in data/records.json
   return o;
 };
 const recRound = v => Number(v.toPrecision(9));   // valore per il confronto: i rapporti calcolati differiscono nelle ultime cifre
@@ -3623,11 +3648,11 @@ const recTop = (k, cands, hidden = []) => {
 const recWarn = (k, p, m) => {
   const trunkTag = m.fromD ? "diameter" : "circumference";
   const tags = { height: ["height"], trunk: [trunkTag], slender: ["height", trunkTag], stocky: ["height", trunkTag],
-    crown: ["diameter_crown"], oldest: ["start_date"] }[k];
+    crown: ["diameter_crown"], oldest: ["start_date"], isolated: [] }[k];
   const ratio = ["too_slender", "too_slender_species", "too_stocky"];
   const hC = ["height", "height_species"], tC = ["circumference", "circumference_species", m.fromD ? "diameter_unit" : "circ_diam_mismatch"];
   const codes = { height: [...hC, ...ratio], trunk: [...tC, ...ratio], slender: [...hC, ...tC, ...ratio],
-    stocky: [...hC, ...tC, ...ratio], crown: ["crown"], oldest: [] }[k];
+    stocky: [...hC, ...tC, ...ratio], crown: ["crown"], oldest: [], isolated: [] }[k];
   const iss = p.issues || "|", out = codes.filter(c => iss.includes(`|${c}|`));
   const listed = (v, sep) => String(v || "").split(sep).some(x => tags.includes(x.split("|")[0]));
   if (iss.includes("|comma|") && listed(p.comma, ";")) out.push("comma");
@@ -3645,6 +3670,9 @@ const recShow = (k, p, m) => {
     case "trunk": return [m.fromD ? `⌀ ${fmtRec(m.d * 1000, { maximumFractionDigits: 1 })} mm` : fmtRec(m.c) + " m", ""];
     case "crown": return [fmtRec(m.cd) + " m", ""];
     case "oldest": return [String(p.start_date), ""];
+    // distanza in km (sotto 1 km in metri); con "cap" niente entro ISO_CAP_KM di fetch_trees.py: «oltre 50 km»
+    case "isolated": return p.cap ? [L.rc.isoOver(fmtRec(p.iso, { maximumFractionDigits: 0 })), L.rc.isoNothing]
+      : [p.iso < 1 ? fmtRec(p.iso * 1000, { maximumFractionDigits: 0 }) + " m" : fmtRec(p.iso) + " km", L.rc.isoNear[p.nk] || ""];
     default: return [fmtRec(m.h / m.d, sig) + "×", L.rc.ratio(fmtRec(m.h) + " m", fmtRec(m.d, sig) + " m")];
   }
 };

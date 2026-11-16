@@ -1,7 +1,7 @@
 {
   "data_format": 1,
   "data_url": "https://raw.githubusercontent.com/ivanbranco/tree-osm-qa/main/taginfo.json",
-  "data_updated": "20261115T000000Z",
+  "data_updated": "20261116T000000Z",
   "project": {
     "name": "DendrOSM",
     "description": "Quality assurance map of OSM trees.",
@@ -15,6 +15,9 @@
     {"key": "natural", "value": "tree", "object_types": ["node"], "description": "Trees shown on the map and checked."},
     {"key": "natural", "value": "tree_stump", "object_types": ["node"], "description": "Tree stumps shown on the map and checked."},
     {"key": "natural", "value": "plant", "object_types": ["node"], "description": "Suggested by a QA check (and by \"Fix with JOSM\") in place of natural=tree for plants that are not trees, such as Agave americana."},
+    {"key": "natural", "value": "wood", "object_types": ["way", "relation"], "description": "Counted as a neighbour of a tree for the \"Most isolated\" record (distance from the nearest tree, wood or tree row)."},
+    {"key": "landuse", "value": "forest", "object_types": ["way", "relation"], "description": "Counted as a neighbour of a tree for the \"Most isolated\" record (distance from the nearest tree, wood or tree row)."},
+    {"key": "natural", "value": "tree_row", "object_types": ["way"], "description": "Counted as a neighbour of a tree for the \"Most isolated\" record (distance from the nearest tree, wood or tree row)."},
     {"key": "species", "object_types": ["node"], "description": "Used for filtering, QA checks, the info panel and the Completeness tab (share of trees with the tag)."},
     {"key": "species", "value": "Betula utilis", "object_types": ["node"], "description": "Rendered with a white trunk (also with a variety, e.g. var. jacquemontii), on the map and in the trunk comparison drawing."},
     {"key": "species", "value": "Acer griseum", "object_types": ["node"], "description": "Rendered with an orange-red trunk, on the map and in the trunk comparison drawing."},
