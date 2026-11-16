@@ -134,10 +134,13 @@ const I18N = {
     lt: { broadleaved: "latifoglia", needleleaved: "aghifoglia", palm: "palma" },
     lc: { deciduous: "caducifoglia", semi_deciduous: "semi-caducifoglia", evergreen: "sempreverde", semi_evergreen: "semi-sempreverde" },
     fruitTag: "frutti sulla mappa", wikidata: "Wikidata", wikiRec: "Wiki: Tree species records",
-    recTitle: "Alberi da record", recLead: "Gli alberi di questa specie con le misure più grandi, tra tutte le regioni del sito e la mappa dei monumentali. ⚠ = valore segnalato da un check: potrebbe essere sbagliato.",
+    recTitle: "Alberi da record", recLead: "Gli alberi di questa specie con le misure più grandi e il più isolato, tra tutte le regioni del sito e la mappa dei monumentali. ⚠ = valore segnalato da un check: potrebbe essere sbagliato.",
     nWarn: n => `${n} segnalat${n === 1 ? "o" : "i"} ⚠`,
-    rc: { height: "Più alto", trunk: "Tronco più spesso", slender: "Più slanciato", stocky: "Più tozzo", crown: "Chioma più larga", oldest: "Più vecchio" },
-    unit: { height: "m", trunk: "m di circonferenza", slender: "altezza/diametro", stocky: "altezza/diametro", crown: "m di diametro", oldest: "" },
+    rc: { height: "Più alto", trunk: "Tronco più spesso", slender: "Più slanciato", stocky: "Più tozzo", crown: "Chioma più larga", oldest: "Più vecchio", isolated: "Più isolato" },
+    unit: { height: "m", trunk: "m di circonferenza", slender: "altezza/diametro", stocky: "altezza/diametro", crown: "m di diametro", oldest: "", isolated: "km" },
+    isoNear: { tree: "Il più vicino: un albero", wood: "Il più vicino: un bosco", forest: "Il più vicino: una foresta", tree_row: "Il più vicino: un filare" },
+    isoCap: "Nessun albero, bosco o filare entro 50 km",
+    isoHow: "Distanza dalla cosa più vicina tra gli altri alberi (di qualsiasi specie), i boschi e i filari di OpenStreetMap.",
     others: n => `i primi ${n}`, noRec: "Nessun albero con questa misura.", warned: "Valore segnalato da un check",
     wikiVal: v => `Record sulla wiki: ${v}`, monMap: "mappa dei monumentali", node: id => `nodo ${id}`,
     sizeTitle: "Misure tipiche", sizeLead: "Mediane degli alberi mappati, senza i valori segnalati dai check. Il grafico mostra quanti alberi ci sono per ogni misura (fino al 99° percentile).",
@@ -180,10 +183,13 @@ const I18N = {
     lt: { broadleaved: "broadleaved", needleleaved: "needleleaved", palm: "palm" },
     lc: { deciduous: "deciduous", semi_deciduous: "semi-deciduous", evergreen: "evergreen", semi_evergreen: "semi-evergreen" },
     fruitTag: "fruits on the map", wikidata: "Wikidata", wikiRec: "Wiki: Tree species records",
-    recTitle: "Record trees", recLead: "The trees of this species with the largest measurements, across all the regions of the site and the monumental map. ⚠ = value reported by a check: it may be wrong.",
+    recTitle: "Record trees", recLead: "The trees of this species with the largest measurements and the most isolated one, across all the regions of the site and the monumental map. ⚠ = value reported by a check: it may be wrong.",
     nWarn: n => `${n} reported ⚠`,
-    rc: { height: "Tallest", trunk: "Thickest trunk", slender: "Most slender", stocky: "Stockiest", crown: "Widest crown", oldest: "Oldest" },
-    unit: { height: "m", trunk: "m girth", slender: "height/diameter", stocky: "height/diameter", crown: "m across", oldest: "" },
+    rc: { height: "Tallest", trunk: "Thickest trunk", slender: "Most slender", stocky: "Stockiest", crown: "Widest crown", oldest: "Oldest", isolated: "Most isolated" },
+    unit: { height: "m", trunk: "m girth", slender: "height/diameter", stocky: "height/diameter", crown: "m across", oldest: "", isolated: "km" },
+    isoNear: { tree: "Nearest: a tree", wood: "Nearest: a wood", forest: "Nearest: a forest", tree_row: "Nearest: a tree row" },
+    isoCap: "No tree, wood or tree row within 50 km",
+    isoHow: "Distance from the nearest of the other trees (of any species), woods and tree rows on OpenStreetMap.",
     others: n => `top ${n}`, noRec: "No tree with this measurement.", warned: "Value reported by a check",
     wikiVal: v => `Record on the wiki: ${v}`, monMap: "monumental map", node: id => `node ${id}`,
     sizeTitle: "Typical sizes", sizeLead: "Medians of the mapped trees, without the values reported by the checks. The chart shows how many trees there are for each value (up to the 99th percentile).",
@@ -273,8 +279,11 @@ async function fillCredit() {
 }
 
 // ---------- primati ----------
-const REC = ["height", "trunk", "crown", "slender", "stocky", "oldest"];
-const recVal = (k, t) => k === "oldest" ? esc(t.tags.start_date || t.v) : fmt(t.v, k === "slender" || k === "stocky" ? 1 : 2);
+// isolated: calcolato con QLever da build_species.py (species_isolated); "cap" = niente entro 50 km («> 50»)
+const REC = ["height", "trunk", "crown", "slender", "stocky", "oldest", "isolated"];
+const recVal = (k, t) => k === "oldest" ? esc(t.tags.start_date || t.v) : k === "isolated" && t.cap ? `&gt; ${fmt(t.v)}`
+  : fmt(t.v, k === "slender" || k === "stocky" ? 1 : 2);
+const isoNear = t => t.cap ? T.isoCap : T.isoNear[t.nk] || "";
 function recRow(k, t, warn = true) {   // warn = false: il ⚠ è già accanto al valore in grande
   const place = regName(t.r) || T.monMap;
   return `<a href="${treeLink(t)}">${esc(t.name || T.node(t.id))}</a>, ${esc(place)}${warn && t.w ? ` <span class="warn" title="${T.warned}">⚠</span>` : ""}`;
@@ -286,10 +295,12 @@ function records() {
     const list = D.records[k] || [], t = list[0];
     if (!t) return `<div class="card rec"><h3>${T.rc[k]}</h3><div class="none">${T.noRec}</div></div>`;
     const nWarn = list.filter(x => x.w).length;
-    const rest = list.slice(1).map((x, i) => `<li value="${i + 2}"><b>${recVal(k, x)}</b> · ${recRow(k, x)}</li>`);
+    const iso = k === "isolated";
+    const rest = list.slice(1).map((x, i) => `<li value="${i + 2}"><b>${recVal(k, x)}</b> · ${recRow(k, x)}${iso ? ` · ${esc(isoNear(x))}` : ""}</li>`);
     return `<div class="card rec"><h3>${T.rc[k]}</h3>
       <div class="val">${recVal(k, t)}${t.w ? ` <span class="warn" title="${T.warned}">⚠</span>` : ""} <small>${T.unit[k]}</small></div>
       <div class="who">${recRow(k, t, false)}</div>
+      ${iso ? `<div class="wiki">${esc(isoNear(t))}</div><div class="wiki">${esc(T.isoHow)}</div>` : ""}
       ${wiki[k] ? `<div class="wiki">${T.wikiVal(fmt(wiki[k], 2) + " m")}</div>` : ""}
       ${rest.length ? `<details><summary>${T.others(list.length)}${nWarn ? ` · ${T.nWarn(nWarn)}` : ""}</summary><ol>${rest.join("")}</ol></details>` : ""}</div>`;
   }).join("");

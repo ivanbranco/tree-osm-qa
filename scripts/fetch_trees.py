@@ -2846,17 +2846,20 @@ def region_records(feats):
 # (natural=wood, landuse=forest) e i filari (natural=tree_row) di tutto il mondo, non solo della regione. Non si
 # calcola dal file della regione ma con QLever (OSM di tutto il pianeta, aggiornato con i suoi tempi), quindi il sito
 # non lo ricalcola: lo prende sempre da data/records.json. Due passaggi:
-# 1) candidati: gli ISO_CANDS alberi della regione (la sua relazione OSM) più lontani dall'albero più vicino;
+# 1) candidati: i 500 alberi della regione (la sua relazione OSM) più lontani dall'albero più vicino;
 # 2) a gruppi di ISO_BATCH candidati, i boschi e i filari entro la distanza dall'albero più vicino del primo del
 #    gruppo (un bosco più lontano non cambia il risultato), al massimo ISO_CAP_KM.
 # L'isolamento è la distanza minore tra le due; ci si ferma quando il RECORD_TOP-esimo è già più isolato del prossimo
-# candidato, quindi la lista è esatta. Senza nulla entro ISO_CAP_KM l'isolamento vale ISO_CAP_KM ("cap": il sito
-# scrive «oltre»). Ceppi e alberi che non sono nel file della regione (QLever può essere indietro) non entrano.
+# candidato, quindi la lista è esatta. Se i candidati finiscono prima (regioni con molti boschi: in Bassa Austria ne
+# servono circa 700), se ne chiedono 2000, poi 8000 (ISO_CANDS). Gli alberi della lista senza nulla entro ISO_CAP_KM
+# (isole remote) hanno una query in più con il raggio fino all'albero più vicino; se non risponde valgono ISO_CAP_KM
+# ("cap": il sito scrive «oltre»). Ceppi e alberi che non sono nel file della regione (QLever può essere indietro)
+# non entrano.
 # Ogni albero della lista ha, oltre a RECORD_KEEP e "c": "iso" (km), "nk" (cosa c'è di più vicino: tree, wood,
 # forest, tree_row), "ni" (il suo elemento OSM, "node/123", "way/…", "relation/…"), "cap" se vale ISO_CAP_KM.
 # Se QLever non risponde restano i valori dell'aggiornamento precedente.
 QLEVER_URL = "https://qlever.dev/api/osm-planet"
-ISO_CANDS = 500
+ISO_CANDS = (500, 2000, 8000)   # candidati chiesti: se non bastano, il passo dopo
 ISO_BATCH = 50
 ISO_CAP_KM = 50
 QL_PREFIX = """PREFIX geo: <http://www.opengis.net/ont/geosparql#>
@@ -2887,10 +2890,11 @@ def osm_ref(iri):
     return "/".join(iri.rstrip("/").split("/")[-2:])
 
 
-def iso_candidates(rel):
-    """[(id del nodo, km dall'albero più vicino, suo elemento)] degli ISO_CANDS alberi della relazione più lontani."""
-    rows = qlever(f"""SELECT ?tree ?near ?dt WHERE {{
-  osmrel:{rel} ogc:sfContains ?tree .
+def iso_candidates(left, n):
+    """[(id del nodo, km dall'albero più vicino, suo elemento)] degli n alberi più lontani tra quelli scelti da left
+    (SPARQL che lega ?tree: per una regione «osmrel:<rel> ogc:sfContains ?tree .»)."""
+    rows = qlever(f"""SELECT DISTINCT ?tree ?near ?dt WHERE {{
+  {left}
   ?tree osmkey:natural "tree" ; geo:hasGeometry/geo:asWKT ?g1 .
   SERVICE qlss: {{
     _:c qlss:algorithm qlss:s2 ; qlss:left ?g1 ; qlss:right ?g2 ; qlss:numNearestNeighbors 2 ;
@@ -2898,7 +2902,7 @@ def iso_candidates(rel):
     {{ ?near osmkey:natural "tree" ; geo:hasGeometry/geo:asWKT ?g2 . }}
   }}
   FILTER (?tree != ?near)
-}} ORDER BY DESC(?dt) LIMIT {ISO_CANDS}""")
+}} ORDER BY DESC(?dt) LIMIT {n}""")
     return [(int(osm_ref(r["tree"]).split("/")[1]), float(r["dt"]), osm_ref(r["near"]))
             for r in rows if "/node/" in r["tree"]]
 
@@ -2925,6 +2929,56 @@ def iso_woods(ids, km):
     return out
 
 
+def isolated_top(left, ids, label, top=RECORD_TOP):
+    """I top alberi più isolati tra quelli scelti da left (SPARQL che lega ?tree) e presenti in ids, dal più isolato:
+    [(id, km, elemento più vicino, tipo, cap)]; None se QLever non risponde. Vedi «Più isolato» sopra."""
+    done, far = {}, {}      # id -> (km, elemento, tipo, cap); far: id -> (km dall'albero, albero) se oltre il tetto
+    try:
+        for n in ISO_CANDS:  # se i candidati finiscono prima che la lista sia sicura, se ne chiedono di più
+            raw = iso_candidates(left, n)
+            cands = [c for c in raw if c[0] in ids and c[0] not in done]
+            exact = False
+            for i in range(0, len(cands), ISO_BATCH):
+                batch = cands[i:i + ISO_BATCH]
+                best = sorted((v[0] for v in done.values()), reverse=True)
+                if len(best) >= top and best[top - 1] >= batch[0][1]:
+                    exact = True
+                    break
+                lim = min(batch[0][1], ISO_CAP_KM)
+                woods = iso_woods([c[0] for c in batch], lim)
+                for tid, dt, near in batch:
+                    w = woods.get(tid)
+                    if w and w[0] < dt:
+                        done[tid] = (w[0], w[1], w[2], False)
+                    elif dt <= lim:
+                        done[tid] = (dt, near, "tree", False)
+                    else:   # niente entro ISO_CAP_KM e albero più lontano: per ora «oltre ISO_CAP_KM»
+                        done[tid] = (ISO_CAP_KM, None, None, True)
+                        far[tid] = (dt, near)
+            if exact or len(raw) < n:   # lista sicura, o esaminati tutti gli alberi
+                break
+        else:
+            warn(f"{label}: «Più isolato» calcolato solo sui primi {ISO_CANDS[-1]} candidati")
+    except Exception as e:
+        warn(f"{label}: QLever non risponde ({str(e)[:150]}), «Più isolato» resta quello precedente")
+        return None
+    rows = sorted(done.items(), key=lambda x: (-record_round(x[1][0]), x[0]))[:top]
+    # alberi della lista oltre il tetto (isole remote): una query sola con il raggio fino al più lontano, per la
+    # distanza vera; lenta (2–3 minuti), quindi solo per questi. Se non risponde restano «oltre ISO_CAP_KM»
+    capped = [tid for tid, v in rows if v[3]]
+    if capped:
+        try:
+            woods = iso_woods(capped, max(far[t][0] for t in capped))
+            for tid in capped:
+                dt, near = far[tid]
+                w = woods.get(tid)
+                done[tid] = (w[0], w[1], w[2], False) if w and w[0] < dt else (dt, near, "tree", False)
+            rows = sorted(done.items(), key=lambda x: (-record_round(x[1][0]), x[0]))[:top]
+        except Exception as e:
+            warn(f"{label}: QLever non risponde per gli alberi oltre {ISO_CAP_KM} km ({str(e)[:150]})")
+    return [(tid, *v) for tid, v in rows]
+
+
 def region_isolated(region, feats):
     """Primato «Più isolato» della regione, nella forma di region_records ({"t": [...], "m": 0}); None se QLever non
     risponde o la regione non ha una relazione."""
@@ -2932,33 +2986,11 @@ def region_isolated(region, feats):
         return None
     by_id = {f["properties"]["id"]: f for f in feats
              if not f["properties"].get("stump") and not f["properties"].get("xmas")}
-    try:
-        cands = [c for c in iso_candidates(region["rel"]) if c[0] in by_id]
-        done = {}           # id -> (km, elemento, tipo, cap)
-        for i in range(0, len(cands), ISO_BATCH):
-            batch = cands[i:i + ISO_BATCH]
-            best = sorted((v[0] for v in done.values()), reverse=True)
-            if len(best) >= RECORD_TOP and best[RECORD_TOP - 1] >= batch[0][1]:
-                break
-            lim = min(batch[0][1], ISO_CAP_KM)
-            woods = iso_woods([c[0] for c in batch], lim)
-            for tid, dt, near in batch:
-                w = woods.get(tid)
-                if w and w[0] < dt:
-                    done[tid] = (w[0], w[1], w[2], False)
-                elif dt <= lim:
-                    done[tid] = (dt, near, "tree", False)
-                else:       # nessun bosco entro ISO_CAP_KM e albero più lontano: «oltre ISO_CAP_KM»
-                    done[tid] = (ISO_CAP_KM, None, None, True)
-        else:
-            if len(cands) >= ISO_CANDS:
-                warn(f"{region['slug']}: «Più isolato» calcolato solo sui primi {ISO_CANDS} candidati")
-    except Exception as e:
-        warn(f"{region['slug']}: QLever non risponde ({str(e)[:150]}), «Più isolato» resta quello precedente")
+    rows = isolated_top(f"osmrel:{region['rel']} ogc:sfContains ?tree .", by_id, region["slug"])
+    if rows is None:
         return None
-    rows = sorted(done.items(), key=lambda x: (-record_round(x[1][0]), x[0]))[:RECORD_TOP]
     out = []
-    for tid, (km, ref, kind, cap) in rows:
+    for tid, km, ref, kind, cap in rows:
         f = by_id[tid]
         t = {**{x: f["properties"][x] for x in RECORD_KEEP if x in f["properties"]},
              "c": f["geometry"]["coordinates"], "iso": round(km, 3)}

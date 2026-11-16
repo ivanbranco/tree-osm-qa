@@ -238,8 +238,14 @@ def main(names):
     updated = max(v.get("updated", "") for v in index.values())
     template = TEMPLATE.read_text(encoding="utf-8")
     OUT_DIR.mkdir(exist_ok=True)
+    rels = [rinfo[slug]["rel"] for slug in index if slug in rinfo and rinfo[slug].get("rel")]
     for n, s in S.items():
         data = build_data(n, s, rinfo, index, sp_trees, group_of, area, updated)
+        iso = species_isolated(n, s, rels)
+        if iso is None:     # QLever non risponde: resta la lista della pagina generata prima, se c'è
+            iso = prev_isolated(want[n])
+        if iso:
+            data["records"]["isolated"] = iso
         js = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
         sci = n
         en = data["names"].get("en") or ""
@@ -251,6 +257,49 @@ def main(names):
         out.write_text(html, encoding="utf-8")
         print(f"{out.relative_to(ROOT)}: {data['total']} alberi, {len(js) // 1024} kB di dati")
     write_index()
+
+
+def species_isolated(n, s, rels):
+    """«Più isolato» della specie (come il tab «Alberi da record», ft.isolated_top): i primi TOP tra gli alberi della
+    specie delle pagine (regioni del sito e monumentali fuori dalle regioni), con la distanza dal più vicino tra gli
+    altri alberi, i boschi e i filari di tutto il mondo. A QLever si chiedono gli alberi con uno dei valori di species
+    usati da quegli alberi, dentro le relazioni delle regioni (rels) o tra i monumentali fuori dalle regioni; [] senza
+    alberi, None se QLever non risponde."""
+    where = {f["properties"]["id"]: slug for slug, f in s["feats"]}
+    if not where:
+        return []
+    names = sorted({f["properties"]["species"] for _, f in s["feats"] if f["properties"].get("species")})
+    extra = [i for i, slug in where.items() if slug is None]
+    left = (f"VALUES ?sp {{ {' '.join(json.dumps(x, ensure_ascii=False) for x in names)} }}\n"
+            f"  ?tree osmkey:species ?sp .\n"
+            f"  {{ VALUES ?rel {{ {' '.join(f'osmrel:{r}' for r in rels)} }} ?rel ogc:sfContains ?tree }}"
+            + (f" UNION {{ VALUES ?tree {{ {' '.join(f'osmnode:{i}' for i in extra)} }} }}" if extra else ""))
+    rows = ft.isolated_top(left, where, n, TOP)
+    if rows is None:
+        return None
+    feats = {f["properties"]["id"]: f for _, f in s["feats"]}
+    out = []
+    for tid, km, ref, kind, cap in rows:
+        t = {"v": round(km, 3), "w": False, "r": where[tid], "id": tid,
+             "name": feats[tid]["properties"].get("name") or "", "tags": {}}
+        if cap:
+            t["cap"] = 1
+        else:
+            t["nk"] = kind
+        out.append(t)
+    return out
+
+
+def prev_isolated(slug):
+    """«Più isolato» della pagina species/<slug>.html generata prima (None se manca)."""
+    p = OUT_DIR / f"{slug}.html"
+    if not p.exists():
+        return None
+    m = re.search(r'<script type="application/json" id="data">(.*?)</script>', p.read_text(encoding="utf-8"), re.S)
+    try:
+        return json.loads(m.group(1).replace("<\\/", "</"))["records"].get("isolated") if m else None
+    except (ValueError, KeyError):
+        return None
 
 
 def write_index():
