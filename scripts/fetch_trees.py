@@ -2871,17 +2871,29 @@ PREFIX qlss: <https://qlever.cs.uni-freiburg.de/spatialSearch/>
 """
 
 
+# QLever rifiuta le richieste delle Action di GitHub (HTTP 403 dal suo nginx, dal 16/11/2026), non quelle da un PC:
+# al primo 403 non lo si interroga più fino alla fine della corsa (QLEVER_OFF = il motivo), e «Più isolato» si
+# calcola in locale con «python scripts/fetch_trees.py --isolated …» (isolated_main)
+QLEVER_OFF = None
+
+
 def qlever(q):
     """Righe di una query a QLever ({variabile: valore}); un secondo tentativo dopo 30 s, poi solleva l'eccezione."""
+    global QLEVER_OFF
+    if QLEVER_OFF:
+        raise RuntimeError(QLEVER_OFF)
     for attempt in range(2):
         try:
             r = requests.post(QLEVER_URL, data={"query": QL_PREFIX + q}, timeout=300,
                               headers={**HEADERS, "Accept": "application/sparql-results+json"})
+            if r.status_code == 403:
+                QLEVER_OFF = "HTTP 403: QLever rifiuta le richieste da qui"
+                raise RuntimeError(QLEVER_OFF)
             if not r.ok:    # nel messaggio anche l'inizio della risposta, che spiega il rifiuto
                 raise RuntimeError(f"HTTP {r.status_code}: {' '.join(r.text.split())[:300]}")
             return [{k: v["value"] for k, v in b.items()} for b in r.json()["results"]["bindings"]]
         except Exception:
-            if attempt:
+            if attempt or QLEVER_OFF:
                 raise
             time.sleep(30)
 
@@ -2934,6 +2946,9 @@ def isolated_top(left, ids, label, top=RECORD_TOP):
     """I top alberi più isolati tra quelli scelti da left (SPARQL che lega ?tree) e presenti in ids, dal più isolato:
     [(id, km, elemento più vicino, tipo, cap)]; None se QLever non risponde. Vedi «Più isolato» sopra."""
     done, far = {}, {}      # id -> (km, elemento, tipo, cap); far: id -> (km dall'albero, albero) se oltre il tetto
+    if QLEVER_OFF:          # già rifiutato in questa corsa: l'avviso c'è già stato
+        print(f"{label}: «Più isolato» non calcolato ({QLEVER_OFF}), resta quello precedente")
+        return None
     try:
         for n in ISO_CANDS:  # se i candidati finiscono prima che la lista sia sicura, se ne chiedono di più
             raw = iso_candidates(left, n)
@@ -2961,7 +2976,8 @@ def isolated_top(left, ids, label, top=RECORD_TOP):
         else:
             warn(f"{label}: «Più isolato» calcolato solo sui primi {ISO_CANDS[-1]} candidati")
     except Exception as e:
-        warn(f"{label}: QLever non risponde ({str(e)[:350]}), «Più isolato» resta quello precedente")
+        warn(f"{label}: QLever non risponde ({str(e)[:350]}), «Più isolato» resta quello precedente"
+             + (". Va calcolato in locale: python scripts/fetch_trees.py --isolated <regioni>" if QLEVER_OFF else ""))
         return None
     rows = sorted(done.items(), key=lambda x: (-record_round(x[1][0]), x[0]))[:top]
     # alberi della lista oltre il tetto (isole remote): una query sola con il raggio fino al più lontano, per la
@@ -3000,7 +3016,8 @@ def region_isolated(region, feats):
         else:
             t["nk"], t["ni"] = kind, ref
         out.append(t)
-    return {"t": out, "m": 0} if out else None
+    # "d" = giorno del calcolo, per «--isolated oldest»
+    return {"t": out, "m": 0, "d": time.strftime("%Y-%m-%d", time.gmtime())} if out else None
 
 
 def save_records(slug, feats, isolated=None):
@@ -3011,6 +3028,50 @@ def save_records(slug, feats, isolated=None):
     rec[slug] = region_records(feats)
     if isolated or prev:
         rec[slug]["isolated"] = isolated or prev
+    write_records(rec)
+
+
+def isolated_main(names):
+    """«python scripts/fetch_trees.py --isolated <regioni>»: solo «Più isolato», dai file delle regioni già scaricati
+    (data/regions), scritto in RECORDS_FILE senza toccare gli altri primati. Serve perché QLever rifiuta le richieste
+    delle Action (vedi QLEVER_OFF): si lancia dal proprio PC e si pubblica il file. Regioni come per main: nomi,
+    gruppi, "all"; "oldest" = la regione con «Più isolato» calcolato meno di recente (prima quelle che non l'hanno)."""
+    have = [r for r in REGIONS if (OUT_DIR / f"{r['slug']}.geojson.gz").exists()]
+    rec = load_json(RECORDS_FILE)
+    when = lambda r: ((rec.get(r["slug"]) or {}).get("isolated") or {}).get("d", "")
+    groups = collections.defaultdict(list)
+    for r in have:
+        if r.get("group"):
+            groups[r["group"].lower().replace(" ", "-")].append(r)
+    by_slug = {r["slug"]: r for r in have}
+    todo = []
+    for x in names or ["oldest"]:
+        if x == "all":
+            todo += have
+        elif x == "oldest":
+            r = min(have, key=when)
+            print(f"oldest: {r['slug']} («Più isolato» calcolato: {when(r) or 'mai'})")
+            todo.append(r)
+        elif x in groups or x in by_slug:
+            todo += groups.get(x) or [by_slug[x]]
+        else:
+            sys.exit(f"Regione sconosciuta o non ancora scaricata: {x}")
+    todo = list({r["slug"]: r for r in todo}.values())
+    for i, region in enumerate(todo, 1):
+        feats = json.loads(gzip.decompress((OUT_DIR / f"{region['slug']}.geojson.gz").read_bytes()))["features"]
+        t = time.time()
+        iso = region_isolated(region, feats)
+        if QLEVER_OFF:
+            sys.exit(f"QLever rifiuta le richieste: {QLEVER_OFF}")
+        if iso:
+            rec = load_json(RECORDS_FILE)
+            rec.setdefault(region["slug"], {})["isolated"] = iso
+            write_records(rec)
+        print(f"{region['slug']} ({i}/{len(todo)}): {'fatto' if iso else 'non calcolato'} in {time.time() - t:.0f} s"
+              + (f", il primo a {iso['t'][0]['iso']} km" if iso else ""), flush=True)
+
+
+def write_records(rec):
     RECORDS_FILE.write_text("{\n" + ",\n".join(
         f"{json.dumps(k)}: {json.dumps(v, separators=(',', ':'), ensure_ascii=False, sort_keys=True)}"
         for k, v in sorted(rec.items())) + "\n}\n", encoding="utf-8")
@@ -3182,4 +3243,7 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    if sys.argv[1:2] == ["--isolated"]:
+        isolated_main([x.lower() for a in sys.argv[2:] for x in re.split(r"[\s,]+", a) if x])
+    else:
+        main(sys.argv[1:])
