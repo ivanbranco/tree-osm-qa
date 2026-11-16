@@ -2187,6 +2187,13 @@
 ],
 "taxon": true
 },
+"Q1124292": {
+"en": "Royal Oak",
+"it": "Royal Oak (albero)",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q112581469": {
 "en": "Yono no Okaya",
 "names": [],
@@ -30162,7 +30169,6 @@
 ],
 "it": []
 },
-"en": "Prunus 'Tai-haku'",
 "names": [
 "Prunus 'Tai-haku'"
 ],
