@@ -655,12 +655,12 @@
    "updated": "2026-11-16T01:41:39Z"
   },
   "podkarpackie": {
-   "count": 90420,
-   "errors": 227,
+   "count": 90492,
+   "errors": 228,
    "name": "Precarpazia",
-   "sha1": "893dd1673a97d28916a7ad416113b586d196fc46",
-   "tried": "2026-11-14",
-   "updated": "2026-11-14T10:54:49Z"
+   "sha1": "1bc0cd4371ae23614887c1872cc22a56b99dfdab",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T12:18:54Z"
   },
   "podlaskie": {
    "count": 21938,

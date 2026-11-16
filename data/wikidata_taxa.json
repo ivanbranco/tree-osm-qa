@@ -2977,6 +2977,11 @@
 ],
 "taxon": true
 },
+"Q11695787": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q117083315": {
 "alias": {
 "en": [],
@@ -13954,6 +13959,7 @@
 "Farnia"
 ]
 },
+"it": "Farnia",
 "names": [
 "Quercus robur"
 ],
@@ -24249,6 +24255,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q48847385": {
+"en": "Josef Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q489226": {
 "alias": {
 "en": [
@@ -29622,6 +29634,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q9249143": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q926249": {
 "alias": {
