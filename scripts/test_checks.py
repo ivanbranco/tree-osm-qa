@@ -315,6 +315,8 @@ CASES = [
     # --- collegamenti ---
     ("link_format: wikidata", {"natural": "tree", "wikidata": "Quercus"}, ["link_format"]),
     ("link_format: image", {"natural": "tree", "image": "foto.jpg"}, ["link_format"]),
+    ("link_format: non per image=File:… (un consiglio)", {"natural": "tree", "image": "File:Etrep-Vierge.JPG"}, []),
+    ("link_format: due file in image", {"natural": "tree", "image": "File:A.jpg;File:B.jpg"}, ["link_format"]),
     ("link_format: due indirizzi in image",
      {"natural": "tree", "image": "https://example.org/ok.jpg;https://example.org/ok.jpg"}, ["link_format"]),
     ("link_format: due QID in wikidata", {"natural": "tree", "wikidata": "Q910001;Q910001"}, ["link_format"]),
@@ -465,8 +467,10 @@ HINT_CASES = [
     ("hint_ne: name:en con la minuscola", {"natural": "tree", "name:en": "old oak"}, None, "hint_ne", "old oak"),
     ("hint_ne: non con la maiuscola", {"natural": "tree", "name:en": "Old Oak"}, None, "hint_ne", False),
     # image=* pagina web (hint_ip, hint_mly) e website=*/url=* voce di Wikipedia (hint_wpw)
-    ("hint_ip: pagina di Google Foto", {"natural": "tree", "image": "https://photos.app.goo.gl/Yqzit3vNyopEEK2q7"},
-     None, "hint_ip", "photos.app.goo.gl"),
+    ("hint_ip: non per Google Foto (accettato)", {"natural": "tree", "image": "https://photos.app.goo.gl/Yqzit3vNyopEEK2q7"},
+     None, "hint_ip", False),
+    ("hint_ip: pagina di Google Drive", {"natural": "tree", "image": "https://drive.google.com/file/d/1OPC/view"},
+     None, "hint_ip", "drive.google.com"),
     ("hint_ip: sottodominio di Wikipedia", {"natural": "tree", "image": "https://es.wikipedia.org/wiki/Pino#/media/Archivo:P.jpg"},
      None, "hint_ip", "es.wikipedia.org"),
     ("hint_ip: non per il file su i.imgur.com", {"natural": "tree", "image": "https://i.imgur.com/xhUYiJn.jpg"},

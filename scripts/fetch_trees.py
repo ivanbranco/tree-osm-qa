@@ -895,15 +895,19 @@ COMMONS_FILE_URL = re.compile(r"^https?://commons\.(?:m\.)?wikimedia\.org/wiki/[
 # COMMONS_UPLOAD in index.html (consiglio su wikimedia_commons)
 COMMONS_UPLOAD_URL = re.compile(r"^https?://upload\.wikimedia\.org/wikipedia/commons/(?:thumb/)?[0-9a-f]/[0-9a-f]{2}/([^/?#]+)",
                                 re.I)
+# image=File:… : il nome di un solo file di Commons (come COMMONS_NAME e imageInfo in index.html)
+COMMONS_IMAGE_NAME = re.compile(r"^\s*File:([^;]+?)\s*$")
 
 
 def commons_photo_files(t):
-    """File di Commons collegati all'albero: wikimedia_commons=File:… e image=* che punta alla pagina di un file
-    su Commons o al file stesso su upload.wikimedia.org; titoli "File:…" con gli spazi al posto dei trattini bassi,
-    senza doppioni."""
+    """File di Commons collegati all'albero: wikimedia_commons=File:…, image=File:… e image=* che punta alla pagina
+    di un file su Commons o al file stesso su upload.wikimedia.org; titoli "File:…" con gli spazi al posto dei
+    trattini bassi, senza doppioni."""
     if "wikimedia_commons" not in t and "image" not in t:
         return []
     out =[f.replace("_", " ") for f in commons_files(t)]
+    if m := COMMONS_IMAGE_NAME.match(str(t.get("image", ""))):
+        out.append("File:" + m.group(1).replace("_", " "))
     for u in str(t.get("image", "")).split(";"):
         if m := COMMONS_FILE_URL.match(u.strip()) or COMMONS_UPLOAD_URL.match(u.strip()):
             out.append("File:" + unquote(m.group(1)).replace("_", " ").strip())
@@ -912,8 +916,9 @@ def commons_photo_files(t):
 
 # Siti che in image=* danno una pagina web e non il file dell'immagine (consiglio hint_ip). Si confronta il nome del
 # sito senza «www.» né «m.»; quelli con il punto davanti valgono anche per i sottodomini (it.wikiloc.com). Non
-# i.imgur.com, live.staticflickr.com, images.mapillary.com, drive.google.com/uc: danno il file
-IMAGE_PAGE_SITES = ("photos.app.goo.gl", "photos.google.com", "drive.google.com", "goo.gl", "maps.app.goo.gl",
+# i.imgur.com, live.staticflickr.com, images.mapillary.com, drive.google.com/uc: danno il file. Google Foto
+# (photos.app.goo.gl, photos.google.com) è accettato: è il valore più usato negli alberi, con la foto condivisa
+IMAGE_PAGE_SITES = ("drive.google.com", "goo.gl", "maps.app.goo.gl",
                     "mapillary.com", "flickr.com", "geograph.org.uk", "imgur.com", ".wikiloc.com", "twitter.com",
                     "x.com", "facebook.com", "instagram.com", "1drv.ms", "onedrive.live.com", ".wikipedia.org")
 # Pagina di una foto di Mapillary: …/map/im/<chiave> o …/app/?…pKey=<id> (consiglio hint_mly)
@@ -1562,9 +1567,10 @@ def bad_link_tags(t):
         parts = [x.strip() for x in t["panoramax"].split(";")]
         if not all(UUID_START.match(x) for x in parts):
             bad.append("panoramax")
-    # image: un solo indirizzo; più indirizzi separati da ";" (con o senza spazi) sono segnalati
-    if "image" in t and (not URL.match(t["image"].strip())
-                         or sum(1 for x in t["image"].split(";") if URL.match(x.strip())) > 1):
+    # image: un solo indirizzo o un solo file di Commons (File:…, che dà il consiglio di spostarlo in wikimedia_commons:
+    # index.html); più indirizzi separati da ";" (con o senza spazi) sono segnalati
+    if "image" in t and not COMMONS_IMAGE_NAME.match(t["image"]) and (
+            not URL.match(t["image"].strip()) or sum(1 for x in t["image"].split(";") if URL.match(x.strip())) > 1):
         bad.append("image")
     return bad
 

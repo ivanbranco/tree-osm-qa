@@ -63,9 +63,10 @@ BAD_HEIGHT = {"height", "height_species", "number_invalid", "comma", "too_slende
 
 def has_photo(p):
     """Vero se la scheda dell'albero mostra una foto: le stesse fonti di imageInfo in index.html (wikimedia_commons,
-    panoramax, image:fotoshi, image con un indirizzo, immagine dell'elemento Wikidata)."""
+    panoramax, image:fotoshi, image con un indirizzo o con un file di Commons (File:…), immagine dell'elemento
+    Wikidata)."""
     return bool(p.get("wikimedia_commons") or ft.panoramax_ids(p) or p.get("image:fotoshi")
-                or str(p.get("image", "")).startswith(("http://", "https://")) or p.get("wd_img"))
+                or str(p.get("image", "")).startswith(("http://", "https://", "File:")) or p.get("wd_img"))
 
 
 def rank(p):

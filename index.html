@@ -571,7 +571,7 @@ const I18N = {
       masafSize: (c, s, n) => `La circonferenza (${c}) raggiunge la soglia MASAF per ${n} (${s}): potrebbe essere un albero monumentale`,
       commonsImage: f => `image=* punta a un file di Wikimedia Commons: si potrebbe sostituire con wikimedia_commons=${f}`,
       // hint_ip, hint_mly (fetch_trees.py): image=* è una pagina web; mly: identificativo della foto di Mapillary
-      imagePage: (site, mly) => mly ? `image=* è la pagina di una foto di Mapillary, non il file di un'immagine: l'identificativo della foto si potrebbe scrivere in mapillary=${mly}`
+      imagePage: (site, mly) => site === "mapillary.com" ? `image=* contiene una foto di Mapillary: per Mapillary c'è il tag mapillary=*${mly ? `, si potrebbe usare mapillary=${mly}` : ""}`
         : `image=* è una pagina web (${site}), non il file di un'immagine. Una foto si può anche caricare su Wikimedia Commons o Panoramax e collegare con wikimedia_commons=* o panoramax=*`,
       // hint_wpw (fetch_trees.py): website=* o url=* è una voce di Wikipedia, senza wikipedia=*
       websiteWikipedia: (k, v) => `${k}=* è una voce di Wikipedia: se la voce è di questo albero, il tag per collegarla è wikipedia=${v}`,
@@ -755,7 +755,7 @@ const I18N = {
       leaf_cycle: "Valori documentati: deciduous, semi_deciduous, evergreen, semi_evergreen.",
       leaf_type_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. Per le palme (Arecaceae) valgono sia palm sia broadleaved; palm è ammesso anche per le piante dall'aspetto di palma (Yucca, Cordyline, Dracaena, Cycas, Musa…), non per le altre latifoglie. Per Tamarix valgono needleleaved e broadleaved, per Cycas anche palm. Con leaf_type=palm il genere si prende anche da taxon.",
       leaf_cycle_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. I valori semi_ valgono come quelli pieni.",
-      link_format: "wikidata vuole un QID (Q…), wikimedia_commons il prefisso File: o Category:, panoramax un UUID, image un solo indirizzo http(s).",
+      link_format: "wikidata vuole un QID (Q…), wikimedia_commons il prefisso File: o Category:, panoramax un UUID, image un solo indirizzo http(s) o un solo file di Commons (File:…).",
       broken_link: "Segnalati: pagine 404 o 410, siti che non esistono più e file assenti su Commons. Non sono segnalati 403, 429, errori del server e timeout, che spesso sono blocchi verso i programmi automatici.",
       commons_far: "Le coordinate del file di Commons collegato (wikimedia_commons o image) distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
       monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) o con una tutela (P1435) indicano un albero monumentale, che in OSM ha denotation=natural_monument. Sui ceppi ref:CRFOP e ref:gid non sono segnalati.",
@@ -1049,7 +1049,7 @@ const I18N = {
       importDoc: v => `Imported tree (source=${v}):`, importDocLink: "import documentation",
       masafSize: (c, s, n) => `The circumference (${c}) reaches the MASAF threshold for ${n} (${s}): it could be a monumental tree`,
       commonsImage: f => `image=* points to a Wikimedia Commons file: it could be replaced with wikimedia_commons=${f}`,
-      imagePage: (site, mly) => mly ? `image=* is the page of a Mapillary photo, not an image file: the photo ID could be written in mapillary=${mly}`
+      imagePage: (site, mly) => site === "mapillary.com" ? `image=* contains a Mapillary photo: Mapillary has its own tag, mapillary=*${mly ? `; mapillary=${mly} could be used` : ""}`
         : `image=* is a web page (${site}), not an image file. A photo can also be uploaded to Wikimedia Commons or Panoramax and linked with wikimedia_commons=* or panoramax=*`,
       websiteWikipedia: (k, v) => `${k}=* is a Wikipedia article: if the article is about this tree, the tag to link it is wikipedia=${v}`,
       feetInchSpace: (k, v, fix) => `${k}=${v}: the wiki writes feet and inches without spaces (${fix})`,
@@ -1223,7 +1223,7 @@ const I18N = {
       leaf_cycle: "Documented values: deciduous, semi_deciduous, evergreen, semi_evergreen.",
       leaf_type_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. For palms (Arecaceae) both palm and broadleaved are accepted; palm is also accepted for palm-like plants (Yucca, Cordyline, Dracaena, Cycas, Musa…), not for other broadleaved trees. For Tamarix both needleleaved and broadleaved are accepted, for Cycas palm too. With leaf_type=palm the genus is also taken from taxon.",
       leaf_cycle_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. semi_ values count as the full ones.",
-      link_format: "wikidata needs a QID (Q…), wikimedia_commons the File: or Category: prefix, panoramax a UUID, image a single http(s) address.",
+      link_format: "wikidata needs a QID (Q…), wikimedia_commons the File: or Category: prefix, panoramax a UUID, image a single http(s) address or a single Commons file (File:…).",
       broken_link: "Reported: 404 or 410 pages, sites that no longer exist and files missing on Commons. 403, 429, server errors and timeouts are not reported, as they are often blocks against automated tools.",
       commons_far: "The coordinates of the linked Commons file (wikimedia_commons or image) are more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
       monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) or with a heritage designation (P1435) indicate a monumental tree, which in OSM has denotation=natural_monument. On tree stumps ref:CRFOP and ref:gid are not reported.",
@@ -2449,7 +2449,7 @@ map.on("load", async () => {
   // eachInView, lo stesso del conteggio «Alberi in vista» (zoom e filtri dei menu). Per ogni voce: has(p) dice se
   // l'albero ha il dato, miss è il filtro di MapLibre degli alberi a cui manca (per evidenziarli sulla mappa).
   // La circonferenza conta anche con diameter=*, da cui la mappa ricava il tronco. La foto: le stesse fonti di
-  // has_photo in fetch_world.py (wikimedia_commons, panoramax, image:fotoshi, image con un indirizzo, wd_img).
+  // has_photo in fetch_world.py (wikimedia_commons, panoramax, image:fotoshi, image con un indirizzo o File:…, wd_img).
   // punto dentro un Polygon o MultiPolygon GeoJSON (ray casting; i buchi interni escludono)
   const inRing = ([x, y], ring) => {
     let inside = false;
@@ -2484,9 +2484,10 @@ map.on("load", async () => {
     height: { has: hasTag("height"), miss: noTag("height") },
     circumference: { has: p => hasTag("circumference")(p) || hasTag("diameter")(p), miss: ["all", noTag("circumference"), noTag("diameter")] },
     diameter_crown: { has: hasTag("diameter_crown"), miss: noTag("diameter_crown") },
-    photo: { has: p => !!(p.wikimedia_commons || p.panoramax || p["image:fotoshi"] || p.wd_img || /^https?:\/\//.test(p.image || "")),
+    photo: { has: p => !!(p.wikimedia_commons || p.panoramax || p["image:fotoshi"] || p.wd_img || /^(https?:\/\/|File:)/.test(p.image || "")),
       miss: ["all", noTag("wikimedia_commons"), noTag("panoramax"), noTag("image:fotoshi"), noTag("wd_img"),
-        ["!=", ["slice", ["to-string", ["coalesce", ["get", "image"], ""]], 0, 4], "http"]] },
+        ["!=", ["slice", ["to-string", ["coalesce", ["get", "image"], ""]], 0, 4], "http"],
+        ["!=", ["slice", ["to-string", ["coalesce", ["get", "image"], ""]], 0, 5], "File:"]] },
     sex: { has: hasTag("sex"), miss: ["all", DIO_EXPR, noTag("sex")], among: isDio, hlText: L.cp.hlSex },
   };
   for (const k in COMP) COMP[k].label = k === "photo" ? L.cp.photo : k === "sex" ? L.cp.sex : L.rows[k];
@@ -2919,6 +2920,51 @@ map.on("load", async () => {
     } catch (err) { alert(L.josmMulti.fail); }
     finally { josmBusy = false; }
   });
+  // tasto E («Expert», non scritto nella pagina): attorno agli alberi in vista con almeno un consiglio (ⓘ della scheda, hints) e
+  // nessun errore, un anello rosso tratteggiato, per distinguerli dagli errori (cerchio rosso pieno). Da zoom ALL_Z,
+  // dove ci sono tutti gli alberi; gli anelli si rifanno a ogni spostamento, grandi quanto la chioma (almeno 4 px) più
+  // 3 px, al più HINT_CAP (i più vicini al centro). Segue il filtro di genus/specie, non quello degli errori.
+  const HINT_CAP = 5000, HINT_SEG = 32;
+  let hintsOn = false;
+  map.addSource("hint-marks", { type: "geojson", data: EMPTY });
+  map.addLayer({ id: "hint-ring-halo", type: "line", source: "hint-marks", minzoom: ALL_Z,
+    paint: { "line-color": "#fff", "line-width": 4, "line-opacity": 0.8 } });
+  map.addLayer({ id: "hint-ring", type: "line", source: "hint-marks", minzoom: ALL_Z,
+    paint: { "line-color": "#d00020", "line-width": 2, "line-dasharray": [2, 1.5] } });
+  // ha almeno un consiglio: calcolato una volta per albero (le proprietà sono nuove a ogni caricamento della regione)
+  const hasHint = ft => { const p = ft.properties;
+    if (p._hn === undefined) p._hn = hints(p, ft.geometry.coordinates).length > 0;
+    return p._hn; };
+  const updateHintMarks = () => {
+    const src = map.getSource("hint-marks");
+    if (!hintsOn || WORLD || map.getZoom() < ALL_Z) { src.setData(EMPTY); return; }
+    const b = map.getBounds(), w = b.getWest(), e = b.getEast(), s = b.getSouth(), n = b.getNorth();
+    const tx = taxSel.value, z = map.getZoom();
+    let list = ALL.filter(ft => { const [x, y] = ft.geometry.coordinates, p = ft.properties;
+      return x >= w && x <= e && y >= s && y <= n && p.issues === "|" && (!tx || matchTaxon(tx, p)) && hasHint(ft); });
+    if (list.length > HINT_CAP) {
+      const c = map.getCenter();
+      const d = ft => (ft.geometry.coordinates[0] - c.lng) ** 2 + (ft.geometry.coordinates[1] - c.lat) ** 2;
+      list = list.sort((u, v) => d(u) - d(v)).slice(0, HINT_CAP);
+    }
+    const degPx = 360 / (512 * Math.pow(2, z));       // gradi di longitudine per pixel a questo zoom
+    src.setData({ type: "FeatureCollection", features: list.map(ft => {
+      const [x, y] = ft.geometry.coordinates, p = ft.properties, cy = Math.cos(y * Math.PI / 180);
+      const mpp = 78271.517 * cy / Math.pow(2, z);    // metri per pixel alla latitudine dell'albero
+      const r = (Math.max(4, (p.stump ? p.sr : p.cr) / mpp || 0) + 3) * degPx;
+      const ring = Array.from({ length: HINT_SEG + 1 }, (_, k) => { const a = k * 2 * Math.PI / HINT_SEG;
+        return [x + r * Math.cos(a), y + r * cy * Math.sin(a)]; });
+      return { type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: ring } };
+    }) });
+  };
+  let hintTimer;
+  map.on("moveend", () => { if (hintsOn) { clearTimeout(hintTimer); hintTimer = setTimeout(updateHintMarks, 100); } });
+  taxSel.addEventListener("change", () => { if (hintsOn) updateHintMarks(); });
+  addEventListener("keydown", e => {
+    if (e.key.toLowerCase() !== "e" || e.ctrlKey || e.metaKey || e.altKey || WORLD) return;
+    if (e.target.closest?.("input, select, textarea, [contenteditable], dialog") || document.querySelector("dialog[open]")) return;
+    hintsOn = !hintsOn; updateHintMarks();
+  });
   // anche i tronchi (singoli e multipli) aprono la scheda: da zoom 16 sono disegnati sopra la chioma
   for (const id of [...CROWN_IDS, ...TIERS.map(t => "crown-palm" + t.suf), ...TIERS.map(t => "trunk" + t.suf), ...TIERS.map(t => "stem" + t.suf),
     "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"]) {
@@ -3067,7 +3113,7 @@ map.on("load", async () => {
       DECO = [...ALL.filter(ft => ft.properties.stems || ft.properties.ivy || ft.properties.fruit || isXmas(ft.properties)
         || isDual(ft.properties)), ...xm];
       map.getSource(src).setData(fc);
-      updateTaxa(); updateShapes(); update();
+      updateTaxa(); updateShapes(); update(); if (hintsOn) updateHintMarks();
     };
     // stesso criterio di minimal() in fetch_trees.py
     const reduce = fc => ({ type: "FeatureCollection", features: markColors(fc, cal).features.filter(f => f.properties.issues !== "|"
@@ -4049,6 +4095,9 @@ function imageInfo(p, pos) {
   const fid = fotoshiId(p);
   if (fid) return { src: `https://cdn.fotoshi.com/thumbnails/${fid}.jpeg`, href: `https://www.fotoshi.com/photo/${fid}`, fs: true,
     author: p.fs_author || "", lic: p.fs_author ? p.fs_license || "" : "" };
+  // image=File:… (il nome di un file di Commons, un solo valore): come wikimedia_commons
+  const fm = /^\s*File:([^;]+?)\s*$/.exec(p.image || "");
+  if (fm) return { src: commonsFile(fm[1]), commons: fm[1] };
   if (p.image && /^https?:\/\//.test(p.image)) {
     const m = p.image.match(/commons\.wikimedia\.org\/wiki\/(File:.+)$/);
     if (m) { const name = decodeURIComponent(m[1]).replace(/^File:/, ""); return { src: commonsFile(name), commons: name }; }
@@ -4171,14 +4220,16 @@ const binomialHint = n => /\S\s+\S/.test(String(n || "").replace(/×/g, " ").tri
 const FEET_SPACE =/^\s*\d+\s*'\s+\d+(?:\.\d+)?\s*"\s*$|^\s*\d+\s+'(?:\s*\d+(?:\.\d+)?\s*")?\s*$/;   // come in hints
 // image=* che punta a un file di Wikimedia Commons (la pagina del file, come COMMONS_FILE_URL in fetch_trees.py, o
 // l'indirizzo del file su upload.wikimedia.org, anche di una miniatura) senza wikimedia_commons=*: "File:…" o undefined.
-// L'indirizzo si decodifica prima del confronto (File%3A…); solo nomi con un'estensione, così una categoria non vale
+// L'indirizzo si decodifica prima del confronto (File%3A…); solo nomi con un'estensione, così una categoria non vale.
+// Vale anche il solo nome del file (image=File:…, COMMONS_NAME)
 const COMMONS_PAGE = /^https?:\/\/commons\.(?:m\.)?wikimedia\.org\/wiki\/[^\/:?#]+:([^?#]+)/i;
 const COMMONS_UPLOAD = /^https?:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/(?:thumb\/)?[0-9a-f]\/[0-9a-f]{2}\/([^\/?#]+)/i;
+const COMMONS_NAME = /^File:(.+)$/;
 const commonsOfImage = p => {
   if (p.wikimedia_commons || !p.image) return undefined;
   for (let u of String(p.image).split(";")) {
     try { u = decodeURIComponent(u.trim()); } catch (e) { u = u.trim(); }
-    const m = COMMONS_PAGE.exec(u) || COMMONS_UPLOAD.exec(u);
+    const m = COMMONS_PAGE.exec(u) || COMMONS_UPLOAD.exec(u) || COMMONS_NAME.exec(u);
     const f = m && m[1].replace(/_/g, " ").trim();
     if (f && /\.[a-z0-9]{2,5}$/i.test(f)) return "File:" + f;
   }
@@ -4237,10 +4288,6 @@ const FIXES = {
   // natural non è tra le proprietà della feature: il vecchio valore (quinto elemento) è tree, l'unico per cui scatta
   not_a_tree: [p => [["natural", "plant", undefined, false, "tree"]], "plant that is not a tree: natural=plant"],
   species_epithet_case: [p => [["species", p.sp_sci]], "fix capitalisation in species"],
-  // image=File:… (un solo file di Commons, senza wikimedia_commons): il valore passa in wikimedia_commons
-  link_format: [p => { const v = String(p.image || "").trim();
-    return /^File:[^;]+\.[a-z0-9]{2,5}$/i.test(v) && !p.wikimedia_commons ? [["wikimedia_commons", v, undefined, true], ["image", REMOVE]] : []; },
-    "Commons file in wikimedia_commons instead of image"],
   species_lowercase: [p => [["species", capFirst(p.species)]], "capitalise the genus in species"],
   // con genus di più parole (check genus) la correzione non è certa
   genus_lowercase: [p => p.issues.includes("|genus|") ? [] : [["genus", capFirst(p.genus)]], "capitalise genus"],

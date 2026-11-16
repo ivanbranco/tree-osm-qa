@@ -104,7 +104,7 @@
     {"key": "wikidata", "object_types": ["node"], "description": "Used for QA checks, the info panel and to show a picture, which counts as a photo in the Completeness tab."},
     {"key": "wikimedia_commons", "object_types": ["node"], "description": "Used for QA checks and to show a picture; counts as a photo in the Completeness tab. Suggested when image points to a Wikimedia Commons file."},
     {"key": "panoramax", "object_types": ["node"], "description": "Used for QA checks and to show a picture; counts as a photo in the Completeness tab."},
-    {"key": "image", "object_types": ["node"], "description": "Used for QA checks and to show a picture; counts as a photo in the Completeness tab. A Wikimedia Commons file without wikimedia_commons gives a hint to replace it with wikimedia_commons; a web page (Google Photos, Mapillary, Flickr…) instead of an image file gives a hint; image=File:… is moved to wikimedia_commons by the JOSM fix."},
+    {"key": "image", "object_types": ["node"], "description": "Used for QA checks and to show a picture; counts as a photo in the Completeness tab. A Wikimedia Commons file without wikimedia_commons gives a hint to replace it with wikimedia_commons; a web page (Mapillary, Flickr, Google Drive…; not Google Photos) instead of an image file gives a hint. image=File:… is shown as a Commons file and gives the same hint as other Commons files."},
     {"key": "image:fotoshi", "object_types": ["node"], "description": "Used to show a picture; counts as a photo in the Completeness tab."},
     {"key": "tree", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "type", "object_types": ["node"], "description": "Used for QA checks."},
