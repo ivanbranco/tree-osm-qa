@@ -679,12 +679,12 @@
    "updated": "2026-11-14T10:56:12Z"
   },
   "portogallo": {
-   "count": 253473,
-   "diam": "mm",
-   "errors": 1899,
+   "count": 253460,
+   "errors": 512,
    "name": "Portogallo",
-   "sha1": "48e9cdc6b9bd6b10d79aa571a5a63c409df9d7c8",
-   "updated": "2026-11-10T15:27:35Z"
+   "sha1": "44c709983a97ebcb8d08fa679ea2575723cac273",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T10:12:27Z"
   },
   "provenza-alpi-costa-azzurra": {
    "count": 185831,

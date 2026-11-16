@@ -244,6 +244,12 @@
 ],
 "taxon": true
 },
+"Q10350589": {
+"en": "plane tree from Rossio",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1036491": {
 "alias": {
 "en": [],
@@ -7124,6 +7130,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Dammara robusta"
+],
 "en": "Agathis robusta",
 "it": "Agathis robusta",
 "names": [
@@ -27523,6 +27532,9 @@
 "taxon": true
 },
 "Q739430": {
+"basionyms": [
+"Pinus sect. Tsuga"
+],
 "en": "Tsuga",
 "it": "Tsuga",
 "names": [
@@ -30314,6 +30326,12 @@
 },
 "en": "Baladre",
 "it": "Baladre",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q98444727": {
+"en": "whistler cork oak",
 "names": [],
 "ranks": [],
 "taxon": false
