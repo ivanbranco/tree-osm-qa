@@ -2877,7 +2877,8 @@ def qlever(q):
         try:
             r = requests.post(QLEVER_URL, data={"query": QL_PREFIX + q}, timeout=300,
                               headers={**HEADERS, "Accept": "application/sparql-results+json"})
-            r.raise_for_status()
+            if not r.ok:    # nel messaggio anche l'inizio della risposta, che spiega il rifiuto
+                raise RuntimeError(f"HTTP {r.status_code}: {' '.join(r.text.split())[:300]}")
             return [{k: v["value"] for k, v in b.items()} for b in r.json()["results"]["bindings"]]
         except Exception:
             if attempt:
@@ -2960,7 +2961,7 @@ def isolated_top(left, ids, label, top=RECORD_TOP):
         else:
             warn(f"{label}: «Più isolato» calcolato solo sui primi {ISO_CANDS[-1]} candidati")
     except Exception as e:
-        warn(f"{label}: QLever non risponde ({str(e)[:150]}), «Più isolato» resta quello precedente")
+        warn(f"{label}: QLever non risponde ({str(e)[:350]}), «Più isolato» resta quello precedente")
         return None
     rows = sorted(done.items(), key=lambda x: (-record_round(x[1][0]), x[0]))[:top]
     # alberi della lista oltre il tetto (isole remote): una query sola con il raggio fino al più lontano, per la
