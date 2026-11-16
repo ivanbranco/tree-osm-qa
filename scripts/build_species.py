@@ -79,6 +79,30 @@ def histogram(vals, step, cap_q=0.99):
     return {"step": step, "bins": bins, "over": sum(1 for v in vs if v > top)}
 
 
+def scatter(pairs, nx=120, ny=80, cap_q=0.99):
+    """Nuvola di punti (x, y) per i grafici dei rapporti: le coppie raccolte in una griglia di nx × ny celle fino al 99°
+    percentile di ciascun asse (le code lunghe sono quasi sempre errori). pts = [i, j, alberi, i, j, alberi, ...], con
+    i e j indici della cella (x da i·sx a (i+1)·sx); over = coppie fuori dal grafico. Le misure su OSM sono quasi
+    sempre arrotondate, quindi le celle occupate sono poche rispetto agli alberi."""
+    if len(pairs) < MIN_SAMPLE:
+        return None
+    def top(vals):
+        vs = sorted(vals)
+        return vs[min(len(vs) - 1, int(len(vs) * cap_q))]
+    tx, ty = top([x for x, _ in pairs]), top([y for _, y in pairs])
+    if tx <= 0 or ty <= 0:
+        return None
+    sx, sy = tx / nx, ty / ny
+    cells, over = collections.Counter(), 0
+    for x, y in pairs:
+        if x > tx or y > ty:
+            over += 1
+            continue
+        cells[(min(nx - 1, int(x / sx)), min(ny - 1, int(y / sy)))] += 1
+    pts = [v for (i, j), c in sorted(cells.items()) for v in (i, j, c)]
+    return {"sx": round(sx, 5), "sy": round(sy, 5), "nx": nx, "ny": ny, "pts": pts, "over": over}
+
+
 def species_colors():
     """«Colori delle specie» di index.html (SPECIES_COLORS): {specie: [colore, mesi o None, autunnale]}. Servono a dire
     se il disegno della specie è dedicato o quello generico."""
@@ -233,6 +257,7 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
     # primati: come il tab «Alberi da record» (record_values, record_order, ⚠ da record_warned)
     cands = collections.defaultdict(list)
     meas = collections.defaultdict(list)       # valori non segnalati, per mediane e istogrammi
+    cr_c_pts, h_c_pts = [], []                 # coppie (circonferenza, chioma o altezza) per i grafici dei rapporti
     for slug, f in s["feats"]:
         pr = f["properties"]
         vals = ft.record_values(pr)
@@ -242,6 +267,7 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
                 meas[k].append(v)
         if "crown" in vals and "trunk" in vals and not ft.record_warned("crown", pr) and not ft.record_warned("trunk", pr):
             meas["crown_circ"].append(vals["crown"] / vals["trunk"])
+            cr_c_pts.append((vals["trunk"], vals["crown"]))
     def rec_tree(k, v, slug, f):
         return {"v": round(v, 3), "w": ft.record_warned(k, f["properties"]), "r": slug,
                 "id": f["properties"]["id"], "name": f["properties"].get("name") or "",
@@ -258,12 +284,13 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
         vals = ft.record_values(pr)
         if "height" in vals and "trunk" in vals and not ft.record_warned("slender", pr):
             h_c.append(vals["height"] / vals["trunk"])
+            h_c_pts.append((vals["trunk"], vals["height"]))
     stats = {
         "height": {"med": median(meas["height"]), "n": len(meas["height"]), "hist": histogram(meas["height"], 1)},
         "trunk": {"med": median(meas["trunk"]), "n": len(meas["trunk"]), "hist": histogram(meas["trunk"], 0.25)},
         "crown": {"med": median(meas["crown"]), "n": len(meas["crown"]), "hist": histogram(meas["crown"], 1)},
-        "h_c": {"med": median(h_c), "n": len(h_c)},
-        "cr_c": {"med": median(meas["crown_circ"]), "n": len(meas["crown_circ"])},
+        "h_c": {"med": median(h_c), "n": len(h_c), "sc": scatter(h_c_pts)},
+        "cr_c": {"med": median(meas["crown_circ"]), "n": len(meas["crown_circ"]), "sc": scatter(cr_c_pts)},
         "oldest_n": len(meas["oldest"]),
     }
     # distribuzione: per regione e per nazione (contorno "g:<gruppo>" o la regione stessa se è una nazione)

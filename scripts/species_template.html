@@ -57,7 +57,7 @@
   .stat .big{font-size:24px;font-weight:650;font-variant-numeric:tabular-nums}
   .stat .n{font-size:12.5px;color:var(--muted)}
   .stat svg{display:block;width:100%;height:auto;margin-top:8px}
-  .ratios{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:12px}
+  .ratios{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-top:12px}
   #map{height:480px;border-radius:8px;border:1px solid var(--line);overflow:hidden}
   .controls{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0 0 10px;font-size:14px}
   .seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
@@ -138,6 +138,9 @@ const I18N = {
     hc: "Altezza / circonferenza", crc: "Chioma / circonferenza",
     hcInfo: "Quanti metri di altezza per ogni metro di circonferenza: più è alto, più l'albero è slanciato.",
     crcInfo: "Quanti metri di chioma per ogni metro di circonferenza.",
+    axC: "Circonferenza del tronco (m)", axH: "Altezza (m)", axCr: "Diametro della chioma (m)",
+    scInfo: "Ogni punto è un gruppo di alberi con misure vicine: più è scuro, più alberi ci sono. La linea tratteggiata è la mediana: sopra il rapporto è più alto, sotto più basso.",
+    scOver: n => `${n} alberi oltre il 99° percentile non sono nel grafico.`,
     wikiAvg: v => `sulla wiki: ${v}`,
     mapTitle: "Dove è mappata", mapLead: "La specie nelle regioni di DendrOSM. Le regioni grigie sono coperte dal sito ma senza alberi di questa specie; fuori dalle regioni colorate il sito non ha dati, tranne i monumentali.",
     mShare: "Quota", mCount: "Numero", mDens: "Per km²", gReg: "Regioni", gNat: "Nazioni",
@@ -181,6 +184,9 @@ const I18N = {
     hc: "Height / circumference", crc: "Crown / circumference",
     hcInfo: "Metres of height for each metre of circumference: the higher, the more slender the tree.",
     crcInfo: "Metres of crown for each metre of circumference.",
+    axC: "Trunk circumference (m)", axH: "Height (m)", axCr: "Crown diameter (m)",
+    scInfo: "Each dot is a group of trees with close values: the darker, the more trees. The dashed line is the median: above it the ratio is higher, below it lower.",
+    scOver: n => `${n} trees above the 99th percentile are not in the chart.`,
     wikiAvg: v => `on the wiki: ${v}`,
     mapTitle: "Where it is mapped", mapLead: "The species in the DendrOSM regions. Grey regions are covered by the site but have no trees of this species; outside the coloured regions the site has no data, except for monumental trees.",
     mShare: "Share", mCount: "Count", mDens: "Per km²", gReg: "Regions", gNat: "Countries",
@@ -294,17 +300,47 @@ function histSvg(h, med, unit) {
     <line x1="4" x2="${W - 4}" y1="${H - P}" y2="${H - P}" stroke="#c9d1cb"/>${ticks.join("")}
     ${mx != null ? `<line x1="${mx}" x2="${mx}" y1="4" y2="${H - P}" stroke="#1b6b2c" stroke-width="1.5" stroke-dasharray="3 2"/>` : ""}</svg>`;
 }
+// passo «tondo» (1, 2, 5 × 10^k) per avere circa n tacche fino a max
+const niceStep = (max, n = 5) => { const raw = max / n, p = 10 ** Math.floor(Math.log10(raw)); return [1, 2, 5, 10].map(m => m * p).find(s => s >= raw); };
+// nuvola di punti dei rapporti (build_species.py, scatter): circonferenza in x, altezza o chioma in y; ogni punto è
+// una cella della griglia, più scuro se ha più alberi. La retta tratteggiata passa per l'origine con pendenza uguale
+// alla mediana del rapporto: sopra ci sono gli alberi con il rapporto più alto della mediana, sotto quelli più basso.
+function scatterSvg(sc, med, yLabel) {
+  const W = 480, H = 300, L = 46, R = 12, Tp = 8, B = 40, pw = W - L - R, ph = H - Tp - B;
+  const xmax = sc.nx * sc.sx, ymax = sc.ny * sc.sy, cw = pw / sc.nx, ch = ph / sc.ny;
+  const X = v => L + v / xmax * pw, Y = v => Tp + ph - v / ymax * ph;
+  let max = 1;
+  for (let k = 2; k < sc.pts.length; k += 3) max = Math.max(max, sc.pts[k]);
+  const lm = Math.log(1 + max), dots = [];
+  for (let k = 0; k < sc.pts.length; k += 3) {
+    const [i, j, c] = [sc.pts[k], sc.pts[k + 1], sc.pts[k + 2]];
+    const op = (0.2 + 0.8 * Math.log(1 + c) / lm).toFixed(2);
+    dots.push(`<circle cx="${(L + (i + 0.5) * cw).toFixed(1)}" cy="${(Tp + ph - (j + 0.5) * ch).toFixed(1)}" r="2" fill-opacity="${op}"/>`);
+  }
+  const ax = [], gx = niceStep(xmax), gy = niceStep(ymax, 4);
+  for (let v = 0; v <= xmax + 1e-9; v += gx) ax.push(`<line x1="${X(v)}" x2="${X(v)}" y1="${Tp}" y2="${Tp + ph}" stroke="#eef1ee"/><text x="${X(v)}" y="${Tp + ph + 16}" text-anchor="middle">${fmt(v, 2)}</text>`);
+  for (let v = 0; v <= ymax + 1e-9; v += gy) ax.push(`<line x1="${L}" x2="${L + pw}" y1="${Y(v)}" y2="${Y(v)}" stroke="#eef1ee"/><text x="${L - 5}" y="${Y(v) + 4.5}" text-anchor="end">${fmt(v, 2)}</text>`);
+  // retta della mediana fino al bordo del grafico (a destra o in alto)
+  const xe = Math.min(xmax, ymax / med), ye = xe * med;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" font-size="13" fill="#5d6b61">${ax.join("")}
+    <g fill="#2f7d40">${dots.join("")}</g>
+    <line x1="${X(0)}" y1="${Y(0)}" x2="${X(xe)}" y2="${Y(ye)}" stroke="#1b6b2c" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="${L}" x2="${L + pw}" y1="${Tp + ph}" y2="${Tp + ph}" stroke="#c9d1cb"/><line x1="${L}" x2="${L}" y1="${Tp}" y2="${Tp + ph}" stroke="#c9d1cb"/>
+    <text x="${L + pw / 2}" y="${H - 3}" text-anchor="middle">${T.axC}</text>
+    <text transform="translate(13 ${Tp + ph / 2}) rotate(-90)" text-anchor="middle">${yLabel}</text></svg>`;
+}
 function sizes() {
   const S = D.stats;
   const box = (title, s, unit) => `<div class="card stat"><h3 style="margin:0;font-size:14px">${title}</h3>${s.med == null
     ? `<div class="none">${T.few}</div>` : `<div><span class="big">${fmt(s.med, 2)} ${unit}</span> <span class="n">${T.median}, ${T.on(fmt(s.n))}</span></div>
     ${s.hist ? histSvg(s.hist, s.med, unit) : ""}`}</div>`;
-  const ratio = (title, s, info, wiki) => `<div class="card stat"><h3 style="margin:0;font-size:14px">${title}</h3>${s.med == null
+  const ratio = (title, s, info, wiki, yLabel) => `<div class="card stat"><h3 style="margin:0;font-size:14px">${title}</h3>${s.med == null
     ? `<div class="none">${T.few}</div>` : `<div><span class="big">${fmt(s.med, 2)}</span> <span class="n">${T.median}, ${T.on(fmt(s.n))}${wiki ? " · " + T.wikiAvg(fmt(wiki, 2)) : ""}</span></div>`}
-    <div class="n" style="margin-top:4px">${info}</div></div>`;
+    <div class="n" style="margin-top:4px">${info}</div>
+    ${s.med != null && s.sc ? scatterSvg(s.sc, s.med, yLabel) + `<div class="n">${T.scInfo}${s.sc.over ? " " + T.scOver(fmt(s.sc.over)) : ""}</div>` : ""}</div>`;
   return `<section><h2>${T.sizeTitle}</h2><p class="lead">${T.sizeLead}</p>
     <div class="grid3">${box(T.height, S.height, "m")}${box(T.trunkM, S.trunk, "m")}${box(T.crownM, S.crown, "m")}</div>
-    <div class="ratios">${ratio(T.hc, S.h_c, T.hcInfo, D.wiki.height_circ_ratio)}${ratio(T.crc, S.cr_c, T.crcInfo, D.wiki.crown_circ_ratio)}</div></section>`;
+    <div class="ratios">${ratio(T.hc, S.h_c, T.hcInfo, D.wiki.height_circ_ratio, T.axH)}${ratio(T.crc, S.cr_c, T.crcInfo, D.wiki.crown_circ_ratio, T.axCr)}</div></section>`;
 }
 
 // ---------- distribuzione ----------
