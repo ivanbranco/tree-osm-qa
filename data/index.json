@@ -28,9 +28,9 @@
    "count": 127408,
    "errors": 370,
    "name": "Alta Francia",
-   "sha1": "8871b5c41c0e8b588fbfdc8312f6e88f38574f4d",
+   "sha1": "f6838103c5e081056b0ea7305d4d0791f048683b",
    "tried": "2026-11-16",
-   "updated": "2026-11-16T19:13:29Z"
+   "updated": "2026-11-16T19:49:08Z"
   },
   "alvernia-rodano-alpi": {
    "count": 384015,
@@ -89,9 +89,9 @@
    "count": 186104,
    "errors": 482,
    "name": "Bassa Austria",
-   "sha1": "18253595464c5ee9fe4b4f5be8ccc9cf9613b4aa",
+   "sha1": "a1332b15e411ccad323e940b46a29ef28e06a4ba",
    "tried": "2026-11-16",
-   "updated": "2026-11-16T19:14:28Z"
+   "updated": "2026-11-16T19:50:04Z"
   },
   "borgogna-franca-contea": {
    "count": 201219,
@@ -307,9 +307,9 @@
    "count": 59293,
    "errors": 37,
    "name": "Galles",
-   "sha1": "1d3d33aa366796e49c6a7b99b20eb54c9c94bff1",
+   "sha1": "37692555187ed97453670e7184f2337fcaf971e9",
    "tried": "2026-11-16",
-   "updated": "2026-11-16T19:15:15Z"
+   "updated": "2026-11-16T19:50:50Z"
   },
   "giappone": {
    "count": 305640,
