@@ -97,7 +97,7 @@ FIXTURES = {
         "Q920007": {"taxon": True, "names": ["Agave americana"], "ranks": ["Q7432"]},  # non è un albero (NOT_TREES)
     },
     # voci di Wikipedia -> QID (wikipedia=* e species:wikipedia)
-    "WP_QIDS": {"it:Quercus robur": "Q920001", "it:Quercia delle streghe": "Q910001"},
+    "WP_QIDS": {"it:Quercus robur": "Q920001", "it:Quercia delle streghe": "Q910001", "it:Quercus": "Q920003"},
     "URL_STATUS": {
         "https://example.org/gone.jpg": {"s": "404", "d": "2026-01-01"},
         "https://example.org/ok.jpg": {"s": "200", "d": "2026-01-01"},
@@ -241,7 +241,17 @@ CASES = [
     ("not_a_tree: altra specie dello stesso genere", {"natural": "tree", "species": "Agave sisalana"}, []),
     ("genus: più parole", {"natural": "tree", "genus": "Quercus robur"}, ["genus"]),
     ("genus_lowercase", {"natural": "tree", "genus": "quercus"}, ["genus_lowercase"]),
+    ("genus_common_name: al posto di genus_lowercase", {"natural": "tree", "genus": "quercia"}, ["genus_common_name"]),
+    ("genus_common_name: con la maiuscola", {"natural": "tree", "genus": "Tilleul"}, ["genus_common_name"]),
+    ("dipendenza: con genus_common_name dello stesso genere niente genus_mismatch", {**OAK, "genus": "Quercia"},
+     ["genus_common_name"]),
+    ("genus_common_name e genus_mismatch: un altro genere", {**OAK, "genus": "Tilleul"},
+     ["genus_common_name", "genus_mismatch"]),
     ("genus_mismatch", {**OAK, "genus": "Pinus"}, ["genus_mismatch"]),
+    ("genus_mismatch: genus scritto male", {**OAK, "genus": "Quercos"}, ["genus_mismatch"]),
+    ("taxon_lang_only", {"natural": "tree", "taxon:en": "Oak"}, ["taxon_lang_only"]),
+    ("taxon:xx insieme a taxon", {"natural": "tree", "taxon": "Quercus", "taxon:en": "Oak"}, []),
+    ("taxon:cultivar non è una lingua", {"natural": "tree", "taxon:cultivar": "Fastigiata"}, []),
     ("multiple_values: genus e species, senza genus_mismatch",
      {"natural": "tree", "genus": "Quercus;Pinus", "species": "Quercus robur;Pinus pinea"}, ["multiple_values"]),
     ("multiple_values: solo species", {"natural": "tree", "species": "Quercus robur; Pinus pinea"}, ["multiple_values"]),
@@ -296,6 +306,7 @@ CASES = [
     ("specie dell'albero su Wikidata sinonimo di species", {"natural": "tree", "species": "Quercus pedunculata",
                                                             "wikidata": "Q910007"}, []),
     ("wikipedia_is_taxon", {"natural": "tree", "wikipedia": "it:Quercus_robur"}, ["wikipedia_is_taxon"]),
+    ("wikipedia_is_taxon: voce di un genere", {"natural": "tree", "wikipedia": "it:Quercus"}, ["wikipedia_is_taxon"]),
     ("wikipedia: voce del singolo albero", {"natural": "tree", "wikipedia": "it:Quercia delle streghe"}, []),
     ("wikipedia: voce non ancora risolta", {"natural": "tree", "wikipedia": "it:Quercus ilex"}, []),
     ("wikidata_far", {"natural": "tree", "wikidata": "Q910002"}, ["wikidata_far"]),
@@ -442,6 +453,17 @@ HINT_CASES = [
     ("hint_wg: Wikidata ha solo il genere", {**OAK, "wikidata": "Q910008"}, None, "hint_wg", "Q910008|Quercus"),
     ("hint_wg: non per un altro genere", {"natural": "tree", "species": "Pinus pinea", "wikidata": "Q910008"}, None,
      "hint_wg", False),
+    ("hint_tx: taxon è una specie della lista", {"natural": "tree", "taxon": "Quercus robur"}, None, "hint_tx",
+     "species|Quercus robur"),
+    ("hint_tx: taxon è un genere della lista", {"natural": "tree", "taxon": "pinus"}, None, "hint_tx", "genus|Pinus"),
+    ("hint_tx: species uguale", {**OAK, "taxon": "Quercus robur"}, None, "hint_tx", "species|Quercus robur"),
+    ("hint_tx: non con un genus diverso", {"natural": "tree", "taxon": "Quercus robur", "genus": "Pinus"}, None,
+     "hint_tx", False),
+    ("hint_tx: non con una cultivar", {"natural": "tree", "taxon": "Quercus robur 'Fastigiata'"}, None, "hint_tx", False),
+    ("hint_tx: non con una species di un altro genere", {"natural": "tree", "taxon": "Quercus", "species": "Pinus pinea"},
+     None, "hint_tx", False),
+    ("hint_ne: name:en con la minuscola", {"natural": "tree", "name:en": "old oak"}, None, "hint_ne", "old oak"),
+    ("hint_ne: non con la maiuscola", {"natural": "tree", "name:en": "Old Oak"}, None, "hint_ne", False),
 ]
 
 # Proposta di species_author (sp_clean, quello che «Fix with JOSM» scrive in species): species -> valore atteso,
@@ -476,6 +498,14 @@ SP_FIX_CASES = [
      {"sp_clean": "Quercus robur", "sp_fix": None, "sp_fix_wd": None, "sp_fix_lc": "deciduous"}),
     ("solo l'autore, senza species:wikidata", {"natural": "tree", "species": "Quercus robur L."},
      {"sp_fix_wd": "Q920001"}),
+    # altre proposte delle correzioni con JOSM: genus (gm_fix, g_common) e il rango della voce di wikipedia (wp_genus)
+    ("genus scritto male: genus di species", {**OAK, "genus": "Quercos"}, {"gm_fix": "Quercus"}),
+    ("genus diverso, ma un genere noto: nessuna correzione", {**OAK, "genus": "Pinus"}, {"gm_fix": None}),
+    ("genus diverso e lontano: nessuna correzione", {**OAK, "genus": "Fraxinus"}, {"gm_fix": None}),
+    ("genus nome comune: il genere e la lingua", {"natural": "tree", "genus": "quercia"},
+     {"g_common": "Quercus", "g_common_lang": "it"}),
+    ("wikipedia di un genere: wp_genus", {"natural": "tree", "wikipedia": "it:Quercus"}, {"wp_genus": 1}),
+    ("wikipedia di una specie: niente wp_genus", {"natural": "tree", "wikipedia": "it:Quercus_robur"}, {"wp_genus": None}),
 ]
 
 # Nomi dei generi esclusi in una regione (genus_names_except): (nome, tag, codice ISO della regione, proprietà attese)

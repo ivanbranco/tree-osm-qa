@@ -402,7 +402,7 @@ const I18N = {
     fixJosm: "Sistema con JOSM", fixRemoved: "(da togliere)",
     josmMulti: {
       zoom: z => `Per sistemare con JOSM gli alberi in vista serve uno zoom di almeno ${z}.`,
-      none: "Nessun albero in vista ha una correzione da passare a JOSM.",
+      none: "Nessun albero in vista ha una correzione da passare a JOSM. Scaricare comunque in JOSM la zona in vista?",
       ask: (n, all, max) => `Mandare a JOSM le correzioni di ${n} alberi${all > n ? ` (i primi ${max} di ${all} in vista)` : ""}? JOSM le mostra una alla volta prima di applicarle.`,
       fail: "JOSM non risponde: controllare che sia aperto con il controllo remoto attivo e che il browser possa accedere alla rete locale." },
     allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
@@ -558,6 +558,12 @@ const I18N = {
       wikipediaNoWikidata: q => `La voce di species:wikipedia corrisponde a ${q}: si potrebbe aggiungere species:wikidata=${q}`,
       speciesFromWp: n => `species:wikipedia indica ${n}: si potrebbe aggiungere species=${n}`,
       speciesIt: v => `Su OSM quasi tutti i valori di species:it iniziano con la maiuscola: species:it=${v}`,
+      nameEn: v => `In inglese un nome proprio inizia con la maiuscola: name:en=${v}`,
+      // taxon=* (hint_tx, fetch_trees.py: "species|nome" o "genus|nome" se le liste wiki lo riconoscono)
+      // has: c'è già species o genus con lo stesso nome
+      taxon: (v, k, n, has) => `taxon=${v} non dice a quale rango appartiene il nome: ${!k ? "se ce n'è uno, un tag più preciso (species, genus, taxon:cultivar…) lo direbbe"
+        : has ? `è ${k === "species" ? "una specie" : "un genere"} della lista della wiki, già in ${k}=*: taxon si potrebbe togliere`
+        : `è ${k === "species" ? "una specie" : "un genere"} della lista della wiki, si potrebbe scrivere ${k}=${n} al posto di taxon`}`,
       hybridSign: (k, v) => `Il segno di ibrido si scrive × al posto della lettera x: ${k}=${v}`,
       masafCriteria: v => `Secondo l'elenco MASAF si potrebbe aggiungere masaf:criteria=${v}`,
       importUndoc: v => `Albero da un import non documentato (source=${v})`,
@@ -601,13 +607,14 @@ const I18N = {
       species_unidentified: "Species non identificata (sp., spp.)", species_parentheses: "Parentesi in species", species_author: "Species con l'autore del nome",
       underscore: "Trattino basso (_) in species o genus", multiple_values: "Più valori (;) in species o genus", tag_in_value: "Tag scritto nel valore (=)",
       not_latin: "Species o genus in alfabeto non latino",
-      species_lang_only: "species:xx senza species",
+      species_lang_only: "species:xx senza species", taxon_lang_only: "taxon:xx senza taxon",
       not_a_tree: "Pianta che non è un albero (Agave americana)",
       too_slender: "Albero troppo slanciato (altezza > 100 × circonferenza)",
       too_slender_species: "Albero troppo slanciato per la specie", too_stocky: "Albero troppo tozzo (circonferenza > 3 × altezza)",
       small_monument: "Albero monumentale molto piccolo",
       species: "Species di una sola parola", genus: "Genus non valido",
       species_lowercase: "Species con iniziale minuscola", genus_lowercase: "Genus con iniziale minuscola",
+      genus_common_name: "Genus non scientifico (nome comune)",
       leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" },
     denotation: { natural_monument: "Albero monumentale", landmark: "Punto di riferimento", avenue: "Albero di viale",
       urban: "Albero urbano", cluster: "Gruppo di alberi", agricultural: "Albero agricolo" },
@@ -731,6 +738,8 @@ const I18N = {
       species_parentheses: "Nessun nome scientifico contiene parentesi.",
       species_author: "species=* contiene solo il nome, senza l'autore che ha descritto la specie (L., Mill., …).",
       species_lang_only: "species:xx affianca species=*, non lo sostituisce: il nome scientifico è lo stesso in tutte le lingue.",
+      taxon_lang_only: "taxon:xx è il nome di taxon=* in una lingua: lo affianca, non lo sostituisce.",
+      genus_common_name: "genus=* contiene il nome scientifico del genere (es. Salix), lo stesso in tutte le lingue. Il nome comune va in genus:xx (es. genus:pl).",
       not_a_tree: "species=* o species:wikidata=* indicano una pianta che non è un albero, come l'agave americana (Agave americana, species:wikidata=Q161115). Le piante che non sono alberi si mappano con natural=plant.",
       underscore: "Nei nomi scientifici le parole sono separate da spazi.",
       multiple_values: "Un nodo natural=tree è un solo albero, con un solo genere e una sola specie.",
@@ -750,7 +759,8 @@ const I18N = {
       masaf_removed: "Il codice ref:masaf corrisponde a un albero che l'elenco degli alberi monumentali d'Italia dà come rimosso. Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       masaf_unknown: "Il codice ref:masaf non è nell'elenco degli alberi monumentali d'Italia, né tra gli alberi iscritti né tra quelli rimossi. Lo zero iniziale del primo numero non conta (01/G114/CN/01 vale come 001/G114/CN/01). Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       start_date_invalid: "Forme della wiki OSM (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 e gli intervalli 1850..1900. Sono segnalate anche le date che non esistono (2020-02-30) e quelle dopo la data dell'aggiornamento dei dati.",
-      wikipedia_is_taxon: "wikipedia=* collega la voce del singolo albero; la voce della specie si collega con species:wikipedia=*. L'elemento Wikidata collegato alla voce è un taxon (ha un nome scientifico, P225).",
+      // wp_genus (fetch_trees.py): l'elemento della voce è di rango genere
+      wikipedia_is_taxon: p => `wikipedia=* collega la voce del singolo albero; la voce ${p.wp_genus ? "del genere si collega con genus:wikipedia=*" : "della specie si collega con species:wikipedia=*"}. L'elemento Wikidata collegato alla voce è un taxon (ha un nome scientifico, P225).`,
       denotation_value: "Confronto con gli usi su Taginfo: segnalati i valori usati al massimo 10 volte, quelli con un formato non valido e quelli comuni con altro testo attaccato.",
       undocumented_tag: "tree=* e type=* non sono documentati per gli alberi nella wiki OSM.",
       key_typo: "La chiave non è tra quelle usate per gli alberi, ma differisce da una di esse solo per le maiuscole, per una lettera (due nelle chiavi di almeno 12 lettere) o per due lettere vicine scambiate. Le chiavi in OSM sono minuscole. Il valore non è usato per disegnare l'albero.",
@@ -767,7 +777,8 @@ const I18N = {
       height_species: (v, sp) => `altezza > ${v} (limite per ${sp})`,
       comma: t => `virgola decimale in ${t}`,
       diameter_unit: v => `diameter=${v} senza unità: in millimetri il tronco sarebbe di meno di 1 cm`,
-      unit_format: (k, v, fix) => `${k}=${v}: forma standard ${fix.join(" oppure ")}`,
+      // con due forme standard (con e senza unità) nessuna proposta: «Sistema con JOSM» scrive quella senza unità
+      unit_format: (k, v, fix) => `${k}=${v}: ` + (fix.length > 1 ? "unità di misura in forma non standard" : `forma standard ${fix[0]}`),
       circ_diam_mismatch: (c, d, cd) => `circumference=${c}, ma diameter=${d} corrisponde a una circonferenza di ${cd}`,
       trunk_overlap: (id, d, s, k) => k === "i" ? `il nodo è dentro il tronco del nodo ${id} (distanza ${d}, raggio del tronco ${s})`
         : k === "c" ? `il tronco contiene il nodo ${id} (distanza ${d}, raggio del tronco ${s})`
@@ -791,6 +802,9 @@ const I18N = {
       tag_in_value: kv => `${kv} contiene "=": probabilmente un tag scritto nel valore`,
       not_latin: kv => `${kv} non è in alfabeto latino, come i nomi scientifici: il nome nella lingua locale va in species:xx (es. species:bg)`,
       species_lang_only: kv => `c'è ${kv} ma manca species=* (il nome scientifico)`,
+      taxon_lang_only: kv => `c'è ${kv} ma manca taxon=*`,
+      // lang: codice della lingua del nome (g_common_lang, fetch_trees.py), "" se è lo stesso in più lingue
+      genus_common_name: (g, n, lang) => `genus=${g} è il nome comune${lang ? ` in ${langName(lang)}` : ""} del genere ${n}: usare genus=${n}`,
       not_a_tree: sp => `${sp} non è un albero: usare natural=plant al posto di natural=tree`,
       species_lang_genus: (k, v, g, add) => `${k}=${v} è il nome del genere ${g}: usare ${k.replace("species:", "genus:")}=${spName(v)}` + (add ? ` e genus=${g}` : ""),
       species_lang_gx: (k, v, g, g2) => `${k}=${v} è il nome del genere ${g}, ma c'è genus=${g2}`,
@@ -825,7 +839,7 @@ const I18N = {
       masaf_removed: (code, why) => `L'albero è stato rimosso dall'elenco MASAF ${why}`,
       masaf_unknown: code => `ref:masaf=${code} non è nell'elenco MASAF`,
       start_date_invalid: (v, future) => future ? `start_date=${v} è nel futuro` : `start_date=${v} non è in una delle forme della wiki`,
-      wikipedia_is_taxon: (v, q) => `wikipedia=${v} è la voce di un taxon (${q}): wikipedia indica il singolo albero, la voce della specie va in species:wikipedia`,
+      wikipedia_is_taxon: (v, q, g) => `wikipedia=${v} è la voce di un taxon (${q}): wikipedia indica il singolo albero, la voce ${g ? "del genere va in genus:wikipedia" : "della specie va in species:wikipedia"}`,
       masafRemovedWhy: { death: "per morte naturale", felled: "per abbattimento", requirements: "per perdita dei requisiti",
         downgraded: "per declassamento", other: "" },
       empty: "(vuoto)",
@@ -837,7 +851,8 @@ const I18N = {
       wikidata_expected: (wd, sp, exp) => `species:wikidata=${wd} non corrisponde a ${sp} (atteso ${exp})`,
       leaf_type_mismatch: (v, f, e) => `leaf_type=${v}, ma per ${f} la lista wiki indica ${e}`,
       leaf_cycle_mismatch: (v, f, e) => `leaf_cycle=${v}, ma per ${f} la lista wiki indica ${e}`,
-      genus_mismatch: (g, sp) => `genus (${g}) diverso dal genere della species (${sp})`,
+      // fix: genus corretto (gm_fix, fetch_trees.py), se genus sembra il genere di species scritto male
+      genus_mismatch: (g, sp, fix) => `genus (${g}) diverso dal genere della species (${sp})` + (fix ? `: genus=${fix}` : ""),
       species: "species di una sola parola", species_as_genus: (sp, g) => `species=${sp} è un genere: usare genus=${g} senza species`,
       species_common_genus: (sp, g) => `species=${sp} è il nome comune del genere ${g}: usare genus=${g} senza species`,
       species_lowercase: "species con iniziale minuscola",
@@ -873,7 +888,7 @@ const I18N = {
     fixJosm: "Fix with JOSM", fixRemoved: "(removed)",
     josmMulti: {
       zoom: z => `Fixing the trees in view with JOSM needs zoom ${z} or more.`,
-      none: "No tree in view has a fix to pass to JOSM.",
+      none: "No tree in view has a fix to pass to JOSM. Download the area in view in JOSM anyway?",
       ask: (n, all, max) => `Send the fixes of ${n} trees to JOSM${all > n ? ` (the first ${max} of ${all} in view)` : ""}? JOSM shows them one at a time before applying them.`,
       fail: "JOSM does not respond: check that it is open with remote control enabled and that the browser may access the local network." },
     allRegions: "← All countries", chooseRegion: "Choose a region…",
@@ -1019,6 +1034,10 @@ const I18N = {
       wikipediaNoWikidata: q => `The species:wikipedia article matches ${q}: species:wikidata=${q} could be added`,
       speciesFromWp: n => `species:wikipedia points to ${n}: species=${n} could be added`,
       speciesIt: v => `On OSM almost all species:it values start with a capital letter: species:it=${v}`,
+      nameEn: v => `In English a proper name starts with a capital letter: name:en=${v}`,
+      taxon: (v, k, n, has) => `taxon=${v} does not say which rank the name belongs to: ${!k ? "if there is one, a more precise tag (species, genus, taxon:cultivar…) would say it"
+        : has ? `it is a ${k} in the wiki list, already in ${k}=*: taxon could be removed`
+        : `it is a ${k} in the wiki list, it could be written as ${k}=${n} instead of taxon`}`,
       hybridSign: (k, v) => `The hybrid sign is written × instead of the letter x: ${k}=${v}`,
       masafCriteria: v => `According to the MASAF list, masaf:criteria=${v} could be added`,
       importUndoc: v => `Tree from an undocumented import (source=${v})`,
@@ -1061,13 +1080,14 @@ const I18N = {
       species_unidentified: "Unidentified species (sp., spp.)", species_parentheses: "Parentheses in species", species_author: "Species with the author name",
       underscore: "Underscore (_) in species or genus", multiple_values: "Multiple values (;) in species or genus", tag_in_value: "Tag written in the value (=)",
       not_latin: "Species or genus in a non-Latin script",
-      species_lang_only: "species:xx without species",
+      species_lang_only: "species:xx without species", taxon_lang_only: "taxon:xx without taxon",
       not_a_tree: "Plant that is not a tree (Agave americana)",
       too_slender: "Tree too slender (height > 100 × circumference)",
       too_slender_species: "Tree too slender for its species", too_stocky: "Tree too stocky (circumference > 3 × height)",
       small_monument: "Very small monumental tree",
       species: "Single-word species", genus: "Invalid genus",
       species_lowercase: "Species starting lowercase", genus_lowercase: "Genus starting lowercase",
+      genus_common_name: "Non-scientific genus (common name)",
       leaf_type: "Invalid leaf_type", leaf_cycle: "Invalid leaf_cycle" },
     denotation: { natural_monument: "Monumental tree", landmark: "Landmark", avenue: "Avenue tree",
       urban: "Urban tree", cluster: "Tree cluster", agricultural: "Agricultural tree" },
@@ -1183,6 +1203,8 @@ const I18N = {
       species_parentheses: "No scientific name contains parentheses.",
       species_author: "species=* holds only the name, without the author who described the species (L., Mill., …).",
       species_lang_only: "species:xx goes alongside species=*, not instead of it: the scientific name is the same in every language.",
+      taxon_lang_only: "taxon:xx is the name of taxon=* in a language: it goes alongside it, not instead of it.",
+      genus_common_name: "genus=* holds the scientific name of the genus (e.g. Salix), the same in every language. The common name goes in genus:xx (e.g. genus:pl).",
       not_a_tree: "species=* or species:wikidata=* indicate a plant that is not a tree, such as the century plant (Agave americana, species:wikidata=Q161115). Plants that are not trees are mapped with natural=plant.",
       underscore: "In scientific names words are separated by spaces.",
       multiple_values: "A natural=tree node is a single tree, with a single genus and a single species.",
@@ -1202,7 +1224,7 @@ const I18N = {
       masaf_removed: "The ref:masaf code belongs to a tree that the list of monumental trees of Italy reports as removed. Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       masaf_unknown: "The ref:masaf code is not in the list of monumental trees of Italy, neither among the listed trees nor among the removed ones. The leading zero of the first number does not count (01/G114/CN/01 is the same as 001/G114/CN/01). Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       start_date_invalid: "Forms on the OSM wiki (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 and the ranges 1850..1900. Dates that do not exist (2020-02-30) and dates after the data update are reported too.",
-      wikipedia_is_taxon: "wikipedia=* links the article about the individual tree; the species article is linked with species:wikipedia=*. The Wikidata item linked to the article is a taxon (it has a scientific name, P225).",
+      wikipedia_is_taxon: p => `wikipedia=* links the article about the individual tree; the ${p.wp_genus ? "genus article is linked with genus:wikipedia=*" : "species article is linked with species:wikipedia=*"}. The Wikidata item linked to the article is a taxon (it has a scientific name, P225).`,
       denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format and common values with other text attached.",
       undocumented_tag: "tree=* and type=* are not documented for trees on the OSM wiki.",
       key_typo: "The key is not one of those used for trees, but differs from one of them only in capitalisation, by one letter (two in keys of at least 12 letters) or by two adjacent letters swapped. OSM keys are lowercase. The value is not used to draw the tree.",
@@ -1219,7 +1241,7 @@ const I18N = {
       height_species: (v, sp) => `height > ${v} (limit for ${sp})`,
       comma: t => `decimal comma in ${t}`,
       diameter_unit: v => `diameter=${v} without unit: in millimetres the trunk would be under 1 cm`,
-      unit_format: (k, v, fix) => `${k}=${v}: standard form ${fix.join(" or ")}`,
+      unit_format: (k, v, fix) => `${k}=${v}: ` + (fix.length > 1 ? "unit written in a non-standard form" : `standard form ${fix[0]}`),
       circ_diam_mismatch: (c, d, cd) => `circumference=${c}, but diameter=${d} corresponds to a circumference of ${cd}`,
       trunk_overlap: (id, d, s, k) => k === "i" ? `the node is inside the trunk of node ${id} (distance ${d}, trunk radius ${s})`
         : k === "c" ? `the trunk contains node ${id} (distance ${d}, trunk radius ${s})`
@@ -1242,6 +1264,8 @@ const I18N = {
       tag_in_value: kv => `${kv} contains "=": probably a tag written in the value`,
       not_latin: kv => `${kv} is not in the Latin script, unlike scientific names: the name in the local language goes in species:xx (e.g. species:bg)`,
       species_lang_only: kv => `${kv} is present but species=* (the scientific name) is missing`,
+      taxon_lang_only: kv => `${kv} is present but taxon=* is missing`,
+      genus_common_name: (g, n, lang) => `genus=${g} is the${lang ? ` ${langName(lang)}` : ""} common name of the genus ${n}: use genus=${n}`,
       not_a_tree: sp => `${sp} is not a tree: use natural=plant instead of natural=tree`,
       species_lang_genus: (k, v, g, add) => `${k}=${v} is the name of the genus ${g}: use ${k.replace("species:", "genus:")}=${spName(v)}` + (add ? ` and genus=${g}` : ""),
       species_lang_gx: (k, v, g, g2) => `${k}=${v} is the name of the genus ${g}, but genus=${g2} is present`,
@@ -1275,7 +1299,7 @@ const I18N = {
       masaf_removed: (code, why) => `The tree was removed from the MASAF list ${why}`,
       masaf_unknown: code => `ref:masaf=${code} is not in the MASAF list`,
       start_date_invalid: (v, future) => future ? `start_date=${v} is in the future` : `start_date=${v} is not in one of the wiki forms`,
-      wikipedia_is_taxon: (v, q) => `wikipedia=${v} is the article of a taxon (${q}): wikipedia is for the individual tree, the species article goes in species:wikipedia`,
+      wikipedia_is_taxon: (v, q, g) => `wikipedia=${v} is the article of a taxon (${q}): wikipedia is for the individual tree, the ${g ? "genus article goes in genus:wikipedia" : "species article goes in species:wikipedia"}`,
       masafRemovedWhy: { death: "after its natural death", felled: "after being felled", requirements: "for loss of requirements",
         downgraded: "after being downgraded", other: "" },
       empty: "(empty)",
@@ -1287,7 +1311,7 @@ const I18N = {
       wikidata_expected: (wd, sp, exp) => `species:wikidata=${wd} does not match ${sp} (expected ${exp})`,
       leaf_type_mismatch: (v, f, e) => `leaf_type=${v}, but the wiki list gives ${e} for ${f}`,
       leaf_cycle_mismatch: (v, f, e) => `leaf_cycle=${v}, but the wiki list gives ${e} for ${f}`,
-      genus_mismatch: (g, sp) => `genus (${g}) differs from the genus of species (${sp})`,
+      genus_mismatch: (g, sp, fix) => `genus (${g}) differs from the genus of species (${sp})` + (fix ? `: genus=${fix}` : ""),
       species: "single-word species", species_as_genus: (sp, g) => `species=${sp} is a genus: use genus=${g} without species`,
       species_common_genus: (sp, g) => `species=${sp} is the common name of the genus ${g}: use genus=${g} without species`,
       species_lowercase: "species starting lowercase",
@@ -2240,8 +2264,8 @@ map.on("load", async () => {
     ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "unit_format", "circ_diam_mismatch", "trunk_overlap", "number_invalid", "circumference_species", "height_species",
       "too_slender", "too_slender_species", "too_stocky", "small_monument"]],
     ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_common_name",
-      "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "not_a_tree", "underscore", "multiple_values", "tag_in_value",
-      "not_latin", "genus", "genus_lowercase", "genus_mismatch"]],
+      "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "taxon_lang_only", "not_a_tree", "underscore", "multiple_values", "tag_in_value",
+      "not_latin", "genus", "genus_lowercase", "genus_common_name", "genus_mismatch"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
       "wikidata_is_taxon", "wikipedia_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
     ["links", ["link_format", "broken_link", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed", "masaf_unknown",
@@ -2860,18 +2884,27 @@ map.on("load", async () => {
     if (map.getZoom() < JOSM_MULTI_Z) { alert(L.josmMulti.zoom(JOSM_MULTI_Z)); return; }
     const all = [];
     eachInView((p, ft) => { const [fixes, why] = fixList(p); if (fixes.length) all.push({ p, pos: ft.geometry.coordinates, fixes, why }); });
-    if (!all.length) { alert(L.josmMulti.none); return; }
+    const b = map.getBounds();
+    const area = `http://127.0.0.1:8111/load_and_zoom?left=${b.getWest().toFixed(6)}&right=${b.getEast().toFixed(6)}`
+      + `&bottom=${b.getSouth().toFixed(6)}&top=${b.getNorth().toFixed(6)}`;
+    const send = u => fetch(u, { mode: "no-cors" });
+    // nessuna correzione: si può scaricare comunque la zona in vista, con hashtag e fonte del changeset
+    if (!all.length) {
+      if (!confirm(L.josmMulti.none)) return;
+      josmBusy = true;
+      try { await send(area + `&changeset_hashtags=${CHANGESET_HASHTAG}&changeset_source=${encodeURIComponent(changesetSource())}`); }
+      catch (err) { alert(L.josmMulti.fail); }
+      finally { josmBusy = false; }
+      return;
+    }
     const ts = all.slice(0, JOSM_MULTI_MAX);
     const list = ts.map(t => `n${t.p.id}: ` + t.fixes.map(([k, o, n]) =>
       o == null ? `${k}=${n}` : `${k}: ${o} → ${n === "" ? L.fixRemoved : n}`).join(", ")).join("\n");
     if (!confirm(L.josmMulti.ask(ts.length, all.length, JOSM_MULTI_MAX) + "\n\n" + list)) return;
     const comment = encodeURIComponent([...new Set(ts.flatMap(t => t.why))].join("; ").replace(/^./, c => c.toUpperCase()));
-    const send = u => fetch(u, { mode: "no-cors" });
-    const b = map.getBounds();
     josmBusy = true;
     try {
-      await send(`http://127.0.0.1:8111/load_and_zoom?left=${b.getWest().toFixed(6)}&right=${b.getEast().toFixed(6)}`
-        + `&bottom=${b.getSouth().toFixed(6)}&top=${b.getNorth().toFixed(6)}`);
+      await send(area);
       for (const t of ts) await send(josmUrl(t.p, t.pos,
         `&addtags=${encodeURIComponent(t.fixes.map(([k, , n]) => `${k}=${n}`).join("|"))}&changeset_comment=${comment}`)
         .replace("/load_and_zoom?", "/zoom?"));
@@ -3864,7 +3897,9 @@ const issueBase = (i, p) => {
         return T[i](c, T.masafRemovedWhy[r] ?? "", d).replace(/ +\(/, " (").replace(/ $/, ""); }).join("\n");
     case "masaf_unknown": return String(p.masaf_unk || "").split(";").filter(Boolean).map(c => T[i](c)).join("\n");   // masaf_unk: fetch_trees.py
     case "start_date_invalid": return T[i](p.start_date ?? "", !!p.sd_future);   // sd_future: fetch_trees.py
-    case "wikipedia_is_taxon": return T[i](p.wp_v ?? "", p.wp_tx);               // wp_v, wp_tx: fetch_trees.py
+    case "wikipedia_is_taxon": return T[i](p.wp_v ?? "", p.wp_tx, !!p.wp_genus);   // wp_v, wp_tx, wp_genus: fetch_trees.py
+    case "taxon_lang_only": return String(p.tx_lang || "").split("\n").filter(Boolean).map(kv => T[i](kv)).join("\n");   // tx_lang: fetch_trees.py
+    case "genus_common_name": return T[i](p.genus, p.g_common, p.g_common_lang || "");   // g_common, g_common_lang: fetch_trees.py
     case "register_country":     // reg_out: "tag|codice ISO della nazione;…" (fetch_trees.py)
       return String(p.reg_out || "").split(";").filter(Boolean).map(x => { const [t, cc] = x.split("|");
         return T[i](t, countryName(cc)); }).join("\n");
@@ -3880,7 +3915,7 @@ const issueBase = (i, p) => {
     case "wikidata_mismatch": return p.exp_sp ? T.wikidata_other(p.sp_wd, p.exp_sp, p.species) : T.wikidata_expected(p.sp_wd, p.species, p.exp_wd);
     case "leaf_type_mismatch": return T[i](p.leaf_type, expFor(p), p.exp_lt);
     case "leaf_cycle_mismatch": return T[i](p.leaf_cycle, expFor(p), expLc(p));
-    case "genus_mismatch": return T[i](p.genus, p.species);
+    case "genus_mismatch": return T[i](p.genus, p.species, p.gm_fix);   // gm_fix: fetch_trees.py
     // sp_as_genus: species è un genere; sp_common_genus: è il nome comune di un genere (fetch_trees.py)
     case "species": return p.sp_as_genus ? T.species_as_genus(p.species, p.sp_as_genus)
       : p.sp_common_genus ? T.species_common_genus(p.species, p.sp_common_genus) : T[i];
@@ -3895,6 +3930,8 @@ const ANF_URL = "https://anf.gouvernement.lu/";     // heritage:operator=anf (Lu
 const CRFOP_URL = "https://crfop.gdos.gov.pl/";      // ref:CRFOP, ref:gid (Polonia)
 // nome della nazione di un codice ISO nella lingua della pagina (check register_country); il codice se non si sa
 const countryName = cc => { try { return new Intl.DisplayNames([LANG], { type: "region" }).of(cc) || cc; } catch (e) { return cc; } };
+// nome di una lingua da un codice (check genus_common_name), il codice se non si sa
+const langName = c => { try { return new Intl.DisplayNames([LANG], { type: "language" }).of(c) || c; } catch (e) { return c; } };
 const CONTACT_URL ="https://www.openstreetmap.org/messages/new/ivanbranco";   // richieste di nuove regioni
 const ISSUE_URL = "https://github.com/ivanbranco/tree-osm-qa/issues/new?template=region.yml";   // idem, come issue
 // Dati di una regione aggiornati almeno OLD_DAYS giorni fa (issue #59): dopo «Dati aggiornati al …» un avviso in
@@ -4144,7 +4181,7 @@ const commonsOfImage = p => {
 // con un errore sulla forma del nome, che propone già una sua correzione
 const HYBRID_X = /(^|\s)[xX](?=\s+\S)/g;
 const HYBRID_SKIP = { species: /\|(species|species_\w+|tag_in_value|not_latin|underscore|multiple_values)\|/,
-  genus: /\|(genus|genus_lowercase|tag_in_value|not_latin|underscore|multiple_values)\|/ };
+  genus: /\|(genus|genus_lowercase|genus_common_name|tag_in_value|not_latin|underscore|multiple_values)\|/ };
 const hybridX = p => ["species", "genus"].filter(k => p[k] && !String(p[k]).includes(";")
     && !HYBRID_SKIP[k].test(String(p.issues || "")) && String(p[k]).replace(HYBRID_X, "$1×") !== p[k])
   .map(k => [k, String(p[k]).replace(HYBRID_X, "$1×")]);
@@ -4154,6 +4191,15 @@ const HINT_FIXES = [
   [p => p.stump || p.species ? [] : [["species", binomialHint(p.hint_sn) || binomialHint(p.hint_wn) || MONOTYPIC[String(p.genus || "").trim()]]], "add species"],
   [p => p.stump ? [] : [["species:wikidata", p.hint_sw || p.hint_wp]], "add species:wikidata"],
   [p => p.stump ? [] : [["species:it", p.hint_it]], "capitalise species:it"],
+  // name:en non è tra le proprietà della feature: il vecchio valore (quinto elemento) è hint_ne
+  [p => p.stump || !p.hint_ne ? [] : [["name:en", capFirst(p.hint_ne), undefined, undefined, p.hint_ne]], "capitalise name:en"],
+  // taxon=* che le liste wiki riconoscono come specie o genere (hint_tx): passa in species o genus (se c'è già con lo
+  // stesso nome, taxon si toglie e basta). Non se un altro consiglio propone una species diversa
+  [p => { const [k, n] = String(p.hint_tx || "").split("|");
+    if (p.stump || !n || !p.taxon) return [];
+    const other = !p.species && (binomialHint(p.hint_sn) || binomialHint(p.hint_wn) || MONOTYPIC[String(p.genus || "").trim()]);
+    if (k === "species" && other && other !== n) return [];
+    return [...p[k] ? [] : [[k, n]], ["taxon", REMOVE]]; }, "more precise tag instead of taxon"],
   [p => p.stump ? [] : hybridX(p), "hybrid sign × instead of x"],
   [p => p.stump || p["masaf:criteria"] ? [] : [["masaf:criteria", p.hint_mc]], "add masaf:criteria"],
   [p => p.stump ? [] : [["leaf_type", !p.leaf_type && p.lt]], "add leaf_type"],
@@ -4184,12 +4230,16 @@ const FIXES = {
   species_lowercase: [p => [["species", capFirst(p.species)]], "capitalise the genus in species"],
   // con genus di più parole (check genus) la correzione non è certa
   genus_lowercase: [p => p.issues.includes("|genus|") ? [] : [["genus", capFirst(p.genus)]], "capitalise genus"],
+  // nome comune di un genere (g_common) e genere di species scritto male (gm_fix): fetch_trees.py
+  genus_common_name: [p => [["genus", p.g_common]], "scientific name in genus instead of the common name"],
+  genus_mismatch: [p => p.gm_fix ? [["genus", p.gm_fix]] : [], "fix the spelling of genus"],
   // solo un numero con una virgola tra le cifre (2,9 o 2,9 m): altri valori con la virgola non sono certi
   comma: [p => String(p.comma || "").split(";").filter(k => /^\s*\d+,\d+\s*[a-zA-Z]*\s*$/.test(p[k] ?? ""))
     .map(k => [k, p[k].replace(",", ".")]), "decimal point instead of comma"],
-  // unit_fix: righe "chiave|valore|correzione|…" (fetch_trees.py); solo con una correzione, e se il valore è lo stesso
+  // unit_fix: righe "chiave|valore|correzione|…" (fetch_trees.py), se il valore è lo stesso. Con due correzioni la
+  // prima è quella senza unità (metri; millimetri per diameter: parse_length), che si scrive
   unit_format: [p => String(p.unit_fix || "").split("\n").map(x => x.split("|"))
-    .filter(([k, v, ...fix]) => fix.length === 1 && p[k] === v).map(([k, , f]) => [k, f]), "standard unit format"],
+    .filter(([k, v, ...fix]) => fix.length && p[k] === v).map(([k, , f]) => [k, f]), "standard unit format"],
   // species:xx senza species (righe sp_lang_genus, sp_lang_gk, sp_lang_gkx e sp_lang_sp, come in issueText). Nome di un
   // genere: species:xx si toglie e diventa genus:xx (senza «sp.»; se genus:xx ha già quel nome si toglie e basta), più
   // genus se manca; solo se tutti i nomi indicano lo stesso genere, nessun genus:xx ha un altro nome (sp_lang_gkx) e i
@@ -4296,7 +4346,7 @@ function card(p, pos) {
   const photo = img || cat ? `<div class="photo"${img?.commons ? ` data-commons="${esc(img.commons)}"` : ""}${img?.pano ? ` data-pano="${esc(img.pano)}"` : ""}${cat ? ` data-cat="${esc(cat)}"` : ""}>
       <img ${img ? `src="${esc(img.src)}"` : "hidden"} alt="" loading="lazy" onerror="this.parentNode.remove()" onload="this.parentNode.classList.add('loaded')">
       <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}${img?.author ? ` title="${esc(creditText(img.author, img.lic))}"` : ""}>${img?.fs && img.author ? FOTOSHI_ICON : ""}${img?.author ? creditHtml(img.author, img.lic) : ""}</a></div>` : "";
-  const genusIssue = !WORLD && ["genus", "genus_lowercase", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
+  const genusIssue = !WORLD && ["genus", "genus_lowercase", "genus_common_name", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
   // senza circumference, diameter=* diventa una riga «Circonferenza … (da diameter)» (diametro × π; senza unità è in
   // millimetri); se il valore non è leggibile resta la riga del diametro com'è scritto
   const dm = p.circumference == null && p.diameter ? lenM(p.diameter, 0.001) : null;
@@ -4884,6 +4934,9 @@ function hints(p, pos) {
   if (p.hint_wp) out.push(H.wikipediaNoWikidata(p.hint_wp));
   if (binomialHint(p.hint_wn)) out.push(H.speciesFromWp(p.hint_wn));
   if (p.hint_it) out.push(H.speciesIt(p.hint_it));
+  if (p.hint_ne) out.push(H.nameEn(capFirst(p.hint_ne)));   // hint_ne: name:en con la minuscola (fetch_trees.py)
+  // taxon=* non dice il rango; hint_tx: "species|nome" o "genus|nome" se è nelle liste wiki (fetch_trees.py)
+  if (p.taxon) { const [k, n] = String(p.hint_tx || "").split("|"); out.push(H.taxon(p.taxon, n ? k : "", n, !!(n && p[k]))); }
   for (const [k, v] of hybridX(p)) out.push(H.hybridSign(k, v));
   if (p.hint_mc) out.push(H.masafCriteria(p.hint_mc));
   // import (source=*, scripts/imports.json): un consiglio con il link alla documentazione è HTML ({html}), già escapato

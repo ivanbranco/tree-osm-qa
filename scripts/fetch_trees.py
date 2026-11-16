@@ -754,6 +754,9 @@ def hint_props(t, osm_id=None):
     hint_wp: species:wikipedia senza species:wikidata (e senza il QID della lista, che dà già hint_sw) -> QID
     dell'elemento Wikidata della voce, se è una specie;
     hint_wn: species:wikipedia senza species (e senza hint_sn o hint_sp) -> nome scientifico (P225) di quell'elemento;
+    hint_tx: taxon=* che nelle liste wiki è una specie o un genere (taxon_precise) -> "species|nome" o "genus|nome":
+    la correzione con JOSM lo sposta in species o genus (il consiglio su taxon=* c'è comunque, index.html);
+    hint_ne: name:en con l'iniziale minuscola -> il valore (index.html propone la maiuscola);
     hint_imp_u: source=* di un import non documentato (scripts/imports.json) -> il valore;
     hint_imp_d: source=* di un import documentato -> "valore|pagina della wiki";
     hint_mc: ref:masaf senza masaf:criteria -> i criteri dell'elenco MASAF (masaf_trees.json) per quei codici;
@@ -780,6 +783,10 @@ def hint_props(t, osm_id=None):
     sit = [x.strip() for x in str(t.get("species:it", "")).split(";") if x.strip()]
     if any(x[:1].islower() for x in sit):
         out["hint_it"] = ";".join(x[:1].upper() + x[1:] for x in sit)
+    if (ne := str(t.get("name:en") or "")).lstrip(" ×")[:1].islower():
+        out["hint_ne"] = ne
+    if tp := taxon_precise(t):
+        out["hint_tx"] = "|".join(tp)
     sp = (t.get("species") or "").strip()
     if not sp and not t.get("genus"):
         for q in qids(t, "wikidata"):
@@ -1898,6 +1905,37 @@ def species_lang_only(t):
     return sorted((k, v) for k, v in t.items() if k.startswith("species:") and SPECIES_LANG.match(k))
 
 
+# Nome di taxon=* in una lingua: taxon:<codice lingua> (taxon:en, taxon:de…); taxon:cultivar e simili non sono lingue
+TAXON_LANG = re.compile(r"^taxon:[a-z]{2,3}(?:[-_][A-Za-z]{2,4})?$")
+
+
+def taxon_lang_only(t):
+    """Nomi del taxon in qualche lingua (taxon:xx) su un albero senza taxon=*: [(chiave, valore)]."""
+    if t.get("taxon"):
+        return []
+    return sorted((k, v) for k, v in t.items() if k.startswith("taxon:") and TAXON_LANG.match(k))
+
+
+def taxon_precise(t):
+    """Tag più preciso per il valore di taxon=*, dalle liste wiki: ("species", nome della lista) se è genere ed
+    epiteto di una specie della lista (senza cultivar o altro), ("genus", genere) se è un genere della lista; None
+    altrimenti, o se species o genus (o il genere di species) dicono già un'altra cosa: la proposta non sarebbe certa."""
+    tx = str(t.get("taxon") or "").strip()
+    if not tx or ";" in tx or "=" in tx:
+        return None
+    sp, g = str(t.get("species") or "").strip(), str(t.get("genus") or "").strip()
+    words = name_words(tx)
+    if len(words) == 2 and (name := SPECIES_BIN.get(binomial(tx))):
+        same_g = not g or genus_key(g) == genus_key(genus_of_species(name))
+        if same_g and (not sp or binomial(sp) == binomial(name)):
+            return "species", name
+        return None
+    if len(words) == 1 and (gr := GENUS_REF.get(words[0].lstrip("×").casefold())):
+        if (not g or genus_key(g) == genus_key(gr[0])) and (not sp or genus_key(genus_of_species(sp)) == genus_key(gr[0])):
+            return "genus", gr[0]
+    return None
+
+
 # "sp." o "spp." dopo il nome comune: species:pl=Klon sp. vale come Klon (sp_name in index.html)
 SP_SUFFIX = re.compile(r"\s+spp?\.?$", re.I)
 
@@ -1986,9 +2024,19 @@ def not_a_tree(t):
 
 def common_name_genus(word):
     """Genere di cui word è il nome comune in una lingua di GENUS_NAMES (species=oak -> Quercus), se è uno solo."""
+    return common_name_genus_lang(word)[0]
+
+
+def common_name_genus_lang(word):
+    """(genere, lingua) se word è il nome comune di un solo genere in GENUS_NAMES (genus=wierzba -> ("Salix", "pl"));
+    lingua "" se il nome è lo stesso in più lingue; (None, "") se non è il nome di un genere o è di più generi."""
     w = word.strip().casefold()
-    genera = {g for (lang, n), g in GENUS_NAMES.items() if n == w and genus_name_here((lang, n))}
-    return next(iter(genera)) if len(genera) == 1 else None
+    found = {(lang, g) for (lang, n), g in GENUS_NAMES.items() if n == w and genus_name_here((lang, n))}
+    genera = {g for _, g in found}
+    if len(genera) != 1:
+        return None, ""
+    langs = {lang for lang, _ in found}
+    return next(iter(genera)), next(iter(langs)) if len(langs) == 1 else ""
 
 
 def undocumented_tags(t):
@@ -2188,6 +2236,8 @@ def checks(t, pos, osm_id=None):
                  "sp_lang_gk": "\n".join(gk)} if gl else {}),
              **({"sp_lang_gx": "\n".join(f"{k}={v}|{g}" for k, v, g in gx)} if gx else {}),
              **({"sp_lang_gkx": "\n".join(f"{k}={v}|{g}|{x}" for k, v, g, x in gkx)} if gkx else {}))
+    if tl := taxon_lang_only(t):        # "taxon:en=Oak" separati da "\n" (i valori possono contenere ";")
+        flag("taxon_lang_only", tx_lang="\n".join(f"{k}={v}" for k, v in tl))
     if nt_sp := not_a_tree(t):          # una pianta che non è un albero: natural=plant (nt_sp: il nome della specie)
         flag("not_a_tree", nt_sp=nt_sp)
     g = t.get("genus")
@@ -2195,7 +2245,15 @@ def checks(t, pos, osm_id=None):
     gw = genus_words(gf) if gf is not None else None    # senza il segno di ibrido (× Sycoparrotia)
     if gw is not None and len(gw) > 1:
         flag("genus")
-    if gw and gw[0][:1].islower():
+    # genus di una parola che non è un genere noto ma il nome comune di un genere (genus=wierzba -> Salix, in polacco):
+    # al posto di genus_lowercase, che proporrebbe la maiuscola di un nome che non va bene comunque
+    gcn, gcn_lang = (common_name_genus_lang(gw[0]) if gw and len(gw) == 1 and gw[0].casefold() not in KNOWN_GENERA
+                     else (None, ""))
+    if gcn and gcn.casefold() == gw[0].casefold():
+        gcn = None
+    if gcn:
+        flag("genus_common_name", g_common=gcn, **({"g_common_lang": gcn_lang} if gcn_lang else {}))
+    elif gw and gw[0][:1].islower():
         flag("genus_lowercase")
     if "leaf_type" in t and t["leaf_type"] not in LEAF_TYPE:
         flag("leaf_type")
@@ -2209,8 +2267,13 @@ def checks(t, pos, osm_id=None):
     if (g is not None and sp is not None and ";" not in g and ";" not in sp and len(gw := genus_words(g)) == 1
             and not sp_epithet and not nl):
         sg = genus_of_species(sp).lstrip("×")   # il segno di ibrido non conta, né nel genus né nella species
-        if sg and gw[0].casefold() != sg.casefold():
-            flag("genus_mismatch")
+        # con genus nome comune dello stesso genere di species basta genus_common_name
+        if sg and gw[0].casefold() != sg.casefold() and not (gcn and gcn.casefold() == sg.casefold()):
+            # correzione (gm_fix): genus non è un genere noto, quello di species sì, e i due nomi differiscono di poco
+            # (genus=Styphlonobium con species=Styphnolobium japonicum): un errore di battitura in genus
+            gm = (sg[:1].upper() + sg[1:] if sg.casefold() in KNOWN_GENERA and gw[0].casefold() not in KNOWN_GENERA
+                  and not gcn and levenshtein(gw[0].casefold(), sg.casefold(), 2) <= 2 else None)
+            flag("genus_mismatch", **({"gm_fix": gm} if gm else {}))
     list_issues, list_props = species_list_mismatches(t)
     nt = not_taxon_tags(t)
     if any(k == "species:wikidata" for k, _ in nt) and "wikidata_mismatch" in list_issues:
@@ -2277,8 +2340,11 @@ def checks(t, pos, osm_id=None):
         flag("masaf_unknown", masaf_unk=";".join(unk))
     if "start_date" in t and "start_date" not in eq and (why := start_date_problem(t["start_date"])):
         flag("start_date_invalid", **({"sd_future": 1} if why == "future" else {}))
-    if wpt := wikipedia_taxon(t):       # voce di wikipedia=* (wp_v) il cui elemento Wikidata (wp_tx) è un taxon
-        flag("wikipedia_is_taxon", wp_tx=wpt, wp_v=t["wikipedia"])
+    # voce di wikipedia=* (wp_v) il cui elemento Wikidata (wp_tx) è un taxon; wp_genus: è di rango genere (Q34740), la
+    # voce va in genus:wikipedia e non in species:wikipedia
+    if wpt := wikipedia_taxon(t):
+        flag("wikipedia_is_taxon", wp_tx=wpt, wp_v=t["wikipedia"],
+             **({"wp_genus": 1} if "Q34740" in WD_TAXA.get(wpt, {}).get("ranks", []) else {}))
     if ro := register_out_of_country(t):   # "tag|nazione;…" (tag: "ref:masaf" o "heritage:operator=anf")
         flag("register_country", reg_out=";".join(f"{k}|{cc}" for k, cc in ro))
     if undoc := undocumented_tags(t):  # i tag non sono in KEEP: il valore va nella proprietà tag_<chiave>

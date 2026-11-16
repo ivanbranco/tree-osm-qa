@@ -60,7 +60,7 @@ The tabs of the panel (Legend, Error ranking, Trends, Completeness, Record trees
 | **Z** | with a card open | centres the map on the tree at zoom 19 (useful after clicking it from far away) |
 | **C** | with a card open | opens the [trunk comparison](scheda.md#trunk-comparison) window, if the tree has it |
 | **B** | always | switches between the OpenStreetMap background and the grayscale one (same as the button under + and −) |
-| **J** | with a region open, from zoom 17 | passes to JOSM the fixes of the trees in view, up to 25 (see [All the trees in view](scheda.md#all-the-trees-in-view)) |
+| **J** | with a region open, from zoom 17 | passes to JOSM the fixes of the trees in view, up to 25 (see [All the trees in view](scheda.md#all-the-trees-in-view)); if no tree in view has a fix, it offers to download the area in view in JOSM anyway |
 
 They do nothing while typing in a field; C, B and J also do nothing with a window open.
 
