@@ -763,8 +763,6 @@ def hint_props(t, osm_id=None):
     hint_ip: image=* è una pagina web di un sito di IMAGE_PAGE_SITES, non il file dell'immagine -> il sito;
     hint_mly: quella pagina è una foto di Mapillary e manca mapillary=* -> l'identificativo della foto (la correzione
     con JOSM lo sposta in mapillary);
-    hint_wpw: website=* o url=* è una voce di Wikipedia e manca wikipedia=* -> "chiave|lingua:Titolo" (nessuna
-    correzione con JOSM: la voce può essere di un luogo o un elenco, e non dell'albero);
     hint_ms: solo nelle regioni italiane, albero senza denotation=natural_monument/landmark né ref:masaf con la
     circonferenza (taggata, o da diameter) almeno pari alla soglia MASAF della specie -> "circonferenza|soglia" in m;
     non per i membri di un insieme omogeneo MASAF (osm_id in MASAF_GROUPS), che valgono già come monumentali."""
@@ -773,8 +771,6 @@ def hint_props(t, osm_id=None):
         out["hint_ip"] = ip[0]
         if ip[1] and "mapillary" not in t:
             out["hint_mly"] = ip[1]
-    if wpw := website_wikipedia(t):
-        out["hint_wpw"] = "|".join(wpw)
     if imp := import_source(t):
         if imp[0] == "d":
             out["hint_imp_d"] = f"{imp[1]}|{imp[2]}"
@@ -948,10 +944,8 @@ WIKIPEDIA_URL = re.compile(r"^https?://([a-z][a-z-]{1,11})\.(?:m\.)?wikipedia\.o
 
 
 def website_wikipedia(t):
-    """(chiave, "lingua:Titolo") se website=* o url=* (un solo valore) è una voce di Wikipedia e manca wikipedia=*,
-    altrimenti None."""
-    if "wikipedia" in t:
-        return None
+    """(chiave, "lingua:Titolo") se website=* o url=* (un solo valore) è una voce di Wikipedia (check
+    website_wikipedia: per le voci c'è wikipedia=*), altrimenti None."""
     for k in ("website", "url"):
         v = str(t.get(k) or "").strip()
         if ";" not in v and (m := WIKIPEDIA_URL.match(v)):
@@ -1075,6 +1069,45 @@ def update_fotoshi_cache(elements):
         time.sleep(URL_PAUSE)
     if ids:
         FOTOSHI_FILE.write_text(json.dumps(FOTOSHI, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+# Foto di Google Foto in image=* (photos.app.goo.gl, photos.google.com, un solo valore): il sito non può leggere la
+# pagina condivisa (Google non permette le richieste da altri siti), quindi l'indirizzo della foto si legge qui. È
+# og:image della pagina, su lh3.googleusercontent.com, senza la parte con la dimensione ("=w600-h315-p-k", che la
+# ritaglia): index.html aggiunge la sua. Resta in data/gphotos.json ({"<link>": {"i": indirizzo o "", "d":
+# "AAAA-MM-GG"}}) e si rilegge dopo URL_RECHECK_DAYS giorni (una condivisione può essere tolta). "" = la pagina non
+# indica una foto (condivisione tolta o privata). La pagina pesa circa 1,2 MB e og:image è verso la fine
+GPHOTOS_FILE = DATA / "gphotos.json"
+GPHOTOS = load_json(GPHOTOS_FILE)
+GPHOTOS_URL = re.compile(r"^https?://(?:photos\.app\.goo\.gl|photos\.google\.com)/[^\s;]+$", re.I)
+GPHOTOS_OG = re.compile(r'<meta property="og:image" content="(https://lh3\.googleusercontent\.com/[^"=]+)')
+
+
+def gphotos_link(t):
+    """Il link di Google Foto in image=*, se è un solo valore; altrimenti None."""
+    v = str(t.get("image") or "").strip()
+    return v if GPHOTOS_URL.match(v) else None
+
+
+def update_gphotos_cache(elements):
+    """Legge l'indirizzo delle foto di Google Foto non ancora in cache (o lette da più di URL_RECHECK_DAYS giorni);
+    aggiorna e salva data/gphotos.json."""
+    today = datetime.date.today()
+    stale = lambda u: u not in GPHOTOS or (today - datetime.date.fromisoformat(GPHOTOS[u]["d"])).days >= URL_RECHECK_DAYS
+    links = sorted({u for el in elements if (u := gphotos_link(el.get("tags", {}))) and stale(u)})
+    for u in links:
+        try:
+            r = requests.get(u, headers=HEADERS, timeout=30)
+            if r.status_code not in (404, 410):
+                r.raise_for_status()
+            m = GPHOTOS_OG.search(r.text) if r.ok else None
+            GPHOTOS[u] = {"i": m.group(1) if m else "", "d": today.isoformat()}
+        except Exception as e:
+            warn(f"Google Foto non risponde ({str(e)[:120]}): {u} resta da leggere")
+        time.sleep(URL_PAUSE)
+    if links:
+        print(f" foto di Google Foto lette: {len(links)} ({sum(1 for u in links if GPHOTOS.get(u, {}).get('i'))} trovate)")
+        GPHOTOS_FILE.write_text(json.dumps(GPHOTOS, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
 def broken_links(t):
@@ -2366,6 +2399,12 @@ def checks(t, pos, osm_id=None):
         flag("link_format", bad_links=";".join(bad))
     if bl := broken_links(t):           # righe "chiave=valore (stato)" separate da "\n" (i valori possono contenere ";")
         flag("broken_link", bad_url="\n".join(f"{k}={v} ({s})" for k, v, s in bl))
+    # website=* o url=* con una voce di Wikipedia: wpw "chiave|lingua:Titolo"; wpw_wp il valore di wikipedia=*, se
+    # c'è (non è tra le proprietà della feature); wpw_same se è la stessa voce (la correzione con JOSM toglie la chiave)
+    if wpw := website_wikipedia(t):
+        wp = str(t.get("wikipedia") or "").strip()
+        flag("website_wikipedia", wpw="|".join(wpw), **({"wpw_wp": wp} if wp else {}),
+             **({"wpw_same": 1} if wp and wp_key(wp) == wp_key(wpw[1]) else {}))
     if cf := commons_far(t, pos):       # righe "metri|tipo|File:…" separate da "\n" (i nomi possono contenere ";")
         flag("commons_far", cm_far="\n".join(f"{m}|{k}|{f}" for f, m, k in cf))
     # un solo check per tutte le fonti monumentali, anche la tutela su Wikidata (P1435, wd_her_*): chiedono tutte
@@ -2591,6 +2630,8 @@ def to_feature(el, fast=True):
         p["wd_img"] = wd_img
         if wd_img_w := wikidata_image(t, "winter"):   # veduta invernale: la scheda la mostra d'inverno al posto di wd_img
             p["wd_img_w"] = wd_img_w
+    if (gl := gphotos_link(t)) and (gi := GPHOTOS.get(gl, {}).get("i")):   # foto di Google Foto (gphotos.json)
+        p["gp_img"] = gi
     if (fs := FOTOSHI.get(t.get("image:fotoshi", "").strip())) and fs.get("author"):   # crediti della foto
         p["fs_author"], p["fs_license"] = fs["author"], fs.get("license", "")
     iss, props = checks(t, [el["lon"], el["lat"]], el["id"])
@@ -3271,6 +3312,7 @@ def update_region(region, regions_index):
     update_wikidata_cache(data["elements"])   # prima dei check: servono ai check su Wikidata (taxon e distanza)
     update_url_cache(data["elements"])        # e al check sui link rotti
     update_fotoshi_cache(data["elements"])    # autore e licenza delle foto di Fotoshi, per la scheda
+    update_gphotos_cache(data["elements"])    # indirizzo delle foto di Google Foto, per la scheda
     MASAF_GROUPS = load_masaf_groups(region, path) if IN_ITALY else {}   # insiemi omogenei MASAF, solo in Italia
     fc = build(data)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")

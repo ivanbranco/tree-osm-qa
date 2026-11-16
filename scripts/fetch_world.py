@@ -393,6 +393,7 @@ def update_map(key, index):
         return False
     ft.update_wikidata_cache(data["elements"])   # check su Wikidata, foto e voci di Wikipedia nella scheda
     ft.update_fotoshi_cache(data["elements"])
+    ft.update_gphotos_cache(data["elements"])   # foto di Google Foto in image=*, per la scheda
     fc = ft.build(data)
     regions = qa_regions()
     for f in fc["features"]:

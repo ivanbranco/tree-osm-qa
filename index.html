@@ -399,7 +399,7 @@ const I18N = {
     grayBg: "Sfondo in scala di grigi (tasto B)",
     colorBg: "Sfondo a colori (tasto B)",
     editMenu: "Modifica", osmPage: "Pagina su OpenStreetMap", editId: "Modifica con iD", editJosm: "Apri in JOSM", editMapComplete: "Apri in MapComplete",
-    fixJosm: "Sistema con JOSM", fixRemoved: "(da togliere)",
+    fixJosm: "Sistema con JOSM", fixRemoved: "(da togliere)", gphotos: "Google Foto",
     josmMulti: {
       zoom: z => `Per sistemare con JOSM gli alberi in vista serve uno zoom di almeno ${z}.`,
       none: "Nessun albero in vista ha una correzione da passare a JOSM. Scaricare comunque in JOSM la zona in vista?",
@@ -573,8 +573,6 @@ const I18N = {
       // hint_ip, hint_mly (fetch_trees.py): image=* è una pagina web; mly: identificativo della foto di Mapillary
       imagePage: (site, mly) => site === "mapillary.com" ? `image=* contiene una foto di Mapillary: per Mapillary c'è il tag mapillary=*${mly ? `, si potrebbe usare mapillary=${mly}` : ""}`
         : `image=* è una pagina web (${site}), non il file di un'immagine. Una foto si può anche caricare su Wikimedia Commons o Panoramax e collegare con wikimedia_commons=* o panoramax=*`,
-      // hint_wpw (fetch_trees.py): website=* o url=* è una voce di Wikipedia, senza wikipedia=*
-      websiteWikipedia: (k, v) => `${k}=* è una voce di Wikipedia: se la voce è di questo albero, il tag per collegarla è wikipedia=${v}`,
       feetInchSpace: (k, v, fix) => `${k}=${v}: la wiki indica di scrivere piedi e pollici senza spazi (${fix})`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,      notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
       // issue #25; seeds(t): HTML delle parole che aprono la foto dei semi (south: emisfero australe)
@@ -595,6 +593,7 @@ const I18N = {
       trunk_overlap: "Tronco sovrapposto a quello di un altro albero", same_point: "Nello stesso punto di un altro albero",
       number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
       link_format: "Link con formato non valido", broken_link: "Link non raggiungibile",
+      website_wikipedia: "Voce di Wikipedia in website",
       commons_far: "Foto di Commons a più di 500 m", wikidata_mismatch: "species:wikidata incoerente con la species",
       wikidata_not_taxon: "species/genus:wikidata non è un taxon", wikidata_is_taxon: "wikidata è un taxon",
       wikidata_far: "Elemento wikidata a più di 1 km", wikidata_photo_far: "Foto dell'elemento wikidata a più di 500 m",
@@ -756,6 +755,7 @@ const I18N = {
       leaf_type_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. Per le palme (Arecaceae) valgono sia palm sia broadleaved; palm è ammesso anche per le piante dall'aspetto di palma (Yucca, Cordyline, Dracaena, Cycas, Musa…), non per le altre latifoglie. Per Tamarix valgono needleleaved e broadleaved, per Cycas anche palm. Con leaf_type=palm il genere si prende anche da taxon.",
       leaf_cycle_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. I valori semi_ valgono come quelli pieni.",
       link_format: "wikidata vuole un QID (Q…), wikimedia_commons il prefisso File: o Category:, panoramax un UUID, image un solo indirizzo http(s) o un solo file di Commons (File:…).",
+      website_wikipedia: "website=* o url=* con l'indirizzo di una voce di Wikipedia: per le voci c'è il tag wikipedia=*, che indica la voce del singolo albero.",
       broken_link: "Segnalati: pagine 404 o 410, siti che non esistono più e file assenti su Commons. Non sono segnalati 403, 429, errori del server e timeout, che spesso sono blocchi verso i programmi automatici.",
       commons_far: "Le coordinate del file di Commons collegato (wikimedia_commons o image) distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
       monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) o con una tutela (P1435) indicano un albero monumentale, che in OSM ha denotation=natural_monument. Sui ceppi ref:CRFOP e ref:gid non sono segnalati.",
@@ -823,6 +823,10 @@ const I18N = {
       wikidata_photo_far: (q, f, m, obj) => `wikidata=${q}: l'immagine dell'elemento (${f}) ha la ${obj ? "posizione del soggetto" : "posizione di scatto"} a ${m} m da questo albero`,
       wikidata_rank: (kq, rank, want) => `${kq} su Wikidata ha rango «${rank}», non ${want}`,
       broken_link: (kv, why) => `${kv}: ${why}`,
+      // wpw, wpw_wp, wpw_same (fetch_trees.py): chiave e voce, wikipedia=* se c'è, stessa voce
+      website_wikipedia: (k, v, wp, same) => same ? `${k}=* ripete la voce di wikipedia=${wp}: si può togliere`
+        : wp ? `${k}=* è una voce di Wikipedia (${v}) diversa da wikipedia=${wp}`
+        : `${k}=* è una voce di Wikipedia: se la voce è di questo albero si scrive wikipedia=${v}; una voce su un luogo o su un elenco di alberi non va in wikipedia=*`,
       commons_far: (f, m, obj) => `${f}: la ${obj ? "posizione del soggetto" : "posizione di scatto"} indicata su Commons è a ${m} m da questo albero`,
       linkWhy: { "404": "pagina inesistente (404)", "410": "pagina rimossa (410)", dns: "il sito non esiste più",
         missing: "file inesistente su Commons" },
@@ -890,7 +894,7 @@ const I18N = {
     grayBg: "Grayscale background (B key)",
     colorBg: "Colour background (B key)",
     editMenu: "Edit", osmPage: "OpenStreetMap page", editId: "Edit with iD", editJosm: "Open in JOSM", editMapComplete: "Open in MapComplete",
-    fixJosm: "Fix with JOSM", fixRemoved: "(removed)",
+    fixJosm: "Fix with JOSM", fixRemoved: "(removed)", gphotos: "Google Photos",
     josmMulti: {
       zoom: z => `Fixing the trees in view with JOSM needs zoom ${z} or more.`,
       none: "No tree in view has a fix to pass to JOSM. Download the area in view in JOSM anyway?",
@@ -1050,9 +1054,7 @@ const I18N = {
       masafSize: (c, s, n) => `The circumference (${c}) reaches the MASAF threshold for ${n} (${s}): it could be a monumental tree`,
       commonsImage: f => `image=* points to a Wikimedia Commons file: it could be replaced with wikimedia_commons=${f}`,
       imagePage: (site, mly) => site === "mapillary.com" ? `image=* contains a Mapillary photo: Mapillary has its own tag, mapillary=*${mly ? `; mapillary=${mly} could be used` : ""}`
-        : `image=* is a web page (${site}), not an image file. A photo can also be uploaded to Wikimedia Commons or Panoramax and linked with wikimedia_commons=* or panoramax=*`,
-      websiteWikipedia: (k, v) => `${k}=* is a Wikipedia article: if the article is about this tree, the tag to link it is wikipedia=${v}`,
-      feetInchSpace: (k, v, fix) => `${k}=${v}: the wiki writes feet and inches without spaces (${fix})`,
+        : `image=* is a web page (${site}), not an image file. A photo can also be uploaded to Wikimedia Commons or Panoramax and linked with wikimedia_commons=* or panoramax=*`,      feetInchSpace: (k, v, fix) => `${k}=${v}: the wiki writes feet and inches without spaces (${fix})`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,      notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
       ginkgoSex: (south, seeds) => `If this ginkgo is a female tree, sex=female could be added. ${south ? "October to May" : "April to November"} is a good time to check: females bear paired ovules in spring and fleshy, ${seeds("foul-smelling seeds")} that fall in autumn, often lying under the canopy.`,
       ginkgoSeedsAlt: "Ginkgo biloba seeds",
@@ -1071,6 +1073,7 @@ const I18N = {
       trunk_overlap: "Trunk overlapping another tree's trunk", same_point: "At the same point as another tree",
       number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
       link_format: "Link with invalid format", broken_link: "Broken link",
+      website_wikipedia: "Wikipedia article in website",
       commons_far: "Commons photo more than 500 m away", wikidata_mismatch: "species:wikidata inconsistent with species",
       wikidata_not_taxon: "species/genus:wikidata is not a taxon", wikidata_is_taxon: "wikidata is a taxon",
       wikidata_far: "wikidata item more than 1 km away", wikidata_photo_far: "wikidata item photo more than 500 m away",
@@ -1224,6 +1227,7 @@ const I18N = {
       leaf_type_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. For palms (Arecaceae) both palm and broadleaved are accepted; palm is also accepted for palm-like plants (Yucca, Cordyline, Dracaena, Cycas, Musa…), not for other broadleaved trees. For Tamarix both needleleaved and broadleaved are accepted, for Cycas palm too. With leaf_type=palm the genus is also taken from taxon.",
       leaf_cycle_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. semi_ values count as the full ones.",
       link_format: "wikidata needs a QID (Q…), wikimedia_commons the File: or Category: prefix, panoramax a UUID, image a single http(s) address or a single Commons file (File:…).",
+      website_wikipedia: "website=* or url=* with the address of a Wikipedia article: articles have their own tag, wikipedia=*, which gives the article about the single tree.",
       broken_link: "Reported: 404 or 410 pages, sites that no longer exist and files missing on Commons. 403, 429, server errors and timeouts are not reported, as they are often blocks against automated tools.",
       commons_far: "The coordinates of the linked Commons file (wikimedia_commons or image) are more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
       monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) or with a heritage designation (P1435) indicate a monumental tree, which in OSM has denotation=natural_monument. On tree stumps ref:CRFOP and ref:gid are not reported.",
@@ -1287,6 +1291,9 @@ const I18N = {
       wikidata_photo_far: (q, f, m, obj) => `wikidata=${q}: the ${obj ? "object location" : "camera location"} of the item's image (${f}) is ${m} m from this tree`,
       wikidata_rank: (kq, rank, want) => `${kq} has rank "${rank}" on Wikidata, not ${want}`,
       broken_link: (kv, why) => `${kv}: ${why}`,
+      website_wikipedia: (k, v, wp, same) => same ? `${k}=* repeats the article of wikipedia=${wp}: it can be removed`
+        : wp ? `${k}=* is a Wikipedia article (${v}) different from wikipedia=${wp}`
+        : `${k}=* is a Wikipedia article: if the article is about this tree, it is written wikipedia=${v}; an article about a place or a list of trees does not go in wikipedia=*`,
       commons_far: (f, m, obj) => `${f}: the ${obj ? "object location" : "camera location"} given on Commons is ${m} m from this tree`,
       linkWhy: { "404": "page not found (404)", "410": "page removed (410)", dns: "the website no longer exists",
         missing: "file not found on Commons" },
@@ -2276,7 +2283,7 @@ map.on("load", async () => {
       "not_latin", "genus", "genus_lowercase", "genus_common_name", "genus_mismatch"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
       "wikidata_is_taxon", "wikipedia_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
-    ["links", ["link_format", "broken_link", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed", "masaf_unknown",
+    ["links", ["link_format", "broken_link", "website_wikipedia", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed", "masaf_unknown",
       "register_country"]],
   ];
   const issueGroupOf = code => (ISSUE_GROUPS.find(([, codes]) => codes.includes(code)) || ["other"])[0];
@@ -3922,6 +3929,9 @@ const issueBase = (i, p) => {
     case "broken_link":          // bad_url: righe "chiave=valore (stato)" (fetch_trees.py)
       return String(p.bad_url || "").split("\n").filter(Boolean).map(x => { const m = /^(.*) \((\w+)\)$/.exec(x);
         return m ? T[i](m[1], T.linkWhy[m[2]] || m[2]) : x; }).join("\n");
+    case "website_wikipedia": {  // wpw: "chiave|lingua:Titolo"; wpw_wp, wpw_same (fetch_trees.py)
+      const w = String(p.wpw || ""), j = w.indexOf("|");
+      return j > 0 ? T[i](w.slice(0, j), w.slice(j + 1), p.wpw_wp, !!p.wpw_same) : ""; }
     case "commons_far":          // cm_far: righe "metri|tipo|File:…" (fetch_trees.py)
       return String(p.cm_far || "").split("\n").filter(Boolean).map(x => { const [m, k, ...f] = x.split("|");
         return T[i](f.join("|"), Number(m).toLocaleString(LOC), k === "object"); }).join("\n");
@@ -4098,6 +4108,11 @@ function imageInfo(p, pos) {
   // image=File:… (il nome di un file di Commons, un solo valore): come wikimedia_commons
   const fm = /^\s*File:([^;]+?)\s*$/.exec(p.image || "");
   if (fm) return { src: commonsFile(fm[1]), commons: fm[1] };
+  // link di Google Foto: la foto (gp_img, lh3.googleusercontent.com senza dimensione) la legge fetch_trees.py dalla
+  // pagina condivisa; al posto dei crediti il nome del servizio, con il link alla pagina. noref: Google la rifiuta
+  // se la richiesta indica il sito di provenienza (referrer)
+  if (p.gp_img && /^https:\/\/lh3\.googleusercontent\.com\//.test(p.gp_img))
+    return { src: p.gp_img + "=w800", href: p.image, author: L.gphotos, noref: true };
   if (p.image && /^https?:\/\//.test(p.image)) {
     const m = p.image.match(/commons\.wikimedia\.org\/wiki\/(File:.+)$/);
     if (m) { const name = decodeURIComponent(m[1]).replace(/^File:/, ""); return { src: commonsFile(name), commons: name }; }
@@ -4288,6 +4303,9 @@ const FIXES = {
   // natural non è tra le proprietà della feature: il vecchio valore (quinto elemento) è tree, l'unico per cui scatta
   not_a_tree: [p => [["natural", "plant", undefined, false, "tree"]], "plant that is not a tree: natural=plant"],
   species_epithet_case: [p => [["species", p.sp_sci]], "fix capitalisation in species"],
+  // website=* o url=* con la stessa voce di wikipedia=* (wpw_same, fetch_trees.py): la chiave si toglie
+  website_wikipedia: [p => { const k = String(p.wpw || "").split("|")[0];
+    return p.wpw_same && p[k] ? [[k, REMOVE]] : []; }, "remove the Wikipedia article already in wikipedia"],
   species_lowercase: [p => [["species", capFirst(p.species)]], "capitalise the genus in species"],
   // con genus di più parole (check genus) la correzione non è certa
   genus_lowercase: [p => p.issues.includes("|genus|") ? [] : [["genus", capFirst(p.genus)]], "capitalise genus"],
@@ -4405,7 +4423,7 @@ function card(p, pos) {
   const cat = !img && /^Category:/.test(p.wikimedia_commons || "") ? p.wikimedia_commons : null;
   // foto con i crediti in sovrimpressione (riempiti subito, o da fillPhoto per Commons); se non si carica sparisce
   const photo = img || cat ? `<div class="photo"${img?.commons ? ` data-commons="${esc(img.commons)}"` : ""}${img?.pano ? ` data-pano="${esc(img.pano)}"` : ""}${cat ? ` data-cat="${esc(cat)}"` : ""}>
-      <img ${img ? `src="${esc(img.src)}"` : "hidden"} alt="" loading="lazy" onerror="this.parentNode.remove()" onload="this.parentNode.classList.add('loaded')">
+      <img ${img ? `src="${esc(img.src)}"` : "hidden"}${img?.noref ? ' referrerpolicy="no-referrer"' : ""} alt="" loading="lazy" onerror="this.parentNode.remove()" onload="this.parentNode.classList.add('loaded')">
       <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}${img?.author ? ` title="${esc(creditText(img.author, img.lic))}"` : ""}>${img?.fs && img.author ? FOTOSHI_ICON : ""}${img?.author ? creditHtml(img.author, img.lic) : ""}</a></div>` : "";
   const genusIssue = !WORLD && ["genus", "genus_lowercase", "genus_common_name", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
   // senza circumference, diameter=* diventa una riga «Circonferenza … (da diameter)» (diametro × π; senza unità è in
@@ -4986,9 +5004,8 @@ function hints(p, pos) {
   // image=* su un file di Commons senza wikimedia_commons=* (anche sui ceppi)
   const cf = commonsOfImage(p);
   if (cf) out.push(H.commonsImage(cf));
-  // image=* è una pagina web (hint_ip, hint_mly) e website=* o url=* una voce di Wikipedia (hint_wpw): fetch_trees.py
+  // image=* è una pagina web (hint_ip, hint_mly: fetch_trees.py)
   if (p.hint_ip) out.push(H.imagePage(p.hint_ip, p.hint_mly));
-  if (p.hint_wpw) { const i = String(p.hint_wpw).indexOf("|"); if (i > 0) out.push(H.websiteWikipedia(p.hint_wpw.slice(0, i), p.hint_wpw.slice(i + 1))); }
   if (p.stump) return out;
   if (binomialHint(p.hint_sp)) out.push(H.wdSpecies(p.hint_sp));
   // l'elemento Wikidata dell'albero ha solo il genere della specie taggata (hint_wg = "QID|genere", fetch_trees.py)

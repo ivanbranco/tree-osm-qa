@@ -323,6 +323,13 @@ CASES = [
     ("link_format: wikimedia_commons", {"natural": "tree", "wikimedia_commons": "Tree.jpg"}, ["link_format"]),
     ("link_format: panoramax", {"natural": "tree", "panoramax": "12345"}, ["link_format"]),
     ("broken_link: image", {"natural": "tree", "image": "https://example.org/gone.jpg"}, ["broken_link"]),
+    ("website_wikipedia: website", {"natural": "tree", "website": "https://en.wikipedia.org/wiki/Kett%27s_Oak"},
+     ["website_wikipedia"]),
+    ("website_wikipedia: url sul sito per cellulari", {"natural": "tree", "url": "https://fr.m.wikipedia.org/wiki/H%C3%AAtre"},
+     ["website_wikipedia"]),
+    ("website_wikipedia: anche con wikipedia=*", {"natural": "tree", "wikipedia": "en:Kett's Oak",
+     "website": "https://en.wikipedia.org/wiki/Kett%27s_Oak"}, ["website_wikipedia"]),
+    ("website_wikipedia: non per un altro sito", {"natural": "tree", "website": "https://example.org/wiki/Oak"}, []),
     ("broken_link: file di Commons mancante", {"natural": "tree", "wikimedia_commons": "File:Missing tree.jpg"},
      ["broken_link"]),
     ("commons_far", {"natural": "tree", "wikimedia_commons": "File:Far_tree.jpg"}, ["commons_far"]),
@@ -488,14 +495,6 @@ HINT_CASES = [
      None, "hint_mly", "200327278592861"),
     ("hint_mly: non con mapillary=*", {"natural": "tree", "mapillary": "1", "image": "https://www.mapillary.com/app/?pKey=1"},
      None, "hint_mly", False),
-    ("hint_wpw: website su Wikipedia", {"natural": "tree", "website": "https://en.wikipedia.org/wiki/Kett%27s_Oak"},
-     None, "hint_wpw", "website|en:Kett's Oak"),
-    ("hint_wpw: url sul sito per cellulari", {"natural": "tree", "url": "https://fr.m.wikipedia.org/wiki/H%C3%AAtre_de_Ponthus"},
-     None, "hint_wpw", "url|fr:Hêtre de Ponthus"),
-    ("hint_wpw: non con wikipedia=*", {"natural": "tree", "wikipedia": "en:Kett's Oak",
-     "website": "https://en.wikipedia.org/wiki/Kett%27s_Oak"}, None, "hint_wpw", False),
-    ("hint_wpw: non per un altro sito", {"natural": "tree", "website": "https://example.org/wiki/Oak"},
-     None, "hint_wpw", False),
 ]
 
 # Proposta di species_author (sp_clean, quello che «Fix with JOSM» scrive in species): species -> valore atteso,
@@ -641,6 +640,15 @@ def feature_failures():
               ("diameter_crown: cr = metà, senza cr_est", (pc := ft.to_feature(node(9002, {**tags, "diameter_crown": "8"}))["properties"])
                .get("cr") == 4.0 and "cr_est" not in pc),
               ("membro: niente hint_ms", "hint_ms" not in mem),
+              # foto di Google Foto (cache gphotos.json finta): gp_img solo con un indirizzo letto
+              ("Google Foto: gp_img dalla cache", (ft.GPHOTOS.update({"https://photos.app.goo.gl/x": {"i": "https://lh3.googleusercontent.com/pw/a", "d": "2026-11-16"},
+                                                                      "https://photos.app.goo.gl/y": {"i": "", "d": "2026-11-16"}})
+                                                   or ft.to_feature(node(9003, {**tags, "image": "https://photos.app.goo.gl/x"}))["properties"]
+                                                   .get("gp_img") == "https://lh3.googleusercontent.com/pw/a")
+               and "gp_img" not in ft.to_feature(node(9004, {**tags, "image": "https://photos.app.goo.gl/y"}))["properties"]),
+              ("Google Foto: og:image senza la dimensione", ft.GPHOTOS_OG.search(
+                  '<meta property="og:image" content="https://lh3.googleusercontent.com/pw/AP1G-x_y=w600-h315-p-k">').group(1)
+               == "https://lh3.googleusercontent.com/pw/AP1G-x_y"),
               ("non membro: niente mg, hint_ms", "mg" not in other and "hint_ms" in other),
               ("ceppo membro: resta un ceppo, senza mg", stump.get("stump") == 1 and "mg" not in stump),
               ("file ridotto: il membro c'è, l'albero qualsiasi no", f'"id":{MEMBER}' in small.decode() and '"id":9002' not in small.decode())]
