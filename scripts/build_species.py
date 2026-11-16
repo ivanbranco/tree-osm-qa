@@ -79,6 +79,57 @@ def histogram(vals, step, cap_q=0.99):
     return {"step": step, "bins": bins, "over": sum(1 for v in vs if v > top)}
 
 
+def species_colors():
+    """«Colori delle specie» di index.html (SPECIES_COLORS): {specie: [colore, mesi o None, autunnale]}. Servono a dire
+    se il disegno della specie è dedicato o quello generico."""
+    src = (ROOT / "index.html").read_text(encoding="utf-8")
+    block = src[src.index("const SPECIES_COLORS = {"):]
+    block = block[:block.index("};")]
+    out = {}
+    for m in re.finditer(r'"([A-Z][a-z]+ [a-z-]+)": \["(#[0-9a-fA-F]{6})", (null|\[[\d, ]+\])(, true)?\]', block):
+        out[m.group(1)] = [m.group(2), json.loads(m.group(3)), bool(m.group(4))]
+    return out
+
+
+# corteccia di un colore proprio (TRUNK_COLOR in index.html: tenerli uguali)
+BARK = {"Betula utilis": "#f4f1e8", "Acer griseum": "#b5532b"}
+
+
+def wikipedia_info(qid):
+    """Voci di Wikipedia (it, en) dell'elemento Wikidata della specie e la loro immagine principale (pageimages, la
+    foto in testa alla voce): {"it": {"url", "img"}, "en": {...}}. Autore e licenza della foto li chiede la pagina a
+    Commons, come la scheda dell'albero. Vuoto se la rete non risponde."""
+    import urllib.parse
+    import urllib.request
+
+    def get(url):
+        req = urllib.request.Request(url, headers={"User-Agent": ft.HEADERS["User-Agent"]})
+        with urllib.request.urlopen(req, timeout=30) as r:
+            return json.load(r)
+    out = {}
+    if not qid:
+        return out
+    try:
+        ent = get(f"https://www.wikidata.org/wiki/Special:EntityData/{qid}.json")["entities"]
+        ent = next(iter(ent.values()))
+        for lang in ("it", "en"):
+            title = (ent.get("sitelinks", {}).get(f"{lang}wiki") or {}).get("title")
+            if not title:
+                continue
+            q = get(f"https://{lang}.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&prop=pageimages"
+                    f"&piprop=name&titles={urllib.parse.quote(title)}")
+            page = q["query"]["pages"][0]
+            out[lang] = {"url": f"https://{lang}.wikipedia.org/wiki/{urllib.parse.quote(title.replace(' ', '_'))}",
+                         "img": page.get("pageimage")}
+        # ripiego: l'immagine dell'elemento Wikidata (P18)
+        p18 = ent.get("claims", {}).get("P18")
+        if p18:
+            out["p18"] = p18[0]["mainsnak"]["datavalue"]["value"]
+    except Exception as e:  # noqa: BLE001 - la foto non è indispensabile
+        print(f"{qid}: Wikipedia non risponde ({e})", file=sys.stderr)
+    return out
+
+
 def most_common(c):
     return c.most_common(1)[0][0] if c else None
 
@@ -196,14 +247,11 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
                 "id": f["properties"]["id"], "name": f["properties"].get("name") or "",
                 "tags": {t: f["properties"][t] for t in ("height", "circumference", "diameter", "diameter_crown",
                                                         "start_date") if t in f["properties"]}}
-    # per ogni primato: i primi TOP (con i valori segnalati, ⚠) e il primo albero con un valore non segnalato, che è
-    # quello mostrato in grande
+    # per ogni primato i primi TOP, valori segnalati compresi (⚠), come il tab «Alberi da record»
     records = {}
     for k, rows in cands.items():
         rows.sort(key=lambda r: r[0])
-        best = next((r for r in rows if not ft.record_warned(k, r[3]["properties"])), None)
-        records[k] = {"top": [rec_tree(k, v, slug, f) for _, v, slug, f in rows[:TOP]],
-                      "best": rec_tree(k, *best[1:]) if best else None}
+        records[k] = [rec_tree(k, v, slug, f) for _, v, slug, f in rows[:TOP]]
     h_c = []                                   # rapporto altezza / circonferenza, come la colonna della wiki
     for slug, f in s["feats"]:
         pr = f["properties"]
@@ -237,10 +285,14 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
         nat["regions"] += 1 if c else 0
     fruit = most_common(s["fruit"])
     sample = s["sample"]
+    qid = most_common(s["qid"])
     return {
+        "wp": wikipedia_info(qid),
+        "spColor": species_colors().get(n),
+        "bark": BARK.get(n),
         "name": n, "slug": slug_of(n), "genus": n.split()[0],
         "names": {k: most_common(s[k]) for k in ("it", "en") if s[k]},
-        "qid": most_common(s["qid"]),
+        "qid": qid,
         "lt": most_common(s["lt"]), "lc": most_common(s["lc"]),
         "fruit": {"color": fruit[0], "months": [int(m) for m in fruit[1].split(",") if m]} if fruit else None,
         "total": sum(s["per_region"].values()), "issues": s["issues"],

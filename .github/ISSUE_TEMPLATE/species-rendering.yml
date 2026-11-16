@@ -1,0 +1,41 @@
+name: Suggest a species drawing
+description: Suggest a dedicated drawing for a tree species on the map (leaf colours, fruits, flowers, bark).
+title: "Rendering: "
+labels: ["main map"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Species without a dedicated drawing use the generic one for their leaf type and leaf cycle. Describe what makes this species recognisable from above, and when.
+  - type: input
+    id: species
+    attributes:
+      label: Species
+      description: Scientific name (species=*).
+      placeholder: e.g. Acer platanoides
+    validations:
+      required: true
+  - type: checkboxes
+    id: what
+    attributes:
+      label: What to draw
+      options:
+        - label: Leaf colour (all year or in one season)
+        - label: Autumn colour
+        - label: Fruits
+        - label: Flowers
+        - label: Bark
+        - label: Other
+  - type: input
+    id: months
+    attributes:
+      label: Months
+      description: When it can be seen, in the northern hemisphere.
+      placeholder: e.g. October and November
+  - type: textarea
+    id: details
+    attributes:
+      label: Colours and details
+      description: Colours (a hex code if you have one), shape, size. Links to photos (e.g. Wikimedia Commons) or sources help.
+    validations:
+      required: true

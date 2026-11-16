@@ -21,6 +21,12 @@
   header.top .sp{flex:1}
   #lang{border:1px solid var(--line);background:#fff;border-radius:4px;padding:3px 8px;cursor:pointer;font:inherit;font-size:13px}
   main{max-width:1080px;margin:0 auto;padding:20px 16px 40px}
+  .hero{display:flex;gap:20px;align-items:flex-start}
+  .hero .txt{flex:1;min-width:0}
+  .photo{flex:none;width:260px;margin:0;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .photo img{display:block;width:100%;height:200px;object-fit:cover;background:#e8ece8}
+  .photo figcaption{font-size:11.5px;color:var(--muted);padding:4px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .photo figcaption a{color:inherit}
   .hero h1{margin:0;font-size:32px;font-style:italic;font-weight:650;letter-spacing:-.01em}
   .hero .common{font-size:19px;color:var(--muted);margin-top:2px}
   .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
@@ -41,7 +47,8 @@
   .rec .val small{font-size:14px;font-weight:400;color:var(--muted)}
   .rec .who{font-size:14px}
   .rec .wiki{font-size:12.5px;color:var(--muted);margin-top:4px}
-  .warn{color:var(--warn);cursor:help}
+  .warn{color:var(--warn);cursor:help;font-size:.85em;font-weight:400}
+  .rec .val .warn{font-size:14px;vertical-align:6px;margin-left:1px}   /* accanto al valore in grande: piccolo e in alto */
   .rec details{margin-top:6px;font-size:13px}
   .rec summary{cursor:pointer;color:var(--muted)}
   .rec ol{margin:4px 0 0;padding-left:22px}
@@ -73,6 +80,21 @@
   .look p{margin:2px 0 0;font-size:13px;color:var(--muted)}
   footer{max-width:1080px;margin:0 auto;padding:0 16px 30px;font-size:13px;color:var(--muted)}
   .maplibregl-popup-content{font:13px/1.4 system-ui,sans-serif}
+  .look{position:relative}
+  .kind{display:inline-block;font-size:11.5px;padding:1px 7px;border-radius:9px;margin-top:4px}
+  .kind.gen{background:#eef0ee;color:var(--muted)}
+  .kind.own{background:#e8f0e9;color:var(--green)}
+  .help{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;border:1px solid var(--line);background:#fff;
+    color:var(--muted);font:600 13px/1 system-ui,sans-serif;cursor:pointer}
+  .help:hover{color:#1a5fb4;border-color:#1a5fb4}
+  dialog{max-width:440px;border:0;border-radius:10px;padding:18px 20px;box-shadow:0 6px 30px #0004;font-size:14.5px}
+  dialog::backdrop{background:#0004}
+  dialog h3{margin:0 0 8px;font-size:17px}
+  dialog .btns{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+  dialog .btns a,dialog .btns button{font:inherit;font-size:14px;padding:6px 12px;border-radius:6px;cursor:pointer;text-decoration:none}
+  dialog .btns a{background:var(--green);color:#fff}
+  dialog .btns button{border:1px solid var(--line);background:#fff}
+  @media (max-width:700px){.hero{flex-direction:column-reverse}.photo{width:100%}.photo img{height:220px}}
   @media (max-width:600px){.hero h1{font-size:26px} #map{height:380px}}
 </style>
 </head>
@@ -104,8 +126,8 @@ const I18N = {
     lt: { broadleaved: "latifoglia", needleleaved: "aghifoglia", palm: "palma" },
     lc: { deciduous: "caducifoglia", semi_deciduous: "semi-caducifoglia", evergreen: "sempreverde", semi_evergreen: "semi-sempreverde" },
     fruitTag: "frutti sulla mappa", wikidata: "Wikidata", wikiRec: "Wiki: Tree species records",
-    recTitle: "Alberi da record", recLead: "Gli alberi di questa specie con le misure più grandi, tra tutte le regioni del sito e la mappa dei monumentali. In grande il primo valore non segnalato dai check; nell'elenco dei primi anche i valori segnalati (⚠).",
-    allWarned: "Tutti i valori sono segnalati da un check.", nWarn: n => `${n} segnalat${n === 1 ? "o" : "i"} ⚠`,
+    recTitle: "Alberi da record", recLead: "Gli alberi di questa specie con le misure più grandi, tra tutte le regioni del sito e la mappa dei monumentali. ⚠ = valore segnalato da un check: potrebbe essere sbagliato.",
+    nWarn: n => `${n} segnalat${n === 1 ? "o" : "i"} ⚠`,
     rc: { height: "Più alto", trunk: "Tronco più spesso", slender: "Più slanciato", stocky: "Più tozzo", crown: "Chioma più larga", oldest: "Più vecchio" },
     unit: { height: "m", trunk: "m di circonferenza", slender: "altezza/diametro", stocky: "altezza/diametro", crown: "m di diametro", oldest: "" },
     others: n => `i primi ${n}`, noRec: "Nessun albero con questa misura.", warned: "Valore segnalato da un check",
@@ -128,7 +150,16 @@ const I18N = {
     months: ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"],
     see: "Vedi sulla mappa", evergreen: "Sempreverde: lo stesso aspetto tutto l'anno.",
     autumnInfo: "Ogni albero prende uno dei quattro toni autunnali.",
-    foot: d => `Dati OpenStreetMap (ODbL), aggiornati al ${d}. Record e medie sulla wiki: pagina «Tree species records».`
+    own: "Disegno della specie", generic: "Disegno generico",
+    genTitle: "Disegno generico",
+    genText: (lt, lc) => {
+      const a = { broadleaved: "le latifoglie", needleleaved: "le aghifoglie", palm: "le palme" }[lt];
+      const b = { deciduous: "caducifoglie", semi_deciduous: "semi-caducifoglie", evergreen: "sempreverdi", semi_evergreen: "semi-sempreverdi" }[lc];
+      return `Questo disegno non è proprio di questa specie: è lo stesso per tutte ${a ? a + (b ? " " + b : "") : "gli alberi senza un tipo di foglia"}.`;
+    },
+    genAsk: "Se la specie ha qualcosa di riconoscibile (il colore delle foglie in una stagione, i frutti, i fiori, la corteccia), puoi proporre un disegno dedicato aprendo una issue su GitHub: serve un account GitHub.",
+    propose: "Proponi un disegno", close: "Chiudi",
+    foot: d => `Dati OpenStreetMap (ODbL), aggiornati al ${d}. Record e medie sulla wiki: pagina <a href="${WIKI}" target="_blank" rel="noopener">«Tree species records»</a>.`
   },
   en: {
     other: "Italiano", test: "Test page: not linked from the site yet.",
@@ -138,8 +169,8 @@ const I18N = {
     lt: { broadleaved: "broadleaved", needleleaved: "needleleaved", palm: "palm" },
     lc: { deciduous: "deciduous", semi_deciduous: "semi-deciduous", evergreen: "evergreen", semi_evergreen: "semi-evergreen" },
     fruitTag: "fruits on the map", wikidata: "Wikidata", wikiRec: "Wiki: Tree species records",
-    recTitle: "Record trees", recLead: "The trees of this species with the largest measurements, across all the regions of the site and the monumental map. In large type the first value not reported by the checks; the top list also includes the reported values (⚠).",
-    allWarned: "All the values are reported by a check.", nWarn: n => `${n} reported ⚠`,
+    recTitle: "Record trees", recLead: "The trees of this species with the largest measurements, across all the regions of the site and the monumental map. ⚠ = value reported by a check: it may be wrong.",
+    nWarn: n => `${n} reported ⚠`,
     rc: { height: "Tallest", trunk: "Thickest trunk", slender: "Most slender", stocky: "Stockiest", crown: "Widest crown", oldest: "Oldest" },
     unit: { height: "m", trunk: "m girth", slender: "height/diameter", stocky: "height/diameter", crown: "m across", oldest: "" },
     others: n => `top ${n}`, noRec: "No tree with this measurement.", warned: "Value reported by a check",
@@ -162,7 +193,13 @@ const I18N = {
     months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     see: "See on the map", evergreen: "Evergreen: the same look all year.",
     autumnInfo: "Each tree takes one of the four autumn tones.",
-    foot: d => `OpenStreetMap data (ODbL), updated on ${d}. Records and averages on the wiki: page "Tree species records".`
+    own: "Species drawing", generic: "Generic drawing",
+    genTitle: "Generic drawing",
+    genText: (lt, lc) => `This drawing is not specific to this species: it is the same for all ${[{ deciduous: "deciduous", semi_deciduous: "semi-deciduous", evergreen: "evergreen", semi_evergreen: "semi-evergreen" }[lc],
+      { broadleaved: "broadleaved", needleleaved: "needleleaved", palm: "palm" }[lt]].filter(Boolean).join(" ")} trees.`,
+    genAsk: "If the species has something recognisable (the colour of its leaves in a season, its fruits, flowers or bark), you can suggest a dedicated drawing by opening an issue on GitHub: a GitHub account is needed.",
+    propose: "Suggest a drawing", close: "Close",
+    foot: d => `OpenStreetMap data (ODbL), updated on ${d}. Records and averages on the wiki: page <a href="${WIKI}" target="_blank" rel="noopener">"Tree species records"</a>.`
   }
 };
 let T, LOC;
@@ -181,38 +218,66 @@ function hero() {
   if (D.lt && T.lt[D.lt]) tags.push(T.lt[D.lt]);
   if (D.lc && T.lc[D.lc]) tags.push(T.lc[D.lc]);
   if (D.fruit) tags.push(`<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${esc(D.fruit.color)};vertical-align:0"></span> ${T.fruitTag}`);
+  const wp = D.wp || {}, wpl = wp[LANG] || wp.en || wp.it;
+  if (wpl) tags.push(`<a href="${esc(wpl.url)}" target="_blank" rel="noopener">Wikipedia</a>`);
   if (D.qid) tags.push(`<a href="https://www.wikidata.org/wiki/${esc(D.qid)}" target="_blank" rel="noopener">${T.wikidata}</a>`);
-  tags.push(`<a href="${WIKI}" target="_blank" rel="noopener">${T.wikiRec}</a>`);
   const nReg = Object.keys(D.regions).length;
   const kpi = (v, l) => `<div class="kpi"><b>${v}</b><span>${l}</span></div>`;
-  return `<div class="hero"><h1>${esc(D.name)}</h1>${common ? `<div class="common">${esc(common)}</div>` : ""}
+  // foto: quella in testa alla voce di Wikipedia nella lingua della pagina (o nell'altra), poi l'immagine Wikidata
+  const img = (wp[LANG] || {}).img || (wp[LANG === "it" ? "en" : "it"] || {}).img || wp.p18;
+  const photo = img ? `<figure class="photo"><a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(img)}" target="_blank" rel="noopener">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(img)}?width=520" alt="${esc(D.name)}"></a>
+    <figcaption data-file="${esc(img)}">Wikimedia Commons</figcaption></figure>` : "";
+  return `<div class="hero"><div class="txt"><h1>${esc(D.name)}</h1>${common ? `<div class="common">${esc(common)}</div>` : ""}
     <div class="tags">${tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
-    <div class="test">${T.test}</div></div>
+    <div class="test">${T.test}</div></div>${photo}</div>
     <div class="kpis">${kpi(fmt(D.total), T.trees)}${kpi(fmt(D.n_regions), T.regions(D.n_regions, fmt(nReg)))}
-    ${kpi(fmt(D.mon.length), T.mon)}${D.masaf ? kpi(fmt(D.masaf), T.masaf) : ""}
+    ${kpi(fmt(D.mon.length), T.mon)}${D.masaf && LANG === "it" ? kpi(fmt(D.masaf), T.masaf) : ""}
     ${kpi(fmt(D.issues), T.issues + ` (${fmt(100 * D.issues / Math.max(1, D.total), 1)}%)`)}</div>`;
+}
+
+// autore e licenza della foto da Commons (come creditName e fillPhoto in index.html)
+const plain = html => new DOMParser().parseFromString(html || "", "text/html").body.textContent.replace(/\s+/g, " ").trim();
+function creditName(md) {
+  if (plain(md.Attribution?.value)) return plain(md.Attribution.value);
+  const doc = new DOMParser().parseFromString(md.Artist?.value || "", "text/html");
+  doc.querySelectorAll('[style*="display:none"], [style*="display: none"]').forEach(e => e.remove());
+  const a = [...doc.querySelectorAll("a")].map(x => x.textContent.replace(/\s+/g, " ").trim()).find(Boolean);
+  return a || doc.body.textContent.replace(/\s+/g, " ").trim();
+}
+async function fillCredit() {
+  const cap = document.querySelector(".photo figcaption");
+  if (!cap) return;
+  try {
+    const r = await fetch("https://commons.wikimedia.org/w/api.php?format=json&formatversion=2&origin=*&action=query&prop=imageinfo&iiprop=extmetadata&titles="
+      + encodeURIComponent("File:" + cap.dataset.file)).then(r => r.json());
+    const md = r.query.pages[0].imageinfo?.[0]?.extmetadata || {};
+    const author = creditName(md), lic = plain(md.LicenseShortName?.value);
+    const txt = [author, lic && (author ? `(${lic})` : lic)].filter(Boolean).join(" ");
+    if (txt) { cap.innerHTML = `<a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(cap.dataset.file)}" target="_blank" rel="noopener">${esc(txt)}</a>`; cap.title = txt; }
+  } catch (e) {}
 }
 
 // ---------- primati ----------
 const REC = ["height", "trunk", "crown", "slender", "stocky", "oldest"];
 const recVal = (k, t) => k === "oldest" ? esc(t.tags.start_date || t.v) : fmt(t.v, k === "slender" || k === "stocky" ? 1 : 2);
-function recRow(k, t) {
+function recRow(k, t, warn = true) {   // warn = false: il ⚠ è già accanto al valore in grande
   const place = regName(t.r) || T.monMap;
-  return `<a href="${treeLink(t)}">${esc(t.name || T.node(t.id))}</a>, ${esc(place)}${t.w ? ` <span class="warn" title="${T.warned}">⚠</span>` : ""}`;
+  return `<a href="${treeLink(t)}">${esc(t.name || T.node(t.id))}</a>, ${esc(place)}${warn && t.w ? ` <span class="warn" title="${T.warned}">⚠</span>` : ""}`;
 }
 function records() {
   const wiki = { height: D.wiki.height, trunk: D.wiki.circumference };
-  // in grande il primo valore non segnalato; nell'elenco dei primi anche i valori segnalati (⚠), che possono stare sopra
+  // in grande il primo della classifica, anche se segnalato (con ⚠); nell'elenco richiudibile gli altri, dal secondo
   const cards = REC.map(k => {
-    const R = D.records[k], list = R ? R.top : [], t = R && R.best;
-    if (!list.length) return `<div class="card rec"><h3>${T.rc[k]}</h3><div class="none">${T.noRec}</div></div>`;
+    const list = D.records[k] || [], t = list[0];
+    if (!t) return `<div class="card rec"><h3>${T.rc[k]}</h3><div class="none">${T.noRec}</div></div>`;
     const nWarn = list.filter(x => x.w).length;
+    const rest = list.slice(1).map((x, i) => `<li value="${i + 2}"><b>${recVal(k, x)}</b> · ${recRow(k, x)}</li>`);
     return `<div class="card rec"><h3>${T.rc[k]}</h3>
-      ${t ? `<div class="val">${recVal(k, t)} <small>${T.unit[k]}</small></div><div class="who">${recRow(k, t)}</div>`
-        : `<div class="none">${T.allWarned}</div>`}
+      <div class="val">${recVal(k, t)}${t.w ? ` <span class="warn" title="${T.warned}">⚠</span>` : ""} <small>${T.unit[k]}</small></div>
+      <div class="who">${recRow(k, t, false)}</div>
       ${wiki[k] ? `<div class="wiki">${T.wikiVal(fmt(wiki[k], 2) + " m")}</div>` : ""}
-      ${list.length > 1 || nWarn ? `<details><summary>${T.others(list.length)}${nWarn ? ` · ${T.nWarn(nWarn)}` : ""}</summary><ol>${list.map(x =>
-        `<li><b>${recVal(k, x)}</b> · ${recRow(k, x)}</li>`).join("")}</ol></details>` : ""}</div>`;
+      ${rest.length ? `<details><summary>${T.others(list.length)}${nWarn ? ` · ${T.nWarn(nWarn)}` : ""}</summary><ol>${rest.join("")}</ol></details>` : ""}</div>`;
   }).join("");
   return `<section><h2>${T.recTitle}</h2><p class="lead">${T.recLead}</p><div class="grid3">${cards}</div></section>`;
 }
@@ -246,6 +311,8 @@ function sizes() {
 const PALETTE = ["#d9f0d3", "#a6dba0", "#5aae61", "#1b7837", "#00441b"];
 const ABSENT = "#e4e4e4";
 let mapMode = "share", mapGroup = "reg", map = null, BOUNDS = null;
+let heatOn = false, monOn = false;              // densità e monumentali: spenti all'apertura
+const vis = on => on ? "visible" : "none";
 const valueOf = (s, mode) => !s || !s.sp ? null : mode === "share" ? 100 * s.n / s.sp : mode === "count" ? s.n : s.km2 ? s.n / s.km2 : null;
 function breaks(vals) {
   const v = vals.filter(x => x > 0).sort((a, b) => a - b);
@@ -264,8 +331,8 @@ function mapSection() {
   return `<section><h2>${T.mapTitle}</h2><p class="lead">${T.mapLead}</p>
     <div class="controls">${seg("mode", [["share", T.mShare], ["count", T.mCount], ["dens", T.mDens]], mapMode)}
       ${seg("group", [["reg", T.gReg], ["nat", T.gNat]], mapGroup)}
-      <label><input type="checkbox" id="heat" checked> ${T.heat}</label>
-      <label><input type="checkbox" id="monck" checked> <span style="color:#9a6a00">●</span> ${T.monL} (${fmt(D.mon.length)})</label></div>
+      <label><input type="checkbox" id="heat"${heatOn ? " checked" : ""}> ${T.heat}</label>
+      <label><input type="checkbox" id="monck"${monOn ? " checked" : ""}> <span style="color:#9a6a00">●</span> ${T.monL} (${fmt(D.mon.length)})</label></div>
     <div id="map"></div><div class="legend" id="legend"></div>
     <div class="tables"><div><h3>${T.topShare} <small style="font-weight:400;color:#5d6b61">${T.topShareNote}</small></h3>${table(byShare)}</div>
       <div><h3>${T.topCount}</h3>${table(byCount)}</div></div></section>`;
@@ -292,7 +359,9 @@ function choropleth() {
     `<span><i style="background:${ABSENT}"></i>${T.absent}</span>`;
 }
 function initMap() {
-  map = new maplibregl.Map({ container: "map", style: "https://tiles.openfreemap.org/styles/positron", center: [10, 47], zoom: 3,
+  // vista iniziale: il mondo intero (senza l'Antartide)
+  map = new maplibregl.Map({ container: "map", style: "https://tiles.openfreemap.org/styles/positron",
+    bounds: [[-168, -50], [178, 72]], fitBoundsOptions: { padding: 10 },
     attributionControl: { compact: true }, cooperativeGestures: true });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
   const grid = { type: "FeatureCollection", features: D.grid.map(([x, y, c]) => ({ type: "Feature", properties: { c }, geometry: { type: "Point", coordinates: [x, y] } })) };
@@ -305,17 +374,17 @@ function initMap() {
     map.addLayer({ id: "reg-line", type: "line", source: "reg", paint: { "line-color": "#fff", "line-width": 0.6 } }, first);
     map.addSource("grid", { type: "geojson", data: grid });
     const maxc = Math.max(1, ...D.grid.map(g => g[2]));
-    map.addLayer({ id: "heat", type: "heatmap", source: "grid", maxzoom: 10, paint: {
+    map.addLayer({ id: "heat", type: "heatmap", source: "grid", maxzoom: 10, layout: { visibility: vis(heatOn) }, paint: {
       "heatmap-weight": ["/", ["ln", ["+", 1, ["get", "c"]]], Math.log(1 + maxc)],
       "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 2, 0.8, 9, 2],
       "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 2, 6, 6, 14, 9, 28],
       "heatmap-opacity": ["interpolate", ["linear"], ["zoom"], 8, 0.85, 10, 0],
       "heatmap-color": ["interpolate", ["linear"], ["heatmap-density"], 0, "rgba(0,0,0,0)", 0.15, "rgba(255,237,160,.6)", 0.4, "#feb24c", 0.7, "#f03b20", 1, "#8b0000"] } });
-    map.addLayer({ id: "cells", type: "circle", source: "grid", minzoom: 8, paint: {
+    map.addLayer({ id: "cells", type: "circle", source: "grid", minzoom: 8, layout: { visibility: vis(heatOn) }, paint: {
       "circle-radius": ["interpolate", ["linear"], ["zoom"], 8, ["+", 2, ["*", 1.2, ["ln", ["+", 1, ["get", "c"]]]]], 12, ["+", 4, ["*", 3, ["ln", ["+", 1, ["get", "c"]]]]]],
       "circle-color": "#f03b20", "circle-opacity": ["interpolate", ["linear"], ["zoom"], 8, 0, 10, 0.6], "circle-stroke-width": 0 } });
     map.addSource("mon", { type: "geojson", data: mon });
-    map.addLayer({ id: "mon", type: "circle", source: "mon", paint: {
+    map.addLayer({ id: "mon", type: "circle", source: "mon", layout: { visibility: vis(monOn) }, paint: {
       "circle-radius": ["interpolate", ["linear"], ["zoom"], 2, 2.2, 8, 4, 14, 7], "circle-color": "#ffd34d",
       "circle-stroke-color": "#9a6a00", "circle-stroke-width": 1 } });
     map.on("click", "mon", e => {
@@ -330,13 +399,6 @@ function initMap() {
       new maplibregl.Popup().setLngLat(e.lngLat).setHTML(`<b>${esc(nm)}</b><br>${T.treesCol}: ${fmt(s.n)}<br>${T.shareCol}: ${sig(100 * s.n / Math.max(1, s.sp))}%<br>${T.densCol}: ${s.km2 ? sig(s.n / s.km2) : "–"}`).addTo(map);
     });
     for (const l of ["mon", "reg-fill"]) { map.on("mouseenter", l, () => map.getCanvas().style.cursor = "pointer"); map.on("mouseleave", l, () => map.getCanvas().style.cursor = ""); }
-    // vista iniziale: tutti gli alberi e i monumentali della specie
-    const pts = [...D.grid.map(g => [g[0], g[1]]), ...D.mon.map(m => [m[0], m[1]])];
-    if (pts.length) {
-      const xs = pts.map(p => p[0]).sort((a, b) => a - b), ys = pts.map(p => p[1]).sort((a, b) => a - b);
-      const q = (a, p) => a[Math.min(a.length - 1, Math.floor(p * a.length))];
-      map.fitBounds([[q(xs, 0.01) - 1, q(ys, 0.01) - 1], [q(xs, 0.99) + 1, q(ys, 0.99) + 1]], { padding: 20, duration: 0, maxZoom: 6 });
-    }
     choropleth();
   });
 }
@@ -349,8 +411,8 @@ function bindMap() {
   });
   seg("mode", k => mapMode = k);
   seg("group", k => mapGroup = k);
-  document.getElementById("heat").addEventListener("change", e => { for (const l of ["heat", "cells"]) map.setLayoutProperty(l, "visibility", e.target.checked ? "visible" : "none"); });
-  document.getElementById("monck").addEventListener("change", e => map.setLayoutProperty("mon", "visibility", e.target.checked ? "visible" : "none"));
+  document.getElementById("heat").addEventListener("change", e => { heatOn = e.target.checked; for (const l of ["heat", "cells"]) map.setLayoutProperty(l, "visibility", vis(heatOn)); });
+  document.getElementById("monck").addEventListener("change", e => { monOn = e.target.checked; map.setLayoutProperty("mon", "visibility", vis(monOn)); });
 }
 
 // ---------- aspetto sulla mappa (stessi colori e sagome di index.html) ----------
@@ -381,7 +443,7 @@ function treeSvg({ fill, opacity = 0.55, stroke = "#1b6b2c", sw = 1.2, fruits = 
   const kind = D.lt === "needleleaved" ? "spiky" : D.lt === "palm" ? "palm" : "blob";
   const pts = crownOutline(kind, id, r).map(([x, y]) => `${(cx + x).toFixed(1)},${(cy - y).toFixed(1)}`).join(" ");
   let s = `<polygon points="${pts}" fill="${fill}" fill-opacity="${opacity}" stroke="${stroke}" stroke-width="${sw}"/>`;
-  if (trunk) s += `<circle cx="${cx}" cy="${cy}" r="${r * 0.11}" fill="#7b4a1e"/>`;
+  if (trunk) s += `<circle cx="${cx}" cy="${cy}" r="${r * 0.11}" fill="${D.bark || "#7b4a1e"}"${D.bark ? ' stroke="#8a8a8a" stroke-width="0.8"' : ""}/>`;
   if (fruits) {                                   // 7 frutti come su una chioma grande (decoPoints in index.html)
     const nf = 7, rot = hash01(id, 2) * 2 * Math.PI;
     for (let k = 0; k < nf; k++) {
@@ -398,19 +460,37 @@ const monthList = ms => { // mesi consecutivi uniti: [7,8,9] -> lug – set
   for (const m of [...s.slice(1), null]) { if (m === pr + 1) { pr = m; continue; } out.push(st === pr ? T.months[st - 1] : monthRange(st, pr)); st = pr = m; }
   return out.join(", ");
 };
+// Ogni disegno è «della specie» (colore proprio in SPECIES_COLORS di index.html, frutti) o «generico» (lo stesso per
+// tutte le specie con quel tipo di foglia e quel ciclo): sui generici un (?) invita a proporne uno dedicato
+const ISSUE = "https://github.com/ivanbranco/tree-osm-qa/issues/new?template=species-rendering.yml";
 function looks() {
   const dec = /^(semi_)?deciduous$/.test(D.lc || ""), broad = D.lt === "broadleaved", sm = D.sample;
+  const sc = D.spColor, scAut = sc && sc[2], scLeaf = sc && !sc[2];
   const link = season => sm ? `<p><a href="../index.html#region=${sm.r}&node=${sm.id}${season ? "&season=" + season : ""}">${T.see}</a></p>` : "";
-  const tile = (title, sub, body, season) => `<div class="look"><svg viewBox="0 0 200 200">${body}</svg><h3>${title}</h3><p>${sub}</p>${link(season)}</div>`;
+  const tile = (title, sub, body, season, own) => `<div class="look">${own ? "" : `<button class="help" type="button" title="${T.genTitle}" aria-label="${T.genTitle}">?</button>`}
+    <svg viewBox="0 0 200 200">${body}</svg><h3>${title}</h3><span class="kind ${own ? "own" : "gen"}">${own ? T.own : T.generic}</span><p>${sub}</p>${link(season)}</div>`;
   const base = CYCLE_COLOR(D.lc || "");
-  const tiles = [tile(T.leaves, dec ? monthRange(4, 9) : T.evergreen, treeSvg({ fill: base }), dec ? "leaves" : "")];
-  if (dec && broad) {
+  const leafFill = scLeaf ? sc[0] : base;
+  const leafSub = scLeaf && sc[1] ? monthList(sc[1]) : dec ? monthRange(4, 9) : T.evergreen;
+  const tiles = [tile(T.leaves, leafSub, treeSvg({ fill: leafFill, opacity: scLeaf ? 0.7 : 0.55 }), dec ? "leaves" : "", scLeaf)];
+  if (scAut) {
+    tiles.push(tile(T.autumn, monthList(sc[1]), treeSvg({ fill: sc[0], opacity: 0.7 }), "autumn", true));
+  } else if (dec && broad) {
     const four = AUTUMN_TONES.map((c, i) => treeSvg({ fill: c, opacity: 0.7, id: 1234567 + i * 7919 }, 55 + (i % 2) * 90, 55 + Math.floor(i / 2) * 90, 40)).join("");
-    tiles.push(tile(T.autumn, `${monthRange(10, 11)}. ${T.autumnInfo}`, four, "autumn"));
+    tiles.push(tile(T.autumn, `${monthRange(10, 11)}. ${T.autumnInfo}`, four, "autumn", false));
   }
-  if (dec) tiles.push(tile(T.bare, monthRange(12, 3), treeSvg({ fill: "#cdbb9f", opacity: 0.02, stroke: "#7d6650", sw: 1.6 }), "bare"));
-  if (D.fruit) tiles.push(tile(T.fruits, monthList(D.fruit.months), treeSvg({ fill: base, fruits: D.fruit.color }), ""));
-  return `<section><h2>${T.lookTitle}</h2><p class="lead">${T.lookLead}</p><div class="looks">${tiles.join("")}</div></section>`;
+  if (dec) tiles.push(tile(T.bare, monthRange(12, 3), treeSvg({ fill: "#cdbb9f", opacity: 0.02, stroke: "#7d6650", sw: 1.6 }), "bare", false));
+  if (D.fruit) tiles.push(tile(T.fruits, monthList(D.fruit.months), treeSvg({ fill: base, fruits: D.fruit.color }), "", true));
+  const issue = `${ISSUE}&title=${encodeURIComponent("Rendering: " + D.name)}&species=${encodeURIComponent(D.name)}`;
+  return `<section><h2>${T.lookTitle}</h2><p class="lead">${T.lookLead}</p><div class="looks">${tiles.join("")}</div>
+    <dialog id="gen-dlg"><h3>${T.genTitle}</h3><p>${T.genText(D.lt, D.lc)}</p><p>${T.genAsk}</p>
+      <div class="btns"><button type="button" value="close">${T.close}</button><a href="${issue}" target="_blank" rel="noopener">${T.propose}</a></div></dialog></section>`;
+}
+function bindLooks() {
+  const dlg = document.getElementById("gen-dlg");
+  document.querySelectorAll(".look .help").forEach(b => b.addEventListener("click", () => dlg.showModal()));
+  dlg.querySelector("button").addEventListener("click", () => dlg.close());
+  dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });   // clic fuori dal riquadro
 }
 
 // ---------- pagina ----------
@@ -422,7 +502,7 @@ function render() {
   if (map) { map.remove(); map = null; BOUNDS = null; }
   document.getElementById("main").innerHTML = hero() + records() + sizes() + mapSection() + looks();
   document.getElementById("foot").innerHTML = T.foot(new Date(D.updated).toLocaleDateString(LOC, { day: "numeric", month: "long", year: "numeric" }));
-  initMap(); bindMap();
+  initMap(); bindMap(); bindLooks(); fillCredit();
   if (view) map.once("load", () => map.jumpTo({ center: view.c, zoom: view.z }));
 }
 document.getElementById("lang").addEventListener("click", () => {
