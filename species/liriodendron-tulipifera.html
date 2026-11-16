@@ -547,7 +547,7 @@ function render() {
   document.getElementById("lang").textContent = T.other;
   const view = map ? { c: map.getCenter(), z: map.getZoom() } : null;
   if (map) { map.remove(); map = null; BOUNDS = null; }
-  document.getElementById("main").innerHTML = hero() + records() + sizes() + mapSection() + looks();
+  document.getElementById("main").innerHTML = hero() + looks() + records() + sizes() + mapSection();
   document.getElementById("foot").innerHTML = T.foot(new Date(D.updated).toLocaleDateString(LOC, { day: "numeric", month: "long", year: "numeric" }));
   initMap(); bindMap(); bindLooks(); fillCredit();
   if (view) map.once("load", () => map.jumpTo({ center: view.c, zoom: view.z }));
