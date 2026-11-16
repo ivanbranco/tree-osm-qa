@@ -400,6 +400,11 @@ const I18N = {
     colorBg: "Sfondo a colori (tasto B)",
     editMenu: "Modifica", osmPage: "Pagina su OpenStreetMap", editId: "Modifica con iD", editJosm: "Apri in JOSM", editMapComplete: "Apri in MapComplete",
     fixJosm: "Sistema con JOSM", fixRemoved: "(da togliere)",
+    josmMulti: {
+      zoom: z => `Per sistemare con JOSM gli alberi in vista serve uno zoom di almeno ${z}.`,
+      none: "Nessun albero in vista ha una correzione da passare a JOSM.",
+      ask: (n, all, max) => `Mandare a JOSM le correzioni di ${n} alberi${all > n ? ` (i primi ${max} di ${all} in vista)` : ""}? JOSM le mostra una alla volta prima di applicarle.`,
+      fail: "JOSM non risponde: controllare che sia aperto con il controllo remoto attivo e che il browser possa accedere alla rete locale." },
     allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
     requestRegion: "+ Richiedi una nuova regione…", reqAsk: "Vuoi aggiungere questa regione a DendrOSM?",
     reqContact: (gh, osm) => `${gh("Apri una issue")} o ${osm("scrivimi")}`,
@@ -861,6 +866,11 @@ const I18N = {
     colorBg: "Colour background (B key)",
     editMenu: "Edit", osmPage: "OpenStreetMap page", editId: "Edit with iD", editJosm: "Open in JOSM", editMapComplete: "Open in MapComplete",
     fixJosm: "Fix with JOSM", fixRemoved: "(removed)",
+    josmMulti: {
+      zoom: z => `Fixing the trees in view with JOSM needs zoom ${z} or more.`,
+      none: "No tree in view has a fix to pass to JOSM.",
+      ask: (n, all, max) => `Send the fixes of ${n} trees to JOSM${all > n ? ` (the first ${max} of ${all} in view)` : ""}? JOSM shows them one at a time before applying them.`,
+      fail: "JOSM does not respond: check that it is open with remote control enabled and that the browser may access the local network." },
     allRegions: "← All countries", chooseRegion: "Choose a region…",
     requestRegion: "+ Request a new region…", reqAsk: "Would you like this region on DendrOSM?",
     reqContact: (gh, osm) => `${gh("Open an issue")} or ${osm("message me")}`,
@@ -2806,6 +2816,36 @@ map.on("load", async () => {
     if (e.target.closest?.("input, select, textarea, [contenteditable], dialog") || document.querySelector("dialog[open]")) return;
     const b = cardPopup.getElement().querySelector(".cmp-pick");
     if (b) { e.preventDefault(); openCompare(b); }
+  });
+  // tasto J (issue #77, per ora solo da tastiera): le correzioni di «Sistema con JOSM» per tutti gli alberi in vista
+  // (con i filtri scelti), al più JOSM_MULTI_MAX e solo da zoom JOSM_MULTI_Z. Una richiesta load_and_zoom scarica la
+  // zona (JOSM risponde a download finito), poi una richiesta zoom per albero con select e addtags: JOSM mette in coda
+  // le conferme e le mostra una alla volta. Il commento del changeset unisce i motivi di tutte le correzioni
+  const JOSM_MULTI_MAX = 25, JOSM_MULTI_Z = 17;
+  let josmBusy = false;
+  addEventListener("keydown", async e => {
+    if (e.key.toLowerCase() !== "j" || e.ctrlKey || e.metaKey || e.altKey || WORLD || !current || josmBusy) return;
+    if (e.target.closest?.("input, select, textarea, [contenteditable], dialog") || document.querySelector("dialog[open]")) return;
+    if (map.getZoom() < JOSM_MULTI_Z) { alert(L.josmMulti.zoom(JOSM_MULTI_Z)); return; }
+    const all = [];
+    eachInView((p, ft) => { const [fixes, why] = fixList(p); if (fixes.length) all.push({ p, pos: ft.geometry.coordinates, fixes, why }); });
+    if (!all.length) { alert(L.josmMulti.none); return; }
+    const ts = all.slice(0, JOSM_MULTI_MAX);
+    const list = ts.map(t => `n${t.p.id}: ` + t.fixes.map(([k, o, n]) =>
+      o == null ? `${k}=${n}` : `${k}: ${o} → ${n === "" ? L.fixRemoved : n}`).join(", ")).join("\n");
+    if (!confirm(L.josmMulti.ask(ts.length, all.length, JOSM_MULTI_MAX) + "\n\n" + list)) return;
+    const comment = encodeURIComponent([...new Set(ts.flatMap(t => t.why))].join("; ").replace(/^./, c => c.toUpperCase()));
+    const send = u => fetch(u, { mode: "no-cors" });
+    const b = map.getBounds();
+    josmBusy = true;
+    try {
+      await send(`http://127.0.0.1:8111/load_and_zoom?left=${b.getWest().toFixed(6)}&right=${b.getEast().toFixed(6)}`
+        + `&bottom=${b.getSouth().toFixed(6)}&top=${b.getNorth().toFixed(6)}`);
+      for (const t of ts) await send(josmUrl(t.p, t.pos,
+        `&addtags=${encodeURIComponent(t.fixes.map(([k, , n]) => `${k}=${n}`).join("|"))}&changeset_comment=${comment}`)
+        .replace("/load_and_zoom?", "/zoom?"));
+    } catch (err) { alert(L.josmMulti.fail); }
+    finally { josmBusy = false; }
   });
   // anche i tronchi (singoli e multipli) aprono la scheda: da zoom 16 sono disegnati sopra la chioma
   for (const id of [...CROWN_IDS, ...TIERS.map(t => "crown-palm" + t.suf), ...TIERS.map(t => "trunk" + t.suf), ...TIERS.map(t => "stem" + t.suf),

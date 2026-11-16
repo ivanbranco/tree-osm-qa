@@ -60,8 +60,9 @@ The tabs of the panel (Legend, Error ranking, Trends, Completeness, Record trees
 | **Z** | with a card open | centres the map on the tree at zoom 19 (useful after clicking it from far away) |
 | **C** | with a card open | opens the [trunk comparison](scheda.md#trunk-comparison) window, if the tree has it |
 | **B** | always | switches between the OpenStreetMap background and the grayscale one (same as the button under + and −) |
+| **J** | with a region open, from zoom 17 | passes to JOSM the fixes of the trees in view, up to 25 (see [All the trees in view](scheda.md#all-the-trees-in-view)) |
 
-They do nothing while typing in a field; C and B also do nothing with a window open.
+They do nothing while typing in a field; C, B and J also do nothing with a window open.
 
 The **B** key ("Background", [issue #72](https://github.com/ivanbranco/tree-osm-qa/issues/72)), or the small button with two stacked sheets under + and − (its top sheet is filled with grey while the grayscale background is on), switches the background between the standard OpenStreetMap tiles (the default) and the grayscale [Positron](https://openfreemap.org/quick_start/) style of OpenFreeMap (vector tiles), on which the colours of the trees stand out. The Positron style is downloaded only the first time the key is pressed; its layers are placed under those of the trees, and each background shows its own credit only while it is visible. The choice is not saved: on reload the map starts with the OpenStreetMap tiles. It works on both maps (regions and monumental trees).
 
