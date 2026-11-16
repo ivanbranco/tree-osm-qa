@@ -208,6 +208,13 @@
 ],
 "taxon": true
 },
+"Q1029194": {
+"en": "Pommier",
+"it": "Pommier",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1031120": {
 "alias": {
 "en": [],
@@ -3528,6 +3535,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q123685020": {
+"en": "Defynnog Yew",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q123717399": {
 "names": [],
 "ranks": [],
@@ -6083,6 +6096,13 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q1337956": {
+"en": "Erquinvillers",
+"it": "Erquinvillers",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q13399160": {
 "alias": {
@@ -20175,6 +20195,11 @@
 "ranks": [],
 "taxon": false
 },
+"Q2972108": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2983021": {
 "alias": {
 "en": [
@@ -21017,6 +21042,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q3220964": {
+"en": "Cherry tree",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q3236759": {
 "alias": {
@@ -25304,6 +25335,12 @@
 ],
 "taxon": true
 },
+"Q52008894": {
+"en": "Oak at the Gate of the Dead",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q5220976": {
 "alias": {
 "en": [
@@ -25729,6 +25766,12 @@
 },
 "Q55527106": {
 "en": "Daigo zakura",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q55605947": {
+"en": "Brimmon Oak",
 "names": [],
 "ranks": [],
 "taxon": false
