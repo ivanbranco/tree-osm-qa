@@ -2844,8 +2844,8 @@ def region_records(feats):
 
 # «Più isolato» (isolated): gli alberi più lontani dal più vicino tra gli altri alberi (natural=tree), i boschi
 # (natural=wood, landuse=forest) e i filari (natural=tree_row) di tutto il mondo, non solo della regione. Non si
-# calcola dal file della regione ma con QLever (OSM di tutto il pianeta, aggiornato con i suoi tempi), quindi il sito
-# non lo ricalcola: lo prende sempre da data/records.json. Due passaggi:
+# calcola dal file della regione ma con QLever (OSM di tutto il pianeta, aggiornato con i suoi tempi), in locale con
+# «--isolated» (vedi QLEVER_OFF); il sito non lo ricalcola: lo prende sempre da data/records.json. Due passaggi:
 # 1) candidati: i 500 alberi della regione (la sua relazione OSM) più lontani dall'albero più vicino;
 # 2) a gruppi di ISO_BATCH candidati, i boschi e i filari entro la distanza dall'albero più vicino del primo del
 #    gruppo (un bosco più lontano non cambia il risultato), al massimo ISO_CAP_KM.
@@ -2857,7 +2857,7 @@ def region_records(feats):
 # non entrano.
 # Ogni albero della lista ha, oltre a RECORD_KEEP e "c": "iso" (km), "nk" (cosa c'è di più vicino: tree, wood,
 # forest, tree_row), "ni" (il suo elemento OSM, "node/123", "way/…", "relation/…"), "cap" se vale ISO_CAP_KM.
-# Se QLever non risponde restano i valori dell'aggiornamento precedente.
+# Se QLever non risponde restano i valori del calcolo precedente; l'aggiornamento della regione li lascia com'erano.
 QLEVER_URL = "https://qlever.dev/api/osm-planet"
 ISO_CANDS = (500, 2000, 8000)   # candidati chiesti: se non bastano, il passo dopo
 ISO_BATCH = 50
@@ -2872,8 +2872,9 @@ PREFIX qlss: <https://qlever.cs.uni-freiburg.de/spatialSearch/>
 
 
 # QLever rifiuta le richieste delle Action di GitHub (HTTP 403 dal suo nginx, dal 16/11/2026), non quelle da un PC:
-# al primo 403 non lo si interroga più fino alla fine della corsa (QLEVER_OFF = il motivo), e «Più isolato» si
-# calcola in locale con «python scripts/fetch_trees.py --isolated …» (isolated_main)
+# per questo «Più isolato» non si calcola nell'aggiornamento delle regioni ma in locale, con
+# «python scripts/fetch_trees.py --isolated …» (isolated_main). Se arriva comunque un 403, non si interroga più
+# QLever fino alla fine della corsa (QLEVER_OFF = il motivo).
 QLEVER_OFF = None
 
 
@@ -3147,8 +3148,9 @@ def update_region(region, regions_index):
     digest = hashlib.sha1(raw).hexdigest()
     errors = sum(1 for f in fc["features"] if f["properties"]["issues"] != "|")  # alberi con almeno un errore
     min_path = OUT_DIR / f"{slug}.min.geojson.gz"
-    # primati della regione, anche quando i dati non cambiano; «Più isolato» con QLever
-    save_records(slug, fc["features"], region_isolated(region, fc["features"]))
+    # primati della regione, anche quando i dati non cambiano; «Più isolato» resta quello già nel file (si calcola in
+    # locale con --isolated, vedi QLEVER_OFF)
+    save_records(slug, fc["features"])
     if regions_index.get(slug, {}).get("sha1") == digest and path.exists():
         regions_index[slug]["errors"] = errors  # per gli indici scritti prima che esistesse il conteggio
         regions_index[slug].pop("diam", None)   # campo non più usato (era per fixDiameter, tolto da index.html)
