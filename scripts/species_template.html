@@ -154,7 +154,7 @@ const I18N = {
     mShare: "Quota", mCount: "Numero", mDens: "Per km²", gReg: "Regioni", gNat: "Nazioni",
     heat: "Densità degli alberi", monL: "Monumentali",
     shareInfo: "alberi di questa specie su 100 alberi con la specie mappata", countInfo: "alberi di questa specie", densInfo: "alberi di questa specie per km²",
-    absent: "nessuno", topShare: "Dove è più frequente", topShareNote: "(regioni con almeno 500 alberi con la specie)", topCount: "Dove ci sono più alberi",
+    absent: "nessuno", topShare: "Regioni con la quota più alta", topCount: "Regioni con più alberi",
     region: "Regione", treesCol: "Alberi", shareCol: "Quota", densCol: "Per km²",
     lookTitle: "Sulla mappa", lookLead: "Come DendrOSM disegna questa specie nel corso dell'anno (emisfero nord; a sud dell'equatore i mesi si spostano di 6).",
     leaves: "Con le foglie", autumn: "Autunno", bare: "Spoglio", fruits: "Con i frutti", always: "Tutto l'anno",
@@ -200,7 +200,7 @@ const I18N = {
     mShare: "Share", mCount: "Count", mDens: "Per km²", gReg: "Regions", gNat: "Countries",
     heat: "Tree density", monL: "Monumental trees",
     shareInfo: "trees of this species per 100 trees with a mapped species", countInfo: "trees of this species", densInfo: "trees of this species per km²",
-    absent: "none", topShare: "Where it is most common", topShareNote: "(regions with at least 500 trees with a species)", topCount: "Where there are most trees",
+    absent: "none", topShare: "Regions with the highest share", topCount: "Regions with the most trees",
     region: "Region", treesCol: "Trees", shareCol: "Share", densCol: "Per km²",
     lookTitle: "On the map", lookLead: "How DendrOSM draws this species through the year (northern hemisphere; south of the equator the months shift by 6).",
     leaves: "In leaf", autumn: "Autumn", bare: "Bare", fruits: "With fruits", always: "All year",
@@ -370,6 +370,7 @@ const classOf = (x, br) => { let i = 0; while (i < br.length && x > br[i]) i++; 
 function mapSection() {
   const seg = (id, items, cur) => `<span class="seg" id="${id}">${items.map(([k, l]) => `<button type="button" data-k="${k}" aria-pressed="${k === cur}">${l}</button>`).join("")}</span>`;
   const rows = Object.entries(D.regions).filter(([, s]) => s.n > 0);
+  // per la quota solo le regioni con almeno 500 alberi con una specie qualunque (sp), senza nota nella pagina
   const byShare = rows.filter(([, s]) => s.sp >= 500).sort((a, b) => b[1].n / b[1].sp - a[1].n / a[1].sp).slice(0, 10);
   const byCount = rows.sort((a, b) => b[1].n - a[1].n).slice(0, 10);
   const table = list => `<table><thead><tr><th>${T.region}</th><th class="num">${T.treesCol}</th><th class="num">${T.shareCol}</th><th class="num">${T.densCol}</th></tr></thead><tbody>${list.map(([k, s]) =>
@@ -380,7 +381,7 @@ function mapSection() {
       <label><input type="checkbox" id="heat"${heatOn ? " checked" : ""}> ${T.heat}</label>
       <label><input type="checkbox" id="monck"${monOn ? " checked" : ""}> <span style="color:#9a6a00">●</span> ${T.monL} (${fmt(D.mon.length)})</label></div>
     <div id="map"></div><div class="legend" id="legend"></div>
-    <div class="tables"><div><h3>${T.topShare} <small style="font-weight:400;color:#5d6b61">${T.topShareNote}</small></h3>${table(byShare)}</div>
+    <div class="tables"><div><h3>${T.topShare}</h3>${table(byShare)}</div>
       <div><h3>${T.topCount}</h3>${table(byCount)}</div></div></section>`;
 }
 function choropleth() {
