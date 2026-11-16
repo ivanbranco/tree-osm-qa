@@ -315,9 +315,9 @@ for _g, _v in _GENERA.items():
             _GN.setdefault((_lang, _n.casefold()), set()).add(_g)
 _GN_OK = {(lang, n.casefold()): g for lang, d in _WL.get("genus_names", {}).items() for n, g in d.items()}
 GENUS_NAMES = {k: g for k, v in _GN.items() if len(v) == 1 and _GN_OK.get(k) == (g := next(iter(v)))}
-# le lingue senza una colonna nella lista wiki (species:pl=Dąb -> Quercus) valgono solo da whitelist.json
-_GN_LANGS = {lang for lang, _ in _GN}
-GENUS_NAMES.update({k: g for k, g in _GN_OK.items() if k[0] not in _GN_LANGS})
+# i nomi di whitelist.json che la lista wiki non ha per nessun genere (species:pl=Dąb -> Quercus, nelle lingue senza
+# una colonna nella lista; species:en=Plane -> Platanus, che nella lista non ha il nome inglese) valgono da soli
+GENUS_NAMES.update({k: g for k, g in _GN_OK.items() if k not in _GN})
 # nomi comuni delle specie (species_names di whitelist.json, scritti a mano): {("pl", "klon zwyczajny"): "Acer
 # platanoides"}; per questi si propone species=<la specie>
 SPECIES_NAMES = {(lang, n.casefold()): s for lang, d in _WL.get("species_names", {}).items() for n, s in d.items()}
@@ -1946,18 +1946,19 @@ def _cached_species_qid(species, _n):
     return next(iter(found)) if len(found) == 1 else None
 
 
-def species_lang_extras(t, species):
+def species_lang_extras(t, species, prefix="sp_lang_"):
     """Tag che mancano e che la specie proposta per un species:xx (species, un solo nome) permette di aggiungere
     insieme a species=*: {"sp_lang_wd": species:wikidata della lista wiki, "sp_lang_lt": leaf_type, "sp_lang_lc":
-    leaf_cycle}. Servono alla correzione con JOSM, che aggiunge species."""
+    leaf_cycle}. Servono alla correzione con JOSM, che aggiunge species. Con prefix "sp_fix_" gli stessi tag per la
+    species corretta da species_author o species_typo."""
     t2 = {**t, "species": species}
     out = {}
     if "species:wikidata" not in t and (q := list_qid(species) or cached_species_qid(species)):
-        out["sp_lang_wd"] = q
+        out[prefix + "wd"] = q
     if "leaf_type" not in t and (lt := leaf_type_estimate(t2)):
-        out["sp_lang_lt"] = lt
+        out[prefix + "lt"] = lt
     if "leaf_cycle" not in t and (lc := leaf_cycle_estimate(t2)):
-        out["sp_lang_lc"] = lc
+        out[prefix + "lc"] = lc
     return out
 
 
@@ -2140,8 +2141,18 @@ def checks(t, pos, osm_id=None):
     # più valori separati da ";" in species o genus: un nodo è un solo albero, con un solo genere e una sola specie
     if mv := [k for k in ("species", "genus") if ";" in str(t.get(k, "")) and k not in eq]:
         flag("multiple_values", mv_keys=";".join(mv))
-    if spf and SPECIES_BIN and (typo := species_typo(spf)):
+    typo = species_typo(spf) if spf and SPECIES_BIN else None
+    if typo:
         flag("species_typo", sp_sugg=typo)
+    # Correzione con JOSM della species: sp_fix = la specie della lista proposta da species_typo, solo se species (tolto
+    # l'autore) è genere ed epiteto e basta, così la correzione non perde una cultivar o altro; con l'autore vale anche
+    # per species_author, perché le due proposte non si contraddicano (Cupréssus sempervìrens L. -> Cupressus
+    # sempervirens). sp_fix_wd, sp_fix_lt, sp_fix_lc: species:wikidata, leaf_type e leaf_cycle che mancano, per la
+    # specie corretta (sp_fix o sp_clean): la correzione li aggiunge insieme a species
+    if typo and not (no_auth and "sp_clean" not in props) and len(name_words(no_auth or spf)) == 2:
+        props["sp_fix"] = typo
+    if fixed := props.get("sp_fix") or props.get("sp_clean"):
+        props.update(species_lang_extras(t, fixed, "sp_fix_"))
     if lang := species_lang_only(t):    # "species:it=Leccio" separati da "\n" (i valori possono contenere ";")
         # sp_lang_genus: righe "species:fr=Tilleul|Tilia" per i nomi di un genere della lista (issue #35), con l'unica
         # specie del genere se c'è: "species:fr=Cognassier|Cydonia|Cydonia oblonga". sp_lang_gx: le stesse righe
@@ -2725,9 +2736,15 @@ def year_event_decade(key):
     return None
 
 
-def year_event(key, events):
-    """La voce di YEAR_EVENTS per la chiave, o in mancanza quella del suo decennio; None se mancano entrambe."""
-    return events.get(key) or events.get(year_event_decade(key))
+def year_event(key, events, cc=""):
+    """La voce di YEAR_EVENTS per la chiave, o in mancanza quella del suo decennio; None se mancano entrambe. Una
+    voce può valere per una sola nazione: la chiave ha davanti il codice ISO del paese ("JP:1159", anche "JP:1150s");
+    per un albero di quella nazione (cc) vale prima di quella per tutti, sia per l'anno sia per il decennio
+    (yearEvent in index.html)."""
+    dec = year_event_decade(key)
+    cc = (cc or "")[:2].upper()
+    keys = [f"{cc}:{key}", key, dec and f"{cc}:{dec}", dec] if cc else [key, dec]
+    return next((events[k] for k in keys if k and events.get(k)), None)
 
 
 def record_values(p):
@@ -2825,11 +2842,12 @@ def missing_year_events():
     sempre tra i primi dieci delle regioni, quindi l'elenco copre tutti i livelli del sito. Valore: [(chiave, regioni)],
     le regioni (slug) in cui la data è tra i primi dieci, perché le regioni aggiornate nell'Action non sono le sole."""
     events = load_json(YEAR_EVENTS)
+    iso = {r["slug"]: r.get("iso", "") for r in REGIONS}   # voci di una sola nazione (year_event)
     found, where = {}, collections.defaultdict(set)
     for slug, rec in load_json(RECORDS_FILE).items():
         for t in (rec.get("oldest") or {}).get("t", []):
             key = start_date_event_key(t.get("start_date"))
-            if key and not year_event(key, events):     # un anno con la voce del decennio non manca
+            if key and not year_event(key, events, iso.get(slug)):   # un anno con la voce del decennio non manca
                 found[key] = min(found.get(key, math.inf), start_date_key(t["start_date"]))
                 where[key].add(slug)
     return [(k, sorted(where[k])) for k in sorted(found, key=lambda x: (found[x], x))]

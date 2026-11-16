@@ -460,6 +460,31 @@ SP_CLEAN_CASES = [
     ("Insieme omogeneo di Fagus sylvatica L.", None),                            # resta altro oltre al nome
 ]
 
+# Correzione con JOSM di species_typo e species_author (sp_fix e i tag che mancano per la specie corretta, sp_fix_*):
+# (nome, tag, proprietà attese; None = la proprietà non c'è)
+SP_FIX_CASES = [
+    ("refuso: species della lista e i tag che mancano", {"natural": "tree", "species": "Quercus rubur"},
+     {"sp_fix": "Quercus robur", "sp_fix_wd": "Q920001", "sp_fix_lt": "broadleaved", "sp_fix_lc": "deciduous"}),
+    ("refuso con l'autore: la stessa species per i due errori", {"natural": "tree", "species": "Quercus rubur L.",
+                                                                "leaf_type": "broadleaved"},
+     {"sp_clean": "Quercus rubur", "sp_fix": "Quercus robur", "sp_fix_wd": "Q920001", "sp_fix_lt": None}),
+    ("refuso con la cultivar: nessuna correzione", {"natural": "tree", "species": "Quercus rubur 'Fastigiata'"},
+     {"sp_fix": None}),
+    ("solo l'autore: species:wikidata della specie senza autore",
+     {"natural": "tree", "species": "Quercus robur L.", "species:wikidata": "Q920001"},
+     {"sp_clean": "Quercus robur", "sp_fix": None, "sp_fix_wd": None, "sp_fix_lc": "deciduous"}),
+    ("solo l'autore, senza species:wikidata", {"natural": "tree", "species": "Quercus robur L."},
+     {"sp_fix_wd": "Q920001"}),
+]
+
+# Frasi sugli anni (year_event): (chiave, nazione, voci, atteso)
+_EV = {"1159": "tutti", "JP:1159": "Giappone", "1150s": "decennio", "FR:1160s": "Francia, decennio"}
+YEAR_EVENT_CASES = [
+    ("1159", "", _EV, "tutti"), ("1159", "JP", _EV, "Giappone"), ("1159", "IT", _EV, "tutti"),
+    ("1153", "JP", _EV, "decennio"), ("1163", "FR", _EV, "Francia, decennio"), ("1163", "IT", _EV, None),
+    ("1159", "JP", {"JP:1150s": "Giappone, decennio", "1159": "tutti"}, "tutti"),   # prima l'anno, poi il decennio
+]
+
 # Relazioni con ref:masaf (masaf_groups): elementi finti di una risposta di Overpass -> righe "mg" attese per nodo
 _REL = lambda i, tags, members: {"type": "relation", "id": i, "tags": tags,
                                   "members": [{"type": k, "ref": r, "role": ""} for k, r in members]}
@@ -488,6 +513,13 @@ def feature_failures():
     for sp, want in SP_CLEAN_CASES:
         if (got := ft.checks({"natural": "tree", "species": sp}, POS)[1].get("sp_clean")) != want:
             out.append(f"FALLITO: sp_clean di species={sp}\n  atteso:  {want}\n  uscito:  {got}")
+    for name, tags, want in SP_FIX_CASES:
+        props = ft.checks(dict(tags), POS)[1]
+        if bad := {k: props.get(k) for k, v in want.items() if props.get(k) != v}:
+            out.append(f"FALLITO: {name}\n  tag:     {tags}\n  atteso:  {want}\n  uscito:  {bad}")
+    for key, cc, events, want in YEAR_EVENT_CASES:
+        if (got := ft.year_event(key, events, cc)) != want:
+            out.append(f"FALLITO: year_event({key!r}, nazione {cc!r})\n  atteso:  {want}\n  uscito:  {got}")
     if (got := ft.masaf_groups(GROUP_ELEMENTS)) != GROUP_EXPECTED:
         out.append(f"FALLITO: masaf_groups\n  atteso:  {GROUP_EXPECTED}\n  uscito:  {got}")
     node = lambda i, tags: {"type": "node", "id": i, "lat": POS[1], "lon": POS[0], "tags": tags}
