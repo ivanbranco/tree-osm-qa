@@ -574,6 +574,7 @@ const I18N = {
       imagePage: (site, mly) => site === "mapillary.com" ? `image=* contiene una foto di Mapillary: per Mapillary c'è il tag mapillary=*${mly ? `, si potrebbe usare mapillary=${mly}` : ""}`
         : `image=* è una pagina web (${site}), non il file di un'immagine. Una foto si può anche caricare su Wikimedia Commons o Panoramax e collegare con wikimedia_commons=* o panoramax=*`,
       feetInchSpace: (k, v, fix) => `${k}=${v}: la wiki indica di scrivere piedi e pollici senza spazi (${fix})`,
+      leadDot: (k, v, fix) => `${k}=${v}: il numero inizia con il punto; con lo zero davanti (${fix}) è più leggibile`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,      notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
       // issue #25; seeds(t): HTML delle parole che aprono la foto dei semi (south: emisfero australe)
       ginkgoSex: (south, seeds) => `Se questo ginkgo è un esemplare femminile, si potrebbe aggiungere sex=female. ${south ? "Da ottobre a maggio" : "Da aprile a novembre"} è un buon periodo per verificarlo: le femmine portano ovuli appaiati in primavera e ${seeds("semi carnosi e maleodoranti")} che cadono in autunno, spesso a terra sotto la chioma.`,
@@ -766,7 +767,7 @@ const I18N = {
       start_date_invalid: "Forme della wiki OSM (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 e gli intervalli 1850..1900. Sono segnalate anche le date che non esistono (2020-02-30) e quelle dopo la data dell'aggiornamento dei dati.",
       // wp_genus (fetch_trees.py): l'elemento della voce è di rango genere
       wikipedia_is_taxon: p => `wikipedia=* collega la voce del singolo albero; la voce ${p.wp_genus ? "del genere si collega con genus:wikipedia=*" : "della specie si collega con species:wikipedia=*"}. L'elemento Wikidata collegato alla voce è un taxon (ha un nome scientifico, P225).`,
-      denotation_value: "Confronto con gli usi su Taginfo: segnalati i valori usati al massimo 10 volte, quelli con un formato non valido e quelli comuni con altro testo attaccato.",
+      denotation_value: "Confronto con gli usi su Taginfo: segnalati i valori usati al massimo 10 volte, quelli con un formato non valido, quelli con spazi intorno al \";\" che separa più valori e quelli comuni con altro testo attaccato.",
       undocumented_tag: "tree=* e type=* non sono documentati per gli alberi nella wiki OSM.",
       key_typo: "La chiave non è tra quelle usate per gli alberi, ma differisce da una di esse solo per le maiuscole, per una lettera (due nelle chiavi di almeno 12 lettere) o per due lettere vicine scambiate. Le chiavi in OSM sono minuscole. Il valore non è usato per disegnare l'albero.",
       wikidata_mismatch: "Confronto con il QID che la lista delle specie della wiki OSM associa a species=*.",
@@ -853,6 +854,7 @@ const I18N = {
         downgraded: "per declassamento", other: "" },
       empty: "(vuoto)",
       den_format: v => `denotation=${v}: formato non valido`,
+      den_space: v => `denotation: spazio prima o dopo "${v}" (più valori si separano con ";" senza spazi)`,
       den_glued: (v, pre) => `denotation=${v}: sembra "${pre}" con altro testo attaccato`,
       den_rare: (v, n) => n == 0 ? `denotation=${v} non risulta su Taginfo` : n == 1 ? `denotation=${v} usato una sola volta in OSM`
         : `denotation=${v} usato solo ${n} volte in OSM`,
@@ -1055,6 +1057,7 @@ const I18N = {
       commonsImage: f => `image=* points to a Wikimedia Commons file: it could be replaced with wikimedia_commons=${f}`,
       imagePage: (site, mly) => site === "mapillary.com" ? `image=* contains a Mapillary photo: Mapillary has its own tag, mapillary=*${mly ? `; mapillary=${mly} could be used` : ""}`
         : `image=* is a web page (${site}), not an image file. A photo can also be uploaded to Wikimedia Commons or Panoramax and linked with wikimedia_commons=* or panoramax=*`,      feetInchSpace: (k, v, fix) => `${k}=${v}: the wiki writes feet and inches without spaces (${fix})`,
+      leadDot: (k, v, fix) => `${k}=${v}: the number starts with the point; with a zero in front (${fix}) it is easier to read`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,      notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
       ginkgoSex: (south, seeds) => `If this ginkgo is a female tree, sex=female could be added. ${south ? "October to May" : "April to November"} is a good time to check: females bear paired ovules in spring and fleshy, ${seeds("foul-smelling seeds")} that fall in autumn, often lying under the canopy.`,
       ginkgoSeedsAlt: "Ginkgo biloba seeds",
@@ -1237,7 +1240,7 @@ const I18N = {
       masaf_unknown: "The ref:masaf code is not in the list of monumental trees of Italy, neither among the listed trees nor among the removed ones. The leading zero of the first number does not count (01/G114/CN/01 is the same as 001/G114/CN/01). Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       start_date_invalid: "Forms on the OSM wiki (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 and the ranges 1850..1900. Dates that do not exist (2020-02-30) and dates after the data update are reported too.",
       wikipedia_is_taxon: p => `wikipedia=* links the article about the individual tree; the ${p.wp_genus ? "genus article is linked with genus:wikipedia=*" : "species article is linked with species:wikipedia=*"}. The Wikidata item linked to the article is a taxon (it has a scientific name, P225).`,
-      denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format and common values with other text attached.",
+      denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format, values with spaces around the \";\" that separates multiple values and common values with other text attached.",
       undocumented_tag: "tree=* and type=* are not documented for trees on the OSM wiki.",
       key_typo: "The key is not one of those used for trees, but differs from one of them only in capitalisation, by one letter (two in keys of at least 12 letters) or by two adjacent letters swapped. OSM keys are lowercase. The value is not used to draw the tree.",
       wikidata_mismatch: "Compared with the QID that the OSM wiki species list gives for species=*.",
@@ -1319,6 +1322,7 @@ const I18N = {
         downgraded: "after being downgraded", other: "" },
       empty: "(empty)",
       den_format: v => `denotation=${v}: invalid format`,
+      den_space: v => `denotation: space before or after "${v}" (multiple values are separated by ";" without spaces)`,
       den_glued: (v, pre) => `denotation=${v}: looks like "${pre}" with extra text attached`,
       den_rare: (v, n) => n == 0 ? `denotation=${v} not found on Taginfo` : n == 1 ? `denotation=${v} used only once in OSM`
         : `denotation=${v} used only ${n} times in OSM`,
@@ -1515,13 +1519,17 @@ const AUTUMN_TONES = [["#e3b524", 0.35], ["#dd8a1f", 0.3], ["#b5502a", 0.15], ["
 const SEASON_FORCE = { leaves: "l", autumn: "a", bare: "b" }[hashParams().get("season")] || null;
 const LEAF_CYCLES = ["deciduous", "semi_deciduous", "evergreen", "semi_evergreen"];
 const cycleOf = p => LEAF_CYCLES.includes(p.leaf_cycle) ? p.leaf_cycle : p.lc || "";   // come CYCLE sulla mappa
-const isDeciduous = p => !p.stump && /^(semi_)?deciduous$/.test(cycleOf(p));
+const isDeciduous = p => { if (p.stump) return false; const c = cycleOf(p); return c === "deciduous" || c === "semi_deciduous"; };
 const inMonths = (r, m) => !!r && (r[0] <= r[1] ? m >= r[0] && m <= r[1] : m >= r[0] || m <= r[1]);
 const calPhase = (cal, m) => inMonths(cal.bare, m) ? "b" : inMonths(cal.autumn, m) ? "a" : "l";
 const autumnTone = id => { let x = hash01(id, 8); for (const [c, q] of AUTUMN_TONES) { if (x < q) return c; x -= q; } return AUTUMN_TONES[0][0]; };
 // mese "personale" dell'albero: quello della data di oggi spostata dei suoi giorni di anticipo o ritardo
-const shiftedMonth = (id, lat) => { const d = new Date(); d.setDate(d.getDate() + Math.round((hash01(id, 7) * 2 - 1) * SEASON_SHIFT));
-  const m = d.getMonth() + 1; return lat < 0 ? (m + 5) % 12 + 1 : m; };
+// shiftedMonths: i mesi per ogni spostamento da -SEASON_SHIFT a +SEASON_SHIFT giorni, calcolati una volta per
+// chiamata di markColors invece di una data per albero
+const shiftedMonths = () => Array.from({ length: 2 * SEASON_SHIFT + 1 }, (_, k) => { const d = new Date();
+  d.setDate(d.getDate() + k - SEASON_SHIFT); return d.getMonth() + 1; });
+const shiftedMonth = (id, lat, months) => { const m = months[Math.round((hash01(id, 7) * 2 - 1) * SEASON_SHIFT) + SEASON_SHIFT];
+  return lat < 0 ? (m + 5) % 12 + 1 : m; };
 // Proprietà aggiunte qui, non nei dati (va chiamata prima di ogni setData degli alberi):
 //   sc  = colore non autunnale della specie, oggi (dipende solo da «Colori delle specie»)
 //   ph  = fase di oggi, "a" autunno o "b" spoglio (assente = foglie)
@@ -1531,20 +1539,35 @@ const shiftedMonth = (id, lat) => { const d = new Date(); d.setDate(d.getDate() 
 // a ottobre è verde), senza anticipi né ritardi, e finché hanno un colore non autunnale restano con le foglie.
 const markColors = (fc, cal, feats, idOf) => {
   cal = cal || SEASONS_DEFAULT;
+  // una volta per chiamata, non per albero: il mese di oggi nei due emisferi, i mesi spostati e il colore di ogni
+  // valore di species (gli stessi nomi si ripetono migliaia di volte)
+  const mN = new Date().getMonth() + 1, mS = (mN + 5) % 12 + 1, months = shiftedMonths(), colorOf = new Map();
+  const speciesColor = s => {
+    let c = colorOf.get(s);
+    if (c === undefined) {
+      const sp = /^([A-Z][a-z]+) ([a-z-]+)/.exec(String(s));
+      colorOf.set(s, c = sp && !String(s).includes(";") && SPECIES_COLORS[sp[1] + " " + sp[2]] || null);
+    }
+    return c;
+  };
   for (const f of feats || fc.features) {
     const p = f.properties, lat = f.geometry.coordinates[1], id = idOf ? idOf(p) : p.id || 0;
-    const sp = /^([A-Z][a-z]+) ([a-z-]+)/.exec(String(p.species || ""));
-    const c = sp && !String(p.species).includes(";") && SPECIES_COLORS[sp[1] + " " + sp[2]] || null;
-    const now = !!c && (COLORS_ALWAYS || !c[1] || c[1].includes(localMonth(lat)));
+    const month = lat < 0 ? mS : mN;
+    const c = p.species ? speciesColor(p.species) : null;
+    const now = !!c && (COLORS_ALWAYS || !c[1] || c[1].includes(month));
     // seas: latifoglia caducifoglia, tutte e tre le fasi; bare: anche le aghifoglie caducifoglie, che d'inverno sono
     // spoglie ma in autunno cambiano colore solo se la specie ne ha uno proprio (larice, cipresso calvo, metasequoia)
     const dec = isDeciduous(p), seas = dec && leafOf(p) === "broadleaved", bare = seas || (dec && leafOf(p) === "needleleaved");
-    delete p.sc; delete p.ph; delete p.at; delete p.asc;
+    // le proprietà di una chiamata precedente si tolgono solo se ci sono (quasi nessun albero le ha)
+    if (p.sc !== undefined) delete p.sc;
+    if (p.ph !== undefined) delete p.ph;
+    if (p.at !== undefined) delete p.at;
+    if (p.asc !== undefined) delete p.asc;
     if (now && !c[2]) p.sc = c[0];
     let ph = "l";
     if (SEASON_FORCE) ph = (SEASON_FORCE === "b" ? bare : SEASON_FORCE === "a" && (seas || (c && c[2]))) ? SEASON_FORCE : "l";
-    else if (c && c[2]) ph = now ? "a" : bare && calPhase(cal, localMonth(lat)) === "b" ? "b" : "l";
-    else if (bare && !p.sc) { ph = calPhase(cal, shiftedMonth(id, lat)); if (ph === "a" && !seas) ph = "l"; }
+    else if (c && c[2]) ph = now ? "a" : bare && calPhase(cal, month) === "b" ? "b" : "l";
+    else if (bare && !p.sc) { ph = calPhase(cal, shiftedMonth(id, lat, months)); if (ph === "a" && !seas) ph = "l"; }
     if (ph === "l") continue;
     p.ph = ph;
     if (ph === "a") { if (seas) p.at = autumnTone(id); if (c && c[2]) p.asc = c[0]; }
@@ -1781,12 +1804,18 @@ map.on("load", async () => {
   const isShaped = ft => !ft.properties.stump && (BLOB.has(leafOf(ft.properties)) || isSpiky(ft.properties));
 
   // sagoma della chioma (crownOutline): fronde per le palme, stella per le aghifoglie, lobi per le latifoglie
+  // Le sagome già calcolate si tengono (RINGS, per albero): spostando la mappa gli alberi rimasti in vista non si
+  // ricalcolano. La chiave è la feature, quindi con i dati di un'altra regione le sagome vecchie si liberano da sole
+  const RINGS = new WeakMap();
   const shapeRing = ft => {
+    let ring = RINGS.get(ft);
+    if (ring) return ring;
     const [lon, lat] = ft.geometry.coordinates, p = ft.properties;
     const kx = 1 / (111320 * Math.cos(lat * Math.PI / 180)), ky = 1 / 111320;
     const pts = crownOutline(isPalm(p) ? "palm" : isSpiky(p) ? "spiky" : "blob", p.id, p.cr).map(([x, y]) => [lon + x * kx, lat + y * ky]);
     pts.push(pts[0]);
-    return [pts];
+    RINGS.set(ft, ring = [pts]);
+    return ring;
   };
 
   map.addSource("shapes", { type: "geojson", data: EMPTY });
@@ -1864,16 +1893,25 @@ map.on("load", async () => {
   };
   let DECO = [];
   let shapesEmpty = true;
-  const updateShapes = () => {
+  // finestra (vista allargata del 25%) dell'ultimo calcolo; null se le sagome sono vuote o se gli alberi erano più
+  // di SHAPE_CAP (in quel caso si tengono i più vicini al centro, che cambiano a ogni spostamento)
+  let shapesWin = null;
+  // moved = chiamata per uno spostamento della mappa (moveend): se la vista è ancora dentro shapesWin non c'è niente
+  // da rifare. Le altre chiamate (dati nuovi, soglia di zoom) ricalcolano sempre
+  const updateShapes = moved => {
     const src = map.getSource("shapes");
     if (map.getZoom() < SHAPE_Z) {
       if (!shapesEmpty) { src.setData(EMPTY); map.getSource("deco").setData(EMPTY); shapesEmpty = true; }
+      shapesWin = null;
       return;
     }
     const b = map.getBounds();
+    if (moved === true && shapesWin && !shapesEmpty && b.getWest() >= shapesWin.w && b.getEast() <= shapesWin.e
+        && b.getSouth() >= shapesWin.s && b.getNorth() <= shapesWin.n) return;
     const px = (b.getEast() - b.getWest()) * 0.25, py = (b.getNorth() - b.getSouth()) * 0.25;
     const w = b.getWest() - px, e = b.getEast() + px, s = b.getSouth() - py, n = b.getNorth() + py;
     let list = SHAPED.filter(ft => { const [x, y] = ft.geometry.coordinates; return x >= w && x <= e && y >= s && y <= n; });
+    shapesWin = list.length > SHAPE_CAP ? null : { w, e, s, n };
     if (list.length > SHAPE_CAP) {                // molti alberi in vista: tiene i più vicini al centro
       const c = map.getCenter();
       const d = ft => (ft.geometry.coordinates[0] - c.lng) ** 2 + (ft.geometry.coordinates[1] - c.lat) ** 2;
@@ -1884,6 +1922,7 @@ map.on("load", async () => {
     // decorazioni degli alberi in vista (stessa finestra): tronchi multipli, edera, frutti
     const deco = DECO.filter(ft => { const [x, y] = ft.geometry.coordinates; return x >= w && x <= e && y >= s && y <= n; });
     map.getSource("deco").setData({ type: "FeatureCollection", features: deco.slice(0, SHAPE_CAP).flatMap(decoPoints) });
+    if (deco.length > SHAPE_CAP) shapesWin = null;
     shapesEmpty = false;
   };
 
@@ -2388,7 +2427,7 @@ map.on("load", async () => {
   taxSel.onchange = () => { apply(); updateTaxa(); };
 
   let shapeTimer;
-  map.on("moveend", () => { clearTimeout(shapeTimer); shapeTimer = setTimeout(updateShapes, 100); });
+  map.on("moveend", () => { clearTimeout(shapeTimer); shapeTimer = setTimeout(() => updateShapes(true), 100); });
   map.on("zoom", () => { if ((map.getZoom() >= SHAPE_Z) === shapesEmpty) updateShapes(); });
   updateShapes();
 
@@ -3606,7 +3645,7 @@ const tr = (dict, v) => dict[v] || v;
 // manca: 1, oppure 0.001 per diameter); null se non è leggibile
 const LEN_UNITS = { m: 1, cm: 0.01, mm: 0.001, km: 1000, ft: 0.3048, in: 0.0254 };
 const LEN_ALIASES = { metre: "m", metres: "m", meter: "m", meters: "m", mt: "m", mtr: "m", feet: "ft", foot: "ft", inch: "in", inches: "in" };
-const LEN_RE = /^\s*([+-]?\d+(?:[.,]\d+)?)(\s*)([a-zA-Z]*)\s*$/;
+const LEN_RE = /^\s*([+-]?(?:\d+(?:[.,]\d+)?|[.,]\d+))(\s*)([a-zA-Z]*)\s*$/;
 const FEET_INCH = /^\s*(?:(\d+)\s*(?:'|’|′|ft|feet|foot)\s*)?(?:(\d+(?:[.,]\d+)?)\s*(?:"|''|”|″|in|inch|inches)\s*)?$/i;
 const lenM = (v, def = 1) => {
   if (v == null) return null;
@@ -3973,7 +4012,7 @@ const issueBase = (i, p) => {
       const ws = String(p.den_why || "").split(";"), ns = String(p.den_n || "").split(";");
       return String(p.den_bad || "").split(";").map((v, k) => {
         const w = ws[k] || "";
-        return w === "format" ? T.den_format(v) : w.startsWith("glued:") ? T.den_glued(v, w.slice(6)) : T.den_rare(v, fmtN(ns[k] || 0));
+        return w === "format" ? T.den_format(v) : w === "space" ? T.den_space(v) : w.startsWith("glued:") ? T.den_glued(v, w.slice(6)) : T.den_rare(v, fmtN(ns[k] || 0));
       }).join("\n");
     }
     case "wikidata_mismatch": return p.exp_sp ? T.wikidata_other(p.sp_wd, p.exp_sp, p.species) : T.wikidata_expected(p.sp_wd, p.species, p.exp_wd);
@@ -4233,6 +4272,14 @@ const capFirst = v => String(v).replace(/^(\s*×?\s*)(\p{Ll})/u, (m, a, b) => a 
 // i dati generati prima del controllo sul rango in fetch_trees.py possono ancora contenerne)
 const binomialHint = n => /\S\s+\S/.test(String(n || "").replace(/×/g, " ").trim()) ? n : undefined;
 const FEET_SPACE =/^\s*\d+\s*'\s+\d+(?:\.\d+)?\s*"\s*$|^\s*\d+\s+'(?:\s*\d+(?:\.\d+)?\s*")?\s*$/;   // come in hints
+// Numero senza lo zero davanti al punto (.75, .5 m): [[chiave, valore con lo zero]]. Il valore si legge lo stesso
+// (parse_length in fetch_trees.py), quindi è un consiglio. Solo senza unità o con un'unità nella forma standard: le
+// altre forme hanno già l'errore sull'unità, con la sua correzione; non per diameter senza unità, che sotto 10 ha già
+// l'errore sul diametro troppo piccolo per i millimetri
+const LEAD_DOT = /^\s*\.\d+(?: (?:m|cm|mm|km))?\s*$/;
+const leadDot = p => ["circumference", "height", "diameter_crown", "diameter"]
+  .filter(k => LEAD_DOT.test(p[k] || "") && !(k === "diameter" && !/[a-z]/.test(p[k])))
+  .map(k => [k, String(p[k]).trim().replace(/^\./, "0.")]);
 // image=* che punta a un file di Wikimedia Commons (la pagina del file, come COMMONS_FILE_URL in fetch_trees.py, o
 // l'indirizzo del file su upload.wikimedia.org, anche di una miniatura) senza wikimedia_commons=*: "File:…" o undefined.
 // L'indirizzo si decodifica prima del confronto (File%3A…); solo nomi con un'estensione, così una categoria non vale.
@@ -4262,6 +4309,7 @@ const hybridX = p => ["species", "genus"].filter(k => p[k] && !String(p[k]).incl
 const HINT_FIXES = [
   [p => ["circumference", "height", "diameter_crown", "diameter"].filter(k => FEET_SPACE.test(p[k] || ""))
     .map(k => [k, String(p[k]).replace(/\s+/g, "")]), "feet and inches without spaces"],
+  [p => leadDot(p), "zero before the decimal point"],
   [p => p.stump || p.species ? [] : [["species", binomialHint(p.hint_sn) || binomialHint(p.hint_wn) || MONOTYPIC[String(p.genus || "").trim()]]], "add species"],
   [p => p.stump ? [] : [["species:wikidata", p.hint_sw || p.hint_wp]], "add species:wikidata"],
   [p => p.stump ? [] : [["species:it", p.hint_it]], "capitalise species:it"],
@@ -4312,6 +4360,10 @@ const FIXES = {
   // nome comune di un genere (g_common) e genere di species scritto male (gm_fix): fetch_trees.py
   genus_common_name: [p => [["genus", p.g_common]], "scientific name in genus instead of the common name"],
   genus_mismatch: [p => p.gm_fix ? [["genus", p.gm_fix]] : [], "fix the spelling of genus"],
+  // spazi intorno a ";" in denotation (den_why "space", fetch_trees.py): si tolgono, i valori restano
+  denotation_value: [p => String(p.den_why || "").split(";").includes("space") && p.denotation
+    ? [["denotation", String(p.denotation).split(";").map(x => x.trim()).filter(Boolean).join(";")]] : [],
+    "remove the spaces around ; in denotation"],
   // solo un numero con una virgola tra le cifre (2,9 o 2,9 m): altri valori con la virgola non sono certi
   comma: [p => String(p.comma || "").split(";").filter(k => /^\s*\d+,\d+\s*[a-zA-Z]*\s*$/.test(p[k] ?? ""))
     .map(k => [k, p[k].replace(",", ".")]), "decimal point instead of comma"],
@@ -5001,6 +5053,8 @@ function hints(p, pos) {
   for (const k of ["circumference", "height", "diameter_crown", "diameter"])
     if (/^\s*\d+\s*'\s+\d+(?:\.\d+)?\s*"\s*$|^\s*\d+\s+'(?:\s*\d+(?:\.\d+)?\s*")?\s*$/.test(p[k] || ""))
       out.push(H.feetInchSpace(k, p[k], String(p[k]).replace(/\s+/g, "")));
+  // numero senza lo zero davanti al punto (.75): si legge lo stesso, si propone la forma con lo zero
+  for (const [k, fix] of leadDot(p)) out.push(H.leadDot(k, p[k], fix));
   // image=* su un file di Commons senza wikimedia_commons=* (anche sui ceppi)
   const cf = commonsOfImage(p);
   if (cf) out.push(H.commonsImage(cf));

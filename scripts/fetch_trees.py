@@ -356,17 +356,22 @@ DEN_COMMON = sorted((v for v, n in DEN_COUNTS.items() if n >= DEN_COMMON_MIN and
 def denotation_problems(t):
     """Valori di denotation sospetti (ogni parte di un valore multiplo separatamente): (valore, motivo, usi).
     format: caratteri non ammessi (=, :, /, spazi, maiuscole, …) o non inizia con una lettera;
+    space: spazi prima o dopo il valore (urban; natural_monument): i valori si separano con ";" senza spazi, e lo
+    stile della mappa (hasDen in index.html) cerca ";valore;" senza toglierli;
     glued:<comune>: un valore comune con altro testo attaccato senza _ (es. urbanheidialhoranta);
     rare: usato al massimo DEN_RARE_MAX volte. Gli ultimi due richiedono denotation_values.json."""
     out = []
     if "denotation" not in t:
         return out
-    for v in (x.strip() for x in str(t["denotation"]).split(";")):
+    for raw in str(t["denotation"]).split(";"):
+        v = raw.strip()
         if not v:
             continue
         n = DEN_COUNTS.get(v, 0)
         if not DEN_FORMAT.match(v):
             out.append((v, "format", n))
+        elif raw != v:
+            out.append((v, "space", n))
         elif not DEN_COUNTS:
             continue
         elif n < DEN_COMMON_MIN and (pre := next((c for c in DEN_COMMON
@@ -432,9 +437,10 @@ def wdqs(sparql):
     return r.json()["results"]["bindings"]
 
 
-def ask_wikidata(todo, query, store, label):
+def ask_wikidata(todo, query, store, label, done=None):
     """Interroga Wikidata a blocchi di WD_BATCH QID: query(batch) dà lo SPARQL, store(batch, righe) salva.
-    Se Wikidata non risponde si ferma: i QID rimasti si verificano al prossimo aggiornamento."""
+    Se Wikidata non risponde si ferma: i QID rimasti si verificano al prossimo aggiornamento.
+    done: insieme a cui si aggiungono i QID dei blocchi salvati."""
     for i in range(0, len(todo), WD_BATCH):
         batch = todo[i:i + WD_BATCH]
         try:
@@ -442,6 +448,8 @@ def ask_wikidata(todo, query, store, label):
         except Exception as e:
             warn(f"Wikidata non risponde ({str(e)[:150]}): {len(todo) - i} QID restano da verificare ({label})")
             return
+        if done is not None:
+            done.update(batch)
         time.sleep(1)
 
 
@@ -550,6 +558,11 @@ def wd_prop(p):
 WP_QIDS_FILE = DATA / "wikipedia_qids.json"
 WP_QIDS = load_json(WP_QIDS_FILE)
 WP_VALUE = re.compile(r"^\s*([a-z][a-z-]{1,11})\s*:\s*(\S.*?)\s*$")
+# Specie (QID) e voci di Wikipedia già lette in questa esecuzione: le regioni aggiornate insieme hanno quasi le
+# stesse specie, e una lettura per esecuzione basta a far arrivare le correzioni fatte su Wikidata. Gli elementi
+# di wikidata=* (i singoli alberi) sono diversi da regione a regione e si chiedono sempre
+WD_TAXA_ASKED = set()
+WP_ASKED = set()
 
 
 def wp_key(v):
@@ -564,11 +577,12 @@ def wp_key(v):
 def resolve_wikipedia(tags):
     """QID degli elementi Wikidata delle voci di species:wikipedia e wikipedia, dall'API della Wikipedia di ogni lingua
     (pageprops wikibase_item, a blocchi di 50 titoli; si seguono normalizzazioni e redirect). Si rileggono a ogni
-    aggiornamento, come i QID; se Wikipedia non risponde resta la cache. Restituisce i QID trovati, da aggiungere
-    alle specie da chiedere a Wikidata."""
+    aggiornamento, come i QID, ma una volta sola per esecuzione (WP_ASKED); se Wikipedia non risponde resta la
+    cache. Restituisce i QID trovati, da aggiungere alle specie da chiedere a Wikidata."""
     keys = sorted({k for t in tags for key in ("species:wikipedia", "wikipedia") if (k := wp_key(t.get(key)))})
+    todo = [k for k in keys if k not in WP_ASKED]
     by_lang = {}
-    for k in keys:
+    for k in todo:
         lang, title = k.split(":", 1)
         by_lang.setdefault(lang, []).append(title)
     for lang, titles in by_lang.items():
@@ -591,8 +605,9 @@ def resolve_wikipedia(tags):
                 for _ in range(3):   # normalizzazione, poi redirect
                     final = moved.get(final, final)
                 WP_QIDS[f"{lang}:{title}"] = qid.get(final)
+                WP_ASKED.add(f"{lang}:{title}")
             time.sleep(1)
-    if keys:
+    if todo:
         WP_QIDS_FILE.write_text(json.dumps(WP_QIDS, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
     return {q for k in keys if (q := WP_QIDS.get(k))}
 
@@ -617,7 +632,8 @@ def update_wikidata_cache(elements):
     una pianta monumentale (P31 = Q811534); per species:wikidata, genus:wikidata e
     le specie di P10241 nome scientifico, rango ed etichette. Aggiorna e salva le due cache.
     I QID si rileggono a ogni aggiornamento, anche se sono già in cache: così le correzioni fatte su Wikidata
-    arrivano nei check (le cache sono piccole, poche richieste). Se Wikidata non risponde resta la cache."""
+    arrivano nei check (le cache sono piccole, poche richieste). Le specie si chiedono una volta sola per esecuzione
+    (WD_TAXA_ASKED): le regioni aggiornate insieme hanno quasi le stesse. Se Wikidata non risponde resta la cache."""
     tags = [el.get("tags", {}) for el in elements]
     wd = {q for t in tags for q in qids(t, "wikidata")}
     todo_items = sorted(wd)
@@ -639,12 +655,14 @@ def update_wikidata_cache(elements):
     # elementi delle voci di species:wikipedia (per i consigli) e di wikipedia (check wikipedia_is_taxon)
     from_wp = resolve_wikipedia(tags)
     todo_taxa = sorted(({q for t in tags for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k)}
-                        | {x for q in wd for x in WD_ITEMS.get(q, {}).get("taxa", [])} | listed | from_wp))
+                        | {x for q in wd for x in WD_ITEMS.get(q, {}).get("taxa", [])} | listed | from_wp)
+                       - WD_TAXA_ASKED)
     ask_wikidata(todo_taxa, lambda v: "SELECT ?item ?name ?rank ?it ?en ?bas WHERE { VALUES ?item { " + v + " } "
                  f"OPTIONAL {{ ?item {wd_prop('P225')} ?name }} OPTIONAL {{ ?item {wd_prop('P105')} ?rank }} "
                  f"OPTIONAL {{ ?item {wd_prop('P566')} ?b . ?b wdt:P225 ?bas }} "   # basionimo (nome scientifico)
                  "OPTIONAL { ?item rdfs:label ?it FILTER(LANG(?it) = 'it') } "
-                 "OPTIONAL { ?item rdfs:label ?en FILTER(LANG(?en) = 'en') } }", store_taxa_info, "specie")
+                 "OPTIONAL { ?item rdfs:label ?en FILTER(LANG(?en) = 'en') } }", store_taxa_info, "specie",
+                 WD_TAXA_ASKED)
     # alias (nomi comuni) delle specie: species:wikidata e lista wiki
     todo_alias = sorted(q for q in ({q for t in tags for q in qids(t, "species:wikidata")} | listed)
                         if q in WD_TAXA and "alias" not in WD_TAXA[q])
@@ -1221,20 +1239,26 @@ furcraea aloe aloidendron carica""".split())
 def tree_genus(t):
     """Genere dell'albero, minuscolo: da genus se è di una sola parola, altrimenti dalla prima parola di species o,
     se manca, di taxon."""
-    g = t.get("genus")
+    return _tree_genus(t.get("genus"), t.get("species") or t.get("taxon") or "")
+
+
+@functools.lru_cache(maxsize=None)
+def _tree_genus(g, sp):
     if g and len(genus_words(g)) == 1:
         g = genus_words(g)[0]
     else:
-        g = genus_of_species(t.get("species") or t.get("taxon") or "")
+        g = genus_of_species(sp)
     return g.lstrip("× ").casefold()
 
 
 def is_palm(t):
     """Palma: taxon:family, family, taxon o genus = Arecaceae, taxon:en=Palm, crown_type=I, oppure un genere di
     PALM_GENERA. Vale più di leaf_type (tranne leafless): una palma con leaf_type=broadleaved è disegnata come palma."""
-    if any((t.get(k) or "").strip().casefold() == "arecaceae" for k in ("taxon:family", "family", "taxon", "genus")):
-        return True
-    if (t.get("taxon:en") or "").strip().casefold() == "palm" or (t.get("crown_type") or "").strip() == "I":
+    # i tag si guardano solo se ci sono: quasi nessun albero li ha, e la funzione è chiamata più volte per albero
+    for k in ("taxon:family", "family", "taxon", "genus"):
+        if (v := t.get(k)) and v.strip().casefold() == "arecaceae":
+            return True
+    if ((v := t.get("taxon:en")) and v.strip().casefold() == "palm") or ((v := t.get("crown_type")) and v.strip() == "I"):
         return True
     return tree_genus(t) in PALM_GENERA
 
@@ -1407,8 +1431,11 @@ def species_limit(t):
     """Limiti e rapporti di species_limits.json per la specie dell'albero. I sinonimi della whitelist e le scritture
     diverse del nome di un gruppo ("x" al posto di "×") usano la voce del nome della lista wiki (GROUP_NAME)."""
     sp = t.get("species")
-    if not sp:
-        return None
+    return _species_limit(sp) if sp else None
+
+
+@functools.lru_cache(maxsize=None)
+def _species_limit(sp):
     sp = GROUP_NAME.get(norm_species(sp), sp)
     return SPECIES_LIMITS.get(" ".join(sp.split()).lower())
 
@@ -1424,11 +1451,16 @@ def species_max_limit(t):
     species_limit o, se il nome ha altro dopo genere ed epiteto (cultivar, autore, rango: Pyrus calleryana
     'Chanticleer'), quelli della specie con lo stesso genere ed epiteto. I rapporti (height_circ_ratio) restano solo
     del nome esatto: una cultivar colonnare o nana ha un'altra forma."""
-    if lim := species_limit(t):
-        return lim
     sp = t.get("species")
+    return _species_max_limit(sp) if sp else None
+
+
+@functools.lru_cache(maxsize=None)
+def _species_max_limit(sp):
+    if lim := _species_limit(sp):
+        return lim
     # non per un ibrido scritto con i due genitori (Salix alba × fragilis): non è la prima specie
-    if not sp or ";" in sp or any(w in HYBRID_SIGNS for w in sp.split()[2:]):
+    if ";" in sp or any(w in HYBRID_SIGNS for w in sp.split()[2:]):
         return None
     return _limit_by_binomial(sp)
 
@@ -1448,7 +1480,8 @@ LEN_UNITS = {"m": 1, "cm": 0.01, "mm": 0.001, "km": 1000, "ft": 0.3048, "in": 0.
 # Altre scritture comprensibili: il valore si usa, ma il check unit_format propone la forma corretta
 LEN_ALIASES = {"metre": "m", "metres": "m", "meter": "m", "meters": "m", "mt": "m", "mtr": "m",
                "feet": "ft", "foot": "ft", "inch": "in", "inches": "in"}
-LEN_RE = re.compile(r"^\s*([+-]?\d+(?:[.,]\d+)?)(\s*)([a-zA-Z]*)\s*$")
+# il numero può iniziare con il punto (.75): si legge 0.75; non è un errore, index.html dà un consiglio
+LEN_RE = re.compile(r"^\s*([+-]?(?:\d+(?:[.,]\d+)?|[.,]\d+))(\s*)([a-zA-Z]*)\s*$")
 # piedi e pollici: 7'4" (forma della wiki); solo pollici: 5". Con le parole (7 ft 4 in, 7 feet 4 inches) o con apici
 # diversi da ' e " (7′4″, 7’4”, 7'4'') il valore si usa ma è segnalato. Gli spazi (7' 4") non sono un errore (anche
 # Osmose li accetta): index.html dà un consiglio
@@ -1463,11 +1496,17 @@ def parse_length(v, default=1.0):
     Restituisce (metri, correzioni): correzioni è [] se la forma è corretta, altrimenti le scritture da proporre
     (es. "8 metres" -> ["8", "8 m"]; "2 M" su diameter -> ["2000", "2 m"]; 7′4″ -> ['7'4"']).
     (None, []) se il valore non è leggibile."""
-    if v is None:
-        return None, []
-    s = str(v)
+    return (None, []) if v is None else _parse_length(str(v), default)
+
+
+@functools.lru_cache(maxsize=None)
+def _parse_length(s, default):
+    """parse_length per valore: le stesse misure si ripetono e ogni albero le legge più volte (check, disegno,
+    primati). La lista delle correzioni è condivisa tra le chiamate: non va modificata."""
     if m := LEN_RE.match(s):
         n, space, unit = m.group(1).replace(",", "."), m.group(2), m.group(3)
+        if n.lstrip("+-").startswith("."):         # numero senza lo zero davanti al punto (.75): nelle correzioni
+            n = n.replace(".", "0.", 1)            # proposte si scrive con lo zero
         if not unit:
             return float(n) * default, []          # solo numero (l'eventuale virgola è il check comma)
         canon = unit.lower()
@@ -1519,7 +1558,7 @@ NUMERIC_TAGS = ("circumference", "height", "diameter_crown", "diameter")
 # diameter: senza unità è in millimetri (https://wiki.openstreetmap.org/wiki/Key:diameter), a differenza di
 # circumference, height e diameter_crown, che sono in metri
 DIAM_DEFAULT = 0.001
-DIAM_RE = re.compile(r"^\s*(\d+(?:[.,]\d+)?)\s*([a-zA-Z]*)\s*$")
+DIAM_RE = re.compile(r"^\s*(\d+(?:[.,]\d+)?|[.,]\d+)\s*([a-zA-Z]*)\s*$")
 DIAM_MM_MIN = 10   # sotto: diameter senza unità troppo piccolo per i millimetri (tronco < 1 cm), check diameter_unit
 # circumference e diameter insieme: segnalati se la circonferenza si scosta più del 20% da π × diametro (check
 # circ_diam_mismatch). Il margine lascia passare le imprecisioni di misura (tronchi non rotondi, quote diverse);
@@ -1530,9 +1569,12 @@ CIRC_DIAM_TOL = 0.2
 def diameter_small(t):
     """Vero se diameter non ha unità e vale meno di DIAM_MM_MIN (es. diameter=0.5): in millimetri sarebbe un
     tronco di meno di 1 cm. Lo zero è già segnalato da number_invalid."""
-    if "diameter" not in t:
-        return False
-    m =DIAM_RE.match(str(t.get("diameter", "")))
+    return "diameter" in t and _diameter_small(str(t["diameter"]))
+
+
+@functools.lru_cache(maxsize=None)
+def _diameter_small(v):
+    m = DIAM_RE.match(v)
     return bool(m) and not m.group(2) and 0 < float(m.group(1).replace(",", ".")) < DIAM_MM_MIN
 
 
@@ -2689,7 +2731,13 @@ def neighbour_checks(feats):
         lon, lat = f["geometry"]["coordinates"]
         x, y = lon * 111320 * kx, lat * 111320
         grid[(int(x // CELL), int(y // CELL))].append((p["id"], lon, lat, p["tr"] if measured else 0))
+    # una coppia conta solo se almeno uno dei due ha un tronco misurato: si guardano solo le celle con un tronco
+    # misurato e le otto intorno (quasi tutte le altre si saltano). L'ordine delle celle resta quello di grid
+    active = {(cx + dx, cy + dy) for (cx, cy), cell in grid.items() if any(t[3] for t in cell)
+              for dx in (-1, 0, 1) for dy in (-1, 0, 1)}
     for (cx, cy), cell in grid.items():
+        if (cx, cy) not in active:
+            continue
         near = [t for dx in (-1, 0, 1) for dy in (-1, 0, 1) for t in grid.get((cx + dx, cy + dy), [])]
         for a in cell:
             for b in near:
