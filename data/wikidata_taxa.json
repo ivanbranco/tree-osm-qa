@@ -162,6 +162,11 @@
 ],
 "taxon": true
 },
+"Q102227365": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q102240169": {
 "en": "Salvia rosmarinus",
 "it": "Salvia rosmarinus",
@@ -3555,6 +3560,16 @@
 "ranks": [],
 "taxon": false
 },
+"Q124420664": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q124420712": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q124719160": {
 "en": "Hachimanjinja no Isunoki",
 "names": [],
@@ -5106,6 +5121,136 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q13102411": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13102412": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13102413": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13102414": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13102415": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13102419": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13102421": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13102422": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13103040": {
+"en": "Carpinus betulus, Kinnekswiss",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13103462": {
+"en": "Église Sainte-Anne",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13103595": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13103702": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13103703": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13103704": {
+"en": "Tilia in Bastendorf",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13103707": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13103708": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13104295": {
+"en": "Amberkneppchen",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13104403": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13104478": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13104479": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13104616": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13104617": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13104845": {
+"en": "Chapelle Saint-Roch",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13105015": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13105281": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q131113": {
 "alias": {
@@ -14137,6 +14282,86 @@
 "ranks": [],
 "taxon": false
 },
+"Q16762540": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16762695": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16763457": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16763458": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16763459": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16763460": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16763933": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16763934": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16763935": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16763940": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16763969": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16764436": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16764437": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16764614": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16764867": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16765050": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q167881": {
 "alias": {
 "en": [
@@ -17452,6 +17677,12 @@
 ],
 "taxon": true
 },
+"Q2406286": {
+"en": "Chêne de Saeul",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2411222": {
 "alias": {
 "en": [],
@@ -19836,6 +20067,23 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q2972099": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q2972106": {
+"en": "Remarkable oak in Hersberg-Altrier",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q2972107": {
+"en": "Remarkable oak in Kleinbettingen",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q2983021": {
 "alias": {
@@ -26038,6 +26286,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q60160204": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q60174716": {
 "alias": {

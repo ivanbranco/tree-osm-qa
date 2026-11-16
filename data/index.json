@@ -469,12 +469,12 @@
    "updated": "2026-11-14T10:50:50Z"
   },
   "lussemburgo": {
-   "count": 78264,
-   "diam": "mm",
-   "errors": 78,
+   "count": 78278,
+   "errors": 112,
    "name": "Lussemburgo",
-   "sha1": "600d1658916efcd230017aac73145a1392137d88",
-   "updated": "2026-11-10T15:27:50Z"
+   "sha1": "2e04626a7184f3b299113d73c09dfc913d7b1028",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T17:02:55Z"
   },
   "macedonia-del-nord": {
    "count": 2186,
