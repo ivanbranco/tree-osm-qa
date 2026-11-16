@@ -5627,6 +5627,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Large Prosopis chilensis at James D. Kriegh Park.jpg": {
+"c": [
+32.3749468,
+-110.969133,
+"object"
+],
+"d": "2026-11-16"
+},
 "geo:File:Las Canteras 2.jpg": {
 "c": [
 28.50635833,
@@ -6635,6 +6643,14 @@
 "c": [],
 "d": "2026-11-10"
 },
+"geo:File:Prosopis chilensis at James D. Kriegh Park.jpg": {
+"c": [
+32.3750177,
+-110.969049,
+"object"
+],
+"d": "2026-11-16"
+},
 "geo:File:Przeworsk (zespół pałacowo-parkowy) - lipa Sobieskiego.jpg": {
 "c": [
 50.060746,
@@ -7014,6 +7030,14 @@
 "camera"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Smaller Prosopis chilensis at James D. Kriegh Park.jpg": {
+"c": [
+32.375056,
+-110.969082,
+"object"
+],
+"d": "2026-11-16"
 },
 "geo:File:Smolarjenje.jpg": {
 "c": [
@@ -48751,6 +48775,10 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://russchandlerstreeservice.com": {
+"d": "2026-11-16",
+"s": "dns"
+},
 "https://s23.postimg.org/8924mzn0r/Bez_tytu_u.jpg": {
 "d": "2026-11-08",
 "s": "dns"
@@ -49295,6 +49323,10 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://upload.wikimedia.org/wikipedia/commons/2/2b/Prosopis_chilensis_at_James_D._Kriegh_Park.jpg": {
+"d": "2026-11-16",
+"s": "200"
+},
 "https://upload.wikimedia.org/wikipedia/commons/2/2c/Alk%C5%ABn%C5%B3_%C4%85%C5%BEuolas.JPG": {
 "d": "2026-11-08",
 "s": "429"
@@ -49349,6 +49381,10 @@
 },
 "https://upload.wikimedia.org/wikipedia/commons/5/56/Villa_Balbianello_3687.jpg": {
 "d": "2026-11-08",
+"s": "200"
+},
+"https://upload.wikimedia.org/wikipedia/commons/5/58/Smaller_Prosopis_chilensis_at_James_D._Kriegh_Park.jpg": {
+"d": "2026-11-16",
 "s": "200"
 },
 "https://upload.wikimedia.org/wikipedia/commons/5/59/Clapiers_plaine_du_Fesquet_grand_ch%C3%AAne_blanc_2023_05.jpg": {
@@ -49489,6 +49525,10 @@
 },
 "https://upload.wikimedia.org/wikipedia/commons/c/c2/Bursztywnoa_Dama_-_sosna_rumelijska_-_drzewo_pomnikowe_w_Parku_Dietla_w_Sosnowcu%2C_PL.ZIPOP.1393.PP.2475011.1798%2C_5_czerwca_2024_001.jpg": {
 "d": "2026-11-08",
+"s": "200"
+},
+"https://upload.wikimedia.org/wikipedia/commons/c/c2/Large_Prosopis_chilensis_at_James_D._Kriegh_Park.jpg": {
+"d": "2026-11-16",
 "s": "200"
 },
 "https://upload.wikimedia.org/wikipedia/commons/c/c5/Vai%C5%A1ni%C5%ABnai%2C_%C4%85%C5%BEuolas.JPG": {

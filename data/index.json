@@ -62,6 +62,14 @@
    "sha1": "c788ce1c2ab5101be8c3b0d31459d46848e4feb6",
    "updated": "2026-11-12T16:37:46Z"
   },
+  "arizona": {
+   "count": 122280,
+   "errors": 54,
+   "name": "Arizona",
+   "sha1": "50a706793f0c0093e99c6772dd9f1b4cd8ab45b5",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T16:33:54Z"
+  },
   "asturie": {
    "count": 10610,
    "errors": 134,
