@@ -1,7 +1,9 @@
 {
  "pages": {
   "acer platanoides": "acer-platanoides",
+  "ginkgo biloba": "ginkgo-biloba",
   "liriodendron tulipifera": "liriodendron-tulipifera",
+  "olea europaea": "olea-europaea",
   "quercus robur": "quercus-robur"
  }
 }
