@@ -647,12 +647,12 @@
    "updated": "2026-11-15T03:56:19Z"
   },
   "piemonte": {
-   "count": 72979,
-   "errors": 131,
+   "count": 73051,
+   "errors": 129,
    "name": "Piemonte",
-   "sha1": "7705ba060ac70444ab2df4f8e344a3f9da58a072",
-   "tried": "2026-11-14",
-   "updated": "2026-11-14T11:54:19Z"
+   "sha1": "6f1c85676fc36a2c9775acba01e5ecc50d8473c5",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T01:41:39Z"
   },
   "podkarpackie": {
    "count": 90420,
@@ -823,11 +823,11 @@
   },
   "trentino-alto-adige": {
    "count": 67787,
-   "errors": 476,
+   "errors": 421,
    "name": "Trentino-Alto Adige",
-   "sha1": "c521662d4edcd939baae9ae1a77b6f58e4f39e64",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:04:11Z"
+   "sha1": "3416add0ef4a2feed2667169d1460c2d137272c6",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T01:42:28Z"
   },
   "ulster-irlanda": {
    "count": 47000,

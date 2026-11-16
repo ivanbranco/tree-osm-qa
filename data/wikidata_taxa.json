@@ -17582,8 +17582,8 @@
 "Platanus ×acerifolia"
 ],
 "ranks": [
-"Q1306176",
-"Q7432"
+"Q7432",
+"Q1306176"
 ],
 "taxon": true
 },
@@ -25339,6 +25339,13 @@
 "ranks": [],
 "taxon": false
 },
+"Q55741095": {
+"en": "Box elder by the parish church of Laives",
+"it": "Acero americano presso la chiesa parrocchiale di Laives",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q55741369": {
 "alias": {
 "en": [],
@@ -25417,6 +25424,13 @@
 "it": []
 },
 "it": "ciliegio selvatico",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q55742387": {
+"en": "Platano della Tesoriera",
+"it": "Platano della Tesoriera",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -28731,6 +28745,13 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q855274": {
+"en": "Bialbero di Casorzo",
+"it": "Bialbero di Casorzo",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q855778": {
 "alias": {
