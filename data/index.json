@@ -210,6 +210,14 @@
    "tried": "2026-11-13",
    "updated": "2026-11-13T20:54:42Z"
   },
+  "cile": {
+   "count": 231727,
+   "errors": 5214,
+   "name": "Cile",
+   "sha1": "d2bae8b192d10c1b01f024b45de064af342b303e",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T21:24:56Z"
+  },
   "comunita-di-madrid": {
    "count": 148752,
    "errors": 805,
