@@ -25,20 +25,22 @@
    "updated": "2026-11-16T17:13:13Z"
   },
   "alta-francia": {
-   "count": 127408,
+   "count": 127415,
    "errors": 370,
    "name": "Alta Francia",
-   "sha1": "f6838103c5e081056b0ea7305d4d0791f048683b",
+   "osm_base": "2026-11-16T23:26:51Z",
+   "sha1": "f5037c955610c2d29861e10a6aea71e1b923747b",
    "tried": "2026-11-16",
-   "updated": "2026-11-16T19:49:08Z"
+   "updated": "2026-11-16T23:29:26Z"
   },
   "alvernia-rodano-alpi": {
-   "count": 384015,
-   "diam": "mm",
-   "errors": 1550,
+   "count": 384336,
+   "errors": 1694,
    "name": "Alvernia-Rodano-Alpi",
-   "sha1": "96854c34bbc9e39dfc9f9f96a3dadda3b74ae0b0",
-   "updated": "2026-11-11T11:03:35Z"
+   "osm_base": "2026-11-16T23:21:34Z",
+   "sha1": "ad7557f95338d5ee36cd4686e72563ce67e03c36",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T23:25:03Z"
   },
   "andalusia": {
    "count": 190042,
@@ -52,8 +54,10 @@
    "count": 849,
    "errors": 0,
    "name": "Andorra",
-   "sha1": "d9ad130a167174ec40819ee7da1877a4c135671d",
-   "updated": "2026-11-12T18:27:13Z"
+   "osm_base": "2026-11-16T23:20:35Z",
+   "sha1": "cdd5796c69355371aa6a5f579b1cbaa5d5b6d731",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T23:22:00Z"
   },
   "aragona": {
    "count": 41219,
@@ -94,12 +98,13 @@
    "updated": "2026-11-16T19:50:04Z"
   },
   "borgogna-franca-contea": {
-   "count": 201219,
-   "diam": "mm",
-   "errors": 372,
+   "count": 201339,
+   "errors": 404,
    "name": "Borgogna-Franca Contea",
-   "sha1": "87cfaf88d388d9078e45714f722866cbfb8df486",
-   "updated": "2026-11-11T11:04:34Z"
+   "osm_base": "2026-11-16T23:23:38Z",
+   "sha1": "f5fa609fd67d623b334abac25c14703701024207",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T23:26:05Z"
   },
   "bosnia-erzegovina": {
    "count": 35881,
@@ -110,12 +115,13 @@
    "updated": "2026-11-13T23:31:36Z"
   },
   "bretagna": {
-   "count": 135442,
+   "count": 135438,
    "errors": 440,
    "name": "Bretagna",
-   "sha1": "36e956f429d704a0b0c37871c3d0e1fcdbfcf9a0",
+   "osm_base": "2026-11-16T23:20:35Z",
+   "sha1": "ffebfcdcd2417840c0fd1a97623d2e555a51026f",
    "tried": "2026-11-16",
-   "updated": "2026-11-16T19:39:03Z"
+   "updated": "2026-11-16T23:23:00Z"
   },
   "bulgaria": {
    "count": 29084,
@@ -195,12 +201,13 @@
    "updated": "2026-11-14T11:37:59Z"
   },
   "centro-valle-della-loira": {
-   "count": 189468,
-   "diam": "mm",
-   "errors": 161,
+   "count": 190377,
+   "errors": 333,
    "name": "Centro-Valle della Loira",
-   "sha1": "648d28bbae85c7442b359b2df4a38d0f41f69074",
-   "updated": "2026-11-11T11:05:28Z"
+   "osm_base": "2026-11-16T23:24:43Z",
+   "sha1": "3aa1e7604adb2810e69de8521d3939f1b4dbc6e9",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T23:27:02Z"
   },
   "ceuta": {
    "count": 107,
@@ -244,11 +251,12 @@
   },
   "corsica": {
    "count": 3560,
-   "diam": "mm",
-   "errors": 20,
+   "errors": 22,
    "name": "Corsica",
-   "sha1": "8f08025ac8dc43aa2204a8cc7438075df6213c81",
-   "updated": "2026-11-11T11:15:12Z"
+   "osm_base": "2026-11-16T23:35:58Z",
+   "sha1": "ef07b8ea81da234126acf5ce3a8b383fa8c3adfd",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T23:37:02Z"
   },
   "croazia": {
    "count": 88763,
@@ -332,10 +340,10 @@
    "count": 253982,
    "errors": 2141,
    "name": "Grand Est",
-   "osm_base": "2026-11-16T23:07:26Z",
-   "sha1": "e31ce89cd5f688cced6127948063796e12f72672",
+   "osm_base": "2026-11-16T23:25:48Z",
+   "sha1": "61076b009f621ed3a1638d46c2fe21b9b9e7d189",
    "tried": "2026-11-16",
-   "updated": "2026-11-16T23:10:25Z"
+   "updated": "2026-11-16T23:28:19Z"
   },
   "grecia": {
    "count": 62681,
@@ -346,12 +354,13 @@
    "updated": "2026-11-15T23:37:26Z"
   },
   "ile-de-france": {
-   "count": 405650,
-   "diam": "mm",
-   "errors": 10057,
+   "count": 406127,
+   "errors": 11886,
    "name": "Île-de-France",
-   "sha1": "342e8d2b03d174ff27da1e9e0ced7e67c37e93d3",
-   "updated": "2026-11-11T11:09:13Z"
+   "osm_base": "2026-11-16T23:28:50Z",
+   "sha1": "d1dc7b3ed22495f5e5ab9759bfb56ba7683b6e18",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T23:30:40Z"
   },
   "irlanda-del-nord": {
    "count": 45354,
@@ -611,28 +620,31 @@
    "updated": "2026-11-12T02:24:13Z"
   },
   "normandia": {
-   "count": 118461,
-   "diam": "mm",
-   "errors": 123,
+   "count": 118668,
+   "errors": 132,
    "name": "Normandia",
-   "sha1": "a146024112b425e8fcd8879f377eafe05f6aef5c",
-   "updated": "2026-11-11T11:11:32Z"
+   "osm_base": "2026-11-16T23:30:43Z",
+   "sha1": "9cd63274b28ab6c06d05b479f600469cf62b0c21",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T23:33:06Z"
   },
   "nuova-aquitania": {
-   "count": 376265,
-   "diam": "mm",
-   "errors": 1575,
+   "count": 376408,
+   "errors": 1667,
    "name": "Nuova Aquitania",
-   "sha1": "782fddc3ad61bb85f7b921fec62e0ca208e71b9f",
-   "updated": "2026-11-11T11:10:40Z"
+   "osm_base": "2026-11-16T23:29:50Z",
+   "sha1": "157adbe89694b33ee51bba280b97ff777c3868f2",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T23:32:12Z"
   },
   "occitania": {
-   "count": 328832,
-   "diam": "mm",
-   "errors": 93326,
+   "count": 329506,
+   "errors": 93484,
    "name": "Occitania",
-   "sha1": "2f491a25437d57b8cdf5aac8aa2d5a07539edcaf",
-   "updated": "2026-11-11T11:13:06Z"
+   "osm_base": "2026-11-16T23:31:51Z",
+   "sha1": "f643e76d25f0a4f1433ee846c56b094fef808352",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T23:34:45Z"
   },
   "opolskie": {
    "count": 26256,
@@ -650,12 +662,13 @@
    "updated": "2026-11-12T16:52:42Z"
   },
   "paesi-della-loira": {
-   "count": 123808,
-   "diam": "mm",
-   "errors": 235,
+   "count": 124192,
+   "errors": 282,
    "name": "Paesi della Loira",
-   "sha1": "20674ef50c924fe872e7fe1db1fe241fb69eaedd",
-   "updated": "2026-11-11T11:15:02Z"
+   "osm_base": "2026-11-16T23:34:55Z",
+   "sha1": "83efd245c0129aaf2d8d7df7a435215f7c2fb511",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T23:36:51Z"
   },
   "pennsylvania": {
    "count": 97197,
@@ -706,12 +719,13 @@
    "updated": "2026-11-16T10:12:27Z"
   },
   "provenza-alpi-costa-azzurra": {
-   "count": 185831,
-   "errors": 1022,
+   "count": 185835,
+   "errors": 1019,
    "name": "Provenza-Alpi-Costa Azzurra",
-   "sha1": "003f1c6f46c1ee2d11d2d2b773659c29bf9d3919",
-   "tried": "2026-11-14",
-   "updated": "2026-11-14T11:40:44Z"
+   "osm_base": "2026-11-16T23:33:51Z",
+   "sha1": "5cf7ee88fc3d8a8471ddab2343a26a0ed2e20605",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T23:35:50Z"
   },
   "puglia": {
    "count": 52920,

@@ -3467,6 +3467,14 @@
 ],
 "d": "2026-11-14"
 },
+"geo:File:Arbre aux 2 filles.jpg": {
+"c": [
+47.1161039,
+5.6601757,
+"object"
+],
+"d": "2026-11-16"
+},
 "geo:File:Arbre aux 40 écus (à côté du cyprès de Lawson) dans le parc Kennedy (Vichy) 2023-06-25.JPG": {
 "c": [
 46.1196898,
@@ -3614,6 +3622,22 @@
 "geo:File:Balmerino Tree.JPG": {
 "c": [],
 "d": "2026-11-12"
+},
+"geo:File:Banc Square Anatole France Couëron 2.jpg": {
+"c": [
+47.2107301,
+-1.7303389,
+"object"
+],
+"d": "2026-11-16"
+},
+"geo:File:Banc Square Anatole France Couëron.jpg": {
+"c": [
+47.2106551,
+-1.7304411,
+"object"
+],
+"d": "2026-11-16"
 },
 "geo:File:Bardello Cedrus deodara monumentale.jpg": {
 "c": [
@@ -3934,6 +3958,10 @@
 "camera"
 ],
 "d": "2026-11-11"
+},
+"geo:File:BouquetotAubépine.JPG": {
+"c": [],
+"d": "2026-11-16"
 },
 "geo:File:Box Elder (Acer negundo) Buds - Guelph, Ontario 01.jpg": {
 "c": [],
@@ -4327,6 +4355,10 @@
 "c": [],
 "d": "2026-11-12"
 },
+"geo:File:Chene Tombeboeuf (47) saisons.jpg": {
+"c": [],
+"d": "2026-11-16"
+},
 "geo:File:Chiesa della Santa Madre di Dio 3.jpg": {
 "c": [
 45.4293385,
@@ -4539,6 +4571,22 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Clapiers - sentier du belvédère, Erable de montpellier 2024 06.jpg": {
+"c": [
+43.6659411,
+3.8778131,
+"object"
+],
+"d": "2026-11-16"
+},
+"geo:File:Clapiers plaine du Fesquet grand chêne blanc 2023 05.jpg": {
+"c": [
+43.6510023,
+3.8721425,
+"object"
+],
+"d": "2026-11-16"
+},
 "geo:File:Cmentarz wojskowy (1914-1915) w Pińczowie5.jpg": {
 "c": [
 50.5196275,
@@ -4650,6 +4698,14 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Cèdre du Liban dans le parc du château de Sassenage - 2023-09-06.jpg": {
+"c": [
+45.2085996,
+5.6600964,
+"object"
+],
+"d": "2026-11-16"
 },
 "geo:File:Davidia involucrata - Villa Taranto.jpg": {
 "c": [
@@ -5194,6 +5250,14 @@
 "camera"
 ],
 "d": "2026-11-10"
+},
+"geo:File:Etrep-Vierge.JPG": {
+"c": [
+47.1239967,
+5.6828967,
+"object"
+],
+"d": "2026-11-16"
 },
 "geo:File:Etxalarko hagina.jpg": {
 "c": [
@@ -5819,6 +5883,14 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:L'arbre à Mimi à Treffort - 2016-08-07.jpg": {
+"c": [
+44.9102666,
+5.646831,
+"object"
+],
+"d": "2026-11-16"
+},
 "geo:File:La Voile.jpg": {
 "c": [
 48.6307137,
@@ -5891,6 +5963,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Le Platane Géant De Provence à Lamanon.JPG": {
+"c": [
+43.7002858,
+5.085077,
+"object"
+],
+"d": "2026-11-16"
+},
 "geo:File:Le Sully de Pesselières - 2014.JPG": {
 "c": [
 47.5642606,
@@ -5922,6 +6002,10 @@
 "object"
 ],
 "d": "2026-11-12"
+},
+"geo:File:LibertyTreePlanting.jpg": {
+"c": [],
+"d": "2026-11-16"
 },
 "geo:File:Linde St. Georgenberg 1.jpg": {
 "c": [],
@@ -6012,6 +6096,14 @@
 -39.812386,
 -73.24711,
 "camera"
+],
+"d": "2026-11-16"
+},
+"geo:File:MAUGUIO - Arbre du Bicentenaire 1789-1989.jpg": {
+"c": [
+43.6191905,
+4.0091984,
+"object"
 ],
 "d": "2026-11-16"
 },
@@ -6426,6 +6518,10 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Oak of Tombeboeuf.png": {
+"c": [],
+"d": "2026-11-16"
 },
 "geo:File:Oicho in Utsunomiya, May 2020-1.jpg": {
 "c": [
@@ -52978,6 +53074,14 @@
 "https://www.sequoias.eu/Pages/Locations/Limousin/eymoutiers_legaud.htm": {
 "d": "2026-11-08",
 "s": "conn"
+},
+"https://www.sequoias.eu/Pages/Locations/Loire/basse_goulaine_egf.htm": {
+"d": "2026-11-16",
+"s": "200"
+},
+"https://www.sequoias.eu/Pages/Locations/Loire/le_pallet.htm": {
+"d": "2026-11-16",
+"s": "200"
 },
 "https://www.sevilla.org/documentos/parquesyjardines/ArbolesSingularesSevilla/96/": {
 "d": "2026-11-12",

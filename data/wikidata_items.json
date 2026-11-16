@@ -19491,6 +19491,19 @@
 "en": "https://en.wikipedia.org/wiki/Tree_That_Owns_Itself"
 }
 },
+"Q142154859": {
+"coords": [
+[
+0.4933963,
+47.787549
+]
+],
+"heritage": [],
+"image": "Forêt de Bercé souche-du-chene-Boppe.JPG",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
 "Q142154887": {
 "coords": [
 [
@@ -20422,7 +20435,7 @@
 "Q156137": {
 "coords": [],
 "heritage": [],
-"image": "Surera de Tossa.jpg",
+"image": "Quercus suber JPG1.jpg",
 "taxa": [],
 "taxon": true,
 "wp": {
@@ -21112,7 +21125,7 @@
 "Q161116": {
 "coords": [],
 "heritage": [],
-"image": "Magnolia grandiflora3.jpg",
+"image": "Magnolia flower Duke campus.jpg",
 "taxa": [],
 "taxon": true,
 "wp": {

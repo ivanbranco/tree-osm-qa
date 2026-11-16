@@ -200,6 +200,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Malus transitoria var. toringoides"
+],
 "en": "Malus toringoides",
 "it": "Malus bhutanica",
 "names": [
@@ -1123,6 +1126,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Xylosteon maackii"
+],
 "en": "Lonicera maackii",
 "it": "Lonicera maackii",
 "names": [
@@ -1529,6 +1535,12 @@
 ],
 "taxon": true
 },
+"Q1090986": {
+"en": "Chêne d'Allouville",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q10917161": {
 "alias": {
 "en": [],
@@ -1582,6 +1594,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Urostigma caulobotryum"
+],
 "en": "Ficus caulocarpa",
 "it": "Ficus caulocarpa",
 "names": [
@@ -1637,6 +1652,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Pyrus transitoria"
+],
 "en": "Malus transitoria",
 "it": "Malus transitoria",
 "names": [
@@ -4035,6 +4053,12 @@
 ],
 "taxon": true
 },
+"Q1283302": {
+"en": "Les châtaigniers du bois de Tournebride",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q12836942": {
 "alias": {
 "en": [
@@ -4332,12 +4356,15 @@
 ],
 "it": []
 },
+"basionyms": [
+"Cupressus ×leylandii"
+],
 "names": [
 "× Hesperotropsis leylandii"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -5659,8 +5686,8 @@
 "× Sycoparrotia semidecidua"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -6164,6 +6191,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Parrotia jacquemontiana"
+],
 "en": "Parrotiopsis jacquemontiana",
 "it": "Parrotiopsis jacquemontiana",
 "names": [
@@ -6226,6 +6256,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Cydonia sinensis"
+],
 "en": "Pseudocydonia sinensis",
 "it": "Pseudocydonia sinensis",
 "names": [
@@ -6608,6 +6641,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Quercus hancei"
+],
 "en": "Lithocarpus hancei",
 "it": "Lithocarpus hancei",
 "names": [
@@ -6731,8 +6767,8 @@
 "Tilia × flaccida"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -7179,6 +7215,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Crataegus torminalis"
+],
 "en": "Aria torminalis",
 "names": [
 "Aria torminalis"
@@ -7264,6 +7303,13 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q1406070": {
+"en": "chestnut",
+"it": "Sauro",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q14080": {
 "alias": {
@@ -8723,6 +8769,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Prunus insititia"
+],
 "en": "Prunus domestica subsp. insititia",
 "it": "Prunus domestica subsp. insititia",
 "names": [
@@ -9158,6 +9207,12 @@
 ],
 "taxon": true
 },
+"Q15088956": {
+"en": "Chapelle de Châteauvieux",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1510186": {
 "alias": {
 "en": [
@@ -9393,6 +9448,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Goughia himalensis"
+],
 "en": "Daphniphyllum himalense",
 "it": "Daphniphyllum himalense",
 "names": [
@@ -9756,8 +9814,8 @@
 "Corylus colurnoides"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -9829,6 +9887,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Boymia glabrifolia"
+],
 "en": "Tetradium glabrifolium",
 "it": "Tetradium glabrifolium",
 "names": [
@@ -10089,6 +10150,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Michelia sphaerantha"
+],
 "en": "Magnolia sphaerantha",
 "it": "Magnolia sphaerantha",
 "names": [
@@ -10428,6 +10492,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Acer septemlobum"
+],
 "en": "Kalopanax septemlobus",
 "it": "Kalopanax septemlobus",
 "names": [
@@ -10578,6 +10645,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Hamamelis subaequalis"
+],
 "en": "Parrotia subaequalis",
 "it": "Parrotia subaequalis",
 "names": [
@@ -11521,6 +11591,9 @@
 "vite americana"
 ]
 },
+"basionyms": [
+"Hedera quinquefolia"
+],
 "en": "Parthenocissus quinquefolia",
 "it": "Parthenocissus quinquefolia",
 "names": [
@@ -11560,6 +11633,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Ampelopsis tricuspidata"
+],
 "en": "Parthenocissus tricuspidata",
 "it": "Parthenocissus tricuspidata",
 "names": [
@@ -11618,6 +11694,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Pyrus japonica"
+],
 "en": "Chaenomeles japonica",
 "it": "Chaenomeles japonica",
 "names": [
@@ -13638,6 +13717,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Persea azorica"
+],
 "en": "Laurus azorica",
 "it": "Laurus azorica",
 "names": [
@@ -14536,6 +14618,12 @@
 ],
 "taxon": true
 },
+"Q16508214": {
+"en": "Gros Tilleul de Samoëns",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q165091": {
 "alias": {
 "en": [
@@ -14556,6 +14644,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q16509810": {
+"en": "Olivier de Roquebrune-Cap-Martin",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q165137": {
 "alias": {
@@ -14880,6 +14974,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Fagara piperita"
+],
 "en": "Zanthoxylum piperitum",
 "it": "Zanthoxylum piperitum",
 "names": [
@@ -15428,6 +15525,12 @@
 ],
 "taxon": true
 },
+"Q17340297": {
+"en": "Chêne de Saint-Vincent-de-Paul",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1735296": {
 "alias": {
 "en": [
@@ -15661,6 +15764,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q1771174": {
+"en": "Notable tree of France",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1771825": {
 "alias": {
@@ -16790,6 +16899,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Angelica polymorpha var. sinensis"
+],
 "en": "Angelica sinensis",
 "it": "Angelica sinensis",
 "names": [
@@ -17073,6 +17185,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Mespilus calpodendron"
+],
 "en": "Crataegus calpodendron",
 "it": "Crataegus calpodendron",
 "names": [
@@ -17442,8 +17557,8 @@
 "Juglans ×bixbyi"
 ],
 "ranks": [
-"Q7432",
-"Q1306176"
+"Q1306176",
+"Q7432"
 ],
 "taxon": true
 },
@@ -17664,6 +17779,23 @@
 ],
 "taxon": true
 },
+"Q21426944": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21427411": {
+"en": "If funéraire de Saint-Ursin",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21427412": {
+"en": "remarkable trees of La Lande-Patry",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q214733": {
 "alias": {
 "en": [
@@ -17747,6 +17879,9 @@
 "peccio nero"
 ]
 },
+"basionyms": [
+"Abies mariana"
+],
 "en": "Picea mariana",
 "it": "Picea mariana",
 "names": [
@@ -18378,6 +18513,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Corypha minor"
+],
 "en": "Sabal minor",
 "it": "Sabal minor",
 "names": [
@@ -19842,6 +19980,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Quercus cuspidata"
+],
 "en": "Castanopsis cuspidata",
 "it": "Castanopsis cuspidata",
 "names": [
@@ -20317,6 +20458,12 @@
 ],
 "taxon": true
 },
+"Q2859716": {
+"en": "Arboretum de la Vallée-aux-Loups",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q287052": {
 "alias": {
 "en": [
@@ -20732,6 +20879,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Cydonia cathayensis"
+],
 "en": "Chaenomeles cathayensis",
 "it": "Chaenomeles cathayensis",
 "names": [
@@ -21195,6 +21345,12 @@
 ],
 "taxon": true
 },
+"Q3078754": {
+"en": "Andaine Forest",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q3079244": {
 "alias": {
 "en": [
@@ -21244,6 +21400,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Quercus shumardii var. acerifolia"
+],
 "names": [
 "Quercus acerifolia"
 ],
@@ -21567,6 +21726,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Picea fortunei"
+],
 "en": "Keteleeria fortunei",
 "it": "Keteleeria fortunei",
 "names": [
@@ -21615,6 +21777,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q3148109": {
+"en": "Ifs de La Haye-de-Routot",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q3177997": {
 "alias": {
@@ -21983,6 +22151,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Cupressus bakeri"
+],
 "en": "Hesperocyparis bakeri",
 "it": "Hesperocyparis bakeri",
 "names": [
@@ -22404,6 +22575,22 @@
 ],
 "taxon": true
 },
+"Q3391801": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q3391802": {
+"en": "Giant Plane tree of Lamanon",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q3391803": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q3392902": {
 "alias": {
 "en": [],
@@ -22476,6 +22663,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Persica davidiana"
+],
 "en": "Prunus davidiana",
 "it": "Prunus davidiana",
 "names": [
@@ -22676,6 +22866,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q3528519": {
+"en": "Tilleul de Pérouges",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q353078": {
 "alias": {
@@ -22956,6 +23152,13 @@
 ],
 "taxon": true
 },
+"Q366359": {
+"en": "Tardets-Sorholus",
+"it": "Tardets-Sorholus",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q366548": {
 "alias": {
 "en": [],
@@ -23122,6 +23325,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Ornus xanthoxyloides"
+],
 "en": "Fraxinus xanthoxyloides",
 "it": "Fraxinus xanthoxyloides",
 "names": [
@@ -23418,6 +23624,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Betula serrulata"
+],
 "en": "Alnus serrulata",
 "it": "Alnus serrulata",
 "names": [
@@ -23435,6 +23644,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Alnus maritima var. formosana"
+],
 "en": "Alnus formosana",
 "it": "Alnus formosana",
 "names": [
@@ -23616,6 +23828,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Betula delavayi var. forrestii"
+],
 "en": "Betula forrestii",
 "it": "Betula forrestii",
 "names": [
@@ -23968,6 +24183,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Planera davidii"
+],
 "en": "Hemiptelea davidii",
 "it": "Hemiptelea davidii",
 "names": [
@@ -24029,6 +24247,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Sorbus devoniensis"
+],
 "en": "Karpatiosorbus devoniensis",
 "it": "Karpatiosorbus devoniensis",
 "names": [
@@ -24281,6 +24502,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Juglans laciniosa"
+],
 "en": "Carya laciniosa",
 "it": "Carya laciniosa",
 "names": [
@@ -25524,6 +25748,12 @@
 ],
 "taxon": true
 },
+"Q48755299": {
+"en": "Robinier du Square Viviani",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q48756110": {
 "en": "Chiryu City History and Folklore Museum",
 "names": [],
@@ -25838,6 +26068,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Juglans aquatica"
+],
 "en": "Carya aquatica",
 "it": "Carya aquatica",
 "names": [
@@ -25936,6 +26169,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Taxus harringtonia"
+],
 "names": [
 "Cephalotaxus harringtonia"
 ],
@@ -26403,6 +26639,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Sorbus toringo"
+],
 "en": "Malus toringo",
 "it": "Malus toringo",
 "names": [
@@ -26646,6 +26885,13 @@
 "Q1306176"
 ],
 "taxon": true
+},
+"Q544046": {
+"en": "Bracon",
+"it": "Bracon",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q5446647": {
 "alias": {
@@ -26988,6 +27234,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Hedera helix var. colchica"
+],
 "en": "Hedera colchica",
 "it": "Hedera colchica",
 "names": [
@@ -27451,6 +27700,9 @@
 "Malus zumi"
 ]
 },
+"basionyms": [
+"Pyrus zumi"
+],
 "en": "Malus × zumi",
 "it": "Malus ×zumi",
 "names": [
@@ -27961,6 +28213,12 @@
 ],
 "taxon": true
 },
+"Q630624": {
+"en": "Diane de Poitiers' tree",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q631388": {
 "alias": {
 "en": [
@@ -28328,6 +28586,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Pyrus pashia var. sikkimensis"
+],
 "en": "Malus sikkimensis",
 "it": "Malus sikkimensis",
 "names": [
@@ -28807,6 +29068,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Marlea platanifolia"
+],
 "en": "Alangium platanifolium",
 "it": "Alangium platanifolium",
 "names": [
@@ -29299,6 +29563,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Abies gmelinii"
+],
 "en": "Larix gmelinii",
 "it": "Larix gmelinii",
 "names": [
@@ -29448,6 +29715,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Rhus javanica"
+],
 "en": "Brucea javanica",
 "it": "Brucea javanica",
 "names": [
@@ -29972,6 +30242,17 @@
 ],
 "taxon": true
 },
+"Q83638494": {
+"en": "Feijoa",
+"it": "Feijoa",
+"names": [
+"Feijoa"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
+},
 "Q837237": {
 "alias": {
 "en": [],
@@ -30264,8 +30545,8 @@
 "en": "Betula davurica",
 "it": "Betula dahurica",
 "names": [
-"Betula dahurica",
-"Betula davurica"
+"Betula davurica",
+"Betula dahurica"
 ],
 "ranks": [
 "Q7432"
@@ -30277,6 +30558,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Mespilus grandiflora"
+],
 "it": "×Crataemespilus grandiflora",
 "names": [
 "× Crataemespilus grandiflora"
@@ -30592,6 +30876,9 @@
 "Arancio Trifogliato"
 ]
 },
+"basionyms": [
+"Citrus trifoliata"
+],
 "en": "Poncirus trifoliata",
 "it": "Poncirus trifoliata",
 "names": [
@@ -30826,6 +31113,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Pyrus vestita"
+],
 "en": "Micromeles vestita",
 "it": "Micromeles vestita",
 "names": [
@@ -31230,6 +31520,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Sophora japonica var. violacea"
+],
 "en": "Styphnolobium japonicum f. violaceum",
 "it": "Styphnolobium japonicum f. violaceum",
 "names": [
@@ -31630,6 +31923,19 @@
 ],
 "ranks": [
 "Q7432"
+],
+"taxon": true
+},
+"Q9576327": {
+"alias": {
+"en": [],
+"it": []
+},
+"names": [
+"Acer 'Warrenred'"
+],
+"ranks": [
+"Q4886"
 ],
 "taxon": true
 },
