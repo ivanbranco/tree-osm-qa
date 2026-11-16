@@ -760,10 +760,21 @@ def hint_props(t, osm_id=None):
     hint_imp_u: source=* di un import non documentato (scripts/imports.json) -> il valore;
     hint_imp_d: source=* di un import documentato -> "valore|pagina della wiki";
     hint_mc: ref:masaf senza masaf:criteria -> i criteri dell'elenco MASAF (masaf_trees.json) per quei codici;
+    hint_ip: image=* è una pagina web di un sito di IMAGE_PAGE_SITES, non il file dell'immagine -> il sito;
+    hint_mly: quella pagina è una foto di Mapillary e manca mapillary=* -> l'identificativo della foto (la correzione
+    con JOSM lo sposta in mapillary);
+    hint_wpw: website=* o url=* è una voce di Wikipedia e manca wikipedia=* -> "chiave|lingua:Titolo" (nessuna
+    correzione con JOSM: la voce può essere di un luogo o un elenco, e non dell'albero);
     hint_ms: solo nelle regioni italiane, albero senza denotation=natural_monument/landmark né ref:masaf con la
     circonferenza (taggata, o da diameter) almeno pari alla soglia MASAF della specie -> "circonferenza|soglia" in m;
     non per i membri di un insieme omogeneo MASAF (osm_id in MASAF_GROUPS), che valgono già come monumentali."""
     out = {}
+    if ip := image_page(t):
+        out["hint_ip"] = ip[0]
+        if ip[1] and "mapillary" not in t:
+            out["hint_mly"] = ip[1]
+    if wpw := website_wikipedia(t):
+        out["hint_wpw"] = "|".join(wpw)
     if imp := import_source(t):
         if imp[0] == "d":
             out["hint_imp_d"] = f"{imp[1]}|{imp[2]}"
@@ -897,6 +908,52 @@ def commons_photo_files(t):
         if m := COMMONS_FILE_URL.match(u.strip()) or COMMONS_UPLOAD_URL.match(u.strip()):
             out.append("File:" + unquote(m.group(1)).replace("_", " ").strip())
     return list(dict.fromkeys(out))
+
+
+# Siti che in image=* danno una pagina web e non il file dell'immagine (consiglio hint_ip). Si confronta il nome del
+# sito senza «www.» né «m.»; quelli con il punto davanti valgono anche per i sottodomini (it.wikiloc.com). Non
+# i.imgur.com, live.staticflickr.com, images.mapillary.com, drive.google.com/uc: danno il file
+IMAGE_PAGE_SITES = ("photos.app.goo.gl", "photos.google.com", "drive.google.com", "goo.gl", "maps.app.goo.gl",
+                    "mapillary.com", "flickr.com", "geograph.org.uk", "imgur.com", ".wikiloc.com", "twitter.com",
+                    "x.com", "facebook.com", "instagram.com", "1drv.ms", "onedrive.live.com", ".wikipedia.org")
+# Pagina di una foto di Mapillary: …/map/im/<chiave> o …/app/?…pKey=<id> (consiglio hint_mly)
+MAPILLARY_PAGE = re.compile(r"^https?://(?:www\.)?mapillary\.com/(?:map/im/([A-Za-z0-9_-]+)|app/?\?(?:[^#]*&)?pKey=([A-Za-z0-9_-]+))",
+                            re.I)
+
+
+def image_page(t):
+    """(sito, identificativo della foto di Mapillary o "") se image=* (un solo valore) è una pagina di un sito di
+    IMAGE_PAGE_SITES, altrimenti None."""
+    v = str(t.get("image") or "").strip()
+    if not v or ";" in v or not URL.match(v):
+        return None
+    u = urlparse(v)
+    host = re.sub(r"^(?:www\.|m\.)", "", (u.hostname or "").lower())
+    if host == "drive.google.com" and u.path.startswith("/uc"):
+        return None
+    for s in IMAGE_PAGE_SITES:
+        if host == s.lstrip(".") or (s.startswith(".") and host.endswith(s)):
+            m = MAPILLARY_PAGE.match(v)
+            return host, (m.group(1) or m.group(2)) if m else ""
+    return None
+
+
+# Voce di Wikipedia in website=* o url=*: https://<lingua>.wikipedia.org/wiki/<titolo> (anche il sito per cellulari)
+WIKIPEDIA_URL = re.compile(r"^https?://([a-z][a-z-]{1,11})\.(?:m\.)?wikipedia\.org/wiki/([^?#]+)", re.I)
+
+
+def website_wikipedia(t):
+    """(chiave, "lingua:Titolo") se website=* o url=* (un solo valore) è una voce di Wikipedia e manca wikipedia=*,
+    altrimenti None."""
+    if "wikipedia" in t:
+        return None
+    for k in ("website", "url"):
+        v = str(t.get(k) or "").strip()
+        if ";" not in v and (m := WIKIPEDIA_URL.match(v)):
+            title = unquote(m.group(2)).replace("_", " ").strip()
+            if title and "|" not in title:
+                return k, f"{m.group(1).lower()}:{title}"
+    return None
 
 
 def url_state(u):

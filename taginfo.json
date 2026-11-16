@@ -98,18 +98,19 @@
     {"key": "ivyclad", "value": "yes", "object_types": ["node"], "description": "Draws a ring of green dots around the trunk."},
     {"key": "xmas:feature", "value": "tree", "object_types": ["node"], "description": "From 8 December to 6 January: draws blinking coloured lights and a yellow star on the crown (needleleaved if leaf_type is missing). Also downloaded when the node is not natural=tree, only for this rendering (no QA checks)."},
     {"key": "religion", "value": "shinto", "object_types": ["node"], "description": "On trees: rendered as a sacred tree (goshinboku) and named in the info panel."},
-    {"key": "website", "object_types": ["node"], "description": "Used for QA checks and the info panel."},
-    {"key": "url", "object_types": ["node"], "description": "Used for QA checks and the info panel."},
+    {"key": "website", "object_types": ["node"], "description": "Used for QA checks and the info panel. A Wikipedia article without wikipedia gives a hint about wikipedia."},
+    {"key": "url", "object_types": ["node"], "description": "Used for QA checks and the info panel. A Wikipedia article without wikipedia gives a hint about wikipedia."},
+    {"key": "mapillary", "object_types": ["node"], "description": "Suggested when image is the page of a Mapillary photo."},
     {"key": "wikidata", "object_types": ["node"], "description": "Used for QA checks, the info panel and to show a picture, which counts as a photo in the Completeness tab."},
     {"key": "wikimedia_commons", "object_types": ["node"], "description": "Used for QA checks and to show a picture; counts as a photo in the Completeness tab. Suggested when image points to a Wikimedia Commons file."},
     {"key": "panoramax", "object_types": ["node"], "description": "Used for QA checks and to show a picture; counts as a photo in the Completeness tab."},
-    {"key": "image", "object_types": ["node"], "description": "Used for QA checks and to show a picture; counts as a photo in the Completeness tab. A Wikimedia Commons file without wikimedia_commons gives a hint to replace it with wikimedia_commons."},
+    {"key": "image", "object_types": ["node"], "description": "Used for QA checks and to show a picture; counts as a photo in the Completeness tab. A Wikimedia Commons file without wikimedia_commons gives a hint to replace it with wikimedia_commons; a web page (Google Photos, Mapillary, Flickr…) instead of an image file gives a hint; image=File:… is moved to wikimedia_commons by the JOSM fix."},
     {"key": "image:fotoshi", "object_types": ["node"], "description": "Used to show a picture; counts as a photo in the Completeness tab."},
     {"key": "tree", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "type", "object_types": ["node"], "description": "Used for QA checks."},
     {"key": "source", "object_types": ["node"], "description": "Used for hints about known tree imports (documented or not)."},
     {"key": "name", "object_types": ["node"], "description": "Shown in the info panel."},
-    {"key": "wikipedia", "object_types": ["node"], "description": "Used for a QA check (the article's Wikidata item is a taxon: species:wikipedia or, for a genus, genus:wikipedia is suggested)."},
+    {"key": "wikipedia", "object_types": ["node"], "description": "Used for a QA check (the article's Wikidata item is a taxon: species:wikipedia or, for a genus, genus:wikipedia is suggested). Suggested when website or url is a Wikipedia article."},
     {"key": "start_date", "object_types": ["node"], "description": "Used for a QA check (invalid or future date); shown in the info panel, with the age of the tree (today minus the date); used for the oldest trees in the Record trees tab (dates of the same year are tied), where its year also selects a sentence about what happened that year."}
   ]
 }

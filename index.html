@@ -570,6 +570,11 @@ const I18N = {
       importDoc: v => `Albero importato (source=${v}):`, importDocLink: "documentazione dell'import",
       masafSize: (c, s, n) => `La circonferenza (${c}) raggiunge la soglia MASAF per ${n} (${s}): potrebbe essere un albero monumentale`,
       commonsImage: f => `image=* punta a un file di Wikimedia Commons: si potrebbe sostituire con wikimedia_commons=${f}`,
+      // hint_ip, hint_mly (fetch_trees.py): image=* è una pagina web; mly: identificativo della foto di Mapillary
+      imagePage: (site, mly) => mly ? `image=* è la pagina di una foto di Mapillary, non il file di un'immagine: l'identificativo della foto si potrebbe scrivere in mapillary=${mly}`
+        : `image=* è una pagina web (${site}), non il file di un'immagine. Una foto si può anche caricare su Wikimedia Commons o Panoramax e collegare con wikimedia_commons=* o panoramax=*`,
+      // hint_wpw (fetch_trees.py): website=* o url=* è una voce di Wikipedia, senza wikipedia=*
+      websiteWikipedia: (k, v) => `${k}=* è una voce di Wikipedia: se la voce è di questo albero, il tag per collegarla è wikipedia=${v}`,
       feetInchSpace: (k, v, fix) => `${k}=${v}: la wiki indica di scrivere piedi e pollici senza spazi (${fix})`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,      notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
       // issue #25; seeds(t): HTML delle parole che aprono la foto dei semi (south: emisfero australe)
@@ -1044,6 +1049,9 @@ const I18N = {
       importDoc: v => `Imported tree (source=${v}):`, importDocLink: "import documentation",
       masafSize: (c, s, n) => `The circumference (${c}) reaches the MASAF threshold for ${n} (${s}): it could be a monumental tree`,
       commonsImage: f => `image=* points to a Wikimedia Commons file: it could be replaced with wikimedia_commons=${f}`,
+      imagePage: (site, mly) => mly ? `image=* is the page of a Mapillary photo, not an image file: the photo ID could be written in mapillary=${mly}`
+        : `image=* is a web page (${site}), not an image file. A photo can also be uploaded to Wikimedia Commons or Panoramax and linked with wikimedia_commons=* or panoramax=*`,
+      websiteWikipedia: (k, v) => `${k}=* is a Wikipedia article: if the article is about this tree, the tag to link it is wikipedia=${v}`,
       feetInchSpace: (k, v, fix) => `${k}=${v}: the wiki writes feet and inches without spaces (${fix})`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,      notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
       ginkgoSex: (south, seeds) => `If this ginkgo is a female tree, sex=female could be added. ${south ? "October to May" : "April to November"} is a good time to check: females bear paired ovules in spring and fleshy, ${seeds("foul-smelling seeds")} that fall in autumn, often lying under the canopy.`,
@@ -4206,7 +4214,9 @@ const HINT_FIXES = [
   [p => p.stump ? [] : [["leaf_cycle", !p.leaf_cycle && p.lc]], "add leaf_cycle"],
   // wikimedia_commons sostituisce image (non vanno insieme): solo con un valore solo in image
   [p => { const f = !String(p.image || "").includes(";") && commonsOfImage(p);
-    return f ? [["wikimedia_commons", f], ["image", REMOVE]] : []; }, "replace image with wikimedia_commons"]
+    return f ? [["wikimedia_commons", f], ["image", REMOVE]] : []; }, "replace image with wikimedia_commons"],
+  // pagina di una foto di Mapillary in image (hint_mly, solo senza mapillary=*: fetch_trees.py)
+  [p => p.hint_mly && p.image ? [["mapillary", p.hint_mly], ["image", REMOVE]] : [], "Mapillary photo in mapillary instead of image"]
 ];
 // species corretta da species_author o species_typo (sp_fix, sp_clean: fetch_trees.py) e i tag che ne derivano e che
 // mancano (sp_fix_wd, sp_fix_lt, sp_fix_lc); non genus, già implicito in species
@@ -4227,6 +4237,10 @@ const FIXES = {
   // natural non è tra le proprietà della feature: il vecchio valore (quinto elemento) è tree, l'unico per cui scatta
   not_a_tree: [p => [["natural", "plant", undefined, false, "tree"]], "plant that is not a tree: natural=plant"],
   species_epithet_case: [p => [["species", p.sp_sci]], "fix capitalisation in species"],
+  // image=File:… (un solo file di Commons, senza wikimedia_commons): il valore passa in wikimedia_commons
+  link_format: [p => { const v = String(p.image || "").trim();
+    return /^File:[^;]+\.[a-z0-9]{2,5}$/i.test(v) && !p.wikimedia_commons ? [["wikimedia_commons", v, undefined, true], ["image", REMOVE]] : []; },
+    "Commons file in wikimedia_commons instead of image"],
   species_lowercase: [p => [["species", capFirst(p.species)]], "capitalise the genus in species"],
   // con genus di più parole (check genus) la correzione non è certa
   genus_lowercase: [p => p.issues.includes("|genus|") ? [] : [["genus", capFirst(p.genus)]], "capitalise genus"],
@@ -4925,6 +4939,9 @@ function hints(p, pos) {
   // image=* su un file di Commons senza wikimedia_commons=* (anche sui ceppi)
   const cf = commonsOfImage(p);
   if (cf) out.push(H.commonsImage(cf));
+  // image=* è una pagina web (hint_ip, hint_mly) e website=* o url=* una voce di Wikipedia (hint_wpw): fetch_trees.py
+  if (p.hint_ip) out.push(H.imagePage(p.hint_ip, p.hint_mly));
+  if (p.hint_wpw) { const i = String(p.hint_wpw).indexOf("|"); if (i > 0) out.push(H.websiteWikipedia(p.hint_wpw.slice(0, i), p.hint_wpw.slice(i + 1))); }
   if (p.stump) return out;
   if (binomialHint(p.hint_sp)) out.push(H.wdSpecies(p.hint_sp));
   // l'elemento Wikidata dell'albero ha solo il genere della specie taggata (hint_wg = "QID|genere", fetch_trees.py)
