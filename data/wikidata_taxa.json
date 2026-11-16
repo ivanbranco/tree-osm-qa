@@ -244,6 +244,12 @@
 ],
 "taxon": true
 },
+"Q10350589": {
+"en": "plane tree from Rossio",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1036491": {
 "alias": {
 "en": [],
@@ -2063,6 +2069,12 @@
 ],
 "taxon": true
 },
+"Q1115788": {
+"en": "Castle of Coltău",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q111585833": {
 "en": "Dōgata no Shiinoki",
 "names": [],
@@ -3366,6 +3378,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q121816267": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q12246669": {
 "alias": {
@@ -7113,6 +7130,9 @@
 ],
 "it": []
 },
+"basionyms": [
+"Dammara robusta"
+],
 "en": "Agathis robusta",
 "it": "Agathis robusta",
 "names": [
@@ -8728,6 +8748,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Cupressus nootkatensis"
+],
 "en": "Chamaecyparis nootkatensis",
 "it": "Chamaecyparis nootkatensis",
 "names": [
@@ -16635,6 +16658,24 @@
 "Prunus ×hillieri"
 ],
 "ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q21370429": {
+"alias": {
+"en": [
+"Prunus incam"
+],
+"it": []
+},
+"en": "Prunus × incam",
+"it": "Prunus ×incam",
+"names": [
+"Prunus ×incam"
+],
+"ranks": [
+"Q1306176",
 "Q7432"
 ],
 "taxon": true
@@ -25339,6 +25380,13 @@
 "ranks": [],
 "taxon": false
 },
+"Q55741095": {
+"en": "Box elder by the parish church of Laives",
+"it": "Acero americano presso la chiesa parrocchiale di Laives",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q55741369": {
 "alias": {
 "en": [],
@@ -25417,6 +25465,13 @@
 "it": []
 },
 "it": "ciliegio selvatico",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q55742387": {
+"en": "Platano della Tesoriera",
+"it": "Platano della Tesoriera",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -27477,6 +27532,9 @@
 "taxon": true
 },
 "Q739430": {
+"basionyms": [
+"Pinus sect. Tsuga"
+],
 "en": "Tsuga",
 "it": "Tsuga",
 "names": [
@@ -28731,6 +28789,13 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q855274": {
+"en": "Bialbero di Casorzo",
+"it": "Bialbero di Casorzo",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q855778": {
 "alias": {
@@ -30261,6 +30326,12 @@
 },
 "en": "Baladre",
 "it": "Baladre",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q98444727": {
+"en": "whistler cork oak",
 "names": [],
 "ranks": [],
 "taxon": false

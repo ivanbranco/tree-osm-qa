@@ -639,20 +639,20 @@
    "updated": "2026-11-11T11:15:02Z"
   },
   "pennsylvania": {
-   "count": 97114,
-   "errors": 148,
+   "count": 97197,
+   "errors": 7,
    "name": "Pennsylvania",
-   "sha1": "98e5385426483109aa28ee897095bf54ca1604a9",
-   "tried": "2026-11-15",
-   "updated": "2026-11-15T03:56:19Z"
+   "sha1": "d9fed404f4ccdde1b28348671fa03f779c6ba047",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T08:27:59Z"
   },
   "piemonte": {
-   "count": 72979,
-   "errors": 131,
+   "count": 73051,
+   "errors": 129,
    "name": "Piemonte",
-   "sha1": "7705ba060ac70444ab2df4f8e344a3f9da58a072",
-   "tried": "2026-11-14",
-   "updated": "2026-11-14T11:54:19Z"
+   "sha1": "6f1c85676fc36a2c9775acba01e5ecc50d8473c5",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T01:41:39Z"
   },
   "podkarpackie": {
    "count": 90420,
@@ -679,12 +679,12 @@
    "updated": "2026-11-14T10:56:12Z"
   },
   "portogallo": {
-   "count": 253473,
-   "diam": "mm",
-   "errors": 1899,
+   "count": 253460,
+   "errors": 512,
    "name": "Portogallo",
-   "sha1": "48e9cdc6b9bd6b10d79aa571a5a63c409df9d7c8",
-   "updated": "2026-11-10T15:27:35Z"
+   "sha1": "44c709983a97ebcb8d08fa679ea2575723cac273",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T10:12:27Z"
   },
   "provenza-alpi-costa-azzurra": {
    "count": 185831,
@@ -703,12 +703,12 @@
    "updated": "2026-11-15T10:09:01Z"
   },
   "romania": {
-   "count": 77703,
-   "diam": "mm",
-   "errors": 1596,
+   "count": 77705,
+   "errors": 1679,
    "name": "Romania",
-   "sha1": "92165224e3742f9e609012bae660dd85e351d9e4",
-   "updated": "2026-11-10T21:43:11Z"
+   "sha1": "9f302eba9ac85495793a72bc5283093d8ee2e7f5",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T08:37:04Z"
   },
   "salisburgo": {
    "count": 22165,
@@ -823,11 +823,11 @@
   },
   "trentino-alto-adige": {
    "count": 67787,
-   "errors": 476,
+   "errors": 421,
    "name": "Trentino-Alto Adige",
-   "sha1": "c521662d4edcd939baae9ae1a77b6f58e4f39e64",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:04:11Z"
+   "sha1": "3416add0ef4a2feed2667169d1460c2d137272c6",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T01:42:28Z"
   },
   "ulster-irlanda": {
    "count": 47000,
