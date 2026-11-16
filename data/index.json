@@ -110,12 +110,12 @@
    "updated": "2026-11-13T23:31:36Z"
   },
   "bretagna": {
-   "count": 135358,
-   "diam": "mm",
-   "errors": 446,
+   "count": 135442,
+   "errors": 440,
    "name": "Bretagna",
-   "sha1": "62384e330444c0539783845fb48ba364d7dc91ec",
-   "updated": "2026-11-11T11:01:49Z"
+   "sha1": "36e956f429d704a0b0c37871c3d0e1fcdbfcf9a0",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T19:39:03Z"
   },
   "bulgaria": {
    "count": 29084,
