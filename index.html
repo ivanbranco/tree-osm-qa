@@ -2620,7 +2620,7 @@ map.on("load", async () => {
   // Lista dei primi dieci (issue #48): recOpen = primato con la lista aperta (una sola alla volta, come le schede);
   // resta aperta quando cambiano regione o filtri, e la lista si ricalcola. recEv = id dell'albero di «Più vecchio»
   // con la frase sull'anno aperta. recEvents = scripts/year_events.json ({ "<anno|decennio|secolo>": { it, en,
-  // wiki_it, wiki_en } }, scritto a mano; "JP:1159" = solo per gli alberi di quella nazione, vedi yearEvent): undefined = non ancora chiesto, {} = non disponibile
+  // wiki_it, wiki_en } }, scritto a mano; "JP:1159", "IT-21:C16" = solo per gli alberi di quella nazione o regione, vedi yearEvent): undefined = non ancora chiesto, {} = non disponibile
   let recOpen = null, recEv = null, recEvents, recEventsP = null;
   const loadRecEvents = () => { recEventsP = recEventsP || getJSON(BASE + "scripts/year_events.json")
     .then(d => { recEvents = d; }, () => { recEvents = {}; }).then(() => renderRec()); };
@@ -2703,7 +2703,7 @@ map.on("load", async () => {
       const place = places && t.slug ? [regionName(t.slug), groupOf(t.slug) && groupName(groupOf(t.slug))]
         .filter((x, j, a) => x && a.indexOf(x) === j).join(" · ") : "";
       // «Più vecchio»: il pulsante con la frase sull'anno, solo se l'anno ha una voce; la frase aperta sta sotto la riga
-      // la nazione dell'albero (per le voci di una sola nazione): dalla sua regione; sulla mappa dei monumentali non c'è
+      // codice ISO della regione dell'albero (per le voci di una sola nazione o regione); sulla mappa dei monumentali non c'è
       const evCc = (metaBy[t.slug || current] || {}).iso;
       const ev = k === "oldest" && recEvents ? yearEvent(recEvents, sdEvent(p.start_date), evCc) : null, evOpen = ev && recEv === String(p.id);
       const src = ev && (ev["wiki_" + LANG] || ev.wiki_en);
@@ -3546,11 +3546,15 @@ const sdEvent = v => {
 const spName = v => String(v).replace(/\s+spp?\.?$/i, "");
 const sdEventDecade = k => { const m = /^(\d+)( BC)?$/.exec(k || "");
   return m ? `${Math.floor(Number(m[1]) / 10) * 10}s${m[2] || ""}` : null; };
-// yearEvent: la voce per la chiave, o quella del suo decennio. Una voce può valere per una sola nazione ("JP:1159",
-// codice ISO davanti): per un albero di quella nazione (cc) vale prima di quella per tutti, come year_event in fetch_trees.py
-const yearEvent = (ev, k, cc) => {
-  const d = sdEventDecade(k), c = String(cc || "").slice(0, 2).toUpperCase();
-  return (c && ev[`${c}:${k}`]) || ev[k] || (c && d && ev[`${c}:${d}`]) || (d && ev[d]) || null;
+// yearEvent: la voce per la chiave, o quella del suo decennio. Una voce può valere per una sola nazione ("JP:1159") o
+// regione ("IT-21:C16"), con il codice ISO davanti: per un albero di quella regione (iso, il suo codice) vale prima la
+// voce della regione, poi quella del paese, poi quella per tutti; prima per l'anno, poi per il decennio, come
+// year_event in fetch_trees.py
+const yearEvent = (ev, k, iso) => {
+  const r = String(iso || "").toUpperCase(), pre = [...new Set([r, r.slice(0, 2)].filter(Boolean))];
+  for (const x of [k, sdEventDecade(k)].filter(Boolean))
+    for (const y of [...pre.map(p => `${p}:${x}`), x]) if (ev[y]) return ev[y];
+  return null;
 };
 const REC_KEYS = ["height", "trunk", "slender", "stocky", "crown", "oldest"];
 const REC_LOW = new Set(["stocky", "oldest"]);   // primati in cui vince il valore più basso

@@ -61,7 +61,8 @@ FIXTURES = {
     "SYNONYMS": {"quercus pedunculata": "Quercus robur"},
     "GROUP_NAME": {"quercus pedunculata": "Quercus robur", "quercus robur": "Quercus robur"},
     "SMALL_MON_WHITELIST": {4242},
-    "GENUS_NAMES": {("fr", "tilleul"): "Tilia", ("it", "quercia"): "Quercus"},
+    "GENUS_NAMES": {("fr", "tilleul"): "Tilia", ("it", "quercia"): "Quercus", ("en", "plane"): "Platanus"},
+    "GENUS_NAMES_EXCEPT": {("en", "plane"): {"GB-SCT"}},
     "SPECIES_NAMES": {("pl", "klon zwyczajny"): "Acer platanoides", ("it", "bagolaro"): "Celtis australis"},
     "SPECIES_NAME_FORM": {("pl", "klon zwyczajny"): "Klon zwyczajny", ("it", "bagolaro"): "Bagolaro"},
     "SINGLE_SPECIES": {},
@@ -477,12 +478,26 @@ SP_FIX_CASES = [
      {"sp_fix_wd": "Q920001"}),
 ]
 
-# Frasi sugli anni (year_event): (chiave, nazione, voci, atteso)
-_EV = {"1159": "tutti", "JP:1159": "Giappone", "1150s": "decennio", "FR:1160s": "Francia, decennio"}
+# Nomi dei generi esclusi in una regione (genus_names_except): (nome, tag, codice ISO della regione, proprietà attese)
+GENUS_NAME_CASES = [
+    ("species:en=plane: genus=Platanus", {"natural": "tree", "species:en": "plane"}, "GB-WLS",
+     {"sp_lang_genus": "species:en=plane|Platanus"}),
+    ("species:en=plane: niente consiglio in Scozia", {"natural": "tree", "species:en": "plane"}, "GB-SCT",
+     {"sp_lang_genus": None}),
+    ("species=plane: genus=Platanus", {"natural": "tree", "species": "plane"}, "GB-WLS", {"sp_common_genus": "Platanus"}),
+    ("species=plane: niente consiglio in Scozia", {"natural": "tree", "species": "plane"}, "GB-SCT",
+     {"sp_common_genus": None}),
+]
+
+# Frasi sugli anni (year_event): (chiave, codice ISO della regione, voci, atteso)
+_EV = {"1159": "tutti", "JP:1159": "Giappone", "1150s": "decennio", "FR:1160s": "Francia, decennio",
+       "C16": "secolo", "IT-21:C16": "Piemonte, secolo", "IT:C16": "Italia, secolo"}
 YEAR_EVENT_CASES = [
     ("1159", "", _EV, "tutti"), ("1159", "JP", _EV, "Giappone"), ("1159", "IT", _EV, "tutti"),
     ("1153", "JP", _EV, "decennio"), ("1163", "FR", _EV, "Francia, decennio"), ("1163", "IT", _EV, None),
     ("1159", "JP", {"JP:1150s": "Giappone, decennio", "1159": "tutti"}, "tutti"),   # prima l'anno, poi il decennio
+    ("C16", "IT-21", _EV, "Piemonte, secolo"), ("C16", "IT-25", _EV, "Italia, secolo"), ("C16", "FR", _EV, "secolo"),
+    ("1163", "FR-ARA", _EV, "Francia, decennio"),                                   # la regione eredita dal paese
 ]
 
 # Relazioni con ref:masaf (masaf_groups): elementi finti di una risposta di Overpass -> righe "mg" attese per nodo
@@ -513,6 +528,12 @@ def feature_failures():
     for sp, want in SP_CLEAN_CASES:
         if (got := ft.checks({"natural": "tree", "species": sp}, POS)[1].get("sp_clean")) != want:
             out.append(f"FALLITO: sp_clean di species={sp}\n  atteso:  {want}\n  uscito:  {got}")
+    for name, tags, iso, want in GENUS_NAME_CASES:
+        ft.REGION_ISO, ft.COUNTRY = iso, iso[:2]
+        props = ft.checks(dict(tags), POS)[1]
+        if bad := {k: props.get(k) for k, v in want.items() if props.get(k) != v}:
+            out.append(f"FALLITO: {name}\n  tag:     {tags}\n  atteso:  {want}\n  uscito:  {bad}")
+    ft.REGION_ISO, ft.COUNTRY = "IT", "IT"
     for name, tags, want in SP_FIX_CASES:
         props = ft.checks(dict(tags), POS)[1]
         if bad := {k: props.get(k) for k, v in want.items() if props.get(k) != v}:
@@ -592,7 +613,9 @@ def main():
         if name in names:
             failures.append(f"CASO DOPPIO: {name}\n  due casi hanno lo stesso nome")
         names.add(name)
-        ft.COUNTRY = rest[1] if len(rest) > 1 else COUNTRY   # nazione della regione (check register_country)
+        # nazione della regione (check register_country), o il codice completo della regione (GB-SCT)
+        ft.REGION_ISO = rest[1] if len(rest) > 1 else COUNTRY
+        ft.COUNTRY = ft.REGION_ISO[:2]
         try:
             got = ft.checks(dict(tags), POS, rest[0] if rest else None)[0]
         except Exception as e:   # un errore in un caso non ferma gli altri

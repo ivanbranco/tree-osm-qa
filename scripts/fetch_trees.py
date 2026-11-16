@@ -318,6 +318,17 @@ GENUS_NAMES = {k: g for k, v in _GN.items() if len(v) == 1 and _GN_OK.get(k) == 
 # i nomi di whitelist.json che la lista wiki non ha per nessun genere (species:pl=Dąb -> Quercus, nelle lingue senza
 # una colonna nella lista; species:en=Plane -> Platanus, che nella lista non ha il nome inglese) valgono da soli
 GENUS_NAMES.update({k: g for k, g in _GN_OK.items() if k not in _GN})
+# nomi dei generi che in alcune regioni o nazioni indicano anche altro (genus_names_except di whitelist.json): lì non
+# danno consigli. {("en", "plane"): {"GB-SCT"}}: in Scozia «plane» è anche Acer pseudoplatanus. Codici ISO di
+# scripts/regions.json, di una regione (GB-SCT) o di una nazione (GB)
+GENUS_NAMES_EXCEPT = {(lang, n.casefold()): set(isos) for lang, d in _WL.get("genus_names_except", {}).items()
+                      for n, isos in d.items()}
+
+
+def genus_name_here(key):
+    """Vero se la coppia (lingua, nome) di GENUS_NAMES vale nella regione che si sta aggiornando (REGION_ISO)."""
+    ex = GENUS_NAMES_EXCEPT.get(key)
+    return not ex or not ({REGION_ISO.upper(), REGION_ISO[:2].upper()} & ex)
 # nomi comuni delle specie (species_names di whitelist.json, scritti a mano): {("pl", "klon zwyczajny"): "Acer
 # platanoides"}; per questi si propone species=<la specie>
 SPECIES_NAMES = {(lang, n.casefold()): s for lang, d in _WL.get("species_names", {}).items() for n, s in d.items()}
@@ -1519,6 +1530,7 @@ NATIONAL_TAGS = (("ref:masaf", None, "IT"), ("masaf:criteria", None, "IT"), ("re
                  ("heritage:operator", "anf", "LU"),
                  ("ref:CRFOP", None, "PL"), ("ref:gid", None, "PL"))
 COUNTRY = ""   # codice ISO della nazione della regione che si sta aggiornando (update_region); "" = non noto
+REGION_ISO = ""   # codice ISO completo della stessa regione (GB-SCT; per una regione-nazione come COUNTRY)
 
 
 def register_out_of_country(t):
@@ -1902,7 +1914,8 @@ def species_lang_genus(t, lang):
     ok, other, gk, gkx = [], [], [], []
     for k, v in lang:
         name = SP_SUFFIX.sub("", v.strip())
-        gen = GENUS_NAMES.get((re.split(r"[-_]", k[8:])[0], name.casefold()))
+        key = (re.split(r"[-_]", k[8:])[0], name.casefold())
+        gen = GENUS_NAMES.get(key) if genus_name_here(key) else None
         if not gen:
             continue
         gkey = "genus:" + k[8:]
@@ -1974,7 +1987,7 @@ def not_a_tree(t):
 def common_name_genus(word):
     """Genere di cui word è il nome comune in una lingua di GENUS_NAMES (species=oak -> Quercus), se è uno solo."""
     w = word.strip().casefold()
-    genera = {g for (_, n), g in GENUS_NAMES.items() if n == w}
+    genera = {g for (lang, n), g in GENUS_NAMES.items() if n == w and genus_name_here((lang, n))}
     return next(iter(genera)) if len(genera) == 1 else None
 
 
@@ -2736,15 +2749,16 @@ def year_event_decade(key):
     return None
 
 
-def year_event(key, events, cc=""):
+def year_event(key, events, iso=""):
     """La voce di YEAR_EVENTS per la chiave, o in mancanza quella del suo decennio; None se mancano entrambe. Una
-    voce può valere per una sola nazione: la chiave ha davanti il codice ISO del paese ("JP:1159", anche "JP:1150s");
-    per un albero di quella nazione (cc) vale prima di quella per tutti, sia per l'anno sia per il decennio
-    (yearEvent in index.html)."""
-    dec = year_event_decade(key)
-    cc = (cc or "")[:2].upper()
-    keys = [f"{cc}:{key}", key, dec and f"{cc}:{dec}", dec] if cc else [key, dec]
-    return next((events[k] for k in keys if k and events.get(k)), None)
+    voce può valere per una sola nazione o regione: la chiave ha davanti il codice ISO del paese ("JP:1159", anche
+    "JP:1150s") o della regione ("IT-21:C16", il Piemonte), come in scripts/regions.json. Per un albero di quella
+    regione (iso, il suo codice) vale prima la voce della regione, poi quella del paese, poi quella per tutti; prima
+    per l'anno, poi per il decennio (yearEvent in index.html)."""
+    iso = (iso or "").upper()
+    pre = list(dict.fromkeys(p for p in (iso, iso[:2]) if p))   # regione e paese ("JP" una volta sola)
+    keys = [x for k in (key, year_event_decade(key)) if k for x in [f"{p}:{k}" for p in pre] + [k]]
+    return next((events[k] for k in keys if events.get(k)), None)
 
 
 def record_values(p):
@@ -2842,7 +2856,7 @@ def missing_year_events():
     sempre tra i primi dieci delle regioni, quindi l'elenco copre tutti i livelli del sito. Valore: [(chiave, regioni)],
     le regioni (slug) in cui la data è tra i primi dieci, perché le regioni aggiornate nell'Action non sono le sole."""
     events = load_json(YEAR_EVENTS)
-    iso = {r["slug"]: r.get("iso", "") for r in REGIONS}   # voci di una sola nazione (year_event)
+    iso = {r["slug"]: r.get("iso", "") for r in REGIONS}   # voci di una sola nazione o regione (year_event)
     found, where = {}, collections.defaultdict(set)
     for slug, rec in load_json(RECORDS_FILE).items():
         for t in (rec.get("oldest") or {}).get("t", []):
@@ -2870,10 +2884,11 @@ def report_year_events():
 
 
 def update_region(region, regions_index):
-    global IN_ITALY, COUNTRY, MASAF_GROUPS
+    global IN_ITALY, COUNTRY, REGION_ISO, MASAF_GROUPS
     slug = region["slug"]
     IN_ITALY = region.get("iso", "").startswith("IT")   # consiglio hint_ms (soglie MASAF)
     COUNTRY = region.get("iso", "")[:2]                 # check register_country
+    REGION_ISO = region.get("iso", "")                  # nomi dei generi esclusi in una regione (genus_name_here)
     MASAF_GROUPS = {}                                   # i membri della regione precedente non valgono qui
     s, w, n, e = region["bbox"]
     bbox = (s - BBOX_PAD, w - BBOX_PAD, n + BBOX_PAD, e + BBOX_PAD)
