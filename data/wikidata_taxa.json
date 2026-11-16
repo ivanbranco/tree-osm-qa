@@ -2063,6 +2063,12 @@
 ],
 "taxon": true
 },
+"Q1115788": {
+"en": "Castle of Coltău",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q111585833": {
 "en": "Dōgata no Shiinoki",
 "names": [],
@@ -3366,6 +3372,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q121816267": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q12246669": {
 "alias": {
@@ -8728,6 +8739,9 @@
 "en": [],
 "it": []
 },
+"basionyms": [
+"Cupressus nootkatensis"
+],
 "en": "Chamaecyparis nootkatensis",
 "it": "Chamaecyparis nootkatensis",
 "names": [

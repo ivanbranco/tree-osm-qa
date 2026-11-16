@@ -703,12 +703,12 @@
    "updated": "2026-11-15T10:09:01Z"
   },
   "romania": {
-   "count": 77703,
-   "diam": "mm",
-   "errors": 1596,
+   "count": 77705,
+   "errors": 1679,
    "name": "Romania",
-   "sha1": "92165224e3742f9e609012bae660dd85e351d9e4",
-   "updated": "2026-11-10T21:43:11Z"
+   "sha1": "9f302eba9ac85495793a72bc5283093d8ee2e7f5",
+   "tried": "2026-11-16",
+   "updated": "2026-11-16T08:37:04Z"
   },
   "salisburgo": {
    "count": 22165,
