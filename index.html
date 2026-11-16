@@ -543,7 +543,7 @@ const I18N = {
     masafSizeMon: (c, s, n) => `Su OSM non è segnato come monumentale, ma la sua circonferenza (${c}) raggiunge la circonferenza minima indicata dal MASAF per ${n} (${s})`,
     masafSizeMonTip: "Circonferenze minime indicative del MASAF per specie (tabella del gennaio 2020). Su OSM mancano denotation=natural_monument e ref:masaf",
     // alberi dell'elenco MASAF non ancora su OpenStreetMap (mappa dei monumentali)
-    masafRows: { place: "Luogo", type: "Tipologia", criteria: "Criteri" }, openOnOsm: "Apri su OpenStreetMap", speciesPage: "Scheda della specie",
+    masafRows: { place: "Luogo", type: "Tipologia", criteria: "Criteri" }, openOnOsm: "Apri su OpenStreetMap",
     // consigli della scheda (ⓘ)
     hint: {
       wdSpecies: n => `Su Wikidata questo albero è un ${n}: si potrebbe aggiungere species=${n} dopo una verifica sul posto`,
@@ -1000,7 +1000,7 @@ const I18N = {
     implicitMonTip: s => `denotation=natural_monument is missing on OSM; sources: ${s}`,
     masafSizeMon: (c, s, n) => `Not marked as monumental on OSM, but its circumference (${c}) reaches the minimum circumference set by MASAF for ${n} (${s})`,
     masafSizeMonTip: "MASAF indicative minimum circumferences per species (January 2020 table). denotation=natural_monument and ref:masaf are missing on OSM",
-    masafRows: { place: "Place", type: "Type", criteria: "Criteria" }, openOnOsm: "Open on OpenStreetMap", speciesPage: "Species page",
+    masafRows: { place: "Place", type: "Type", criteria: "Criteria" }, openOnOsm: "Open on OpenStreetMap",
     hint: {
       wdSpecies: n => `On Wikidata this tree is a ${n}: species=${n} could be added after a survey`,
       wdGenusOnly: g => `On Wikidata this tree only has the genus ${g}: the species could be added there, citing a source compatible with the Wikidata licence.`,
@@ -1551,7 +1551,7 @@ regionsP.catch(() => {});
 const boundsP = WORLD ? Promise.resolve(null) : getJSON("data/regions_boundaries.geojson").catch(() => null);
 const historyP = WORLD ? Promise.resolve(null) : getJSON("data/history.json").catch(() => null);   // storico degli errori
 // pagine delle specie (species/, scripts/build_species.py): {nome in minuscolo: slug}. Finché l'elenco non è arrivato
-// (o se manca) le schede degli alberi non hanno il link
+// (o se manca) nelle schede degli alberi la specie non è un link
 let SPECIES_PAGES = {};
 getJSON(BASE + "species/index.json").then(d => { SPECIES_PAGES = d.pages || {}; }).catch(() => {});
 // pagina della specie dell'albero, se c'è: col nome della lista wiki (sp_key, per i sinonimi) o con species com'è scritto
@@ -4257,7 +4257,11 @@ const osmAt = ([lon, lat]) => { const a = Number(lat).toFixed(6), o = Number(lon
 function card(p, pos) {
   // nome comune della specie nella lingua del sito (da Wikidata, vedi common_name in fetch_trees.py)
   p = { ...p, sp_common: p["sp_" + LANG] };
-  const [titleHtml, titleKey] = title(p);
+  let [titleHtml, titleKey] = title(p);
+  // la specie (riga «Specie» o titolo, se fa da titolo) porta alla sua pagina in species/, se c'è
+  const spPage = speciesPage(p);
+  const spLink = html => spPage ? `<a href="${esc(spPage)}" target="_blank" rel="noopener">${html}</a>` : html;
+  if (titleKey === "species") titleHtml = titleHtml.replace(`<i>${esc(p.species)}</i>`, spLink(`<i>${esc(p.species)}</i>`));
   const img = imageInfo(p, pos);
   const cat = !img && /^Category:/.test(p.wikimedia_commons || "") ? p.wikimedia_commons : null;
   // foto con i crediti in sovrimpressione (riempiti subito, o da fillPhoto per Commons); se non si carica sparisce
@@ -4271,12 +4275,10 @@ function card(p, pos) {
   const fromDiam = dm > 0;
   const rows = ROWS.filter(([k]) => (k === "diameter" ? p[k] && !fromDiam : p[k] || (k === "circumference" && fromDiam)) && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => k === "circumference" && fromDiam
     ? `<dt>${label}</dt><dd>${cardLen(String(Number((dm * Math.PI).toFixed(3))))}${esc(L.fromDiameter)}${planPick(p)}</dd>`
-    : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
+    : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : k === "species" ? spLink(esc(p[k])) : esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
   const rec = recognitions(p);
   const links = [osmMenu(p, pos)];
-  const spPage = speciesPage(p);
-  if (spPage) links.push(link(spPage, L.speciesPage));
   if (p.wikidata) links.push(link(`https://www.wikidata.org/wiki/${p.wikidata}`, "Wikidata"));
   const wp = p["wp_" + LANG] || p.wp_it || p.wp_en;   // voce di Wikipedia dell'albero, nella lingua del sito se c'è
   if (wp) links.push(link(wp, "Wikipedia"));

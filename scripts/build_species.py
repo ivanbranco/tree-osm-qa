@@ -1,7 +1,7 @@
 """Schede delle specie (issue #79): una pagina HTML per ogni specie della pagina wiki «Tree species records», con
 primati, misure tipiche, distribuzione nelle regioni del sito, monumentali e aspetto sulla mappa.
 
-Le schede degli alberi delle mappe ci portano con il link «Scheda della specie», per le specie elencate in
+Nelle schede degli alberi delle mappe la specie è un link alla sua pagina, per le specie elencate in
 species/index.json (scritto alla fine, con tutte le pagine della cartella). Si generano solo le specie indicate:
 
     python.exe -I scripts\\build_species.py "Acer platanoides" "Quercus robur" "Liriodendron tulipifera"
@@ -255,7 +255,7 @@ def main(names):
 
 def write_index():
     """species/index.json: tutte le pagine della cartella (anche quelle generate prima), {nome in minuscolo: slug}.
-    Lo legge index.html per il link «Scheda della specie» nella scheda dell'albero; il nome è quello della lista wiki,
+    Lo legge index.html per il link sulla specie nella scheda dell'albero; il nome è quello della lista wiki,
     come sp_key degli alberi."""
     pages = {}
     for p in sorted(OUT_DIR.glob("*.html")):
