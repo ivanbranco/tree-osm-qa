@@ -363,6 +363,13 @@ SPECIES_NAMES = {(lang, n.casefold()): s for lang, d in _WL.get("species_names",
 # gli stessi nomi scritti come in whitelist.json ({("en", "northern red oak"): "Northern Red Oak"}): la correzione con
 # JOSM sistema le maiuscole di species:xx
 SPECIES_NAME_FORM = {(lang, n.casefold()): n for lang, d in _WL.get("species_names", {}).items() for n in d}
+# nomi comuni con un genere certo che indicano anche una specie (genus_of_names di whitelist.json): {"horse chestnut":
+# {"Aesculus"}}, in tutte le lingue. Solo per proporre genus=* al posto di una species=* che è quel nome
+# (species_common_name), non per spostare il nome in genus:xx
+GENUS_OF_NAMES = {}
+for _d in _WL.get("genus_of_names", {}).values():
+    for _n, _g in _d.items():
+        GENUS_OF_NAMES.setdefault(_n.casefold(), set()).add(_g)
 # generi con una sola specie (whitelist.json): per i loro nomi si propone species=<la specie> (Cognassier -> Cydonia oblonga)
 SINGLE_SPECIES = _WL.get("single_species_genera", {})
 # piante che non sono alberi (whitelist.json): {"Agave americana": "Q161115"}, species -> QID (check not_a_tree)
@@ -2452,6 +2459,15 @@ def common_name_genus(word):
     return common_name_genus_lang(word)[0]
 
 
+def common_name_genus_full(name):
+    """Genere di un nome comune scritto in species (anche di più parole): quello di GENUS_NAMES o, se il nome non è
+    lì, quello di GENUS_OF_NAMES (Horse Chestnut -> Aesculus), se è uno solo; altrimenti None."""
+    if g := common_name_genus(name):
+        return g
+    gs = GENUS_OF_NAMES.get(name.strip().casefold(), set())
+    return next(iter(gs)) if len(gs) == 1 else None
+
+
 def common_name_genus_lang(word):
     """(genere, lingua) se word è il nome comune di un solo genere in GENUS_NAMES (genus=wierzba -> ("Salix", "pl"));
     lingua "" se il nome è lo stesso in più lingue; (None, "") se non è il nome di un genere o è di più generi."""
@@ -2624,7 +2640,10 @@ def checks(t, pos, osm_id=None):
     if ec:                                                        # maiuscole sbagliate nel nome scientifico
         flag("species_epithet_case", sp_sci=ec)
     elif spf and (common := species_common_name(spf)) is not None:  # "" se non c'è un nome scientifico da proporre
-        flag("species_common_name", **({"sp_sci": common} if common else {}))
+        # senza nome scientifico tra parentesi: se species è il nome comune di un genere (GENUS_NAMES) o un nome con il
+        # genere certo (GENUS_OF_NAMES: species=Horse Chestnut -> Aesculus), sp_cn_genus = quel genere
+        cn_g = None if common else common_name_genus_full(spf)
+        flag("species_common_name", **({"sp_sci": common} if common else {"sp_cn_genus": cn_g} if cn_g else {}))
     if no_auth:   # senza proposta se, tolto l'autore, non resta solo il nome ("Insieme omogeneo di Fagus sylvatica L.")
         clean = species_inner_case(no_auth) or no_auth
         flag("species_author", **({} if species_author_uncertain(spf) else {"sp_clean": clean[:1].upper() + clean[1:]}))
@@ -2694,7 +2713,12 @@ def checks(t, pos, osm_id=None):
     if gcn and gcn.casefold() == gw[0].casefold():
         gcn = None
     if gcn:
-        flag("genus_common_name", g_common=gcn, **({"g_common_lang": gcn_lang} if gcn_lang else {}))
+        # g_common_kv: il nome comune spostato in genus:xx con l'iniziale maiuscola (genus=świerk -> genus:pl=Świerk),
+        # se la lingua è una sola e genus:xx manca
+        gkv = (f"genus:{gcn_lang}={gw[0][:1].upper()}{gw[0][1:]}"
+               if gcn_lang and f"genus:{gcn_lang}" not in t and gw[0] == gf.strip() else None)
+        flag("genus_common_name", g_common=gcn, **({"g_common_lang": gcn_lang} if gcn_lang else {}),
+             **({"g_common_kv": gkv} if gkv else {}))
     elif gw and gw[0][:1].islower():
         flag("genus_lowercase")
     if "leaf_type" in t and t["leaf_type"] not in LEAF_TYPE:
@@ -2732,7 +2756,13 @@ def checks(t, pos, osm_id=None):
         flag("wikidata_is_taxon", tx_wd=";".join(tx))
     # dati di Wikidata (cache di update_wikidata_cache): valori "chiave=QID:valore" separati da ";"
     if rk := wikidata_rank_problems(t):
-        flag("wikidata_rank", wd_rank=";".join(f"{k}={q}:{r}" for k, q, r in rk))
+        # wd_rank_g: con un solo species:wikidata di rango genere, genus:wikidata assente e genus assente o lo stesso,
+        # il nome del genere su Wikidata: la correzione sposta il QID in genus:wikidata (e aggiunge genus se manca)
+        gq = [(q, taxon_names(q)) for k, q, r in rk if k == "species:wikidata" and r == "Q34740"]
+        g0 = genus_key(t.get("genus") or "")
+        rg = (gq[0][1][0] if len(gq) == 1 and len(qids(t, "species:wikidata")) == 1 and gq[0][1]
+              and "genus:wikidata" not in t and (not g0 or g0 == genus_key(gq[0][1][0])) else None)
+        flag("wikidata_rank", wd_rank=";".join(f"{k}={q}:{r}" for k, q, r in rk), **({"wd_rank_g": rg} if rg else {}))
     if nm := wikidata_name_problems(t, "wikidata_mismatch" in list_issues):
         flag("wikidata_name_mismatch", wd_name=";".join(f"{k}={q}:{n}" for k, q, n in nm))
     if ts := wikidata_tree_species(t):

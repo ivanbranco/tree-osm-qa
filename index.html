@@ -872,7 +872,7 @@ const I18N = {
       species_unidentified: (sp, g) => `species=${sp} indica una specie non identificata: usare genus=${g} senza species`,
       species_epithet_case: (sp, s) => `species=${sp}: va maiuscola solo l'iniziale del genere, species=${s}`,
       species_parentheses: sp => `species=${sp} contiene parentesi, che nei nomi scientifici non ci sono`,
-      species_common_name: (sp, s) => `species=${sp} non ha la forma di un nome scientifico (Genere epiteto)` + (s ? `: species=${s}?` : ""),
+      species_common_name: (sp, s, g) => `species=${sp} non ha la forma di un nome scientifico (Genere epiteto)` + (s ? `: species=${s}?` : g ? `: usare genus=${g} senza species` : ""),
       species_author: (sp, c) => `species=${sp} contiene l'autore del nome` + (c ? `: species=${c}` : ""),
       underscore: kv => `${kv} contiene un trattino basso (_) al posto dello spazio`,
       multiple_values: kv => `${kv} contiene più valori separati da «;»`,
@@ -884,7 +884,7 @@ const I18N = {
       taxon_lang_mv: (kv, kind, n, nkv, add) => `c'è ${kv} ma manca taxon=*: ${kind === "g" ? `è il nome del genere ${n}`
         : kind === "s" ? `è il nome della specie ${n}` : "species=* c'è già"}, usare ${nkv}` + (add ? ` e ${add}` : ""),
       // lang: codice della lingua del nome (g_common_lang, fetch_trees.py), "" se è lo stesso in più lingue
-      genus_common_name: (g, n, lang) => `genus=${g} è il nome comune${lang ? ` in ${langName(lang)}` : ""} del genere ${n}: usare genus=${n}`,
+      genus_common_name: (g, n, lang, kv) => `genus=${g} è il nome comune${lang ? ` in ${langName(lang)}` : ""} del genere ${n}: usare genus=${n}` + (kv ? ` e ${kv}` : ""),
       not_a_tree: sp => `${sp} non è un albero: usare natural=plant al posto di natural=tree`,
       species_lang_genus: (k, v, g, add) => `${k}=${v} è il nome del genere ${g}: usare ${k.replace("species:", "genus:")}=${genName(v)}` + (add ? ` e genus=${g}` : ""),
       species_lang_gx: (k, v, g, g2) => `${k}=${v} è il nome del genere ${g}, ma c'è genus=${g2}`,
@@ -896,7 +896,9 @@ const I18N = {
       wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: le coordinate dell'elemento su Wikidata sono a ${km} km da questo albero`,
       wikidata_photo_far: (q, f, m, obj) => `wikidata=${q}: l'immagine dell'elemento (${f}) ha la ${obj ? "posizione del soggetto" : "posizione di scatto"} a ${m} m da questo albero`,
-      wikidata_rank: (kq, rank, want) => `${kq} su Wikidata ha rango «${rank}», non ${want}`,
+      // q, g: QID da spostare in genus:wikidata e genere da aggiungere (wd_rank_g, fetch_trees.py), se ci sono
+      wikidata_rank: (kq, rank, want, q, g) => `${kq} su Wikidata ha rango «${rank}», non ${want}`
+        + (q ? `: usare genus:wikidata=${q}` + (g ? ` e genus=${g}` : "") : ""),
       broken_link: (kv, why) => `${kv}: ${why}`,
       // wpw, wpw_wp, wpw_same (fetch_trees.py): chiave e voce, wikipedia=* se c'è, stessa voce
       website_wikipedia: (k, v, wp, same) => same ? `${k}=* ripete la voce di wikipedia=${wp}: si può togliere`
@@ -1406,7 +1408,7 @@ const I18N = {
       species_unidentified: (sp, g) => `species=${sp} means an unidentified species: use genus=${g} without species`,
       species_epithet_case: (sp, s) => `species=${sp}: only the initial of the genus should be uppercase, species=${s}`,
       species_parentheses: sp => `species=${sp} contains parentheses, which scientific names never have`,
-      species_common_name: (sp, s) => `species=${sp} is not a scientific name (Genus epithet)` + (s ? `: species=${s}?` : ""),
+      species_common_name: (sp, s, g) => `species=${sp} is not a scientific name (Genus epithet)` + (s ? `: species=${s}?` : g ? `: use genus=${g} without species` : ""),
       species_author: (sp, c) => `species=${sp} contains the author name` + (c ? `: species=${c}` : ""),
       underscore: kv => `${kv} contains an underscore (_) instead of a space`,
       multiple_values: kv => `${kv} contains multiple values separated by ";"`,
@@ -1416,7 +1418,7 @@ const I18N = {
       taxon_lang_only: kv => `${kv} is present but taxon=* is missing`,
       taxon_lang_mv: (kv, kind, n, nkv, add) => `${kv} is present but taxon=* is missing: ${kind === "g" ? `it is the name of the genus ${n}`
         : kind === "s" ? `it is the name of the species ${n}` : "species=* is already present"}, use ${nkv}` + (add ? ` and ${add}` : ""),
-      genus_common_name: (g, n, lang) => `genus=${g} is the${lang ? ` ${langName(lang)}` : ""} common name of the genus ${n}: use genus=${n}`,
+      genus_common_name: (g, n, lang, kv) => `genus=${g} is the${lang ? ` ${langName(lang)}` : ""} common name of the genus ${n}: use genus=${n}` + (kv ? ` and ${kv}` : ""),
       not_a_tree: sp => `${sp} is not a tree: use natural=plant instead of natural=tree`,
       species_lang_genus: (k, v, g, add) => `${k}=${v} is the name of the genus ${g}: use ${k.replace("species:", "genus:")}=${genName(v)}` + (add ? ` and genus=${g}` : ""),
       species_lang_gx: (k, v, g, g2) => `${k}=${v} is the name of the genus ${g}, but genus=${g2} is present`,
@@ -1428,7 +1430,8 @@ const I18N = {
       wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: the coordinates of the Wikidata item are ${km} km from this tree`,
       wikidata_photo_far: (q, f, m, obj) => `wikidata=${q}: the ${obj ? "object location" : "camera location"} of the item's image (${f}) is ${m} m from this tree`,
-      wikidata_rank: (kq, rank, want) => `${kq} has rank "${rank}" on Wikidata, not ${want}`,
+      wikidata_rank: (kq, rank, want, q, g) => `${kq} has rank "${rank}" on Wikidata, not ${want}`
+        + (q ? `: use genus:wikidata=${q}` + (g ? ` and genus=${g}` : "") : ""),
       broken_link: (kv, why) => `${kv}: ${why}`,
       website_wikipedia: (k, v, wp, same) => same ? `${k}=* repeats the article of wikipedia=${wp}: it can be removed`
         : wp ? `${k}=* is a Wikipedia article (${v}) different from wikipedia=${wp}`
@@ -4191,7 +4194,8 @@ const issueBase = (i, p) => {
     case "species_typo": return T[i](p.species, p.sp_sugg);   // sp_sugg: fetch_trees.py
     case "species_unidentified": return T[i](p.species, p.sp_genus);   // sp_genus, sp_clean, und_keys: fetch_trees.py
     case "species_author": return T[i](p.species, p.sp_clean);
-    case "species_epithet_case": case "species_common_name": return T[i](p.species, p.sp_sci);   // sp_sci: fetch_trees.py
+    // sp_sci, sp_cn_genus (genere di un nome comune: species=Horse Chestnut -> Aesculus): fetch_trees.py
+    case "species_epithet_case": case "species_common_name": return T[i](p.species, p.sp_sci, p.sp_cn_genus);
     case "species_parentheses": return T[i](p.species);
     case "not_a_tree": return T[i](p.nt_sp);                                  // nt_sp: fetch_trees.py
     case "underscore": return String(p.und_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");
@@ -4237,8 +4241,11 @@ const issueBase = (i, p) => {
     case "wikidata_not_taxon": return String(p.nt_tags || "").split(";").map(kv => T[i](kv)).join("\n");   // nt_tags, tx_wd: fetch_trees.py
     case "wikidata_is_taxon": return String(p.tx_wd || "").split(";").map(q => T[i](q)).join("\n");
     // wd_rank, wd_name: "chiave=QID:valore;…" (la chiave contiene già ":"); wd_tree_sp: "QID:nome;…" (fetch_trees.py)
-    case "wikidata_rank": return wdParts(p.wd_rank).map(([k, q, r]) =>
-      T[i](`${k}=${q}`, T.ranks[r] || r, k === "species:wikidata" ? T.rankSpecies : T.rankGenus)).join("\n");
+    // wd_rank_g: genere di species:wikidata di rango genere, da spostare in genus:wikidata (fetch_trees.py); genus si
+    // aggiunge solo se mancano genus e species (con species il genere è già implicito)
+    case "wikidata_rank": return wdParts(p.wd_rank).map(([k, q, r]) => { const mv = k === "species:wikidata" && p.wd_rank_g;
+      return T[i](`${k}=${q}`, T.ranks[r] || r, k === "species:wikidata" ? T.rankSpecies : T.rankGenus,
+        mv ? q : "", mv && !p.genus && !p.species ? p.wd_rank_g : ""); }).join("\n");
     case "wikidata_name_mismatch": return wdParts(p.wd_name).map(([k, q, n]) =>
       T[i](`${k}=${q}`, n, k === "species:wikidata" ? p.species : p.genus)).join("\n");
     // l'elemento Wikidata si scrive solo se wikidata=* ne ha più di uno: il link è già sotto, tra i pulsanti
@@ -4292,7 +4299,8 @@ const issueBase = (i, p) => {
       return String(p.tx_lang || "").split("\n").filter(Boolean).map(kv => { const m = mv.get(kv);
         return m ? T.taxon_lang_mv(kv, m[0], m[1], m[2], m[0] === addKind ? add : "") : T[i](kv); }).join("\n");
     }
-    case "genus_common_name": return T[i](p.genus, p.g_common, p.g_common_lang || "");   // g_common, g_common_lang: fetch_trees.py
+    // g_common, g_common_lang, g_common_kv (genus:xx con il nome comune, se manca): fetch_trees.py
+    case "genus_common_name": return T[i](p.genus, p.g_common, p.g_common_lang || "", p.g_common_kv);
     case "register_country":     // reg_out: "tag|codice ISO della nazione;…" (fetch_trees.py)
       return String(p.reg_out || "").split(";").filter(Boolean).map(x => { const [t, cc] = x.split("|");
         return T[i](t, countryName(cc)); }).join("\n");
@@ -4699,7 +4707,25 @@ const FIXES = {
   // con genus di più parole (check genus) la correzione non è certa
   genus_lowercase: [p => p.issues.includes("|genus|") ? [] : [["genus", capFirst(p.genus)]], "capitalise genus"],
   // nome comune di un genere (g_common) e genere di species scritto male (gm_fix): fetch_trees.py
-  genus_common_name: [p => [["genus", p.g_common]], "scientific name in genus instead of the common name"],
+  // con g_common_kv anche il nome comune in genus:xx (genus:xx non è tra le proprietà: fetch_trees.py controlla che manchi)
+  genus_common_name: [p => { const kv = String(p.g_common_kv || ""), j = kv.indexOf("=");
+    return [["genus", p.g_common], ...j > 0 ? [[kv.slice(0, j), kv.slice(j + 1), "common name of the genus in genus:xx", true]] : []]; },
+    "scientific name in genus instead of the common name"],
+  // species nome comune con un genere certo (sp_cn_genus, fetch_trees.py): species si toglie e diventa genus, se manca;
+  // con un genus diverso la correzione non è certa
+  species_common_name: [p => {
+    const g = p.sp_cn_genus, norm = v => String(v || "").replace(/^\s*×\s*/, "").trim().toLowerCase();
+    if (!g || (norm(p.genus) && norm(p.genus) !== norm(g))) return [];
+    return [["species", REMOVE], ...norm(p.genus) ? [] : [["genus", g, undefined, true]]];
+  }, "genus instead of the common name in species"],
+  // species:wikidata di rango genere (wd_rank_g, fetch_trees.py): il QID passa in genus:wikidata, più genus se mancano
+  // genus e species. species:wikidata non è tra le proprietà: il vecchio valore (quinto elemento) viene da wd_rank
+  wikidata_rank: [p => {
+    const q = p.wd_rank_g && wdParts(p.wd_rank).find(([k]) => k === "species:wikidata")?.[1];
+    if (!q) return [];
+    return [["species:wikidata", REMOVE, undefined, false, q], ["genus:wikidata", q, undefined, true],
+      ...!p.genus && !p.species ? [["genus", p.wd_rank_g, "add genus", true]] : []];
+  }, "genus item in genus:wikidata instead of species:wikidata"],
   genus_mismatch: [p => p.gm_fix ? [["genus", p.gm_fix]] : [], "fix the spelling of genus"],
   // spazi intorno a ";" in denotation (den_why "space", fetch_trees.py): si tolgono, i valori restano
   denotation_value: [p => String(p.den_why || "").split(";").includes("space") && p.denotation
