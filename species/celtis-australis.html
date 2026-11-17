@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- scheda della specie (issue #79), generata da scripts/build_species.py -->
+<title>Celtis australis · DendrOSM</title>
+<meta name="description" content="Celtis australis on OpenStreetMap: records, typical sizes, where it is mapped and monumental trees, from 32,644 mapped trees.">
+<!-- anteprima sui social: la foto è quella della voce di Wikipedia (build_species.py, wikipedia_info) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DendrOSM">
+<meta property="og:title" content="Celtis australis · DendrOSM">
+<meta property="og:description" content="Celtis australis on OpenStreetMap: records, typical sizes, where it is mapped and monumental trees, from 32,644 mapped trees.">
+<meta property="og:url" content="https://ivanbranco.github.io/tree-osm-qa/species/celtis-australis.html">
+<meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Illustration_Celtis_australis0.jpg/1280px-Illustration_Celtis_australis0.jpg">
+<meta property="og:image:alt" content="Celtis australis">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon.png" type="image/png" sizes="64x64">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<!-- Generata da scripts/build_species.py con scripts/species_template.html: le modifiche vanno fatte lì -->
+<style>
+  :root{--green:#1b6b2c;--ink:#1d2a20;--muted:#5d6b61;--line:#dfe5e0;--bg:#f6f8f6;--card:#fff;--gold:#e6a800;--warn:#b26a00}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif}
+  a{color:#1a5fb4}
+  header.top{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line)}
+  header.top .brand{font-weight:700;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:6px}
+  header.top .sp{flex:1}
+  header.top .crumb{color:var(--muted);text-decoration:none;margin-left:-4px}   /* «› Specie»: l'elenco delle schede */
+  header.top a.crumb:hover{text-decoration:underline}
+  #lang{border:1px solid var(--line);background:#fff;border-radius:4px;padding:3px 8px;cursor:pointer;font:inherit;font-size:13px}
+  main{max-width:1080px;margin:0 auto;padding:20px 16px 40px}
+  .hero{display:flex;gap:20px;align-items:flex-start}
+  .hero .txt{flex:1;min-width:0}
+  .photo{flex:none;width:260px;margin:0;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .photo img{display:block;width:100%;height:200px;object-fit:cover;background:#e8ece8}
+  .photo figcaption{font-size:11.5px;color:var(--muted);padding:4px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .photo figcaption a{color:inherit}
+  .hero h1{margin:0;font-size:32px;font-style:italic;font-weight:650;letter-spacing:-.01em}
+  .hero .common{font-size:19px;color:var(--muted);margin-top:2px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .tag{font-size:12.5px;padding:2px 9px;border-radius:10px;background:#e8f0e9;color:var(--green)}
+  .tag a{color:inherit}
+  section{margin-top:28px}
+  h2{font-size:20px;margin:0 0 4px}
+  .lead{color:var(--muted);margin:0 0 12px;font-size:14px}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:20px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+  .kpi b{display:block;font-size:24px;font-variant-numeric:tabular-nums}
+  .kpi span{font-size:13px;color:var(--muted)}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+  .rec h3{margin:0;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600}
+  .rec .val{font-size:26px;font-weight:650;font-variant-numeric:tabular-nums;margin-top:2px}
+  .rec .val small{font-size:14px;font-weight:400;color:var(--muted)}
+  .rec .who{font-size:14px}
+  .rec .wiki{font-size:12.5px;color:var(--muted);margin-top:4px}
+  .warn{color:var(--warn);cursor:help;font-size:.85em;font-weight:400}
+  .rec .val .warn{font-size:14px;vertical-align:6px;margin-left:1px}   /* accanto al valore in grande: piccolo e in alto */
+  .rec details{margin-top:6px;font-size:13px}
+  .rec summary{cursor:pointer;color:var(--muted)}
+  .rec ol{margin:4px 0 0;padding-left:22px}
+  .rec ol li{margin:1px 0}
+  .none{color:var(--muted);font-style:italic}
+  .stat .big{font-size:24px;font-weight:650;font-variant-numeric:tabular-nums}
+  .stat .n{font-size:12.5px;color:var(--muted)}
+  .stat svg{display:block;width:100%;height:auto;margin-top:8px}
+  .ratios{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-top:12px}
+  .ratios .card{position:relative}
+  .ratios h3{padding-right:28px}
+  /* (?) in alto a destra con la spiegazione del grafico: al passaggio del mouse o toccandolo */
+  .tip{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;border:1px solid var(--line);background:#fff;
+    color:var(--muted);font:600 13px/20px system-ui,sans-serif;text-align:center;cursor:help;outline:none}
+  .tip:hover,.tip:focus{color:#1a5fb4;border-color:#1a5fb4}
+  .tipbox{display:none;position:absolute;top:28px;right:0;z-index:5;width:min(300px,80vw);padding:8px 10px;border-radius:6px;
+    background:#fff;border:1px solid var(--line);box-shadow:0 4px 16px #0002;color:var(--ink);font:400 13px/1.45 system-ui,sans-serif;text-align:left;cursor:auto}
+  .tip:hover .tipbox,.tip:focus .tipbox{display:block}
+  #map{height:480px;border-radius:8px;border:1px solid var(--line);overflow:hidden}
+  .controls{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0 0 10px;font-size:14px}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
+  .seg button{border:0;background:none;padding:5px 10px;font:inherit;font-size:13px;cursor:pointer;color:var(--ink)}
+  .seg button+button{border-left:1px solid var(--line)}
+  .seg button[aria-pressed="true"]{background:var(--green);color:#fff}
+  .controls label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
+  .legend{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;font-size:12.5px;color:var(--muted);margin-top:8px}
+  .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-3px;margin-right:4px;border:1px solid #0002}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  th,td{padding:6px 10px;text-align:left;border-bottom:1px solid var(--line)}
+  th{font-size:12.5px;color:var(--muted);font-weight:600;background:#fafbfa}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  .tables{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-top:14px}
+  .tables h3{font-size:14px;margin:0 0 6px}
+  .looks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .look{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center}
+  .look svg{width:100%;max-width:200px;height:auto;background:#eef1ea;border-radius:6px}
+  .look h3{margin:6px 0 0;font-size:15px}
+  .look p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+  /* «Maschio e femmina» (specie dioiche): due colonne, il maschio a sinistra e la femmina a destra */
+  .sexes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .sexes .card{padding:0;overflow:hidden}
+  .sexes .photo{width:auto;border:0;border-bottom:1px solid var(--line);border-radius:0}
+  .sexes .photo img{height:240px}
+  .sexes .body{padding:12px 14px}
+  .sexes h3{margin:0 0 4px;font-size:16px}
+  .sexes h3 svg{width:.9em;height:.9em;vertical-align:-.1em;margin-right:4px;fill:none;stroke:var(--muted);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .sexes p{margin:0;font-size:14px}
+  .sexes .n{margin-top:6px;font-size:12.5px;color:var(--muted)}
+  @media (max-width:600px){.sexes{grid-template-columns:1fr}}
+  footer{max-width:1080px;margin:0 auto;padding:0 16px 30px;font-size:13px;color:var(--muted)}
+  .maplibregl-popup-content{font:13px/1.4 system-ui,sans-serif}
+  .look{position:relative}
+  .kind{display:inline-block;font-size:11.5px;padding:1px 7px;border-radius:9px;margin-top:4px}
+  .kind.gen{background:#eef0ee;color:var(--muted)}
+  .kind.own{background:#e8f0e9;color:var(--green)}
+  /* (?) accanto al badge «Disegno generico» */
+  .help{width:18px;height:18px;margin-left:5px;padding:0;vertical-align:middle;border-radius:50%;border:1px solid var(--line);
+    background:#fff;color:var(--muted);font:600 11px/1 system-ui,sans-serif;cursor:pointer}
+  .help:hover{color:#1a5fb4;border-color:#1a5fb4}
+  dialog{max-width:440px;border:0;border-radius:10px;padding:18px 20px;box-shadow:0 6px 30px #0004;font-size:14.5px}
+  dialog::backdrop{background:#0004}
+  dialog h3{margin:0 0 8px;font-size:17px}
+  dialog .btns{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+  dialog .btns a,dialog .btns button{font:inherit;font-size:14px;padding:6px 12px;border-radius:6px;cursor:pointer;text-decoration:none}
+  dialog .btns a{background:var(--green);color:#fff}
+  dialog .btns button{border:1px solid var(--line);background:#fff}
+  @media (max-width:700px){.hero{flex-direction:column-reverse}.photo{width:100%}.photo img{height:220px}}
+  @media (max-width:600px){.hero h1{font-size:26px} #map{height:380px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="../index.html"><img src="../favicon.svg" width="22" height="22" alt="">DendrOSM</a>
+  <span class="crumb">›</span><a class="crumb" id="crumb" href="index.html"></a>
+  <span class="sp"></span>
+  <button id="lang" type="button"></button>
+</header>
+<main id="main"></main>
+<footer id="foot"></footer>
+<script type="application/json" id="data">{"wp":{"it":{"url":"https://it.wikipedia.org/wiki/Celtis_australis","img":"Bagolaro.JPG"},"en":{"url":"https://en.wikipedia.org/wiki/Celtis_australis","img":"Illustration_Celtis_australis0.jpg"},"p18":"Celtis australis 20150404 a.jpg","og":"https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Illustration_Celtis_australis0.jpg/1280px-Illustration_Celtis_australis0.jpg"},"spColor":null,"bark":null,"sex":null,"name":"Celtis australis","slug":"celtis-australis","genus":"Celtis","names":{"it":"Bagolaro"},"qid":"Q255375","lt":"broadleaved","lc":"deciduous","fruit":null,"total":32644,"issues":8185,"n_regions":41,"mon_n":91,"masaf":85,"records":{"height":[{"v":35.0,"w":true,"r":"veneto","id":8091452415,"name":"","tags":{"height":"35","circumference":"3.50"}},{"v":30.0,"w":false,"r":"nuova-aquitania","id":2242213944,"name":"","tags":{"height":"30","circumference":"2.53","diameter_crown":"14","start_date":"1907"}},{"v":30.0,"w":false,"r":"nuova-aquitania","id":2242214090,"name":"","tags":{"height":"30","circumference":"2.05","diameter_crown":"10","start_date":"1927"}},{"v":30.0,"w":false,"r":"lombardia","id":7859419954,"name":"","tags":{"height":"30.0","circumference":"4.45"}},{"v":30.0,"w":false,"r":"lombardia","id":7867739852,"name":"","tags":{"height":"30.0","circumference":"4.4"}}],"trunk":[{"v":15.0,"w":true,"r":"croazia","id":5340605879,"name":"","tags":{"height":"15 m","circumference":"15m"}},{"v":15.0,"w":true,"r":"croazia","id":5340605880,"name":"","tags":{"height":"15m","circumference":"15m"}},{"v":10.0,"w":true,"r":"croazia","id":5340605875,"name":"","tags":{"height":"10m","circumference":"10m"}},{"v":10.0,"w":true,"r":"croazia","id":5340605876,"name":"","tags":{"height":"10m","circumference":"10m"}},{"v":10.0,"w":true,"r":"croazia","id":5340605877,"name":"","tags":{"height":"10m","circumference":"10m"}}],"slender":[{"v":1500000.0,"w":true,"r":"occitania","id":12134500317,"name":"","tags":{"height":"15","diameter":"0.01","diameter_crown":"12"}},{"v":900000.0,"w":true,"r":"occitania","id":12123011125,"name":"","tags":{"height":"9","diameter":"0.01","diameter_crown":"6"}},{"v":300000.0,"w":true,"r":"occitania","id":12239571646,"name":"","tags":{"height":"21","diameter":"0.07","diameter_crown":"5"}},{"v":266666.667,"w":true,"r":"occitania","id":12239574004,"name":"","tags":{"height":"8","diameter":"0.03","diameter_crown":"7"}},{"v":150000.0,"w":true,"r":"occitania","id":12134482864,"name":"","tags":{"height":"3","diameter":"0.02","diameter_crown":"1"}}],"stocky":[{"v":1.571,"w":true,"r":"ile-de-france","id":9052690899,"name":"","tags":{"height":"5","circumference":"10"}},{"v":1.571,"w":true,"r":"ile-de-france","id":9052692094,"name":"","tags":{"height":"5","circumference":"10"}},{"v":1.571,"w":true,"r":"ile-de-france","id":9052694979,"name":"","tags":{"height":"5","circumference":"10"}},{"v":1.571,"w":true,"r":"ile-de-france","id":9052696661,"name":"","tags":{"height":"5","circumference":"10"}},{"v":1.571,"w":true,"r":"ile-de-france","id":9052696763,"name":"","tags":{"height":"5","circumference":"10"}}],"crown":[{"v":26.4,"w":false,"r":"comunita-valenciana","id":13092892582,"name":"Lledoner del Bassó","tags":{"height":"18.6 m","circumference":"5.75 m","diameter_crown":"26.4 m"}},{"v":25.0,"w":false,"r":"vienna","id":2044459240,"name":"","tags":{"height":"5","circumference":"0.24","diameter_crown":"25","start_date":"2009"}},{"v":25.0,"w":false,"r":"comunita-valenciana","id":13092892583,"name":"Lidonero de Macastre","tags":{"height":"21.1 m","circumference":"4.81 m","diameter_crown":"25 m"}},{"v":24.0,"w":false,"r":"occitania","id":5670033704,"name":"","tags":{"height":"23","diameter":"1.52","diameter_crown":"24"}},{"v":23.0,"w":false,"r":"occitania","id":12239574039,"name":"","tags":{"height":"22","diameter":"1.34","diameter_crown":"23"}}],"oldest":[{"v":1829,"w":false,"r":"nuova-aquitania","id":2242250234,"name":"","tags":{"height":"23","circumference":"4.39","start_date":"1829"}},{"v":1856,"w":false,"r":"nuova-aquitania","id":2242246247,"name":"","tags":{"height":"19","circumference":"3.76","start_date":"1856"}},{"v":1856,"w":false,"r":"nuova-aquitania","id":2242254768,"name":"","tags":{"height":"27","circumference":"3.76","start_date":"1856"}},{"v":1866,"w":false,"r":"nuova-aquitania","id":2242145612,"name":"","tags":{"height":"16","circumference":"3.51","diameter_crown":"12","start_date":"1866"}},{"v":1866,"w":false,"r":"nuova-aquitania","id":2242215220,"name":"","tags":{"height":"26","circumference":"3.5","diameter_crown":"15","start_date":"1866"}}],"isolated":[{"v":1.151,"w":false,"r":"catalogna","id":2570025834,"name":"Lledoner de la Plaça de Castellnou d'Oluges","tags":{},"nk":"wood"},{"v":1.018,"w":false,"r":"comunita-valenciana","id":13092892591,"name":"Almez de El Bordel","tags":{},"nk":"wood"},{"v":0.98,"w":false,"r":"veneto","id":12241426262,"name":"","tags":{},"nk":"tree"},{"v":0.938,"w":false,"r":"comunita-valenciana","id":13092892593,"name":"Ayatonero de la Sima","tags":{},"nk":"forest"},{"v":0.754,"w":false,"r":"comunita-valenciana","id":13092892583,"name":"Lidonero de Macastre","tags":{},"nk":"forest"}]},"wiki":{"height":34.0,"circumference":5.5,"height_circ_ratio":14.4,"crown_circ_ratio":6.91},"stats":{"height":{"med":7.0,"n":11543,"hist":{"step":1,"bins":[0,17,80,277,813,2074,1849,1475,1374,755,945,337,467,186,155,267,113,50,85,35,59,59],"over":71}},"trunk":{"med":0.47,"n":5756,"hist":{"step":0.25,"bins":[1121,1823,954,735,498,272,155,48,33,26,9,11,7,8],"over":56}},"crown":{"med":6.0,"n":7949,"hist":{"step":1,"bins":[68,548,740,794,850,934,1166,857,804,354,386,95,179,46,77],"over":51}},"h_c":{"med":13.16,"n":5637,"sc":{"sx":0.02875,"sy":0.275,"nx":120,"ny":80,"pts":[2,21,1,2,29,1,3,10,1,3,18,1,4,10,1,4,14,4,4,21,1,5,10,3,5,14,11,5,18,17,5,21,3,6,10,44,6,14,295,6,18,373,6,21,46,6,25,2,6,29,2,7,10,10,7,14,42,7,18,105,7,21,9,7,25,1,7,32,1,7,43,1,8,10,28,8,14,75,8,18,347,8,21,94,8,25,5,9,10,8,9,14,37,9,18,65,9,21,30,9,25,7,9,29,2,10,10,6,10,14,16,10,18,81,10,21,88,10,25,30,10,29,3,10,36,2,11,10,3,11,14,9,11,18,52,11,21,91,11,25,16,11,29,2,11,47,1,12,10,3,12,14,15,12,18,73,12,21,58,12,25,22,12,29,13,13,10,2,13,14,18,13,18,85,13,21,74,13,25,41,13,29,5,14,10,2,14,14,2,14,18,40,14,21,61,14,25,19,14,29,1,14,32,1,15,10,2,15,14,4,15,18,55,15,21,66,15,25,13,16,14,3,16,18,21,16,21,32,16,25,19,16,29,5,16,40,1,17,10,1,17,14,6,17,18,39,17,21,49,17,25,36,17,29,15,17,36,2,17,43,1,17,58,1,18,14,1,18,18,9,18,21,31,18,25,36,18,29,4,18,50,2,19,10,1,19,14,2,19,18,22,19,21,56,19,25,34,19,29,13,19,32,1,19,36,2,19,47,1,20,10,1,20,18,20,20,21,51,20,25,52,20,29,21,20,32,1,20,36,4,20,43,2,20,47,1,20,50,3,21,14,1,21,18,4,21,21,27,21,25,25,21,29,9,21,32,3,21,36,1,21,50,1,22,18,12,22,21,53,22,25,33,22,29,17,22,32,5,22,36,2,22,40,1,22,43,1,23,21,15,23,25,20,23,29,17,23,32,3,23,36,2,23,43,1,24,18,6,24,21,29,24,25,30,24,29,44,24,32,2,24,36,6,24,40,2,24,43,3,24,50,4,24,54,6,25,18,1,25,21,20,25,25,26,25,29,19,25,32,2,25,43,2,25,54,1,26,14,2,26,18,2,26,21,23,26,25,35,26,29,29,26,32,3,26,36,8,26,40,1,26,43,3,27,14,1,27,18,3,27,21,17,27,25,36,27,29,54,27,32,5,27,36,26,27,40,1,27,43,4,27,47,2,27,54,4,27,65,1,28,14,3,28,21,7,28,25,25,28,29,25,28,32,1,28,36,3,28,40,1,28,43,2,29,14,1,29,18,3,29,21,5,29,25,16,29,29,31,29,32,5,29,36,21,29,40,2,29,43,1,30,14,3,30,21,1,30,25,9,30,29,19,30,32,9,30,36,11,30,40,3,31,14,2,31,18,4,31,21,4,31,25,9,31,29,29,31,32,6,31,36,35,31,40,2,31,43,11,31,54,2,31,58,1,32,21,1,32,25,7,32,29,13,32,32,8,32,36,11,32,40,4,32,43,1,32,47,1,32,69,1,33,14,1,33,21,2,33,25,7,33,29,23,33,32,4,33,36,29,33,40,4,33,43,11,33,54,4,33,65,1,33,69,1,33,72,1,34,18,2,34,21,2,34,25,6,34,29,12,34,32,11,34,36,33,34,40,3,34,43,9,34,47,1,34,50,2,34,54,5,34,58,1,34,61,1,34,65,3,35,10,1,35,14,1,35,25,6,35,29,9,35,32,7,35,36,12,35,40,3,35,47,1,35,58,1,35,61,1,35,72,1,36,21,1,36,25,4,36,29,13,36,32,9,36,36,21,36,40,4,36,43,7,36,54,7,36,58,1,36,65,2,37,21,1,37,25,2,37,29,9,37,32,6,37,36,9,37,40,6,37,43,3,37,50,1,38,18,1,38,21,2,38,25,5,38,29,9,38,32,4,38,36,23,38,40,7,38,43,13,38,54,12,38,65,1,39,25,3,39,29,5,39,32,5,39,36,15,39,40,4,39,43,11,39,47,1,39,50,2,39,54,13,39,58,1,39,65,4,40,29,4,40,32,1,40,36,4,40,40,4,40,43,8,40,47,1,40,54,2,40,58,2,41,21,2,41,29,6,41,32,7,41,36,20,41,40,7,41,43,5,41,47,1,41,54,15,41,58,1,41,69,1,42,25,1,42,29,7,42,32,2,42,36,3,42,40,1,42,43,10,42,47,2,42,54,1,42,58,1,42,61,1,42,79,1,43,21,1,43,29,5,43,32,6,43,36,7,43,40,6,43,43,8,43,47,2,43,54,9,43,58,1,43,65,2,43,69,1,43,79,1,44,25,2,44,29,5,44,32,4,44,36,3,44,40,2,44,43,4,44,47,2,44,50,1,44,54,1,44,72,1,44,76,1,45,29,2,45,32,4,45,36,14,45,40,3,45,43,4,45,47,4,45,50,1,45,54,8,45,69,1,45,79,3,46,29,4,46,32,2,46,36,5,46,40,1,46,43,10,46,47,1,46,50,1,46,54,9,46,61,1,46,65,1,46,69,1,46,72,1,47,29,2,47,32,3,47,36,5,47,40,2,47,43,1,47,47,4,47,50,2,47,54,2,47,58,2,47,72,2,48,25,1,48,32,3,48,36,5,48,40,1,48,41,1,48,43,4,48,50,1,48,54,4,48,58,1,48,61,1,48,65,1,49,21,1,49,25,1,49,29,3,49,32,3,49,36,3,49,40,3,49,43,2,49,50,3,49,54,1,49,58,2,49,72,1,50,29,1,50,32,3,50,36,7,50,40,2,50,43,1,50,47,2,50,54,9,50,58,2,50,61,1,50,65,2,50,76,1,51,29,2,51,32,3,51,36,4,51,40,1,51,43,5,51,58,3,51,61,2,52,21,1,52,32,2,52,36,7,52,40,2,52,43,4,52,47,1,52,50,3,52,54,3,52,61,1,52,65,1,52,72,1,53,32,1,53,36,4,53,43,1,53,47,2,53,50,3,53,54,2,53,58,2,53,61,1,53,65,2,53,72,2,53,76,1,53,79,2,54,36,1,54,40,1,54,43,4,54,47,3,54,50,2,54,54,2,54,58,1,54,61,1,54,65,1,54,69,1,55,25,1,55,36,3,55,47,1,55,54,5,55,58,1,55,61,2,55,65,1,55,79,3,56,25,1,56,36,2,56,43,2,56,47,1,56,54,1,56,61,1,56,69,1,56,79,1,57,32,1,57,36,4,57,43,4,57,47,2,57,50,1,57,54,3,57,61,1,57,65,2,57,72,4,57,79,1,58,47,1,58,50,1,58,54,2,58,69,2,58,72,1,59,25,1,59,32,1,59,40,4,59,43,4,59,54,1,59,58,1,59,61,1,59,65,1,59,72,2,60,25,3,60,36,2,60,54,2,60,58,1,60,61,1,60,72,1,61,40,1,61,47,1,62,43,2,62,47,1,62,50,1,62,54,4,62,58,1,62,69,1,62,79,1,63,43,1,63,79,1,64,50,1,64,54,1,64,58,1,64,61,1,64,65,1,64,69,1,64,76,1,65,21,1,65,25,2,65,47,3,66,32,1,66,43,1,66,50,1,66,72,3,66,79,2,67,40,1,67,43,1,68,79,2,69,47,1,69,50,3,69,61,1,69,65,1,69,79,1,70,43,1,70,47,2,70,61,1,71,43,1,71,58,1,72,79,1,73,28,1,73,43,1,73,52,1,73,54,2,73,58,1,73,69,1,74,65,1,74,72,1,75,58,1,75,76,1,76,40,1,76,43,1,76,47,1,76,58,2,76,72,1,77,43,1,78,43,1,78,54,1,78,58,2,78,72,1,79,58,1,79,76,1,79,79,1,80,54,1,80,79,2,81,72,2,82,47,1,82,50,1,82,79,1,83,40,1,83,43,1,83,50,1,83,58,1,83,69,1,84,61,1,86,50,1,86,61,1,86,79,1,87,54,1,87,58,1,87,69,1,88,72,1,89,58,1,91,76,1,93,43,1,96,79,1,97,65,1,99,65,1,101,34,1,104,79,2,106,79,1,107,40,1,113,58,1,113,72,1,116,58,1,118,49,1,119,46,1,119,67,1],"over":77}},"cr_c":{"med":6.67,"n":2893,"sc":{"sx":0.01933,"sy":0.15,"nx":120,"ny":80,"pts":[4,26,1,6,6,4,8,3,1,8,6,1,8,10,1,8,13,4,9,3,11,9,6,56,9,10,29,9,13,25,9,16,3,9,20,6,9,40,2,10,3,8,10,6,86,10,10,18,10,13,40,10,16,4,10,20,5,10,40,1,11,3,7,11,4,1,11,6,74,11,10,22,11,13,26,11,16,1,11,20,3,11,40,1,12,3,2,12,4,1,12,6,39,12,10,14,12,13,78,12,20,14,12,26,3,13,3,8,13,6,30,13,10,19,13,13,16,13,16,1,13,20,4,14,6,10,14,8,1,14,10,4,14,13,11,14,16,5,14,20,1,15,3,2,15,4,1,15,5,1,15,6,8,15,10,1,15,13,52,15,16,4,15,20,9,15,26,4,15,33,1,15,40,2,16,5,2,16,6,3,16,10,6,16,13,25,16,16,6,16,20,20,16,26,4,16,33,2,16,40,1,17,6,2,17,10,1,17,13,20,17,16,7,17,20,23,17,26,3,17,33,3,18,5,1,18,6,2,18,10,1,18,13,25,18,16,4,18,20,38,18,26,1,18,33,1,18,40,1,19,6,2,19,13,22,19,16,5,19,20,36,19,23,1,19,26,5,19,40,1,20,13,23,20,16,3,20,20,36,20,23,2,20,26,4,20,33,7,21,6,1,21,13,28,21,16,2,21,20,35,21,26,12,21,46,1,22,6,2,22,13,20,22,16,1,22,20,21,22,23,2,22,26,11,22,30,1,22,40,3,23,13,12,23,20,25,23,23,3,23,26,4,23,33,1,24,13,4,24,20,19,24,23,2,24,26,14,24,33,2,25,13,3,25,20,16,25,23,2,25,26,14,25,33,3,25,40,3,26,13,1,26,20,6,26,26,10,26,30,1,26,33,3,26,40,4,27,6,1,27,13,1,27,16,1,27,20,12,27,23,1,27,26,15,27,33,7,27,53,1,28,13,1,28,16,1,28,20,6,28,23,1,28,26,13,28,33,11,28,40,2,28,46,1,29,16,2,29,20,3,29,26,10,29,33,5,29,40,2,30,13,1,30,20,4,30,26,14,30,30,1,30,33,9,30,40,8,31,13,1,31,16,1,31,20,3,31,26,11,31,33,14,31,40,5,31,46,1,31,79,1,32,20,3,32,26,13,32,33,11,32,40,8,32,46,1,33,20,2,33,26,18,33,33,14,33,79,1,34,6,1,34,20,3,34,23,1,34,26,7,34,30,1,34,33,15,34,40,9,34,46,1,35,20,2,35,26,8,35,33,13,35,40,12,35,46,2,35,53,2,35,60,1,36,20,1,36,26,6,36,30,2,36,33,10,36,40,11,36,46,2,36,53,1,37,20,1,37,26,11,37,33,20,37,40,11,37,46,4,38,26,7,38,30,1,38,33,11,38,40,9,38,46,1,38,53,3,39,20,1,39,23,1,39,26,5,39,33,9,39,40,9,39,46,11,39,53,3,40,20,1,40,23,1,40,26,3,40,33,16,40,40,15,40,46,9,40,53,3,41,20,1,41,23,1,41,26,7,41,33,20,41,40,12,41,46,7,41,53,7,41,73,1,42,26,3,42,30,1,42,33,11,42,40,15,42,46,5,42,53,2,42,60,1,43,26,1,43,30,1,43,33,6,43,40,7,43,46,2,43,53,2,44,20,1,44,30,1,44,33,1,44,40,2,44,46,6,44,50,1,44,53,2,45,26,2,45,30,1,45,33,8,45,40,11,45,46,8,45,53,5,45,60,1,45,73,1,46,26,1,46,30,1,46,33,4,46,40,9,46,43,1,46,46,7,46,53,7,47,26,5,47,33,3,47,36,1,47,40,6,47,46,4,47,53,2,47,60,3,48,33,2,48,40,10,48,46,7,48,53,4,49,33,4,49,40,9,49,43,1,49,46,2,49,53,5,49,60,1,49,66,2,49,73,1,50,26,1,50,33,2,50,40,12,50,46,7,50,53,8,50,60,4,50,73,1,51,26,2,51,33,3,51,40,7,51,46,5,51,53,5,51,60,4,52,26,2,52,33,3,52,36,1,52,40,5,52,46,6,52,53,4,52,60,4,53,26,1,53,33,2,53,36,1,53,40,7,53,46,2,53,53,5,53,60,1,54,26,1,54,33,3,54,40,8,54,46,5,54,53,4,54,60,4,54,66,2,55,26,2,55,33,5,55,40,10,55,46,5,55,53,4,55,60,1,56,33,2,56,40,5,56,46,5,56,53,3,56,60,3,56,79,1,57,33,5,57,40,6,57,43,1,57,46,4,57,53,6,57,60,3,57,66,1,58,33,2,58,40,3,58,46,3,58,53,6,58,60,3,58,73,1,59,26,1,59,33,2,59,40,1,59,46,4,59,53,4,59,60,1,59,73,1,60,26,1,60,33,1,60,40,6,60,43,2,60,46,3,60,53,6,60,60,1,60,79,1,61,26,1,61,33,3,61,36,2,61,40,4,61,43,1,61,46,5,61,53,2,61,60,4,62,6,1,62,33,3,62,40,5,62,43,1,62,46,5,62,53,8,62,60,2,62,66,2,63,33,2,63,40,3,63,46,2,63,53,6,63,60,3,64,33,2,64,40,2,64,46,4,64,53,7,64,60,2,65,33,5,65,40,1,65,46,2,65,50,1,65,53,3,65,60,1,65,66,1,66,26,1,66,33,2,66,40,4,66,43,1,66,46,2,66,50,1,66,53,4,66,60,1,67,40,1,67,46,4,67,53,2,67,60,5,67,66,1,68,33,1,68,40,2,68,46,3,68,53,3,68,60,7,68,66,3,69,33,1,69,40,2,69,46,6,69,53,3,69,66,1,70,33,1,70,40,3,70,46,2,70,53,1,70,60,5,70,66,2,71,40,1,71,46,5,71,53,3,71,60,2,72,40,1,72,46,5,72,53,1,72,60,1,72,68,1,73,26,3,73,33,3,73,40,2,73,46,1,73,53,7,73,60,2,73,66,1,74,46,1,74,60,1,74,66,1,75,46,5,75,53,4,75,66,2,76,46,4,76,53,5,76,60,1,76,66,1,77,40,2,77,46,3,77,50,1,77,53,2,77,60,2,78,33,2,78,46,1,78,53,6,78,60,2,78,62,1,78,79,1,79,46,1,79,53,2,79,60,2,79,79,1,80,33,1,80,40,3,80,46,3,80,53,1,80,73,1,81,33,1,81,40,2,81,46,1,81,53,4,81,60,2,81,66,1,81,79,1,82,40,2,82,46,2,82,53,2,82,60,2,82,66,2,82,73,1,82,79,2,83,40,1,83,46,2,83,53,2,83,60,3,84,40,1,84,53,3,84,66,2,84,79,1,85,40,1,85,53,4,85,60,2,86,60,1,86,66,1,87,40,1,87,46,1,87,53,1,87,60,1,87,66,1,87,73,1,87,79,1,88,46,1,88,50,1,88,53,3,88,66,1,89,46,1,89,53,1,89,79,1,90,40,1,90,46,2,90,79,1,91,60,1,92,46,1,92,79,1,93,60,1,93,73,1,94,66,1,94,73,1,94,79,1,95,73,1,95,79,2,96,33,1,96,46,1,96,53,1,97,46,2,98,50,1,98,60,2,98,79,1,99,66,1,99,79,1,100,66,1,101,60,1,101,79,1,102,66,1,103,60,1,106,46,1,106,66,1,108,40,1,108,79,2,110,53,1,110,66,1,111,66,1,113,50,1,116,66,2,117,79,1,119,79,1],"over":41}},"oldest_n":2823},"regions":{"abruzzo":{"n":0,"sp":20442,"all":685311,"km2":10790.7,"name":"Abruzzo","name_en":"Abruzzo"},"albania":{"n":0,"sp":88,"all":18014,"km2":34919.3,"name":"Albania","name_en":"Albania"},"alta-austria":{"n":4,"sp":15851,"all":98075,"km2":11950.2,"name":"Alta Austria","name_en":"Upper Austria"},"alta-francia":{"n":0,"sp":486,"all":127415,"km2":31845.4,"name":"Alta Francia","name_en":"Hauts-de-France"},"alvernia-rodano-alpi":{"n":1757,"sp":61268,"all":384336,"km2":70962.7,"name":"Alvernia-Rodano-Alpi","name_en":"Auvergne-Rhône-Alpes"},"andalusia":{"n":42,"sp":10295,"all":190042,"km2":87594.0,"name":"Andalusia","name_en":"Andalusia"},"andorra":{"n":0,"sp":11,"all":849,"km2":471.2,"name":"Andorra","name_en":"Andorra"},"aragona":{"n":1,"sp":455,"all":41219,"km2":47670.9,"name":"Aragona","name_en":"Aragon"},"arizona":{"n":0,"sp":294,"all":122280,"km2":295303.8,"name":"Arizona","name_en":"Arizona"},"asturie":{"n":0,"sp":587,"all":10610,"km2":10574.3,"name":"Asturie","name_en":"Asturias"},"basilicata":{"n":0,"sp":415,"all":14423,"km2":9987.3,"name":"Basilicata","name_en":"Basilicata"},"bassa-austria":{"n":0,"sp":965,"all":186104,"km2":19137.8,"name":"Bassa Austria","name_en":"Lower Austria"},"borgogna-franca-contea":{"n":31,"sp":1847,"all":201339,"km2":47923.5,"name":"Borgogna-Franca Contea","name_en":"Bourgogne-Franche-Comté"},"bosnia-erzegovina":{"n":0,"sp":133,"all":35881,"km2":51132.6,"name":"Bosnia ed Erzegovina","name_en":"Bosnia and Herzegovina"},"bretagna":{"n":2,"sp":3848,"all":135438,"km2":27421.5,"name":"Bretagna","name_en":"Brittany"},"bulgaria":{"n":0,"sp":84,"all":29084,"km2":117140.2,"name":"Bulgaria","name_en":"Bulgaria"},"burgenland":{"n":0,"sp":87,"all":15020,"km2":3956.6,"name":"Burgenland","name_en":"Burgenland"},"calabria":{"n":0,"sp":52,"all":28424,"km2":15095.8,"name":"Calabria","name_en":"Calabria"},"campania":{"n":0,"sp":83,"all":15640,"km2":13605.1,"name":"Campania","name_en":"Campania"},"canarie":{"n":0,"sp":3017,"all":65821,"km2":7475.5,"name":"Canarie","name_en":"Canary Islands"},"cantabria":{"n":0,"sp":221,"all":51351,"km2":5324.7,"name":"Cantabria","name_en":"Cantabria"},"carinzia":{"n":0,"sp":41,"all":11603,"km2":9519.2,"name":"Carinzia","name_en":"Carinthia"},"castiglia-e-leon":{"n":2,"sp":5209,"all":139654,"km2":94095.9,"name":"Castiglia e León","name_en":"Castile and León"},"castiglia-la-mancia":{"n":324,"sp":3409,"all":58005,"km2":79399.6,"name":"Castiglia-La Mancia","name_en":"Castilla–La Mancha"},"catalogna":{"n":1411,"sp":15846,"all":366998,"km2":32080.9,"name":"Catalogna","name_en":"Catalonia"},"centro-valle-della-loira":{"n":0,"sp":217,"all":190377,"km2":39425.7,"name":"Centro-Valle della Loira","name_en":"Centre-Val de Loire"},"ceuta":{"n":0,"sp":6,"all":107,"km2":20.0,"name":"Ceuta","name_en":"Ceuta"},"cile":{"n":5,"sp":41612,"all":231773,"km2":1018090.8,"name":"Cile","name_en":"Chile"},"comunita-di-madrid":{"n":26,"sp":8683,"all":148752,"km2":8015.6,"name":"Comunità di Madrid","name_en":"Community of Madrid"},"comunita-valenciana":{"n":129,"sp":5578,"all":167924,"km2":23273.1,"name":"Comunità Valenciana","name_en":"Valencian Community"},"connacht":{"n":0,"sp":282,"all":45809,"km2":17628.7,"name":"Connacht","name_en":"Connacht"},"corsica":{"n":0,"sp":17,"all":3560,"km2":8727.7,"name":"Corsica","name_en":"Corsica"},"croazia":{"n":31,"sp":991,"all":88763,"km2":87854.1,"name":"Croazia","name_en":"Croatia"},"dolnoslaskie":{"n":0,"sp":1996,"all":127819,"km2":19875.8,"name":"Bassa Slesia","name_en":"Lower Silesian"},"emilia-romagna":{"n":7232,"sp":75357,"all":240570,"km2":22473.8,"name":"Emilia-Romagna","name_en":"Emilia-Romagna"},"est-inghilterra":{"n":0,"sp":1007,"all":104262,"km2":19497.0,"name":"Est dell'Inghilterra","name_en":"East of England"},"estonia":{"n":0,"sp":329,"all":80952,"km2":70090.9,"name":"Estonia","name_en":"Estonia"},"estremadura":{"n":1,"sp":654,"all":71413,"km2":41590.4,"name":"Estremadura","name_en":"Extremadura"},"friuli-venezia-giulia":{"n":0,"sp":509,"all":29950,"km2":7894.7,"name":"Friuli-Venezia Giulia","name_en":"Friuli-Venezia Giulia"},"galizia":{"n":0,"sp":608,"all":55003,"km2":29549.8,"name":"Galizia","name_en":"Galicia"},"galles":{"n":0,"sp":281,"all":59293,"km2":36150.1,"name":"Galles","name_en":"Wales"},"giappone":{"n":0,"sp":34533,"all":305640,"km2":760797.9,"name":"Giappone","name_en":"Japan"},"grand-est":{"n":345,"sp":75060,"all":253982,"km2":57534.8,"name":"Grand Est","name_en":"Grand Est"},"grecia":{"n":0,"sp":1911,"all":62681,"km2":238664.9,"name":"Grecia","name_en":"Greece"},"ile-de-france":{"n":3351,"sp":168068,"all":406127,"km2":12041.6,"name":"Île-de-France","name_en":"Île-de-France"},"irlanda-del-nord":{"n":0,"sp":435,"all":45354,"km2":19188.0,"name":"Irlanda del Nord","name_en":"Northern Ireland"},"isole-baleari":{"n":4,"sp":146,"all":9362,"km2":4979.0,"name":"Isole Baleari","name_en":"Balearic Islands"},"kosovo":{"n":0,"sp":77,"all":5569,"km2":10897.8,"name":"Kosovo","name_en":"Kosovo"},"kujawsko-pomorskie":{"n":0,"sp":1604,"all":53562,"km2":17896.6,"name":"Cuiavia-Pomerania","name_en":"Kuyavian-Pomeranian"},"la-rioja":{"n":0,"sp":89,"all":5776,"km2":5040.2,"name":"La Rioja","name_en":"La Rioja"},"lazio":{"n":45,"sp":2444,"all":71113,"km2":17206.4,"name":"Lazio","name_en":"Lazio"},"leinster":{"n":0,"sp":5017,"all":600143,"km2":19747.0,"name":"Leinster","name_en":"Leinster"},"lettonia":{"n":0,"sp":211,"all":103083,"km2":74900.7,"name":"Lettonia","name_en":"Latvia"},"liechtenstein":{"n":0,"sp":42,"all":11859,"km2":156.9,"name":"Liechtenstein","name_en":"Liechtenstein"},"liguria":{"n":1,"sp":940,"all":8906,"km2":5412.7,"name":"Liguria","name_en":"Liguria"},"lituania":{"n":0,"sp":115,"all":89293,"km2":66834.2,"name":"Lituania","name_en":"Lithuania"},"lodzkie":{"n":0,"sp":687,"all":105419,"km2":18158.5,"name":"Łódź","name_en":"Łódź"},"lombardia":{"n":106,"sp":4464,"all":387436,"km2":23822.3,"name":"Lombardia","name_en":"Lombardy"},"londra":{"n":76,"sp":51608,"all":213012,"km2":1595.3,"name":"Londra","name_en":"London"},"lubelskie":{"n":0,"sp":3712,"all":81490,"km2":25032.8,"name":"Lublino","name_en":"Lublin"},"lubuskie":{"n":0,"sp":839,"all":56260,"km2":13935.7,"name":"Lubusz","name_en":"Lubusz"},"lussemburgo":{"n":0,"sp":562,"all":78278,"km2":2585.2,"name":"Lussemburgo","name_en":"Luxembourg"},"macedonia-del-nord":{"n":1,"sp":5,"all":2186,"km2":25420.9,"name":"Macedonia del Nord","name_en":"North Macedonia"},"malopolskie":{"n":0,"sp":3506,"all":257450,"km2":15133.9,"name":"Piccola Polonia","name_en":"Lesser Poland"},"malta":{"n":1,"sp":83,"all":2740,"km2":4320.1,"name":"Malta","name_en":"Malta"},"marche":{"n":0,"sp":1086,"all":32341,"km2":9321.5,"name":"Marche","name_en":"Marche"},"mazowieckie":{"n":0,"sp":4599,"all":347481,"km2":35410.5,"name":"Masovia","name_en":"Masovian"},"melilla":{"n":0,"sp":0,"all":92,"km2":12.0,"name":"Melilla","name_en":"Melilla"},"midlands-occidentali":{"n":64,"sp":58102,"all":207112,"km2":12964.6,"name":"Midlands Occidentali","name_en":"West Midlands"},"midlands-orientali":{"n":0,"sp":1597,"all":198917,"km2":15763.7,"name":"Midlands Orientali","name_en":"East Midlands"},"molise":{"n":0,"sp":456,"all":57853,"km2":4448.6,"name":"Molise","name_en":"Molise"},"monaco":{"n":0,"sp":1,"all":658,"km2":78.6,"name":"Monaco","name_en":"Monaco"},"montenegro":{"n":0,"sp":116,"all":5797,"km2":16092.4,"name":"Montenegro","name_en":"Montenegro"},"munster":{"n":0,"sp":136,"all":247377,"km2":24559.8,"name":"Munster","name_en":"Munster"},"murcia":{"n":8,"sp":1840,"all":49240,"km2":11330.0,"name":"Regione di Murcia","name_en":"Region of Murcia"},"navarra":{"n":0,"sp":118,"all":13380,"km2":10369.2,"name":"Navarra","name_en":"Navarre"},"nord-est-inghilterra":{"n":0,"sp":6,"all":12257,"km2":8647.4,"name":"Nord Est dell'Inghilterra","name_en":"North East England"},"nord-ovest-inghilterra":{"n":0,"sp":236,"all":112035,"km2":14856.6,"name":"Nord Ovest dell'Inghilterra","name_en":"North West England"},"normandia":{"n":0,"sp":1297,"all":118668,"km2":30048.2,"name":"Normandia","name_en":"Normandy"},"nuova-aquitania":{"n":756,"sp":47764,"all":376408,"km2":84572.5,"name":"Nuova Aquitania","name_en":"Nouvelle-Aquitaine"},"occitania":{"n":8610,"sp":118973,"all":329506,"km2":73234.0,"name":"Occitania","name_en":"Occitania"},"opolskie":{"n":0,"sp":8575,"all":26256,"km2":9388.5,"name":"Opole","name_en":"Opole"},"paesi-baschi":{"n":366,"sp":57259,"all":102822,"km2":7220.2,"name":"Paesi Baschi","name_en":"Basque Country"},"paesi-della-loira":{"n":1,"sp":1225,"all":124192,"km2":32345.1,"name":"Paesi della Loira","name_en":"Pays de la Loire"},"pennsylvania":{"n":0,"sp":2537,"all":97197,"km2":119170.7,"name":"Pennsylvania","name_en":"Pennsylvania"},"piemonte":{"n":23,"sp":1564,"all":73094,"km2":25350.3,"name":"Piemonte","name_en":"Piedmont"},"podkarpackie":{"n":0,"sp":1225,"all":90492,"km2":17800.9,"name":"Precarpazia","name_en":"Subcarpathian"},"podlaskie":{"n":0,"sp":4288,"all":21938,"km2":20117.6,"name":"Podlachia","name_en":"Podlaskie"},"pomorskie":{"n":0,"sp":2233,"all":92187,"km2":19469.0,"name":"Pomerania","name_en":"Pomeranian"},"portogallo":{"n":762,"sp":10944,"all":253460,"km2":158998.9,"name":"Portogallo","name_en":"Portugal"},"provenza-alpi-costa-azzurra":{"n":892,"sp":6970,"all":185835,"km2":31801.7,"name":"Provenza-Alpi-Costa Azzurra","name_en":"Provence-Alpes-Côte d'Azur"},"puglia":{"n":0,"sp":810,"all":52920,"km2":19344.1,"name":"Puglia","name_en":"Apulia"},"romania":{"n":8,"sp":40105,"all":77705,"km2":243070.4,"name":"Romania","name_en":"Romania"},"salisburgo":{"n":0,"sp":71,"all":22274,"km2":7139.8,"name":"Salisburgo","name_en":"Salzburg"},"san-marino":{"n":0,"sp":0,"all":1281,"km2":59.8,"name":"San Marino","name_en":"San Marino"},"sardegna":{"n":0,"sp":67,"all":5433,"km2":23839.4,"name":"Sardegna","name_en":"Sardinia"},"scozia":{"n":0,"sp":311,"all":236670,"km2":167660.1,"name":"Scozia","name_en":"Scotland"},"serbia":{"n":0,"sp":202,"all":40112,"km2":77416.8,"name":"Serbia","name_en":"Serbia"},"sicilia":{"n":7,"sp":1940,"all":49245,"km2":25740.9,"name":"Sicilia","name_en":"Sicily"},"slaskie":{"n":0,"sp":982,"all":118949,"km2":12293.6,"name":"Slesia","name_en":"Silesian"},"slovenia":{"n":1,"sp":177,"all":51281,"km2":20436.6,"name":"Slovenia","name_en":"Slovenia"},"stiria":{"n":0,"sp":1797,"all":42095,"km2":16369.0,"name":"Stiria","name_en":"Styria"},"sud-est-inghilterra":{"n":0,"sp":722,"all":448362,"km2":19357.7,"name":"Sud Est dell'Inghilterra","name_en":"South East England"},"sud-ovest-inghilterra":{"n":0,"sp":558,"all":123520,"km2":24213.5,"name":"Sud Ovest dell'Inghilterra","name_en":"South West England"},"swietokrzyskie":{"n":0,"sp":1096,"all":38902,"km2":11658.4,"name":"Santacroce","name_en":"Holy Cross"},"terre-australi-francesi":{"n":0,"sp":0,"all":203,"km2":52867.4,"name":"Terre australi e antartiche francesi","name_en":"French Southern and Antarctic Lands"},"tirolo":{"n":0,"sp":259,"all":48431,"km2":12616.3,"name":"Tirolo","name_en":"Tyrol"},"toscana":{"n":3833,"sp":42299,"all":117523,"km2":22965.3,"name":"Toscana","name_en":"Tuscany"},"trentino-alto-adige":{"n":147,"sp":4091,"all":67787,"km2":13571.4,"name":"Trentino-Alto Adige","name_en":"Trentino-South Tyrol"},"ulster-irlanda":{"n":0,"sp":3,"all":47000,"km2":8042.1,"name":"Ulster","name_en":"Ulster"},"umbria":{"n":4,"sp":213,"all":17800,"km2":8441.9,"name":"Umbria","name_en":"Umbria"},"valle-d-aosta":{"n":0,"sp":21,"all":18245,"km2":3259.1,"name":"Valle d'Aosta","name_en":"Aosta Valley"},"vaticano":{"n":0,"sp":0,"all":795,"km2":0.4,"name":"Città del Vaticano","name_en":"Vatican City"},"veneto":{"n":64,"sp":2123,"all":149673,"km2":18309.6,"name":"Veneto","name_en":"Veneto"},"venezuela":{"n":0,"sp":155,"all":62864,"km2":1008072.9,"name":"Venezuela","name_en":"Venezuela"},"vienna":{"n":2170,"sp":112332,"all":173184,"km2":414.6,"name":"Vienna","name_en":"Vienna"},"vorarlberg":{"n":0,"sp":149,"all":12308,"km2":2614.3,"name":"Vorarlberg","name_en":"Vorarlberg"},"warminsko-mazurskie":{"n":0,"sp":1022,"all":38229,"km2":24061.2,"name":"Varmia-Masuria","name_en":"Warmian-Masurian"},"washington":{"n":0,"sp":671,"all":128349,"km2":184033.4,"name":"Stato di Washington","name_en":"Washington State"},"wielkopolskie":{"n":0,"sp":47328,"all":109560,"km2":29702.0,"name":"Grande Polonia","name_en":"Greater Poland"},"yorkshire-e-humber":{"n":0,"sp":280,"all":76107,"km2":15673.7,"name":"Yorkshire e Humber","name_en":"Yorkshire and the Humber"},"zachodniopomorskie":{"n":0,"sp":2601,"all":224060,"km2":22819.5,"name":"Pomerania Occidentale","name_en":"West Pomeranian"}},"nations":{"g:Italia":{"n":11462,"sp":159376,"all":2123687,"regions":10,"name":"Italia","name_en":"Italy","km2":456038.3},"albania":{"n":0,"sp":88,"all":18014,"regions":0,"name":"Albania","name_en":"Albania","km2":34919.3},"g:Austria":{"n":2174,"sp":131552,"all":609094,"regions":2,"name":"Austria","name_en":"Austria","km2":83718.3},"g:Francia":{"n":15745,"sp":487040,"all":2837183,"regions":9,"name":"Francia","name_en":"France","km2":621466.9},"g:Spagna":{"n":2314,"sp":114020,"all":1547571,"regions":11,"name":"Spagna","name_en":"Spain","km2":626460.4},"andorra":{"n":0,"sp":11,"all":849,"regions":0,"name":"Andorra","name_en":"Andorra","km2":471.2},"g:Stati Uniti":{"n":0,"sp":3502,"all":347826,"regions":0,"name":"Stati Uniti","name_en":"United States","km2":10347912.2},"bosnia-erzegovina":{"n":0,"sp":133,"all":35881,"regions":0,"name":"Bosnia ed Erzegovina","name_en":"Bosnia and Herzegovina","km2":51132.6},"bulgaria":{"n":0,"sp":84,"all":29084,"regions":0,"name":"Bulgaria","name_en":"Bulgaria","km2":117140.2},"cile":{"n":5,"sp":41612,"all":231773,"regions":1,"name":"Cile","name_en":"Chile","km2":1018090.8},"g:Irlanda":{"n":0,"sp":5438,"all":940329,"regions":0,"name":"Irlanda","name_en":"Ireland","km2":108088.4},"croazia":{"n":31,"sp":991,"all":88763,"regions":1,"name":"Croazia","name_en":"Croatia","km2":87854.1},"g:Polonia":{"n":0,"sp":86293,"all":1790054,"regions":0,"name":"Polonia","name_en":"Poland","km2":321469.9},"g:Regno Unito":{"n":140,"sp":115143,"all":1836901,"regions":2,"name":"Regno Unito","name_en":"United Kingdom","km2":402512.6},"estonia":{"n":0,"sp":329,"all":80952,"regions":0,"name":"Estonia","name_en":"Estonia","km2":70090.9},"giappone":{"n":0,"sp":34533,"all":305640,"regions":0,"name":"Giappone","name_en":"Japan","km2":760797.9},"grecia":{"n":0,"sp":1911,"all":62681,"regions":0,"name":"Grecia","name_en":"Greece","km2":238664.9},"kosovo":{"n":0,"sp":77,"all":5569,"regions":0,"name":"Kosovo","name_en":"Kosovo","km2":10897.8},"lettonia":{"n":0,"sp":211,"all":103083,"regions":0,"name":"Lettonia","name_en":"Latvia","km2":74900.7},"liechtenstein":{"n":0,"sp":42,"all":11859,"regions":0,"name":"Liechtenstein","name_en":"Liechtenstein","km2":156.9},"lituania":{"n":0,"sp":115,"all":89293,"regions":0,"name":"Lituania","name_en":"Lithuania","km2":66834.2},"lussemburgo":{"n":0,"sp":562,"all":78278,"regions":0,"name":"Lussemburgo","name_en":"Luxembourg","km2":2585.2},"macedonia-del-nord":{"n":1,"sp":5,"all":2186,"regions":1,"name":"Macedonia del Nord","name_en":"North Macedonia","km2":25420.9},"malta":{"n":1,"sp":83,"all":2740,"regions":1,"name":"Malta","name_en":"Malta","km2":4320.1},"monaco":{"n":0,"sp":1,"all":658,"regions":0,"name":"Monaco","name_en":"Monaco","km2":78.6},"montenegro":{"n":0,"sp":116,"all":5797,"regions":0,"name":"Montenegro","name_en":"Montenegro","km2":16092.4},"portogallo":{"n":762,"sp":10944,"all":253460,"regions":1,"name":"Portogallo","name_en":"Portugal","km2":158998.9},"romania":{"n":8,"sp":40105,"all":77705,"regions":1,"name":"Romania","name_en":"Romania","km2":243070.4},"san-marino":{"n":0,"sp":0,"all":1281,"regions":0,"name":"San Marino","name_en":"San Marino","km2":59.8},"serbia":{"n":0,"sp":202,"all":40112,"regions":0,"name":"Serbia","name_en":"Serbia","km2":77416.8},"slovenia":{"n":1,"sp":177,"all":51281,"regions":1,"name":"Slovenia","name_en":"Slovenia","km2":20436.6},"terre-australi-francesi":{"n":0,"sp":0,"all":203,"regions":0,"name":"Terre australi e antartiche francesi","name_en":"French Southern and Antarctic Lands","km2":52867.4},"vaticano":{"n":0,"sp":0,"all":795,"regions":0,"name":"Città del Vaticano","name_en":"Vatican City","km2":0.4},"venezuela":{"n":0,"sp":155,"all":62864,"regions":0,"name":"Venezuela","name_en":"Venezuela","km2":1008072.9}},"grid":[[-70.65,-33.45,3],[-70.55,-33.45,2],[-9.45,38.65,1],[-9.25,38.75,28],[-9.15,38.75,689],[-8.95,39.35,43],[-8.45,40.15,1],[-6.05,39.85,1],[-5.95,37.35,5],[-5.95,37.45,1],[-5.85,41.05,1],[-4.75,41.65,1],[-4.55,36.75,34],[-4.45,36.75,2],[-3.75,40.45,13],[-3.65,40.35,8],[-3.65,40.45,5],[-2.95,43.25,13],[-2.75,42.85,102],[-2.75,48.55,2],[-2.65,42.85,251],[-2.05,52.45,3],[-1.95,52.35,4],[-1.95,52.45,14],[-1.95,52.55,3],[-1.85,38.15,1],[-1.85,38.95,306],[-1.85,39.05,18],[-1.85,52.45,15],[-1.85,52.55,14],[-1.75,52.45,6],[-1.75,52.55,1],[-1.55,47.25,1],[-1.55,52.25,4],[-0.95,37.65,7],[-0.95,38.55,1],[-0.95,39.15,1],[-0.85,38.65,1],[-0.75,38.45,1],[-0.75,39.35,1],[-0.75,41.75,1],[-0.65,38.85,2],[-0.65,39.65,3],[-0.65,44.85,200],[-0.55,38.85,3],[-0.55,39.65,39],[-0.55,44.85,282],[-0.45,39.15,1],[-0.45,39.45,63],[-0.45,39.55,1],[-0.35,39.45,2],[-0.35,43.25,17],[-0.35,43.35,242],[-0.25,38.75,1],[-0.25,38.95,1],[-0.25,51.45,1],[-0.15,40.45,1],[-0.15,51.45,6],[-0.05,38.55,1],[-0.05,38.75,1],[-0.05,40.35,1],[-0.05,51.45,67],[-0.05,51.55,2],[0.25,40.45,2],[0.35,46.55,15],[0.45,40.45,2],[1.15,41.15,47],[1.25,41.75,1],[1.35,43.55,1793],[1.35,43.65,392],[1.45,43.55,3224],[1.45,43.65,3084],[1.55,41.25,1],[1.55,43.55,25],[1.65,41.55,28],[1.65,41.75,1],[1.95,41.25,1],[1.95,41.35,1],[2.05,41.35,1],[2.05,41.55,2],[2.15,41.35,641],[2.15,41.45,45],[2.25,41.45,638],[2.25,41.65,2],[2.25,48.85,236],[2.25,48.95,30],[2.35,48.75,260],[2.35,48.85,2440],[2.35,48.95,28],[2.45,48.75,3],[2.45,48.85,130],[2.45,48.95,224],[2.55,39.65,1],[2.65,41.85,2],[2.85,39.85,1],[2.95,39.55,1],[2.95,39.75,1],[2.95,42.75,1],[3.25,43.35,14],[3.35,43.75,1],[3.45,46.15,2],[3.65,43.45,20],[3.75,43.45,13],[3.85,43.65,3],[3.85,43.85,1],[4.35,44.15,1],[4.65,43.65,118],[4.65,44.35,1],[4.75,43.65,22],[4.75,43.95,38],[4.75,44.15,4],[4.75,45.75,1],[4.85,43.95,1],[4.85,44.15,1],[4.85,45.65,6],[4.85,45.75,139],[4.95,45.65,484],[4.95,45.75,908],[4.95,45.85,1],[5.05,43.55,6],[5.05,43.75,1],[5.05,43.85,9],[5.05,47.35,31],[5.15,43.85,8],[5.25,43.65,38],[5.35,43.25,505],[5.35,43.35,78],[5.35,43.45,18],[5.35,43.85,1],[5.45,43.25,8],[5.45,43.35,20],[5.45,43.55,1],[5.65,45.15,6],[5.75,45.15,191],[5.75,45.25,18],[5.85,43.15,3],[5.95,43.15,5],[6.15,48.65,1],[6.15,49.15,1],[6.45,43.45,4],[6.45,43.55,41],[7.05,45.15,2],[7.55,45.25,1],[7.65,45.05,9],[7.65,48.45,2],[7.65,48.55,25],[7.65,48.65,48],[7.75,48.45,1],[7.75,48.55,124],[7.75,48.65,142],[7.85,48.65,1],[8.05,43.95,1],[8.05,45.45,1],[8.45,45.35,2],[8.55,45.05,1],[8.55,45.75,7],[8.65,45.85,1],[8.75,45.65,2],[8.85,45.45,15],[9.15,45.45,4],[9.15,45.55,11],[9.25,45.45,4],[9.25,45.55,16],[9.35,45.55,47],[9.45,45.55,3],[9.65,45.65,1],[9.65,45.75,1],[9.95,46.15,1],[10.65,44.65,1],[10.65,44.75,17],[10.95,44.65,6],[11.05,43.45,1],[11.15,43.15,3],[11.15,46.15,1],[11.25,43.75,3504],[11.25,43.85,84],[11.25,44.45,310],[11.25,44.55,687],[11.35,43.75,241],[11.35,44.45,2988],[11.35,44.55,2648],[11.35,46.45,12],[11.35,46.55,134],[11.45,44.45,42],[11.45,44.55,488],[11.55,45.55,2],[11.65,44.85,32],[11.65,45.35,1],[11.85,45.45,1],[11.85,45.65,34],[11.95,45.65,4],[12.15,44.25,1],[12.15,45.45,8],[12.15,45.75,3],[12.25,44.75,1],[12.25,45.75,9],[12.35,44.15,11],[12.35,45.45,1],[12.45,43.05,1],[12.45,45.75,1],[12.75,42.75,1],[12.75,43.25,1],[12.85,42.75,1],[13.35,41.35,1],[13.45,41.35,44],[13.75,45.55,1],[14.25,48.35,3],[14.35,48.35,1],[14.45,35.85,1],[14.65,45.05,1],[14.75,36.85,4],[14.85,36.85,1],[15.15,37.75,2],[16.25,48.15,98],[16.25,48.25,9],[16.35,48.15,719],[16.35,48.25,683],[16.45,43.55,30],[16.45,48.15,241],[16.45,48.25,402],[16.55,48.25,18],[20.75,41.15,1],[26.05,44.45,5],[26.15,44.45,3]],"sample":{"r":"alta-austria","id":3658239192},"updated":"2026-11-17T16:04:30Z"}</script>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+"use strict";
+const D = JSON.parse(document.getElementById("data").textContent);
+const hp = new URLSearchParams(location.hash.slice(1));
+const storedLang = () => { try { return localStorage.getItem("lang"); } catch (e) { return null; } };
+// stessa scelta della mappa: #lang=, poi la lingua salvata, poi quella del browser
+let LANG = [hp.get("lang"), storedLang(), (navigator.language || "").slice(0, 2).toLowerCase() === "it" ? "it" : "en"]
+  .find(l => l === "it" || l === "en");
+
+const I18N = {
+  it: {
+    other: "English", crumb: "Specie",
+    trees: "alberi mappati nelle regioni di DendrOSM", regions: (n, t) => `regioni in cui è presente, su ${t}`,
+    mon: "monumentali su OSM nel mondo", masaf: "nell'elenco dei monumentali d'Italia (MASAF)",
+    issues: "alberi con almeno una segnalazione",
+    lt: { broadleaved: "latifoglia", needleleaved: "aghifoglia", palm: "palma" },
+    lc: { deciduous: "caducifoglia", semi_deciduous: "semi-caducifoglia", evergreen: "sempreverde", semi_evergreen: "semi-sempreverde" },
+    fruitTag: "frutti sulla mappa", wikidata: "Wikidata", wikiRec: "Wiki: Tree species records",
+    recTitle: "Alberi da record", recLead: "Gli alberi di questa specie con le misure più grandi e il più isolato, tra tutte le regioni del sito e la mappa dei monumentali. ⚠ = valore segnalato da un check: potrebbe essere sbagliato.",
+    nWarn: n => `${n} segnalat${n === 1 ? "o" : "i"} ⚠`,
+    rc: { height: "Più alto", trunk: "Tronco più spesso", slender: "Più slanciato", stocky: "Più tozzo", crown: "Chioma più larga", oldest: "Più vecchio", isolated: "Più isolato" },
+    unit: { height: "m", trunk: "m di circonferenza", slender: "altezza/diametro", stocky: "altezza/diametro", crown: "m di diametro", oldest: "", isolated: "km" },
+    isoNear: { tree: "Il più vicino: un albero", wood: "Il più vicino: un bosco", forest: "Il più vicino: una foresta", tree_row: "Il più vicino: un filare" },
+    isoCap: "Nessun albero, bosco o filare entro 50 km",
+    isoHow: "Distanza dalla cosa più vicina tra gli altri alberi (di qualsiasi specie), i boschi e i filari di OpenStreetMap.",
+    others: n => `i primi ${n}`, noRec: "Nessun albero con questa misura.", warned: "Valore segnalato da un check",
+    wikiVal: v => `Record sulla wiki: ${v}`, monMap: "mappa dei monumentali", node: id => `nodo ${id}`,
+    sizeTitle: "Misure tipiche", sizeLead: "Mediane degli alberi mappati, senza i valori segnalati dai check. Il grafico mostra quanti alberi ci sono per ogni misura (fino al 99° percentile).",
+    height: "Altezza", trunkM: "Circonferenza del tronco", crownM: "Diametro della chioma", median: "mediana",
+    on: n => `su ${n} alberi`, few: "Troppo pochi alberi con questa misura.",
+    hc: "Altezza / circonferenza", crc: "Chioma / circonferenza",
+    hcInfo: "Quanti metri di altezza per ogni metro di circonferenza: più è alto, più l'albero è slanciato.",
+    crcInfo: "Quanti metri di chioma per ogni metro di circonferenza.",
+    scHelp: "Come leggere il grafico", axC: "Circonferenza del tronco (m)", axH: "Altezza (m)", axCr: "Diametro della chioma (m)",
+    scInfo: "Ogni punto è un gruppo di alberi con misure vicine: più è scuro, più alberi ci sono. La linea tratteggiata è la mediana: sopra il rapporto è più alto, sotto più basso.",
+    scOver: n => `${n} alberi oltre il 99° percentile non sono nel grafico.`,
+    wikiAvg: v => `sulla wiki: ${v}`,
+    mapTitle: "Dove è mappata", mapLead: "La specie nelle regioni di DendrOSM. Le regioni grigie sono coperte dal sito ma senza alberi di questa specie; fuori dalle regioni colorate il sito non ha dati, tranne i monumentali.",
+    mShare: "Quota", mCount: "Numero", mDens: "Per km²", gReg: "Regioni", gNat: "Nazioni",
+    heat: "Densità degli alberi", monL: "Monumentali",
+    shareInfo: "alberi di questa specie su 100 alberi con la specie mappata", countInfo: "alberi di questa specie", densInfo: "alberi di questa specie per km²",
+    absent: "nessuno", topShare: "Regioni con la quota più alta", topCount: "Regioni con più alberi",
+    region: "Regione", treesCol: "Alberi", shareCol: "Quota", densCol: "Per km²",
+    lookTitle: "Sulla mappa", lookLead: "Come DendrOSM disegna questa specie nel corso dell'anno (emisfero nord; a sud dell'equatore i mesi si spostano di 6).",
+    leaves: "Con le foglie", autumn: "Autunno", bare: "Spoglio", fruits: "Con i frutti", always: "Tutto l'anno",
+    months: ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"],
+    see: "Vedi sulla mappa", evergreen: "Sempreverde: lo stesso aspetto tutto l'anno.",
+    autumnInfo: "Ogni albero prende uno dei quattro toni autunnali.",
+    own: "Disegno della specie", generic: "Disegno generico",
+    genTitle: "Disegno generico",
+    genText: (lt, lc) => {
+      const a = { broadleaved: "le latifoglie", needleleaved: "le aghifoglie", palm: "le palme" }[lt];
+      const b = { deciduous: "caducifoglie", semi_deciduous: "semi-caducifoglie", evergreen: "sempreverdi", semi_evergreen: "semi-sempreverdi" }[lc];
+      return `Questo disegno non è proprio di questa specie: è lo stesso per tutte ${a ? a + (b ? " " + b : "") : "gli alberi senza un tipo di foglia"}.`;
+    },
+    genAsk: "Se la specie ha qualcosa di riconoscibile (il colore delle foglie in una stagione, i frutti, i fiori, la corteccia), puoi proporre un disegno dedicato aprendo una issue su GitHub: serve un account GitHub.",
+    propose: "Proponi un disegno", close: "Chiudi",
+    sexTitle: "Maschio e femmina", sexLead: "Specie dioica: ogni albero è maschio o femmina. Su OpenStreetMap si indica con sex=male o sex=female.",
+    sexName: { male: "Maschio", female: "Femmina" },
+    sexN: (n, v) => `${n} ${n === 1 ? "albero" : "alberi"} con sex=${v} nelle regioni di DendrOSM`,
+    foot: d => `Dati OpenStreetMap (ODbL), aggiornati al ${d}. Record e medie sulla wiki: pagina <a href="${WIKI}" target="_blank" rel="noopener">«Tree species records»</a>.`
+  },
+  en: {
+    other: "Italiano", crumb: "Species",
+    trees: "trees mapped in the DendrOSM regions", regions: (n, t) => `regions where it is present, out of ${t}`,
+    mon: "monumental trees on OSM worldwide", masaf: "in the list of monumental trees of Italy (MASAF)",
+    issues: "trees with at least one warning",
+    lt: { broadleaved: "broadleaved", needleleaved: "needleleaved", palm: "palm" },
+    lc: { deciduous: "deciduous", semi_deciduous: "semi-deciduous", evergreen: "evergreen", semi_evergreen: "semi-evergreen" },
+    fruitTag: "fruits on the map", wikidata: "Wikidata", wikiRec: "Wiki: Tree species records",
+    recTitle: "Record trees", recLead: "The trees of this species with the largest measurements and the most isolated one, across all the regions of the site and the monumental map. ⚠ = value reported by a check: it may be wrong.",
+    nWarn: n => `${n} reported ⚠`,
+    rc: { height: "Tallest", trunk: "Thickest trunk", slender: "Most slender", stocky: "Stockiest", crown: "Widest crown", oldest: "Oldest", isolated: "Most isolated" },
+    unit: { height: "m", trunk: "m girth", slender: "height/diameter", stocky: "height/diameter", crown: "m across", oldest: "", isolated: "km" },
+    isoNear: { tree: "Nearest: a tree", wood: "Nearest: a wood", forest: "Nearest: a forest", tree_row: "Nearest: a tree row" },
+    isoCap: "No tree, wood or tree row within 50 km",
+    isoHow: "Distance from the nearest of the other trees (of any species), woods and tree rows on OpenStreetMap.",
+    others: n => `top ${n}`, noRec: "No tree with this measurement.", warned: "Value reported by a check",
+    wikiVal: v => `Record on the wiki: ${v}`, monMap: "monumental map", node: id => `node ${id}`,
+    sizeTitle: "Typical sizes", sizeLead: "Medians of the mapped trees, without the values reported by the checks. The chart shows how many trees there are for each value (up to the 99th percentile).",
+    height: "Height", trunkM: "Trunk circumference", crownM: "Crown diameter", median: "median",
+    on: n => `from ${n} trees`, few: "Too few trees with this measurement.",
+    hc: "Height / circumference", crc: "Crown / circumference",
+    hcInfo: "Metres of height for each metre of circumference: the higher, the more slender the tree.",
+    crcInfo: "Metres of crown for each metre of circumference.",
+    scHelp: "How to read the chart", axC: "Trunk circumference (m)", axH: "Height (m)", axCr: "Crown diameter (m)",
+    scInfo: "Each dot is a group of trees with close values: the darker, the more trees. The dashed line is the median: above it the ratio is higher, below it lower.",
+    scOver: n => `${n} trees above the 99th percentile are not in the chart.`,
+    wikiAvg: v => `on the wiki: ${v}`,
+    mapTitle: "Where it is mapped", mapLead: "The species in the DendrOSM regions. Grey regions are covered by the site but have no trees of this species; outside the coloured regions the site has no data, except for monumental trees.",
+    mShare: "Share", mCount: "Count", mDens: "Per km²", gReg: "Regions", gNat: "Countries",
+    heat: "Tree density", monL: "Monumental trees",
+    shareInfo: "trees of this species per 100 trees with a mapped species", countInfo: "trees of this species", densInfo: "trees of this species per km²",
+    absent: "none", topShare: "Regions with the highest share", topCount: "Regions with the most trees",
+    region: "Region", treesCol: "Trees", shareCol: "Share", densCol: "Per km²",
+    lookTitle: "On the map", lookLead: "How DendrOSM draws this species through the year (northern hemisphere; south of the equator the months shift by 6).",
+    leaves: "In leaf", autumn: "Autumn", bare: "Bare", fruits: "With fruits", always: "All year",
+    months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    see: "See on the map", evergreen: "Evergreen: the same look all year.",
+    autumnInfo: "Each tree takes one of the four autumn tones.",
+    own: "Species drawing", generic: "Generic drawing",
+    genTitle: "Generic drawing",
+    genText: (lt, lc) => `This drawing is not specific to this species: it is the same for all ${[{ deciduous: "deciduous", semi_deciduous: "semi-deciduous", evergreen: "evergreen", semi_evergreen: "semi-evergreen" }[lc],
+      { broadleaved: "broadleaved", needleleaved: "needleleaved", palm: "palm" }[lt]].filter(Boolean).join(" ")} trees.`,
+    genAsk: "If the species has something recognisable (the colour of its leaves in a season, its fruits, flowers or bark), you can suggest a dedicated drawing by opening an issue on GitHub: a GitHub account is needed.",
+    propose: "Suggest a drawing", close: "Close",
+    sexTitle: "Male and female", sexLead: "Dioecious species: each tree is male or female. On OpenStreetMap it is tagged with sex=male or sex=female.",
+    sexName: { male: "Male", female: "Female" },
+    sexN: (n, v) => `${n} ${n === 1 ? "tree" : "trees"} with sex=${v} in the DendrOSM regions`,
+    foot: d => `OpenStreetMap data (ODbL), updated on ${d}. Records and averages on the wiki: page <a href="${WIKI}" target="_blank" rel="noopener">"Tree species records"</a>.`
+  }
+};
+let T, LOC;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const fmt = (v, d = 0) => v == null ? "–" : Number(v).toLocaleString(LOC, { maximumFractionDigits: d, minimumFractionDigits: 0 });
+// densità e quote piccole: due cifre significative (0,0034), non zero
+const sig = v => v == null ? "–" : v >= 10 ? fmt(v) : v === 0 ? "0" : Number(v).toLocaleString(LOC, { maximumSignificantDigits: 2 });
+const regName =slug => slug && D.regions[slug] ? (LANG === "it" ? D.regions[slug].name : D.regions[slug].name_en) : null;
+const treeLink = t => t.r ? `../index.html#region=${t.r}&node=${t.id}` : `../monumental-trees/index.html#node=${t.id}`;
+const WIKI = "https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/Tree_species_records";
+
+// ---------- intestazione e numeri ----------
+function hero() {
+  const n = D.names, common = LANG === "it" ? n.it || n.en : n.en || n.it;
+  const tags = [];
+  if (D.lt && T.lt[D.lt]) tags.push(T.lt[D.lt]);
+  if (D.lc && T.lc[D.lc]) tags.push(T.lc[D.lc]);
+  if (D.fruit) tags.push(`<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${esc(D.fruit.color)};vertical-align:0"></span> ${T.fruitTag}`);
+  const wp = D.wp || {}, wpl = wp[LANG] || wp.en || wp.it;
+  if (wpl) tags.push(`<a href="${esc(wpl.url)}" target="_blank" rel="noopener">Wikipedia</a>`);
+  if (D.qid) tags.push(`<a href="https://www.wikidata.org/wiki/${esc(D.qid)}" target="_blank" rel="noopener">${T.wikidata}</a>`);
+  const nReg = Object.keys(D.regions).length;
+  const kpi = (v, l) => `<div class="kpi"><b>${v}</b><span>${l}</span></div>`;
+  // foto: quella in testa alla voce di Wikipedia nella lingua della pagina (o nell'altra), poi l'immagine Wikidata
+  const img = (wp[LANG] || {}).img || (wp[LANG === "it" ? "en" : "it"] || {}).img || wp.p18;
+  const photo = img ? `<figure class="photo"><a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(img)}" target="_blank" rel="noopener">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(img)}?width=520" alt="${esc(D.name)}"></a>
+    <figcaption data-file="${esc(img)}">Wikimedia Commons</figcaption></figure>` : "";
+  return `<div class="hero"><div class="txt"><h1>${esc(D.name)}</h1>${common ? `<div class="common">${esc(common)}</div>` : ""}
+    <div class="tags">${tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+</div>${photo}</div>
+    <div class="kpis">${kpi(fmt(D.total), T.trees)}${kpi(fmt(D.n_regions), T.regions(D.n_regions, fmt(nReg)))}
+    ${kpi(fmt(D.mon_n), T.mon)}${D.masaf && LANG === "it" ? kpi(fmt(D.masaf), T.masaf) : ""}
+    ${kpi(fmt(D.issues), T.issues + ` (${fmt(100 * D.issues / Math.max(1, D.total), 1)}%)`)}</div>`;
+}
+
+// autore e licenza della foto da Commons (come creditName e fillPhoto in index.html)
+const plain = html => new DOMParser().parseFromString(html || "", "text/html").body.textContent.replace(/\s+/g, " ").trim();
+function creditName(md) {
+  if (plain(md.Attribution?.value)) return plain(md.Attribution.value);
+  const doc = new DOMParser().parseFromString(md.Artist?.value || "", "text/html");
+  doc.querySelectorAll('[style*="display:none"], [style*="display: none"]').forEach(e => e.remove());
+  const a = [...doc.querySelectorAll("a")].map(x => x.textContent.replace(/\s+/g, " ").trim()).find(Boolean);
+  return a || doc.body.textContent.replace(/\s+/g, " ").trim();
+}
+function fillCredit() { document.querySelectorAll(".photo figcaption[data-file]").forEach(fillCap); }
+async function fillCap(cap) {
+  try {
+    const r = await fetch("https://commons.wikimedia.org/w/api.php?format=json&formatversion=2&origin=*&action=query&prop=imageinfo&iiprop=extmetadata&titles="
+      + encodeURIComponent("File:" + cap.dataset.file)).then(r => r.json());
+    const md = r.query.pages[0].imageinfo?.[0]?.extmetadata || {};
+    const author = creditName(md), lic = plain(md.LicenseShortName?.value);
+    const txt = [author, lic && (author ? `(${lic})` : lic)].filter(Boolean).join(" ");
+    if (txt) { cap.innerHTML = `<a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(cap.dataset.file)}" target="_blank" rel="noopener">${esc(txt)}</a>`; cap.title = txt; }
+  } catch (e) {}
+}
+
+// ---------- primati ----------
+// isolated: calcolato con QLever da build_species.py (species_isolated); "cap" = niente entro 50 km («> 50»)
+const REC = ["height", "trunk", "crown", "slender", "stocky", "oldest", "isolated"];
+const recVal = (k, t) => k === "oldest" ? esc(t.tags.start_date || t.v) : k === "isolated" && t.cap ? `&gt; ${fmt(t.v)}`
+  : fmt(t.v, k === "slender" || k === "stocky" ? 1 : 2);
+const isoNear = t => t.cap ? T.isoCap : T.isoNear[t.nk] || "";
+function recRow(k, t, warn = true) {   // warn = false: il ⚠ è già accanto al valore in grande
+  const place = regName(t.r) || T.monMap;
+  return `<a href="${treeLink(t)}">${esc(t.name || T.node(t.id))}</a>, ${esc(place)}${warn && t.w ? ` <span class="warn" title="${T.warned}">⚠</span>` : ""}`;
+}
+function records() {
+  const wiki = { height: D.wiki.height, trunk: D.wiki.circumference };
+  // in grande il primo della classifica, anche se segnalato (con ⚠); nell'elenco richiudibile gli altri, dal secondo
+  const cards = REC.map(k => {
+    const list = D.records[k] || [], t = list[0];
+    if (!t) return `<div class="card rec"><h3>${T.rc[k]}</h3><div class="none">${T.noRec}</div></div>`;
+    const nWarn = list.filter(x => x.w).length;
+    const iso = k === "isolated";
+    const rest = list.slice(1).map((x, i) => `<li value="${i + 2}"><b>${recVal(k, x)}</b> · ${recRow(k, x)}${iso ? ` · ${esc(isoNear(x))}` : ""}</li>`);
+    return `<div class="card rec"><h3>${T.rc[k]}</h3>
+      <div class="val">${recVal(k, t)}${t.w ? ` <span class="warn" title="${T.warned}">⚠</span>` : ""} <small>${T.unit[k]}</small></div>
+      <div class="who">${recRow(k, t, false)}</div>
+      ${iso ? `<div class="wiki">${esc(isoNear(t))}</div><div class="wiki">${esc(T.isoHow)}</div>` : ""}
+      ${wiki[k] ? `<div class="wiki">${T.wikiVal(fmt(wiki[k], 2) + " m")}</div>` : ""}
+      ${rest.length ? `<details><summary>${T.others(list.length)}${nWarn ? ` · ${T.nWarn(nWarn)}` : ""}</summary><ol>${rest.join("")}</ol></details>` : ""}</div>`;
+  }).join("");
+  return `<section><h2>${T.recTitle}</h2><p class="lead">${T.recLead}</p><div class="grid3">${cards}</div></section>`;
+}
+
+// ---------- misure tipiche ----------
+function histSvg(h, med, unit) {
+  const W = 320, H = 110, P = 18, n = h.bins.length, max = Math.max(...h.bins), bw = (W - 8) / n;
+  const bars = h.bins.map((c, i) => `<rect x="${4 + i * bw + 0.5}" y="${H - P - (H - P - 6) * c / max}" width="${Math.max(1, bw - 1)}" height="${(H - P - 6) * c / max}" fill="#7fb38a"/>`).join("");
+  const step = h.step, ticks = [];
+  const every = Math.ceil(n / 6);
+  for (let i = 0; i <= n; i += every) ticks.push(`<text x="${4 + i * bw}" y="${H - 4}" font-size="10" fill="#5d6b61" text-anchor="middle">${fmt(i * step, 2)}</text>`);
+  const mx = med != null ? 4 + med / step * bw : null;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img">${bars}
+    <line x1="4" x2="${W - 4}" y1="${H - P}" y2="${H - P}" stroke="#c9d1cb"/>${ticks.join("")}
+    ${mx != null ? `<line x1="${mx}" x2="${mx}" y1="4" y2="${H - P}" stroke="#1b6b2c" stroke-width="1.5" stroke-dasharray="3 2"/>` : ""}</svg>`;
+}
+// passo «tondo» (1, 2, 5 × 10^k) per avere circa n tacche fino a max
+const niceStep = (max, n = 5) => { const raw = max / n, p = 10 ** Math.floor(Math.log10(raw)); return [1, 2, 5, 10].map(m => m * p).find(s => s >= raw); };
+// nuvola di punti dei rapporti (build_species.py, scatter): circonferenza in x, altezza o chioma in y; ogni punto è
+// una cella della griglia, più scuro se ha più alberi. La retta tratteggiata passa per l'origine con pendenza uguale
+// alla mediana del rapporto: sopra ci sono gli alberi con il rapporto più alto della mediana, sotto quelli più basso.
+function scatterSvg(sc, med, yLabel) {
+  const W = 480, H = 300, L = 46, R = 12, Tp = 8, B = 40, pw = W - L - R, ph = H - Tp - B;
+  const xmax = sc.nx * sc.sx, ymax = sc.ny * sc.sy, cw = pw / sc.nx, ch = ph / sc.ny;
+  const X = v => L + v / xmax * pw, Y = v => Tp + ph - v / ymax * ph;
+  let max = 1;
+  for (let k = 2; k < sc.pts.length; k += 3) max = Math.max(max, sc.pts[k]);
+  const lm = Math.log(1 + max), dots = [];
+  for (let k = 0; k < sc.pts.length; k += 3) {
+    const [i, j, c] = [sc.pts[k], sc.pts[k + 1], sc.pts[k + 2]];
+    const op = (0.2 + 0.8 * Math.log(1 + c) / lm).toFixed(2);
+    dots.push(`<circle cx="${(L + (i + 0.5) * cw).toFixed(1)}" cy="${(Tp + ph - (j + 0.5) * ch).toFixed(1)}" r="2" fill-opacity="${op}"/>`);
+  }
+  const ax = [], gx = niceStep(xmax), gy = niceStep(ymax, 4);
+  for (let v = 0; v <= xmax + 1e-9; v += gx) ax.push(`<line x1="${X(v)}" x2="${X(v)}" y1="${Tp}" y2="${Tp + ph}" stroke="#eef1ee"/><text x="${X(v)}" y="${Tp + ph + 16}" text-anchor="middle">${fmt(v, 2)}</text>`);
+  for (let v = 0; v <= ymax + 1e-9; v += gy) ax.push(`<line x1="${L}" x2="${L + pw}" y1="${Y(v)}" y2="${Y(v)}" stroke="#eef1ee"/><text x="${L - 5}" y="${Y(v) + 4.5}" text-anchor="end">${fmt(v, 2)}</text>`);
+  // retta della mediana fino al bordo del grafico (a destra o in alto)
+  const xe = Math.min(xmax, ymax / med), ye = xe * med;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" font-size="13" fill="#5d6b61">${ax.join("")}
+    <g fill="#2f7d40">${dots.join("")}</g>
+    <line x1="${X(0)}" y1="${Y(0)}" x2="${X(xe)}" y2="${Y(ye)}" stroke="#1b6b2c" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="${L}" x2="${L + pw}" y1="${Tp + ph}" y2="${Tp + ph}" stroke="#c9d1cb"/><line x1="${L}" x2="${L}" y1="${Tp}" y2="${Tp + ph}" stroke="#c9d1cb"/>
+    <text x="${L + pw / 2}" y="${H - 3}" text-anchor="middle">${T.axC}</text>
+    <text transform="translate(13 ${Tp + ph / 2}) rotate(-90)" text-anchor="middle">${yLabel}</text></svg>`;
+}
+function sizes() {
+  const S = D.stats;
+  const box = (title, s, unit) => `<div class="card stat"><h3 style="margin:0;font-size:14px">${title}</h3>${s.med == null
+    ? `<div class="none">${T.few}</div>` : `<div><span class="big">${fmt(s.med, 2)} ${unit}</span> <span class="n">${T.median}, ${T.on(fmt(s.n))}</span></div>
+    ${s.hist ? histSvg(s.hist, s.med, unit) : ""}`}</div>`;
+  // spiegazione del grafico in un (?) in alto a destra: si apre passandoci sopra o toccandolo (focus)
+  const tip = sc => `<span class="tip" tabindex="0" role="button" aria-label="${esc(T.scHelp)}">?<span class="tipbox" role="tooltip">${T.scInfo}${sc.over ? " " + T.scOver(fmt(sc.over)) : ""}</span></span>`;
+  const ratio = (title, s, info, wiki, yLabel) => `<div class="card stat">${s.med != null && s.sc ? tip(s.sc) : ""}<h3 style="margin:0;font-size:14px">${title}</h3>${s.med == null
+    ? `<div class="none">${T.few}</div>` : `<div><span class="big">${fmt(s.med, 2)}</span> <span class="n">${T.median}, ${T.on(fmt(s.n))}${wiki ? " · " + T.wikiAvg(fmt(wiki, 2)) : ""}</span></div>`}
+    <div class="n" style="margin-top:4px">${info}</div>
+    ${s.med != null && s.sc ? scatterSvg(s.sc, s.med, yLabel) : ""}</div>`;
+  return `<section><h2>${T.sizeTitle}</h2><p class="lead">${T.sizeLead}</p>
+    <div class="grid3">${box(T.height, S.height, "m")}${box(T.trunkM, S.trunk, "m")}${box(T.crownM, S.crown, "m")}</div>
+    <div class="ratios">${ratio(T.hc, S.h_c, T.hcInfo, D.wiki.height_circ_ratio, T.axH)}${ratio(T.crc, S.cr_c, T.crcInfo, D.wiki.crown_circ_ratio, T.axCr)}</div></section>`;
+}
+
+// ---------- distribuzione ----------
+const PALETTE = ["#d9f0d3", "#a6dba0", "#5aae61", "#1b7837", "#00441b"];
+const ABSENT = "#e4e4e4";
+let mapMode = "share", mapGroup = "reg", map = null, BOUNDS = null;
+let heatOn = false, monOn = false;              // densità e monumentali: spenti all'apertura
+const vis = on => on ? "visible" : "none";
+// monumentali della specie ([lon, lat, id, nome]): un file a parte (<slug>.mon.json), scaricato la prima volta che
+// si accende la casella; resta in memoria se la pagina viene ridisegnata (cambio di lingua)
+let MON = null;
+const monData = () => ({ type: "FeatureCollection", features: (MON || []).map(([x, y, id, name]) => ({ type: "Feature", properties: { id, name }, geometry: { type: "Point", coordinates: [x, y] } })) });
+async function loadMon() {
+  if (MON) return;
+  try { MON = await fetch(D.slug + ".mon.json").then(r => r.json()); } catch (e) { return; }
+  if (map && map.getSource("mon")) map.getSource("mon").setData(monData());
+}
+const valueOf = (s, mode) => !s || !s.sp ? null : mode === "share" ? 100 * s.n / s.sp : mode === "count" ? s.n : s.km2 ? s.n / s.km2 : null;
+function breaks(vals) {
+  const v = vals.filter(x => x > 0).sort((a, b) => a - b);
+  if (!v.length) return [];
+  const q = [0.2, 0.4, 0.6, 0.8].map(p => v[Math.min(v.length - 1, Math.floor(p * v.length))]);
+  return [...new Set(q)];
+}
+const classOf = (x, br) => { let i = 0; while (i < br.length && x > br[i]) i++; return i; };
+function mapSection() {
+  const seg = (id, items, cur) => `<span class="seg" id="${id}">${items.map(([k, l]) => `<button type="button" data-k="${k}" aria-pressed="${k === cur}">${l}</button>`).join("")}</span>`;
+  const rows = Object.entries(D.regions).filter(([, s]) => s.n > 0);
+  // per la quota solo le regioni con almeno 500 alberi con una specie qualunque (sp), senza nota nella pagina
+  const byShare = rows.filter(([, s]) => s.sp >= 500).sort((a, b) => b[1].n / b[1].sp - a[1].n / a[1].sp).slice(0, 10);
+  const byCount = rows.sort((a, b) => b[1].n - a[1].n).slice(0, 10);
+  const table = list => `<table><thead><tr><th>${T.region}</th><th class="num">${T.treesCol}</th><th class="num">${T.shareCol}</th><th class="num">${T.densCol}</th></tr></thead><tbody>${list.map(([k, s]) =>
+    `<tr><td>${esc(regName(k))}</td><td class="num">${fmt(s.n)}</td><td class="num">${fmt(100 * s.n / s.sp, 1)}%</td><td class="num">${s.km2 ? sig(s.n / s.km2) : "–"}</td></tr>`).join("")}</tbody></table>`;
+  return `<section><h2>${T.mapTitle}</h2><p class="lead">${T.mapLead}</p>
+    <div class="controls">${seg("mode", [["share", T.mShare], ["count", T.mCount], ["dens", T.mDens]], mapMode)}
+      ${seg("group", [["reg", T.gReg], ["nat", T.gNat]], mapGroup)}
+      <label><input type="checkbox" id="heat"${heatOn ? " checked" : ""}> ${T.heat}</label>
+      <label><input type="checkbox" id="monck"${monOn ? " checked" : ""}> <span style="color:#9a6a00">●</span> ${T.monL} (${fmt(D.mon_n)})</label></div>
+    <div id="map"></div><div class="legend" id="legend"></div>
+    <div class="tables"><div><h3>${T.topShare}</h3>${table(byShare)}</div>
+      <div><h3>${T.topCount}</h3>${table(byCount)}</div></div></section>`;
+}
+function choropleth() {
+  if (!map || !BOUNDS || !map.getLayer("reg-fill")) return;
+  const stats = mapGroup === "reg" ? D.regions : D.nations;
+  // in «Nazioni» i contorni "g:<nazione>" e le regioni che sono già una nazione; in «Regioni» tutte le altre
+  const keys = BOUNDS.features.map(f => f.properties.key).filter(k => mapGroup === "nat" ? k in D.nations : !k.startsWith("g:"));
+  const vals = keys.map(k => valueOf(stats[k], mapMode));
+  const br = breaks(vals);
+  const expr = ["match", ["get", "key"]];
+  keys.forEach((k, i) => { const v = vals[i]; if (v == null) return; expr.push(k, v > 0 ? PALETTE[classOf(v, br)] : ABSENT); });
+  expr.push("rgba(0,0,0,0)");
+  map.setPaintProperty("reg-fill", "fill-color", expr);
+  const shown = ["in", ["get", "key"], ["literal", keys]];
+  map.setFilter("reg-fill", shown); map.setFilter("reg-line", shown);
+  const info = { share: T.shareInfo, count: T.countInfo, dens: T.densInfo }[mapMode];
+  const edges = [0, ...br];
+  const f = v => mapMode === "count" ? fmt(v) : sig(v);
+  const lab = i => i < br.length ? `${i ? "> " + f(edges[i]) + " – " : "≤ "}${f(br[i])}` : `> ${f(br[br.length - 1] ?? 0)}`;
+  document.getElementById("legend").innerHTML = `<span>${info}:</span>` +
+    PALETTE.slice(0, br.length + 1).map((c, i) => `<span><i style="background:${c}"></i>${lab(i)}${mapMode === "share" ? "%" : ""}</span>`).join("") +
+    `<span><i style="background:${ABSENT}"></i>${T.absent}</span>`;
+}
+function initMap() {
+  // vista iniziale: il mondo intero (senza l'Antartide)
+  map = new maplibregl.Map({ container: "map", style: "https://tiles.openfreemap.org/styles/positron",
+    bounds: [[-168, -50], [178, 72]], fitBoundsOptions: { padding: 10 },
+    attributionControl: { compact: true }, cooperativeGestures: true });
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
+  const grid = { type: "FeatureCollection", features: D.grid.map(([x, y, c]) => ({ type: "Feature", properties: { c }, geometry: { type: "Point", coordinates: [x, y] } })) };
+  map.on("load", async () => {
+    const first = map.getStyle().layers.find(l => l.type === "symbol")?.id;
+    BOUNDS = await fetch("../data/regions_boundaries.geojson").then(r => r.json());
+    map.addSource("reg", { type: "geojson", data: BOUNDS });
+    map.addLayer({ id: "reg-fill", type: "fill", source: "reg", paint: { "fill-color": "rgba(0,0,0,0)", "fill-opacity": 0.75 } }, first);
+    map.addLayer({ id: "reg-line", type: "line", source: "reg", paint: { "line-color": "#fff", "line-width": 0.6 } }, first);
+    map.addSource("grid", { type: "geojson", data: grid });
+    const maxc = Math.max(1, ...D.grid.map(g => g[2]));
+    map.addLayer({ id: "heat", type: "heatmap", source: "grid", maxzoom: 10, layout: { visibility: vis(heatOn) }, paint: {
+      "heatmap-weight": ["/", ["ln", ["+", 1, ["get", "c"]]], Math.log(1 + maxc)],
+      "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 2, 0.8, 9, 2],
+      "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 2, 6, 6, 14, 9, 28],
+      "heatmap-opacity": ["interpolate", ["linear"], ["zoom"], 8, 0.85, 10, 0],
+      "heatmap-color": ["interpolate", ["linear"], ["heatmap-density"], 0, "rgba(0,0,0,0)", 0.15, "rgba(255,237,160,.6)", 0.4, "#feb24c", 0.7, "#f03b20", 1, "#8b0000"] } });
+    map.addLayer({ id: "cells", type: "circle", source: "grid", minzoom: 8, layout: { visibility: vis(heatOn) }, paint: {
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 8, ["+", 2, ["*", 1.2, ["ln", ["+", 1, ["get", "c"]]]]], 12, ["+", 4, ["*", 3, ["ln", ["+", 1, ["get", "c"]]]]]],
+      "circle-color": "#f03b20", "circle-opacity": ["interpolate", ["linear"], ["zoom"], 8, 0, 10, 0.6], "circle-stroke-width": 0 } });
+    map.addSource("mon", { type: "geojson", data: monData() });
+    map.addLayer({ id: "mon", type: "circle", source: "mon", layout: { visibility: vis(monOn) }, paint: {
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 2, 2.2, 8, 4, 14, 7], "circle-color": "#ffd34d",
+      "circle-stroke-color": "#9a6a00", "circle-stroke-width": 1 } });
+    map.on("click", "mon", e => {
+      const p = e.features[0].properties;
+      new maplibregl.Popup().setLngLat(e.lngLat).setHTML(`<a href="../monumental-trees/index.html#node=${p.id}">${esc(p.name || T.node(p.id))}</a>`).addTo(map);
+    });
+    map.on("click", "reg-fill", e => {
+      if (map.queryRenderedFeatures(e.point, { layers: ["mon"] }).length) return;
+      const k = e.features[0].properties.key, s = (mapGroup === "reg" ? D.regions : D.nations)[k];
+      if (!s) return;
+      const nm = LANG === "it" ? s.name : s.name_en;
+      new maplibregl.Popup().setLngLat(e.lngLat).setHTML(`<b>${esc(nm)}</b><br>${T.treesCol}: ${fmt(s.n)}<br>${T.shareCol}: ${sig(100 * s.n / Math.max(1, s.sp))}%<br>${T.densCol}: ${s.km2 ? sig(s.n / s.km2) : "–"}`).addTo(map);
+    });
+    for (const l of ["mon", "reg-fill"]) { map.on("mouseenter", l, () => map.getCanvas().style.cursor = "pointer"); map.on("mouseleave", l, () => map.getCanvas().style.cursor = ""); }
+    choropleth();
+  });
+}
+function bindMap() {
+  const seg = (id, set) => document.getElementById(id).addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    set(b.dataset.k);
+    for (const x of e.currentTarget.children) x.setAttribute("aria-pressed", x === b);
+    choropleth();
+  });
+  seg("mode", k => mapMode = k);
+  seg("group", k => mapGroup = k);
+  document.getElementById("heat").addEventListener("change", e => { heatOn = e.target.checked; for (const l of ["heat", "cells"]) map.setLayoutProperty(l, "visibility", vis(heatOn)); });
+  document.getElementById("monck").addEventListener("change", e => { monOn = e.target.checked; if (monOn) loadMon(); map.setLayoutProperty("mon", "visibility", vis(monOn)); });
+}
+
+// ---------- aspetto sulla mappa (stessi colori e sagome di index.html) ----------
+const hash01 = (id, k) => { let x = (id * 2654435761 + k * 40503) >>> 0; x ^= x >>> 15; x = Math.imul(x, 2246822507) >>> 0;
+  x ^= x >>> 13; return (x >>> 0) / 4294967296; };
+// sagoma della chioma vista dall'alto (crownOutline in index.html)
+function crownOutline(kind, id, r) {
+  const pts = [];
+  if (kind === "spiky") {
+    const n = 14, kin = 0.74, rot = (id % 11) / 11 * (2 * Math.PI / n);
+    const R = r * Math.sqrt(Math.PI / (n * kin * Math.sin(Math.PI / n)));
+    for (let k = 0; k < 2 * n; k++) { const a = rot + k * Math.PI / n, Rk = k % 2 ? R * kin : R; pts.push([Rk * Math.cos(a), Rk * Math.sin(a)]); }
+  } else if (kind === "palm") {
+    const n = 8 + (id % 3), M = 8, rot = hash01(id, 4) * 2 * Math.PI, kin = 0.3, rr = [];
+    for (let f = 0; f < n; f++) { const len = 1 + (hash01(id, 20 + f) - 0.5) * 0.16;
+      for (let j = 0; j < M; j++) { const d = Math.abs(2 * j / M - 1); rr.push(kin + (len - kin) * Math.pow(1 - d, 0.6)); } }
+    const da = 2 * Math.PI / rr.length; let area = 0; rr.forEach((v, k) => area += 0.5 * v * rr[(k + 1) % rr.length] * Math.sin(da));
+    const sc = r * Math.sqrt(Math.PI / area); rr.forEach((v, k) => pts.push([sc * v * Math.cos(rot + k * da), sc * v * Math.sin(rot + k * da)]));
+  } else {
+    const lobes = 6 + (id % 3), ph = (id % 97) * 0.37, N = 56;
+    for (let k = 0; k < N; k++) { const a = k / N * 2 * Math.PI, R = r * 1.06 * (0.84 + 0.16 * Math.abs(Math.sin(lobes / 2 * a + ph))); pts.push([R * Math.cos(a), R * Math.sin(a)]); }
+  }
+  return pts;
+}
+const CYCLE_COLOR = lc => /^(semi_)?deciduous$/.test(lc) ? "#a5d64c" : /^(semi_)?evergreen$/.test(lc) ? "#1f6b35" : "#5fa36f";
+const AUTUMN_TONES = ["#e3b524", "#dd8a1f", "#b5502a", "#9a6b3a"];
+function treeSvg({ fill, opacity = 0.55, stroke = "#1b6b2c", sw = 1.2, fruits = null, id = 1234567, trunk = true }, cx = 100, cy = 100, r = 70) {
+  const kind = D.lt === "needleleaved" ? "spiky" : D.lt === "palm" ? "palm" : "blob";
+  const pts = crownOutline(kind, id, r).map(([x, y]) => `${(cx + x).toFixed(1)},${(cy - y).toFixed(1)}`).join(" ");
+  let s = `<polygon points="${pts}" fill="${fill}" fill-opacity="${opacity}" stroke="${stroke}" stroke-width="${sw}"/>`;
+  if (trunk) s += `<circle cx="${cx}" cy="${cy}" r="${r * 0.11}" fill="${D.bark || "#7b4a1e"}"${D.bark ? ' stroke="#8a8a8a" stroke-width="0.8"' : ""}/>`;
+  if (fruits) {                                   // 7 frutti come su una chioma grande (decoPoints in index.html)
+    const nf = 7, rot = hash01(id, 2) * 2 * Math.PI;
+    for (let k = 0; k < nf; k++) {
+      const a = rot + k * 2 * Math.PI / nf + (hash01(id, k + 3) - 0.5) * (Math.PI / nf), d = r * (0.45 + 0.35 * hash01(id, k + 50));
+      s += `<circle cx="${(cx + d * Math.cos(a)).toFixed(1)}" cy="${(cy - d * Math.sin(a)).toFixed(1)}" r="${r * 0.09}" fill="${fruits}" stroke="#0005" stroke-width="0.6"/>`;
+    }
+  }
+  return s;
+}
+const monthRange = (a, b) => `${T.months[a - 1]} – ${T.months[b - 1]}`;
+const monthList = ms => { // mesi consecutivi uniti: [7,8,9] -> lug – set
+  if (!ms.length) return T.always;
+  const s = [...ms].sort((a, b) => a - b), out = []; let st = s[0], pr = s[0];
+  for (const m of [...s.slice(1), null]) { if (m === pr + 1) { pr = m; continue; } out.push(st === pr ? T.months[st - 1] : monthRange(st, pr)); st = pr = m; }
+  return out.join(", ");
+};
+// Ogni disegno è «della specie» (colore proprio in SPECIES_COLORS di index.html, frutti) o «generico» (lo stesso per
+// tutte le specie con quel tipo di foglia e quel ciclo): sui generici un (?) accanto al badge invita a proporne uno dedicato.
+// Lo spoglio è uguale per tutti gli alberi caducifogli e non ha badge
+const ISSUE = "https://github.com/ivanbranco/tree-osm-qa/issues/new?template=species-rendering.yml";
+function looks() {
+  const dec = /^(semi_)?deciduous$/.test(D.lc || ""), broad = D.lt === "broadleaved", sm = D.sample;
+  const sc = D.spColor, scAut = sc && sc[2], scLeaf = sc && !sc[2];
+  const link = season => sm ? `<p><a href="../index.html#region=${sm.r}&node=${sm.id}${season ? "&season=" + season : ""}">${T.see}</a></p>` : "";
+  // own === null: disegno uguale per tutte le specie (spoglio), senza badge né (?)
+  const badge = own => own === null ? "" : `<span class="kind ${own ? "own" : "gen"}">${own ? T.own : T.generic}</span>${own ? "" : `<button class="help" type="button" title="${T.genTitle}" aria-label="${T.genTitle}">?</button>`}`;
+  const tile = (title, sub, body, season, own) => `<div class="look">
+    <svg viewBox="0 0 200 200">${body}</svg><h3>${title}</h3>${badge(own)}<p>${sub}</p>${link(season)}</div>`;
+  const base = CYCLE_COLOR(D.lc || "");
+  const leafFill = scLeaf ? sc[0] : base;
+  const leafSub = scLeaf && sc[1] ? monthList(sc[1]) : dec ? monthRange(4, 9) : T.evergreen;
+  const tiles = [tile(T.leaves, leafSub, treeSvg({ fill: leafFill, opacity: scLeaf ? 0.7 : 0.55 }), dec ? "leaves" : "", !!scLeaf)];
+  if (scAut) {
+    tiles.push(tile(T.autumn, monthList(sc[1]), treeSvg({ fill: sc[0], opacity: 0.7 }), "autumn", true));
+  } else if (dec && broad) {
+    const four = AUTUMN_TONES.map((c, i) => treeSvg({ fill: c, opacity: 0.7, id: 1234567 + i * 7919 }, 55 + (i % 2) * 90, 55 + Math.floor(i / 2) * 90, 40)).join("");
+    tiles.push(tile(T.autumn, `${monthRange(10, 11)}. ${T.autumnInfo}`, four, "autumn", false));
+  }
+  if (dec) tiles.push(tile(T.bare, monthRange(12, 3), treeSvg({ fill: "#cdbb9f", opacity: 0.02, stroke: "#7d6650", sw: 1.6 }), "bare", null));
+  if (D.fruit) tiles.push(tile(T.fruits, monthList(D.fruit.months), treeSvg({ fill: base, fruits: D.fruit.color }), "", true));
+  const issue = `${ISSUE}&title=${encodeURIComponent("Rendering: " + D.name)}&species=${encodeURIComponent(D.name)}`;
+  return `<section><h2>${T.lookTitle}</h2><p class="lead">${T.lookLead}</p><div class="looks">${tiles.join("")}</div>
+    <dialog id="gen-dlg"><h3>${T.genTitle}</h3><p>${T.genText(D.lt, D.lc)}</p><p>${T.genAsk}</p>
+      <div class="btns"><button type="button" value="close">${T.close}</button><a href="${issue}" target="_blank" rel="noopener">${T.propose}</a></div></dialog></section>`;
+}
+function bindLooks() {
+  const dlg = document.getElementById("gen-dlg");
+  document.querySelectorAll(".look .help").forEach(b => b.addEventListener("click", () => dlg.showModal()));
+  dlg.querySelector("button").addEventListener("click", () => dlg.close());
+  dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });   // clic fuori dal riquadro
+}
+
+// ---------- maschio e femmina (specie dioiche) ----------
+// D.sex (build_species.py, sex_info): i tratti che distinguono i due sessi, gli stessi del riquadro ♂ / ♀ della scheda
+// dell'albero (L.sexTraits in index.html), con la foto di Commons se c'è. Il maschio a sinistra, la femmina a destra
+const SEX_SVG = {      // come in index.html
+  male: '<circle cx="9" cy="15" r="6"/><path d="M13.5 10.5 21 3M15 3h6v6"/>',
+  female: '<circle cx="12" cy="9" r="6"/><path d="M12 15v8M8 19.5h8"/>'
+};
+function sexes() {
+  if (!D.sex) return "";
+  const col = k => { const s = D.sex[k], n = D.sex.n[k], alt = (s.alt || {})[LANG] || D.name;
+    const photo = s.img ? `<figure class="photo"><a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(s.img)}" target="_blank" rel="noopener">
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(s.img)}?width=640" alt="${esc(alt)}" loading="lazy"></a>
+      <figcaption data-file="${esc(s.img)}">Wikimedia Commons</figcaption></figure>` : "";
+    return `<div class="card">${photo}<div class="body"><h3><svg viewBox="0 0 24 24" aria-hidden="true">${SEX_SVG[k]}</svg>${T.sexName[k]}</h3>
+      <p>${esc(s[LANG])}</p><div class="n">${T.sexN(fmt(n), k)}</div></div></div>`; };
+  return `<section id="sex"><h2>${T.sexTitle}</h2><p class="lead">${T.sexLead}</p><div class="sexes">${col("male")}${col("female")}</div></section>`;
+}
+
+// ---------- pagina ----------
+function render() {
+  T = I18N[LANG]; LOC = LANG === "it" ? "it-IT" : "en-GB";
+  document.documentElement.lang = LANG;
+  document.getElementById("lang").textContent = T.other;
+  document.getElementById("crumb").textContent = T.crumb;
+  const view = map ? { c: map.getCenter(), z: map.getZoom() } : null;
+  if (map) { map.remove(); map = null; BOUNDS = null; }
+  document.getElementById("main").innerHTML = hero() + looks() + sexes() + records() + sizes() + mapSection();
+  document.getElementById("foot").innerHTML = T.foot(new Date(D.updated).toLocaleDateString(LOC, { day: "numeric", month: "long", year: "numeric" }));
+  initMap(); bindMap(); bindLooks(); fillCredit();
+  if (view) map.once("load", () => map.jumpTo({ center: view.c, zoom: view.z }));
+}
+document.getElementById("lang").addEventListener("click", () => {
+  LANG = LANG === "it" ? "en" : "it";
+  try { localStorage.setItem("lang", LANG); } catch (e) {}
+  render();
+});
+render();
+</script>
+</body>
+</html>
