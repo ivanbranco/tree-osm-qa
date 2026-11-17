@@ -806,6 +806,7 @@ def hint_props(t, osm_id=None):
     hint_txl: con hint_tx, i taxon:xx dell'albero ("taxon:en=Rowan" separati da "\n"): la correzione li sposta in
     species:xx o genus:xx. Se quel tag c'è già con un altro valore, né hint_tx né hint_txl;
     hint_ne: name:en con l'iniziale minuscola -> il valore (index.html propone la maiuscola);
+    hint_nt: note=* (anche NOTE) -> righe "chiave=valore" separate da "\n" (issue #85);
     hint_imp_u: source=* di un import non documentato (scripts/imports.json) -> il valore;
     hint_imp_d: source=* di un import documentato -> "valore|pagina della wiki";
     hint_mc: ref:masaf senza masaf:criteria -> i criteri dell'elenco MASAF (masaf_trees.json) per quei codici;
@@ -858,6 +859,8 @@ def hint_props(t, osm_id=None):
         out["hint_it"] = ";".join(x[:1].upper() + x[1:] for x in sit)
     if (ne := str(t.get("name:en") or "")).lstrip(" ×")[:1].islower():
         out["hint_ne"] = ne
+    if nt := keys_named(t, "note"):     # note=*: righe "chiave=valore" separate da "\n" (issue #85)
+        out["hint_nt"] = "\n".join(f"{k}={v}" for k, v in nt)
     if tp := taxon_precise(t):
         # taxon:xx (nome in una lingua) resterebbe senza taxon: passa in species:xx / genus:xx. Se quel tag c'è già con
         # un altro valore la proposta non sarebbe certa: nessun consiglio
@@ -2527,6 +2530,12 @@ def key_typos(t):
     return [(k, kn, v) for k, v in t.items() if (kn := key_typo(k))]
 
 
+def keys_named(t, name):
+    """[(chiave, valore)] delle chiavi uguali a name senza contare le maiuscole (fixme e FIXME, issue #85), con un
+    valore non vuoto, in ordine di chiave."""
+    return sorted((k, str(v).strip()) for k, v in t.items() if k.casefold() == name and str(v).strip())
+
+
 def slenderness(t):
     """height / circumference (anche da diameter); None per i ceppi o se manca una delle due misure."""
     if t.get("natural") == "tree_stump":
@@ -2792,6 +2801,8 @@ def checks(t, pos, osm_id=None):
         flag("undocumented_tag", **{"tag_" + k: v for k, v in undoc})
     if kt := key_typos(t):              # righe "chiave|chiave nota|valore" separate da "\n" (il valore può contenere "|")
         flag("key_typo", kt_keys="\n".join(f"{k}|{kn}|{v}" for k, kn, v in kt))
+    if fx := keys_named(t, "fixme"):    # fixme=* (anche FIXME): righe "chiave=valore" separate da "\n" (issue #85)
+        flag("fixme", fixme_kv="\n".join(f"{k}={v}" for k, v in fx))
     return issues, props
 
 

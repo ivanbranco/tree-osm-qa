@@ -566,6 +566,7 @@ const I18N = {
       speciesFromWp: n => `species:wikipedia indica ${n}: si potrebbe aggiungere species=${n}`,
       speciesIt: v => `Su OSM quasi tutti i valori di species:it iniziano con la maiuscola: species:it=${v}`,
       nameEn: v => `In inglese un nome proprio inizia con la maiuscola: name:en=${v}`,
+      note: kv => `Nota per chi mappa: ${kv}`,
       // taxon=* (hint_tx, fetch_trees.py: "species|nome" o "genus|nome" se le liste wiki lo riconoscono)
       // has: c'è già species o genus con lo stesso nome
       taxon: (v, k, n, has, b) => `taxon=${v} non dice a quale rango appartiene il nome: ${!k ? "se possibile, usare un tag più preciso (species, genus, taxon:cultivar…)"
@@ -626,7 +627,8 @@ const I18N = {
       masaf_removed: "Albero rimosso dall'elenco MASAF", masaf_unknown: "ref:masaf non presente nell'elenco MASAF",
       register_country: "Tag di un registro di un'altra nazione", start_date_invalid: "start_date non valido o nel futuro",
       wikipedia_is_taxon: "wikipedia è un taxon",
-      undocumented_tag: "Tag non documentato (tree, type)", key_typo: "Chiave scritta male (heigth, Species…)", circumference_species: "Circonferenza > limite della specie",
+      undocumented_tag: "Tag non documentato (tree, type)", key_typo: "Chiave scritta male (heigth, Species…)", fixme: "Tag fixme",
+      circumference_species: "Circonferenza > limite della specie",
       height_species: "Altezza > limite della specie", species_typo: "Species forse scritta male",
       species_epithet_case: "Species con maiuscole sbagliate", species_common_name: "Species non scientifica (nome comune?)",
       species_unidentified: "Species non identificata (sp., spp.)", species_parentheses: "Parentesi in species", species_author: "Species con l'autore del nome",
@@ -835,6 +837,7 @@ const I18N = {
       denotation_value: "Confronto con gli usi su Taginfo: segnalati i valori usati al massimo 10 volte, quelli con un formato non valido, quelli con spazi intorno al \";\" che separa più valori e quelli comuni con altro testo attaccato.",
       undocumented_tag: "tree=* e type=* non sono documentati per gli alberi nella wiki OSM.",
       key_typo: "La chiave non è tra quelle usate per gli alberi, ma differisce da una di esse solo per le maiuscole, per una lettera (due nelle chiavi di almeno 12 lettere) o per due lettere vicine scambiate. Le chiavi in OSM sono minuscole. Il valore non è usato per disegnare l'albero.",
+      fixme: "fixme=* (o FIXME=*) descrive qualcosa da verificare o correggere nei dati dell'albero (wiki OSM, Key:fixme). Una volta risolto, il tag va tolto.",
       wikidata_mismatch: "Confronto con il QID che la lista delle specie della wiki OSM associa a species=*.",
       wikidata_not_taxon: "Un taxon su Wikidata ha un nome scientifico (P225): questo elemento non ce l'ha, oppure non esiste.",
       wikidata_is_taxon: "wikidata=* collega l'elemento del singolo albero; la specie si collega con species:wikidata=*.",
@@ -907,6 +910,7 @@ const I18N = {
         Q227936: "tribù", Q164280: "sottofamiglia" },
       undocumented_tag: kv => `tag non documentato ${kv}: verificare se può essere sostituito con un altro tag`,
       key_typo: (k, kn, v) => `${k}=${v}: chiave non usata per gli alberi, forse ${kn}=${v}?`,
+      fixme: kv => `da verificare o correggere: ${kv}`,
       too_slender: (h, c, r) => `albero troppo slanciato: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
       too_slender_species: (h, c, r, sp, r0) => `albero troppo slanciato per ${sp}: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}, tipico ${r0})`,
       too_stocky: (h, c, r) => `albero troppo tozzo: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
@@ -1117,6 +1121,7 @@ const I18N = {
       speciesFromWp: n => `species:wikipedia points to ${n}: species=${n} could be added`,
       speciesIt: v => `On OSM almost all species:it values start with a capital letter: species:it=${v}`,
       nameEn: v => `In English a proper name starts with a capital letter: name:en=${v}`,
+      note: kv => `Note for mappers: ${kv}`,
       taxon: (v, k, n, has, b) => `taxon=${v} does not say which rank the name belongs to: ${!k ? "consider using a more precise tag if possible (species, genus, taxon:cultivar…)"
         : b ? `a genus and an epithet are the form of a species name (not in the wiki list), ${has ? "already in species=*: taxon could be removed"
           : `it could be written as species=${n} instead of taxon. Check the name (synonyms, hybrid sign ×)`}`
@@ -1167,7 +1172,8 @@ const I18N = {
       masaf_removed: "Tree removed from the MASAF list", masaf_unknown: "ref:masaf not in the MASAF list",
       register_country: "Register tag from another country", start_date_invalid: "Invalid or future start_date",
       wikipedia_is_taxon: "wikipedia is a taxon",
-      undocumented_tag: "Undocumented tag (tree, type)", key_typo: "Misspelled key (heigth, Species…)", circumference_species: "Circumference > species limit",
+      undocumented_tag: "Undocumented tag (tree, type)", key_typo: "Misspelled key (heigth, Species…)", fixme: "fixme tag",
+      circumference_species: "Circumference > species limit",
       height_species: "Height > species limit", species_typo: "Possibly misspelled species",
       species_epithet_case: "Species with wrong capitalisation", species_common_name: "Non-scientific species (common name?)",
       species_unidentified: "Unidentified species (sp., spp.)", species_parentheses: "Parentheses in species", species_author: "Species with the author name",
@@ -1366,6 +1372,7 @@ const I18N = {
       denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format, values with spaces around the \";\" that separates multiple values and common values with other text attached.",
       undocumented_tag: "tree=* and type=* are not documented for trees on the OSM wiki.",
       key_typo: "The key is not one of those used for trees, but differs from one of them only in capitalisation, by one letter (two in keys of at least 12 letters) or by two adjacent letters swapped. OSM keys are lowercase. The value is not used to draw the tree.",
+      fixme: "fixme=* (or FIXME=*) describes something to check or correct in the tree's data (OSM wiki, Key:fixme). Once it is resolved, the tag should be removed.",
       wikidata_mismatch: "Compared with the QID that the OSM wiki species list gives for species=*.",
       wikidata_not_taxon: "A taxon on Wikidata has a scientific name (P225): this item does not, or does not exist.",
       wikidata_is_taxon: "wikidata=* links the item of the individual tree; the species is linked with species:wikidata=*.",
@@ -1433,6 +1440,7 @@ const I18N = {
         Q227936: "tribe", Q164280: "subfamily" },
       undocumented_tag: kv => `undocumented tag ${kv}: check whether it can be replaced with another tag`,
       key_typo: (k, kn, v) => `${k}=${v}: key not used for trees, maybe ${kn}=${v}?`,
+      fixme: kv => `to check or correct: ${kv}`,
       too_slender: (h, c, r) => `tree too slender: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
       too_slender_species: (h, c, r, sp, r0) => `tree too slender for ${sp}: height ${h}, circumference ${c} (height/circumference = ${r}, typical ${r0})`,
       too_stocky: (h, c, r) => `tree too stocky: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
@@ -4155,6 +4163,8 @@ const issueBase = (i, p) => {
     case "key_typo":             // kt_keys: righe "chiave|chiave nota|valore" (fetch_trees.py)
       return String(p.kt_keys || "").split("\n").filter(Boolean).map(x => { const [k, kn, ...v] = x.split("|");
         return T[i](k, kn, v.join("|")); }).join("\n");
+    case "fixme":                // fixme_kv: righe "chiave=valore" (fixme, FIXME; fetch_trees.py)
+      return String(p.fixme_kv || "").split("\n").filter(Boolean).map(kv => T[i](kv)).join("\n");
     case "too_slender_species":   // sp_ratio: rapporto tipico della specie (fetch_trees.py)
       return T[i](fmtM(p.height), fmtM(p.hc_circ) + (p.diam_used ? L.fromDiameter : ""),
         Number(p.hc_ratio).toLocaleString(LOC, { maximumSignificantDigits: 3 }), p.species, Number(p.sp_ratio).toLocaleString(LOC));
@@ -5312,6 +5322,8 @@ function hints(p, pos) {
   if (cf) out.push(H.commonsImage(cf));
   // image=* è una pagina web (hint_ip, hint_mly: fetch_trees.py)
   if (p.hint_ip) out.push(H.imagePage(p.hint_ip, p.hint_mly));
+  // note=* (hint_nt: righe "chiave=valore", fetch_trees.py): anche sui ceppi
+  for (const kv of String(p.hint_nt || "").split("\n").filter(Boolean)) out.push(H.note(kv));
   if (p.stump) return out;
   if (binomialHint(p.hint_sp)) out.push(H.wdSpecies(p.hint_sp));
   // l'elemento Wikidata dell'albero ha solo il genere della specie taggata (hint_wg = "QID|genere", fetch_trees.py)

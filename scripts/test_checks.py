@@ -499,6 +499,11 @@ CASES = [
     ("key_typo: maiuscola", {"natural": "tree", "Species": "Quercus robur"}, ["key_typo"]),
     ("key_typo: ref: con il resto scritto male", {"natural": "tree", "ref:massaf": LISTED}, ["key_typo"]),
     ("key_typo: non per un'altra chiave ref: corta", {"natural": "tree", "ref:uid": "12"}, []),
+    ("fixme", {"natural": "tree", "fixme": "check species"}, ["fixme"]),
+    ("fixme: anche FIXME, senza key_typo", {"natural": "tree", "FIXME": "survey"}, ["fixme"]),
+    ("fixme: anche su un ceppo", {"natural": "tree_stump", "fixme": "survey"}, ["fixme"]),
+    ("fixme: non con il valore vuoto", {"natural": "tree", "fixme": " "}, []),
+    ("fixme: non per note", {"natural": "tree", "note": "planted 2010"}, []),
     ("chiave numerata e sottochiave", {"natural": "tree", "image2": "https://example.org/ok.jpg",
                                        "circumference:note": "a 1,30 m"}, []),
 
@@ -618,6 +623,10 @@ HINT_CASES = [
     ("sp_base: non per una specie e basta", OAK, None, "sp_base", False),
     ("hint_ne: name:en con la minuscola", {"natural": "tree", "name:en": "old oak"}, None, "hint_ne", "old oak"),
     ("hint_ne: non con la maiuscola", {"natural": "tree", "name:en": "Old Oak"}, None, "hint_ne", False),
+    ("hint_nt: note", {"natural": "tree", "note": "planted 2010"}, None, "hint_nt", "note=planted 2010"),
+    ("hint_nt: note e NOTE", {"natural": "tree", "note": "a", "NOTE": "b"}, None, "hint_nt", "NOTE=b\nnote=a"),
+    ("hint_nt: non per fixme", {"natural": "tree", "fixme": "survey"}, None, "hint_nt", False),
+    ("hint_nt: non per note:it", {"natural": "tree", "note:it": "piantato nel 2010"}, None, "hint_nt", False),
     # image=* pagina web (hint_ip, hint_mly) e website=*/url=* voce di Wikipedia (hint_wpw)
     ("hint_ip: non per Google Foto (accettato)", {"natural": "tree", "image": "https://photos.app.goo.gl/Yqzit3vNyopEEK2q7"},
      None, "hint_ip", False),
