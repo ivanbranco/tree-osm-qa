@@ -535,6 +535,12 @@
 ],
 "taxon": true
 },
+"Q104861421": {
+"en": "Duncan Cedar",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q104912461": {
 "alias": {
 "en": [],
@@ -3711,6 +3717,17 @@
 "ranks": [],
 "taxon": false
 },
+"Q12382443": {
+"en": "aciñeira",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12385657": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q124000615": {
 "alias": {
 "en": [],
@@ -3725,6 +3742,11 @@
 "Q1306176"
 ],
 "taxon": true
+},
+"Q12400571": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q124285355": {
 "en": "Kozaki no Okusu",
@@ -7913,6 +7935,7 @@
 "Pioppo bianco"
 ]
 },
+"it": "Pioppo bianco",
 "names": [
 "Populus alba"
 ],
@@ -10866,6 +10889,7 @@
 ],
 "it": []
 },
+"it": "Betulla verrucosa",
 "names": [
 "Betula pendula"
 ],
@@ -16931,6 +16955,12 @@
 ],
 "taxon": true
 },
+"Q20550435": {
+"en": "Teixo dos Tenreiro",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2060469": {
 "alias": {
 "en": [
@@ -21438,6 +21468,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q30904909": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q309213": {
 "alias": {
@@ -31177,6 +31212,12 @@
 ],
 "taxon": true
 },
+"Q891397": {
+"en": "Bolko oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q89177881": {
 "alias": {
 "en": [],
@@ -31781,6 +31822,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q9360082": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q936202": {
 "alias": {
