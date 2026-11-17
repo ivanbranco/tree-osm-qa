@@ -15,8 +15,10 @@ PLUGIN = OUT / "plugin"
 SPECIES = json.loads((ROOT / "scripts/species_list.json").read_text(encoding="utf-8"))["species"]
 GENERA = json.loads((ROOT / "scripts/genus_list.json").read_text(encoding="utf-8"))["genera"]
 
-# Colori e forme della legenda di index.html
-DECIDUOUS, EVERGREEN, NOCYCLE, OUTLINE, STUMP, ISSUE = "#a5d64c", "#1f6b35", "#5fa36f", "#1b6b2c", "#5a3a1a", "#d00020"
+# Forme della legenda di index.html. I colori no: a 24 px i tre verdi del sito non si distinguono, quindi qui il
+# deciduo è un arancio autunnale e «ciclo fogliare non specificato» un grigio-verde poco saturo.
+DECIDUOUS, EVERGREEN, NOCYCLE, OUTLINE, STUMP = "#e8912d", "#1f6b35", "#b3beae", "#1b6b2c", "#5a3a1a"
+SITE_COLOR = {DECIDUOUS: "#a5d64c", EVERGREEN: "#1f6b35", NOCYCLE: "#5fa36f"}   # colori del sito, per l'anteprima
 # gruppo -> (forma, colore, etichetta per l'anteprima)
 GROUPS = {
     "broad_dec":  ("blob",  DECIDUOUS, "Latifoglia decidua"),
@@ -43,9 +45,6 @@ PALM_GENERA = set(re.search(r'PALM_GENERA = frozenset\("""(.*?)"""', (ROOT / "sc
 PALM_TAGS = [("taxon:family", "Arecaceae"), ("family", "Arecaceae"), ("taxon", "Arecaceae"), ("taxon:en", "Palm"), ("crown_type", "I")]
 # Voci della lista che non sono un nome «Genere epiteto» (anche ibrido): non diventano scorciatoie
 NAME_RE = re.compile(r"^(× )?[A-Z][a-z-]+ (× )?[a-z-]+( × [a-z-]+)?$")
-# Every Door 7.1 e 8.0-alpha: ogni valore di «when» riceve come regole l'intera mappa di «when» (vedi chain()).
-# Quando il difetto sarà corretto nell'app, mettere False e rigenerare.
-WHEN_BUG = True
 # Tipi di oggetto del plugin: nome italiano, nome inglese
 TYPE_NAMES = {
     "broad_dec": ("Latifoglia decidua", "Broadleaved deciduous"),
@@ -112,10 +111,9 @@ def shape_pts(kind, r=24.0, c=32.0):
     return pts
 
 
-def icon_prims(kind, color, variant=None):
+def icon_prims(kind, color):
     """Primitive dell'icona: ('poly', punti, riempimento, contorno, spessore) | ('circle', cx, cy, r, riemp., cont., sp.)
-    | ('line', x1, y1, x2, y2, contorno, spessore). variant: None, 'part' (mancano tag: punto bianco al centro, come
-    il punto bianco di Every Door) o 'bad' (tag che non corrispondono: anello rosso, come «Con problemi» sul sito)."""
+    | ('line', x1, y1, x2, y2, contorno, spessore)."""
     p = []
     if kind == "stump":
         for col, w in (("#ffffff", 15), (STUMP, 10)):
@@ -126,10 +124,6 @@ def icon_prims(kind, color, variant=None):
     else:
         pts = shape_pts(kind)
         p += [("poly", pts, "#ffffff", "#ffffff", 8), ("poly", pts, color, OUTLINE, 4)]   # alone bianco, poi la chioma
-    if variant == "part":
-        p.append(("circle", 32, 32, 8.5, "#ffffff", "#111111", 3.5))
-    elif variant == "bad":
-        p.append(("circle", 32, 32, 29.5, None, ISSUE, 4.5))
     return p
 
 
@@ -153,31 +147,15 @@ def prims_svg(prims, mono=False):
 
 
 def all_icons():
-    icons = {}
-    for g, (kind, color, _) in GROUPS.items():
-        for v in (None, "part", "bad"):
-            icons[g + ("_" + v if v else "")] = icon_prims(kind, color, v)
-    for v in (None, "part", "bad"):
-        icons["neutral" + ("_" + v if v else "")] = icon_prims("circle", NOCYCLE, v)
+    icons = {g: icon_prims(kind, color) for g, (kind, color, _) in GROUPS.items()}
+    icons["neutral"] = icon_prims("circle", NOCYCLE)
     for g, (kind, color, *_) in PARTIAL_TYPES.items():
-        for v in (None, "part", "bad"):
-            icons[g + ("_" + v if v else "")] = icon_prims(kind, color, v)
+        icons[g] = icon_prims(kind, color)
     icons["stump"] = icon_prims("stump", STUMP)
     return icons
 
 
 # ---------------------------------------------------------------- plugin.yaml
-def chain(conds, last):
-    """Regole da soddisfare tutte insieme: conds = [(chiave, [valori ammessi]), ...], poi last = (chiave, [valori]).
-    In Every Door le regole allo stesso livello sono alternative, quindi le condizioni vanno annidate con «when»."""
-    if not conds:
-        return {last[0]: {"only": last[1]}}
-    (key, values), nxt = conds[0], chain(conds[1:], last)
-    if WHEN_BUG:      # le chiavi di «when» sono lette anche come chiavi di tag: la regola successiva sta accanto ai valori
-        return {key: {"when": {**{v: {} for v in values}, **nxt}}}
-    return {key: {"when": {v: nxt for v in values}}}
-
-
 def build_data():
     """Tipi di oggetto = i gruppi della legenda. Un albero è riconosciuto dai tag delle foglie; se mancano, dalla
     specie o dal genere (preset «di riconoscimento», uno per specie e per genere, che portano il nome del gruppo).
@@ -185,7 +163,7 @@ def build_data():
     riconosciuto di un albero (i loro «tags» contengono un tag che nessun oggetto ha)."""
     presets, micro_markers, tr = {}, {}, {"it": {}, "en": {}}
     NEVER = {"natural": "tree", "dendrosm": "shortcut"}
-    by_group, skipped = {g: [] for g in GROUPS}, []
+    skipped = []
     LABELS = {**TYPE_NAMES, **{g: (it, en) for g, (_k, _c, _t, it, en) in PARTIAL_TYPES.items()}}
 
     def add_type(pid, g, tags, base=None, add=None):
@@ -214,8 +192,11 @@ def build_data():
     micro_markers["dendrosm_stump"] = {"icon": "stump.svg"}
     micro_markers["natural/tree"] = {"icon": "neutral.svg"}    # nessun tag delle foglie, né specie o genere in lista
 
-    # 2. scorciatoie delle specie
+    # 2. Scorciatoie delle specie. Entrano in «presets» dopo quelle dei generi (vedi il punto 3): nella ricerca
+    # Every Door elenca i preset che contengono la parola cercata nell'ordine in cui sono scritti nel plugin, quindi
+    # scrivendo «Acer» il genere esce prima delle sue specie.
     detect = []                                                # preset di riconoscimento, aggiunti dopo le scorciatoie
+    sp_presets = {}
     for name, ref in SPECIES.items():
         if not NAME_RE.match(name):
             skipped.append(name)
@@ -223,18 +204,17 @@ def build_data():
         g = group_of(name, ref["leaf_type"], ref.get("leaf_cycle"))
         nm = NAMES.get(name, {})
         pid = "dendrosm_sp_" + slug(name)
-        assert pid not in presets, pid
+        assert pid not in sp_presets, pid
         add = {"natural": "tree", "species": name, "species:wikidata": ref["wikidata"], "leaf_type": ref["leaf_type"]}
         if ref.get("leaf_cycle"):
             add["leaf_cycle"] = ref["leaf_cycle"]
         # il nome di base è l'unico che Every Door indicizza per la ricerca: contiene tutti i nomi
         base = [name] + [x for x in (nm.get("it"), nm.get("en")) if x] + nm.get("words", []) + EXTRA_WORDS.get(name, [])
-        presets[pid] = {"name": " · ".join(base), "icon": g + ".svg", "area": False, "tags": NEVER, "addTags": add,
-                        "fields": ["@natural/tree"]}
+        sp_presets[pid] = {"name": " · ".join(base), "icon": g + ".svg", "area": False, "tags": NEVER, "addTags": add,
+                           "fields": ["@natural/tree"]}
         for lang in ("it", "en"):
             tr[lang][pid] = {"name": f"{name} ({nm[lang]})" if nm.get(lang) else name}
-        if g in by_group:
-            by_group[g].append(name)
+        if g in GROUPS:
             own = {"natural": "tree", "species": name, "species:wikidata": ref["wikidata"]}
             if g == "palm":                                    # palma con i tag della lista (latifoglia sempreverde)
                 detect.append(("dendrosm_dp_" + slug(name), g, {"natural": "tree", "species": name, "leaf_type": ref["leaf_type"],
@@ -242,7 +222,6 @@ def build_data():
             detect.append(("dendrosm_ds_" + slug(name), g, {"natural": "tree", "species": name}, own))
 
     # 3. scorciatoie dei generi (non i sinonimi): leaf_cycle solo se è uno solo per tutto il genere
-    genus_group, genus_mixed = {g: [] for g in GROUPS}, {}
     for genus, ref in GENERA.items():
         if ref.get("synonym"):
             continue
@@ -261,13 +240,10 @@ def build_data():
                         "tags": NEVER, "addTags": add, "fields": ["@natural/tree"]}
         tr["it"][pid] = {"name": f"{genus} (genere)"}
         tr["en"][pid] = {"name": f"{genus} (genus{', ' + en[0] if en else ''})"}
-        if g in genus_group and len(cycles) == 1:
-            genus_group[g].append(genus)
-        else:
-            genus_mixed.setdefault(ref["leaf_type"], []).append(genus)
         if g in LABELS:
             # addTags senza genus: cambiando tipo il genus già mappato non va tolto
             detect.append(("dendrosm_dg_" + slug(genus), g, {"natural": "tree", "genus": genus}, {"natural": "tree"}))
+    presets.update(sp_presets)                                 # le specie dopo i generi
 
     # 3b. Preset di riconoscimento: l'albero senza tutti e due i tag delle foglie prende il gruppo della sua specie
     # (o del genere). Il nome di base non è un nome cercabile; in italiano e in inglese mostrano il nome del gruppo.
@@ -277,82 +253,19 @@ def build_data():
     for g, (_k, _c, tag, _it, _en) in PARTIAL_TYPES.items():
         add_type("dendrosm_" + g, g, {"natural": "tree", tag[0]: tag[1]})
 
-    # 4. Element kinds e segnaposti della modalità DendrOSM. L'ordine conta: vale il primo kind che corrisponde.
-    # Anello rosso = leaf_type e leaf_cycle ci sono tutti e due ma non sono quelli della specie (o del genere).
-    # Punto bianco = manca la specie E manca almeno uno dei due tag delle foglie (basta species=*, qualunque valore,
-    # oppure i due tag delle foglie, per toglierlo). Senza i tag delle foglie la chioma è quella della specie.
-    kinds, markers, order = {}, {}, {n: [] for n in ("sp_ok", "sp_bad", "sp", "fam", "ge_ok", "ge_bad", "ge", "leaf", "leaf2")}
-    ALL_LT = ["broadleaved", "needleleaved", "palm", "leafless", "mixed"]
-    ALL_LC = ["deciduous", "evergreen", "semi_deciduous", "semi_evergreen", "mixed"]
-    BOTH = [("leaf_type", ALL_LT), ("leaf_cycle", ALL_LC)]
-    TREE = [("natural", ["tree"])]                          # solo alberi: non gli arbusti con la stessa specie
-    NO_SPECIES = lambda g: {"icon": g + ".svg", "iconPartial": g + "_part.svg", "requiredKeys": ["species"]}
-
-    def kind(slot, name, conds, last, marker):
-        kinds[name] = {"matcher": chain(conds, last)}
-        markers[name] = marker
-        order[slot].append(name)
-
-    def leaf_conds(g):
-        lt, lc = LEAF["broad" if g == "palm" else g.split("_")[0]], LEAF["ev" if g == "palm" else g.split("_")[1]]
-        return [("leaf_type", [lt, "palm"] if g == "palm" else [lt]), ("leaf_cycle", [lc])]
-
-    for key, s, groups in (("species", "sp", by_group), ("genus", "ge", genus_group)):
-        for g, names in groups.items():
-            if not names:
-                continue
-            kind(s + "_ok", f"dendro_{key}_{g}_ok", TREE + leaf_conds(g), (key, names), {"icon": g + ".svg"})
-            kind(s + "_bad", f"dendro_{key}_{g}_bad", TREE + BOTH, (key, names), {"icon": g + "_bad.svg"})
-            # senza tutti e due i tag delle foglie: la specie basta, il genere no
-            kind(s, f"dendro_{key}_{g}", TREE, (key, names), {"icon": g + ".svg"} if key == "species" else NO_SPECIES(g))
-    for i, (k, v) in enumerate(PALM_TAGS):                 # palme riconosciute da taxon:family e simili
-        kind("fam", f"dendro_palmtag_{i}_full", TREE + BOTH, (k, [v]), {"icon": "palm.svg"})
-    for i, (k, v) in enumerate(PALM_TAGS):
-        kind("fam", f"dendro_palmtag_{i}", TREE, (k, [v]), NO_SPECIES("palm"))
-    for lt, names in genus_mixed.items():                  # generi con cicli diversi tra le specie
-        shape = {"broadleaved": "broad", "needleleaved": "needle"}.get(lt, "neutral")
-        for g in GROUPS:                                   # con tutti e due i tag delle foglie: icona del gruppo
-            if g != "palm" and leaf_conds(g)[0][1] == [lt]:
-                kind("ge_ok", f"dendro_genus_mixed_{g}", TREE + leaf_conds(g), ("genus", names), {"icon": g + ".svg"})
-        kind("ge_bad", f"dendro_genus_mixed_{lt}_ok", TREE + [("leaf_type", [lt])], ("genus", names), NO_SPECIES(shape))
-        kind("ge", f"dendro_genus_mixed_{lt}_bad", TREE + [("leaf_type", ALL_LT)], ("genus", names), {"icon": shape + "_bad.svg"})
-        kind("leaf", f"dendro_genus_mixed_{lt}", TREE, ("genus", names), NO_SPECIES(shape))
-    for g in GROUPS:                                       # specie e generi non in lista: dai tag delle foglie
-        if g == "palm":
-            kind("leaf", "dendro_leaf_palm_full", TREE + [("leaf_type", ["palm"])], ("leaf_cycle", ALL_LC), {"icon": "palm.svg"})
-            kind("leaf2", "dendro_leaf_palm", TREE, ("leaf_type", ["palm"]), NO_SPECIES("palm"))
-        else:
-            kind("leaf", f"dendro_leaf_{g}", TREE + leaf_conds(g)[:1], leaf_conds(g)[1], {"icon": g + ".svg"})
-    for g, (_k, _c, tag, _it, _en) in PARTIAL_TYPES.items():
-        other = ("leaf_cycle", ALL_LC) if tag[0] == "leaf_type" else ("leaf_type", ALL_LT)
-        kind("leaf", f"dendro_leaf_{g}_full", TREE + [(tag[0], [tag[1]])], other, {"icon": g + ".svg"})   # due tag: niente punto
-        kind("leaf2", f"dendro_leaf_{g}", TREE, (tag[0], [tag[1]]), NO_SPECIES(g))
-    kinds["dendro_stump"] = {"matcher": {"natural": {"only": ["tree_stump"]}}}
-    kinds["dendro_tree"] = {"matcher": {"natural": {"only": ["tree"]}}}
-    markers["dendro_stump"] = {"icon": "stump.svg"}
-    markers["dendro_tree"] = NO_SPECIES("neutral")
-    kind_list = [k for slot in order.values() for k in slot] + ["dendro_stump", "dendro_tree"]
-    assert set(kind_list) == set(kinds) == set(markers) and len(kind_list) == len(kinds)
-
     data = {
         "id": "dendrosm",
         "name": "DendrOSM",
         "version": 0,                     # lo mette write_plugin (everydoor/version.json)
         "author": "DendrOSM",
-        "icon": "mode.svg",
+        "icon": "plugin.svg",
         "experimental": True,             # conta solo nell'archivio pubblico dei plugin: lì resta fuori dagli elenchi
         "homepage": "https://github.com/ivanbranco/tree-osm-qa/blob/main/docs/everydoor.md",
-        "description": "Tree types by leaf type and leaf cycle, drawn with the crown legend of the "
+        "description": "Tree types by leaf type and leaf cycle, drawn with the crown shapes of the "
                        "DendrOSM map. Species and genera from the OSM wiki lists are shortcuts that set species, "
-                       "species:wikidata, leaf_type and leaf_cycle. The DendrOSM mode marks trees with missing "
-                       "tags and trees whose leaf tags do not match the species.",
-        "kinds": kinds,
+                       "species:wikidata, leaf_type and leaf_cycle.",
         "presets": presets,
-        "modes": {
-            # vista di controllo: senza pulsanti per aggiungere (gli alberi si aggiungono dal micromapping)
-            "dendrosm": {"type": "entrances", "name": "DendrOSM", "icon": "mode.svg", "kinds": kind_list, "markers": markers},
-            "micro": {"markers": micro_markers},
-        },
+        "modes": {"micro": {"markers": micro_markers}},
     }
     langs = {"it": {"presets": tr["it"]}, "en": {"presets": tr["en"]}}
     print("specie:", sum(1 for p in presets if p.startswith("dendrosm_sp_")), "| generi:",
@@ -372,8 +285,8 @@ def write_plugin():
         files[f"langs/{lang}.yaml"] = dump(d)
     for name, prims in icons.items():
         files[f"icons/{name}.svg"] = prims_svg(prims) + "\n"
-    blob = " ".join(f"{x:.1f},{y:.1f}" for x, y in shape_pts("blob", 28))   # icona della modalità: si ricolora
-    files["icons/mode.svg"] = ('<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">\n'
+    blob = " ".join(f"{x:.1f},{y:.1f}" for x, y in shape_pts("blob", 28))   # icona del plugin: si ricolora
+    files["icons/plugin.svg"] = ('<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">\n'
                                f'<polygon points="{blob}" fill="currentColor"/>\n</svg>\n')
     # Versione: Every Door aggiorna un plugin già installato solo se il numero è più alto. Sale da sola quando cambia
     # il contenuto (impronta di tutti i file); se non cambia nulla resta quella di everydoor/version.json.
@@ -421,7 +334,7 @@ def draw_prims(img, prims, ox, oy, size, ss):
             _, cx, cy, r, fill, stroke, w = pr
             ro, ri = (r + w / 2) * k, (r - w / 2) * k
             d.ellipse([X(cx) - ro, Y(cy) - ro, X(cx) + ro, Y(cy) + ro], fill=hexrgb(stroke))
-            if fill and ri > 0:                        # gli anelli (senza riempimento) li disegna render_icon
+            if fill and ri > 0:
                 d.ellipse([X(cx) - ri, Y(cy) - ri, X(cx) + ri, Y(cy) + ri], fill=hexrgb(fill))
         else:
             _, x1, y1, x2, y2, stroke, w = pr
@@ -432,17 +345,12 @@ def draw_prims(img, prims, ox, oy, size, ss):
 
 
 def render_icon(prims, size, bg, ss=6):
-    """Icona su un quadratino col colore di sfondo bg. L'anello (cerchio senza riempimento) va disegnato per primo
-    sotto il resto, perché Pillow non ha i cerchi vuoti con bordo spesso antialias: si disegna disco rosso + disco bg."""
+    """Icona su un quadratino col colore di sfondo bg."""
     from PIL import Image
     pad = 6
     W = size + 2 * pad
     img = Image.new("RGBA", (W * ss, W * ss), hexrgb(bg))
-    rings = [p for p in prims if p[0] == "circle" and p[4] is None]
-    rest = [p for p in prims if not (p[0] == "circle" and p[4] is None)]
-    for _, cx, cy, r, _f, stroke, w in rings:
-        draw_prims(img, [("circle", cx, cy, r + w / 4, stroke, stroke, w / 2), ("circle", cx, cy, r - w / 2 - 0.01, bg, bg, 0.02)], pad, pad, size, ss)
-    draw_prims(img, rest, pad, pad, size, ss)
+    draw_prims(img, prims, pad, pad, size, ss)
     return img.resize((W, W), Image.LANCZOS)
 
 
@@ -467,17 +375,17 @@ def write_preview(icons):
     site = site_legend_prims()
     sw = 64 / 22
     # i testi sono in inglese: l'immagine va nella documentazione (docs/everydoor.md)
-    rows = [(g, TYPE_NAMES[g][1], [("poly", site[kind], blend(color, .75), OUTLINE, sw)]) for g, (kind, color, _lab) in GROUPS.items()]
+    tint = lambda color: blend(SITE_COLOR[color], .75)       # la colonna della legenda ha i colori del sito
+    rows = [(g, TYPE_NAMES[g][1], [("poly", site[kind], tint(color), OUTLINE, sw)]) for g, (kind, color, _lab) in GROUPS.items()]
     for g, (kind, color, _tag, _it, en) in PARTIAL_TYPES.items():
-        prims = [("circle", 32, 32, 8 * sw, blend(color, .75), OUTLINE, sw)] if kind == "circle" else \
-                [("poly", site[kind], blend(color, .75), OUTLINE, sw)]
+        prims = [("circle", 32, 32, 8 * sw, tint(color), OUTLINE, sw)] if kind == "circle" else \
+                [("poly", site[kind], tint(color), OUTLINE, sw)]
         rows.append((g, en + (" (no leaf cycle)" if kind != "circle" else " (no leaf type)"), prims))
-    rows.append(("neutral", "Tree (no leaf tags)", [("circle", 32, 32, 8 * sw, blend(NOCYCLE, .75), OUTLINE, sw)]))
+    rows.append(("neutral", "Tree (no leaf tags)", [("circle", 32, 32, 8 * sw, tint(NOCYCLE), OUTLINE, sw)]))
     rows.append(("stump", "Stump", [("line", 5 * sw, 5 * sw, 17 * sw, 17 * sw, STUMP, 3 * sw), ("line", 17 * sw, 5 * sw, 5 * sw, 17 * sw, STUMP, 3 * sw)]))
     BGS = [("map", "#f2efe9"), ("green", "#cdebb0"), ("aerial", "#4b5a3a")]
     cols = [("DendrOSM map legend\n(22 px, and enlarged)", 170), ("Plugin icon\n(enlarged)", 120),
-            ("DendrOSM mode, 30 px\nmap · green · aerial imagery", 190), ("Micromapping, 24 px", 170),
-            ("Missing tags\n(white dot)", 150), ("Leaf tags not matching\n(red ring)", 170)]
+            ("Micromapping, 24 px\nmap · green · aerial imagery", 190)]
     x0, y0, rh = 250, 96, 96
     W, H = x0 + sum(c[1] for c in cols) + 20, y0 + rh * len(rows) + 50
     img = Image.new("RGBA", (W, H), (255, 255, 255, 255))
@@ -499,18 +407,9 @@ def write_preview(icons):
         put(render_icon(icons[g], 80, "#ffffff"), x + 50)
         x += cols[1][1]
         for j, (_, bg) in enumerate(BGS):
-            put(render_icon(icons[g], 30, bg), x + 32 + j * 52)
-        x += cols[2][1]
-        for j, (_, bg) in enumerate(BGS):
             put(render_icon(icons[g], 24, bg), x + 30 + j * 46)
-        x += cols[3][1]
-        for v, w in (("part", cols[4][1]), ("bad", cols[5][1])):
-            if g + "_" + v in icons:
-                put(render_icon(icons[g + "_" + v], 30, BGS[0][1]), x + 32)
-                put(render_icon(icons[g + "_" + v], 30, BGS[2][1]), x + 84)
-            x += w
-    d.text((20, H - 34), "The plugin icons are opaque, with a thicker outline and a white halo, to stay readable "
-           "at 24-30 px and in full sun.", font=font(13), fill="#555")
+    d.multiline_text((20, H - 42), "The plugin icons are opaque, with a thicker outline and a white halo; deciduous is orange\n"
+                     "and \"no leaf cycle\" grey-green instead of two more greens, to stay readable at 24 px and in full sun.", font=font(13), fill="#555", spacing=2)
     out = ROOT / "docs/img/everydoor-icons.png"
     img.convert("RGB").save(out)
     return out
