@@ -16041,6 +16041,13 @@
 ],
 "taxon": true
 },
+"Q18288934": {
+"en": "Quercia delle Checche",
+"it": "quercia delle Checche",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q183543": {
 "alias": {
 "en": [],
@@ -20283,6 +20290,12 @@
 ],
 "taxon": true
 },
+"Q27868535": {
+"it": "olivo dei 30 zoccoli",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q279482": {
 "alias": {
 "en": [],
@@ -23134,6 +23147,13 @@
 ],
 "taxon": true
 },
+"Q3662058": {
+"en": "Castagno Miraglia",
+"it": "Castagno Miraglia",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q3662068": {
 "alias": {
 "en": [
@@ -23697,6 +23717,13 @@
 ],
 "taxon": true
 },
+"Q3927684": {
+"en": "Oak of the Witches",
+"it": "quercia delle Streghe",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q3927687": {
 "alias": {
 "en": [
@@ -23757,6 +23784,13 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q396430": {
+"en": "Cedro",
+"it": "Cedro",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q3968272": {
 "alias": {

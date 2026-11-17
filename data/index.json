@@ -85,9 +85,10 @@
    "count": 14423,
    "errors": 81,
    "name": "Basilicata",
-   "sha1": "a38b581d85e1d5cd229b14a7c8350ee12f179f0c",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:12:27Z"
+   "osm_base": "2026-11-17T11:25:17Z",
+   "sha1": "e99ea14bc9e43a30ee4e9fc107b5496f39d056e0",
+   "tried": "2026-11-17",
+   "updated": "2026-11-17T11:26:32Z"
   },
   "bassa-austria": {
    "count": 186104,
@@ -858,12 +859,13 @@
    "updated": "2026-11-16T17:16:27Z"
   },
   "toscana": {
-   "count": 117363,
-   "errors": 296,
+   "count": 117526,
+   "errors": 1353,
    "name": "Toscana",
-   "sha1": "257f71b4b738f13e21ba44773459b2749304b5ca",
-   "tried": "2026-11-14",
-   "updated": "2026-11-14T11:39:42Z"
+   "osm_base": "2026-11-17T11:06:05Z",
+   "sha1": "d3a09973758174f6d7c8214eb882c9fa6d38a209",
+   "tried": "2026-11-17",
+   "updated": "2026-11-17T11:08:17Z"
   },
   "trentino-alto-adige": {
    "count": 67787,
