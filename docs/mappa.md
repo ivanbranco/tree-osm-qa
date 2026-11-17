@@ -81,13 +81,14 @@ Parameters go after `#` in the address, joined by `&` (for example `#region=lomb
 |---|---|---|
 | `region=<slug>` | opens that region (the slugs are in `scripts/regions.json`), see [Data and updates](dati.md) | yes |
 | `node=<id>` | opens the card of that OSM node; without `map`, centres it ([The tree card](scheda.md)). Also works without `region` | while the card is open |
+| `compare=side` / `compare=top` | with `node`, also opens the "Trunk comparison" (`side`) or "Trunk from above" (`top`) window of that tree, if the tree has it ([The tree card](scheda.md#trunk-comparison), [issue #83](https://github.com/ivanbranco/tree-osm-qa/issues/83)) | while the window is open |
 | `map=<zoom>/<lat>/<lon>` | map position, e.g. `map=17.00/45.46420/9.18990` | yes (updated) |
 | `lang=it` / `lang=en` | forces the language ([Language](#language)) | yes |
 | `season=leaves` / `autumn` / `bare` | forces that seasonal phase for all the trees that can have it, whatever the date; `bare` also shows the winter view of the Wikidata photo on the card ([Rendering](#rendering)) | yes |
 | `colors=1` | shows the seasonal species colours outside their months ([Rendering](#rendering)) | no |
 | `xmas=1` | shows the Christmas trees outside 8 December – 6 January ([Rendering](#rendering)) | no |
 
-The address contains the region and the map position (`#region=lombardia&map=17.00/45.46420/9.18990`): copying it shares the exact point. With a tree's card open it also contains its OSM node (`#region=molise&node=6311161280&map=…`): the link reopens the card, and without `map` it centres the tree. If the node is not in the region's data, the region is shown with a note under the count.
+The address contains the region and the map position (`#region=lombardia&map=17.00/45.46420/9.18990`): copying it shares the exact point. With a tree's card open it also contains its OSM node (`#region=molise&node=6311161280&map=…`): the link reopens the card, and without `map` it centres the tree. If the node is not in the region's data, the region is shown with a note under the count. While the "Trunk comparison" or "Trunk from above" window is open the address also contains `compare=side` or `compare=top` (`#region=molise&node=6311161280&compare=side&map=…`): the link reopens the card with that window, for example to show a reported value in a changeset comment. If the tree does not have that drawing, only the card opens.
 
 `#node=<id>` alone (e.g. `#node=13798129808`) also works: the page asks the OpenStreetMap API for the node's current position, opens the region that contains it and adds `region` to the address. Near a border the neighbouring regions are tried too. If the position is not available, or it is outside the regions on the map, a note under the count says so; if the node is not in the region's data, the map is centred on its position.
 

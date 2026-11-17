@@ -375,14 +375,16 @@ const fmtDay = d => new Date(d + "T00:00:00").toLocaleDateString(LOC, { day: "nu
 const fmtPct = (e, c) => !c || !e ? "0%" : 100 * e / c < 0.05 ? `<${(0.1).toLocaleString(LOC)}%`
   : (100 * e / c).toLocaleString(LOC, { maximumFractionDigits: 1 }) + "%";
 // indirizzo: #region=<slug>&node=<id OSM dell'albero con la scheda aperta>&map=<zoom>/<lat>/<lon>, mantenendo #lang
-// se c'era. Senza argomento tiene la regione attuale.
-let hashSlug = null, hashNode = null;
+// se c'era. Senza argomento tiene la regione attuale. Con la finestra di un disegno della scheda aperta (issue #83) anche
+// &compare=side («Tronco a confronto») o &compare=top («Tronco visto dall'alto»): il link riapre scheda e finestra.
+let hashSlug = null, hashNode = null, hashCmp = null;
 let currentIso = "";   // codice ISO della regione caricata (da regions.json), per i consigli che dipendono dal paese
 const setHash = (slug = hashSlug) => {
   hashSlug = slug;
   const h = new URLSearchParams();
   if (slug) h.set("region", slug);
   if ((slug || WORLD) && hashNode) h.set("node", hashNode);   // mappe mondiali: il nodo senza regione
+  if (h.get("node") && hashCmp) h.set("compare", hashCmp);
   if (typeof map !== "undefined") {
     const c = map.getCenter();
     h.set("map", `${map.getZoom().toFixed(2)}/${c.lat.toFixed(5)}/${c.lng.toFixed(5)}`);
@@ -3147,6 +3149,10 @@ map.on("load", async () => {
 
   // scheda dell'albero; il suo nodo va nell'indirizzo (#node=<id>), così il link si condivide con la scheda aperta
   let cardPopup = null;
+  // compare=side / top dell'indirizzo, in attesa che si apra la scheda del suo nodo: { node, k } o null
+  const cmpHash = h => { const k = h.get("compare"), node = Number(h.get("node")) || null;
+    return node && (k === "side" || k === "top") ? { node, k } : null; };
+  let cmpFromHash = cmpHash(hashParams());
   const openCard = (p, pos) => {
     if (cardPopup) cardPopup.remove();
     // focusAfterOpen: false, altrimenti il focus aprirebbe subito la spiegazione del primo ⚠
@@ -3154,6 +3160,13 @@ map.on("load", async () => {
       .setHTML(card(p, pos)).addTo(map);
     fillPhoto(popup.getElement());   // crediti dei file di Commons e immagine di una categoria, se serve
     hashNode = p.id; setHash();
+    // &compare dell'indirizzo (issue #83): la finestra del disegno, solo per la scheda del nodo dell'indirizzo e se
+    // l'albero ha quel disegno (altrimenti solo la scheda, e compare sparisce dall'indirizzo)
+    if (cmpFromHash?.node === p.id) {
+      const b = popup.getElement().querySelector(cmpFromHash.k === "top" ? ".plan-pick" : ".cmp-pick");
+      cmpFromHash = null;
+      if (b) (b.classList.contains("plan-pick") ? openPlan : openCompare)(b);
+    }
     popup.on("close", () => {         // solo se nel frattempo non si è aperta un'altra scheda
       if (cardPopup !== popup) return;
       cardPopup = null; hashNode = null; setHash();
@@ -3876,6 +3889,7 @@ map.on("load", async () => {
     const h = hashParams();
     if ((h.get("lang") || LANG) !== LANG) { location.reload(); return; }   // la lingua si applica solo ricaricando
     const slug = WORLD ? MODE : h.get("region"), view = parseMapHash(h.get("map")), node = Number(h.get("node")) || null;
+    cmpFromHash = cmpHash(h);
     if (!WORLD && slug && idx[slug] && slug !== current) {
       closeCard();
       hashSlug = slug;
@@ -5231,6 +5245,7 @@ function openCompare(btn) {
     + [g.thin.tree && T.thin, g.thin.typ && T.thinTyp, g.front && T.backFront(B.ref0),refs + T.note].filter(Boolean).map(x => `<p class="note">${esc(x)}</p>`).join("");
   document.getElementById("cmp-title").textContent = T.title;
   cmpOpener = btn;
+  hashCmp = "side"; setHash();
   dlg.showModal();
   dlg.focus();
 }
@@ -5402,6 +5417,7 @@ function openPlan(btn) {
     + [P.refs(P.ref[g.ref.k].ref(cmpM(g.ref.w), cmpM(g.ref.h))) + " " + (diaT ? P.note : P.note1)].map(x => `<p class="note">${esc(x)}</p>`).join("");
   document.getElementById("cmp-title").textContent = P.title;
   cmpOpener = btn;
+  hashCmp = "top"; setHash();
   dlg.showModal();
   dlg.focus();
 }
@@ -5433,7 +5449,9 @@ function openPlanTop(btn, k, list) {
   x.title = L.cmp.close; x.setAttribute("aria-label", L.cmp.close);
   x.addEventListener("click", () => dlg.close());
   dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
-  dlg.addEventListener("close", () => { if (cmpOpener?.isConnected) cmpOpener.focus(); cmpOpener = null; });
+  dlg.addEventListener("close", () => { if (cmpOpener?.isConnected) cmpOpener.focus(); cmpOpener = null;
+    // compare esce dall'indirizzo; "close" arriva dopo: se intanto si è aperta un'altra finestra, resta la sua
+    if (hashCmp && !dlg.open) { hashCmp = null; setHash(); } });
 }
 // Generi di alberi con una sola specie vivente (le altre sono solo fossili): con genus=* e senza species=* la specie è
 // certa. Lista scritta a mano, non ricavata da Wikidata: la tassonomia cambia e un errore darebbe consigli sbagliati
