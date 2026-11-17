@@ -36,6 +36,9 @@ MEMBER = 9001               # id di un nodo membro di un insieme omogeneo MASAF 
 _SPECIES = {
     "Quercus robur": {"wikidata": "Q920001", "leaf_type": "broadleaved", "leaf_cycle": "deciduous"},
     "Pinus pinea": {"wikidata": "Q920002", "leaf_type": "needleleaved", "leaf_cycle": "evergreen"},
+    # due specie vicine: "Prunus serratula" è a due lettere dalla prima e ha le stesse lettere della seconda
+    "Prunus serrula": {"wikidata": "Q920008", "leaf_type": "broadleaved", "leaf_cycle": "deciduous"},
+    "Prunus serrulata": {"wikidata": "Q920009", "leaf_type": "broadleaved", "leaf_cycle": "deciduous"},
 }
 _GENERA = {
     "Quercus": {"leaf_type": "broadleaved", "leaf_cycle": ["deciduous", "evergreen"]},
@@ -127,6 +130,8 @@ CASES = [
     # --- misure oltre i limiti ---
     ("circumference", {"natural": "tree", "circumference": "50"}, ["circumference"]),
     ("circumference da diameter", {"natural": "tree", "diameter": "20000"}, ["circumference"]),
+    ("circumference da diameter, se circumference non è leggibile",
+     {"natural": "tree", "circumference": "big", "diameter": "20000"}, ["circumference", "number_invalid"]),
     ("height", {"natural": "tree", "height": "150"}, ["height"]),
     ("crown", {"natural": "tree", "diameter_crown": "80"}, ["crown"]),
     ("circumference_species", {**OAK, "circumference": "20"}, ["circumference_species"]),
@@ -146,6 +151,9 @@ CASES = [
 
     # --- forma dei numeri ---
     ("comma", {"natural": "tree", "height": "12,5"}, ["comma"]),
+    ("comma: con l'unità", {"natural": "tree", "circumference": "2,9 m"}, ["comma"]),
+    ("comma: non per un elenco", {"natural": "tree", "height": "10, 12"}, ["number_invalid"]),
+    ("comma: non per più virgole", {"natural": "tree", "diameter": "66,60,51"}, ["number_invalid"]),
     ("diameter_unit", {"natural": "tree", "diameter": "0.5"}, ["diameter_unit"]),
     ("unit_format: parola intera", {"natural": "tree", "height": "8 metres"}, ["unit_format"]),
     ("unit_format: senza spazio", {"natural": "tree", "circumference": "150cm"}, ["unit_format"]),
@@ -219,6 +227,14 @@ CASES = [
     ("dipendenza: con species_author niente species_parentheses",
      {"natural": "tree", "species": "Camellia sinensis (L.) Kuntze"}, ["species_author"]),
     ("species_parentheses", {"natural": "tree", "species": "Quercus robur (red)"}, ["species_parentheses"]),
+    ("species_parentheses: parola maiuscola tra parentesi in fondo, non un autore",
+     {"natural": "tree", "species": "Quercus robur (Farnia)"}, ["species_parentheses"]),
+    ("species_parentheses: parole maiuscole tra parentesi in fondo, non un autore",
+     {"natural": "tree", "species": "Quercus robur (English Oak)"}, ["species_parentheses"]),
+    ("species_author: autore tra parentesi, con il punto", {"natural": "tree", "species": "Quercus robur (L.)"},
+     ["species_author"]),
+    ("species_author: autore tra parentesi senza punto, seguito da un altro autore",
+     {"natural": "tree", "species": "Malus toringo (Siebold) Siebold ex de Vriese"}, ["species_author"]),
     ("species_parentheses: sinonimi tra parentesi, non un autore",
      {"natural": "tree", "species": "Ulmus laevis (Ulmus pedenculata, Ulmus effusa)"}, ["species_parentheses"]),
     ("species_author: con altro prima del nome", {"natural": "tree", "species": "Insieme omogeneo di Fagus sylvatica L."},
@@ -228,6 +244,14 @@ CASES = [
     ("species_typo: eccezione in whitelist", {"natural": "tree", "species": "Quercus robar"}, []),
     ("species_typo: eccezione in whitelist, con × e cultivar", {"natural": "tree", "species": "Quercus × robar 'Alba'"}, []),
     ("species_typo: non per una cultivar senza epiteto", {"natural": "tree", "species": "Quercus 'Rubur'"}, []),
+    ("species_typo: non per una cultivar dopo il segno di ibrido", {"natural": "tree", "species": "Quercus x 'Rubur'"}, []),
+    ("species_typo: stesse lettere in un altro ordine", {"natural": "tree", "species": "Prunus serratula"},
+     ["species_typo"]),
+    ("species_typo: non se una specie della whitelist è più vicina", {"natural": "tree", "species": "Quercus robarr"}, []),
+    ("species_typo: non per una parola maiuscola corta con due lettere diverse",
+     {"natural": "tree", "species": "Quercus Rabus"}, ["species_epithet_case"]),
+    ("species_typo: parola maiuscola con una lettera diversa", {"natural": "tree", "species": "Quercus Rubur"},
+     ["species_epithet_case", "species_typo"]),
     ("species: nome comune di un genere", {"natural": "tree", "species": "tilleul"}, ["species"]),
     ("species: genere con autore", {"natural": "tree", "species": "Tilia L."}, ["species"]),
     ("ibrido con x iniziale", {"natural": "tree", "species": "x Cupressocyparis leylandii",
@@ -235,6 +259,10 @@ CASES = [
     ("ibrido con x iniziale, genere minuscolo", {"natural": "tree", "species": "x cupressocyparis leylandii"},
      ["species_lowercase"]),
     ("x ed epiteto senza genere", {"natural": "tree", "genus": "Quercus", "species": "x robur"}, ["species"]),
+    ("x ed epiteto maiuscolo senza genere: niente genus_mismatch",
+     {"natural": "tree", "genus": "Quercus", "species": "x Sepulcralis"}, ["species"]),
+    ("x e un altro genere noto: genus_mismatch", {"natural": "tree", "genus": "Quercus", "species": "x Pinus"},
+     ["species", "genus_mismatch"]),
     ("species_lang_only: nome di una specie", {"natural": "tree", "species:pl": "Klon zwyczajny"}, ["species_lang_only"]),
     ("species_lang_only: nome di una specie, maiuscole diverse", {"natural": "tree", "species:pl": "klon ZWYCZAJNY"},
      ["species_lang_only"]),
@@ -244,6 +272,10 @@ CASES = [
     ("species_lang_only: nome italiano di un genere", {"natural": "tree", "species:it": "Quercia"},
      ["species_lang_only"]),
     ("species:xx insieme a species", {**OAK, "species:it": "Farnia"}, []),
+    ("species_lang_only: non per due lettere che non sono una lingua", {"natural": "tree", "species:mp": "Pilón"}, []),
+    ("species_lang_only: non per species:ref", {"natural": "tree", "species:ref": "123"}, []),
+    ("species_lang_only: lingua di tre lettere", {"natural": "tree", "species:ast": "Carbayu"}, ["species_lang_only"]),
+    ("taxon_lang_only: non per taxon:ref", {"natural": "tree", "taxon:ref": "123"}, []),
     ("not_a_tree: species", {"natural": "tree", "species": "Agave americana"}, ["not_a_tree"]),
     ("not_a_tree: species con autore", {"natural": "tree", "species": "Agave americana L."},
      ["not_a_tree", "species_author"]),
@@ -541,6 +573,10 @@ SP_FIX_CASES = [
      {"sp_clean": "Quercus rubur", "sp_fix": "Quercus robur", "sp_fix_wd": "Q920001", "sp_fix_lt": None}),
     ("refuso con la cultivar: nessuna correzione", {"natural": "tree", "species": "Quercus rubur 'Fastigiata'"},
      {"sp_fix": None}),
+    ("refuso con le stesse lettere in un altro ordine: quella specie, non la più vicina",
+     {"natural": "tree", "species": "Prunus serratula"}, {"sp_fix": "Prunus serrulata"}),
+    ("circumference non leggibile: il limite da diameter", {"natural": "tree", "circumference": "big", "diameter": "20000"},
+     {"diam_used": True}),
     ("solo l'autore: species:wikidata della specie senza autore",
      {"natural": "tree", "species": "Quercus robur L.", "species:wikidata": "Q920001"},
      {"sp_clean": "Quercus robur", "sp_fix": None, "sp_fix_wd": None, "sp_fix_lc": "deciduous"}),
@@ -720,6 +756,11 @@ def main():
                 lines.append("  un codice è uscito due volte")
             failures.append("\n".join(lines))
     failures += feature_failures()
+    # data dei dati di una risposta di Overpass (osm_base): solo nella forma attesa, altrimenti ""
+    for data, want in (({"osm3s": {"timestamp_osm_base": "2026-11-15T10:00:00Z"}}, "2026-11-15T10:00:00Z"),
+                       ({"osm3s": {"timestamp_osm_base": "15/11/2026"}}, ""), ({"elements": []}, "")):
+        if ft.osm_base(data) != want:
+            failures.append(f"FALLITO: osm_base\n  dati:    {data}\n  atteso:  {want!r}\n  uscito:  {ft.osm_base(data)!r}")
     codes = known_codes()
     if uncovered := sorted(codes - covered):
         failures.append("CHECK SENZA CASI: " + ", ".join(uncovered)

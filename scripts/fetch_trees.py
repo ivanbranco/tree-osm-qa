@@ -1364,13 +1364,13 @@ def levenshtein(a, b, limit):
 
 
 @functools.lru_cache(maxsize=None)
-@functools.lru_cache(maxsize=None)
 def species_typo(sp):
     """Specie della lista che species probabilmente voleva scrivere, o None."""
     if ";" in sp:
         return None
     # genere e cultivar senza epiteto (Magnolia 'Susan'): la cultivar non è un epiteto da confrontare
-    words = name_words(sp)
+    # (anche dopo il segno di ibrido: Magnolia x 'Vulcan')
+    words = [w for w in name_words(sp) if w not in HYBRID_SIGNS]
     if len(words) > 1 and words[1][:1] in "'‘’`´\"“”":
         return None
     b = binomial(sp)
@@ -1380,14 +1380,28 @@ def species_typo(sp):
     if len(b.split()) < 2 or b in SPECIES_BIN:   # una parola: c'è già il check; in lista (anche cultivar): ok
         return None
     best, dist = None, 3
+    letters = sorted(b)
     for cand, name in SPECIES_BIN.items():
+        # stesse lettere in un altro ordine, nello stesso genere ("Prunus serratula" -> "Prunus serrulata"): vale più
+        # della specie più vicina per lettere cambiate (qui "Prunus serrula")
+        if len(cand) == len(b) and cand.split()[0] == b.split()[0] and sorted(cand) == letters:
+            return name
         d = levenshtein(b, cand, 2)
         if d < dist:
             best, dist = (cand, name), d
     if best is None:
         return None
+    # una specie della whitelist più vicina di quella della lista ("Quercus myrsinfolia": a una lettera da "Quercus
+    # myrsinifolia", a due da "Quercus myrtifolia"): la specie da proporre non è in lista, quindi nessuna proposta
+    if any(levenshtein(b, w, dist - 1) < dist for w in TYPO_WHITELIST):
+        return None
     if dist == 2 and b.split()[0] != best[0].split()[0] and b.split()[0] in KNOWN_GENERA:
         return None   # genere diverso ed esistente: probabilmente un'altra specie, non un errore
+    # seconda parola maiuscola di cinque lettere o meno, con due lettere cambiate e il genere scritto giusto ("Magnolia
+    # Susan" -> "Magnolia yulan"): una cultivar senza virgolette (species_common_name), non un errore di battitura
+    if (dist == 2 and b.split()[0] == best[0].split()[0] and len(b.split()[1]) <= 5
+            and len(words) > 1 and words[1][:1].isupper()):
+        return None
     return best[1]
 
 
@@ -1633,8 +1647,9 @@ def circ_value(t):
 
 
 def comma_tags(t):
-    """Tag numerici scritti con la virgola decimale (2,9 invece di 2.9); diameter è controllato anche se ignorato."""
-    return [k for k in NUMERIC_TAGS if "," in str(t.get(k, ""))]
+    """Tag numerici scritti con la virgola decimale (2,9 invece di 2.9); diameter è controllato anche se ignorato.
+    Solo se il valore è un numero: gli elenchi ("10, 12", "66,60,51", "14 x 16,30") li segnala number_invalid."""
+    return [k for k in NUMERIC_TAGS if "," in str(t.get(k, "")) and not bad_number(t[k])]
 
 
 # --- check su numeri, collegamenti e fonti monumentali ---
@@ -1982,6 +1997,18 @@ def author_group(words):
     return all(not w or w[:1].isupper() or w in AUTHOR_LINK or w in AUTHOR_PARTICLE or w == "f." for w in parts)
 
 
+def paren_author(words, i, j):
+    """Vero se il gruppo tra parentesi words[i..j], fatto di parole maiuscole (author_group), è scritto come un
+    autore: ha un'abbreviazione con il punto ("(L.)", "(Siebold & Zucc.)"), o una parola che unisce due autori, o è
+    seguito dall'autore della combinazione ("(Siebold) Siebold ex de Vriese": dopo un autore tra parentesi c'è sempre).
+    Parole maiuscole e basta in fondo al nome ("Quercus robur (Farnia)", "Hechtia sp. 10429 (Lunel)") non lo sono:
+    restano a species_parentheses."""
+    group = [w.strip("(),") for w in words[i:j + 1]]
+    if any("." in w or w in AUTHOR_LINK for w in group):
+        return True
+    return j + 1 < len(words) and words[j + 1][:1].isupper()
+
+
 @functools.lru_cache(maxsize=None)
 def split_author(sp):
     """(species senza autore, autore trovato, resto incerto) per species_without_author e species_author_uncertain.
@@ -2003,9 +2030,9 @@ def split_author(sp):
             kept += pending + [w]
             pending, in_author = [], False
             quoted = not (w[-1:] in "'’`\"”" and (len(w) > 1 or quoted))
-        elif w[:1] == "(" and ")" not in w:          # parentesi su più parole: "(Siebold & Zucc.)", "(Ulmus …, …)"
-            j = next((k for k in range(i + 1, len(words)) if ")" in words[k]), len(words) - 1)
-            if author_group(words[i:j + 1]):
+        elif w[:1] == "(":                           # parentesi: "(L.)", "(Siebold & Zucc.)", "(Ulmus …, …)"
+            j = next((k for k in range(i, len(words)) if ")" in words[k]), len(words) - 1)
+            if author_group(words[i:j + 1]) and paren_author(words, i, j):
                 found, in_author, pending = True, True, []
             else:
                 kept += pending + words[i:j + 1]
@@ -2065,25 +2092,39 @@ def genus_words(g):
 
 # Nome della specie in una lingua: species:<codice lingua>, es. species:it, species:pl, species:en, species:zh-Hans
 # (2-3 lettere, con eventuale variante). species:wikidata, species:wikipedia e simili non sono lingue.
-SPECIES_LANG = re.compile(r"^species:[a-z]{2,3}(?:[-_][A-Za-z]{2,4})?$")
+SPECIES_LANG = re.compile(r"^species:([a-z]{2,3})(?:[-_][A-Za-z]{2,4})?$")
+# I codici di due lettere devono essere lingue di ISO 639-1: species:mp e species:at non lo sono. Quelli di tre
+# lettere (ISO 639-2 e 639-3, troppi da elencare) valgono tutti, tranne le sottochiavi che non indicano una lingua
+LANG_2 = set("""aa ab ae af ak am an ar as av ay az ba be bg bh bi bm bn bo br bs ca ce ch co cr cs cu cv cy da de dv dz
+ee el en eo es et eu fa ff fi fj fo fr fy ga gd gl gn gu gv ha he hi ho hr ht hu hy hz ia id ie ig ii ik io is it iu ja
+jv ka kg ki kj kk kl km kn ko kr ks ku kv kw ky la lb lg li ln lo lt lu lv mg mh mi mk ml mn mr ms mt my na nb nd ne ng
+nl nn no nr nv ny oc oj om or os pa pi pl ps pt qu rm rn ro ru rw sa sc sd se sg si sk sl sm sn so sq sr ss st su sv sw
+ta te tg th ti tk tl tn to tr ts tt tw ty ug uk ur uz ve vi vo wa wo xh yi yo za zh zu""".split())
+NOT_LANG_3 = {"ref", "lat", "src", "alt", "old"}
+
+
+def lang_key(pattern, k):
+    """Vero se la chiave k (species:xx, taxon:xx) finisce con il codice di una lingua (vedi LANG_2, NOT_LANG_3)."""
+    m = pattern.match(k)
+    return bool(m) and (m.group(1) in LANG_2 if len(m.group(1)) == 2 else m.group(1) not in NOT_LANG_3)
 
 
 def species_lang_only(t):
     """Nomi della specie in qualche lingua (species:xx) su un albero senza species=*: [(chiave, valore)]."""
     if t.get("species"):
         return []
-    return sorted((k, v) for k, v in t.items() if k.startswith("species:") and SPECIES_LANG.match(k))
+    return sorted((k, v) for k, v in t.items() if k.startswith("species:") and lang_key(SPECIES_LANG, k))
 
 
 # Nome di taxon=* in una lingua: taxon:<codice lingua> (taxon:en, taxon:de…); taxon:cultivar e simili non sono lingue
-TAXON_LANG = re.compile(r"^taxon:[a-z]{2,3}(?:[-_][A-Za-z]{2,4})?$")
+TAXON_LANG = re.compile(r"^taxon:([a-z]{2,3})(?:[-_][A-Za-z]{2,4})?$")
 
 
 def taxon_lang_only(t):
     """Nomi del taxon in qualche lingua (taxon:xx) su un albero senza taxon=*: [(chiave, valore)]."""
     if t.get("taxon"):
         return []
-    return sorted((k, v) for k, v in t.items() if k.startswith("taxon:") and TAXON_LANG.match(k))
+    return sorted((k, v) for k, v in t.items() if k.startswith("taxon:") and lang_key(TAXON_LANG, k))
 
 
 def taxon_precise(t):
@@ -2294,8 +2335,11 @@ def checks(t, pos, osm_id=None):
         props.update(p)
 
     c, h, cd = circ_value(t)[0], num(t.get("height")), num(t.get("diameter_crown"))
-    if c is not None and c > MAX_CIRCUMFERENCE:
-        flag("circumference")
+    # circumference non leggibile (circumference=big, già number_invalid) con diameter: il limite si controlla su
+    # diameter, che altrimenti non sarebbe guardato da nessun check. Solo per il limite: il disegno non lo usa
+    c_max = d * math.pi if c is None and (d := diameter_m(t)) else c
+    if c_max is not None and c_max > MAX_CIRCUMFERENCE:   # diam_used: il messaggio dice «(da diameter)»
+        flag("circumference", **({"diam_used": True} if c is None and "circumference" in t else {}))
     if h is not None and h > MAX_HEIGHT:
         flag("height")
     if cd is not None and cd > MAX_CROWN:

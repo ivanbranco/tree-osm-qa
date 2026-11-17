@@ -4376,7 +4376,8 @@ const FIXES = {
     ? [["denotation", String(p.denotation).split(";").map(x => x.trim()).filter(Boolean).join(";")]] : [],
     "remove the spaces around ; in denotation"],
   // solo un numero con una virgola tra le cifre (2,9 o 2,9 m): altri valori con la virgola non sono certi
-  comma: [p => String(p.comma || "").split(";").filter(k => /^\s*\d+,\d+\s*[a-zA-Z]*\s*$/.test(p[k] ?? ""))
+  // non con tre cifre dopo la virgola (1,200): può essere 1.2 oppure 1200, la correzione si fa a mano
+  comma: [p => String(p.comma || "").split(";").filter(k => /^\s*\d+,\d+\s*[a-zA-Z]*\s*$/.test(p[k] ?? "") && !/,\d{3}(?!\d)/.test(p[k]))
     .map(k => [k, p[k].replace(",", ".")]), "decimal point instead of comma"],
   // unit_fix: righe "chiave|valore|correzione|…" (fetch_trees.py), se il valore è lo stesso. Con due correzioni la
   // prima è quella senza unità (metri; millimetri per diameter: parse_length), che si scrive
