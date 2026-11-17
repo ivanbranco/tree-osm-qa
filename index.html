@@ -3160,11 +3160,21 @@ map.on("load", async () => {
     });
   };
   const closeCard = () => { if (cardPopup) cardPopup.remove(); };
-  // tasto Z (issue #12): con una scheda aperta, la mappa si centra sull'albero a zoom 19 (non mentre si scrive in un campo)
+  // tasto Z (issue #12): con una scheda aperta, la mappa si centra sull'albero a zoom 19 (non mentre si scrive in un campo).
+  // Ripremuto, torna alla vista di prima (zoomBack), anche se nel frattempo si è aperta la scheda di un albero vicino o
+  // la scheda è stata chiusa; se invece l'albero della scheda non è in vista o si è tornati sotto zoom 18, Z zooma su
+  // quell'albero e il ritorno resta alla vista salvata la prima volta
+  let zoomBack = null;
   addEventListener("keydown", e => {
-    if (e.key.toLowerCase() !== "z" || e.ctrlKey || e.metaKey || e.altKey || !cardPopup) return;
+    if (e.key.toLowerCase() !== "z" || e.ctrlKey || e.metaKey || e.altKey) return;
     if (e.target.closest?.("input, select, textarea, [contenteditable], dialog")) return;
-    map.flyTo({ center: cardPopup.getLngLat(), zoom: 19 });
+    const pos = cardPopup?.getLngLat();
+    if (zoomBack && (!pos || (map.getZoom() >= 18 && map.getBounds().contains(pos)))) {
+      map.flyTo(zoomBack); zoomBack = null; return;
+    }
+    if (!pos) return;
+    if (!zoomBack) zoomBack = { center: map.getCenter(), zoom: map.getZoom(), bearing: map.getBearing(), pitch: map.getPitch() };
+    map.flyTo({ center: pos, zoom: 19 });
   });
   // tasto C (Confronta / Compare): con una scheda aperta, la finestra del tronco a confronto, se l'albero ce l'ha (la
   // stessa dell'iconcina accanto all'altezza); come Z, non mentre si scrive in un campo o con una finestra aperta
@@ -3384,6 +3394,7 @@ map.on("load", async () => {
   let loadSeq = 0;
   const loadRegion = async (slug, fit) => {
     const seq = ++loadSeq, r = idx[slug];
+    zoomBack = null;                                  // il ritorno del tasto Z vale solo nella regione in cui si è zoomato
     setCurrent(slug); regSel.value = slug; overviewBtn.hidden = false;
     document.getElementById("count").textContent = L.loading(regionName(slug));
     // Caricamento in due fasi: prima il file ridotto (<slug>.min, solo alberi con errori e monumentali, gli unici
