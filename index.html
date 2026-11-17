@@ -218,6 +218,9 @@
   .card h3 .sex .tip{white-space:normal;color:#222;font-weight:400;font-size:12px;line-height:1.4;padding:4px 7px}
   .card h3 .sex .tip .photo{margin:4px 0 0}
   .card h3 .sex svg{width:.85em;height:.85em;vertical-align:-.1em;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}   /* ♂ / ♀ accanto al titolo (sex=male/female) */
+  .card h3 .sex.unknown{color:#a5a5a5}   /* specie dioica senza sex=*: «♂/♀» più chiaro */
+  .card h3 .sex.unknown svg{width:calc(.85em * 47 / 24)}
+  .card h3 .sex .tip .more{display:block;margin-top:4px}
   /* pop-up con la spiegazione del check: passando il mouse sul ⚠, o toccandolo (focus) da telefono */
   .why{cursor:help;outline:none}
   .why .tip{display:none;position:absolute;left:0;right:0;top:100%;z-index:6;background:#fff;color:#222;font-weight:400;
@@ -565,7 +568,7 @@ const I18N = {
       nameEn: v => `In inglese un nome proprio inizia con la maiuscola: name:en=${v}`,
       // taxon=* (hint_tx, fetch_trees.py: "species|nome" o "genus|nome" se le liste wiki lo riconoscono)
       // has: c'è già species o genus con lo stesso nome
-      taxon: (v, k, n, has) => `taxon=${v} non dice a quale rango appartiene il nome: ${!k ? "se ce n'è uno, un tag più preciso (species, genus, taxon:cultivar…) lo direbbe"
+      taxon: (v, k, n, has) => `taxon=${v} non dice a quale rango appartiene il nome: ${!k ? "se possibile, usare un tag più preciso (species, genus, taxon:cultivar…)"
         : has ? `è ${k === "species" ? "una specie" : "un genere"} della lista della wiki, già in ${k}=*: taxon si potrebbe togliere`
         : `è ${k === "species" ? "una specie" : "un genere"} della lista della wiki, si potrebbe scrivere ${k}=${n} al posto di taxon`}`,
       // varietà e cultivar scritte in species, genere abbreviato (sp_base, sp_gen, sp_var, sp_cv, sp_abbr:
@@ -644,6 +647,9 @@ const I18N = {
       lt: "Tipo di foglie (stimato)", leaf_cycle: "Ciclo fogliare", lc: "Ciclo fogliare (stimato)", circumference: "Circonferenza", diameter: "Diametro tronco",
       height: "Altezza", diameter_crown: "Diametro chioma", start_date: "Messa a dimora" },
     sex: { male: "Esemplare maschile", female: "Esemplare femminile" },
+    // simbolo tratteggiato accanto al titolo: specie dioica senza sex=*
+    sexUnknown: "Sesso sconosciuto", sexUnknownText: "Specie dioica: ogni albero è maschio o femmina, ma per questo il sesso non è indicato (sex=*).",
+    sexUnknownLink: "Maschio e femmina nella scheda della specie",
     // tratti per riconoscere il sesso, nel riquadro che si apre cliccando ♂ / ♀ (chiave: specie, o genere per tutte
     // le sue specie). Stagioni, non mesi: valgono nei due emisferi. Foto e didascalie in SEX_PHOTO
     sexTraits: {
@@ -869,7 +875,7 @@ const I18N = {
       // lang: codice della lingua del nome (g_common_lang, fetch_trees.py), "" se è lo stesso in più lingue
       genus_common_name: (g, n, lang) => `genus=${g} è il nome comune${lang ? ` in ${langName(lang)}` : ""} del genere ${n}: usare genus=${n}`,
       not_a_tree: sp => `${sp} non è un albero: usare natural=plant al posto di natural=tree`,
-      species_lang_genus: (k, v, g, add) => `${k}=${v} è il nome del genere ${g}: usare ${k.replace("species:", "genus:")}=${spName(v)}` + (add ? ` e genus=${g}` : ""),
+      species_lang_genus: (k, v, g, add) => `${k}=${v} è il nome del genere ${g}: usare ${k.replace("species:", "genus:")}=${genName(v)}` + (add ? ` e genus=${g}` : ""),
       species_lang_gx: (k, v, g, g2) => `${k}=${v} è il nome del genere ${g}, ma c'è genus=${g2}`,
       species_lang_gdup: (k, v, g, gk, add) => `${k}=${v} è il nome del genere ${g}, che è già in ${gk}: togliere ${k}` + (add ? ` e aggiungere genus=${g}` : ""),
       species_lang_gkx: (k, v, g, gkv) => `${k}=${v} è il nome del genere ${g}, ma c'è ${gkv}`,
@@ -1104,7 +1110,7 @@ const I18N = {
       speciesFromWp: n => `species:wikipedia points to ${n}: species=${n} could be added`,
       speciesIt: v => `On OSM almost all species:it values start with a capital letter: species:it=${v}`,
       nameEn: v => `In English a proper name starts with a capital letter: name:en=${v}`,
-      taxon: (v, k, n, has) => `taxon=${v} does not say which rank the name belongs to: ${!k ? "if there is one, a more precise tag (species, genus, taxon:cultivar…) would say it"
+      taxon: (v, k, n, has) => `taxon=${v} does not say which rank the name belongs to: ${!k ? "consider using a more precise tag if possible (species, genus, taxon:cultivar…)"
         : has ? `it is a ${k} in the wiki list, already in ${k}=*: taxon could be removed`
         : `it is a ${k} in the wiki list, it could be written as ${k}=${n} instead of taxon`}`,
       infra: (sp, abbr, what, main, tags, gen, check) => `species=${sp} ${[abbr && "has the genus abbreviated",
@@ -1175,6 +1181,8 @@ const I18N = {
       lt: "Leaf type (estimated)", leaf_cycle: "Leaf cycle", lc: "Leaf cycle (estimated)", circumference: "Circumference", diameter: "Trunk diameter",
       height: "Height", diameter_crown: "Crown diameter", start_date: "Planting date" },
     sex: { male: "Male specimen", female: "Female specimen" },
+    sexUnknown: "Unknown sex", sexUnknownText: "Dioecious species: each tree is male or female, but the sex of this one is not given (sex=*).",
+    sexUnknownLink: "Male and female on the species page",
     sexTraits: {
       "Ginkgo biloba": { female: "Females bear paired ovules at the tip of a long stalk in spring and, in autumn, fleshy, yellow, foul-smelling seeds that fall under the canopy.",
         male: "Males bear hanging, yellowish, catkin-like pollen cones in spring, together with the new leaves, and produce no seeds." },
@@ -1388,7 +1396,7 @@ const I18N = {
       taxon_lang_only: kv => `${kv} is present but taxon=* is missing`,
       genus_common_name: (g, n, lang) => `genus=${g} is the${lang ? ` ${langName(lang)}` : ""} common name of the genus ${n}: use genus=${n}`,
       not_a_tree: sp => `${sp} is not a tree: use natural=plant instead of natural=tree`,
-      species_lang_genus: (k, v, g, add) => `${k}=${v} is the name of the genus ${g}: use ${k.replace("species:", "genus:")}=${spName(v)}` + (add ? ` and genus=${g}` : ""),
+      species_lang_genus: (k, v, g, add) => `${k}=${v} is the name of the genus ${g}: use ${k.replace("species:", "genus:")}=${genName(v)}` + (add ? ` and genus=${g}` : ""),
       species_lang_gx: (k, v, g, g2) => `${k}=${v} is the name of the genus ${g}, but genus=${g2} is present`,
       species_lang_gdup: (k, v, g, gk, add) => `${k}=${v} is the name of the genus ${g}, already in ${gk}: remove ${k}` + (add ? ` and add genus=${g}` : ""),
       species_lang_gkx: (k, v, g, gkv) => `${k}=${v} is the name of the genus ${g}, but ${gkv} is present`,
@@ -1735,6 +1743,16 @@ getJSON(BASE + "species/index.json").then(d => { SPECIES_PAGES = d.pages || {}; 
 // pagina della specie dell'albero, se c'è: col nome della lista wiki (sp_key, per i sinonimi) o con species com'è scritto
 const speciesPage = p => { const n = String(p.sp_key || p.species || "").split(/\s+/).filter(Boolean).join(" ").toLowerCase();
   return n && !n.includes(";") && SPECIES_PAGES[n] ? `${BASE}species/${SPECIES_PAGES[n]}.html` : null; };
+// Piante dioiche (fiori maschili e femminili su alberi diversi), generi interi o singole specie: per la voce «Sesso»
+// di Completezza (issue #58) e per il simbolo del sesso sconosciuto nella scheda. Ci devono essere tutte le chiavi di
+// L.sexTraits. Un albero è dioico se genus=* o la prima parola di species=* è uno dei generi, o se species=* è una
+// delle specie (anche seguita da autore o cultivar)
+const DIO_GENERA = ["Broussonetia", "Cephalotaxus", "Cercidiphyllum", "Chamaerops", "Ginkgo", "Gymnocladus", "Hippophae",
+  "Ilex", "Laurus", "Maclura", "Phellodendron", "Phoenix", "Pistacia", "Podocarpus", "Populus", "Salix", "Taxus", "Torreya", "Trachycarpus"];
+const DIO_SPECIES = ["Acer negundo", "Ailanthus altissima", "Araucaria araucana", "Ceratonia siliqua", "Diospyros lotus",
+  "Diospyros virginiana", "Juniperus communis", "Juniperus oxycedrus", "Juniperus virginiana", "Phytolacca dioica", "Schinus molle"];
+const isDio = p => { const sp = String(p.species || "");
+  return DIO_GENERA.includes(p.genus) || DIO_GENERA.includes(sp.split(" ")[0]) || DIO_SPECIES.some(s => sp === s || sp.startsWith(s + " ")); };
 
 const map = new maplibregl.Map({
   // zoom massimo 19: le tessere di openstreetmap.org arrivano a 19, oltre lo sfondo è solo ingrandito e sfocato
@@ -2624,16 +2642,8 @@ map.on("load", async () => {
     : g.type === "MultiPolygon" ? g.coordinates.some(p => inPolygon(pt, p)) : false;
   const hasTag = k => p => p[k] != null && p[k] !== "";
   const noTag = k => ["==", ["coalesce", ["get", k], ""], ""];
-  // Voce «Sesso» (issue #58): solo per le piante dioiche (fiori maschili e femminili su alberi diversi), generi interi
-  // o singole specie; ci devono essere tutte le chiavi di L.sexTraits. La riga conta gli alberi dioici nella vista
-  // (among) e si vede solo se ce n'è almeno uno. Un albero è dioico se genus=* o la prima parola di species=* è uno
-  // dei generi, o se species=* è una delle specie (anche seguita da autore o cultivar)
-  const DIO_GENERA = ["Broussonetia", "Cephalotaxus", "Cercidiphyllum", "Chamaerops", "Ginkgo", "Gymnocladus", "Hippophae",
-    "Ilex", "Laurus", "Maclura", "Phellodendron", "Phoenix", "Pistacia", "Podocarpus", "Populus", "Salix", "Taxus", "Torreya", "Trachycarpus"];
-  const DIO_SPECIES = ["Acer negundo", "Ailanthus altissima", "Araucaria araucana", "Ceratonia siliqua", "Diospyros lotus",
-    "Diospyros virginiana", "Juniperus communis", "Juniperus oxycedrus", "Juniperus virginiana", "Phytolacca dioica", "Schinus molle"];
-  const isDio = p => { const sp = String(p.species || "");
-    return DIO_GENERA.includes(p.genus) || DIO_GENERA.includes(sp.split(" ")[0]) || DIO_SPECIES.some(s => sp === s || sp.startsWith(s + " ")); };
+  // Voce «Sesso» (issue #58): solo per le piante dioiche (DIO_GENERA, DIO_SPECIES, isDio). La riga conta gli alberi
+  // dioici nella vista (among) e si vede solo se ce n'è almeno uno
   const SP = ["coalesce", ["get", "species"], ""], spStarts = s => ["==", ["index-of", s, SP], 0];
   const DIO_EXPR = ["any", ["in", ["coalesce", ["get", "genus"], ""], ["literal", DIO_GENERA]], ["in", SP, ["literal", DIO_GENERA]],
     ...DIO_GENERA.map(g => spStarts(g + " ")), ...DIO_SPECIES.map(s => ["any", ["==", SP, s], spStarts(s + " ")])];
@@ -3822,6 +3832,8 @@ const sdEvent = v => {
 // come year_event_decade in fetch_trees.py; null per decenni e secoli
 // spName: il nome comune di un genere senza "sp." o "spp." (Klon sp. -> Klon), come SP_SUFFIX in fetch_trees.py
 const spName = v => String(v).replace(/\s+spp?\.?$/i, "");
+// genName: il nome comune proposto per genus:xx, con l'iniziale maiuscola
+const genName = v => { const s = spName(v); return s.charAt(0).toLocaleUpperCase() + s.slice(1); };
 const sdEventDecade = k => { const m = /^(\d+)( BC)?$/.exec(k || "");
   return m ? `${Math.floor(Number(m[1]) / 10) * 10}s${m[2] || ""}` : null; };
 // yearEvent: la voce per la chiave, o quella del suo decennio. Una voce può valere per una sola nazione ("JP:1159") o
@@ -3986,15 +3998,26 @@ const SEX_SEASON = {
   "Araucaria araucana": [1, 12], "Diospyros lotus": [5, 12], "Diospyros virginiana": [5, 12],
   "Juniperus oxycedrus": [1, 12], "Juniperus virginiana": [9, 4], "Phytolacca dioica": [5, 11], "Schinus molle": [1, 12],
 };
+// Specie dioica senza sex=* (e con una sola specie): «♂/♀», più chiaro; il riquadro dice che il sesso non è indicato e
+// porta alla sezione «Maschio e femmina» (#sex) della scheda della specie se la specie ne ha una, altrimenti riporta i
+// tratti dei due sessi se ci sono in L.sexTraits
+const SEX_UNKNOWN_SVG = SEX_SVG.male + '<path d="M28.5 5 24 20"/><g transform="translate(26 0)">' + SEX_SVG.female + '</g>';
 const sexMark = p => { const s = SEX_SVG[p.sex];
-  if (!s) return "";
-  const sp = p.sp_clean || p.species || "";
-  const key = sexKey(p, L.sexTraits), pk = sexKey(p, SEX_PHOTO);
+  const key = sexKey(p, L.sexTraits);
+  const box = (cls, label, svg, tip, w = 24) => ` <span class="${cls} pop" tabindex="0" role="button" aria-expanded="false" aria-label="${esc(label)}"
+    onclick="togglePop(this, event)" onkeydown="togglePop(this, event)"><svg viewBox="0 0 ${w} 24" aria-hidden="true">${svg}</svg>`
+    + `<span class="tip">${tip}</span></span>`;
+  if (!s) {
+    if (p.sex || String(p.species || "").includes(";") || !isDio(p)) return "";
+    const page = speciesPage(p);
+    const tip = page ? esc(L.sexUnknownText) + `<a class="more" href="${esc(page + (key ? "#sex" : ""))}" target="_blank" rel="noopener">${esc(L.sexUnknownLink)}</a>`
+      : esc(L.sexUnknownText + (key ? " " + L.sexTraits[key].female + " " + L.sexTraits[key].male : ""));
+    return box("sex unknown", L.sexUnknown, SEX_UNKNOWN_SVG, tip, 47);
+  }
+  const sp = p.sp_clean || p.species || "", pk = sexKey(p, SEX_PHOTO);
   const text = L.sex[p.sex] + (key ? ". " + L.sexTraits[key][p.sex] : "");
   const photo = pk ? popPhoto(SEX_PHOTO[pk][p.sex], L.sexPhotoAlt[pk]?.[p.sex] || sp) : "";
-  return ` <span class="sex pop" tabindex="0" role="button" aria-expanded="false" aria-label="${esc(L.sex[p.sex])}"
-    onclick="togglePop(this, event)" onkeydown="togglePop(this, event)"><svg viewBox="0 0 24 24" aria-hidden="true">${s}</svg>`
-    + `<span class="tip">${esc(text)}${photo}</span></span>`; };
+  return box("sex", L.sex[p.sex], s, esc(text) + photo); };
 const ROWS = ROW_KEYS.map(k => [k, L.rows[k === "iv_gen" ? "genus" : k], ROW_FMT[k]]);
 // IMPERIAL: browser in en-US e sito in inglese: nella scheda altezza, circonferenza e chioma sono in piedi e pollici
 // (65 ft 7 in), con il valore in metri nel suggerimento; i messaggi dei check restano in metri
@@ -4554,7 +4577,7 @@ const FIXES = {
       const gk = new Set(String(p.sp_lang_gk).split("\n"));
       // species:xx non è tra le proprietà della feature: il vecchio valore (quinto elemento) viene da sp_lang_genus
       many.forEach(([, k, v]) => out.push([k, REMOVE, w, false, v],
-        ...gk.has(k) ? [] : [[k.replace("species:", "genus:"), spName(v), w, true]]));
+        ...gk.has(k) ? [] : [[k.replace("species:", "genus:"), genName(v), w, true]]));
       if (!g0) out.push(["genus", many[0][3], w, true]);
     }
     const added = new Set();   // specie proposte

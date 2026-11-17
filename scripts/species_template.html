@@ -603,7 +603,7 @@ function sexes() {
       <figcaption data-file="${esc(s.img)}">Wikimedia Commons</figcaption></figure>` : "";
     return `<div class="card">${photo}<div class="body"><h3><svg viewBox="0 0 24 24" aria-hidden="true">${SEX_SVG[k]}</svg>${T.sexName[k]}</h3>
       <p>${esc(s[LANG])}</p><div class="n">${T.sexN(fmt(n), k)}</div></div></div>`; };
-  return `<section><h2>${T.sexTitle}</h2><p class="lead">${T.sexLead}</p><div class="sexes">${col("male")}${col("female")}</div></section>`;
+  return `<section id="sex"><h2>${T.sexTitle}</h2><p class="lead">${T.sexLead}</p><div class="sexes">${col("male")}${col("female")}</div></section>`;
 }
 
 // ---------- pagina ----------
