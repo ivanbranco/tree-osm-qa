@@ -427,11 +427,13 @@
    "updated": "2026-11-14T10:02:37Z"
   },
   "liechtenstein": {
-   "count": 11859,
+   "count": 11901,
    "errors": 1,
    "name": "Liechtenstein",
-   "sha1": "d6ecfd7c9a07f4fc244a59bca00925e730ac88c4",
-   "updated": "2026-11-12T18:27:21Z"
+   "osm_base": "2026-11-17T20:00:06Z",
+   "sha1": "c8e5ced061810fe27ad62e545c15b62c033ee628",
+   "tried": "2026-11-17",
+   "updated": "2026-11-17T20:01:03Z"
   },
   "liguria": {
    "count": 8906,
