@@ -860,13 +860,13 @@
    "updated": "2026-11-16T17:16:27Z"
   },
   "toscana": {
-   "count": 117526,
-   "errors": 1353,
+   "count": 117523,
+   "errors": 1381,
    "name": "Toscana",
-   "osm_base": "2026-11-17T11:06:05Z",
-   "sha1": "d3a09973758174f6d7c8214eb882c9fa6d38a209",
+   "osm_base": "2026-11-17T12:51:20Z",
+   "sha1": "d3874ed74c2ea9977f857be879ff544705f6cba7",
    "tried": "2026-11-17",
-   "updated": "2026-11-17T11:08:17Z"
+   "updated": "2026-11-17T12:53:44Z"
   },
   "trentino-alto-adige": {
    "count": 67787,
