@@ -102,10 +102,10 @@
    "count": 201339,
    "errors": 404,
    "name": "Borgogna-Franca Contea",
-   "osm_base": "2026-11-16T23:23:38Z",
-   "sha1": "f5fa609fd67d623b334abac25c14703701024207",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T23:26:05Z"
+   "osm_base": "2026-11-17T22:22:51Z",
+   "sha1": "ad242a1c598468ddb428cee0d748909390eaca8e",
+   "tried": "2026-11-17",
+   "updated": "2026-11-17T22:25:11Z"
   },
   "bosnia-erzegovina": {
    "count": 35881,
@@ -315,11 +315,13 @@
    "updated": "2026-11-15T07:59:01Z"
   },
   "galizia": {
-   "count": 55003,
-   "errors": 1905,
+   "count": 55015,
+   "errors": 1908,
    "name": "Galizia",
-   "sha1": "0dd91428fac566fb52b28ae9ae192630bed13616",
-   "updated": "2026-11-12T16:50:33Z"
+   "osm_base": "2026-11-17T22:20:51Z",
+   "sha1": "9528aa8a90a524bbc5a10225f058568b45fcbb3d",
+   "tried": "2026-11-17",
+   "updated": "2026-11-17T22:22:52Z"
   },
   "galles": {
    "count": 59293,
@@ -477,12 +479,13 @@
    "updated": "2026-11-12T02:27:56Z"
   },
   "lubelskie": {
-   "count": 81490,
-   "errors": 127,
+   "count": 81540,
+   "errors": 158,
    "name": "Lublino",
-   "sha1": "64831ee9ac3f351ab3e4d35deb3174eded3e8634",
-   "tried": "2026-11-14",
-   "updated": "2026-11-14T10:50:07Z"
+   "osm_base": "2026-11-17T22:21:50Z",
+   "sha1": "a31abca4823cb2d3d8572f07957dba4f2fd29895",
+   "tried": "2026-11-17",
+   "updated": "2026-11-17T22:23:58Z"
   },
   "lubuskie": {
    "count": 56260,
@@ -953,11 +956,13 @@
    "updated": "2026-11-14T10:58:06Z"
   },
   "washington": {
-   "count": 128349,
-   "errors": 143,
+   "count": 128720,
+   "errors": 551,
    "name": "Stato di Washington",
-   "sha1": "7eb523c344f2dbbfaeb8f29a28d713edf50e5b18",
-   "updated": "2026-11-12T11:57:24Z"
+   "osm_base": "2026-11-17T22:23:51Z",
+   "sha1": "34317840e9f0508994b7c9b1855f491a85864121",
+   "tried": "2026-11-17",
+   "updated": "2026-11-17T22:26:25Z"
   },
   "wielkopolskie": {
    "count": 109560,
