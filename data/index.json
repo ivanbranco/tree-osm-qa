@@ -85,9 +85,10 @@
    "count": 14423,
    "errors": 81,
    "name": "Basilicata",
-   "sha1": "a38b581d85e1d5cd229b14a7c8350ee12f179f0c",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:12:27Z"
+   "osm_base": "2026-11-17T11:25:17Z",
+   "sha1": "e99ea14bc9e43a30ee4e9fc107b5496f39d056e0",
+   "tried": "2026-11-17",
+   "updated": "2026-11-17T11:26:32Z"
   },
   "bassa-austria": {
    "count": 186104,
