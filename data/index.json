@@ -551,12 +551,13 @@
    "updated": "2026-11-16T00:39:51Z"
   },
   "midlands-orientali": {
-   "count": 197956,
-   "diam": "mm",
-   "errors": 116,
+   "count": 198917,
+   "errors": 319,
    "name": "Midlands Orientali",
-   "sha1": "3bbde440a04eacffa435b2fdeb86a637559f33da",
-   "updated": "2026-11-12T02:25:42Z"
+   "osm_base": "2026-11-17T09:32:21Z",
+   "sha1": "b21d2bacc79adc285988731632ed99216bd8b616",
+   "tried": "2026-11-17",
+   "updated": "2026-11-17T09:34:08Z"
   },
   "molise": {
    "count": 57853,
