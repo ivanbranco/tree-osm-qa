@@ -654,7 +654,9 @@ const I18N = {
     leafCycle: { deciduous: "Caducifoglia", semi_deciduous: "Semi-caducifoglia", evergreen: "Sempreverde", semi_evergreen: "Semi-sempreverde" },
     rows: { species: "Specie", iv_var: "Varietà", iv_cv: "Cultivar", sp_common: "Nome comune", genus: "Genere", taxon: "Taxon", denotation: "Categoria", leaf_type: "Tipo di foglie",
       lt: "Tipo di foglie (stimato)", leaf_cycle: "Ciclo fogliare", lc: "Ciclo fogliare (stimato)", circumference: "Circonferenza", diameter: "Diametro tronco",
-      height: "Altezza", diameter_crown: "Diametro chioma", start_date: "Messa a dimora" },
+      height: "Altezza", diameter_crown: "Diametro chioma", start_date: "Messa a dimora", multi_stemmed: "Policormico" },
+    // valore di multi_stemmed=* nella scheda (issue #46): yes/no, numero di tronchi, circonferenze dei tronchi
+    stems: { yes: "sì", no: "no", n: n => n === 1 ? "1 tronco" : `${n} tronchi`, circ: (n, c) => `${n} tronchi con circonferenza ${c}` },
     sex: { male: "Esemplare maschile", female: "Esemplare femminile" },
     // simbolo tratteggiato accanto al titolo: specie dioica senza sex=*
     sexUnknown: "Sesso sconosciuto", sexUnknownText: "Specie dioica: ogni albero è maschio o femmina, ma per questo il sesso non è indicato (sex=*).",
@@ -1202,7 +1204,8 @@ const I18N = {
     leafCycle: { deciduous: "Deciduous", semi_deciduous: "Semi-deciduous", evergreen: "Evergreen", semi_evergreen: "Semi-evergreen" },
     rows: { species: "Species", iv_var: "Variety", iv_cv: "Cultivar", sp_common: "Common name", genus: "Genus", taxon: "Taxon", denotation: "Category", leaf_type: "Leaf type",
       lt: "Leaf type (estimated)", leaf_cycle: "Leaf cycle", lc: "Leaf cycle (estimated)", circumference: "Circumference", diameter: "Trunk diameter",
-      height: "Height", diameter_crown: "Crown diameter", start_date: "Planting date" },
+      height: "Height", diameter_crown: "Crown diameter", start_date: "Planting date", multi_stemmed: "Multi-stemmed" },
+    stems: { yes: "yes", no: "no", n: n => n === 1 ? "1 trunk" : `${n} trunks`, circ: (n, c) => `${n} trunks with circumference ${c}` },
     sex: { male: "Male specimen", female: "Female specimen" },
     sexUnknown: "Unknown sex", sexUnknownText: "Dioecious species: each tree is male or female, but the sex of this one is not given (sex=*).",
     sexUnknownLink: "Male and female on the species page",
@@ -4100,7 +4103,7 @@ const recShow = (k, p, m) => {
 // da species (sp_var, sp_cv: fetch_trees.py); iv_gen: il genere, se species è genere e cultivar (sp_gen) e genus
 // manca; li calcola card()
 const ROW_KEYS = ["species", "iv_gen", "iv_var", "iv_cv", "sp_common", "genus", "taxon", "denotation", "leaf_type", "lt", "leaf_cycle", "lc",
-  "circumference", "diameter", "height", "diameter_crown", "start_date"];
+  "circumference", "diameter", "multi_stemmed", "height", "diameter_crown", "start_date"];
 const ROW_FMT = { denotation: v => tr(L.denotation, v), leaf_type: v => tr(L.leafType, v), lt: v => tr(L.leafType, v),
   leaf_cycle: v => tr(L.leafCycle, v), lc: v => tr(L.leafCycle, v), circumference: fmtM, diameter: fmtD, height: fmtM, diameter_crown: fmtM,
   start_date: v => { const a = sdAge(v); return a ? `${v} (${a})` : String(v); } };
@@ -4187,6 +4190,17 @@ const fmtFtIn = m => { const t = Math.round(m / 0.0254), f = Math.floor(t / 12),
 const cardLen = v => { const m = IMPERIAL ? lenM(v) : null;
   return m > 0 ? `<span title="${esc(fmtM(v))}">${fmtFtIn(m)}</span>` : esc(fmtM(v)); };
 const list = v => String(v || "").split(";").join(", ");
+// riga «Policormico» della scheda (issue #46), con le regole di stem_radii in fetch_trees.py: yes / no, un intero =
+// numero di tronchi, più valori con ";" = circonferenze dei singoli tronchi (in metri senza unità); altrimenti il
+// valore com'è scritto
+const stemsHtml = v => {
+  const s = String(v).trim(), low = s.toLowerCase(), parts = s.split(";").map(x => x.trim()).filter(Boolean);
+  if (low === "yes" || low === "no") return esc(L.stems[low]);
+  if (/^\d+$/.test(s)) return esc(L.stems.n(Number(s)));
+  if (parts.length > 1 && parts.every(x => lenM(x) > 0))
+    return L.stems.circ(parts.length, new Intl.ListFormat(LANG, { type: "conjunction" }).format(parts.map(cardLen)));
+  return esc(s);
+};
 const fromD = (i, p) => p.diam_used && i.startsWith("circumference") ? L.fromDiameter : "";
 // exp_for: specie o genere (exp_genus) di riferimento; exp_lc: cicli fogliari separati da ";" (fetch_trees.py).
 // I dati scritti prima usavano "il genere X" e "a o b": si leggono ancora, finché non vengono aggiornati
@@ -4907,7 +4921,7 @@ function card(p, pos) {
   const fromDiam = dm > 0;
   const rows = ROWS.filter(([k]) => (k === "diameter" ? p[k] && !fromDiam : p[k] || (k === "circumference" && fromDiam)) && k !== titleKey && !(k === "genus" && p.species && !genusIssue && !p.sp_gen) && !(k === "species" && p.sp_gen)).map(([k, label, f]) => k === "circumference" && fromDiam
     ? `<dt>${label}</dt><dd>${cardLen(String(Number((dm * Math.PI).toFixed(3))))}${esc(L.fromDiameter)}${planPick(p)}</dd>`
-    : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : k === "species" ? spLink(esc(p.sp_base || p[k])) : esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
+    : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : k === "multi_stemmed" ? stemsHtml(p[k]) : k === "species" ? spLink(esc(p.sp_base || p[k])) : esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
   const rec = recognitions(p);
   const links = [osmMenu(p, pos)];
