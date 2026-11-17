@@ -1992,9 +1992,18 @@ map.on("load", async () => {
     const out = [];
     const stems = p.stems ? String(p.stems).split(";").map(Number).filter(r => r > 0) : null;
     let trunks = p.tr ? [[0, 0, p.tr]] : [];      // [dx, dy, raggio] di ogni tronco
-    if (stems && stems.length > 1) {              // tronchi in cerchio intorno al centro, senza sovrapporsi
-      const rmax = Math.max(...stems), D = rmax / Math.sin(Math.PI / stems.length) * 1.05, rot = hash01(id, 0) * 2 * Math.PI;
-      trunks = stems.map((r, k) => { const a = rot + k * 2 * Math.PI / stems.length; return [D * Math.cos(a), D * Math.sin(a), r]; });
+    if (stems && stems.length > 1) {              // tronchi senza sovrapporsi, ruotati a caso per albero
+      const rot = hash01(id, 0) * 2 * Math.PI;
+      const ring = (rs, rc) => {                  // rs in cerchio intorno a un tronco centrale di raggio rc (0 = nessuno)
+        const m = rs.length, ro = Math.max(...rs);
+        const D = Math.max(rc ? rc + ro : 0, m > 1 ? ro / Math.sin(Math.PI / m) : 0) * 1.05;
+        return rs.map((r, k) => { const a = rot + k * 2 * Math.PI / m; return [D * Math.cos(a), D * Math.sin(a), r]; });
+      };
+      if (stems.length === 2) trunks = ring(stems, 0);   // due tronchi: uno accanto all'altro
+      else {                                      // da tre: il più grosso al centro, gli altri intorno
+        const s = [...stems].sort((a, b) => b - a);
+        trunks = [[0, 0, s[0]], ...ring(s.slice(1), s[0])];
+      }
       trunks.forEach(([dx, dy, r]) => out.push(pt(dx, dy, "stem", r)));
     }
     if (p.ivy) {                                  // anello puntinato verde intorno a ciascun tronco
