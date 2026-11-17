@@ -3056,7 +3056,7 @@ map.on("load", async () => {
   // più JOSM_EXPERT_MAX e da zoom JOSM_EXPERT_Z. Una richiesta load_and_zoom scarica la
   // zona (JOSM risponde a download finito), poi una richiesta zoom per albero con select e addtags: JOSM mette in coda
   // le conferme e le mostra una alla volta. Il commento del changeset unisce i motivi di tutte le correzioni
-  const JOSM_MULTI_MAX = 25, JOSM_MULTI_Z = 17, JOSM_EXPERT_MAX = 100, JOSM_EXPERT_Z = 15;
+  const JOSM_MULTI_MAX = 25, JOSM_MULTI_Z = 17, JOSM_EXPERT_MAX = 100, JOSM_EXPERT_Z = 10;
   let josmBusy = false;
   addEventListener("keydown", async e => {
     if (e.key.toLowerCase() !== "j" || e.ctrlKey || e.metaKey || e.altKey || WORLD || !current || josmBusy) return;
