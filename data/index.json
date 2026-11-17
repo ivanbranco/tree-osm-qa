@@ -679,12 +679,13 @@
    "updated": "2026-11-16T08:27:59Z"
   },
   "piemonte": {
-   "count": 73051,
-   "errors": 129,
+   "count": 73070,
+   "errors": 180,
    "name": "Piemonte",
-   "sha1": "6f1c85676fc36a2c9775acba01e5ecc50d8473c5",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T01:41:39Z"
+   "osm_base": "2026-11-17T08:21:14Z",
+   "sha1": "ef2d0cd006a85be6a54809857f86e55c422a631f",
+   "tried": "2026-11-17",
+   "updated": "2026-11-17T08:23:13Z"
   },
   "podkarpackie": {
    "count": 90492,
@@ -775,12 +776,13 @@
    "updated": "2026-11-12T02:22:55Z"
   },
   "serbia": {
-   "count": 40037,
-   "diam": "mm",
-   "errors": 370,
+   "count": 40112,
+   "errors": 384,
    "name": "Serbia",
-   "sha1": "b8947fa2180bd32380cdac36cb965249e72a5587",
-   "updated": "2026-11-11T17:35:45Z"
+   "osm_base": "2026-11-17T09:07:03Z",
+   "sha1": "7439e92b753aa55400d6b826825695bc95d3385f",
+   "tried": "2026-11-17",
+   "updated": "2026-11-17T09:09:26Z"
   },
   "sicilia": {
    "count": 49245,
