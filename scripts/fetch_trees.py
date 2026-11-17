@@ -802,6 +802,8 @@ def hint_props(t, osm_id=None):
     hint_wn: species:wikipedia senza species (e senza hint_sn o hint_sp) -> nome scientifico (P225) di quell'elemento;
     hint_tx: taxon=* che nelle liste wiki è una specie o un genere (taxon_precise) -> "species|nome" o "genus|nome":
     la correzione con JOSM lo sposta in species o genus (il consiglio su taxon=* c'è comunque, index.html);
+    hint_txl: con hint_tx, i taxon:xx dell'albero ("taxon:en=Rowan" separati da "\n"): la correzione li sposta in
+    species:xx o genus:xx. Se quel tag c'è già con un altro valore, né hint_tx né hint_txl;
     hint_ne: name:en con l'iniziale minuscola -> il valore (index.html propone la maiuscola);
     hint_imp_u: source=* di un import non documentato (scripts/imports.json) -> il valore;
     hint_imp_d: source=* di un import documentato -> "valore|pagina della wiki";
@@ -856,7 +858,13 @@ def hint_props(t, osm_id=None):
     if (ne := str(t.get("name:en") or "")).lstrip(" ×")[:1].islower():
         out["hint_ne"] = ne
     if tp := taxon_precise(t):
-        out["hint_tx"] = "|".join(tp)
+        # taxon:xx (nome in una lingua) resterebbe senza taxon: passa in species:xx / genus:xx. Se quel tag c'è già con
+        # un altro valore la proposta non sarebbe certa: nessun consiglio
+        lang = [(k, str(v).strip()) for k, v in t.items() if k.startswith("taxon:") and lang_key(TAXON_LANG, k)]
+        if not any(str(t.get(f"{tp[0]}:{k[6:]}") or "").strip() not in ("", v) for k, v in lang):
+            out["hint_tx"] = "|".join(tp)
+            if lang:
+                out["hint_txl"] = "\n".join(f"{k}={v}" for k, v in sorted(lang))
     sp = (t.get("species") or "").strip()
     if not sp and not t.get("genus"):
         for q in qids(t, "wikidata"):

@@ -4498,7 +4498,10 @@ const HINT_FIXES = [
     if (p.stump || !n || !p.taxon) return [];
     const other = !p.species && (binomialHint(p.hint_sn) || binomialHint(p.hint_wn) || MONOTYPIC[String(p.genus || "").trim()]);
     if (k === "species" && other && other !== n) return [];
-    return [...p[k] ? [] : [[k, n]], ["taxon", REMOVE]]; }, "more precise tag instead of taxon"],
+    // taxon:xx (hint_txl, "taxon:en=Rowan" separati da "\n") passa in species:xx / genus:xx: da solo resterebbe senza taxon
+    const langs = String(p.hint_txl || "").split("\n").filter(Boolean).flatMap(kv => {
+      const i = kv.indexOf("="); return [[`${k}:${kv.slice(6, i)}`, kv.slice(i + 1)], [kv.slice(0, i), REMOVE]]; });
+    return [...p[k] ? [] : [[k, n]], ["taxon", REMOVE], ...langs]; }, "more precise tag instead of taxon"],
   [p => p.stump ? [] : hybridX(p), "hybrid sign × instead of x"],
   // varietà, cultivar e genere abbreviato in species (infraMove): species senza, i tag taxon:* e, per quella specie,
   // species:wikidata, leaf_type e leaf_cycle che mancano (sp_base_wd, sp_base_lt, sp_base_lc); con genere e cultivar

@@ -529,6 +529,13 @@ HINT_CASES = [
     ("hint_tx: non con una cultivar", {"natural": "tree", "taxon": "Quercus robur 'Fastigiata'"}, None, "hint_tx", False),
     ("hint_tx: non con una species di un altro genere", {"natural": "tree", "taxon": "Quercus", "species": "Pinus pinea"},
      None, "hint_tx", False),
+    ("hint_txl: taxon:xx passa in species:xx", {**OAK, "taxon": "Quercus robur", "taxon:en": "Oak"}, None, "hint_txl",
+     "taxon:en=Oak"),
+    ("hint_txl: taxon:xx passa in genus:xx", {"natural": "tree", "taxon": "pinus", "taxon:en": "Pine"}, None, "hint_txl",
+     "taxon:en=Pine"),
+    ("hint_tx: non se species:xx ha un altro valore", {**OAK, "taxon": "Quercus robur", "taxon:en": "Oak", "species:en": "Pedunculate oak"},
+     None, "hint_tx", False),
+    ("hint_txl: niente senza taxon:xx", {**OAK, "taxon": "Quercus robur"}, None, "hint_txl", False),
     # varietà e cultivar scritte in species (sp_base, sp_var, sp_cv: issue #68)
     ("sp_base: varietà", {"natural": "tree", "species": "Quercus robur var. fastigiata"}, None, "sp_base", "Quercus robur"),
     ("sp_var: varietà", {"natural": "tree", "species": "Quercus robur var. fastigiata"}, None, "sp_var", "fastigiata"),
