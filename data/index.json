@@ -776,12 +776,13 @@
    "updated": "2026-11-12T02:22:55Z"
   },
   "serbia": {
-   "count": 40037,
-   "diam": "mm",
-   "errors": 370,
+   "count": 40112,
+   "errors": 384,
    "name": "Serbia",
-   "sha1": "b8947fa2180bd32380cdac36cb965249e72a5587",
-   "updated": "2026-11-11T17:35:45Z"
+   "osm_base": "2026-11-17T09:07:03Z",
+   "sha1": "7439e92b753aa55400d6b826825695bc95d3385f",
+   "tried": "2026-11-17",
+   "updated": "2026-11-17T09:09:26Z"
   },
   "sicilia": {
    "count": 49245,
