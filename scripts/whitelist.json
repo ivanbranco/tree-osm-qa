@@ -16,9 +16,9 @@
            "Houblon": "Humulus", "Houx": "Ilex", "Mélèze": "Larix", "Micocoulier": "Celtis", "Noisetier": "Corylus",
            "Olivier": "Olea", "Orme": "Ulmus", "Peuplier": "Populus", "Platane": "Platanus", "Poirier": "Pyrus",
            "Pommier": "Malus", "Saule": "Salix", "Tilleul": "Tilia"},
-    "it": {"Acero": "Acer", "Betulla": "Betula", "Frassino": "Fraxinus", "Gelso": "Morus", "Noce": "Juglans",
-           "Olmo": "Ulmus", "Ontano": "Alnus", "Pino": "Pinus", "Pioppo": "Populus", "Platano": "Platanus",
-           "Quercia": "Quercus", "Salice": "Salix", "Tiglio": "Tilia"},
+    "it": {"Acero": "Acer", "Betulla": "Betula", "Carpino": "Carpinus", "Cipresso": "Cupressus", "Frassino": "Fraxinus",
+           "Gelso": "Morus", "Ginepro": "Juniperus", "Noce": "Juglans", "Olmo": "Ulmus", "Ontano": "Alnus", "Pino": "Pinus", "Pioppo": "Populus",
+           "Platano": "Platanus", "Quercia": "Quercus", "Salice": "Salix", "Tamerice": "Tamarix", "Tiglio": "Tilia"},
     "pl": {"Brzoza": "Betula", "Dąb": "Quercus", "Jesion": "Fraxinus", "Kasztanowiec": "Aesculus", "Klon": "Acer",
            "Lipa": "Tilia", "Modrzew": "Larix", "Olcha": "Alnus", "Platan": "Platanus", "Sosna": "Pinus",
            "Topola": "Populus", "Wiąz": "Ulmus", "Wierzba": "Salix"}

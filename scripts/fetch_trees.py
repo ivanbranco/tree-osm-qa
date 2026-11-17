@@ -800,8 +800,9 @@ def hint_props(t, osm_id=None):
     hint_wp: species:wikipedia senza species:wikidata (e senza il QID della lista, che dà già hint_sw) -> QID
     dell'elemento Wikidata della voce, se è una specie;
     hint_wn: species:wikipedia senza species (e senza hint_sn o hint_sp) -> nome scientifico (P225) di quell'elemento;
-    hint_tx: taxon=* che nelle liste wiki è una specie o un genere (taxon_precise) -> "species|nome" o "genus|nome":
-    la correzione con JOSM lo sposta in species o genus (il consiglio su taxon=* c'è comunque, index.html);
+    hint_tx: taxon=* che nelle liste wiki è una specie o un genere (taxon_precise) -> "species|nome" o "genus|nome",
+    o che non è nella lista ma ha la forma di una specie (genere noto ed epiteto) -> "species|valore|b": la correzione
+    con JOSM lo sposta in species o genus (il consiglio su taxon=* c'è comunque, index.html);
     hint_txl: con hint_tx, i taxon:xx dell'albero ("taxon:en=Rowan" separati da "\n"): la correzione li sposta in
     species:xx o genus:xx. Se quel tag c'è già con un altro valore, né hint_tx né hint_txl;
     hint_ne: name:en con l'iniziale minuscola -> il valore (index.html propone la maiuscola);
@@ -2283,10 +2284,59 @@ def taxon_lang_only(t):
     return sorted((k, v) for k, v in t.items() if k.startswith("taxon:") and lang_key(TAXON_LANG, k))
 
 
+def taxon_lang_moves(t, tl):
+    """Nomi di taxon_lang_only (tl) che si possono scrivere in genus:xx o species:xx: (righe, tag).
+    righe = [(chiave, valore, tipo, nome, "chiave nuova=valore nuovo")], tipo "g" se il valore è il nome comune di un
+    genere (GENUS_NAMES, nome = il genere; va in genus:xx con l'iniziale maiuscola e senza «sp.»), "s" se è il nome di
+    una specie (SPECIES_NAMES, nome = la specie; va in species:xx, scritto come nella lista), "p" se non è un nome noto
+    ma species=* c'è già (va in species:xx com'è). tag = "species=…" o "genus=…" da aggiungere perché manca, o "".
+    Una riga non c'è se il tag nuovo ha già un altro valore; nessuna riga se i nomi indicano generi o specie diversi
+    tra loro o da genus e species."""
+    sp, g = str(t.get("species") or "").strip(), str(t.get("genus") or "").strip()
+    if ";" in sp or ";" in g:
+        return [], ""
+    rows, genera, specs = [], {genus_key(x) for x in (g, sp) if x}, {binomial(sp)} if sp else set()
+    for k, v in tl:
+        lang, v = k[6:], v.strip()
+        code, name = re.split(r"[-_]", lang)[0], SP_SUFFIX.sub("", v)
+        key = (code, name.casefold())
+        if (gen := GENUS_NAMES.get(key)) and genus_name_here(key):
+            row = (k, v, "g", gen, f"genus:{lang}", name[:1].upper() + name[1:])
+            genera.add(genus_key(gen))
+        elif s := SPECIES_NAMES.get((code, v.casefold())):
+            row = (k, v, "s", s, f"species:{lang}", SPECIES_NAME_FORM.get((code, v.casefold())) or v)
+            genera.add(genus_key(s))
+            specs.add(binomial(s))
+        elif sp:
+            row = (k, v, "p", "", f"species:{lang}", v)
+        else:
+            continue
+        if (cur := str(t.get(row[4]) or "").strip()) and cur.casefold() != row[5].casefold():
+            continue
+        rows.append((*row[:4], f"{row[4]}={row[5]}"))
+    if len(genera) > 1 or len(specs) > 1:
+        return [], ""
+    tag = ""
+    if not sp and (s := next((r[3] for r in rows if r[2] == "s"), None)):
+        tag = f"species={s}"
+    elif not sp and not g and (gen := next((r[3] for r in rows if r[2] == "g"), None)):
+        tag = f"genus={gen}"
+    return rows, tag
+
+
+# seconda parola di un nome di specie: l'epiteto, in minuscolo (con un trattino: "Prunus x-yedoensis" no, "Picea
+# abies" sì). Per taxon_precise
+EPITHET = re.compile(r"[a-z]+(?:-[a-z]+)?")
+# parole che dopo il genere non sono un epiteto (Quercus sp, Pinus spp, Tilia x)
+NOT_EPITHETS = {"sp", "spp", "ssp", "subsp", "var", "cv", "f", "x", "hybrid", "species"}
+
+
 def taxon_precise(t):
     """Tag più preciso per il valore di taxon=*, dalle liste wiki: ("species", nome della lista) se è genere ed
-    epiteto di una specie della lista (senza cultivar o altro), ("genus", genere) se è un genere della lista; None
-    altrimenti, o se species o genus (o il genere di species) dicono già un'altra cosa: la proposta non sarebbe certa."""
+    epiteto di una specie della lista (senza cultivar o altro), ("genus", genere) se è un genere della lista;
+    ("species", valore, "b") se non è nella lista ma è un genere noto con l'iniziale maiuscola seguito da un epiteto
+    (taxon=Citrus sinensis): genere ed epiteto sono la forma del nome di una specie. None altrimenti, o se species o
+    genus (o il genere di species) dicono già un'altra cosa: la proposta non sarebbe certa."""
     tx = str(t.get("taxon") or "").strip()
     if not tx or ";" in tx or "=" in tx:
         return None
@@ -2296,6 +2346,11 @@ def taxon_precise(t):
         same_g = not g or genus_key(g) == genus_key(genus_of_species(name))
         if same_g and (not sp or binomial(sp) == binomial(name)):
             return "species", name
+        return None
+    if (len(words) == 2 and words[0][:1].isupper() and words[0][1:].islower() and words[0].casefold() in KNOWN_GENERA
+            and EPITHET.fullmatch(words[1]) and words[1] not in NOT_EPITHETS):
+        if (not g or genus_key(g) == words[0].casefold()) and (not sp or binomial(sp) == binomial(tx)):
+            return "species", " ".join(tx.split()), "b"
         return None
     if len(words) == 1 and (gr := GENUS_REF.get(words[0].lstrip("×").casefold())):
         if (not g or genus_key(g) == genus_key(gr[0])) and (not sp or genus_key(genus_of_species(sp)) == genus_key(gr[0])):
@@ -2607,7 +2662,15 @@ def checks(t, pos, osm_id=None):
              **({"sp_lang_gx": "\n".join(f"{k}={v}|{g}" for k, v, g in gx)} if gx else {}),
              **({"sp_lang_gkx": "\n".join(f"{k}={v}|{g}|{x}" for k, v, g, x in gkx)} if gkx else {}))
     if tl := taxon_lang_only(t):        # "taxon:en=Oak" separati da "\n" (i valori possono contenere ";")
-        flag("taxon_lang_only", tx_lang="\n".join(f"{k}={v}" for k, v in tl))
+        # tx_lang_mv: righe "taxon:it=pino|g|Pinus|genus:it=Pino" per i nomi che si possono scrivere in genus:xx o
+        # species:xx (taxon_lang_moves; tipo g, s o p); tx_lang_add: "species=…" o "genus=…" da aggiungere con loro.
+        # tx_lang_wd, tx_lang_lt, tx_lang_lc: species:wikidata, leaf_type e leaf_cycle che mancano per quella species
+        mv, add = taxon_lang_moves(t, tl)
+        if add.startswith("species="):
+            props.update(species_lang_extras(t, add[8:], "tx_lang_"))
+        flag("taxon_lang_only", tx_lang="\n".join(f"{k}={v}" for k, v in tl),
+             **({"tx_lang_mv": "\n".join(f"{k}={v}|{kind}|{n}|{nkv}" for k, v, kind, n, nkv in mv)} if mv else {}),
+             **({"tx_lang_add": add} if add else {}))
     if nt_sp := not_a_tree(t):          # una pianta che non è un albero: natural=plant (nt_sp: il nome della specie)
         flag("not_a_tree", nt_sp=nt_sp)
     g = t.get("genus")

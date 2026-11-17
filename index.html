@@ -568,7 +568,9 @@ const I18N = {
       nameEn: v => `In inglese un nome proprio inizia con la maiuscola: name:en=${v}`,
       // taxon=* (hint_tx, fetch_trees.py: "species|nome" o "genus|nome" se le liste wiki lo riconoscono)
       // has: c'è già species o genus con lo stesso nome
-      taxon: (v, k, n, has) => `taxon=${v} non dice a quale rango appartiene il nome: ${!k ? "se possibile, usare un tag più preciso (species, genus, taxon:cultivar…)"
+      taxon: (v, k, n, has, b) => `taxon=${v} non dice a quale rango appartiene il nome: ${!k ? "se possibile, usare un tag più preciso (species, genus, taxon:cultivar…)"
+        : b ? `genere ed epiteto sono la forma del nome di una specie (non nella lista della wiki), ${has ? "già in species=*: taxon si potrebbe togliere"
+          : `si potrebbe scrivere species=${n} al posto di taxon. Il nome è da controllare (sinonimi, segno di ibrido ×)`}`
         : has ? `è ${k === "species" ? "una specie" : "un genere"} della lista della wiki, già in ${k}=*: taxon si potrebbe togliere`
         : `è ${k === "species" ? "una specie" : "un genere"} della lista della wiki, si potrebbe scrivere ${k}=${n} al posto di taxon`}`,
       // varietà e cultivar scritte in species, genere abbreviato (sp_base, sp_gen, sp_var, sp_cv, sp_abbr:
@@ -872,6 +874,9 @@ const I18N = {
       not_latin: kv => `${kv} non è in alfabeto latino, come i nomi scientifici: il nome nella lingua locale va in species:xx (es. species:bg)`,
       species_lang_only: kv => `c'è ${kv} ma manca species=* (il nome scientifico)`,
       taxon_lang_only: kv => `c'è ${kv} ma manca taxon=*`,
+      // kind: g = nome di un genere, s = nome di una specie, p = c'è già species (tx_lang_mv, fetch_trees.py)
+      taxon_lang_mv: (kv, kind, n, nkv, add) => `c'è ${kv} ma manca taxon=*: ${kind === "g" ? `è il nome del genere ${n}`
+        : kind === "s" ? `è il nome della specie ${n}` : "species=* c'è già"}, usare ${nkv}` + (add ? ` e ${add}` : ""),
       // lang: codice della lingua del nome (g_common_lang, fetch_trees.py), "" se è lo stesso in più lingue
       genus_common_name: (g, n, lang) => `genus=${g} è il nome comune${lang ? ` in ${langName(lang)}` : ""} del genere ${n}: usare genus=${n}`,
       not_a_tree: sp => `${sp} non è un albero: usare natural=plant al posto di natural=tree`,
@@ -1112,7 +1117,9 @@ const I18N = {
       speciesFromWp: n => `species:wikipedia points to ${n}: species=${n} could be added`,
       speciesIt: v => `On OSM almost all species:it values start with a capital letter: species:it=${v}`,
       nameEn: v => `In English a proper name starts with a capital letter: name:en=${v}`,
-      taxon: (v, k, n, has) => `taxon=${v} does not say which rank the name belongs to: ${!k ? "consider using a more precise tag if possible (species, genus, taxon:cultivar…)"
+      taxon: (v, k, n, has, b) => `taxon=${v} does not say which rank the name belongs to: ${!k ? "consider using a more precise tag if possible (species, genus, taxon:cultivar…)"
+        : b ? `a genus and an epithet are the form of a species name (not in the wiki list), ${has ? "already in species=*: taxon could be removed"
+          : `it could be written as species=${n} instead of taxon. Check the name (synonyms, hybrid sign ×)`}`
         : has ? `it is a ${k} in the wiki list, already in ${k}=*: taxon could be removed`
         : `it is a ${k} in the wiki list, it could be written as ${k}=${n} instead of taxon`}`,
       infra: (sp, abbr, what, main, tags, gen, check) => `species=${sp} ${[abbr && "has the genus abbreviated",
@@ -1396,6 +1403,8 @@ const I18N = {
       not_latin: kv => `${kv} is not in the Latin script, unlike scientific names: the name in the local language goes in species:xx (e.g. species:bg)`,
       species_lang_only: kv => `${kv} is present but species=* (the scientific name) is missing`,
       taxon_lang_only: kv => `${kv} is present but taxon=* is missing`,
+      taxon_lang_mv: (kv, kind, n, nkv, add) => `${kv} is present but taxon=* is missing: ${kind === "g" ? `it is the name of the genus ${n}`
+        : kind === "s" ? `it is the name of the species ${n}` : "species=* is already present"}, use ${nkv}` + (add ? ` and ${add}` : ""),
       genus_common_name: (g, n, lang) => `genus=${g} is the${lang ? ` ${langName(lang)}` : ""} common name of the genus ${n}: use genus=${n}`,
       not_a_tree: sp => `${sp} is not a tree: use natural=plant instead of natural=tree`,
       species_lang_genus: (k, v, g, add) => `${k}=${v} is the name of the genus ${g}: use ${k.replace("species:", "genus:")}=${genName(v)}` + (add ? ` and genus=${g}` : ""),
@@ -4163,7 +4172,15 @@ const issueBase = (i, p) => {
     case "masaf_unknown": return String(p.masaf_unk || "").split(";").filter(Boolean).map(c => T[i](c)).join("\n");   // masaf_unk: fetch_trees.py
     case "start_date_invalid": return T[i](p.start_date ?? "", !!p.sd_future);   // sd_future: fetch_trees.py
     case "wikipedia_is_taxon": return T[i](p.wp_v ?? "", p.wp_tx, !!p.wp_genus);   // wp_v, wp_tx, wp_genus: fetch_trees.py
-    case "taxon_lang_only": return String(p.tx_lang || "").split("\n").filter(Boolean).map(kv => T[i](kv)).join("\n");   // tx_lang: fetch_trees.py
+    // tx_lang: righe "taxon:xx=valore"; tx_lang_mv: righe "taxon:it=pino|g|Pinus|genus:it=Pino" per i nomi che si
+    // possono scrivere in genus:xx o species:xx; tx_lang_add: "genus=…" o "species=…" da aggiungere (fetch_trees.py)
+    case "taxon_lang_only": {
+      const mv = new Map(String(p.tx_lang_mv || "").split("\n").map(x => x.split("|")).filter(r => r.length === 4)
+        .map(([kv, kind, n, nkv]) => [kv, [kind, n, nkv]]));
+      const add = String(p.tx_lang_add || ""), addKind = add.startsWith("species=") ? "s" : add ? "g" : "";
+      return String(p.tx_lang || "").split("\n").filter(Boolean).map(kv => { const m = mv.get(kv);
+        return m ? T.taxon_lang_mv(kv, m[0], m[1], m[2], m[0] === addKind ? add : "") : T[i](kv); }).join("\n");
+    }
     case "genus_common_name": return T[i](p.genus, p.g_common, p.g_common_lang || "");   // g_common, g_common_lang: fetch_trees.py
     case "register_country":     // reg_out: "tag|codice ISO della nazione;…" (fetch_trees.py)
       return String(p.reg_out || "").split(";").filter(Boolean).map(x => { const [t, cc] = x.split("|");
@@ -4617,6 +4634,23 @@ const FIXES = {
     // si aggiunge)
     if (added.size === 1) out.push(["species:wikidata", p.sp_lang_wd, "add species:wikidata", true],
       ["leaf_type", p.sp_lang_lt, "add leaf_type", true], ["leaf_cycle", p.sp_lang_lc, "add leaf_cycle", true]);
+    return out;
+  }, ""],
+  // taxon:xx senza taxon (righe tx_lang_mv, come in issueText): taxon:xx si toglie e diventa genus:xx o species:xx,
+  // più il genus o la species che mancano (tx_lang_add) e, per una species, i tag che ne derivano (tx_lang_wd,
+  // tx_lang_lt, tx_lang_lc). taxon:xx e genus:xx/species:xx non sono tra le proprietà della feature: il vecchio valore
+  // (quinto elemento) viene dalla riga
+  taxon_lang_only: [p => {
+    const w = "name in genus:xx or species:xx instead of taxon:xx";
+    const out = String(p.tx_lang_mv || "").split("\n").map(x => x.split("|")).filter(r => r.length === 4)
+      .flatMap(([kv, , , nkv]) => { const i = kv.indexOf("="), j = nkv.indexOf("=");
+        return [[kv.slice(0, i), REMOVE, w, false, kv.slice(i + 1)], [nkv.slice(0, j), nkv.slice(j + 1), w, true]]; });
+    const add = String(p.tx_lang_add || ""), j = add.indexOf("=");
+    if (out.length && j > 0) {
+      out.push([add.slice(0, j), add.slice(j + 1), w, true]);
+      if (add.startsWith("species=")) out.push(["species:wikidata", p.tx_lang_wd, "add species:wikidata", true],
+        ["leaf_type", p.tx_lang_lt, "add leaf_type", true], ["leaf_cycle", p.tx_lang_lc, "add leaf_cycle", true]);
+    }
     return out;
   }, ""]
 };
@@ -5289,7 +5323,7 @@ function hints(p, pos) {
   if (p.hint_it) out.push(H.speciesIt(p.hint_it));
   if (p.hint_ne) out.push(H.nameEn(capFirst(p.hint_ne)));   // hint_ne: name:en con la minuscola (fetch_trees.py)
   // taxon=* non dice il rango; hint_tx: "species|nome" o "genus|nome" se è nelle liste wiki (fetch_trees.py)
-  if (p.taxon) { const [k, n] = String(p.hint_tx || "").split("|"); out.push(H.taxon(p.taxon, n ? k : "", n, !!(n && p[k]))); }
+  if (p.taxon) { const [k, n, b] = String(p.hint_tx || "").split("|"); out.push(H.taxon(p.taxon, n ? k : "", n, !!(n && p[k]), b === "b")); }
   for (const [k, v] of hybridX(p)) out.push(H.hybridSign(k, v));
   // varietà e cultivar scritte in species: taxon:variety e taxon:cultivar (infraMove)
   const im = infraMove(p);
