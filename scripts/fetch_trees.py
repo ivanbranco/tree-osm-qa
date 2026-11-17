@@ -1346,6 +1346,9 @@ for _name in _LIST:
 for _alt in _WL.get("synonyms", {}):        # i sinonimi della whitelist valgono come nomi della lista
     SPECIES_BIN.setdefault(binomial(_alt), _alt)
 KNOWN_GENERA = {b.split()[0] for b in SPECIES_BIN} | set(GENUS_REF)
+# epiteti delle specie della lista, di qualunque genere (species_epithet_case); non le cultivar ("Ulmus 'New Horizon'")
+LIST_EPITHETS = {b.split()[1] for b, _name in SPECIES_BIN.items()
+                 if len(b.split()) > 1 and name_words(_name)[1][:1].islower()}
 
 
 def levenshtein(a, b, limit):
@@ -1940,17 +1943,33 @@ def species_common_name(sp):
 @functools.lru_cache(maxsize=None)
 def species_epithet_case(sp):
     """Se species è un nome scientifico scritto con l'epiteto maiuscolo: il nome corretto. Vale per i nomi della
-    lista ("Catalpa Bignonioides" -> "Catalpa bignonioides") e per i nomi di due parole con un genere noto
-    ("Wisteria Sinensis" -> "Wisteria sinensis"); altrimenti None. Anche l'epiteto con l'iniziale minuscola ma una
+    lista ("Catalpa Bignonioides" -> "Catalpa bignonioides"; quello che segue l'epiteto resta com'è) e per i nomi di
+    due parole con un genere noto e un epiteto della lista ("Prunus Chinensis" -> "Prunus chinensis"; non "Malus
+    Zierform"); altrimenti None. Anche l'epiteto con l'iniziale minuscola ma una
     maiuscola dentro ("Ginkgo biloBa") e il genere con maiuscole dopo l'iniziale ("GINKGO biloba"), vedi
     species_inner_case."""
     if species_common_name(sp) is None:
         return species_inner_case(sp)
     if binomial(sp) in SPECIES_BIN:
-        return SPECIES_BIN[binomial(sp)]
+        listed = SPECIES_BIN[binomial(sp)]
+        if norm_species(sp) == norm_species(listed):
+            return listed                        # lo stesso nome, a parte maiuscole e virgolette
+        # quello che in species segue l'epiteto (cultivar, rango, altro) resta com'è: "Pyrus Communis 'Beech Hill'"
+        # -> "Pyrus communis 'Beech Hill'". Della lista si prendono genere ed epiteto, con il segno di ibrido
+        sw, lw = sp.split(), listed.split()
+        sp_pos = [i for i, w in enumerate(sw) if w not in HYBRID_SIGNS]
+        l_pos = [i for i, w in enumerate(lw) if w != "×"]
+        if len(l_pos) < 2 or lw[l_pos[1]][:1] in "'‘’`´\"“”":
+            return None                          # in lista c'è genere e cultivar: il resto non si può attaccare
+        return " ".join(lw[:l_pos[1] + 1] + sw[sp_pos[1] + 1:])
     words = [w for w in sp.split() if w != "×"]
-    if len(words) == 2 and words[0].casefold() in KNOWN_GENERA:
-        # il genere con la sola iniziale maiuscola ("PRUNUS Comunis" -> "Prunus comunis", non "PRUNUS comunis")
+    # due parole con un genere noto: la proposta c'è solo se la seconda è un epiteto, cioè l'epiteto di una specie
+    # della lista (di qualunque genere: "Prunus Chinensis") o a poche lettere da una specie della lista ("Quercus
+    # Rubur"). "Malus Zierform", "Tilia Greenspire" restano a species_common_name, senza proposta. Con il nome tutto
+    # maiuscolo ("PINUS JEFFREYI") o con "SP" ("Cedrus SPP") la maiuscola della seconda parola non distingue niente
+    if (len(words) == 2 and words[0].casefold() in KNOWN_GENERA
+            and (words[1].casefold() in LIST_EPITHETS or sp.isupper() or species_unidentified(sp) or species_typo(sp))):
+        # il genere con la sola iniziale maiuscola ("PRUNUS Communis" -> "Prunus communis", non "PRUNUS communis")
         return f"{words[0][:1].upper()}{words[0][1:].lower()} {words[1].lower()}"
     return None
 
