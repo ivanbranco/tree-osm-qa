@@ -88,7 +88,10 @@ def query(region, bbox):
   node["natural"="tree_stump"](area.a)({s},{w},{n},{e});
   node["xmas:feature"="tree"](area.a)({s},{w},{n},{e});
 );
-out meta qt;"""   # meta: serve solo la data dell'ultima modifica (to_feature, "ts"); utente e changeset non si salvano
+out meta qt;
+way["natural"="tree_row"](area.a)({s},{w},{n},{e});
+out geom qt;"""   # meta: serve solo la data dell'ultima modifica (to_feature, "ts"); utente e changeset non si salvano
+    # filari (issue #56, tree_rows): con geom ogni way ha i tag, gli id dei nodi ("nodes") e le coordinate ("geometry")
 
 
 def run_overpass(q, label, can_split, http_timeout=420):
@@ -155,7 +158,7 @@ def fetch_bbox(region, bbox, depth=0, min_depth=0):
         if part is None:
             return None  # meglio la cache che dati incompleti
         for el in part["elements"]:
-            merged[el["id"]] = el
+            merged[(el.get("type"), el["id"])] = el   # nodi e way (filari) hanno numerazioni separate
         bases.append(osm_base(part))
         newest.append(part["osm3s"].get("newest") or bases[-1])
         time.sleep(5)
@@ -3003,6 +3006,36 @@ def xmas_feature(el):
             "geometry": {"type": "Point", "coordinates": [round(el["lon"], 7), round(el["lat"], 7)]}}
 
 
+def tree_rows(elements):
+    """Filari (way natural=tree_row) da disegnare con alberi finti (issue #56): {"id": id della way, "c": [[lon, lat],
+    …], "lt": leaf_type, "lc": leaf_cycle}. lt e lc sono il tag se è valido, altrimenti la stima dalle liste (come per
+    gli alberi; palm per le palme); mancano se non si conoscono. Un filare che ha tra i suoi nodi almeno un albero o
+    un ceppo della regione (natural=tree o tree_stump) non c'è: i suoi alberi sono già mappati uno per uno. Solo per
+    il disegno: niente check, conteggi o file ridotto."""
+    trees = {e["id"] for e in elements if e.get("type") == "node"
+             and e.get("tags", {}).get("natural") in ("tree", "tree_stump")}
+    rows = []
+    for el in elements:
+        t = el.get("tags", {})
+        if el.get("type") != "way" or t.get("natural") != "tree_row" or trees & set(el.get("nodes", [])):
+            continue
+        pts = [[round(g["lon"], 6), round(g["lat"], 6)] for g in el.get("geometry") or [] if g]
+        pts = [p for i, p in enumerate(pts) if i == 0 or p != pts[i - 1]]
+        if len(pts) < 2:
+            continue
+        row = {"id": el["id"], "c": pts}
+        lt = "palm" if is_palm(t) and t.get("leaf_type") != "leafless" else t.get("leaf_type")
+        if lt not in LEAF_TYPE:
+            lt = leaf_type_estimate(t)
+        if lt in ("broadleaved", "needleleaved", "palm"):
+            row["lt"] = lt
+        lc = t.get("leaf_cycle") if t.get("leaf_cycle") in LEAF_CYCLE else leaf_cycle_estimate(t)
+        if lc:
+            row["lc"] = lc
+        rows.append(row)
+    return sorted(rows, key=lambda r: r["id"])
+
+
 def build(data):
     nodes = [e for e in data["elements"] if e.get("type") == "node"]
     is_tree = lambda e: e.get("tags", {}).get("natural") in ("tree", "tree_stump")
@@ -3010,6 +3043,9 @@ def build(data):
     feats.sort(key=lambda f: f["properties"]["id"])  # ordine stabile: se i dati non cambiano, il file resta identico
     neighbour_checks(feats)
     fc = {"type": "FeatureCollection", "features": feats}
+    # filari senza alberi mappati tra i nodi: membro aggiuntivo "rows", come "xmas" fuori da conteggi, errori e storico
+    if rows := tree_rows(data["elements"]):
+        fc["rows"] = rows
     # alberi di Natale che non sono alberi OSM: in un elenco a parte ("xmas", membro aggiuntivo del GeoJSON), fuori
     # da conteggi, errori, storico e file ridotto
     if xmas := sorted((xmas_feature(e) for e in nodes if not is_tree(e)), key=lambda f: f["properties"]["id"]):
@@ -3590,10 +3626,11 @@ def update_region(region, regions_index):
     newest = data["osm3s"].get("newest") or base if base else ""
     if base and base_seconds(newest) - base_seconds(base) > BASE_SPREAD_MAX:
         warn(f"{slug}: i tile della regione hanno dati OSM di date diverse, dal {base} al {newest}")
-    update_wikidata_cache(data["elements"])   # prima dei check: servono ai check su Wikidata (taxon e distanza)
-    update_url_cache(data["elements"])        # e al check sui link rotti
-    update_fotoshi_cache(data["elements"])    # autore e licenza delle foto di Fotoshi, per la scheda
-    update_gphotos_cache(data["elements"])    # indirizzo delle foto di Google Foto, per la scheda
+    els = [el for el in data["elements"] if el.get("type") == "node"]   # senza i filari: le cache servono agli alberi
+    update_wikidata_cache(els)   # prima dei check: servono ai check su Wikidata (taxon e distanza)
+    update_url_cache(els)        # e al check sui link rotti
+    update_fotoshi_cache(els)    # autore e licenza delle foto di Fotoshi, per la scheda
+    update_gphotos_cache(els)    # indirizzo delle foto di Google Foto, per la scheda
     MASAF_GROUPS = load_masaf_groups(region, path) if IN_ITALY else {}   # insiemi omogenei MASAF, solo in Italia
     fc = build(data)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
