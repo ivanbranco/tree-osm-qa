@@ -814,6 +814,24 @@ def feature_failures():
                                f"bare_feature in fetch_trees.py\n  rapida:    {fast['properties']}\n"
                                f"  completa:  {full['properties']}")
     ft.IN_ITALY, ft.COUNTRY = True, "IT"
+    # filari (tree_rows, issue #56): senza alberi tra i nodi, con leaf_type/leaf_cycle dal tag o stimati
+    g = lambda *pts: [{"lon": x, "lat": y} for x, y in pts]
+    way = lambda i, tags, nodes, geom: {"type": "way", "id": i, "tags": {"natural": "tree_row", **tags}, "nodes": nodes, "geometry": geom}
+    row_els = [node(500, {"natural": "tree"}), node(501, {"natural": "tree_stump"}), node(502, {"barrier": "gate"}),
+               way(1, {"species": "Pinus pinea"}, [502, 503], g((12, 42), (12.001, 42))),          # stima dalla specie
+               way(2, {}, [500, 504], g((12, 42), (12.001, 42))),                                  # albero tra i nodi
+               way(3, {}, [501, 504], g((12, 42), (12.001, 42))),                                  # ceppo tra i nodi
+               way(4, {"leaf_type": "leafless", "leaf_cycle": "deciduous"}, [505, 506], g((12, 42), (12, 42.001))),
+               way(5, {"genus": "Phoenix"}, [507, 508], g((12, 42), (12, 42))),                    # un solo punto
+               way(6, {"genus": "Phoenix", "leaf_type": "broadleaved"}, [509, 510], g((12, 42), (12, 42.001)))]
+    rows = ft.tree_rows(row_els)
+    want_rows = [{"id": 1, "c": [[12, 42], [12.001, 42]], "lt": "needleleaved", "lc": "evergreen"},
+                 {"id": 4, "c": [[12, 42], [12, 42.001]], "lc": "deciduous"},
+                 {"id": 6, "c": [[12, 42], [12, 42.001]], "lt": "palm"}]
+    if rows != want_rows:
+        out.append(f"FALLITO: tree_rows\n  atteso:  {want_rows}\n  uscito:  {rows}")
+    if "rows" in ft.build({"elements": [node(500, {"natural": "tree"})]}):
+        out.append("FALLITO: build senza filari: niente membro rows")
     checks = [("exp_genus solo insieme a un errore", ft.checks({"natural": "tree", "genus": "Quercus"}, POS)[1] == {}
                and ft.checks({"natural": "tree", "genus": "Pinus", "leaf_type": "broadleaved"}, POS)[1].get("exp_genus") is True),
               ("sacred_tree=no non è un albero sacro", not ft.is_sacred({"sacred_tree": "no"})
