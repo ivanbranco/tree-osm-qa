@@ -14,6 +14,8 @@ https://plugins.every-door.app/i/dendrosm?url=https%3A%2F%2Fivanbranco.github.io
 
 Or download [`dendrosm.edp`](https://ivanbranco.github.io/tree-osm-qa/everydoor/dendrosm.edp) and open it with Every Door. The plugin is then listed in "Settings → Plugins", where it can be disabled or deleted.
 
+After updating an installed copy, close Every Door completely and open it again: until then the type search keeps the order of results of the previous version.
+
 If the plugin cannot be enabled, the reason is in "Settings → About → System Log".
 
 ## Tree types

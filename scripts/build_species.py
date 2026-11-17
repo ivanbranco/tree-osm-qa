@@ -1,5 +1,6 @@
 """Schede delle specie (issue #79): una pagina HTML per ogni specie della pagina wiki «Tree species records», con
-primati, misure tipiche, distribuzione nelle regioni del sito, monumentali e aspetto sulla mappa.
+primati, misure tipiche, distribuzione nelle regioni del sito, monumentali e aspetto sulla mappa; per le specie dioiche
+anche i tratti che distinguono maschi e femmine (sex_info, dai testi di index.html).
 
 Nelle schede degli alberi delle mappe la specie è un link alla sua pagina, per le specie elencate in
 species/index.json (scritto alla fine, con tutte le pagine della cartella). Si generano solo le specie indicate:
@@ -127,6 +128,47 @@ def species_colors():
 BARK = {"Betula utilis": "#f4f1e8", "Acer griseum": "#b5532b"}
 
 
+_SEX_ENTRY = re.compile(r'(?:"([^"]+)"|([A-Z][a-z]+)): \{ female: ("(?:[^"\\]|\\.)*"),\s*male: ("(?:[^"\\]|\\.)*") \}')
+
+
+def _sex_entries(text):
+    """Voci «chiave: { female: "...", male: "..." }» di un pezzo di index.html: {chiave: {"female", "male"}}."""
+    return {m.group(1) or m.group(2): {"female": json.loads(m.group(3)), "male": json.loads(m.group(4))}
+            for m in _SEX_ENTRY.finditer(text)}
+
+
+def sex_info(n, counts):
+    """I due sessi di una specie dioica, per il paragrafo «Maschio e femmina» della scheda: i tratti che li distinguono
+    (L.sexTraits di index.html, in italiano e in inglese: tenuti lì, qui si leggono soltanto), la foto di Commons e la
+    sua didascalia se ci sono (SEX_PHOTO, L.sexPhotoAlt) e gli alberi con sex=male / sex=female nelle regioni.
+    La chiave è la specie o, per tutte le sue specie, il genere. None se la specie non è in L.sexTraits."""
+    src = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    def blocks(start, end):         # i pezzi tra start e end: il primo è dei testi italiani, il secondo degli inglesi
+        out, i = [], src.find(start)
+        while i >= 0:
+            j = src.index(end, i)
+            out.append(_sex_entries(src[i:j]))
+            i = src.find(start, j)
+        return out
+    traits, alts = blocks("sexTraits: {", "\n    },"), blocks("sexPhotoAlt: {", "\n")
+    photos = (blocks("const SEX_PHOTO = {", "\n") or [{}])[0]
+    if len(traits) != 2:
+        sys.exit("index.html: sexTraits non trovato due volte (it, en)")
+    keys = [n, n.split()[0]]
+    key = next((k for k in keys if k in traits[0] and k in traits[1]), None)
+    if key is None:
+        return None
+    pk = next((k for k in keys if k in photos), None)
+    out = {"n": {x: counts.get(x, 0) for x in ("male", "female")}}
+    for x in ("male", "female"):
+        out[x] = {"it": traits[0][key][x], "en": traits[1][key][x]}
+        if pk:
+            out[x]["img"] = photos[pk][x]
+            out[x]["alt"] = {lang: a[pk][x] for lang, a in zip(("it", "en"), alts) if pk in a}
+    return out
+
+
 def wikipedia_info(qid):
     """Voci di Wikipedia (it, en) dell'elemento Wikidata della specie e la loro immagine principale (pageimages, la
     foto in testa alla voce): {"it": {"url", "img"}, "en": {...}}. Autore e licenza della foto li chiede la pagina a
@@ -190,7 +232,7 @@ def main(names, keep_isolated=False):
     S = {n: {"feats": [], "per_region": collections.Counter(), "grid": collections.Counter(), "ids": set(),
              "lt": collections.Counter(), "lc": collections.Counter(), "fruit": collections.Counter(),
              "it": collections.Counter(), "en": collections.Counter(), "qid": collections.Counter(),
-             "issues": 0, "sample": None} for n in names}
+             "sex": collections.Counter(), "issues": 0, "sample": None} for n in names}
     sp_trees = collections.Counter()      # alberi con species=* per regione
     for r in regions:
         slug = r["slug"]
@@ -222,6 +264,8 @@ def main(names, keep_isolated=False):
             for k in ("it", "en"):
                 if pr.get("sp_" + k):
                     s[k][pr["sp_" + k]] += 1
+            if pr.get("sex"):
+                s["sex"][pr["sex"]] += 1
             if pr.get("hint_sw"):
                 s["qid"][pr["hint_sw"]] += 1
             if pr.get("issues", "|") != "|":
@@ -421,6 +465,7 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
         "wp": wikipedia_info(qid),
         "spColor": species_colors().get(n),
         "bark": BARK.get(n),
+        "sex": sex_info(n, s["sex"]),
         "name": n, "slug": slug_of(n), "genus": n.split()[0],
         "names": {k: most_common(s[k]) for k in ("it", "en") if s[k]},
         "qid": qid,

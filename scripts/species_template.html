@@ -94,6 +94,17 @@
   .look svg{width:100%;max-width:200px;height:auto;background:#eef1ea;border-radius:6px}
   .look h3{margin:6px 0 0;font-size:15px}
   .look p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+  /* «Maschio e femmina» (specie dioiche): due colonne, il maschio a sinistra e la femmina a destra */
+  .sexes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .sexes .card{padding:0;overflow:hidden}
+  .sexes .photo{width:auto;border:0;border-bottom:1px solid var(--line);border-radius:0}
+  .sexes .photo img{height:240px}
+  .sexes .body{padding:12px 14px}
+  .sexes h3{margin:0 0 4px;font-size:16px}
+  .sexes h3 svg{width:.9em;height:.9em;vertical-align:-.1em;margin-right:4px;fill:none;stroke:var(--muted);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .sexes p{margin:0;font-size:14px}
+  .sexes .n{margin-top:6px;font-size:12.5px;color:var(--muted)}
+  @media (max-width:600px){.sexes{grid-template-columns:1fr}}
   footer{max-width:1080px;margin:0 auto;padding:0 16px 30px;font-size:13px;color:var(--muted)}
   .maplibregl-popup-content{font:13px/1.4 system-ui,sans-serif}
   .look{position:relative}
@@ -183,6 +194,9 @@ const I18N = {
     },
     genAsk: "Se la specie ha qualcosa di riconoscibile (il colore delle foglie in una stagione, i frutti, i fiori, la corteccia), puoi proporre un disegno dedicato aprendo una issue su GitHub: serve un account GitHub.",
     propose: "Proponi un disegno", close: "Chiudi",
+    sexTitle: "Maschio e femmina", sexLead: "Specie dioica: ogni albero è maschio o femmina. Su OpenStreetMap si indica con sex=male o sex=female.",
+    sexName: { male: "Maschio", female: "Femmina" },
+    sexN: (n, v) => `${n} ${n === 1 ? "albero" : "alberi"} con sex=${v} nelle regioni di DendrOSM`,
     foot: d => `Dati OpenStreetMap (ODbL), aggiornati al ${d}. Record e medie sulla wiki: pagina <a href="${WIKI}" target="_blank" rel="noopener">«Tree species records»</a>.`
   },
   en: {
@@ -229,6 +243,9 @@ const I18N = {
       { broadleaved: "broadleaved", needleleaved: "needleleaved", palm: "palm" }[lt]].filter(Boolean).join(" ")} trees.`,
     genAsk: "If the species has something recognisable (the colour of its leaves in a season, its fruits, flowers or bark), you can suggest a dedicated drawing by opening an issue on GitHub: a GitHub account is needed.",
     propose: "Suggest a drawing", close: "Close",
+    sexTitle: "Male and female", sexLead: "Dioecious species: each tree is male or female. On OpenStreetMap it is tagged with sex=male or sex=female.",
+    sexName: { male: "Male", female: "Female" },
+    sexN: (n, v) => `${n} ${n === 1 ? "tree" : "trees"} with sex=${v} in the DendrOSM regions`,
     foot: d => `OpenStreetMap data (ODbL), updated on ${d}. Records and averages on the wiki: page <a href="${WIKI}" target="_blank" rel="noopener">"Tree species records"</a>.`
   }
 };
@@ -275,9 +292,8 @@ function creditName(md) {
   const a = [...doc.querySelectorAll("a")].map(x => x.textContent.replace(/\s+/g, " ").trim()).find(Boolean);
   return a || doc.body.textContent.replace(/\s+/g, " ").trim();
 }
-async function fillCredit() {
-  const cap = document.querySelector(".photo figcaption");
-  if (!cap) return;
+function fillCredit() { document.querySelectorAll(".photo figcaption[data-file]").forEach(fillCap); }
+async function fillCap(cap) {
   try {
     const r = await fetch("https://commons.wikimedia.org/w/api.php?format=json&formatversion=2&origin=*&action=query&prop=imageinfo&iiprop=extmetadata&titles="
       + encodeURIComponent("File:" + cap.dataset.file)).then(r => r.json());
@@ -572,6 +588,24 @@ function bindLooks() {
   dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });   // clic fuori dal riquadro
 }
 
+// ---------- maschio e femmina (specie dioiche) ----------
+// D.sex (build_species.py, sex_info): i tratti che distinguono i due sessi, gli stessi del riquadro ♂ / ♀ della scheda
+// dell'albero (L.sexTraits in index.html), con la foto di Commons se c'è. Il maschio a sinistra, la femmina a destra
+const SEX_SVG = {      // come in index.html
+  male: '<circle cx="9" cy="15" r="6"/><path d="M13.5 10.5 21 3M15 3h6v6"/>',
+  female: '<circle cx="12" cy="9" r="6"/><path d="M12 15v8M8 19.5h8"/>'
+};
+function sexes() {
+  if (!D.sex) return "";
+  const col = k => { const s = D.sex[k], n = D.sex.n[k], alt = (s.alt || {})[LANG] || D.name;
+    const photo = s.img ? `<figure class="photo"><a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(s.img)}" target="_blank" rel="noopener">
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(s.img)}?width=640" alt="${esc(alt)}" loading="lazy"></a>
+      <figcaption data-file="${esc(s.img)}">Wikimedia Commons</figcaption></figure>` : "";
+    return `<div class="card">${photo}<div class="body"><h3><svg viewBox="0 0 24 24" aria-hidden="true">${SEX_SVG[k]}</svg>${T.sexName[k]}</h3>
+      <p>${esc(s[LANG])}</p><div class="n">${T.sexN(fmt(n), k)}</div></div></div>`; };
+  return `<section><h2>${T.sexTitle}</h2><p class="lead">${T.sexLead}</p><div class="sexes">${col("male")}${col("female")}</div></section>`;
+}
+
 // ---------- pagina ----------
 function render() {
   T = I18N[LANG]; LOC = LANG === "it" ? "it-IT" : "en-GB";
@@ -580,7 +614,7 @@ function render() {
   document.getElementById("crumb").textContent = T.crumb;
   const view = map ? { c: map.getCenter(), z: map.getZoom() } : null;
   if (map) { map.remove(); map = null; BOUNDS = null; }
-  document.getElementById("main").innerHTML = hero() + looks() + records() + sizes() + mapSection();
+  document.getElementById("main").innerHTML = hero() + looks() + sexes() + records() + sizes() + mapSection();
   document.getElementById("foot").innerHTML = T.foot(new Date(D.updated).toLocaleDateString(LOC, { day: "numeric", month: "long", year: "numeric" }));
   initMap(); bindMap(); bindLooks(); fillCredit();
   if (view) map.once("load", () => map.jumpTo({ center: view.c, zoom: view.z }));

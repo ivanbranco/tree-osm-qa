@@ -589,6 +589,9 @@ const I18N = {
       // issue #25; seeds(t): HTML delle parole che aprono la foto dei semi (south: emisfero australe)
       ginkgoSex: (south, seeds) => `Se questo ginkgo è un esemplare femminile, si potrebbe aggiungere sex=female. ${south ? "Da ottobre a maggio" : "Da aprile a novembre"} è un buon periodo per verificarlo: le femmine portano ovuli appaiati in primavera e ${seeds("semi carnosi e maleodoranti")} che cadono in autunno, spesso a terra sotto la chioma.`,
       ginkgoSeedsAlt: "Semi di Ginkgo biloba",
+      // issue #27: le altre specie dioiche di L.sexTraits; period: «Tra marzo e giugno» o "" (tutto l'anno), f e m: i tratti
+      sexHint: (period, f, m) => `Se si riconosce il sesso di questo albero, si potrebbe aggiungere sex=female o sex=male.${period ? ` ${period} è un buon periodo per verificarlo.` : ""} ${f} ${m}`,
+      sexPeriod: (a, b) => `Tra ${a} e ${b}`,
       monotypic: (g, s) => `${g} ha una sola specie vivente: si potrebbe aggiungere species=${s}`,
       sequoiaNote: "In questo paese il nome comune «sequoia» indica spesso anche la sequoia gigante (Sequoiadendron giganteum): conviene verificare che l'albero non lo sia",
     },
@@ -662,6 +665,48 @@ const I18N = {
         male: "I maschi portano a fine inverno o inizio primavera amenti con gli stami, gialli di polline (i «gattini»)." },
       Phoenix: { female: "Le femmine portano grandi grappoli di datteri, appesi tra le foglie.",
         male: "I maschi portano infiorescenze di fiori color crema ricchi di polline, e non producono datteri." },
+      "Populus nigra": { female: "Le femmine portano a inizio primavera amenti giallo-verdi che a fine primavera liberano i semi avvolti in un piumino bianco e cotonoso.",
+        male: "I maschi portano a inizio primavera, prima delle foglie, amenti penduli con antere rosso cremisi, che cadono dopo la fioritura; non producono piumino." },
+      Broussonetia: { female: "Le femmine portano in primavera infiorescenze sferiche e pelose e, in estate, frutti globosi rosso-arancio.",
+        male: "I maschi portano in primavera amenti penduli e cilindrici, e non producono frutti." },
+      Cephalotaxus: { female: "Le femmine portano semi carnosi simili a olive, verdi e poi bruno-violacei quando maturano, nell'autunno del secondo anno.",
+        male: "I maschi portano in primavera piccoli coni di polline globosi, in file sotto i rametti, e non producono semi." },
+      Cercidiphyllum: { female: "Le femmine hanno a inizio primavera, prima delle foglie, fiori con ciuffi di stili rossi e poi piccoli baccelli ricurvi a gruppi, che restano sui rami fino all'inverno.",
+        male: "I maschi hanno a inizio primavera, prima delle foglie, fiori con ciuffi di stami rossi, e non portano baccelli." },
+      Chamaerops: { female: "Le femmine portano tra le foglie grappoli di frutti simili a piccoli datteri, giallo-arancio e poi bruni quando maturano, in autunno.",
+        male: "I maschi portano in primavera infiorescenze dense di fiori gialli ricchi di polline, e non producono frutti." },
+      Gymnocladus: { female: "Le femmine portano grossi baccelli spessi e bruno scuri, che restano sui rami per tutto l'inverno.",
+        male: "I maschi portano a fine primavera grappoli di fiori bianco-verdastri più corti di quelli femminili, e non producono baccelli." },
+      Hippophae: { female: "Le femmine portano bacche arancioni fitte lungo i rami, dalla fine dell'estate all'inverno.",
+        male: "I maschi hanno a inizio primavera, prima delle foglie, piccoli fiori brunastri a gruppetti alla base dei rametti, e non portano bacche." },
+      Maclura: { female: "Le femmine portano in autunno grossi frutti sferici e rugosi, verde-giallastri, grandi come un'arancia.",
+        male: "I maschi portano a fine primavera piccoli grappoli di fiori verdastri, e non producono frutti." },
+      Phellodendron: { female: "Le femmine portano grappoli di piccole drupe nere, che restano sui rami anche dopo la caduta delle foglie.",
+        male: "I maschi portano a inizio estate pannocchie di fiori giallo-verdi con gli stami, e non producono frutti." },
+      Pistacia: { female: "Le femmine portano grappoli di piccole drupe, rosse prima di maturare.",
+        male: "I maschi portano in primavera grappoli fitti di fiori con antere rosse, e non producono frutti." },
+      Podocarpus: { female: "Le femmine portano semi singoli in cima a un ricettacolo carnoso e ingrossato, rosso o violaceo quando matura.",
+        male: "I maschi portano coni di polline cilindrici simili ad amenti, e non producono semi." },
+      Torreya: { female: "Le femmine portano semi carnosi simili a olive o a piccole prugne, verdi con striature violacee, che maturano nel secondo anno.",
+        male: "I maschi portano in primavera piccoli coni di polline giallastri sotto i rametti, e non producono semi." },
+      Trachycarpus: { female: "Le femmine portano in primavera infiorescenze giallo-verdastre e poi grappoli di frutti reniformi, blu-nerastri quando maturano.",
+        male: "I maschi portano in primavera grandi infiorescenze ramificate di un giallo acceso, e non producono frutti." },
+      "Ailanthus altissima": { female: "Le femmine portano in estate grandi grappoli di samare (frutti alati) ritorte, giallo-verdi o rossastre, che restano brune sulla pianta fino all'inverno.",
+        male: "I maschi portano a inizio estate grandi pannocchie di fiori giallo-verdastri dall'odore sgradevole, e non producono samare." },
+      "Araucaria araucana": { female: "Le femmine portano grandi coni sferici, larghi 12–20 cm, eretti sui rami alti.",
+        male: "I maschi portano all'estremità dei rami coni di polline allungati e cilindrici, lunghi 8–12 cm, bruni quando maturano." },
+      "Diospyros lotus": { female: "Le femmine portano in autunno piccoli frutti tondi, gialli e poi blu-nerastri, che restano sui rami dopo la caduta delle foglie.",
+        male: "I maschi hanno a fine primavera piccoli fiori a gruppi di due o tre, e non producono frutti." },
+      "Diospyros virginiana": { female: "Le femmine portano in autunno frutti tondi arancioni, larghi 2–5 cm, che restano sui rami dopo la caduta delle foglie.",
+        male: "I maschi hanno a fine primavera piccoli fiori a gruppi di due o tre, e non producono frutti." },
+      "Juniperus oxycedrus": { female: "Le femmine portano galbuli tondi, verdi e poi bruno-rossastri quando maturano, nel secondo anno.",
+        male: "I maschi portano tra fine inverno e primavera piccoli coni di polline gialli, e non hanno galbuli." },
+      "Juniperus virginiana": { female: "Le femmine portano piccoli galbuli blu e pruinosi, maturi nell'autunno del primo anno.",
+        male: "I maschi portano a fine inverno piccoli coni di polline bruno-giallastri in cima ai rametti, e non hanno galbuli." },
+      "Phytolacca dioica": { female: "Le femmine portano grappoli penduli di fiori verdastri e poi di bacche schiacciate, gialle e infine nerastre.",
+        male: "I maschi portano grappoli penduli di fiori bianchi con molti stami, e non producono bacche." },
+      "Schinus molle": { female: "Le femmine portano grappoli penduli di piccole drupe rosa-rosse, simili a grani di pepe, che restano a lungo sulla pianta.",
+        male: "I maschi portano pannocchie pendule di piccoli fiori bianco-giallastri, e non producono frutti." },
     },
     sexPhotoAlt: { "Ginkgo biloba": { female: "Semi di Ginkgo biloba", male: "Coni maschili di Ginkgo biloba" } },
     fromDiameter: " (da diameter)",
@@ -1076,6 +1121,8 @@ const I18N = {
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,      notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
       ginkgoSex: (south, seeds) => `If this ginkgo is a female tree, sex=female could be added. ${south ? "October to May" : "April to November"} is a good time to check: females bear paired ovules in spring and fleshy, ${seeds("foul-smelling seeds")} that fall in autumn, often lying under the canopy.`,
       ginkgoSeedsAlt: "Ginkgo biloba seeds",
+      sexHint: (period, f, m) => `If the sex of this tree can be recognised, sex=female or sex=male could be added.${period ? ` ${period} is a good time to check.` : ""} ${f} ${m}`,
+      sexPeriod: (a, b) => `${a} to ${b}`,
       monotypic: (g, s) => `${g} has a single living species: species=${s} could be added`,
       sequoiaNote: "In this country the common name \"sequoia\" is often used for the giant sequoia (Sequoiadendron giganteum) too: check that the tree is not one",
     },
@@ -1147,6 +1194,48 @@ const I18N = {
         male: "Males bear catkins with stamens in late winter or early spring, yellow with pollen." },
       Phoenix: { female: "Females bear large clusters of dates hanging among the leaves.",
         male: "Males bear cream-coloured flower clusters full of pollen, and produce no dates." },
+      "Populus nigra": { female: "Females bear yellowish-green catkins in early spring that release seeds wrapped in white cottony fluff in late spring.",
+        male: "Males bear hanging catkins with crimson anthers in early spring, before the leaves, that drop after flowering; they produce no fluff." },
+      Broussonetia: { female: "Females bear round, hairy flower heads in spring and globular orange-red fruits in summer.",
+        male: "Males bear hanging cylindrical catkins in spring, and produce no fruits." },
+      Cephalotaxus: { female: "Females bear fleshy olive-like seeds, green and then purplish-brown when they ripen, in the autumn of the second year.",
+        male: "Males bear small round pollen cones in rows under the twigs in spring, and produce no seeds." },
+      Cercidiphyllum: { female: "Females have flowers with tufts of red styles in early spring, before the leaves, then clusters of small curved pods that stay on the branches until winter.",
+        male: "Males have flowers with tufts of red stamens in early spring, before the leaves, and bear no pods." },
+      Chamaerops: { female: "Females bear clusters of fruits like small dates among the leaves, yellow-orange and then brown when ripe, in autumn.",
+        male: "Males bear dense clusters of yellow flowers full of pollen in spring, and produce no fruits." },
+      Gymnocladus: { female: "Females bear large, thick, dark brown pods that stay on the branches all winter.",
+        male: "Males bear clusters of greenish-white flowers in late spring, shorter than the female ones, and produce no pods." },
+      Hippophae: { female: "Females bear orange berries crowded along the branches, from late summer to winter.",
+        male: "Males have small brownish flowers in little clusters at the base of the twigs in early spring, before the leaves, and bear no berries." },
+      Maclura: { female: "Females bear large, round, wrinkled, yellowish-green fruits in autumn, the size of an orange.",
+        male: "Males bear small clusters of greenish flowers in late spring, and produce no fruits." },
+      Phellodendron: { female: "Females bear clusters of small black drupes that stay on the branches after the leaves fall.",
+        male: "Males bear panicles of yellowish-green flowers with stamens in early summer, and produce no fruits." },
+      Pistacia: { female: "Females bear clusters of small drupes, red before ripening.",
+        male: "Males bear dense clusters of flowers with red anthers in spring, and produce no fruits." },
+      Podocarpus: { female: "Females bear single seeds on top of a fleshy, swollen receptacle, red or purple when ripe.",
+        male: "Males bear cylindrical, catkin-like pollen cones, and produce no seeds." },
+      Torreya: { female: "Females bear fleshy seeds like olives or small plums, green with purplish streaks, that ripen in the second year.",
+        male: "Males bear small yellowish pollen cones under the twigs in spring, and produce no seeds." },
+      Trachycarpus: { female: "Females bear yellowish-green flower clusters in spring, then clusters of kidney-shaped fruits, bluish-black when ripe.",
+        male: "Males bear large, branched, bright yellow flower clusters in spring, and produce no fruits." },
+      "Ailanthus altissima": { female: "Females bear large clusters of twisted samaras (winged fruits) in summer, yellowish-green or reddish, that stay brown on the tree until winter.",
+        male: "Males bear large panicles of yellowish-green, unpleasant-smelling flowers in early summer, and produce no samaras." },
+      "Araucaria araucana": { female: "Females bear large round cones, 12–20 cm across, upright on the upper branches.",
+        male: "Males bear long cylindrical pollen cones at the tips of the branches, 8–12 cm long, brown when mature." },
+      "Diospyros lotus": { female: "Females bear small round fruits in autumn, yellow and then bluish-black, that stay on the branches after the leaves fall.",
+        male: "Males have small flowers in groups of two or three in late spring, and produce no fruits." },
+      "Diospyros virginiana": { female: "Females bear round orange fruits in autumn, 2–5 cm across, that stay on the branches after the leaves fall.",
+        male: "Males have small flowers in groups of two or three in late spring, and produce no fruits." },
+      "Juniperus oxycedrus": { female: "Females bear round berry-like cones, green and then reddish-brown when they ripen, in the second year.",
+        male: "Males bear small yellow pollen cones between late winter and spring, and have no berry-like cones." },
+      "Juniperus virginiana": { female: "Females bear small blue berry-like cones with a waxy bloom, ripe in the autumn of the first year.",
+        male: "Males bear small yellowish-brown pollen cones at the tips of the twigs in late winter, and have no berry-like cones." },
+      "Phytolacca dioica": { female: "Females bear hanging clusters of greenish flowers, then of flattened berries, yellow and finally blackish.",
+        male: "Males bear hanging clusters of white flowers with many stamens, and produce no berries." },
+      "Schinus molle": { female: "Females bear hanging clusters of small pinkish-red drupes, like peppercorns, that stay on the tree for a long time.",
+        male: "Males bear hanging panicles of small yellowish-white flowers, and produce no fruits." },
     },
     sexPhotoAlt: { "Ginkgo biloba": { female: "Ginkgo biloba seeds", male: "Ginkgo biloba male cones" } },
     fromDiameter: " (from diameter)",
@@ -3875,11 +3964,28 @@ const SEX_SVG = {
   female: '<circle cx="12" cy="9" r="6"/><path d="M12 15v8M8 19.5h8"/>'
 };
 const SEX_PHOTO = { "Ginkgo biloba": { female: "Gingko_biloba_seeds.jpg", male: "Ginkgo_biloba_Inflorescences.jpg" } };
+// Chiave di una tabella per specie o genere (L.sexTraits, SEX_PHOTO, SEX_SEASON) per un albero: prima la specie (senza
+// autore; anche seguita da varietà o cultivar), poi il genere (tag genus=* o prima parola della specie)
+function sexKey(p, table) {
+  const sp = String(p.sp_clean || p.species || ""), g = p.genus || sp.split(" ")[0];
+  return Object.keys(table).find(k => k.includes(" ") && (sp === k || sp.startsWith(k + " "))) || (g && table[g] ? g : undefined);
+}
+// Mesi (emisfero nord, [dal, al], anche a cavallo dell'anno) in cui si riconosce almeno uno dei due sessi, per il
+// consiglio su sex=* (issue #27); [1, 12]: tutto l'anno, il consiglio non nomina un periodo. Le chiavi sono quelle di
+// L.sexTraits, tranne Ginkgo biloba che ha il suo consiglio con la foto (issue #25)
+const SEX_SEASON = {
+  "Taxus baccata": [2, 10], "Ilex aquifolium": [5, 2], "Laurus nobilis": [3, 11], "Juniperus communis": [1, 12],
+  "Acer negundo": [3, 12], "Ceratonia siliqua": [8, 11], Populus: [3, 6], "Populus nigra": [3, 6], Salix: [3, 6],
+  Phoenix: [1, 12], Broussonetia: [4, 9], Cephalotaxus: [3, 10], Cercidiphyllum: [3, 12], Chamaerops: [4, 11],
+  Gymnocladus: [5, 3], Hippophae: [8, 4], Maclura: [5, 11], Phellodendron: [6, 1], Pistacia: [3, 11],
+  Podocarpus: [1, 12], Torreya: [4, 10], Trachycarpus: [4, 12], "Ailanthus altissima": [6, 2],
+  "Araucaria araucana": [1, 12], "Diospyros lotus": [5, 12], "Diospyros virginiana": [5, 12],
+  "Juniperus oxycedrus": [1, 12], "Juniperus virginiana": [9, 4], "Phytolacca dioica": [5, 11], "Schinus molle": [1, 12],
+};
 const sexMark = p => { const s = SEX_SVG[p.sex];
   if (!s) return "";
-  // prima la specie (senza autore), poi il genere (tag genus=* o prima parola della specie)
-  const sp = p.sp_clean || p.species || "", keys = [sp, p.genus || sp.split(" ")[0]];
-  const key = keys.find(k => k && L.sexTraits[k]?.[p.sex]), pk = keys.find(k => k && SEX_PHOTO[k]?.[p.sex]);
+  const sp = p.sp_clean || p.species || "";
+  const key = sexKey(p, L.sexTraits), pk = sexKey(p, SEX_PHOTO);
   const text = L.sex[p.sex] + (key ? ". " + L.sexTraits[key][p.sex] : "");
   const photo = pk ? popPhoto(SEX_PHOTO[pk][p.sex], L.sexPhotoAlt[pk]?.[p.sex] || sp) : "";
   return ` <span class="sex pop" tabindex="0" role="button" aria-expanded="false" aria-label="${esc(L.sex[p.sex])}"
@@ -5171,6 +5277,15 @@ function hints(p, pos) {
   const south = pos && +pos[1] < 0, m = new Date().getMonth() + 1;
   if (ginkgo &&!p.sex && (south ? m >= 10 || m <= 5 : m >= 4 && m <= 11))
     out.push({ html: H.ginkgoSex(south, t => photoPop(t, GINKGO_SEEDS, H.ginkgoSeedsAlt)) });
+  // le altre specie dioiche con i tratti in L.sexTraits, senza sex=*: nei mesi di SEX_SEASON (spostati di 6
+  // nell'emisfero australe) il consiglio riporta i tratti dei due sessi (issue #27). Non con più specie (;)
+  const sk = !p.sex && !ginkgo && !String(p.species || "").includes(";") && sexKey(p, SEX_SEASON);
+  if (sk && L.sexTraits[sk]) {
+    const [a, b] = SEX_SEASON[sk].map(x => south ? (x + 5) % 12 + 1 : x), all = SEX_SEASON[sk][0] === 1 && SEX_SEASON[sk][1] === 12;
+    const month = x => new Date(2000, x - 1, 1).toLocaleDateString(LANG, { month: "long" });
+    if (all || (a <= b ? m >= a && m <= b : m >= a || m <= b))
+      out.push(H.sexHint(all ? "" : H.sexPeriod(month(a), month(b)), L.sexTraits[sk].female, L.sexTraits[sk].male));
+  }
   return out;
 }
 </script>
