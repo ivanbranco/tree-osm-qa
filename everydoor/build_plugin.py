@@ -285,9 +285,13 @@ def write_plugin():
         files[f"langs/{lang}.yaml"] = dump(d)
     for name, prims in icons.items():
         files[f"icons/{name}.svg"] = prims_svg(prims) + "\n"
-    blob = " ".join(f"{x:.1f},{y:.1f}" for x, y in shape_pts("blob", 28))   # icona del plugin: si ricolora
+    # Icona del plugin: la chioma delle favicon del sito (verde) e dei monumentali (gialla), nell'azzurro di Every Door.
+    # La stessa va in everydoor/icon.svg, usata nel README.
+    blob = " ".join(f"{x:.1f},{y:.1f}" for x, y in shape_pts("blob", 28))
     files["icons/plugin.svg"] = ('<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">\n'
-                               f'<polygon points="{blob}" fill="currentColor"/>\n</svg>\n')
+                               f'<polygon points="{blob}" fill="#00b0f6" stroke="#0078a7" stroke-width="3" '
+                               'stroke-linejoin="round"/>\n</svg>\n')
+    (OUT / "icon.svg").write_text(files["icons/plugin.svg"], encoding="utf-8", newline="\n")
     # Versione: Every Door aggiorna un plugin già installato solo se il numero è più alto. Sale da sola quando cambia
     # il contenuto (impronta di tutti i file); se non cambia nulla resta quella di everydoor/version.json.
     digest = hashlib.sha256("\0".join(f"{rel}\0{files[rel]}" for rel in sorted(files)).encode("utf-8")).hexdigest()

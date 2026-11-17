@@ -943,6 +943,8 @@ const I18N = {
     recIcnf: (l, ref) => `Albero di interesse pubblico, tutelato in Portogallo dall’${l("ICNF")}${ref ? ` (${ref})` : ""}`,
     recAnf: l => `Albero tutelato in Lussemburgo dall’${l("ANF")}`,
     recCrfop: (l, ref) => `Monumento naturale (pomnik przyrody) iscritto nel ${l("registro CRFOP")} della Polonia${ref ? ` (${ref})` : ""}`,
+    // specie dichiarata Monumento Natural in Cile (CL_MONUMENT_SPECIES): l(testo) = link al decreto
+    recClMonument: (l, n, y) => `Specie dichiarata Monumento Natural in Cile (${l(`decreto ${n} del ${y}`)})`,
     // l(url, testo): link; kind = "zapis" (ref:zapis; il numero, di una lista non ufficiale, non si mostra),
     // "rag_tree" (sacred_tree=rag_tree), "goshinboku" (religion=shinto) o null
     recSacred: (l, kind) => kind ? `Albero sacro: ${l(SACRED_WP[kind], SACRED_NAME[kind])}` : "Albero sacro",
@@ -1459,6 +1461,7 @@ const I18N = {
     recIcnf: (l, ref) => `Tree of public interest, protected in Portugal by the ${l("ICNF")}${ref ? ` (${ref})` : ""}`,
     recAnf: l => `Tree protected in Luxembourg by the ${l("ANF")}`,
     recCrfop: (l, ref) => `Natural monument (pomnik przyrody) listed in the Polish ${l("CRFOP register")}${ref ? ` (${ref})` : ""}`,
+    recClMonument: (l, n, y) => `Species declared a Natural Monument in Chile (${l(`decree ${n} of ${y}`)})`,
     recSacred: (l, kind) => kind ? `Sacred tree: ${l(SACRED_WP[kind], SACRED_NAME[kind])}` : "Sacred tree",
     recCriteria: list => `MASAF monumentality criteria: ${list}`,
     masafCriteria: { a: "age and/or size", a1: "age", a2: "size", "a2.1": "circumference", "a2.2": "height",
@@ -4190,6 +4193,19 @@ const RAMI_URL = "https://ilregistrodeglialberi.it/cerca";
 const ICNF_URL = "https://www.icnf.pt/";            // heritage:operator=icnf (Portogallo)
 const ANF_URL = "https://anf.gouvernement.lu/";     // heritage:operator=anf (Lussemburgo)
 const CRFOP_URL = "https://crfop.gdos.gov.pl/";      // ref:CRFOP, ref:gid (Polonia)
+// Specie dichiarate Monumento Natural in Cile (issue #82): [numero del decreto, anno della promulgazione, idNorma
+// della Biblioteca del Congreso Nacional]. Ogni decreto vale per ogni individuo della specie nel territorio nazionale
+// (testi verificati su bcn.cl a novembre 2026). Non sono alberi monumentali: solo una riga ★ nella scheda
+const CL_MONUMENT_SPECIES = {
+  "Araucaria araucana": [43, 1990, 8102], "Fitzroya cupressoides": [490, 1976, 147731],
+  "Gomortega keule": [13, 1995, 19643], "Pitavia punctata": [13, 1995, 19643], "Beilschmiedia berteroana": [13, 1995, 19643],
+  "Beilschmiedia miersii": [13, 1995, 19643], "Nothofagus alessandrii": [13, 1995, 19643] };
+// codice ISO di ogni regione del tool QA (regions.json). Nella mappa dei monumentali la regione di un albero è p.qa
+// (fetch_world.py), e regions.json non si carica per il resto della pagina: lo si legge qui, senza attenderlo
+const ISO_BY_SLUG = {};
+(WORLD ? getJSON(BASE + "scripts/regions.json") : regionsP).then(m => m.forEach(r => { ISO_BY_SLUG[r.slug] = r.iso || ""; }))
+  .catch(() => {});
+const treeIso = p => (WORLD ? ISO_BY_SLUG[p.qa] : currentIso) || "";
 // nome della nazione di un codice ISO nella lingua della pagina (check register_country); il codice se non si sa
 const countryName = cc => { try { return new Intl.DisplayNames([LANG], { type: "region" }).of(cc) || cc; } catch (e) { return cc; } };
 // nome di una lingua da un codice (check genus_common_name), il codice se non si sa
@@ -4259,6 +4275,11 @@ function recognitions(p) {
   // ref:CRFOP e ref:gid sono codici dello stesso registro: una riga sola, con ref:CRFOP se c'è
   const crfop = p["ref:CRFOP"] || p["ref:gid"];
   if (crfop) r.push(["off", L.recCrfop(t => link(CRFOP_URL, t), esc(crfop))]);
+  // specie Monumento Natural in Cile: dipende dalla specie (nome senza autore, solo le prime due parole) e dalla
+  // regione, non da un tag dell'albero; i decreti valgono per gli individui vivi, quindi non per i ceppi
+  const clMon = !p.stump && treeIso(p).slice(0, 2).toUpperCase() === "CL"
+    && CL_MONUMENT_SPECIES[String(p.sp_clean || p.species || "").trim().split(/\s+/).slice(0, 2).join(" ")];
+  if (clMon) r.push(["off", L.recClMonument(t => link(`https://www.bcn.cl/leychile/navegar?idNorma=${clMon[2]}`, t), clMon[0], clMon[1])]);
   if (p.sacred) r.push(["", L.recSacred(link, sacredKind(p))]);
   const mt = monumentalTreesUrl(p);
   if (mt) r.push(["", L.recMt(link(mt, "monumentaltrees.com"))]);

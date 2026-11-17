@@ -2,9 +2,11 @@
 
 Map of OpenStreetMap trees (`natural=tree`, and stumps `natural=tree_stump`), divided by region and designed for data quality control.
 
-**Site**: https://ivanbranco.github.io/tree-osm-qa/
+<img src="favicon.svg" alt="" width="20" height="20"> **Site**: https://ivanbranco.github.io/tree-osm-qa/
 
-**World map of monumental trees**: https://ivanbranco.github.io/tree-osm-qa/monumental-trees/
+<img src="monumental-trees/favicon.svg" alt="" width="20" height="20"> **World map of monumental trees**: https://ivanbranco.github.io/tree-osm-qa/monumental-trees/
+
+<img src="everydoor/icon.svg" alt="" width="20" height="20"> **Every Door plugin**: https://plugins.every-door.app/dendrosm
 
 ![Trees on DendrOSM: lobed and polygonal crowns, trunks, monumental trees with a yellow outline, stumps](docs/img/map-example.png)
 
