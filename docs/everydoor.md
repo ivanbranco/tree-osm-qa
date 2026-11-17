@@ -2,7 +2,7 @@
 
 # Every Door plugin
 
-A plugin for [Every Door](https://every-door.app/), the Android and iOS editor for mapping OpenStreetMap on the ground. It adds trees with the species and the tags that follow from it, using the same reference lists as DendrOSM, and draws trees on the Every Door map with the crown shapes of the DendrOSM map.
+A plugin for [Every Door](https://every-door.app/), an Android and iOS OpenStreetMap editor. It adds trees with the species and the tags that follow from it, using the same reference lists as DendrOSM, and draws trees on the Every Door map with the crown shapes of the DendrOSM map.
 
 Written and tested with Every Door 7.1.
 
