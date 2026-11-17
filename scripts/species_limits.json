@@ -48,5 +48,16 @@
   "Fraxinus angustifolia": {"height": 38, "circumference": 13, "height_circ_ratio": 15.91, "crown_circ_ratio": 8.89},
   "Salix alba": {"height": 34.6, "circumference": 12, "height_circ_ratio": 10.92, "crown_circ_ratio": 5.69, "height_circ_ratio_bands": "default"},
   "Koelreuteria paniculata": {"height": 18, "circumference": 3, "height_circ_ratio": 12.00, "crown_circ_ratio": 7.35},
-  "Populus alba": {"height": 45.4, "circumference": 10.13, "height_circ_ratio": 11.46, "crown_circ_ratio": 5.47}
+  "Populus alba": {"height": 45.4, "circumference": 10.13, "height_circ_ratio": 11.46, "crown_circ_ratio": 5.47},
+  "Cupressus sempervirens": {"height": 38, "circumference": 7.57, "height_circ_ratio": 7.86, "crown_circ_ratio": 1.00},
+  "Quercus ilex": {"height": 38.0, "height_source": "MASAF", "circumference": 9.7, "circumference_source": "MASAF", "height_circ_ratio": 12.37, "crown_circ_ratio": 6.45},
+  "Pinus pinea": {"height": 32.0, "height_source": "MASAF", "circumference": 6.25, "height_circ_ratio": 7.75, "crown_circ_ratio": 6.00},
+  "Platanus orientalis": {"height": 42.05, "circumference": 27, "height_circ_ratio": 12.12, "crown_circ_ratio": 7.41},
+  "Cercis siliquastrum": {"height": 14.6, "circumference": 5.05, "height_circ_ratio": 13.33, "crown_circ_ratio": 9.09},
+  "Catalpa bignonioides": {"height": 24.4, "circumference": 7.32, "height_circ_ratio": 9.64, "crown_circ_ratio": 6.91},
+  "Magnolia grandiflora": {"height": 29, "circumference": 6.3, "circumference_source": "MASAF", "height_circ_ratio": 12.00, "crown_circ_ratio": 5.48},
+  "Morus alba": {"height": 26.0, "height_source": "MASAF", "circumference": 7.01, "height_circ_ratio": 8.53, "crown_circ_ratio": 7.50},
+  "Cedrus atlantica": {"height": 48.5, "height_source": "MASAF", "circumference": 13.0, "circumference_source": "MASAF", "height_circ_ratio": 11.32, "crown_circ_ratio": 6.20},
+  "Quercus pubescens": {"height": 35.0, "height_source": "MASAF", "circumference": 8.3, "circumference_source": "MASAF", "height_circ_ratio": 8.25, "crown_circ_ratio": 5.38},
+  "Crataegus laevigata": {"height": 11, "circumference": 2.75, "height_circ_ratio": 10.29, "crown_circ_ratio": 8.16}
 }

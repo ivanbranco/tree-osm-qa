@@ -10,8 +10,13 @@
   "betula pendula": "betula-pendula",
   "carpinus betulus": "carpinus-betulus",
   "castanea sativa": "castanea-sativa",
+  "catalpa bignonioides": "catalpa-bignonioides",
+  "cedrus atlantica": "cedrus-atlantica",
   "celtis australis": "celtis-australis",
+  "cercis siliquastrum": "cercis-siliquastrum",
   "corylus colurna": "corylus-colurna",
+  "crataegus laevigata": "crataegus-laevigata",
+  "cupressus sempervirens": "cupressus-sempervirens",
   "fagus sylvatica": "fagus-sylvatica",
   "fraxinus angustifolia": "fraxinus-angustifolia",
   "fraxinus excelsior": "fraxinus-excelsior",
@@ -22,11 +27,15 @@
   "koelreuteria paniculata": "koelreuteria-paniculata",
   "liquidambar styraciflua": "liquidambar-styraciflua",
   "liriodendron tulipifera": "liriodendron-tulipifera",
+  "magnolia grandiflora": "magnolia-grandiflora",
+  "morus alba": "morus-alba",
   "olea europaea": "olea-europaea",
   "picea abies": "picea-abies",
   "pinus mugo": "pinus-mugo",
   "pinus nigra": "pinus-nigra",
+  "pinus pinea": "pinus-pinea",
   "pinus sylvestris": "pinus-sylvestris",
+  "platanus orientalis": "platanus-orientalis",
   "platanus × hispanica": "platanus-x-hispanica",
   "populus alba": "populus-alba",
   "populus nigra": "populus-nigra",
@@ -35,6 +44,8 @@
   "prunus serrulata": "prunus-serrulata",
   "pyrus calleryana": "pyrus-calleryana",
   "quercus cerris": "quercus-cerris",
+  "quercus ilex": "quercus-ilex",
+  "quercus pubescens": "quercus-pubescens",
   "quercus robur": "quercus-robur",
   "quercus rubra": "quercus-rubra",
   "robinia pseudoacacia": "robinia-pseudoacacia",
@@ -155,6 +166,27 @@
    "img": "Chestnuts.jpg"
   },
   {
+   "name": "Catalpa bignonioides",
+   "slug": "catalpa-bignonioides",
+   "en": "Bignonia catalpa",
+   "n": 4451,
+   "mon": 11,
+   "lt": "broadleaved",
+   "lc": "deciduous",
+   "img": "Catalpa_bignonioides_inflorescence.jpg"
+  },
+  {
+   "name": "Cedrus atlantica",
+   "slug": "cedrus-atlantica",
+   "it": "Cedro dell'Atlante",
+   "en": "Atlas cedar",
+   "n": 3684,
+   "mon": 92,
+   "lt": "needleleaved",
+   "lc": "evergreen",
+   "img": "Cedrus_atlantica.jpg"
+  },
+  {
    "name": "Celtis australis",
    "slug": "celtis-australis",
    "it": "Bagolaro",
@@ -165,6 +197,17 @@
    "img": "Illustration_Celtis_australis0.jpg"
   },
   {
+   "name": "Cercis siliquastrum",
+   "slug": "cercis-siliquastrum",
+   "it": "Siliquastro",
+   "en": "Judas tree",
+   "n": 6053,
+   "mon": 8,
+   "lt": "broadleaved",
+   "lc": "deciduous",
+   "img": "PikiWiki_Israel_3421_Geography_of_Israel.jpg"
+  },
+  {
    "name": "Corylus colurna",
    "slug": "corylus-colurna",
    "en": "Turkish hazel",
@@ -173,6 +216,28 @@
    "lt": "broadleaved",
    "lc": "deciduous",
    "img": "Corylus_colurna_subadriatic_dinaric_mountains_Orjen.JPG"
+  },
+  {
+   "name": "Crataegus laevigata",
+   "slug": "crataegus-laevigata",
+   "it": "Biancospino",
+   "en": "English hawthorn",
+   "n": 1111,
+   "mon": 3,
+   "lt": "broadleaved",
+   "lc": "deciduous",
+   "img": "Crataegus_laevigata-flowers.jpg"
+  },
+  {
+   "name": "Cupressus sempervirens",
+   "slug": "cupressus-sempervirens",
+   "it": "Cipresso mediterraneo",
+   "en": "Mediterranean Cypress",
+   "n": 13756,
+   "mon": 42,
+   "lt": "needleleaved",
+   "lc": "evergreen",
+   "img": "Εθνικός_Δρυμός_Σαμαριάς.jpg"
   },
   {
    "name": "Fagus sylvatica",
@@ -284,6 +349,27 @@
    "img": "Liriodendron_tulipifera_(arbre)_-_Laeken.JPG"
   },
   {
+   "name": "Magnolia grandiflora",
+   "slug": "magnolia-grandiflora",
+   "en": "Southern magnolia",
+   "n": 4531,
+   "mon": 29,
+   "lt": "broadleaved",
+   "lc": "evergreen",
+   "img": "Magnòlia_a_Verbania.JPG"
+  },
+  {
+   "name": "Morus alba",
+   "slug": "morus-alba",
+   "it": "Gelso bianco",
+   "en": "White mulberry",
+   "n": 3967,
+   "mon": 46,
+   "lt": "broadleaved",
+   "lc": "deciduous",
+   "img": "Rosales_-_Morus_alba_-_3.jpg"
+  },
+  {
    "name": "Olea europaea",
    "slug": "olea-europaea",
    "it": "Olivo",
@@ -328,6 +414,17 @@
    "img": "Pinus_nigra_(subsp._nigra)_sl2.jpg"
   },
   {
+   "name": "Pinus pinea",
+   "slug": "pinus-pinea",
+   "it": "Pino italico",
+   "en": "Stone Pine",
+   "n": 12343,
+   "mon": 90,
+   "lt": "needleleaved",
+   "lc": "evergreen",
+   "img": "Pinus_pinea_Wellington_Botanic_Gardens.jpg"
+  },
+  {
    "name": "Pinus sylvestris",
    "slug": "pinus-sylvestris",
    "it": "Pini silvestri",
@@ -337,6 +434,17 @@
    "lt": "needleleaved",
    "lc": "evergreen",
    "img": "Skuleskogen_pine.jpg"
+  },
+  {
+   "name": "Platanus orientalis",
+   "slug": "platanus-orientalis",
+   "it": "Platano orientale",
+   "en": "Plantanus orientalis",
+   "n": 6574,
+   "mon": 94,
+   "lt": "broadleaved",
+   "lc": "deciduous",
+   "img": "Plane_tree_Grove_Tsav_River.jpg"
   },
   {
    "name": "Platanus × hispanica",
@@ -426,9 +534,30 @@
    "img": "Quercus_cerris_folliage.jpg"
   },
   {
+   "name": "Quercus ilex",
+   "slug": "quercus-ilex",
+   "it": "Leccio",
+   "en": "Holm Oak",
+   "n": 13253,
+   "mon": 267,
+   "lt": "broadleaved",
+   "lc": "evergreen",
+   "img": "Quercus_ilex_JPG1.jpg"
+  },
+  {
+   "name": "Quercus pubescens",
+   "slug": "quercus-pubescens",
+   "it": "Roverella",
+   "n": 3254,
+   "mon": 115,
+   "lt": "broadleaved",
+   "lc": "deciduous",
+   "img": "Quercus_pubescens_Tuscany.jpg"
+  },
+  {
    "name": "Quercus robur",
    "slug": "quercus-robur",
-   "it": "Farnie",
+   "it": "Farnia",
    "en": "English oak",
    "n": 28500,
    "mon": 9632,
