@@ -57,19 +57,32 @@
                    "Quercus salicifolia", "Quercus lanata", "Ilex kingiana", "Quercus myrsinifolia", "Eucalyptus dunnii"],
   "synonyms": {
     "Camphora officinarum": "Cinnamomum camphora",
+    "Cerasus itosakura": "Prunus itosakura",
     "Cerasus × yedoensis": "Prunus × yedoensis",
     "Crataegus × lavallei": "Crataegus × lavalleei",
+    "Pinus abies": "Picea abies",
     "Platanus × acerifolia": "Platanus × hispanica",
     "Platanus acerifolia": "Platanus × hispanica",
     "Platanus hispanica": "Platanus × hispanica",
+    "Platanus × hybrida": "Platanus × hispanica",
+    "Platanus hybrida": "Platanus × hispanica",
+    "Populus bolleana": "Populus alba",
     "Prunus dulcis": "Prunus amygdalus",
+    "Quercus pedunculata": "Quercus robur",
+    "Rhus cotinus": "Cotinus coggygria",
     "Tilia × vulgaris": "Tilia × europaea"
   },
   "wikidata_mismatch": {
+    "Acer cappadocicum": ["Q15287303"],
     "Aria edulis": ["Q157960"],
+    "× Arsorbus thuringiaca": ["Q13640565"],
     "Hedlundia intermedia": ["Q27980"],
+    "Hesperocyparis arizonica": ["Q670040"],
+    "Hesperocyparis macrocarpa": ["Q1137183"],
+    "Melia azedarach": ["Q15546527"],
     "Platanus × hispanica": ["Q24853030"],
     "Platanus × acerifolia": ["Q161374"],
-    "Populus × euramericana": ["Q149622"]
+    "Populus × euramericana": ["Q149622"],
+    "Styphnolobium japonicum": ["Q10881597"]
   }
 }
