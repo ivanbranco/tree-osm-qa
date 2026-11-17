@@ -808,8 +808,25 @@ def hint_props(t, osm_id=None):
     con JOSM lo sposta in mapillary);
     hint_ms: solo nelle regioni italiane, albero senza denotation=natural_monument/landmark né ref:masaf con la
     circonferenza (taggata, o da diameter) almeno pari alla soglia MASAF della specie -> "circonferenza|soglia" in m;
-    non per i membri di un insieme omogeneo MASAF (osm_id in MASAF_GROUPS), che valgono già come monumentali."""
+    non per i membri di un insieme omogeneo MASAF (osm_id in MASAF_GROUPS), che valgono già come monumentali;
+    sp_base, sp_var, sp_cv, sp_abbr: species con una varietà ("var. epiteto"), una cultivar (tra virgolette, o senza
+    dopo una specie della lista) o il genere abbreviato (species_infra, issue #68) -> species senza varietà e cultivar
+    e con il genere per esteso, la varietà, la cultivar, 1 se il genere era abbreviato (le ultime tre solo se ci
+    sono). La scheda mostra varietà e cultivar in righe a parte e consiglia taxon:variety e taxon:cultivar
+    (index.html). sp_base_wd, sp_base_lt, sp_base_lc: species:wikidata, leaf_type e leaf_cycle che mancano, per
+    sp_base (species_lang_extras): la correzione li aggiunge insieme. sp_gen al posto di sp_base: species è un genere
+    della lista con la sola cultivar ("Magnolia 'Susan'") -> il genere; la correzione toglie species. sp_var_ok: 1 se
+    la varietà è un taxon di rango varietà di wikidata_taxa.json (known_variety); senza, la scheda dà il consiglio con
+    l'invito a controllare che non sia una cultivar, e nessuna correzione."""
     out = {}
+    if infra := species_infra(str(t.get("species") or "").strip(), str(t.get("genus") or "").strip()):
+        only_genus = len(name_words(infra[0])) == 1
+        out["sp_gen" if only_genus else "sp_base"] = infra[0]
+        out.update({k: v for k, v in (("sp_var", infra[1]), ("sp_cv", infra[2]), ("sp_abbr", int(infra[3]))) if v})
+        if infra[1] and known_variety(infra[0], infra[1]):
+            out["sp_var_ok"] = 1
+        if not only_genus:
+            out.update(species_lang_extras(t, infra[0], "sp_base_"))
     if ip := image_page(t):
         out["hint_ip"] = ip[0]
         if ip[1] and "mapillary" not in t:
@@ -2090,6 +2107,115 @@ def species_author_uncertain(sp):
     return split_author(sp)[2]
 
 
+# Varietà e cultivar scritte in species (issue #68): "var. epiteto" (epiteto minuscolo) e la cultivar tra virgolette,
+# anche dopo "cv."; le virgolette sono quelle di QUOTES
+VAR_EPITHET = re.compile(r"(?<!\S)var\.?\s+([a-zë-]+)(?!\S)")   # anche "var" senza punto
+CV_QUOTED = re.compile(r"(?<!\S)(?:cv\.\s+)?['‘`´\"“](.+?)['’`´\"”](?!\S)")
+ABBR_GENUS = re.compile(r"^[A-Z]\.$")                            # genere abbreviato: "T. baccata"
+# Autori scritti senza punto dopo genere ed epiteto ("Betula pendula Roth", "Olea europaea L"): non sono cultivar
+# senza virgolette. Lista scritta a mano, da quelli che si trovano nei dati e dai più comuni tra i nomi degli alberi
+AUTHOR_NAMES = {"Linnaeus", "Linn", "Miller", "Mill", "Roth", "Vahl", "Marshall", "Marsh", "Carriere", "Carrière",
+                "Labill", "Chabaud", "Zeyh", "Moench", "Moensch", "Borkh", "Donn", "Pall", "Lam", "Thunb", "Ehrh",
+                "Willd", "Scop", "Münchh", "Desf", "Franco", "Mirb", "Karst", "Ten", "Sarg", "Koch", "Medik", "Aiton",
+                "Jacq", "Michx", "Lindl", "Maxim", "Kuntze", "Bunge", "Batsch", "Gaertn", "Huds", "Poir", "Wangenh",
+                "Siebold", "Zucc", "Hook", "Benth", "Roxb", "Blume", "Lour", "Burm", "Osbeck", "Swingle", "Cav",
+                "Engelm", "Parl", "Rehder", "Schneid", "Hayata", "Mast", "Spach", "Gouan", "Planch", "Endl", "Manetti"}
+ABBR_INDEX = {}   # (iniziale, epiteto) -> generi delle specie della lista; riempito alla prima chiamata
+
+
+def expand_genus(initial, epithet, genus):
+    """Genere per un genere abbreviato in species ("T. baccata"): quello di genus=*, se comincia con quella lettera
+    ed è un genere noto (o con l'epiteto dà una specie della lista); senza genus, l'unico genere della lista wiki con
+    quell'iniziale e una specie con quell'epiteto ("Z. serrata" -> Zelkova; "C. japonica" ne ha più d'uno). None se
+    non si può dire."""
+    if not ABBR_INDEX:
+        for b, name in SPECIES_BIN.items():
+            w = name_words(name)
+            if len(b.split()) == 2 and w[1][:1].islower():
+                ABBR_INDEX.setdefault((b[0], b.split()[1]), set()).add(w[0].lstrip("×"))
+    g = genus.strip()
+    if g:
+        ok = (len(g.split()) == 1 and g[0] == initial and g[1:].isalpha() and g[1:].islower()
+              and (g.casefold() in KNOWN_GENERA or binomial(f"{g} {epithet}") in SPECIES_BIN))
+        return g if ok else None
+    found = ABBR_INDEX.get((initial.lower(), epithet.casefold()), set())
+    return next(iter(found)) if len(found) == 1 else None
+
+
+_VARIETY_NAMES = {}   # WD_TAXA (l'oggetto) -> nomi normalizzati dei taxon di rango varietà; riempito alla prima chiamata
+
+
+def known_variety(base, variety):
+    """Vero se "base var. variety" è il nome di un taxon di rango varietà (Q767728) tra quelli di
+    data/wikidata_taxa.json ("Populus alba var. pyramidalis"): solo per questi la correzione scrive taxon:variety,
+    perché con "var." si trovano scritte anche le cultivar ("Pyrus calleryana var. chanticleer")."""
+    if id(WD_TAXA) not in _VARIETY_NAMES:
+        _VARIETY_NAMES.clear()
+        _VARIETY_NAMES[id(WD_TAXA)] = {norm_species(n) for e in WD_TAXA.values() if "Q767728" in e.get("ranks", [])
+                                       for n in e.get("names", [])}
+    return norm_species(f"{base} var. {variety}") in _VARIETY_NAMES[id(WD_TAXA)]
+
+
+def unquoted_cultivar(base):
+    """(genere ed epiteto, cultivar) se base è una specie della lista wiki seguita da una cultivar senza virgolette
+    ("Pyrus calleryana Chanticleer", "Tilia cordata Green Spire", punto 3.3 del report): dopo l'epiteto solo parole,
+    la prima con la maiuscola e almeno tre lettere, nessuna un autore (con il punto, AUTHOR; senza, AUTHOR_NAMES), un
+    rango o un segno di ibrido. Con l'epiteto seguito da una parola minuscola ("Quercus robur fastigiata") non si può
+    dire se è una cultivar o una varietà: None."""
+    w = base.split()
+    n = 3 if len(w) > 2 and w[1] in HYBRID_SIGNS else 2
+    rest = w[n:]
+    if (not rest or binomial(base) not in SPECIES_BIN or not w[n - 1].lstrip("×")[:1].islower()
+            or not rest[0][:1].isupper() or len(rest[0]) < 3 or split_author(base)[1]):
+        return None
+    if any(x in AUTHOR_NAMES or x in HYBRID_SIGNS or x.lower() in INFRA or not x[:1].isalpha()
+           or any(c in x for c in ".()=+,/") for x in rest):
+        return None
+    return " ".join(w[:n]), " ".join(rest)
+
+
+@functools.lru_cache(maxsize=None)
+def species_infra(sp, genus=""):
+    """(species senza varietà e cultivar, varietà, cultivar, genere abbreviato: bool) se species ha una varietà
+    ("Quercus robur var. fastigiata" -> ("Quercus robur", "fastigiata", "", False); anche "var" senza punto), una
+    cultivar tra virgolette ("Acer palmatum 'Atropurpureum'" -> ("Acer palmatum", "", "Atropurpureum", False)) o
+    senza, dopo una specie della lista (unquoted_cultivar), o il genere abbreviato ("T. baccata 'Fastigiata'" con
+    genus=Taxus -> ("Taxus baccata", "", "Fastigiata", True): expand_genus), anche insieme; la cultivar è senza
+    virgolette, come in taxon:cultivar. Il resto del nome (subsp.) resta com'è; con l'autore None. Con un genere della lista e la
+    sola cultivar ("Magnolia 'Susan'") il primo elemento è il genere ("Magnolia"). None se non c'è niente di questo,
+    con più di una varietà o cultivar, con più valori (";"), se il valore intero è un nome della lista ("Ulmus 'New
+    Horizon'"), se il genere abbreviato non si può sciogliere, o se quello che resta ha ancora virgolette, finisce con
+    un rango ("Quercus robur f. 'Fastigiata'") o con il segno di ibrido."""
+    # con l'autore c'è già species_author, che propone la sua species: prima quella correzione
+    if not sp or ";" in sp or norm_species(sp) in SPECIES_REF or split_author(sp)[1]:
+        return None
+    words, abbr = sp.split(), False
+    if ABBR_GENUS.match(words[0]):
+        if (len(words) < 2 or not re.fullmatch(r"[a-zë-]+", words[1])
+                or not (g := expand_genus(words[0][0], words[1], genus))):
+            return None
+        sp, abbr = " ".join([g] + words[1:]), True
+    vr, cv = VAR_EPITHET.findall(sp), CV_QUOTED.findall(sp)
+    if len(vr) > 1 or len(cv) > 1:
+        return None
+    cultivar = cv[0].strip() if cv else ""
+    base = " ".join(CV_QUOTED.sub(" ", VAR_EPITHET.sub(" ", sp)).split())
+    if not cv and (uq := unquoted_cultivar(base)):
+        base, cultivar = uq
+    if not (vr or cultivar or abbr):
+        return None
+    words = name_words(base)
+    if (not words or base != base.translate(QUOTES) or words[-1].lower() in INFRA or words[-1] in HYBRID_SIGNS
+            or (cv and (not cultivar or cultivar[0] in "'‘’`´\"“”" or cultivar[-1] in "'‘’`´\"“”"))):
+        return None
+    if len(words) == 1:   # genere e cultivar: solo con un genere della lista, senza varietà
+        ref = GENUS_REF.get(words[0].lstrip("×").casefold())
+        return (ref[0], "", cultivar, False) if ref and cultivar and not vr and not abbr and base == words[0] else None
+    if not words[1].lstrip("×")[:1].islower():
+        return None
+    return base, (vr[0] if vr else ""), cultivar, abbr
+
+
 def genus_of_species(sp):
     """Prima parola di species, saltando il segno di ibrido (× o x iniziale)."""
     words = sp.split(";")[0].split()
@@ -2595,7 +2721,7 @@ def checks(t, pos, osm_id=None):
     return issues, props
 
 
-KEEP = ["name", "species", "genus", "taxon",
+KEEP = ["name", "species", "genus", "taxon", "taxon:variety", "variety", "taxon:cultivar", "cultivar",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
         "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion", "multi_stemmed",

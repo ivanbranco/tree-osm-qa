@@ -566,6 +566,14 @@ const I18N = {
       taxon: (v, k, n, has) => `taxon=${v} non dice a quale rango appartiene il nome: ${!k ? "se ce n'è uno, un tag più preciso (species, genus, taxon:cultivar…) lo direbbe"
         : has ? `è ${k === "species" ? "una specie" : "un genere"} della lista della wiki, già in ${k}=*: taxon si potrebbe togliere`
         : `è ${k === "species" ? "una specie" : "un genere"} della lista della wiki, si potrebbe scrivere ${k}=${n} al posto di taxon`}`,
+      // varietà e cultivar scritte in species, genere abbreviato (sp_base, sp_gen, sp_var, sp_cv, sp_abbr:
+      // fetch_trees.py). abbr: genere abbreviato; what: "", "v", "c" o "vc"; main: species=… senza, o genus=… se
+      // species è genere e cultivar (gen); tags: i tag che mancano (vuoto se taxon:variety o taxon:cultivar ci sono
+      // già con lo stesso valore); check: la varietà non è tra quelle note (senza sp_var_ok), da controllare
+      infra: (sp, abbr, what, main, tags, gen, check) => `species=${sp} ${[abbr && "ha il genere abbreviato",
+          what && `comprende ${{ v: "la varietà", c: "la cultivar", vc: "la varietà e la cultivar" }[what]}`].filter(Boolean).join(" e ")}: si potrebbe scrivere ${main}`
+        + (tags.length ? ` con ${tags.join(" e ")}` : "") + (gen ? " al posto di species" : "")
+        + (check ? ". Controllare che sia una varietà e non una cultivar, che va in taxon:cultivar" : ""),
       hybridSign: (k, v) => `Il segno di ibrido si scrive × al posto della lettera x: ${k}=${v}`,
       masafCriteria: v => `Secondo l'elenco MASAF si potrebbe aggiungere masaf:criteria=${v}`,
       importUndoc: v => `Albero da un import non documentato (source=${v})`,
@@ -627,7 +635,7 @@ const I18N = {
       urban: "Albero urbano", cluster: "Gruppo di alberi", agricultural: "Albero agricolo" },
     leafType: { broadleaved: "Latifoglia", needleleaved: "Aghifoglia", leafless: "Senza foglie", palm: "Palma" },
     leafCycle: { deciduous: "Caducifoglia", semi_deciduous: "Semi-caducifoglia", evergreen: "Sempreverde", semi_evergreen: "Semi-sempreverde" },
-    rows: { species: "Specie", sp_common: "Nome comune", genus: "Genere", taxon: "Taxon", denotation: "Categoria", leaf_type: "Tipo di foglie",
+    rows: { species: "Specie", iv_var: "Varietà", iv_cv: "Cultivar", sp_common: "Nome comune", genus: "Genere", taxon: "Taxon", denotation: "Categoria", leaf_type: "Tipo di foglie",
       lt: "Tipo di foglie (stimato)", leaf_cycle: "Ciclo fogliare", lc: "Ciclo fogliare (stimato)", circumference: "Circonferenza", diameter: "Diametro tronco",
       height: "Altezza", diameter_crown: "Diametro chioma", start_date: "Messa a dimora" },
     sex: { male: "Esemplare maschile", female: "Esemplare femminile" },
@@ -1052,6 +1060,10 @@ const I18N = {
       taxon: (v, k, n, has) => `taxon=${v} does not say which rank the name belongs to: ${!k ? "if there is one, a more precise tag (species, genus, taxon:cultivar…) would say it"
         : has ? `it is a ${k} in the wiki list, already in ${k}=*: taxon could be removed`
         : `it is a ${k} in the wiki list, it could be written as ${k}=${n} instead of taxon`}`,
+      infra: (sp, abbr, what, main, tags, gen, check) => `species=${sp} ${[abbr && "has the genus abbreviated",
+          what && `includes ${{ v: "the variety", c: "the cultivar", vc: "the variety and the cultivar" }[what]}`].filter(Boolean).join(" and ")}: it could be written as ${main}`
+        + (tags.length ? ` with ${tags.join(" and ")}` : "") + (gen ? " instead of species" : "")
+        + (check ? ". Check that it is a variety and not a cultivar, which goes in taxon:cultivar" : ""),
       hybridSign: (k, v) => `The hybrid sign is written × instead of the letter x: ${k}=${v}`,
       masafCriteria: v => `According to the MASAF list, masaf:criteria=${v} could be added`,
       importUndoc: v => `Tree from an undocumented import (source=${v})`,
@@ -1110,7 +1122,7 @@ const I18N = {
       urban: "Urban tree", cluster: "Tree cluster", agricultural: "Agricultural tree" },
     leafType: { broadleaved: "Broadleaved", needleleaved: "Needleleaved", leafless: "Leafless", palm: "Palm" },
     leafCycle: { deciduous: "Deciduous", semi_deciduous: "Semi-deciduous", evergreen: "Evergreen", semi_evergreen: "Semi-evergreen" },
-    rows: { species: "Species", sp_common: "Common name", genus: "Genus", taxon: "Taxon", denotation: "Category", leaf_type: "Leaf type",
+    rows: { species: "Species", iv_var: "Variety", iv_cv: "Cultivar", sp_common: "Common name", genus: "Genus", taxon: "Taxon", denotation: "Category", leaf_type: "Leaf type",
       lt: "Leaf type (estimated)", leaf_cycle: "Leaf cycle", lc: "Leaf cycle (estimated)", circumference: "Circumference", diameter: "Trunk diameter",
       height: "Height", diameter_crown: "Crown diameter", start_date: "Planting date" },
     sex: { male: "Male specimen", female: "Female specimen" },
@@ -3821,7 +3833,10 @@ const recShow = (k, p, m) => {
   }
 };
 
-const ROW_KEYS = ["species", "sp_common", "genus", "taxon", "denotation", "leaf_type", "lt", "leaf_cycle", "lc",
+// iv_var, iv_cv: varietà e cultivar (issue #68), da taxon:variety / variety e taxon:cultivar / cultivar o, se mancano,
+// da species (sp_var, sp_cv: fetch_trees.py); iv_gen: il genere, se species è genere e cultivar (sp_gen) e genus
+// manca; li calcola card()
+const ROW_KEYS = ["species", "iv_gen", "iv_var", "iv_cv", "sp_common", "genus", "taxon", "denotation", "leaf_type", "lt", "leaf_cycle", "lc",
   "circumference", "diameter", "height", "diameter_crown", "start_date"];
 const ROW_FMT = { denotation: v => tr(L.denotation, v), leaf_type: v => tr(L.leafType, v), lt: v => tr(L.leafType, v),
   leaf_cycle: v => tr(L.leafCycle, v), lc: v => tr(L.leafCycle, v), circumference: fmtM, diameter: fmtD, height: fmtM, diameter_crown: fmtM,
@@ -3870,7 +3885,7 @@ const sexMark = p => { const s = SEX_SVG[p.sex];
   return ` <span class="sex pop" tabindex="0" role="button" aria-expanded="false" aria-label="${esc(L.sex[p.sex])}"
     onclick="togglePop(this, event)" onkeydown="togglePop(this, event)"><svg viewBox="0 0 24 24" aria-hidden="true">${s}</svg>`
     + `<span class="tip">${esc(text)}${photo}</span></span>`; };
-const ROWS = ROW_KEYS.map(k => [k, L.rows[k], ROW_FMT[k]]);
+const ROWS = ROW_KEYS.map(k => [k, L.rows[k === "iv_gen" ? "genus" : k], ROW_FMT[k]]);
 // IMPERIAL: browser in en-US e sito in inglese: nella scheda altezza, circonferenza e chioma sono in piedi e pollici
 // (65 ft 7 in), con il valore in metri nel suggerimento; i messaggi dei check restano in metri
 const IMPERIAL = LANG === "en" && navigator.language === "en-US";
@@ -4317,6 +4332,24 @@ const HYBRID_SKIP = { species: /\|(species|species_\w+|tag_in_value|not_latin|un
 const hybridX = p => ["species", "genus"].filter(k => p[k] && !String(p[k]).includes(";")
     && !HYBRID_SKIP[k].test(String(p.issues || "")) && String(p[k]).replace(HYBRID_X, "$1×") !== p[k])
   .map(k => [k, String(p[k]).replace(HYBRID_X, "$1×")]);
+// Varietà e cultivar scritte in species, genere abbreviato (sp_base, sp_gen, sp_var, sp_cv, sp_abbr: fetch_trees.py,
+// issue #68): i tag da aggiungere, [["taxon:variety", v], ["taxon:cultivar", c]], senza quelli che ci sono già con lo
+// stesso valore (anche in variety o cultivar; maiuscole e virgolette a parte). null se non c'è niente da proporre:
+// ceppi, un tag con un altro valore, un errore sulla forma di species o il segno di ibrido scritto x, che propongono
+// già un'altra species; con genere e cultivar (sp_gen), un genus diverso
+const infraMove = p => {
+  if (!(p.sp_base || p.sp_gen) || !p.species || p.stump || HYBRID_SKIP.species.test(String(p.issues || "")) || hybridX(p).some(([k]) => k === "species")) return null;
+  const norm = v => String(v).trim().replace(/^['‘`"“]|['’`"”]$/g, "").toLowerCase(), tags = [];
+  const gn = v => String(v).replace(/^\s*×\s*/, "").trim().toLowerCase();
+  if (p.sp_gen && p.genus && gn(p.genus) !== gn(p.sp_gen)) return null;
+  for (const [k, plain, v] of [["taxon:variety", "variety", p.sp_var], ["taxon:cultivar", "cultivar", p.sp_cv]]) {
+    if (!v) continue;
+    const cur = p[k] ?? p[plain];
+    if (cur == null) tags.push([k, v]);
+    else if (norm(cur) !== norm(v)) return null;
+  }
+  return tags;
+};
 const HINT_FIXES = [
   [p => ["circumference", "height", "diameter_crown", "diameter"].filter(k => FEET_SPACE.test(p[k] || ""))
     .map(k => [k, String(p[k]).replace(/\s+/g, "")]), "feet and inches without spaces"],
@@ -4334,6 +4367,18 @@ const HINT_FIXES = [
     if (k === "species" && other && other !== n) return [];
     return [...p[k] ? [] : [[k, n]], ["taxon", REMOVE]]; }, "more precise tag instead of taxon"],
   [p => p.stump ? [] : hybridX(p), "hybrid sign × instead of x"],
+  // varietà, cultivar e genere abbreviato in species (infraMove): species senza, i tag taxon:* e, per quella specie,
+  // species:wikidata, leaf_type e leaf_cycle che mancano (sp_base_wd, sp_base_lt, sp_base_lc); con genere e cultivar
+  // (sp_gen) species si toglie e genus si aggiunge se manca
+  // Con una varietà che non è un taxon di rango varietà su Wikidata (senza sp_var_ok) nessuna correzione: con "var."
+  // si trovano scritte anche le cultivar, e il consiglio invita a controllare
+  [p => { const im = infraMove(p);
+    if (!im || (p.sp_var && !p.sp_var_ok)) return [];
+    const w = [p.sp_abbr && "genus written in full in species",
+      (p.sp_var || p.sp_cv) && "variety or cultivar moved from species to its own tag"].filter(Boolean).join("; ");
+    return p.sp_gen ? [["species", REMOVE, w], ...p.genus ? [] : [["genus", p.sp_gen, w]], ...im.map(([k, v]) => [k, v, w])]
+      : [["species", p.sp_base, w], ...im.map(([k, v]) => [k, v, w]), ["species:wikidata", p.sp_base_wd, "add species:wikidata"],
+        ["leaf_type", p.sp_base_lt, "add leaf_type"], ["leaf_cycle", p.sp_base_lc, "add leaf_cycle"]]; }, ""],
   [p => p.stump || p["masaf:criteria"] ? [] : [["masaf:criteria", p.hint_mc]], "add masaf:criteria"],
   [p => p.stump ? [] : [["leaf_type", !p.leaf_type && p.lt]], "add leaf_type"],
   [p => p.stump ? [] : [["leaf_cycle", !p.leaf_cycle && p.lc]], "add leaf_cycle"],
@@ -4477,7 +4522,11 @@ const osmAt = ([lon, lat]) => { const a = Number(lat).toFixed(6), o = Number(lon
 
 function card(p, pos) {
   // nome comune della specie nella lingua del sito (da Wikidata, vedi common_name in fetch_trees.py)
-  p = { ...p, sp_common: p["sp_" + LANG] };
+  // varietà e cultivar: il tag se c'è, altrimenti quello che è scritto in species; la riga «Specie» mostra species
+  // senza e con il genere per esteso (sp_base). Con genere e cultivar (sp_gen) al posto della riga «Specie» c'è
+  // «Genere». Il titolo, se è la specie, resta il valore intero
+  p = { ...p, sp_common: p["sp_" + LANG], iv_var: p["taxon:variety"] || p.variety || p.sp_var,
+    iv_cv: p["taxon:cultivar"] || p.cultivar || p.sp_cv, iv_gen: p.genus ? undefined : p.sp_gen };
   let [titleHtml, titleKey] = title(p);
   // la specie (riga «Specie» o titolo, se fa da titolo) porta alla sua pagina in species/, se c'è
   const spPage = speciesPage(p);
@@ -4494,9 +4543,9 @@ function card(p, pos) {
   // millimetri); se il valore non è leggibile resta la riga del diametro com'è scritto
   const dm = p.circumference == null && p.diameter ? lenM(p.diameter, 0.001) : null;
   const fromDiam = dm > 0;
-  const rows = ROWS.filter(([k]) => (k === "diameter" ? p[k] && !fromDiam : p[k] || (k === "circumference" && fromDiam)) && k !== titleKey && !(k === "genus" && p.species && !genusIssue)).map(([k, label, f]) => k === "circumference" && fromDiam
+  const rows = ROWS.filter(([k]) => (k === "diameter" ? p[k] && !fromDiam : p[k] || (k === "circumference" && fromDiam)) && k !== titleKey && !(k === "genus" && p.species && !genusIssue && !p.sp_gen) && !(k === "species" && p.sp_gen)).map(([k, label, f]) => k === "circumference" && fromDiam
     ? `<dt>${label}</dt><dd>${cardLen(String(Number((dm * Math.PI).toFixed(3))))}${esc(L.fromDiameter)}${planPick(p)}</dd>`
-    : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : k === "species" ? spLink(esc(p[k])) : esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
+    : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : k === "species" ? spLink(esc(p.sp_base || p[k])) : esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
   const rec = recognitions(p);
   const links = [osmMenu(p, pos)];
@@ -5085,6 +5134,10 @@ function hints(p, pos) {
   // taxon=* non dice il rango; hint_tx: "species|nome" o "genus|nome" se è nelle liste wiki (fetch_trees.py)
   if (p.taxon) { const [k, n] = String(p.hint_tx || "").split("|"); out.push(H.taxon(p.taxon, n ? k : "", n, !!(n && p[k]))); }
   for (const [k, v] of hybridX(p)) out.push(H.hybridSign(k, v));
+  // varietà e cultivar scritte in species: taxon:variety e taxon:cultivar (infraMove)
+  const im = infraMove(p);
+  if (im) out.push(H.infra(p.species, !!p.sp_abbr, (p.sp_var ? "v" : "") + (p.sp_cv ? "c" : ""),
+    p.sp_gen ? `genus=${p.sp_gen}` : `species=${p.sp_base}`, im.map(([k, v]) => `${k}=${v}`), !!p.sp_gen, !!p.sp_var && !p.sp_var_ok));
   if (p.hint_mc) out.push(H.masafCriteria(p.hint_mc));
   // import (source=*, scripts/imports.json): un consiglio con il link alla documentazione è HTML ({html}), già escapato
   if (p.hint_imp_u) out.push(H.importUndoc(p.hint_imp_u));
