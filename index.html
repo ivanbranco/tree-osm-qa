@@ -566,7 +566,7 @@ const I18N = {
       speciesFromWp: n => `species:wikipedia indica ${n}: si potrebbe aggiungere species=${n}`,
       speciesIt: v => `Su OSM quasi tutti i valori di species:it iniziano con la maiuscola: species:it=${v}`,
       nameEn: v => `In inglese un nome proprio inizia con la maiuscola: name:en=${v}`,
-      note: kv => `Nota per chi mappa: ${kv}`,
+      note: v => `Nota per chi mappa: ${v}`,
       // taxon=* (hint_tx, fetch_trees.py: "species|nome" o "genus|nome" se le liste wiki lo riconoscono)
       // has: c'è già species o genus con lo stesso nome
       taxon: (v, k, n, has, b) => `taxon=${v} non dice a quale rango appartiene il nome: ${!k ? "se possibile, usare un tag più preciso (species, genus, taxon:cultivar…)"
@@ -910,7 +910,7 @@ const I18N = {
         Q227936: "tribù", Q164280: "sottofamiglia" },
       undocumented_tag: kv => `tag non documentato ${kv}: verificare se può essere sostituito con un altro tag`,
       key_typo: (k, kn, v) => `${k}=${v}: chiave non usata per gli alberi, forse ${kn}=${v}?`,
-      fixme: kv => `da verificare o correggere: ${kv}`,
+      fixme: v => `da verificare o correggere: ${v}`,
       too_slender: (h, c, r) => `albero troppo slanciato: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
       too_slender_species: (h, c, r, sp, r0) => `albero troppo slanciato per ${sp}: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}, tipico ${r0})`,
       too_stocky: (h, c, r) => `albero troppo tozzo: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
@@ -1121,7 +1121,7 @@ const I18N = {
       speciesFromWp: n => `species:wikipedia points to ${n}: species=${n} could be added`,
       speciesIt: v => `On OSM almost all species:it values start with a capital letter: species:it=${v}`,
       nameEn: v => `In English a proper name starts with a capital letter: name:en=${v}`,
-      note: kv => `Note for mappers: ${kv}`,
+      note: v => `Note for mappers: ${v}`,
       taxon: (v, k, n, has, b) => `taxon=${v} does not say which rank the name belongs to: ${!k ? "consider using a more precise tag if possible (species, genus, taxon:cultivar…)"
         : b ? `a genus and an epithet are the form of a species name (not in the wiki list), ${has ? "already in species=*: taxon could be removed"
           : `it could be written as species=${n} instead of taxon. Check the name (synonyms, hybrid sign ×)`}`
@@ -1440,7 +1440,7 @@ const I18N = {
         Q227936: "tribe", Q164280: "subfamily" },
       undocumented_tag: kv => `undocumented tag ${kv}: check whether it can be replaced with another tag`,
       key_typo: (k, kn, v) => `${k}=${v}: key not used for trees, maybe ${kn}=${v}?`,
-      fixme: kv => `to check or correct: ${kv}`,
+      fixme: v => `to check or correct: ${v}`,
       too_slender: (h, c, r) => `tree too slender: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
       too_slender_species: (h, c, r, sp, r0) => `tree too slender for ${sp}: height ${h}, circumference ${c} (height/circumference = ${r}, typical ${r0})`,
       too_stocky: (h, c, r) => `tree too stocky: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
@@ -4164,7 +4164,7 @@ const issueBase = (i, p) => {
       return String(p.kt_keys || "").split("\n").filter(Boolean).map(x => { const [k, kn, ...v] = x.split("|");
         return T[i](k, kn, v.join("|")); }).join("\n");
     case "fixme":                // fixme_kv: righe "chiave=valore" (fixme, FIXME; fetch_trees.py)
-      return String(p.fixme_kv || "").split("\n").filter(Boolean).map(kv => T[i](kv)).join("\n");
+      return String(p.fixme_kv || "").split("\n").filter(Boolean).map(kv => T[i](kv.slice(kv.indexOf("=") + 1))).join("\n");
     case "too_slender_species":   // sp_ratio: rapporto tipico della specie (fetch_trees.py)
       return T[i](fmtM(p.height), fmtM(p.hc_circ) + (p.diam_used ? L.fromDiameter : ""),
         Number(p.hc_ratio).toLocaleString(LOC, { maximumSignificantDigits: 3 }), p.species, Number(p.sp_ratio).toLocaleString(LOC));
@@ -5322,8 +5322,8 @@ function hints(p, pos) {
   if (cf) out.push(H.commonsImage(cf));
   // image=* è una pagina web (hint_ip, hint_mly: fetch_trees.py)
   if (p.hint_ip) out.push(H.imagePage(p.hint_ip, p.hint_mly));
-  // note=* (hint_nt: righe "chiave=valore", fetch_trees.py): anche sui ceppi
-  for (const kv of String(p.hint_nt || "").split("\n").filter(Boolean)) out.push(H.note(kv));
+  // note=* (hint_nt: righe "chiave=valore", fetch_trees.py): anche sui ceppi; la scheda mostra solo il valore
+  for (const kv of String(p.hint_nt || "").split("\n").filter(Boolean)) out.push(H.note(kv.slice(kv.indexOf("=") + 1)));
   if (p.stump) return out;
   if (binomialHint(p.hint_sp)) out.push(H.wdSpecies(p.hint_sp));
   // l'elemento Wikidata dell'albero ha solo il genere della specie taggata (hint_wg = "QID|genere", fetch_trees.py)
