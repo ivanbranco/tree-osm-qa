@@ -477,7 +477,7 @@ const I18N = {
     // tips: k(chiave) = il tag con il link alla wiki OSM
     comp: "Completezza",
     cp: { basic: "Di base", basicSub: "i dati essenziali", extra: "Misure e foto", extraSub: "un di più",
-      inView: "Alberi nella vista", optional: "Facoltativo", photo: "Foto", of: "di",
+      inView: "Alberi nella vista", optional: "Facoltativo", photo: "Foto", taxon: "Specie o genere", of: "di",
       noRegion: "Scegli una regione per vedere quanti dei suoi alberi hanno i dati principali.",
       noTrees: "Nessun albero nella vista.", loading: "Caricamento degli alberi…",
       partialQa: "A questo zoom la mappa mostra solo gli alberi con errori (da zoom 9 anche i monumentali): le barre contano quelli. Da zoom 10 contano tutti gli alberi.",
@@ -493,7 +493,7 @@ const I18N = {
       dio: "Piante dioiche", sex: "Sesso", hlSex: "Evidenziati: dioici senza sex=*",
       tips: {
         sex: (k, g, s) => `${k("sex")}: male o female. Vale per le specie dioiche, con fiori maschili e femminili su alberi diversi: la barra conta solo gli alberi di queste specie nella vista (generi ${g}; specie ${s}) e si vede solo se ce n'è almeno uno. Si riconosce dai fiori e dai frutti, nella loro stagione.`,
-        species: k => `${k("species")}: il nome scientifico, genere ed epiteto (es. Quercus robur). Si riconosce da foglie, corteccia, fiori e frutti, o da un cartellino sul posto. Se si conosce solo il genere, va in ${k("genus")}.`,
+        species: k => `${k("species")}: il nome scientifico, genere ed epiteto (es. Quercus robur). Si riconosce da foglie, corteccia, fiori e frutti, o da un cartellino sul posto. Se si conosce solo il genere, va in ${k("genus")}: conta anche un albero con il solo genere.`,
         leaf_type: k => `${k("leaf_type")}: broadleaved (latifoglia), needleleaved (aghifoglia), palm (palma) o leafless (senza foglie). Si vede guardando le foglie.`,
         leaf_cycle: k => `${k("leaf_cycle")}: deciduous (perde le foglie per una parte dell'anno) o evergreen (le tiene tutto l'anno); ci sono anche semi_deciduous e semi_evergreen. Si vede sul posto nella stagione fredda o secca.`,
         height: k => `${k("height")}: in metri, dal suolo al punto più alto della chioma (es. height=12). Si misura con un ipsometro, un clinometro o un telemetro laser.`,
@@ -1044,7 +1044,7 @@ const I18N = {
     chartJoin: (d, names) => `${d}: ${names.join(", ")} ${names.length > 1 ? "join" : "joins"}`,
     comp: "Completeness",
     cp: { basic: "Basics", basicSub: "essential", extra: "Measurements and photo", extraSub: "extra",
-      inView: "Trees in view", optional: "Optional", photo: "Photo", of: "of",
+      inView: "Trees in view", optional: "Optional", photo: "Photo", taxon: "Species or genus", of: "of",
       noRegion: "Choose a region to see how many of its trees have the main data.",
       noTrees: "No trees in view.", loading: "Loading trees…",
       partialQa: "At this zoom the map shows only trees with errors (from zoom 9 also monumental trees): the bars count those. From zoom 10 they count all trees.",
@@ -1060,7 +1060,7 @@ const I18N = {
       dio: "Dioecious trees", sex: "Sex", hlSex: "Highlighted: dioecious, no sex=*",
       tips: {
         sex: (k, g, s) => `${k("sex")}: male or female. It applies to dioecious species, with male and female flowers on separate trees: the bar counts only the trees of these species in view (genera ${g}; species ${s}) and appears only if there is at least one. It is recognised from flowers and fruits, in their season.`,
-        species: k => `${k("species")}: the scientific name, genus and epithet (e.g. Quercus robur). It is recognised from leaves, bark, flowers and fruits, or from a label on site. If only the genus is known, it goes in ${k("genus")}.`,
+        species: k => `${k("species")}: the scientific name, genus and epithet (e.g. Quercus robur). It is recognised from leaves, bark, flowers and fruits, or from a label on site. If only the genus is known, it goes in ${k("genus")}: a tree with only the genus counts too.`,
         leaf_type: k => `${k("leaf_type")}: broadleaved, needleleaved, palm or leafless. It can be seen by looking at the leaves.`,
         leaf_cycle: k => `${k("leaf_cycle")}: deciduous (loses its leaves for part of the year) or evergreen (keeps them all year); there are also semi_deciduous and semi_evergreen. It can be seen on site in the cold or dry season.`,
         height: k => `${k("height")}: in metres, from the ground to the highest point of the crown (e.g. height=12). It is measured with a hypsometer, a clinometer or a laser rangefinder.`,
@@ -2785,7 +2785,8 @@ map.on("load", async () => {
   const DIO_EXPR = ["any", ["in", ["coalesce", ["get", "genus"], ""], ["literal", DIO_GENERA]], ["in", SP, ["literal", DIO_GENERA]],
     ...DIO_GENERA.map(g => spStarts(g + " ")), ...DIO_SPECIES.map(s => ["any", ["==", SP, s], spStarts(s + " ")])];
   const COMP = {
-    species: { has: hasTag("species"), miss: noTag("species") },
+    // issue #73: basta anche il solo genere
+    species: { has: p => hasTag("species")(p) || hasTag("genus")(p), miss: ["all", noTag("species"), noTag("genus")] },
     leaf_type: { has: hasTag("leaf_type"), miss: noTag("leaf_type") },
     leaf_cycle: { has: hasTag("leaf_cycle"), miss: noTag("leaf_cycle") },
     height: { has: hasTag("height"), miss: noTag("height") },
@@ -2797,7 +2798,7 @@ map.on("load", async () => {
         ["!=", ["slice", ["to-string", ["coalesce", ["get", "image"], ""]], 0, 5], "File:"]] },
     sex: { has: hasTag("sex"), miss: ["all", DIO_EXPR, noTag("sex")], among: isDio, hlText: L.cp.hlSex },
   };
-  for (const k in COMP) COMP[k].label = k === "photo" ? L.cp.photo : k === "sex" ? L.cp.sex : L.rows[k];
+  for (const k in COMP) COMP[k].label = k === "photo" ? L.cp.photo : k === "sex" ? L.cp.sex : k === "species" ? L.cp.taxon : L.rows[k];
   // gruppi di voci: nel tool QA i dati di base e, a parte, misure e foto; nella mappa dei monumentali il diametro
   // della chioma è l'unica voce facoltativa. In fondo, in entrambe, le piante dioiche (gruppo nascosto se non ce ne sono)
   const COMP_GROUPS = (WORLD ? [[L.cp.inView, "", ["species", "height", "circumference", "photo"]], [L.cp.optional, "", ["diameter_crown"]]]
