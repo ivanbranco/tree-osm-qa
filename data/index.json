@@ -839,12 +839,13 @@
    "updated": "2026-11-17T20:36:05Z"
   },
   "swietokrzyskie": {
-   "count": 38902,
-   "errors": 85,
+   "count": 38932,
+   "errors": 86,
    "name": "Santacroce",
-   "sha1": "350bebc55358d645840119c00ccc3fc6108018cc",
-   "tried": "2026-11-14",
-   "updated": "2026-11-14T10:57:28Z"
+   "osm_base": "2026-11-17T21:17:27Z",
+   "sha1": "0e71fdaea9cb24bf731ccbd6f4fe00e2e910308f",
+   "tried": "2026-11-17",
+   "updated": "2026-11-17T21:19:03Z"
   },
   "terre-australi-francesi": {
    "count": 203,
