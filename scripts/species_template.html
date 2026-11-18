@@ -37,6 +37,7 @@
   .photo figcaption a{color:inherit}
   .hero h1{margin:0;font-size:32px;font-style:italic;font-weight:650;letter-spacing:-.01em}
   .hero .common{font-size:19px;color:var(--muted);margin-top:2px}
+  .hero .syn{font-size:13px;color:var(--muted);margin-top:6px}
   .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
   .tag{font-size:12.5px;padding:2px 9px;border-radius:10px;background:#e8f0e9;color:var(--green)}
   .tag a{color:inherit}
@@ -152,6 +153,7 @@ const I18N = {
     trees: "alberi mappati nelle regioni di DendrOSM", regions: (n, t) => `regioni in cui è presente, su ${t}`,
     mon: "monumentali su OSM nel mondo", masaf: "nell'elenco dei monumentali d'Italia (MASAF)",
     issues: "alberi con almeno una segnalazione",
+    syn: "Sinonimi contati come questa specie in tutta la pagina", synN: n => `${n} ${n === 1 ? "albero" : "alberi"} nelle regioni di DendrOSM`,
     lt: { broadleaved: "latifoglia", needleleaved: "aghifoglia", palm: "palma" },
     lc: { deciduous: "caducifoglia", semi_deciduous: "semi-caducifoglia", evergreen: "sempreverde", semi_evergreen: "semi-sempreverde" },
     fruitTag: "frutti sulla mappa", wikidata: "Wikidata", wikiRec: "Wiki: Tree species records",
@@ -204,6 +206,7 @@ const I18N = {
     trees: "trees mapped in the DendrOSM regions", regions: (n, t) => `regions where it is present, out of ${t}`,
     mon: "monumental trees on OSM worldwide", masaf: "in the list of monumental trees of Italy (MASAF)",
     issues: "trees with at least one warning",
+    syn: "Synonyms counted as this species throughout the page", synN: n => `${n} ${n === 1 ? "tree" : "trees"} in the DendrOSM regions`,
     lt: { broadleaved: "broadleaved", needleleaved: "needleleaved", palm: "palm" },
     lc: { deciduous: "deciduous", semi_deciduous: "semi-deciduous", evergreen: "evergreen", semi_evergreen: "semi-evergreen" },
     fruitTag: "fruits on the map", wikidata: "Wikidata", wikiRec: "Wiki: Tree species records",
@@ -275,8 +278,11 @@ function hero() {
   const photo = img ? `<figure class="photo"><a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(img)}" target="_blank" rel="noopener">
     <img src="https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(img)}?width=520" alt="${esc(D.name)}"></a>
     <figcaption data-file="${esc(img)}">Wikimedia Commons</figcaption></figure>` : "";
+  // sinonimi di whitelist.json contati come questa specie (build_species.py, synonyms_of): nome e alberi con quel nome
+  const syn = (D.synonyms || []).length ? `<div class="syn">${T.syn}: ${D.synonyms.map(([s, k]) =>
+    `<i title="${esc(T.synN(fmt(k)))}">${esc(s)}</i> (${fmt(k)})`).join(", ")}</div>` : "";
   return `<div class="hero"><div class="txt"><h1>${esc(D.name)}</h1>${common ? `<div class="common">${esc(common)}</div>` : ""}
-    <div class="tags">${tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+    ${syn}<div class="tags">${tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
 </div>${photo}</div>
     <div class="kpis">${kpi(fmt(D.total), T.trees)}${kpi(fmt(D.n_regions), T.regions(D.n_regions, fmt(nReg)))}
     ${kpi(fmt(D.mon_n), T.mon)}${D.masaf && LANG === "it" ? kpi(fmt(D.masaf), T.masaf) : ""}

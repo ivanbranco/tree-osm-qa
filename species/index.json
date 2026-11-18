@@ -383,7 +383,7 @@
   {
    "name": "Picea abies",
    "slug": "picea-abies",
-   "it": "Abete rosso",
+   "it": "Abeti rossi",
    "en": "Norway spruce",
    "n": 4112,
    "mon": 294,
@@ -460,7 +460,7 @@
   {
    "name": "Populus alba",
    "slug": "populus-alba",
-   "it": "Pioppo bianco",
+   "it": "Pioppi bianchi",
    "en": "Silver poplar",
    "n": 6978,
    "mon": 192,
@@ -557,7 +557,7 @@
   {
    "name": "Quercus robur",
    "slug": "quercus-robur",
-   "it": "Farnia",
+   "it": "Farnie",
    "en": "English oak",
    "n": 28500,
    "mon": 9632,

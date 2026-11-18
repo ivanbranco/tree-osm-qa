@@ -2480,6 +2480,28 @@ def common_name_genus_lang(word):
     return next(iter(genera)), next(iter(langs)) if len(langs) == 1 else ""
 
 
+def common_name_species(name):
+    """(specie, lingua, nome come in whitelist.json) se name è il nome comune di una sola specie in SPECIES_NAMES, in
+    qualunque lingua (species=American Chestnut -> ("Castanea dentata", "en", "American Chestnut")); lingua "" se il
+    nome è lo stesso in più lingue; (None, "", "") altrimenti."""
+    w = " ".join(name.split()).casefold()
+    found = {(lang, s) for (lang, n), s in SPECIES_NAMES.items() if n == w}
+    if len({s for _, s in found}) != 1:
+        return None, "", ""
+    langs = {lang for lang, _ in found}
+    lang = next(iter(langs)) if len(langs) == 1 else ""
+    return next(iter(found))[1], lang, SPECIES_NAME_FORM.get((lang, w), "") if lang else ""
+
+
+def common_name_kv(t, prefix, lang, name, sp):
+    """Il nome comune scritto in species (sp) da spostare nel tag della sua lingua: "genus:pl=Brzoza" (prefix genus,
+    con l'iniziale maiuscola) o "species:en=American Chestnut" (prefix species, name scritto come nella lista). None
+    se la lingua non è una sola, se quel tag c'è già o se species ha altro oltre al nome."""
+    if not lang or not name or f"{prefix}:{lang}" in t or " ".join(str(sp).split()).casefold() != name.casefold():
+        return None
+    return f"{prefix}:{lang}={name[:1].upper()}{name[1:]}"
+
+
 def undocumented_tags(t):
     """Tag non documentati presenti: [(chiave, valore)], esclusi quelli in UNDOC_IGNORE."""
     return [(k, t[k]) for k in UNDOC_TAGS if k in t and (k, t[k].strip()) not in UNDOC_IGNORE]
@@ -2624,8 +2646,11 @@ def checks(t, pos, osm_id=None):
         # se la parola è un genere della lista wiki (es. species=magnolia), la scheda propone genus=Magnolia
         # se è il nome comune di un genere (species=oak), propone genus=Quercus (sp_common_genus)
         gr = GENUS_REF.get(spw[0].lstrip("×").casefold())
-        cg = None if gr else common_name_genus(spw[0])
-        flag("species", **({"sp_as_genus": gr[0]} if gr else {"sp_common_genus": cg} if cg else {}))
+        cg, cg_lang = (None, "") if gr else common_name_genus_lang(spw[0])
+        # sp_common_kv: il nome comune spostato in genus:xx (species=Brzoza -> genus:pl=Brzoza), come g_common_kv
+        ckv = common_name_kv(t, "genus", cg_lang, spw[0], sp) if cg else None
+        flag("species", **({"sp_as_genus": gr[0]} if gr else {"sp_common_genus": cg} if cg else {}),
+             **({"sp_common_kv": ckv} if ckv else {}))
     # Una sola correzione per le maiuscole, perché le proposte non si contraddicano: con l'autore la propone
     # species_author (sp_clean già con le maiuscole giuste), altrimenti species_epithet_case, che sistema anche
     # l'iniziale del genere; species_lowercase resta per i nomi che hanno solo l'iniziale minuscola
@@ -2642,8 +2667,23 @@ def checks(t, pos, osm_id=None):
     elif spf and (common := species_common_name(spf)) is not None:  # "" se non c'è un nome scientifico da proporre
         # senza nome scientifico tra parentesi: se species è il nome comune di un genere (GENUS_NAMES) o un nome con il
         # genere certo (GENUS_OF_NAMES: species=Horse Chestnut -> Aesculus), sp_cn_genus = quel genere
-        cn_g = None if common else common_name_genus_full(spf)
-        flag("species_common_name", **({"sp_sci": common} if common else {"sp_cn_genus": cn_g} if cn_g else {}))
+        # Il nome comune di una specie di SPECIES_NAMES (species=American Chestnut -> Castanea dentata): sp_sci = la
+        # specie e sp_cn_sp = 1 (la correzione con JOSM la scrive), se genus manca o è il suo genere. sp_cn_kv: il nome
+        # comune spostato in species:xx o genus:xx (lingua di SPECIES_NAMES o GENUS_NAMES, non GENUS_OF_NAMES), se manca;
+        # sp_cn_wd, sp_cn_lt, sp_cn_lc: species:wikidata, leaf_type e leaf_cycle che mancano per quella specie
+        cn_s, cn_lang, cn_form = (None, "", "") if common else common_name_species(spf)
+        if cn_s and t.get("genus") and genus_key(t["genus"]) != genus_key(genus_of_species(cn_s)):
+            cn_s = None
+        if cn_s:
+            kv = common_name_kv(t, "species", cn_lang, cn_form, sp)
+            flag("species_common_name", sp_sci=cn_s, sp_cn_sp=1, **({"sp_cn_kv": kv} if kv else {}))
+            props.update(species_lang_extras(t, cn_s, "sp_cn_"))
+        else:
+            cn_g = None if common else common_name_genus_full(spf)
+            g_lang = common_name_genus_lang(spf)[1] if cn_g and common_name_genus(spf) else ""
+            kv = common_name_kv(t, "genus", g_lang, spf.strip(), sp) if cn_g else None
+            flag("species_common_name", **({"sp_sci": common} if common else {"sp_cn_genus": cn_g} if cn_g else {}),
+                 **({"sp_cn_kv": kv} if kv else {}))
     if no_auth:   # senza proposta se, tolto l'autore, non resta solo il nome ("Insieme omogeneo di Fagus sylvatica L.")
         clean = species_inner_case(no_auth) or no_auth
         flag("species_author", **({} if species_author_uncertain(spf) else {"sp_clean": clean[:1].upper() + clean[1:]}))

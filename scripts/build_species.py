@@ -169,6 +169,15 @@ def sex_info(n, counts):
     return out
 
 
+def synonyms_of(n, counts):
+    """Sinonimi di whitelist.json che valgono come la specie n, contati con lei in tutte le statistiche della pagina:
+    [[nome come in whitelist.json, alberi nelle regioni con quel nome]], dal più usato. Vuoto se non ne ha."""
+    target = ft.norm_species(n)
+    out = [[alt, counts.get(ft.norm_species(alt), 0)] for alt, name in ft._WL.get("synonyms", {}).items()
+           if ft.norm_species(name) == target]
+    return sorted(out, key=lambda r: (-r[1], r[0]))
+
+
 def wikipedia_info(qid):
     """Voci di Wikipedia (it, en) dell'elemento Wikidata della specie e la loro immagine principale (pageimages, la
     foto in testa alla voce): {"it": {"url", "img"}, "en": {...}}. Autore e licenza della foto li chiede la pagina a
@@ -232,7 +241,7 @@ def main(names, keep_isolated=False):
     S = {n: {"feats": [], "per_region": collections.Counter(), "grid": collections.Counter(), "ids": set(),
              "lt": collections.Counter(), "lc": collections.Counter(), "fruit": collections.Counter(),
              "it": collections.Counter(), "en": collections.Counter(), "qid": collections.Counter(),
-             "sex": collections.Counter(), "issues": 0, "sample": None} for n in names}
+             "sex": collections.Counter(), "syn": collections.Counter(), "issues": 0, "sample": None} for n in names}
     sp_trees = collections.Counter()      # alberi con species=* per regione
     for r in regions:
         slug = r["slug"]
@@ -252,6 +261,8 @@ def main(names, keep_isolated=False):
             s = S[n]
             s["per_region"][slug] += 1
             s["ids"].add(pr["id"])
+            if (ns := ft.norm_species(pr["species"])) in ft.SYNONYMS:      # contato con il nome di un sinonimo
+                s["syn"][ns] += 1
             lon, lat = f["geometry"]["coordinates"]
             s["grid"][(round(math.floor(lon / GRID) * GRID + GRID / 2, 3), round(math.floor(lat / GRID) * GRID + GRID / 2, 3))] += 1
             if pr.get("stump"):
@@ -466,6 +477,7 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
         "spColor": species_colors().get(n),
         "bark": BARK.get(n),
         "sex": sex_info(n, s["sex"]),
+        "synonyms": synonyms_of(n, s["syn"]),
         "name": n, "slug": slug_of(n), "genus": n.split()[0],
         "names": {k: most_common(s[k]) for k in ("it", "en") if s[k]},
         "qid": qid,

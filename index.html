@@ -727,7 +727,7 @@ const I18N = {
       "Schinus molle": { female: "Le femmine portano grappoli penduli di piccole drupe rosa-rosse, simili a grani di pepe, che restano a lungo sulla pianta.",
         male: "I maschi portano pannocchie pendule di piccoli fiori bianco-giallastri, e non producono frutti." },
     },
-    sexPhotoAlt: { "Ginkgo biloba": { female: "Semi di Ginkgo biloba", male: "Coni maschili di Ginkgo biloba" } },
+    sexPhotoAlt: { "Ginkgo biloba": { female: "Semi di Ginkgo biloba", male: "Coni maschili di Ginkgo biloba" }, "Acer negundo": { female: "Fiori femminili di Acer negundo", male: "Infiorescenze maschili di Acer negundo" } },
     fromDiameter: " (da diameter)",
     // finestra «Tronco a confronto» (issue #14), dall'iconcina accanto all'altezza o dal tasto C
     cmp: { title: "Tronco a confronto", close: "Chiudi", pick: "Confronta con il tronco tipico (tasto C)",
@@ -876,7 +876,9 @@ const I18N = {
       species_unidentified: (sp, g) => `species=${sp} indica una specie non identificata: usare genus=${g} senza species`,
       species_epithet_case: (sp, s) => `species=${sp}: va maiuscola solo l'iniziale del genere, species=${s}`,
       species_parentheses: sp => `species=${sp} contiene parentesi, che nei nomi scientifici non ci sono`,
-      species_common_name: (sp, s, g) => `species=${sp} non ha la forma di un nome scientifico (Genere epiteto)` + (s ? `: species=${s}?` : g ? `: usare genus=${g} senza species` : ""),
+      species_common_name: (sp, s, g, kv, known) => `species=${sp} non ha la forma di un nome scientifico (Genere epiteto)`
+        + (s && known ? `: è il nome comune di ${s}, usare species=${s}` + (kv ? ` e ${kv}` : "") : s ? `: species=${s}?`
+          : g ? `: usare genus=${g}` + (kv ? ` e ${kv}` : "") + " senza species" : ""),
       species_author: (sp, c) => `species=${sp} contiene l'autore del nome` + (c ? `: species=${c}` : ""),
       underscore: kv => `${kv} contiene un trattino basso (_) al posto dello spazio`,
       multiple_values: kv => `${kv} contiene più valori separati da «;»`,
@@ -946,7 +948,7 @@ const I18N = {
       // fix: genus corretto (gm_fix, fetch_trees.py), se genus sembra il genere di species scritto male
       genus_mismatch: (g, sp, fix) => `genus (${g}) diverso dal genere della species (${sp})` + (fix ? `: genus=${fix}` : ""),
       species: "species di una sola parola", species_as_genus: (sp, g) => `species=${sp} è un genere: usare genus=${g} senza species`,
-      species_common_genus: (sp, g) => `species=${sp} è il nome comune del genere ${g}: usare genus=${g} senza species`,
+      species_common_genus: (sp, g, kv) => `species=${sp} è il nome comune del genere ${g}: usare genus=${g}` + (kv ? ` e ${kv}` : "") + " senza species",
       species_lowercase: "species con iniziale minuscola",
       genus_lowercase: "genus con iniziale minuscola", circumference: "circonferenza > 43 m", height: "altezza > 116,22 m",
       genus: "genus con più parole", leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" },
@@ -1273,7 +1275,7 @@ const I18N = {
       "Schinus molle": { female: "Females bear hanging clusters of small pinkish-red drupes, like peppercorns, that stay on the tree for a long time.",
         male: "Males bear hanging panicles of small yellowish-white flowers, and produce no fruits." },
     },
-    sexPhotoAlt: { "Ginkgo biloba": { female: "Ginkgo biloba seeds", male: "Ginkgo biloba male cones" } },
+    sexPhotoAlt: { "Ginkgo biloba": { female: "Ginkgo biloba seeds", male: "Ginkgo biloba male cones" }, "Acer negundo": { female: "Acer negundo female flowers", male: "Acer negundo male inflorescences" } },
     fromDiameter: " (from diameter)",
     cmp: { title: "Trunk comparison", close: "Close", pick: "Compare with the typical trunk (C key)",
       pickScale: "View the tree to scale (C key)",
@@ -1413,7 +1415,9 @@ const I18N = {
       species_unidentified: (sp, g) => `species=${sp} means an unidentified species: use genus=${g} without species`,
       species_epithet_case: (sp, s) => `species=${sp}: only the initial of the genus should be uppercase, species=${s}`,
       species_parentheses: sp => `species=${sp} contains parentheses, which scientific names never have`,
-      species_common_name: (sp, s, g) => `species=${sp} is not a scientific name (Genus epithet)` + (s ? `: species=${s}?` : g ? `: use genus=${g} without species` : ""),
+      species_common_name: (sp, s, g, kv, known) => `species=${sp} is not a scientific name (Genus epithet)`
+        + (s && known ? `: it is the common name of ${s}, use species=${s}` + (kv ? ` and ${kv}` : "") : s ? `: species=${s}?`
+          : g ? `: use genus=${g}` + (kv ? ` and ${kv}` : "") + " without species" : ""),
       species_author: (sp, c) => `species=${sp} contains the author name` + (c ? `: species=${c}` : ""),
       underscore: kv => `${kv} contains an underscore (_) instead of a space`,
       multiple_values: kv => `${kv} contains multiple values separated by ";"`,
@@ -1477,7 +1481,7 @@ const I18N = {
       leaf_cycle_mismatch: (v, f, e) => `leaf_cycle=${v}, but the wiki list gives ${e} for ${f}`,
       genus_mismatch: (g, sp, fix) => `genus (${g}) differs from the genus of species (${sp})` + (fix ? `: genus=${fix}` : ""),
       species: "single-word species", species_as_genus: (sp, g) => `species=${sp} is a genus: use genus=${g} without species`,
-      species_common_genus: (sp, g) => `species=${sp} is the common name of the genus ${g}: use genus=${g} without species`,
+      species_common_genus: (sp, g, kv) => `species=${sp} is the common name of the genus ${g}: use genus=${g}` + (kv ? ` and ${kv}` : "") + " without species",
       species_lowercase: "species starting lowercase",
       genus_lowercase: "genus starting lowercase", circumference: "circumference > 43 m", height: "height > 116.22 m",
       genus: "genus with more than one word", leaf_type: "invalid leaf_type", leaf_cycle: "invalid leaf_cycle" },
@@ -4141,7 +4145,7 @@ const SEX_SVG = {
   male: '<circle cx="9" cy="15" r="6"/><path d="M13.5 10.5 21 3M15 3h6v6"/>',
   female: '<circle cx="12" cy="9" r="6"/><path d="M12 15v8M8 19.5h8"/>'
 };
-const SEX_PHOTO = { "Ginkgo biloba": { female: "Gingko_biloba_seeds.jpg", male: "Ginkgo_biloba_Inflorescences.jpg" } };
+const SEX_PHOTO = { "Ginkgo biloba": { female: "Gingko_biloba_seeds.jpg", male: "Ginkgo_biloba_Inflorescences.jpg" }, "Acer negundo": { female: "Acer_negundo_female_flowers_-_Keila.jpg", male: "Acer_negundo_31685019.jpg" } };
 // Chiave di una tabella per specie o genere (L.sexTraits, SEX_PHOTO, SEX_SEASON) per un albero: prima la specie (senza
 // autore; anche seguita da varietà o cultivar), poi il genere (tag genus=* o prima parola della specie)
 function sexKey(p, table) {
@@ -4243,8 +4247,10 @@ const issueBase = (i, p) => {
     case "species_typo": return T[i](p.species, p.sp_sugg);   // sp_sugg: fetch_trees.py
     case "species_unidentified": return T[i](p.species, p.sp_genus);   // sp_genus, sp_clean, und_keys: fetch_trees.py
     case "species_author": return T[i](p.species, p.sp_clean);
-    // sp_sci, sp_cn_genus (genere di un nome comune: species=Horse Chestnut -> Aesculus): fetch_trees.py
-    case "species_epithet_case": case "species_common_name": return T[i](p.species, p.sp_sci, p.sp_cn_genus);
+    // sp_sci, sp_cn_genus (genere di un nome comune: species=Horse Chestnut -> Aesculus), sp_cn_sp (sp_sci è la specie
+    // di un nome comune della lista: species=American Chestnut -> Castanea dentata), sp_cn_kv (il nome in species:xx o
+    // genus:xx): fetch_trees.py
+    case "species_epithet_case": case "species_common_name": return T[i](p.species, p.sp_sci, p.sp_cn_genus, p.sp_cn_kv, p.sp_cn_sp);
     case "species_parentheses": return T[i](p.species);
     case "not_a_tree": return T[i](p.nt_sp);                                  // nt_sp: fetch_trees.py
     case "underscore": return String(p.und_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");
@@ -4368,7 +4374,7 @@ const issueBase = (i, p) => {
     case "genus_mismatch": return T[i](p.genus, p.species, p.gm_fix);   // gm_fix: fetch_trees.py
     // sp_as_genus: species è un genere; sp_common_genus: è il nome comune di un genere (fetch_trees.py)
     case "species": return p.sp_as_genus ? T.species_as_genus(p.species, p.sp_as_genus)
-      : p.sp_common_genus ? T.species_common_genus(p.species, p.sp_common_genus) : T[i];
+      : p.sp_common_genus ? T.species_common_genus(p.species, p.sp_common_genus, p.sp_common_kv) : T[i];
     default: return T[i] || i;
   }
 };
@@ -4734,6 +4740,10 @@ const HINT_FIXES = [
 // mancano (sp_fix_wd, sp_fix_lt, sp_fix_lc); non genus, già implicito in species
 const spFixExtras = p => [["species:wikidata", p.sp_fix_wd, "add species:wikidata", true],
   ["leaf_type", p.sp_fix_lt, "add leaf_type", true], ["leaf_cycle", p.sp_fix_lc, "add leaf_cycle", true]];
+// "genus:pl=Brzoza" (sp_common_kv, sp_cn_kv: fetch_trees.py controlla che il tag manchi) -> riga da aggiungere
+const kvFix = (kv, why = "common name of the genus in genus:xx") => {
+  const s = String(kv || ""), j = s.indexOf("=");
+  return j > 0 ? [[s.slice(0, j), s.slice(j + 1), why, true]] : []; };
 const FIXES = {
   // con anche un refuso nel nome (sp_fix) la species corretta è quella della lista, la stessa di species_typo
   species_author: [p => [["species", p.sp_fix || p.sp_clean], ...spFixExtras(p)], "remove the author name from species"],
@@ -4744,7 +4754,7 @@ const FIXES = {
   species: [p => {
     const g = p.sp_as_genus || p.sp_common_genus, norm = v => String(v || "").replace(/^\s*×\s*/, "").trim().toLowerCase();
     if (!g || (norm(p.genus) && norm(p.genus) !== norm(g))) return [];
-    return [["species", REMOVE], ...norm(p.genus) ? [] : [["genus", g, undefined, true]]];
+    return [["species", REMOVE], ...norm(p.genus) ? [] : [["genus", g, undefined, true]], ...kvFix(p.sp_common_kv)];
   }, "genus instead of single-word species"],
   // natural non è tra le proprietà della feature: il vecchio valore (quinto elemento) è tree, l'unico per cui scatta
   not_a_tree: [p => [["natural", "plant", undefined, false, "tree"]], "plant that is not a tree: natural=plant"],
@@ -4760,12 +4770,18 @@ const FIXES = {
   genus_common_name: [p => { const kv = String(p.g_common_kv || ""), j = kv.indexOf("=");
     return [["genus", p.g_common], ...j > 0 ? [[kv.slice(0, j), kv.slice(j + 1), "common name of the genus in genus:xx", true]] : []]; },
     "scientific name in genus instead of the common name"],
-  // species nome comune con un genere certo (sp_cn_genus, fetch_trees.py): species si toglie e diventa genus, se manca;
-  // con un genus diverso la correzione non è certa
+  // species nome comune di una specie della lista (sp_cn_sp, fetch_trees.py): species diventa quella specie (genus resta
+  // com'è: fetch_trees.py controlla che sia lo stesso genere), con species:wikidata, leaf_type e leaf_cycle che mancano.
+  // Nome comune con un genere certo (sp_cn_genus): species si toglie e diventa genus, se manca; con un genus diverso la
+  // correzione non è certa. In entrambi i casi il nome comune passa in species:xx o genus:xx (sp_cn_kv), se manca
   species_common_name: [p => {
+    if (p.sp_cn_sp && p.sp_sci) return [["species", p.sp_sci, "scientific name in species instead of the common name"],
+      ...kvFix(p.sp_cn_kv, "common name of the species in species:xx"),
+      ["species:wikidata", p.sp_cn_wd, "add species:wikidata", true], ["leaf_type", p.sp_cn_lt, "add leaf_type", true],
+      ["leaf_cycle", p.sp_cn_lc, "add leaf_cycle", true]];
     const g = p.sp_cn_genus, norm = v => String(v || "").replace(/^\s*×\s*/, "").trim().toLowerCase();
     if (!g || (norm(p.genus) && norm(p.genus) !== norm(g))) return [];
-    return [["species", REMOVE], ...norm(p.genus) ? [] : [["genus", g, undefined, true]]];
+    return [["species", REMOVE], ...norm(p.genus) ? [] : [["genus", g, undefined, true]], ...kvFix(p.sp_cn_kv)];
   }, "genus instead of the common name in species"],
   // species:wikidata di rango genere (wd_rank_g, fetch_trees.py): il QID passa in genus:wikidata, più genus se mancano
   // genus e species. species:wikidata non è tra le proprietà: il vecchio valore (quinto elemento) viene da wd_rank
