@@ -38,7 +38,7 @@
     {"key": "species", "value": "Taxodium distichum", "object_types": ["node"], "description": "Rendered with a russet crown in autumn (October–November in the northern hemisphere)."},
     {"key": "species", "value": "Metasequoia glyptostroboides", "object_types": ["node"], "description": "Rendered with a russet crown in autumn (October–November in the northern hemisphere)."},
     {"key": "species", "value": "Elaeagnus angustifolia", "object_types": ["node"], "description": "Rendered with a silver crown while in leaf (April–October in the northern hemisphere)."},
-    {"key": "species", "value": "Populus alba", "object_types": ["node"], "description": "Rendered with a dull green crown with silvery spots, yellow with light spots in autumn, and with a light grey trunk with diamond-shaped lenticels (dark at the edges from 1.5 m of circumference), on the map and in the trunk comparison drawing."},
+    {"key": "species", "value": "Populus alba", "object_types": ["node"], "description": "Rendered with a dull green crown with silvery spots, yellow with light spots in autumn, and with a light grey trunk (dark at the edges from 1.5 m of circumference), on the map and in the trunk comparison drawing, where the young trunk also has diamond-shaped lenticels."},
     {"key": "species", "value": "Picea pungens", "object_types": ["node"], "description": "Rendered with a blue-grey crown, all year."},
     {"key": "species", "value": "Eucalyptus cinerea", "object_types": ["node"], "description": "Rendered with a silver-blue crown, all year."},
     {"key": "species", "value": "Eucalyptus pulverulenta", "object_types": ["node"], "description": "Rendered with a silver-blue crown, all year."},

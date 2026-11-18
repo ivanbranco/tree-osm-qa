@@ -2227,31 +2227,16 @@ map.on("load", async () => {
   // rosso-arancio per l'acero cannella (Acer griseum), dalla corteccia lucida che si sfoglia: colore scelto
   // confrontando le foto della corteccia su Commons (#29)
   const CINNAMON_BARK = ["==", ["slice", ["coalesce", ["get", "species"], ""], 0, 12], "Acer griseum"];
-  // pioppo bianco (Populus alba, ALBA_OLD_C): giovane grigio chiaro con un bordo grigio come la betulla, e sopra
-  // un'immagine con le lenticelle a rombo lungo il bordo; vecchio (raggio del tronco da ALBA_OLD_C m di circonferenza)
-  // un'immagine chiara al centro e scura ai bordi. Il cerchio sotto resta per i clic e il bordo, come per l'arcobaleno
+  // pioppo bianco (Populus alba, ALBA_OLD_C): giovane grigio chiaro con un bordo grigio come la betulla, senza
+  // lenticelle (sotto ALBA_OLD_C il tronco ha un raggio di al massimo 2-3 px a zoom 19: non si vedrebbero); vecchio
+  // (raggio del tronco da ALBA_OLD_C m di circonferenza) un'immagine chiara al centro e scura ai bordi. Il cerchio sotto
+  // resta per i clic, come per l'arcobaleno
   const ALBA_BARK = ["==", ["slice", ["coalesce", ["get", "species"], ""], 0, 12], "Populus alba"];
   const ALBA_OLD = ["all", ALBA_BARK, [">=", ["coalesce", ["get", "tr"], 0], ALBA_OLD_C / (2 * Math.PI)]];
   const ALBA_YOUNG = ["all", ALBA_BARK, ["!", ALBA_OLD]];
   const TRUNK_COLOR = ["case", WHITE_BARK, "#f4f1e8", CINNAMON_BARK, "#b5532b", ALBA_OLD, "#57534b", ALBA_BARK, "#d3d3ca", "#7b4a1e"];
   {
     const S = 128, R = S / 2;
-    // giovane: solo i rombi (il grigio è il cerchio sotto), 3 disposizioni diverse; ogni albero ne ruota una a caso
-    for (let v = 0; v < 3; v++) {
-      const c = document.createElement("canvas"); c.width = c.height = S;
-      const g = c.getContext("2d"), rnd = seededRnd(v + 1);
-      g.fillStyle = "#4a4a44";
-      for (let i = 0, k = 0; i < 22 && k < 400; k++) {
-        const x = (rnd() * 2 - 1) * R, y = (rnd() * 2 - 1) * R, d = Math.hypot(x, y);
-        const w = 5.5 * (0.8 + 0.6 * rnd());                 // metà della lunghezza del rombo
-        if (d > R - w - 2 || d < w * 1.2) continue;
-        const a = Math.atan2(y, x) + Math.PI / 2, ca = Math.cos(a), sa = Math.sin(a), hh = w * 0.45;
-        g.beginPath();
-        [[-w, 0], [0, -hh], [w, 0], [0, hh]].forEach(([u, t]) => g.lineTo(R + x + u * ca - t * sa, R + y + u * sa + t * ca));
-        g.closePath(); g.fill(); i++;
-      }
-      map.addImage("alba-bark-" + v, g.getImageData(0, 0, S, S), { pixelRatio: 2 });
-    }
     const c = document.createElement("canvas"); c.width = c.height = S;
     const g = c.getContext("2d"), gr = g.createRadialGradient(R, R, 0, R, R, R);
     gr.addColorStop(0, "#bdbab1"); gr.addColorStop(0.55, "#8f8b81"); gr.addColorStop(1, "#57534b");
@@ -2323,11 +2308,9 @@ map.on("load", async () => {
       source: tier.src, minzoom: SHAPE_Z, layout: { "icon-image": "rainbow-bark", "icon-size": radius("tr", 1.5, 32),
         "icon-allow-overlap": true, "icon-ignore-placement": true, "icon-pitch-alignment": "map", "icon-rotation-alignment": "map" },
       paint: { "icon-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1] } }) },
-    // pioppo bianco: lenticelle (una delle 3 immagini, ruotata a caso dall'id) o corteccia vecchia, sopra il tronco
-    { id: "trunk-alba", base: ["all", ALBA_BARK, ["has", "tr"], ["!", ["has", "stems"]]], spec: tier => ({ type: "symbol",
-      source: tier.src, minzoom: SHAPE_Z, layout: { "icon-image": ["case", ALBA_OLD, "alba-bark-old",
-        ["concat", "alba-bark-", ["to-string", ["%", ["coalesce", ["get", "id"], 0], 3]]]],
-        "icon-rotate": ["%", ["*", ["coalesce", ["get", "id"], 0], 47], 360], "icon-size": radius("tr", 1.5, 32),
+    // pioppo bianco vecchio: corteccia chiara al centro e scura ai bordi, sopra il tronco
+    { id: "trunk-alba", base: ["all", ALBA_OLD, ["has", "tr"], ["!", ["has", "stems"]]], spec: tier => ({ type: "symbol",
+      source: tier.src, minzoom: SHAPE_Z, layout: { "icon-image": "alba-bark-old", "icon-size": radius("tr", 1.5, 32),
         "icon-allow-overlap": true, "icon-ignore-placement": true, "icon-pitch-alignment": "map", "icon-rotation-alignment": "map" },
       paint: { "icon-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1] } }) },
     { id: "stem", base: ["==", ["get", "dk"], "stem"], spec: () => ({ type: "circle", source: "deco", minzoom: SHAPE_Z, paint: {
@@ -5463,8 +5446,8 @@ const planKind = p => ({ palm: "palm", needleleaved: "spiky", broadleaved: "blob
 // Disegno: rings = [{ d diametro in m, mode "trunk" (tronco misurato), "typ" (tronco tipico) o "crown", n numero sul
 // bordo (primati), s specie (colore del tronco), kind e id (sagoma della chioma), t righe della didascalia }].
 // La scala è la più grande con cui il cerchio più grande e il riferimento entrano affiancati
-// lenticelle del pioppo bianco giovane sul tronco visto dall'alto: rombi sparsi orientati lungo il bordo, come le
-// immagini "alba-bark-*" della mappa (circa uno ogni 200 px², almeno 3)
+// lenticelle del pioppo bianco giovane sul tronco visto dall'alto: rombi sparsi orientati lungo il bordo (circa uno
+// ogni 200 px², almeno 3). Solo qui: sulla mappa il tronco giovane è troppo piccolo per mostrarle
 function planLenticels(cx, cy, R) {
   const n = Math.max(3, Math.round(Math.PI * R * R / 200)), f = v => +v.toFixed(2), rnd = seededRnd(7);
   let d = "";
