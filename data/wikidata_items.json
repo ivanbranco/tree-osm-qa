@@ -4577,7 +4577,9 @@
 "heritage": [],
 "image": "Muxika San Roman Besangiz21.jpg",
 "mon": true,
-"taxa": [],
+"taxa": [
+"Q218155"
+],
 "taxon": false,
 "wp": {}
 },
@@ -65117,7 +65119,7 @@
 "Q2946681": {
 "coords": [],
 "heritage": [],
-"image": "Prunus cerasus popr.jpg",
+"image": "Frühling blühender Kirschenbaum.jpg",
 "taxa": [],
 "taxon": true,
 "wp": {

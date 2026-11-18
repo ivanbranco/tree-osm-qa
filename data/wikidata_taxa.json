@@ -442,6 +442,12 @@
 ],
 "taxon": true
 },
+"Q104215163": {
+"en": "Alzina del Vent",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1042288": {
 "alias": {
 "en": [],
@@ -719,6 +725,12 @@
 "it": []
 },
 "en": "Suntan",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q106862688": {
+"en": "Kisulabe oak",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -1180,6 +1192,12 @@
 ],
 "taxon": true
 },
+"Q107976185": {
+"en": "Dragos Gemelos",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1079824": {
 "alias": {
 "en": [
@@ -1227,6 +1245,41 @@
 ],
 "taxon": true
 },
+"Q108472384": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q108472494": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q108472764": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q108472830": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q108472913": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q108473045": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q108473096": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q10855733": {
 "en": "Great Cedar of Kiyosumi",
 "names": [],
@@ -1270,6 +1323,31 @@
 },
 "Q10860801": {
 "en": "Jindai Zakura",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q108653756": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q108653804": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q108653911": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q108653954": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q108653996": {
 "names": [],
 "ranks": [],
 "taxon": false
@@ -3134,6 +3212,12 @@
 ],
 "taxon": true
 },
+"Q11681325": {
+"en": "El Carbayón",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q11695787": {
 "names": [],
 "ranks": [],
@@ -3313,6 +3397,12 @@
 "Q279749"
 ],
 "taxon": true
+},
+"Q11946352": {
+"en": "Rourde del Giol",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1196169": {
 "alias": {
@@ -5492,6 +5582,12 @@
 ],
 "taxon": true
 },
+"Q131290583": {
+"en": "Noguera dels Jardins del Mil·lenari",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q131372951": {
 "alias": {
 "en": [
@@ -7272,6 +7368,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q139988036": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q140334": {
 "alias": {
@@ -15773,6 +15874,12 @@
 ],
 "taxon": true
 },
+"Q17617949": {
+"en": "Lo Parot",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1768003": {
 "alias": {
 "en": [
@@ -15909,6 +16016,18 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q18005557": {
+"en": "Pi de Peixerani",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18005594": {
+"en": "Pi d'en Xandri",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1801446": {
 "alias": {
@@ -16306,6 +16425,12 @@
 "Q279749"
 ],
 "taxon": true
+},
+"Q18696330": {
+"en": "Arbre Monumental of Catalonia",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1869852": {
 "alias": {
@@ -17344,6 +17469,120 @@
 ],
 "taxon": true
 },
+"Q20986069": {
+"en": "Pi de Bofarull",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21013367": {
+"en": "Alzina de Can Gol",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21013376": {
+"en": "Plataner de Vila-sana",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042493": {
+"en": "Alzina de Can Cotet",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042500": {
+"en": "Alzina de Pelleu",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042507": {
+"en": "Avet de la Cremada",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042512": {
+"en": "Clop de Bernat",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042518": {
+"en": "Freixe d'Aiguaviva",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042526": {
+"en": "Lledoner de l'Estació",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042530": {
+"en": "Pi de Cal Pino",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042538": {
+"en": "Plàtana Grossa d'en Massot",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042545": {
+"en": "Roure de la Senyora",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042548": {
+"en": "Roure del Corp de Montardit",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042550": {
+"en": "Roures dels Vilars de Valldarques",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042553": {
+"en": "Suro del Mas Perxés",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042556": {
+"en": "Teix d'Engrilló",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21042557": {
+"en": "Teix del Torrent de l'Orri",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21082794": {
+"en": "Faig Pare",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21086069": {
+"en": "Pi de les Planes",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2109862": {
 "alias": {
 "en": [
@@ -17491,6 +17730,42 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q21192799": {
+"en": "Alzina de Can Coniller",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21192801": {
+"en": "Alzina de Can Felip Neri",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21192805": {
+"en": "Alzina de Can Torres",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21192890": {
+"en": "Pinassa de la Castellassa del Dalmau",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21192938": {
+"en": "Teix de l'Obac",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q21263251": {
+"en": "Surera de Burriac",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q21270163": {
 "alias": {
@@ -18481,6 +18756,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q24055170": {
+"en": "Alzina de la Font de Can Massanet",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q2406286": {
 "en": "Chêne de Saeul",
@@ -25626,6 +25907,12 @@
 ],
 "taxon": true
 },
+"Q47495576": {
+"en": "Pino Vicente Tortajada",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q4754500": {
 "alias": {
 "en": [],
@@ -25916,6 +26203,12 @@
 "Q4886"
 ],
 "taxon": true
+},
+"Q4892849": {
+"en": "Pi de les Tres Branques",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q4925668": {
 "alias": {
@@ -27076,6 +27369,12 @@
 ],
 "taxon": true
 },
+"Q54823827": {
+"en": "Ahuehuete del Parterre",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q549418": {
 "alias": {
 "en": [
@@ -27491,6 +27790,12 @@
 ],
 "taxon": true
 },
+"Q5756743": {
+"en": "Castaño Santo",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q576585": {
 "alias": {
 "en": [
@@ -27592,6 +27897,12 @@
 ],
 "taxon": true
 },
+"Q5814115": {
+"en": "Drago de Icod de los Vinos",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q58210870": {
 "en": "Chêne du Pouldu",
 "names": [],
@@ -27654,6 +27965,12 @@
 },
 "Q5845065": {
 "en": "Olivera, Buenos Aires",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q5848708": {
+"en": "Estalaya",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -27841,6 +28158,11 @@
 ],
 "taxon": true
 },
+"Q5998063": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q601203": {
 "alias": {
 "en": [],
@@ -27922,6 +28244,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q6050016": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q6051158": {
 "alias": {
@@ -28017,6 +28344,12 @@
 "Q4886"
 ],
 "taxon": true
+},
+"Q6094387": {
+"en": "Quejigo del Amo",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q61105": {
 "alias": {
@@ -29151,6 +29484,12 @@
 ],
 "taxon": true
 },
+"Q71826359": {
+"en": "El Fadrí",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q7199152": {
 "alias": {
 "en": [
@@ -29436,6 +29775,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q73509815": {
+"en": "Taray del Gallo",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q738571": {
 "alias": {
@@ -30252,6 +30597,13 @@
 ],
 "taxon": true
 },
+"Q811534": {
+"en": "remarkable tree",
+"it": "pianta monumentale",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q81513": {
 "alias": {
 "en": [
@@ -30336,6 +30688,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q8262943": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q833994": {
 "alias": {
@@ -31429,6 +31786,17 @@
 ],
 "taxon": true
 },
+"Q9082331": {
+"en": "Bermiego Yew",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q9082336": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q910358": {
 "alias": {
 "en": [
@@ -31610,6 +31978,13 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q919957": {
+"en": "Gernikako Arbola",
+"it": "gernikako Arbola",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q920344": {
 "alias": {
@@ -31893,6 +32268,13 @@
 },
 "Q93845211": {
 "en": "Natural monument \"Ginkgo biloba\"",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q93981692": {
+"en": "Encina de la Peana",
+"it": "Encina de la Peana",
 "names": [],
 "ranks": [],
 "taxon": false
