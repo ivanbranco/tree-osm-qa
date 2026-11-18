@@ -1591,6 +1591,9 @@ const radius = (prop, minPx, div = 1) => ["interpolate", ["exponential", 2], ["z
 // MASAF (mg, fetch_trees.py); come hasDen sulla mappa
 const isMon = p => !!p.imp || !!p.mg || String(p.denotation || "").split(";").some(v => v.trim() === "natural_monument");
 const leafOf = p => p.lt || p.leaf_type;   // lt = leaf_type stimato dalle liste quando il tag manca; palm per le palme, anche con un altro leaf_type (#55)
+// leaf_type da proporre quando manca: lt, ma palm non si propone mai (#55: tollerato, non suggerito); per le palme
+// si propone il valore delle liste (lts, di solito broadleaved), se c'è
+const ltSuggest = p => p.leaf_type ? null : p.lt === "palm" ? p.lts : p.lt;
 // Alberi di Natale (xmas:feature=tree, #7): dall'8 dicembre al 6 gennaio, nella data di chi guarda, chioma
 // aghifoglia con lucine colorate e stella. #xmas=1 nell'indirizzo li mostra anche fuori periodo (per provarli).
 const XMAS = (() => { const d = new Date(), m = d.getMonth() + 1, g = d.getDate();
@@ -4794,7 +4797,7 @@ const HINT_FIXES = [
       : [["species", p.sp_base, w], ...im.map(([k, v]) => [k, v, w]), ["species:wikidata", p.sp_base_wd, "add species:wikidata"],
         ["leaf_type", p.sp_base_lt, "add leaf_type"], ["leaf_cycle", p.sp_base_lc, "add leaf_cycle"]]; }, ""],
   [p => p.stump || p["masaf:criteria"] ? [] : [["masaf:criteria", p.hint_mc]], "add masaf:criteria"],
-  [p => p.stump ? [] : [["leaf_type", !p.leaf_type && p.lt]], "add leaf_type"],
+  [p => p.stump ? [] : [["leaf_type", ltSuggest(p)]], "add leaf_type"],
   [p => p.stump ? [] : [["leaf_cycle", !p.leaf_cycle && p.lc]], "add leaf_cycle"],
   // wikimedia_commons sostituisce image (non vanno insieme): solo con un valore solo in image
   [p => { const f = !String(p.image || "").includes(";") && commonsOfImage(p);
@@ -5657,7 +5660,7 @@ function hints(p, pos) {
   // leaf_type / leaf_cycle mancanti (non sbagliati: quelli sono errori), stimati dalle liste della wiki
   // I valori presi dal genere (lg, lgk: specie non nella lista, fetch_trees.py) si attribuiscono al genere, gli altri
   // alla specie: due consigli solo se la specie dà un valore e il genere l'altro
-  const name = p.sp_clean || p.species || p.genus, lt = !p.leaf_type && p.lt, lc = !p.leaf_cycle && p.lc;   // sp_clean: senza autore
+  const name = p.sp_clean || p.species || p.genus, lt = ltSuggest(p), lc = !p.leaf_cycle && p.lc;   // sp_clean: senza autore
   const lgk = p.lg ? String(p.lgk || "") : "";
   for (const [n, g] of [[name, false], [p.lg, true]]) {
     const tags = [lt && lgk.includes("t") === g && `leaf_type=${lt}`, lc && lgk.includes("c") === g && `leaf_cycle=${lc}`].filter(Boolean);

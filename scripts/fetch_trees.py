@@ -1348,10 +1348,14 @@ def leaf_species_ref(t, key):
 
 
 def leaf_type_estimate(t):
-    """leaf_type ricavato dalle liste della wiki: dalla specie; se non è nella lista, dal genere. Per le palme
-    (is_palm) è sempre palm."""
-    if is_palm(t):
-        return "palm"
+    """leaf_type per il disegno: per le palme (is_palm) palm, altrimenti quello delle liste (leaf_type_list)."""
+    return "palm" if is_palm(t) else leaf_type_list(t)
+
+
+def leaf_type_list(t):
+    """leaf_type ricavato dalle liste della wiki: dalla specie; se non è nella lista, dal genere. È il valore che si
+    propone quando manca: palm non si propone mai (#55: leaf_type=palm è tollerato, non suggerito), e per le palme
+    le liste danno broadleaved."""
     if ref := leaf_species_ref(t, "leaf_type"):
         return ref["leaf_type"]
     g = genus_ref(t)
@@ -2438,7 +2442,7 @@ def species_lang_extras(t, species, prefix="sp_lang_"):
     out = {}
     if "species:wikidata" not in t and (q := list_qid(species) or cached_species_qid(species)):
         out[prefix + "wd"] = q
-    if "leaf_type" not in t and (lt := leaf_type_estimate(t2)):
+    if "leaf_type" not in t and (lt := leaf_type_list(t2)):
         out[prefix + "lt"] = lt
     if "leaf_cycle" not in t and (lc := leaf_cycle_estimate(t2)):
         out[prefix + "lc"] = lc
@@ -3036,14 +3040,20 @@ def to_feature(el, fast=True):
         # needleleaved): il sito disegna lt prima di leaf_type (#55). leafless resta com'è
         if t.get("leaf_type") not in LEAF_TYPE and (est := leaf_type_estimate(t)):
             p["lt"] = est
+            # lt=palm è solo per il disegno: il valore da proporre (consiglio, Fix with JOSM) è quello delle liste
+            # (lts), di solito broadleaved; senza lts non si propone niente
+            if est == "palm" and (lts := leaf_type_list(t)):
+                p["lts"] = lts
         elif t.get("leaf_type") in ("broadleaved", "needleleaved") and is_palm(t):
             p["lt"] = "palm"
         if t.get("leaf_cycle") not in LEAF_CYCLE and (est := leaf_cycle_estimate(t)):
             p["lc"] = est
         # stime prese dal genere (specie assente dalla lista): lg = nome del genere, lgk = quali ("t" leaf_type,
         # "c" leaf_cycle), perché il consiglio della scheda nomini il genere e non la specie
+        # (lt=palm senza lts non conta: non si propone)
         lgk = "".join(k for k, key, prop in (("t", "leaf_type", "lt"), ("c", "leaf_cycle", "lc"))
-                      if prop in p and not leaf_species_ref(t, key))
+                      if prop in p and not (prop == "lt" and p["lt"] == "palm" and "lts" not in p)
+                      and not leaf_species_ref(t, key))
         if lgk and (g := genus_ref(t)):
             p["lg"], p["lgk"] = g[0], lgk
     if wd_img := wikidata_image(t):   # per la scheda, se l'albero non ha altre immagini

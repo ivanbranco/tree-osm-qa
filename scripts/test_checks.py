@@ -47,6 +47,7 @@ _GENERA = {
     "Magnolia": {"leaf_type": "broadleaved", "leaf_cycle": ["deciduous", "evergreen"]},
     "Yucca": {"leaf_type": "broadleaved", "leaf_cycle": ["evergreen"]},
     "Cycas": {"leaf_type": "needleleaved", "leaf_cycle": ["evergreen"]},
+    "Trachycarpus": {"leaf_type": "broadleaved", "leaf_cycle": ["evergreen"]},   # palma: nella lista è broadleaved
 }
 _DEN = {"natural_monument": 50000, "urban": 100000, "avenue": 50000, "park": 20000, "rarevalue": 3}
 
@@ -332,6 +333,9 @@ CASES = [
     ("leaf_type=palm su una latifoglia", {**OAK, "leaf_type": "palm"}, ["leaf_type_mismatch"]),
     ("leaf_type=palm su una pianta dall'aspetto di palma", {"natural": "tree", "genus": "Yucca", "leaf_type": "palm"},
      []),
+    ("leaf_type=palm su una palma che la lista dà broadleaved", {"natural": "tree", "genus": "Trachycarpus", "leaf_type": "palm"},
+     []),
+    ("leaf_type=broadleaved su una palma", {"natural": "tree", "genus": "Trachycarpus", "leaf_type": "broadleaved"}, []),
     ("leaf_types in whitelist: broadleaved", {"natural": "tree", "genus": "Cycas", "leaf_type": "broadleaved"}, []),
     ("leaf_types in whitelist: palm, genere da species",
      {"natural": "tree", "species": "Cycas revoluta", "leaf_type": "palm"}, []),
@@ -895,6 +899,16 @@ def feature_failures():
               ("non membro: niente mg, hint_ms", "mg" not in other and "hint_ms" in other),
               ("ceppo membro: resta un ceppo, senza mg", stump.get("stump") == 1 and "mg" not in stump),
               ("file ridotto: il membro c'è, l'albero qualsiasi no", f'"id":{MEMBER}' in small.decode() and '"id":9002' not in small.decode())]
+    # palme (#55): disegnate come palme (lt=palm), ma il leaf_type da proporre è quello della lista (lts), mai palm
+    palm = ft.to_feature(node(9005, {"natural": "tree", "genus": "Trachycarpus"}))["properties"]
+    palm_tagged = ft.to_feature(node(9006, {"natural": "tree", "genus": "Trachycarpus", "leaf_type": "palm"}))["properties"]
+    palm_nolist = ft.to_feature(node(9007, {"natural": "tree", "genus": "Washingtonia"}))["properties"]
+    checks += [("palma senza leaf_type: lt=palm, lts dalla lista", palm.get("lt") == "palm" and palm.get("lts") == "broadleaved"),
+               ("palma con leaf_type=palm: niente lt né lts", not {"lt", "lts"} & set(palm_tagged)),
+               ("palma fuori lista: lt=palm, niente lts né lgk=t", palm_nolist.get("lt") == "palm" and "lts" not in palm_nolist
+                and "t" not in palm_nolist.get("lgk", "")),
+               ("palma: species_lang_extras propone broadleaved",
+                ft.species_lang_extras({"natural": "tree"}, "Trachycarpus fortunei").get("sp_lang_lt") == "broadleaved")]
     out += [f"FALLITO: {n}" for n, ok in checks if not ok]
     return out
 
