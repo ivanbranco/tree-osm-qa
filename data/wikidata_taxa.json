@@ -9449,6 +9449,13 @@
 ],
 "taxon": true
 },
+"Q1520397": {
+"en": "Hundred Horse Chestnut",
+"it": "castagno dei Cento Cavalli",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1520764": {
 "alias": {
 "en": [
@@ -19807,7 +19814,6 @@
 "Acero platanoide"
 ]
 },
-"en": "Norway maple",
 "it": "Acero riccio",
 "names": [
 "Acer platanoides"
