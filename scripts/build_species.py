@@ -124,8 +124,19 @@ def species_colors():
     return out
 
 
-# corteccia di un colore proprio (TRUNK_COLOR in index.html: tenerli uguali)
-BARK = {"Betula utilis": "#f4f1e8", "Acer griseum": "#b5532b"}
+def species_spots():
+    """«Chiome a macchiette» di index.html (SPECIES_SPOTS): {specie: {"leaf": [chioma, macchietta, macchietta],
+    "autumn": [...]}}. Anche queste fanno dedicato il disegno della specie."""
+    src = (ROOT / "index.html").read_text(encoding="utf-8")
+    block = src[src.index("const SPECIES_SPOTS = {"):]
+    block = block[:block.index("};")]
+    cols = r'\[((?:"#[0-9a-fA-F]{6}",? ?){3})\]'
+    return {m.group(1): {"leaf": re.findall(r"#[0-9a-fA-F]{6}", m.group(2)), "autumn": re.findall(r"#[0-9a-fA-F]{6}", m.group(3))}
+            for m in re.finditer(r'"([A-Z][a-z]+ [a-z-]+)": \{ leaf: ' + cols + r', autumn: ' + cols + r' \}', block)}
+
+
+# corteccia di un colore proprio (TRUNK_COLOR in index.html: tenerli uguali; Populus alba: il colore del tronco giovane)
+BARK = {"Betula utilis": "#f4f1e8", "Acer griseum": "#b5532b", "Populus alba": "#d3d3ca"}
 
 
 _SEX_ENTRY = re.compile(r'(?:"([^"]+)"|([A-Z][a-z]+)): \{ female: ("(?:[^"\\]|\\.)*"),\s*male: ("(?:[^"\\]|\\.)*") \}')
@@ -475,6 +486,7 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
     return {
         "wp": wikipedia_info(qid),
         "spColor": species_colors().get(n),
+        "spots": species_spots().get(n),
         "bark": BARK.get(n),
         "sex": sex_info(n, s["sex"]),
         "synonyms": synonyms_of(n, s["syn"]),

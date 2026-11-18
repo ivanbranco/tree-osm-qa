@@ -537,10 +537,20 @@ function crownOutline(kind, id, r) {
 }
 const CYCLE_COLOR = lc => /^(semi_)?deciduous$/.test(lc) ? "#a5d64c" : /^(semi_)?evergreen$/.test(lc) ? "#1f6b35" : "#5fa36f";
 const AUTUMN_TONES = ["#e3b524", "#dd8a1f", "#b5502a", "#9a6b3a"];
-function treeSvg({ fill, opacity = 0.55, stroke = "#1b6b2c", sw = 1.2, fruits = null, id = 1234567, trunk = true }, cx = 100, cy = 100, r = 70) {
+// spots: [colore, colore] delle macchiette (SPECIES_SPOTS di index.html), sparse sulla chioma, 70% nel primo colore
+function treeSvg({ fill, opacity = 0.55, stroke = "#1b6b2c", sw = 1.2, fruits = null, id = 1234567, trunk = true, spots = null }, cx = 100, cy = 100, r = 70) {
   const kind = D.lt === "needleleaved" ? "spiky" : D.lt === "palm" ? "palm" : "blob";
   const pts = crownOutline(kind, id, r).map(([x, y]) => `${(cx + x).toFixed(1)},${(cy - y).toFixed(1)}`).join(" ");
   let s = `<polygon points="${pts}" fill="${fill}" fill-opacity="${opacity}" stroke="${stroke}" stroke-width="${sw}"/>`;
+  if (spots) {                                    // mulberry32 con seme fisso: le stesse macchiette a ogni apertura
+    let q = 12345;
+    const rnd = () => { q = (q + 0x6D2B79F5) >>> 0; let t = Math.imul(q ^ (q >>> 15), 1 | q);
+      t ^= t + Math.imul(t ^ (t >>> 7), 61 | t); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+    for (let k = 0; k < 90; k++) {
+      const a = rnd() * 2 * Math.PI, d = r * 0.9 * Math.sqrt(rnd()), c = rnd() < 0.7 ? spots[0] : spots[1];
+      s += `<circle cx="${(cx + d * Math.cos(a)).toFixed(1)}" cy="${(cy - d * Math.sin(a)).toFixed(1)}" r="${(r * 0.035).toFixed(2)}" fill="${c}" fill-opacity="0.9"/>`;
+    }
+  }
   if (trunk) s += `<circle cx="${cx}" cy="${cy}" r="${r * 0.11}" fill="${D.bark || "#7b4a1e"}"${D.bark ? ' stroke="#8a8a8a" stroke-width="0.8"' : ""}/>`;
   if (fruits) {                                   // 7 frutti come su una chioma grande (decoPoints in index.html)
     const nf = 7, rot = hash01(id, 2) * 2 * Math.PI;
@@ -573,8 +583,13 @@ function looks() {
   const base = CYCLE_COLOR(D.lc || "");
   const leafFill = scLeaf ? sc[0] : base;
   const leafSub = scLeaf && sc[1] ? monthList(sc[1]) : dec ? monthRange(4, 9) : T.evergreen;
-  const tiles = [tile(T.leaves, leafSub, treeSvg({ fill: leafFill, opacity: scLeaf ? 0.7 : 0.55 }), dec ? "leaves" : "", !!scLeaf)];
-  if (scAut) {
+  // chioma a macchiette (D.spots): colori propri con le foglie e in autunno, sul calendario di tutte le caducifoglie
+  const sp2 = D.spots;
+  const tiles = [sp2 ? tile(T.leaves, monthRange(4, 9), treeSvg({ fill: sp2.leaf[0], opacity: 0.7, spots: sp2.leaf.slice(1) }), "leaves", true)
+    : tile(T.leaves, leafSub, treeSvg({ fill: leafFill, opacity: scLeaf ? 0.7 : 0.55 }), dec ? "leaves" : "", !!scLeaf)];
+  if (sp2) {
+    tiles.push(tile(T.autumn, monthRange(10, 11), treeSvg({ fill: sp2.autumn[0], opacity: 0.7, spots: sp2.autumn.slice(1) }), "autumn", true));
+  } else if (scAut) {
     tiles.push(tile(T.autumn, monthList(sc[1]), treeSvg({ fill: sc[0], opacity: 0.7 }), "autumn", true));
   } else if (dec && broad) {
     const four = AUTUMN_TONES.map((c, i) => treeSvg({ fill: c, opacity: 0.7, id: 1234567 + i * 7919 }, 55 + (i % 2) * 90, 55 + Math.floor(i / 2) * 90, 40)).join("");

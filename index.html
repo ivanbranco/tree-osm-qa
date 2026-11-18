@@ -253,10 +253,11 @@
   .card .cmp-pick svg,.card .plan-pick svg{width:18px;height:15px;fill:none;stroke:currentColor;stroke-width:1.2}
   /* finestra con il disegno del tronco: i colori del disegno sono variabili, la pagina non ha un tema scuro.
      Tronchi con il colore della specie, come sulla mappa (issue #47): bianco (Betula utilis) con un bordo sottile
-     (--cmp-white-edge) che lo stacca dal fondo chiaro, rosso-arancio (Acer griseum); l'arcobaleno di Eucalyptus
-     deglupta è una sfumatura nel disegno */
+     (--cmp-white-edge) che lo stacca dal fondo chiaro, rosso-arancio (Acer griseum), grigio chiaro con lenticelle
+     (Populus alba, --cmp-alba); l'arcobaleno di Eucalyptus deglupta e il pioppo bianco vecchio sono sfumature */
   #cmp{--cmp-bg:#fff;--cmp-text:#222;--cmp-muted:#666;--cmp-trunk:#7b4a1e;--cmp-bark:#55310f;--cmp-ref:#8b929c;--cmp-ground:#555;
     --cmp-white:#f4f1e8;--cmp-white-edge:#8a8a8a;--cmp-white-bark:#a39d8c;--cmp-cin:#b5532b;--cmp-cin-bark:#6f2a12;
+    --cmp-alba:#d3d3ca;--cmp-alba-bark:#4a4a44;--cmp-alba-furrow:#28251f;
     --plan-crown:#5fa36f;--plan-crown-edge:#1b6b2c;
     width:440px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);box-sizing:border-box;padding:0;border:0;border-radius:8px;
     background:var(--cmp-bg);color:var(--cmp-text);box-shadow:0 4px 24px #0006;overflow-x:hidden;overflow-y:auto;outline:none}
@@ -457,7 +458,7 @@ const I18N = {
       legStump: "natural=tree_stump",
       legRow: "natural=tree_row senza alberi mappati tra i suoi nodi: alberi disegnati lungo la linea, uno ogni 7 m circa, con leaf_type e leaf_cycle del filare o stimati dalla specie. Non sono alberi di OpenStreetMap: non si contano e non si possono aprire (da zoom 16)",
       legXmas: "xmas:feature=tree (dall'8 dicembre al 6 gennaio, da zoom 16)",
-      legColors: "Colore della chioma dalla specie. Autunno: rosso species=Quercus rubra · Liquidambar styraciflua · Nyssa sylvatica · Acer rubrum (ottobre e novembre); giallo Ginkgo biloba (novembre) · Larix decidua (ottobre e novembre); bruno-arancio Taxodium distichum · Metasequoia glyptostroboides (ottobre e novembre). Argento Elaeagnus angustifolia (da aprile a ottobre). Azzurro Picea pungens · Eucalyptus cinerea · Eucalyptus pulverulenta (tutto l'anno). Nell'emisfero sud i mesi si spostano di 6. I colori autunnali ci sono solo con le stagioni attive (voce «Caducifoglia»)",
+      legColors: "Colore della chioma dalla specie. Autunno: rosso species=Quercus rubra · Liquidambar styraciflua · Nyssa sylvatica · Acer rubrum (ottobre e novembre); giallo Ginkgo biloba (novembre) · Larix decidua (ottobre e novembre); bruno-arancio Taxodium distichum · Metasequoia glyptostroboides (ottobre e novembre). Argento Elaeagnus angustifolia (da aprile a ottobre). Verde opaco con macchiette argentate Populus alba, giallo con macchiette chiare in autunno. Azzurro Picea pungens · Eucalyptus cinerea · Eucalyptus pulverulenta (tutto l'anno). Nell'emisfero sud i mesi si spostano di 6. I colori autunnali ci sono solo con le stagioni attive (voce «Caducifoglia»)",
       legBroad: "leaf_type=broadleaved, o stimato",
       legPalm: "leaf_type=palm · taxon:family, family o taxon=Arecaceae · taxon:en=Palm · crown_type=I · genus o species di una palma (Phoenix, Washingtonia, Trachycarpus…), anche con un altro leaf_type",
       legNeedle: "leaf_type=needleleaved, o stimato",
@@ -727,7 +728,7 @@ const I18N = {
       "Schinus molle": { female: "Le femmine portano grappoli penduli di piccole drupe rosa-rosse, simili a grani di pepe, che restano a lungo sulla pianta.",
         male: "I maschi portano pannocchie pendule di piccoli fiori bianco-giallastri, e non producono frutti." },
     },
-    sexPhotoAlt: { "Ginkgo biloba": { female: "Semi di Ginkgo biloba", male: "Coni maschili di Ginkgo biloba" }, "Acer negundo": { female: "Fiori femminili di Acer negundo", male: "Infiorescenze maschili di Acer negundo" } },
+    sexPhotoAlt: { "Ginkgo biloba": { female: "Semi di Ginkgo biloba", male: "Coni maschili di Ginkgo biloba" }, "Acer negundo": { female: "Fiori femminili di Acer negundo", male: "Infiorescenze maschili di Acer negundo" }, "Populus nigra": { female: "Amenti femminili di Populus nigra", male: "Amenti maschili di Populus nigra" }, "Populus alba": { female: "Amenti femminili di Populus alba", male: "Amenti maschili di Populus alba" }, "Taxus baccata": { female: "Semi di Taxus baccata con l'arillo rosso", male: "Coni maschili di Taxus baccata" } },
     fromDiameter: " (da diameter)",
     // finestra «Tronco a confronto» (issue #14), dall'iconcina accanto all'altezza o dal tasto C
     cmp: { title: "Tronco a confronto", close: "Chiudi", pick: "Confronta con il tronco tipico (tasto C)",
@@ -1028,7 +1029,7 @@ const I18N = {
       legStump: "natural=tree_stump",
       legRow: "natural=tree_row with no mapped trees among its nodes: trees drawn along the line, about one every 7 m, with the row's leaf_type and leaf_cycle or estimated from the species. They are not OpenStreetMap trees: they are not counted and cannot be opened (from zoom 16)",
       legXmas: "xmas:feature=tree (from 8 December to 6 January, from zoom 16)",
-      legColors: "Crown colour from the species. Autumn: red species=Quercus rubra · Liquidambar styraciflua · Nyssa sylvatica · Acer rubrum (October and November); yellow Ginkgo biloba (November) · Larix decidua (October and November); russet Taxodium distichum · Metasequoia glyptostroboides (October and November). Silver Elaeagnus angustifolia (April to October). Blue Picea pungens · Eucalyptus cinerea · Eucalyptus pulverulenta (all year). In the southern hemisphere the months shift by 6. Autumn colours need the seasons on (“Deciduous” entry)",
+      legColors: "Crown colour from the species. Autumn: red species=Quercus rubra · Liquidambar styraciflua · Nyssa sylvatica · Acer rubrum (October and November); yellow Ginkgo biloba (November) · Larix decidua (October and November); russet Taxodium distichum · Metasequoia glyptostroboides (October and November). Silver Elaeagnus angustifolia (April to October). Dull green with silvery spots Populus alba, yellow with light spots in autumn. Blue Picea pungens · Eucalyptus cinerea · Eucalyptus pulverulenta (all year). In the southern hemisphere the months shift by 6. Autumn colours need the seasons on (“Deciduous” entry)",
       legBroad: "leaf_type=broadleaved, or estimated",
       legPalm: "leaf_type=palm · taxon:family, family or taxon=Arecaceae · taxon:en=Palm · crown_type=I · genus or species of a palm (Phoenix, Washingtonia, Trachycarpus…), even with another leaf_type",
       legNeedle: "leaf_type=needleleaved, or estimated",
@@ -1275,7 +1276,7 @@ const I18N = {
       "Schinus molle": { female: "Females bear hanging clusters of small pinkish-red drupes, like peppercorns, that stay on the tree for a long time.",
         male: "Males bear hanging panicles of small yellowish-white flowers, and produce no fruits." },
     },
-    sexPhotoAlt: { "Ginkgo biloba": { female: "Ginkgo biloba seeds", male: "Ginkgo biloba male cones" }, "Acer negundo": { female: "Acer negundo female flowers", male: "Acer negundo male inflorescences" } },
+    sexPhotoAlt: { "Ginkgo biloba": { female: "Ginkgo biloba seeds", male: "Ginkgo biloba male cones" }, "Acer negundo": { female: "Acer negundo female flowers", male: "Acer negundo male inflorescences" }, "Populus nigra": { female: "Populus nigra female catkins", male: "Populus nigra male catkins" }, "Populus alba": { female: "Populus alba female catkins", male: "Populus alba male catkins" }, "Taxus baccata": { female: "Taxus baccata seeds with red arils", male: "Taxus baccata male cones" } },
     fromDiameter: " (from diameter)",
     cmp: { title: "Trunk comparison", close: "Close", pick: "Compare with the typical trunk (C key)",
       pickScale: "View the tree to scale (C key)",
@@ -1614,6 +1615,20 @@ const SPECIES_COLORS = {
   "Picea pungens": ["#7d9cb5", null],                   // abete del Colorado: aghi blu-grigi
   "Eucalyptus cinerea": ["#9db4c0", null],              // eucalipti con foglie argento-azzurre tutto l'anno
   "Eucalyptus pulverulenta": ["#9db4c0", null] };
+// Chiome a macchiette: specie con due colori propri che seguono il calendario delle stagioni come le altre
+// caducifoglie (con i giorni di anticipo o ritardo), uno con le foglie e uno in autunno, e da zoom 17 una macchietta
+// più chiara ogni metro quadro circa (SPOT_DENSITY), in due toni a caso. Populus alba: pagina superiore verde opaco e
+// inferiore bianco-feltrosa, che il vento rovescia; in autunno gialla. [colore della chioma, macchietta, macchietta]
+// per le foglie (leaf) e per l'autunno (autumn). Spenti con i colori delle specie; spoglio come le altre
+const SPECIES_SPOTS = {
+  "Populus alba": { leaf: ["#6f8a5f", "#b4c2a6", "#a3b396"], autumn: ["#d9bf45", "#f0e3a3", "#e9da8f"] } };
+// genere ed epiteto di species=* (anche con autore, varietà o cultivar; non con più valori): chiave di SPECIES_COLORS e
+// SPECIES_SPOTS
+const speciesKey = s => { const m = /^([A-Z][a-z]+) ([a-z-]+)/.exec(String(s || "")); return m && !String(s).includes(";") ? m[1] + " " + m[2] : ""; };
+// Tronco di Populus alba (anche nel «Tronco a confronto» e nel tronco visto dall'alto): grigio chiaro con lenticelle a
+// rombo fino a ALBA_OLD_C m di circonferenza; da lì in su la corteccia è scura e solcata dalla base (dall'alto chiara al
+// centro e scura ai bordi). Soglia scelta guardando le foto dei pioppi bianchi su Commons
+const ALBA_OLD_C = 1.5;
 const COLORS_ALWAYS = hashParams().get("colors") === "1";
 const localMonth = lat => { const m = new Date().getMonth() + 1; return lat < 0 ? (m + 5) % 12 + 1 : m; };
 // numero stabile tra 0 e 1 ricavato dall'id dell'albero (k = quale scelta): lo stesso a ogni ricarica e per chiunque
@@ -1655,6 +1670,11 @@ const crownOutline = (kind, id, r) => {
 };
 const hash01 = (id, k) => { let x = (id * 2654435761 + k * 40503) >>> 0; x ^= x >>> 15; x = Math.imul(x, 2246822507) >>> 0;
   x ^= x >>> 13; return (x >>> 0) / 4294967296; };
+// sequenza di numeri a caso tra 0 e 1 (mulberry32) con il seme dall'id, uguale a ogni ricarica: per molti punti sparsi
+// (macchiette, lenticelle), dove hash01(id, k) con k consecutivi li allineerebbe ad archi
+const seededRnd = id => { let s = Math.imul((id || 0) % 4294967296, 2654435761) >>> 0;
+  return () => { s = (s + 0x6D2B79F5) >>> 0; let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t ^= t + Math.imul(t ^ (t >>> 7), 61 | t); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; };
 // Stagioni (issue #51): gli alberi caducifogli a foglia larga (leaf_cycle e leaf_type scritti o stimati dalla specie)
 // passano per tre fasi, nella data di chi guarda: foglie (rendering normale), autunno (chioma nei colori autunnali),
 // spoglio. Le aghifoglie caducifoglie solo per la fase spoglia (in autunno cambiano colore solo le specie che ne hanno
@@ -1694,16 +1714,13 @@ const markColors = (fc, cal, feats, idOf) => {
   const mN = new Date().getMonth() + 1, mS = (mN + 5) % 12 + 1, months = shiftedMonths(), colorOf = new Map();
   const speciesColor = s => {
     let c = colorOf.get(s);
-    if (c === undefined) {
-      const sp = /^([A-Z][a-z]+) ([a-z-]+)/.exec(String(s));
-      colorOf.set(s, c = sp && !String(s).includes(";") && SPECIES_COLORS[sp[1] + " " + sp[2]] || null);
-    }
+    if (c === undefined) { const k = speciesKey(s); colorOf.set(s, c = k && (SPECIES_COLORS[k] || (SPECIES_SPOTS[k] && { spots: SPECIES_SPOTS[k] })) || null); }
     return c;
   };
   for (const f of feats || fc.features) {
     const p = f.properties, lat = f.geometry.coordinates[1], id = idOf ? idOf(p) : p.id || 0;
     const month = lat < 0 ? mS : mN;
-    const c = p.species ? speciesColor(p.species) : null;
+    const c0 = p.species ? speciesColor(p.species) : null, spots = c0 && c0.spots, c = spots ? null : c0;
     const now = !!c && (COLORS_ALWAYS || !c[1] || c[1].includes(month));
     // seas: latifoglia caducifoglia, tutte e tre le fasi; bare: anche le aghifoglie caducifoglie, che d'inverno sono
     // spoglie ma in autunno cambiano colore solo se la specie ne ha uno proprio (larice, cipresso calvo, metasequoia)
@@ -1714,13 +1731,15 @@ const markColors = (fc, cal, feats, idOf) => {
     if (p.at !== undefined) delete p.at;
     if (p.asc !== undefined) delete p.asc;
     if (now && !c[2]) p.sc = c[0];
+    // chiome a macchiette (SPECIES_SPOTS): il colore con le foglie vale anche a stagioni spente; il calendario resta
+    if (spots) p.sc = spots.leaf[0];
     let ph = "l";
     if (SEASON_FORCE) ph = (SEASON_FORCE === "b" ? bare : SEASON_FORCE === "a" && (seas || (c && c[2]))) ? SEASON_FORCE : "l";
     else if (c && c[2]) ph = now ? "a" : bare && calPhase(cal, month) === "b" ? "b" : "l";
-    else if (bare && !p.sc) { ph = calPhase(cal, shiftedMonth(id, lat, months)); if (ph === "a" && !seas) ph = "l"; }
+    else if (bare && (!p.sc || spots)) { ph = calPhase(cal, shiftedMonth(id, lat, months)); if (ph === "a" && !seas) ph = "l"; }
     if (ph === "l") continue;
     p.ph = ph;
-    if (ph === "a") { if (seas) p.at = autumnTone(id); if (c && c[2]) p.asc = c[0]; }
+    if (ph === "a") { if (seas) p.at = autumnTone(id); if (c && c[2]) p.asc = c[0]; if (spots) p.asc = spots.autumn[0]; }
   }
   return fc;
 };
@@ -1942,6 +1961,12 @@ map.on("load", async () => {
   const BARE_PLAIN = ["all", BARE, ["==", STROKE_W, 1]];
   const strokeExpr = se => se ? ["case", BARE_PLAIN, BARE_STROKE, STROKE_COLOR] : STROKE_COLOR;
   const strokeWExpr = (se, poly) => se && poly ? ["case", BARE_PLAIN, 1.3, STROKE_W] : STROKE_W;
+  // macchiette (SPECIES_SPOTS): dl colore con le foglie, da in autunno; invisibili sugli alberi spogli e con i colori
+  // delle specie spenti; a stagioni spente sempre quelle delle foglie. Da SPOT_Z: prima sarebbero più piccole di un pixel
+  const SPOT_Z = 17, SPOT_DENSITY = 0.8, SPOT_R = 0.27, SPOT_MAX = 300, SPOT_CAP = 60000;
+  const spotPaint = (sc, se) => ({
+    "circle-color": se ? ["case", ["==", ["get", "ph"], "a"], ["get", "da"], ["get", "dl"]] : ["get", "dl"],
+    "circle-opacity": !sc ? 0 : se ? ["case", BARE, 0, 0.9] : 0.9 });
   const circlePaint = () => ({
     "circle-radius": radius("cr", 3), "circle-color": crownExpr(true, seasonsOn), "circle-opacity": opacityExpr(true, seasonsOn),
     "circle-stroke-color": strokeExpr(seasonsOn), "circle-stroke-width": STROKE_W,
@@ -2034,6 +2059,21 @@ map.on("load", async () => {
       const line = (coords, dc) => ({ type: "Feature", properties: { ...p, dk: "dual", dc }, geometry: { type: "LineString", coordinates: coords } });
       if (left.length && right.length) {        // le due metà si toccano: ognuna finisce sul primo punto dell'altra
         out.push(line([...left, right[0]], "#e6a800"), line([...right, left[0]], "#1a9fe0"));
+      }
+    }
+    const sk = p.cr && !p.stump && SPECIES_SPOTS[speciesKey(p.species)];
+    if (sk && spotLeft > 0) {                     // macchiette: SPOT_DENSITY per m² (al massimo SPOT_MAX, più grandi)
+      const want = SPOT_DENSITY * Math.PI * p.cr * p.cr, n = Math.min(Math.round(want), SPOT_MAX, spotLeft);
+      const dr = SPOT_R * Math.sqrt(Math.max(want / Math.max(n, 1), 1));
+      spotLeft -= n;
+      // proprietà ridotte: quelle dei filtri dei livelli (tier.cond) più fase, scala e colori
+      const base = { dk: "spot", dr, mk: p.mk, ph: p.ph, denotation: p.denotation, imp: p.imp, mg: p.mg, mz: p.mz };
+      const rnd = seededRnd(id);
+      for (let k = 0; k < n; k++) {
+        const a = rnd() * 2 * Math.PI, d = p.cr * 0.9 * Math.sqrt(rnd());
+        const t = rnd() < 0.7 ? 1 : 2;
+        out.push({ type: "Feature", properties: { ...base, dl: sk.leaf[t], da: sk.autumn[t] },
+          geometry: { type: "Point", coordinates: [lon + d * Math.cos(a) * kx, lat + d * Math.sin(a) * ky] } });
       }
     }
     if (isXmas(p) && p.cr) {                      // albero di Natale: 8, 11 o 14 lucine e una stella al centro
@@ -2143,6 +2183,7 @@ map.on("load", async () => {
   const rowOpacity = () => seasonsOn ? ["case", BARE, 0.03, 0.3] : 0.3;
   const rowStroke = () => seasonsOn ? ["case", BARE, BARE_STROKE, "#1b6b2c"] : "#1b6b2c";
   let DECO = [];
+  let spotLeft = SPOT_CAP;                        // macchiette ancora da disegnare nella finestra (updateShapes)
   let shapesEmpty = true;
   // finestra (vista allargata del 25%) dell'ultimo calcolo; null se le sagome sono vuote o se gli alberi erano più
   // di SHAPE_CAP (in quel caso si tengono i più vicini al centro, che cambiano a ogni spostamento)
@@ -2172,6 +2213,7 @@ map.on("load", async () => {
       ({ type: "Feature", properties: ft.properties, geometry: { type: "Polygon", coordinates: shapeRing(ft) } })) });
     // decorazioni degli alberi in vista (stessa finestra): tronchi multipli, edera, frutti
     const deco = DECO.filter(ft => { const [x, y] = ft.geometry.coordinates; return x >= w && x <= e && y >= s && y <= n; });
+    spotLeft = SPOT_CAP;
     map.getSource("deco").setData({ type: "FeatureCollection", features: deco.slice(0, SHAPE_CAP).flatMap(decoPoints) });
     if (deco.length > SHAPE_CAP) shapesWin = null;
     map.getSource("rows").setData({ type: "FeatureCollection", features: rowFeatures(w, e, s, n) });   // filari
@@ -2185,7 +2227,37 @@ map.on("load", async () => {
   // rosso-arancio per l'acero cannella (Acer griseum), dalla corteccia lucida che si sfoglia: colore scelto
   // confrontando le foto della corteccia su Commons (#29)
   const CINNAMON_BARK = ["==", ["slice", ["coalesce", ["get", "species"], ""], 0, 12], "Acer griseum"];
-  const TRUNK_COLOR = ["case", WHITE_BARK, "#f4f1e8", CINNAMON_BARK, "#b5532b", "#7b4a1e"];
+  // pioppo bianco (Populus alba, ALBA_OLD_C): giovane grigio chiaro con un bordo grigio come la betulla, e sopra
+  // un'immagine con le lenticelle a rombo lungo il bordo; vecchio (raggio del tronco da ALBA_OLD_C m di circonferenza)
+  // un'immagine chiara al centro e scura ai bordi. Il cerchio sotto resta per i clic e il bordo, come per l'arcobaleno
+  const ALBA_BARK = ["==", ["slice", ["coalesce", ["get", "species"], ""], 0, 12], "Populus alba"];
+  const ALBA_OLD = ["all", ALBA_BARK, [">=", ["coalesce", ["get", "tr"], 0], ALBA_OLD_C / (2 * Math.PI)]];
+  const ALBA_YOUNG = ["all", ALBA_BARK, ["!", ALBA_OLD]];
+  const TRUNK_COLOR = ["case", WHITE_BARK, "#f4f1e8", CINNAMON_BARK, "#b5532b", ALBA_OLD, "#57534b", ALBA_BARK, "#d3d3ca", "#7b4a1e"];
+  {
+    const S = 128, R = S / 2;
+    // giovane: solo i rombi (il grigio è il cerchio sotto), 3 disposizioni diverse; ogni albero ne ruota una a caso
+    for (let v = 0; v < 3; v++) {
+      const c = document.createElement("canvas"); c.width = c.height = S;
+      const g = c.getContext("2d"), rnd = seededRnd(v + 1);
+      g.fillStyle = "#4a4a44";
+      for (let i = 0, k = 0; i < 22 && k < 400; k++) {
+        const x = (rnd() * 2 - 1) * R, y = (rnd() * 2 - 1) * R, d = Math.hypot(x, y);
+        const w = 5.5 * (0.8 + 0.6 * rnd());                 // metà della lunghezza del rombo
+        if (d > R - w - 2 || d < w * 1.2) continue;
+        const a = Math.atan2(y, x) + Math.PI / 2, ca = Math.cos(a), sa = Math.sin(a), hh = w * 0.45;
+        g.beginPath();
+        [[-w, 0], [0, -hh], [w, 0], [0, hh]].forEach(([u, t]) => g.lineTo(R + x + u * ca - t * sa, R + y + u * sa + t * ca));
+        g.closePath(); g.fill(); i++;
+      }
+      map.addImage("alba-bark-" + v, g.getImageData(0, 0, S, S), { pixelRatio: 2 });
+    }
+    const c = document.createElement("canvas"); c.width = c.height = S;
+    const g = c.getContext("2d"), gr = g.createRadialGradient(R, R, 0, R, R, R);
+    gr.addColorStop(0, "#bdbab1"); gr.addColorStop(0.55, "#8f8b81"); gr.addColorStop(1, "#57534b");
+    g.fillStyle = gr; g.beginPath(); g.arc(R, R, R, 0, 2 * Math.PI); g.fill();
+    map.addImage("alba-bark-old", g.getImageData(0, 0, S, S), { pixelRatio: 2 });
+  }
   // easter egg: l'eucalipto arcobaleno (Eucalyptus deglupta) ha il tronco a 7 spicchi colorati che partono dal centro
   // (non realistico, per divertimento). È un'immagine sopra al tronco normale, che resta sotto per i clic e il bordo
   const RAINBOW_BARK = ["==", ["slice", ["coalesce", ["get", "species"], ""], 0, 19], "Eucalyptus deglupta"];
@@ -2214,7 +2286,7 @@ map.on("load", async () => {
   // della sua grandezza reale, coprirebbe la chioma e il suo contorno rosso; il contorno rosso va allora sul tronco
   const BIG_TRUNK_ISSUE = ["all", HAS_ISSUE, [">", ["coalesce", ["get", "tr"], 0], ["coalesce", ["get", "cr"], 0]]];
   const TRUNK_STROKE = { "circle-stroke-color": ["case", BIG_TRUNK_ISSUE, "#d00020", "#8a8a8a"],
-    "circle-stroke-width": ["case", BIG_TRUNK_ISSUE, 2, WHITE_BARK, 0.8, 0] };
+    "circle-stroke-width": ["case", BIG_TRUNK_ISSUE, 2, WHITE_BARK, 0.8, ALBA_YOUNG, 0.8, 0] };
 
   // Due livelli di layer: prima tutti gli alberi, poi i monumentali, che restano sopra agli altri
   const TREE = ["!", ["has", "stump"]];   // i ceppi (natural=tree_stump) hanno un layer a parte
@@ -2234,6 +2306,9 @@ map.on("load", async () => {
       "circle-pitch-scale": "map" } }) },
     { id: "crown-poly", spec: () => ({ type: "fill", source: "shapes", paint: {
       "fill-color": crownExpr(true, seasonsOn), "fill-opacity": opacityExpr(true, seasonsOn, true) } }) },
+    // macchiette delle chiome di SPECIES_SPOTS (sorgente deco): colore e visibilità da spotPaint e applyCrowns
+    { id: "spot", base: ["==", ["get", "dk"], "spot"], spec: () => ({ type: "circle", source: "deco", minzoom: SPOT_Z,
+      paint: { "circle-radius": radius("dr", 0.7), "circle-pitch-alignment": "map", ...spotPaint(true, seasonsOn) } }) },
     { id: "crown-poly-line", spec: () => ({ type: "line", source: "shapes", layout: { "line-join": "round" }, paint: {
       "line-color": strokeExpr(seasonsOn), "line-width": strokeWExpr(seasonsOn, true) } }) },
     // monumentale e sacro (isDual): sopra al contorno oro, metà sinistra gialla e metà destra azzurra (colore in dc)
@@ -2246,6 +2321,13 @@ map.on("load", async () => {
       "circle-pitch-alignment": "map" } }) },
     { id: "trunk-rainbow", base: ["all", RAINBOW_BARK, ["has", "tr"], ["!", ["has", "stems"]]], spec: tier => ({ type: "symbol",
       source: tier.src, minzoom: SHAPE_Z, layout: { "icon-image": "rainbow-bark", "icon-size": radius("tr", 1.5, 32),
+        "icon-allow-overlap": true, "icon-ignore-placement": true, "icon-pitch-alignment": "map", "icon-rotation-alignment": "map" },
+      paint: { "icon-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1] } }) },
+    // pioppo bianco: lenticelle (una delle 3 immagini, ruotata a caso dall'id) o corteccia vecchia, sopra il tronco
+    { id: "trunk-alba", base: ["all", ALBA_BARK, ["has", "tr"], ["!", ["has", "stems"]]], spec: tier => ({ type: "symbol",
+      source: tier.src, minzoom: SHAPE_Z, layout: { "icon-image": ["case", ALBA_OLD, "alba-bark-old",
+        ["concat", "alba-bark-", ["to-string", ["%", ["coalesce", ["get", "id"], 0], 3]]]],
+        "icon-rotate": ["%", ["*", ["coalesce", ["get", "id"], 0], 47], 360], "icon-size": radius("tr", 1.5, 32),
         "icon-allow-overlap": true, "icon-ignore-placement": true, "icon-pitch-alignment": "map", "icon-rotation-alignment": "map" },
       paint: { "icon-opacity": ["case", ["to-boolean", ["get", "tr_est"]], 0.45, 1] } }) },
     { id: "stem", base: ["==", ["get", "dk"], "stem"], spec: () => ({ type: "circle", source: "deco", minzoom: SHAPE_Z, paint: {
@@ -2298,6 +2380,7 @@ map.on("load", async () => {
       if (!poly) map.setPaintProperty(id, "circle-stroke-color", strokeExpr(seasonsOn));
     }
     for (const t of TIERS) {
+      for (const [k, v] of Object.entries(spotPaint(colorsOn, seasonsOn))) map.setPaintProperty("spot" + t.suf, k, v);
       map.setPaintProperty("crown-poly-line" + t.suf, "line-color", strokeExpr(seasonsOn));
       map.setPaintProperty("crown-poly-line" + t.suf, "line-width", strokeWExpr(seasonsOn, true));
     }
@@ -3447,7 +3530,7 @@ map.on("load", async () => {
       markColors(fc, cal, xm);
       SHAPED = [...ALL.filter(isShaped), ...xm.filter(isShaped)];
       DECO = [...ALL.filter(ft => ft.properties.stems || ft.properties.ivy || ft.properties.fruit || isXmas(ft.properties)
-        || isDual(ft.properties)), ...xm];
+        || isDual(ft.properties) || (ft.properties.species && SPECIES_SPOTS[speciesKey(ft.properties.species)])), ...xm];
       setRows(fc.rows, cal);                          // filari (fc.rows, solo nel file completo): alberi finti da SHAPE_Z
       map.getSource(src).setData(fc);
       updateTaxa(); updateShapes(); update(); if (hintsOn) updateHintMarks();
@@ -4145,7 +4228,7 @@ const SEX_SVG = {
   male: '<circle cx="9" cy="15" r="6"/><path d="M13.5 10.5 21 3M15 3h6v6"/>',
   female: '<circle cx="12" cy="9" r="6"/><path d="M12 15v8M8 19.5h8"/>'
 };
-const SEX_PHOTO = { "Ginkgo biloba": { female: "Gingko_biloba_seeds.jpg", male: "Ginkgo_biloba_Inflorescences.jpg" }, "Acer negundo": { female: "Acer_negundo_female_flowers_-_Keila.jpg", male: "Acer_negundo_31685019.jpg" } };
+const SEX_PHOTO = { "Ginkgo biloba": { female: "Gingko_biloba_seeds.jpg", male: "Ginkgo_biloba_Inflorescences.jpg" }, "Acer negundo": { female: "Acer_negundo_female_flowers_-_Keila.jpg", male: "Acer_negundo_31685019.jpg" }, "Populus nigra": { female: "2015-4-13-Schwarzpappel-_474-k.jpg", male: "2015-4-13-Schwarzpappel-_544-k.jpg" }, "Populus alba": { female: "Бяла_топола_-_женски_реси.jpg", male: "Бяла_топола_-_мъжки_реси_2.jpg" }, "Taxus baccata": { female: "Taxusvruchten.JPG", male: "Taxus_baccata_MHNT_flowers_male.jpg" } };
 // Chiave di una tabella per specie o genere (L.sexTraits, SEX_PHOTO, SEX_SEASON) per un albero: prima la specie (senza
 // autore; anche seguita da varietà o cultivar), poi il genere (tag genus=* o prima parola della specie)
 function sexKey(p, table) {
@@ -5114,19 +5197,37 @@ const cmpD = v => v < 0.1 ? cmpM(v) : fmtM(Math.round(v * 100) / 100);
 // Colore del tronco nel disegno, lo stesso della mappa (issue #47; TRUNK_COLOR e RAINBOW_BARK, stesse specie
 // riconosciute dall'inizio di species=*): bianco con un bordo sottile, rosso-arancio, arcobaleno, altrimenti marrone.
 // fill: colore; edge: bordo che lo stacca dal fondo; bark: trama della corteccia sui tronchi larghi
-const cmpBark = sp => { const s = String(sp || "");
-  return s.startsWith("Betula utilis") ? "white" : s.startsWith("Acer griseum") ? "cin" : s.startsWith("Eucalyptus deglupta") ? "rainbow" : ""; };
+// c: circonferenza in m, per il pioppo bianco (giovane «alba», vecchio «albaOld» da ALBA_OLD_C, come sulla mappa)
+const cmpBark = (sp, c) => { const s = String(sp || "");
+  return s.startsWith("Betula utilis") ? "white" : s.startsWith("Acer griseum") ? "cin" : s.startsWith("Eucalyptus deglupta") ? "rainbow"
+    : s.startsWith("Populus alba") ? (c >= ALBA_OLD_C ? "albaOld" : "alba") : ""; };
 const CMP_RAINBOW = ["#e40303", "#ff8c00", "#ffed00", "#008026", "#004dff", "#4b0082", "#8f00ff"];   // come "rainbow-bark" sulla mappa
 const CMP_PAINT = { "": { fill: "var(--cmp-trunk)", bark: "cmp-bark" },
   white: { fill: "var(--cmp-white)", edge: "var(--cmp-white-edge)", bark: "cmp-bark-white" },
-  cin: { fill: "var(--cmp-cin)", bark: "cmp-bark-cin" }, rainbow: { fill: "url(#cmp-rainbow)" } };
+  cin: { fill: "var(--cmp-cin)", bark: "cmp-bark-cin" }, rainbow: { fill: "url(#cmp-rainbow)" },
+  // pioppo bianco: giovane grigio chiaro con lenticelle a rombo; vecchio scuro alla base e chiaro in alto, con solchi
+  // diagonali che si schiariscono salendo (maschera cmp-fade-down) e i rombi solo in cima (cmp-fade-up). top: il colore
+  // del tronco visto dall'alto (planSvg), chiaro al centro e scuro ai bordi
+  alba: { fill: "var(--cmp-alba)", edge: "var(--cmp-white-edge)", bark: "cmp-bark-alba" },
+  albaOld: { fill: "url(#cmp-alba-old)", bark: [["cmp-bark-alba-old", "cmp-fade-down"], ["cmp-bark-alba", "cmp-fade-up"]], top: "url(#cmp-alba-top)" } };
+// rombo orizzontale (lenticella) centrato in x, y: metà lunghezza w, metà altezza 0,45 w
+const cmpRhomb = (x, y, w) => `M${+(x - w).toFixed(2)} ${+y.toFixed(2)}l${w} ${-0.45 * w} ${w} ${0.45 * w} ${-w} ${0.45 * w}z`;
 // definizioni del disegno: le trame della corteccia e l'arcobaleno, a fasce lungo l'altezza (così si vedono anche su
 // un tronco largo 1 px e nel quadratino delle didascalie)
 const CMP_DEFS = `<defs>` + [["cmp-bark", "--cmp-bark"], ["cmp-bark-white", "--cmp-white-bark"], ["cmp-bark-cin", "--cmp-cin-bark"]].map(([id, c]) =>
     `<pattern id="${id}" width="5" height="9" patternUnits="userSpaceOnUse"><path d="M1.5 0v9M4 0v5" stroke="var(${c})" stroke-width=".7" opacity=".6"/></pattern>`).join("")
   + `<linearGradient id="cmp-rainbow" x1="0" y1="0" x2="0" y2="1">`
   + CMP_RAINBOW.map((c, i) => `<stop offset="${+(i / 7).toFixed(4)}" stop-color="${c}"/><stop offset="${+((i + 1) / 7).toFixed(4)}" stop-color="${c}"/>`).join("")
-  + `</linearGradient></defs>`;
+  + `</linearGradient>`
+  // pioppo bianco: lenticelle sparse (4 per riquadro, in posizioni irregolari), solchi diagonali incrociati e tenui
+  + `<pattern id="cmp-bark-alba" width="14" height="19" patternUnits="userSpaceOnUse"><path d="${[[3, 3, 2.3], [10.5, 7.5, 2], [5.5, 12.5, 2.6], [11.5, 16.5, 1.9]].map(([x, y, w]) => cmpRhomb(x, y, w)).join("")}" fill="var(--cmp-alba-bark)" opacity=".85"/></pattern>`
+  + `<pattern id="cmp-bark-alba-old" width="8" height="18" patternUnits="userSpaceOnUse"><path d="M0 18L8 0M0 0L8 18" stroke="var(--cmp-alba-furrow)" stroke-width=".8" opacity=".5"/></pattern>`
+  + `<linearGradient id="cmp-alba-old" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#57534b"/><stop offset=".6" stop-color="#a5a198"/><stop offset="1" stop-color="#d3d3ca"/></linearGradient>`
+  + `<radialGradient id="cmp-alba-top"><stop offset="0" stop-color="#bdbab1"/><stop offset=".55" stop-color="#8f8b81"/><stop offset="1" stop-color="#57534b"/></radialGradient>`
+  + `<linearGradient id="cmp-fade-down-g" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff"/><stop offset=".8" stop-color="#000"/></linearGradient>`
+  + `<linearGradient id="cmp-fade-up-g" x1="0" y1="1" x2="0" y2="0"><stop offset=".65" stop-color="#000"/><stop offset=".85" stop-color="#fff"/></linearGradient>`
+  + ["down", "up"].map(k => `<mask id="cmp-fade-${k}" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="url(#cmp-fade-${k}-g)"/></mask>`).join("")
+  + `</defs>`;
 // quadratino del colore nelle didascalie: quello del tronco (con il bordo, se è bianco)
 const cmpSwatch = kind => { const P = CMP_PAINT[kind];
   return `<tspan fill="${P.fill}"${P.edge ? ` stroke="${P.edge}" stroke-width=".5"` : ""}>■ </tspan>`; };
@@ -5151,7 +5252,10 @@ const cmpTrunk = (box, w, kind, mode = "") => {
     + (w >= 4 ? ` stroke="${line}" stroke-width="1" stroke-dasharray="3 2"` : P.edge ? ` stroke="${P.edge}" stroke-width=".8" stroke-opacity=".6"` : "") + "/>";
   if (mode === "est") return `<path ${box} fill="${P.fill}" fill-opacity=".45"`
     + (w >= 4 ? ` stroke="${line}" stroke-width="1" stroke-dasharray="1 2.5" stroke-linecap="round"` : P.edge ? ` stroke="${P.edge}" stroke-width=".8" stroke-opacity=".6"` : "") + "/>";
-  return `<path ${box} fill="${P.fill}"${P.edge ? ` stroke="${P.edge}" stroke-width=".8"` : ""}/>` + (w >= 6 && P.bark ? `<path ${box} fill="url(#${P.bark})"/>` : "");
+  // bark: una trama, o più trame [trama, maschera] una sopra l'altra
+  const barks = w >= 6 && P.bark ? (Array.isArray(P.bark) ? P.bark : [[P.bark]]) : [];
+  return `<path ${box} fill="${P.fill}"${P.edge ? ` stroke="${P.edge}" stroke-width=".8"` : ""}/>`
+    + barks.map(([b, m]) => `<path ${box} fill="url(#${b})"${m ? ` mask="url(#${m})"` : ""}/>`).join("");
 };
 // d = un albero (compareData: h, c, r0, sp specie del tronco tipico, s specie dell'albero) oppure { trees: [...] }
 // per il confronto dei primi più alti (issue #48, openCompareTop): più alberi uno accanto all'altro, numerati,
@@ -5163,7 +5267,7 @@ function compareSvg(d, label) {
   const diaT = !multi && d.r0 ? d.h / d.r0 / Math.PI : 0;   // r0 = 0: niente tronco tipico
   const spT = (!multi && d.sp) || "";
   const sp = spT.length <= 20 ? spT : (s => s.length <= 22 ? s : s.slice(0, 21) + "…")(spT.replace(/^(\S)\S+ /, "$1. "));
-  const kinds = trees.map(t => cmpBark(t.s));
+  const kinds = trees.map(t => cmpBark(t.s, t.c));
   // back: il riferimento di larghezza (CMP_BACK) sta dietro il tronco (con più alberi, dietro il più largo), nello
   // stesso spazio (largo e alto quanto il più grande dei due)
   const bi = dias.indexOf(Math.max(...dias)), dia = dias[bi];
@@ -5240,7 +5344,7 @@ function compareSvg(d, label) {
         if (isBack) out += [[cmpSwatch(kinds[it.i]), treeName(it.i), treeDia(it.i)], [`<tspan fill="var(--cmp-ref)">■ </tspan>`, L.cmp.back[back.k].name, `${cmpM(back.w)} × ${cmpM(back.h)}`]]
           .map(([c, a, b], n) => `<text x="${f(cx)}" y="${GY + 13 + 12 * n}" text-anchor="middle">${c}${esc(a)} <tspan class="m">${esc(b)}</tspan></text>`).join("");
       } else {   // tronco tipico: più tenue, con il bordo tratteggiato se è abbastanza largo; del colore della specie
-        out += cmpTrunk(box, w, cmpBark(spT), "typ");   // che rappresenta (marrone per la mediana di tutti gli alberi)
+        out += cmpTrunk(box, w, cmpBark(spT, diaT * Math.PI), "typ");   // che rappresenta (marrone per la mediana di tutti gli alberi)
       }
     }
     out += (it.t || []).map((t, n) => `<text x="${f(cx)}" y="${GY + 13 + 12 * n}" text-anchor="middle"${n ? ' class="m"' : ""}${n === 1 && it.k === "typ" && d.sp ? ' font-style="italic"' : ""}>${esc(t)}</text>`).join("");
@@ -5359,6 +5463,21 @@ const planKind = p => ({ palm: "palm", needleleaved: "spiky", broadleaved: "blob
 // Disegno: rings = [{ d diametro in m, mode "trunk" (tronco misurato), "typ" (tronco tipico) o "crown", n numero sul
 // bordo (primati), s specie (colore del tronco), kind e id (sagoma della chioma), t righe della didascalia }].
 // La scala è la più grande con cui il cerchio più grande e il riferimento entrano affiancati
+// lenticelle del pioppo bianco giovane sul tronco visto dall'alto: rombi sparsi orientati lungo il bordo, come le
+// immagini "alba-bark-*" della mappa (circa uno ogni 200 px², almeno 3)
+function planLenticels(cx, cy, R) {
+  const n = Math.max(3, Math.round(Math.PI * R * R / 200)), f = v => +v.toFixed(2), rnd = seededRnd(7);
+  let d = "";
+  for (let i = 0, k = 0; i < n && k < 20 * n; k++) {
+    const x = (rnd() * 2 - 1) * R, y = (rnd() * 2 - 1) * R, r = Math.hypot(x, y);
+    const w = Math.min(R * 0.09, 4.5) * (0.8 + 0.6 * rnd());
+    if (r > R - w - 1 || r < w * 1.2) continue;
+    const a = Math.atan2(y, x) + Math.PI / 2, ca = Math.cos(a), sa = Math.sin(a), hh = w * 0.45;
+    d += "M" + [[-w, 0], [0, -hh], [w, 0], [0, hh]].map(([u, t]) => `${f(cx + x + u * ca - t * sa)} ${f(cy + y + u * sa + t * ca)}`).join("L") + "z";
+    i++;
+  }
+  return `<path d="${d}" fill="var(--cmp-alba-bark)" opacity=".85"/>`;
+}
 function planSvg(rings, label) {
   const W = 420, PAD = 8, TOP = 12, PLOT = 190, GAP = 24, REF_MIN = 24, LBL_MIN = 24;
   const D = Math.max(...rings.map(r => r.d));
@@ -5384,17 +5503,18 @@ function planSvg(rings, label) {
     const shape = r.mode === "crown" && r.kind
       ? `<path d="M${crownOutline(r.kind, Number(r.id) || 0, R).map(([x, y]) => `${f(cx + x)} ${f(cy + y)}`).join("L")}z"`
       : `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(R)}"`;
-    const P = CMP_PAINT[cmpBark(r.s)];
+    const kind = cmpBark(r.s, r.d * Math.PI), P = CMP_PAINT[kind], fill = P.top || P.fill;
     if (r.mode === "crown")
       out += `${shape} fill="var(--plan-crown)" fill-opacity=".28" stroke="var(--plan-crown-edge)" stroke-width="1.2"${dash ? ` stroke-dasharray="${dash}"` : ""} stroke-linejoin="round"/>`;
     // tronco tipico: più grande del tronco (sotto, sul fondo) tenue con il bordo tratteggiato scuro; più piccolo (sopra
     // il tronco) schiarito di bianco, con il bordo tratteggiato bianco su un bordo scuro, che si vede sul marrone
     else if (r.mode === "typ") out += r.d === D
-      ? `${shape} fill="${P.fill}" fill-opacity=".25" stroke="var(--cmp-text)" stroke-width="1" stroke-dasharray="3 2"/>`
+      ? `${shape} fill="${fill}" fill-opacity=".25" stroke="var(--cmp-text)" stroke-width="1" stroke-dasharray="3 2"/>`
       : `${shape} fill="var(--cmp-bg)" fill-opacity=".45" stroke="var(--cmp-text)" stroke-width="2.6"/>${shape} fill="none" stroke="var(--cmp-bg)" stroke-width="1.6" stroke-dasharray="4 2.5"/>`;
     else if (r.n)                // primati: tronchi trasparenti, uno sopra l'altro, con il bordo del loro tratteggio
-      out += `${shape} fill="${P.fill}" fill-opacity=".35" stroke="${P.edge || "var(--cmp-text)"}" stroke-width="1"${dash ? ` stroke-dasharray="${dash}"` : ""}/>`;
-    else out += `${shape} fill="${P.fill}"${P.edge ? ` stroke="${P.edge}" stroke-width=".8"` : ""}/>`;
+      out += `${shape} fill="${fill}" fill-opacity=".35" stroke="${P.edge || "var(--cmp-text)"}" stroke-width="1"${dash ? ` stroke-dasharray="${dash}"` : ""}/>`;
+    else out += `${shape} fill="${fill}"${P.edge ? ` stroke="${P.edge}" stroke-width=".8"` : ""}/>`
+      + (kind === "alba" && R >= 8 ? planLenticels(cx, cy, R) : "");
   }
   // numeri sul bordo, con un alone del colore di sfondo
   for (const r of rings) if (r.n) {
@@ -5442,9 +5562,9 @@ function planPick(p) {
 const cmpSw = (fill, edge, dash) => `<tspan fill="${fill}"${edge ? ` stroke="${edge}" stroke-width=".5"` : ""}>${dash ? "◌" : "●"} </tspan>`;
 function openPlan(btn) {
   const d = JSON.parse(btn.dataset.plan), T = L.cmp, P = T.plan, dlg = document.getElementById("cmp");
-  const dia = d.c / Math.PI, diaT = d.r0 ? d.h / d.r0 / Math.PI : 0, B = CMP_PAINT[cmpBark(d.s)];
+  const dia = d.c / Math.PI, diaT = d.r0 ? d.h / d.r0 / Math.PI : 0, B = CMP_PAINT[cmpBark(d.s, d.c)];
   const sp = d.s.length <= 24 ? d.s : d.s.replace(/^(\S)\S+ /, "$1. ");
-  const rings = [{ d: dia, mode: "trunk", s: d.s, t: cmpSw(B.fill, B.edge) + esc(T.tree) + ` <tspan class="m">⌀ ${esc(cmpD(dia))}</tspan>` }];
+  const rings = [{ d: dia, mode: "trunk", s: d.s, t: cmpSw(B.top || B.fill, B.edge) + esc(T.tree) + ` <tspan class="m">⌀ ${esc(cmpD(dia))}</tspan>` }];
   if (diaT) rings.push({ d: diaT, mode: "typ", s: d.s,
     t: cmpSw("var(--cmp-text)", "", 1) + esc(T.typicalFor) + ` <tspan font-style="italic">${esc(sp)}</tspan> <tspan class="m">⌀ ${esc(cmpD(diaT))}</tspan>` });
   const g = planSvg(rings, P.svg);
