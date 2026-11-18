@@ -739,6 +739,10 @@
 "d": "2026-11-12",
 "s": "ok"
 },
+"commons:File:Christmas Tree, Devonshire Square, Bexhill.jpg": {
+"d": "2026-11-18",
+"s": "ok"
+},
 "commons:File:Christmas tree with paper decorations, Zagreb.jpeg": {
 "d": "2026-11-08",
 "s": "ok"
@@ -2309,6 +2313,10 @@
 },
 "commons:File:The Great Holker Lime at Holker Hall - geograph.org.uk - 271197.jpg": {
 "d": "2026-11-08",
+"s": "ok"
+},
+"commons:File:The King Of Limbs Tree.jpg": {
+"d": "2026-11-18",
 "s": "ok"
 },
 "commons:File:The Martyrs tree - geograph.org.uk - 1277399.jpg": {
@@ -4379,6 +4387,14 @@
 ],
 "d": "2026-11-12"
 },
+"geo:File:Christmas Tree, Devonshire Square, Bexhill.jpg": {
+"c": [
+50.8405855,
+0.4734498,
+"object"
+],
+"d": "2026-11-18"
+},
 "geo:File:Christmas tree with paper decorations, Zagreb.jpeg": {
 "c": [
 45.79669933,
@@ -5410,6 +5426,10 @@
 "camera"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Fuck tree May 2025.jpg": {
+"c": [],
+"d": "2026-11-18"
 },
 "geo:File:Garoé El Hierro.jpg": {
 "c": [
@@ -7978,6 +7998,14 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Track diverging north from High Lane - geograph.org.uk - 3027294.jpg": {
+"c": [
+54.28887409,
+-1.9432809,
+"object"
+],
+"d": "2026-11-18"
 },
 "geo:File:Tree in Pełkinie 2.jpg": {
 "c": [

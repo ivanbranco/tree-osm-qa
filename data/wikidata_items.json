@@ -18444,7 +18444,7 @@
 ]
 ],
 "heritage": [],
-"image": "The oldest tree on Argyle Street (geograph 6000586).jpg",
+"image": "Argyle-street-ash-tree-glasgow-tree-of-the-year.jpg",
 "mon": true,
 "taxa": [
 "Q156907"
@@ -68090,7 +68090,7 @@
 ]
 ],
 "heritage": [],
-"image": "Gilwell Oak (5948293396).jpg",
+"image": "2018 The Gilwell Oak UK.jpg",
 "mon": true,
 "taxa": [
 "Q165145"
@@ -74303,6 +74303,7 @@
 "Q156944"
 ],
 "taxon": false,
+"winter": "Sycamore Gap (4) - geograph.org.uk - 750542.jpg",
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Sycamore_Gap_tree",
 "it": "https://it.wikipedia.org/wiki/Albero_di_Robin_Hood"
@@ -77293,7 +77294,7 @@
 ]
 ],
 "heritage": [],
-"image": "Nellies tree. (geograph 5953131).jpg",
+"image": "2019 Nellie s Tree UK.jpg",
 "mon": true,
 "taxa": [
 "Q146149"
@@ -81324,6 +81325,21 @@
 "taxon": false,
 "wp": {
 "it": "https://it.wikipedia.org/wiki/Encina_de_la_Peana"
+}
+},
+"Q953816": {
+"coords": [
+[
+-0.128114,
+51.5082
+]
+],
+"heritage": [],
+"image": "Trafalgar Square Christmas tree9.jpg",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Trafalgar_Square_Christmas_tree"
 }
 },
 "Q95571268": {

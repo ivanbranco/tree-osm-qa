@@ -51,6 +51,12 @@
 ],
 "taxon": true
 },
+"Q1003148": {
+"en": "Fortingall Yew",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q100452291": {
 "alias": {
 "en": [],
@@ -608,12 +614,12 @@
 "it": []
 },
 "en": "Catalpa × erubescens",
-"it": "Catalpa ×erubescens",
+"it": "Catalpa × erubescens",
 "names": [
-"Catalpa ×erubescens"
+"Catalpa × erubescens"
 ],
 "ranks": [
-"Q7432"
+"Q1306176"
 ],
 "taxon": true
 },
@@ -835,6 +841,12 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q107137308": {
+"en": "The Big Tree, Kirkwall",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1072851": {
 "alias": {
@@ -3683,12 +3695,12 @@
 "it": []
 },
 "en": "Cotoneaster × watereri",
-"it": "Cotoneaster ×watereri",
+"it": "Cotoneaster × watereri",
 "names": [
-"Cotoneaster ×watereri"
+"Cotoneaster × watereri"
 ],
 "ranks": [
-"Q7432"
+"Q1306176"
 ],
 "taxon": true
 },
@@ -6548,6 +6560,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q134376041": {
+"en": "Fuck Tree",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q134442807": {
 "alias": {
 "en": [],
@@ -6795,6 +6813,12 @@
 "Q4886"
 ],
 "taxon": true
+},
+"Q136379755": {
+"en": "Argyle Street Ash",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q13640565": {
 "alias": {
@@ -9114,8 +9138,7 @@
 "Populus canescens"
 ],
 "ranks": [
-"Q1306176",
-"Q7432"
+"Q1306176"
 ],
 "taxon": true
 },
@@ -15220,6 +15243,12 @@
 ],
 "taxon": true
 },
+"Q16896192": {
+"en": "One Tree Hill, Honor Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q16919759": {
 "alias": {
 "en": [
@@ -16689,10 +16718,10 @@
 "en": "Crataegus × media",
 "it": "Crataegus × media",
 "names": [
-"Crataegus ×media"
+"Crataegus × media"
 ],
 "ranks": [
-"Q7432"
+"Q1306176"
 ],
 "taxon": true
 },
@@ -19969,6 +19998,12 @@
 ],
 "taxon": true
 },
+"Q2702029": {
+"en": "Queen Elizabeth Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2702054": {
 "alias": {
 "en": [
@@ -22137,6 +22172,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q3148078": {
+"en": "Florencecourt Yew",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q3148109": {
 "en": "Ifs de La Haye-de-Routot",
@@ -25300,6 +25341,12 @@
 ],
 "taxon": true
 },
+"Q4463960": {
+"en": "Llangernyw Yew",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q44778579": {
 "alias": {
 "en": [],
@@ -25919,6 +25966,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q47533854": {
+"en": "Craigends Yew",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q4754500": {
 "alias": {
 "en": [],
@@ -25936,6 +25989,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q4766037": {
+"en": "Ankerwycke Yew",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q476655": {
 "alias": {
@@ -26142,6 +26201,12 @@
 ],
 "taxon": true
 },
+"Q48743441": {
+"en": "The Suffragette Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q48755299": {
 "en": "Robinier du Square Viviani",
 "names": [],
@@ -26183,6 +26248,12 @@
 ],
 "taxon": true
 },
+"Q48816893": {
+"en": "Gilwell Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q48847385": {
 "en": "Josef Oak",
 "names": [],
@@ -26212,6 +26283,12 @@
 },
 "Q4892849": {
 "en": "Pi de les Tres Branques",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q4916880": {
+"en": "Birnam Oak",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -26421,6 +26498,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q5036084": {
+"en": "Capon Tree",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q504004": {
 "alias": {
@@ -27458,8 +27541,20 @@
 "ranks": [],
 "taxon": false
 },
+"Q55605400": {
+"en": "Bicycle Tree (Trossachs)",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q55605947": {
 "en": "Brimmon Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q55612956": {
+"en": "Great Trees of London",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -27635,8 +27730,21 @@
 ],
 "taxon": true
 },
+"Q55885851": {
+"en": "Sycamore Gap Tree",
+"it": "Albero di Robin Hood",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q5600400": {
 "en": "Great sugi of Kayano",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q56289907": {
+"en": "Niel Gow's Oak",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -28304,6 +28412,12 @@
 ],
 "taxon": true
 },
+"Q60793167": {
+"en": "Bethnal Green mulberry tree",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q608215": {
 "alias": {
 "en": [
@@ -28335,6 +28449,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q6084376": {
+"en": "Islington Green",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q6089457": {
 "alias": {
@@ -30053,6 +30173,12 @@
 ],
 "taxon": true
 },
+"Q7595344": {
+"en": "St Peter, Westcheap",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q759873": {
 "alias": {
 "en": [],
@@ -30445,6 +30571,17 @@
 ],
 "taxon": true
 },
+"Q7879358": {
+"en": "Ulmus × hollandica ʽWentworthii Pendula’",
+"it": "Ulmus ×hollandica ‘Wentworthii Pendula’",
+"names": [
+"Ulmus ×hollandica ‘Wentworthii Pendula’"
+],
+"ranks": [
+"Q4886"
+],
+"taxon": true
+},
 "Q7879431": {
 "alias": {
 "en": [
@@ -30513,6 +30650,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q7961105": {
+"en": "Wakehurst",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q805008": {
 "alias": {
@@ -30606,6 +30749,12 @@
 "Q811534": {
 "en": "remarkable tree",
 "it": "pianta monumentale",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q81464073": {
+"en": "Ormiston Yew",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -32199,6 +32348,13 @@
 "ranks": [],
 "taxon": false
 },
+"Q935": {
+"en": "Isaac Newton",
+"it": "Isaac Newton",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q9355423": {
 "alias": {
 "en": [],
@@ -32641,6 +32797,12 @@
 },
 "Q95994298": {
 "en": "Big Ginkgo Tree of Asahi-chō",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q96400693": {
+"en": "Queen Elizabeth's Oak, Hatfield House",
 "names": [],
 "ranks": [],
 "taxon": false
