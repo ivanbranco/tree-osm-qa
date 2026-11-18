@@ -461,12 +461,12 @@
   },
   "liguria": {
    "count": 8906,
-   "errors": 198,
+   "errors": 144,
    "name": "Liguria",
-   "osm_base": "2026-11-17T12:24:00Z",
-   "sha1": "ca7781a1fcf8721212f719f8efe4f41fc746ec7c",
-   "tried": "2026-11-17",
-   "updated": "2026-11-17T12:25:54Z"
+   "osm_base": "2026-11-18T22:09:47Z",
+   "sha1": "d12407e3dec04e025986dc12820d1eb6eecbec24",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T22:11:19Z"
   },
   "lituania": {
    "count": 89293,
@@ -823,12 +823,13 @@
    "updated": "2026-11-17T09:09:26Z"
   },
   "sicilia": {
-   "count": 49245,
-   "errors": 783,
+   "count": 49447,
+   "errors": 513,
    "name": "Sicilia",
-   "sha1": "cf572969a0291dc0d537964064748101fce184c4",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:14:05Z"
+   "osm_base": "2026-11-18T22:23:06Z",
+   "sha1": "cc967cb7754bff0d4b8d16f2f2234339bd7c355e",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T22:24:55Z"
   },
   "slaskie": {
    "count": 118949,
