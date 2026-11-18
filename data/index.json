@@ -300,12 +300,13 @@
    "updated": "2026-11-13T00:07:05Z"
   },
   "est-inghilterra": {
-   "count": 104262,
-   "diam": "mm",
-   "errors": 216,
+   "count": 104372,
+   "errors": 271,
    "name": "Est dell'Inghilterra",
-   "sha1": "49f30898b0ad3899c796ecee62a0abc8199688b1",
-   "updated": "2026-11-12T02:27:26Z"
+   "osm_base": "2026-11-18T23:34:05Z",
+   "sha1": "05aafb432301ce7cd640b0e3a3ca62ad2f06b984",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T23:36:25Z"
   },
   "estonia": {
    "count": 80952,
@@ -342,12 +343,13 @@
    "updated": "2026-11-18T19:16:07Z"
   },
   "galles": {
-   "count": 59293,
-   "errors": 37,
+   "count": 59347,
+   "errors": 38,
    "name": "Galles",
-   "sha1": "37692555187ed97453670e7184f2337fcaf971e9",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T19:50:50Z"
+   "osm_base": "2026-11-18T23:23:50Z",
+   "sha1": "c013ea1f73713a977aa01213184df9cdb06f7755",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T23:25:47Z"
   },
   "giappone": {
    "count": 305640,
@@ -384,12 +386,13 @@
    "updated": "2026-11-16T23:30:40Z"
   },
   "irlanda-del-nord": {
-   "count": 45354,
-   "diam": "mm",
-   "errors": 15,
+   "count": 45493,
+   "errors": 14,
    "name": "Irlanda del Nord",
-   "sha1": "b617ac9ab5b18d0f4f11cb17348afa3b3b8bf426",
-   "updated": "2026-11-12T02:22:01Z"
+   "osm_base": "2026-11-18T23:24:54Z",
+   "sha1": "4ec3ddd226e87029e5afebb7312324cbf24dcb67",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T23:27:37Z"
   },
   "isole-baleari": {
    "count": 9362,
@@ -493,12 +496,13 @@
    "updated": "2026-11-13T02:48:46Z"
   },
   "londra": {
-   "count": 213012,
-   "diam": "mm",
-   "errors": 9643,
+   "count": 213110,
+   "errors": 10155,
    "name": "Londra",
-   "sha1": "1603726305662b2f765479fa1fddc6cf42ca8a09",
-   "updated": "2026-11-12T02:27:56Z"
+   "osm_base": "2026-11-18T23:35:06Z",
+   "sha1": "d326be40f6015afc7603061499a2b7afdc74def0",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T23:37:05Z"
   },
   "lubelskie": {
    "count": 81540,
@@ -574,21 +578,22 @@
    "updated": "2026-11-18T19:16:49Z"
   },
   "midlands-occidentali": {
-   "count": 207112,
-   "errors": 849,
+   "count": 207158,
+   "errors": 713,
    "name": "Midlands Occidentali",
-   "sha1": "5d650025e51d07d09d361cbcb87b519321bcfe26",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T00:39:51Z"
+   "osm_base": "2026-11-18T23:33:06Z",
+   "sha1": "4bbc18612555a30f31edd411eec4f45ef95c650a",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T23:35:27Z"
   },
   "midlands-orientali": {
-   "count": 198917,
-   "errors": 319,
+   "count": 199530,
+   "errors": 358,
    "name": "Midlands Orientali",
-   "osm_base": "2026-11-17T09:32:21Z",
-   "sha1": "b21d2bacc79adc285988731632ed99216bd8b616",
-   "tried": "2026-11-17",
-   "updated": "2026-11-17T09:34:08Z"
+   "osm_base": "2026-11-18T23:32:05Z",
+   "sha1": "8623f84d882892eaa5c2b6789e9cc277fc9d1ac1",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T23:34:20Z"
   },
   "molise": {
    "count": 57853,
@@ -640,20 +645,22 @@
    "updated": "2026-11-18T19:17:22Z"
   },
   "nord-est-inghilterra": {
-   "count": 12257,
-   "diam": "mm",
+   "count": 12278,
    "errors": 5,
    "name": "Nord Est dell'Inghilterra",
-   "sha1": "7e386de792e444f7171b6f0170ef260a29c575c0",
-   "updated": "2026-11-12T02:23:30Z"
+   "osm_base": "2026-11-18T23:27:58Z",
+   "sha1": "de14fd890643db9a96dd7a2991fa19c4cb028db9",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T23:29:30Z"
   },
   "nord-ovest-inghilterra": {
-   "count": 112035,
-   "diam": "mm",
-   "errors": 101,
+   "count": 112374,
+   "errors": 123,
    "name": "Nord Ovest dell'Inghilterra",
-   "sha1": "a099ffebb8c131e09a27c15e980533f761089212",
-   "updated": "2026-11-12T02:24:13Z"
+   "osm_base": "2026-11-18T23:27:58Z",
+   "sha1": "4594cd1b0e4c6904ea1ad0c5e31135e6431f5cd9",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T23:30:27Z"
   },
   "normandia": {
    "count": 118668,
@@ -806,12 +813,13 @@
    "updated": "2026-11-13T00:14:45Z"
   },
   "scozia": {
-   "count": 236670,
-   "diam": "mm",
-   "errors": 169,
+   "count": 237221,
+   "errors": 227,
    "name": "Scozia",
-   "sha1": "7020239ca5e65354b0a05b15c9ef8f4ae8a4f18b",
-   "updated": "2026-11-12T02:22:55Z"
+   "osm_base": "2026-11-18T23:26:55Z",
+   "sha1": "005b109665f98814a49b90400d3f025949bba303",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T23:28:48Z"
   },
   "serbia": {
    "count": 40112,
@@ -856,21 +864,22 @@
    "updated": "2026-11-16T17:15:13Z"
   },
   "sud-est-inghilterra": {
-   "count": 448362,
-   "diam": "mm",
-   "errors": 202,
+   "count": 451045,
+   "errors": 427,
    "name": "Sud Est dell'Inghilterra",
-   "sha1": "690af97035ea417124b4015aa5f56d5ca896aee9",
-   "updated": "2026-11-12T02:28:58Z"
+   "osm_base": "2026-11-18T23:36:07Z",
+   "sha1": "9620eabf4635404fdd7ae0d3f8a8afb6c62e08c6",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T23:38:26Z"
   },
   "sud-ovest-inghilterra": {
-   "count": 123904,
-   "errors": 1089,
+   "count": 123994,
+   "errors": 791,
    "name": "Sud Ovest dell'Inghilterra",
-   "osm_base": "2026-11-17T20:33:12Z",
-   "sha1": "2929e9006e2c6a6e5ec743c25d5d6dad1bc21317",
-   "tried": "2026-11-17",
-   "updated": "2026-11-17T20:36:05Z"
+   "osm_base": "2026-11-18T23:37:09Z",
+   "sha1": "10bdd026ffbd6fcd4bc5774882a3c36ccd5a7bda",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T23:39:31Z"
   },
   "swietokrzyskie": {
    "count": 38932,
@@ -1004,12 +1013,13 @@
    "updated": "2026-11-15T23:55:24Z"
   },
   "yorkshire-e-humber": {
-   "count": 76107,
-   "diam": "mm",
-   "errors": 56,
+   "count": 76321,
+   "errors": 85,
    "name": "Yorkshire e Humber",
-   "sha1": "0da3a6b5b83286c6b3d7aae9abc9623adde22d5a",
-   "updated": "2026-11-12T02:24:56Z"
+   "osm_base": "2026-11-18T23:29:01Z",
+   "sha1": "327c3d0bfaa518315a500235982c98df183cf844",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T23:33:18Z"
   },
   "zachodniopomorskie": {
    "count": 224060,
