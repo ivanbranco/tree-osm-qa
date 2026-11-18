@@ -461,12 +461,12 @@
   },
   "liguria": {
    "count": 8906,
-   "errors": 198,
+   "errors": 144,
    "name": "Liguria",
-   "osm_base": "2026-11-17T12:24:00Z",
-   "sha1": "ca7781a1fcf8721212f719f8efe4f41fc746ec7c",
-   "tried": "2026-11-17",
-   "updated": "2026-11-17T12:25:54Z"
+   "osm_base": "2026-11-18T22:09:47Z",
+   "sha1": "d12407e3dec04e025986dc12820d1eb6eecbec24",
+   "tried": "2026-11-18",
+   "updated": "2026-11-18T22:11:19Z"
   },
   "lituania": {
    "count": 89293,
