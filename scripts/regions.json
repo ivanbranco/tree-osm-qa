@@ -5,6 +5,7 @@
   {"slug": "estonia", "name": "Estonia", "name_en": "Estonia", "iso": "EE", "rel": 79510, "bbox": [57.5, 21.3, 60.0, 28.3]},
   {"slug": "slovenia", "name": "Slovenia", "name_en": "Slovenia", "iso": "SI", "rel": 218657, "bbox": [45.4, 13.3, 46.9, 16.6]},
   {"slug": "croazia", "name": "Croazia", "name_en": "Croatia", "iso": "HR", "rel": 214885, "bbox": [42.1, 13.2, 46.6, 19.5]},
+  {"slug": "cechia", "name": "Cechia", "name_en": "Czechia", "iso": "CZ", "rel": 51684, "bbox": [48.5, 12.0, 51.1, 18.9]},
   {"slug": "vienna", "name": "Vienna", "name_en": "Vienna", "group": "Austria", "group_en": "Austria", "group_rel": 16239, "iso": "AT-9", "rel": 109166, "bbox": [48.07, 16.13, 48.37, 16.63]},
   {"slug": "bassa-austria", "name": "Bassa Austria", "name_en": "Lower Austria", "group": "Austria", "group_en": "Austria", "group_rel": 16239, "iso": "AT-3", "rel": 77189, "bbox": [47.37, 14.4, 49.07, 17.12]},
   {"slug": "alta-austria", "name": "Alta Austria", "name_en": "Upper Austria", "group": "Austria", "group_en": "Austria", "group_rel": 16239, "iso": "AT-4", "rel": 102303, "bbox": [47.41, 12.7, 48.82, 15.04]},
