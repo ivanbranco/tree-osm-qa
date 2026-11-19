@@ -235,7 +235,7 @@
   .pop:focus-visible{outline:1px dotted currentColor}
   .pop.open .tip{display:block}
   .card .rec{margin:4px 0}
-  /* riconoscimento di un ente (MASAF, RAMI, ICNF, ANF, CRFOP): ★ davanti, le righe a capo allineate al testo; i criteri MASAF
+  /* riconoscimento di un ente (MASAF, RAMI, ICNF, ANF, CRFOP, ÚSOP): ★ davanti, le righe a capo allineate al testo; i criteri MASAF
      (.sub) rientrano allo stesso punto, sotto la riga MASAF */
   .card .rec.off{padding-left:1.2em;text-indent:-1.2em}
   .card .rec.off::before{content:"★";content:"★" / "";display:inline-block;width:1.2em;text-indent:0;color:#b8860b}
@@ -834,8 +834,8 @@ const I18N = {
       website_wikipedia: "website=* o url=* con l'indirizzo di una voce di Wikipedia: per le voci c'è il tag wikipedia=*, che indica la voce del singolo albero.",
       broken_link: "Segnalati: pagine 404 o 410, siti che non esistono più e file assenti su Commons. Non sono segnalati 403, 429, errori del server e timeout, che spesso sono blocchi verso i programmi automatici.",
       commons_far: "Le coordinate del file di Commons collegato (wikimedia_commons o image) distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
-      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) o con una tutela (P1435) indicano un albero monumentale, che in OSM ha denotation=natural_monument. Sui ceppi ref:CRFOP e ref:gid non sono segnalati.",
-      register_country: "Tag dei registri nazionali degli alberi monumentali: ref:masaf, masaf:criteria e ref:rami (Italia), ref:icnf e heritage:operator=icnf (Portogallo), heritage:operator=anf (Lussemburgo), ref:CRFOP e ref:gid (Polonia). Segnalati sugli alberi delle regioni di altre nazioni.",
+      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, ref:usop, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) o con una tutela (P1435) indicano un albero monumentale, che in OSM ha denotation=natural_monument. Sui ceppi ref:CRFOP e ref:gid non sono segnalati.",
+      register_country: "Tag dei registri nazionali degli alberi monumentali: ref:masaf, masaf:criteria e ref:rami (Italia), ref:icnf e heritage:operator=icnf (Portogallo), heritage:operator=anf (Lussemburgo), ref:CRFOP e ref:gid (Polonia), ref:usop (Cechia). Segnalati sugli alberi delle regioni di altre nazioni.",
       masaf_criteria: "Codici ammessi: a–g, a1, a2, a2.1, a2.2, a2.3, separati da virgole senza spazi.",
       masaf_removed: "Il codice ref:masaf corrisponde a un albero che l'elenco degli alberi monumentali d'Italia dà come rimosso. Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       masaf_unknown: "Il codice ref:masaf non è nell'elenco degli alberi monumentali d'Italia, né tra gli alberi iscritti né tra quelli rimossi. Lo zero iniziale del primo numero non conta (01/G114/CN/01 vale come 001/G114/CN/01). Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
@@ -964,6 +964,7 @@ const I18N = {
     recIcnf: (l, ref) => `Albero di interesse pubblico, tutelato in Portogallo dall’${l("ICNF")}${ref ? ` (${ref})` : ""}`,
     recAnf: l => `Albero tutelato in Lussemburgo dall’${l("ANF")}`,
     recCrfop: (l, ref) => `Monumento naturale (pomnik przyrody) iscritto nel ${l("registro CRFOP")} della Polonia${ref ? ` (${ref})` : ""}`,
+    recUsop: (l, ref) => `Albero monumentale (památný strom) iscritto nel ${l("registro ÚSOP")} della Cechia (${ref})`,
     // specie dichiarata Monumento Natural in Cile (CL_MONUMENT_SPECIES): l(testo) = link al decreto
     recClMonument: (l, n, y) => `Specie dichiarata Monumento Natural in Cile (${l(`decreto ${n} del ${y}`)})`,
     // l(url, testo): link; kind = "zapis" (ref:zapis; il numero, di una lista non ufficiale, non si mostra),
@@ -1376,8 +1377,8 @@ const I18N = {
       website_wikipedia: "website=* or url=* with the address of a Wikipedia article: articles have their own tag, wikipedia=*, which gives the article about the single tree.",
       broken_link: "Reported: 404 or 410 pages, sites that no longer exist and files missing on Commons. 403, 429, server errors and timeouts are not reported, as they are often blocks against automated tools.",
       commons_far: "The coordinates of the linked Commons file (wikimedia_commons or image) are more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
-      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) or with a heritage designation (P1435) indicate a monumental tree, which in OSM has denotation=natural_monument. On tree stumps ref:CRFOP and ref:gid are not reported.",
-      register_country: "Tags of the national registers of monumental trees: ref:masaf, masaf:criteria and ref:rami (Italy), ref:icnf and heritage:operator=icnf (Portugal), heritage:operator=anf (Luxembourg), ref:CRFOP and ref:gid (Poland). Reported on trees of regions in other countries.",
+      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, ref:usop, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) or with a heritage designation (P1435) indicate a monumental tree, which in OSM has denotation=natural_monument. On tree stumps ref:CRFOP and ref:gid are not reported.",
+      register_country: "Tags of the national registers of monumental trees: ref:masaf, masaf:criteria and ref:rami (Italy), ref:icnf and heritage:operator=icnf (Portugal), heritage:operator=anf (Luxembourg), ref:CRFOP and ref:gid (Poland), ref:usop (Czechia). Reported on trees of regions in other countries.",
       masaf_criteria: "Allowed codes: a–g, a1, a2, a2.1, a2.2, a2.3, separated by commas without spaces.",
       masaf_removed: "The ref:masaf code belongs to a tree that the list of monumental trees of Italy reports as removed. Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       masaf_unknown: "The ref:masaf code is not in the list of monumental trees of Italy, neither among the listed trees nor among the removed ones. The leading zero of the first number does not count (01/G114/CN/01 is the same as 001/G114/CN/01). Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
@@ -1495,6 +1496,7 @@ const I18N = {
     recIcnf: (l, ref) => `Tree of public interest, protected in Portugal by the ${l("ICNF")}${ref ? ` (${ref})` : ""}`,
     recAnf: l => `Tree protected in Luxembourg by the ${l("ANF")}`,
     recCrfop: (l, ref) => `Natural monument (pomnik przyrody) listed in the Polish ${l("CRFOP register")}${ref ? ` (${ref})` : ""}`,
+    recUsop: (l, ref) => `Memorial tree (památný strom) listed in the Czech ${l("ÚSOP register")} (${ref})`,
     recClMonument: (l, n, y) => `Species declared a Natural Monument in Chile (${l(`decree ${n} of ${y}`)})`,
     recSacred: (l, kind) => kind ? `Sacred tree: ${l(SACRED_WP[kind], SACRED_NAME[kind])}` : "Sacred tree",
     recCriteria: list => `MASAF monumentality criteria: ${list}`,
@@ -4453,6 +4455,8 @@ const RAMI_URL = "https://ilregistrodeglialberi.it/cerca";
 const ICNF_URL = "https://www.icnf.pt/";            // heritage:operator=icnf (Portogallo)
 const ANF_URL = "https://anf.gouvernement.lu/";     // heritage:operator=anf (Lussemburgo)
 const CRFOP_URL = "https://crfop.gdos.gov.pl/";      // ref:CRFOP, ref:gid (Polonia)
+// ref:usop (Cechia): portale della banca dati DRUSOP. Non c'è un indirizzo pubblico per la pagina di un solo albero
+const USOP_URL = "https://drusop.nature.cz/portal/";
 // Specie dichiarate Monumento Natural in Cile (issue #82): [numero del decreto, anno della promulgazione, idNorma
 // della Biblioteca del Congreso Nacional]. Ogni decreto vale per ogni individuo della specie nel territorio nazionale
 // (testi verificati su bcn.cl a novembre 2026). Non sono alberi monumentali: solo una riga ★ nella scheda
@@ -4539,6 +4543,7 @@ function recognitions(p) {
   // ref:CRFOP e ref:gid sono codici dello stesso registro: una riga sola, con ref:CRFOP se c'è
   const crfop = p["ref:CRFOP"] || p["ref:gid"];
   if (crfop) r.push(["off", L.recCrfop(t => link(CRFOP_URL, t), esc(crfop))]);
+  if (p["ref:usop"]) r.push(["off", L.recUsop(t => link(USOP_URL, t), esc(p["ref:usop"]))]);
   // specie Monumento Natural in Cile: dipende dalla specie (nome senza autore, solo le prime due parole) e dalla
   // regione, non da un tag dell'albero; i decreti valgono per gli individui vivi, quindi non per i ceppi
   const clMon = !p.stump && treeIso(p).slice(0, 2).toUpperCase() === "CL"
@@ -4570,7 +4575,7 @@ function implicitSources(p) {
 function implicitSourceNames(p) {
   const name = s => s.startsWith("wikidata=") ? "Wikidata" : s.startsWith("heritage:operator=") ? s.slice(18).toUpperCase()
     : { "ref:masaf": "MASAF", "ref:rami": "RAMI", "ref:monumentaltrees": "monumentaltrees.com",
-        "ref:CRFOP": "CRFOP", "ref:gid": "CRFOP" }[s] || s;
+        "ref:CRFOP": "CRFOP", "ref:gid": "CRFOP", "ref:usop": "ÚSOP" }[s] || s;
   const src = String(p.mon_src || "").split(";").filter(Boolean).map(name);
   if (p.wd_her_q) src.push("Wikidata");
   return new Intl.ListFormat(LANG, { type: "conjunction" }).format([...new Set(src)]);

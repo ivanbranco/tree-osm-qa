@@ -1753,13 +1753,16 @@ HERITAGE_OPERATORS = ("icnf", "anf")
 # codici del CRFOP (Centralny Rejestr Form Ochrony Przyrody, registro polacco dei pomniki przyrody, issue #8):
 # ref:CRFOP e ref:gid. Su un ceppo sono normali (il monumento naturale di un albero che non c'è più)
 CRFOP_KEYS = ("ref:CRFOP", "ref:gid")
+# codice ÚSOP (Ústřední seznam ochrany přírody, registro ceco dei památné stromy, database DRUSOP): ref:usop, scritto
+# dall'import da RUIAN (https://wiki.openstreetmap.org/wiki/Organised_Editing/Activities/Reperfect.it)
+USOP_KEY = "ref:usop"
 
 # tag dei registri nazionali degli alberi monumentali: (chiave, valore o None per qualsiasi valore, codice ISO della
 # nazione). Check register_country: il tag su un albero di una regione di un'altra nazione
 NATIONAL_TAGS = (("ref:masaf", None, "IT"), ("masaf:criteria", None, "IT"), ("ref:rami", None, "IT"),
                  ("ref:icnf", None, "PT"), ("heritage:operator", "icnf", "PT"),
                  ("heritage:operator", "anf", "LU"),
-                 ("ref:CRFOP", None, "PL"), ("ref:gid", None, "PL"))
+                 ("ref:CRFOP", None, "PL"), ("ref:gid", None, "PL"), (USOP_KEY, None, "CZ"))
 COUNTRY = ""   # codice ISO della nazione della regione che si sta aggiornando (update_region); "" = non noto
 REGION_ISO = ""   # codice ISO completo della stessa regione (GB-SCT; per una regione-nazione come COUNTRY)
 
@@ -1782,9 +1785,9 @@ def register_out_of_country(t):
 
 def monument_sources(t):
     """Fonti che indicano un albero monumentale: ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid,
-    heritage:operator di HERITAGE_OPERATORS, elemento di wikidata=* con P9704 o istanza di Q811534, link a
+    ref:usop, heritage:operator di HERITAGE_OPERATORS, elemento di wikidata=* con P9704 o istanza di Q811534, link a
     monumentaltrees.com."""
-    src = [k for k in ("ref:masaf", "ref:rami", "ref:monumentaltrees", *CRFOP_KEYS) if t.get(k)]
+    src = [k for k in ("ref:masaf", "ref:rami", "ref:monumentaltrees", *CRFOP_KEYS, USOP_KEY) if t.get(k)]
     if "heritage:operator" in t:
         src += [f"heritage:operator={v}" for v in (x.strip().lower() for x in str(t["heritage:operator"]).split(";"))
                 if v in HERITAGE_OPERATORS]
@@ -2519,7 +2522,7 @@ KNOWN_KEYS = ("natural", "species", "genus", "taxon", "leaf_type", "leaf_cycle",
               "genus:wikipedia", "taxon:wikidata", "taxon:wikipedia", "ref:masaf", "masaf:criteria", "ref:rami",
               "ref:monumentaltrees", "heritage:operator", "panoramax", "website", "multi_stemmed", "sex",
               "sacred_tree", "religion", "operator", "source", "description", "check_date", "survey:date",
-              "protected", "image:fotoshi", "ref:zapis", "ref:icnf", "ref:CRFOP", "ref:gid")
+              "protected", "image:fotoshi", "ref:zapis", "ref:icnf", "ref:CRFOP", "ref:gid", "ref:usop")
 KNOWN_KEY_SET = set(KNOWN_KEYS)
 NUMBERED_KEY = re.compile(r"[:_ ]?\d+$")   # image2, panoramax:1: varianti numerate, non errori
 
@@ -2528,7 +2531,7 @@ def key_tolerance(k):
     """Differenze ammesse rispetto a una chiave nota (distanza di Damerau-Levenshtein, oltre al maiuscolo): nessuna
     per le chiavi corte (name, sex), dove una lettera fa un'altra parola; 1 da 5 lettere; 2 da 12 lettere
     (circumfence, diameter_crwn), dove due lettere non bastano a fare un'altra chiave. Per le chiavi ref:… conta la
-    parte dopo "ref:": ref:gid, ref:rami e ref:icnf valgono come chiavi corte (ref:uid e ref:fid sono altre chiavi)."""
+    parte dopo "ref:": ref:gid, ref:rami, ref:icnf e ref:usop valgono come chiavi corte (ref:uid e ref:fid sono altre chiavi)."""
     if k.startswith("ref:"):
         k = k[4:]
     return 0 if len(k) < 5 else 1 if len(k) < 12 else 2
@@ -2884,7 +2887,7 @@ KEEP = ["name", "species", "genus", "taxon", "taxon:variety", "variety", "taxon:
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
         "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion", "multi_stemmed",
-        "heritage:operator", "ref:icnf", "ref:CRFOP", "ref:gid", "sex"]
+        "heritage:operator", "ref:icnf", "ref:CRFOP", "ref:gid", "ref:usop", "sex"]
 
 # Alberi da frutto (rendering: puntini colorati sulla chioma, issue #3): mele, noci, limoni e arance. Solo specie
 # coltivate per i frutti, non i generi interi (molti Malus e Prunus sono ornamentali). Colore del frutto per specie.
