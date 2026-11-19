@@ -503,13 +503,14 @@ const I18N = {
         photo: k => `Una foto dell'albero: ${k("wikimedia_commons")} (File:… o Category:…), ${k("panoramax")}, image:fotoshi=* o ${k("image")}. Conta anche la foto (P18) dell'elemento Wikidata di ${k("wikidata")}.` } },
     // scheda Alberi da record (issue #15). how: come si calcola ogni primato (al passaggio del mouse sul nome)
     rec: "Alberi da record",
-    rc: { names: { height: "Più alto", trunk: "Tronco più spesso", slender: "Più slanciato", stocky: "Più tozzo", crown: "Chioma più larga", oldest: "Più vecchio", isolated: "Più isolato" },
+    rc: { names: { height: "Più alto", trunk: "Tronco più spesso", slender: "Più slanciato", stocky: "Più tozzo", crown: "Chioma più larga", oldest: "Più vecchio", elevation: "Quota più alta", isolated: "Più isolato" },
       how: { height: "Il valore più alto di height=*.",
         trunk: "La circonferenza del tronco più grande: circumference=*; se manca, diameter=* (senza unità è in millimetri) moltiplicato per π. I valori di multi_stemmed=* non si usano.",
         slender: "Il rapporto più alto tra l'altezza (height=*) e il diametro del tronco (diameter=*, o circumference=* diviso π). Solo alberi con entrambe le misure e alti almeno 2 m.",
         stocky: "Il rapporto più basso tra l'altezza (height=*) e il diametro del tronco (diameter=*, o circumference=* diviso π). Solo alberi con entrambe le misure e alti almeno 2 m.",
         crown: "Il valore più alto di diameter_crown=*.",
         oldest: "La data più vecchia di start_date=*. Le date approssimative contano con l'anno più vecchio che indicano (~1500 e before 1500 = 1500, 1850s = 1850, C16 = 1500, 1500..1600 = 1500) e si mostrano come sono scritte su OSM. Le date dello stesso anno sono a pari merito: prima la più precisa (1850-05-01, poi 1850, poi 1850s).",
+        elevation: "La quota più alta sul livello del mare, dall'Elevation API di overpass.ch: il modello Copernicus GLO-30, una griglia di 30 m che misura la superficie, chiome ed edifici compresi (in Svizzera swissALTI3D, il terreno con una griglia di 2 m). Si calcola nell'aggiornamento della regione, solo in alcune regioni.",
         isolated: "La distanza più grande dalla cosa più vicina tra gli altri alberi (natural=tree), i boschi (natural=wood, landuse=forest) e i filari (natural=tree_row) di OpenStreetMap, anche fuori dalla regione. Si calcola con QLever dopo l'aggiornamento della regione, sui dati OSM di QLever, che possono essere indietro di qualche giorno; non segue i filtri. Oltre 50 km si scrive «oltre 50 km»." },
       howAll: "I valori con un'unità (cm, ft…) sono convertiti. I valori segnalati da un check contano lo stesso, con ⚠, e a pari merito vengono prima. Il triangolino apre la lista dei primi dieci.",
       warn: "Valore segnalato", ratio: (h, d) => `altezza ${h} / tronco ⌀ ${d}`,
@@ -607,6 +608,7 @@ const I18N = {
       sexHint: (period, f, m) => `Se si riconosce il sesso di questo albero, si potrebbe aggiungere sex=female o sex=male.${period ? ` ${period} è un buon periodo per verificarlo.` : ""} ${f} ${m}`,
       sexPeriod: (a, b) => `Tra ${a} e ${b}`,
       monotypic: (g, s) => `${g} ha una sola specie vivente: si potrebbe aggiungere species=${s}`,
+      highNoSpecies: m => `Albero a circa ${m} m di quota senza species=*: sopra i 1800 m le specie di alberi sono poche, e sul posto si potrebbe riconoscerla e aggiungerla`,
       sequoiaNote: "In questo paese il nome comune «sequoia» indica spesso anche la sequoia gigante (Sequoiadendron giganteum): conviene verificare che l'albero non lo sia",
     },
     masafNote: (l, code) => `Dall’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${code}): non ancora su OpenStreetMap.`,
@@ -1072,13 +1074,14 @@ const I18N = {
         diameter_crown: k => `${k("diameter_crown")}: crown diameter in metres (e.g. diameter_crown=8). It is measured on the ground, from one edge of the crown to the other through the trunk.`,
         photo: k => `A photo of the tree: ${k("wikimedia_commons")} (File:… or Category:…), ${k("panoramax")}, image:fotoshi=* or ${k("image")}. The photo (P18) of the Wikidata item of ${k("wikidata")} counts too.` } },
     rec: "Record trees",
-    rc: { names: { height: "Tallest", trunk: "Thickest trunk", slender: "Most slender", stocky: "Stockiest", crown: "Widest crown", oldest: "Oldest", isolated: "Most isolated" },
+    rc: { names: { height: "Tallest", trunk: "Thickest trunk", slender: "Most slender", stocky: "Stockiest", crown: "Widest crown", oldest: "Oldest", elevation: "Highest elevation", isolated: "Most isolated" },
       how: { height: "The highest value of height=*.",
         trunk: "The largest trunk circumference: circumference=*; if missing, diameter=* (millimetres without a unit) multiplied by π. The values of multi_stemmed=* are not used.",
         slender: "The highest ratio between the height (height=*) and the trunk diameter (diameter=*, or circumference=* divided by π). Only trees with both measurements and at least 2 m tall.",
         stocky: "The lowest ratio between the height (height=*) and the trunk diameter (diameter=*, or circumference=* divided by π). Only trees with both measurements and at least 2 m tall.",
         crown: "The highest value of diameter_crown=*.",
         oldest: "The oldest date of start_date=*. Approximate dates count with the oldest year they indicate (~1500 and before 1500 = 1500, 1850s = 1850, C16 = 1500, 1500..1600 = 1500) and are shown as written on OSM. Dates of the same year are tied: the most precise one comes first (1850-05-01, then 1850, then 1850s).",
+        elevation: "The highest elevation above sea level, from the Elevation API of overpass.ch: the Copernicus GLO-30 model, a 30 m grid of the surface, canopies and buildings included (in Switzerland swissALTI3D, the ground on a 2 m grid). It is computed during the update of the region, only in some regions.",
         isolated: "The largest distance from the nearest of the other trees (natural=tree), woods (natural=wood, landuse=forest) and tree rows (natural=tree_row) on OpenStreetMap, also outside the region. It is computed with QLever after the update of the region, on QLever's OSM data, which can be a few days behind; it does not follow the filters. Beyond 50 km it shows «over 50 km»." },
       howAll: "Values with a unit (cm, ft…) are converted. Values reported by a check count too, with ⚠, and come first in a tie. The small triangle opens the top ten list.",
       warn: "Value reported", ratio: (h, d) => `height ${h} / trunk ⌀ ${d}`,
@@ -1160,6 +1163,7 @@ const I18N = {
       sexHint: (period, f, m) => `If the sex of this tree can be recognised, sex=female or sex=male could be added.${period ? ` ${period} is a good time to check.` : ""} ${f} ${m}`,
       sexPeriod: (a, b) => `${a} to ${b}`,
       monotypic: (g, s) => `${g} has a single living species: species=${s} could be added`,
+      highNoSpecies: m => `Tree at about ${m} m of elevation without species=*: above 1800 m there are few tree species, and on site it could be identified and added`,
       sequoiaNote: "In this country the common name \"sequoia\" is often used for the giant sequoia (Sequoiadendron giganteum) too: check that the tree is not one",
     },
     masafNote: (l, code) => `From the MASAF ${l("list of monumental trees of Italy")} (${code}): not on OpenStreetMap yet.`,
@@ -3164,6 +3168,7 @@ map.on("load", async () => {
       + (filters.length ? `<div class="rc-filter">${esc(L.rc.filter(filters.join(" · ")))}</div>` : "")
       + (msg ? `<div class="note">${esc(msg)}</div>` : REC_KEYS.map(k => {
         const b = best[k], open = recOpen === k, n = b ? b.list.length : 0;
+        if (k === "elevation" && !b) return "";   // regione (o regioni) senza le quote: il primato non c'è
         // chiusa: il primato (gli alberi al primo posto); aperta: tutta la lista, con le posizioni dalla seconda in poi
         const rows = b ? b.list.map((t, i) => open || t.rank === 1 ? row(k, t, i) : "").join("") : "";
         const more = b && b.more > 0 && (open || b.list[n - 1].rank === 1);
@@ -4084,8 +4089,10 @@ const yearEvent = (ev, k, iso) => {
   return null;
 };
 // isolated («Più isolato»): non si calcola dai tag ma con QLever in fetch_trees.py (region_isolated), quindi arriva
-// sempre da data/records.json, anche con una regione caricata; sulla mappa dei monumentali non c'è
-const REC_KEYS = ["height", "trunk", "slender", "stocky", "crown", "oldest", ...(WORLD ? [] : ["isolated"])];
+// sempre da data/records.json, anche con una regione caricata; sulla mappa dei monumentali non c'è.
+// elevation («Quota più alta»): dalla proprietà elev, che c'è solo nelle regioni con le quote (add_elevation in
+// fetch_trees.py); senza alberi con la quota il primato non si mostra
+const REC_KEYS = ["height", "trunk", "slender", "stocky", "crown", "oldest", ...(WORLD ? [] : ["elevation", "isolated"])];
 const REC_LOW = new Set(["stocky", "oldest"]);   // primati in cui vince il valore più basso
 const REC_MIN_H = 2;     // m: sotto, niente rapporto altezza/diametro del tronco
 const REC_TOP = 10;      // alberi nella lista di ogni primato (issue #48)
@@ -4104,13 +4111,14 @@ const recValues = (p, m = recMeasure(p)) => {
   if (m.c > 0) { o.trunk = m.c; if (m.h >= REC_MIN_H) o.slender = o.stocky = m.h / m.d; }
   if (m.cd > 0) o.crown = m.cd;
   if (m.y != null) o.oldest = Math.floor(m.y / 10000);   // l'anno: le date dello stesso anno sono a pari merito
+  if (p.elev != null) o.elevation = p.elev;   // metri, anche sotto il livello del mare
   if (p.iso > 0) o.isolated = p.iso;   // km, solo negli alberi di «Più isolato» in data/records.json
   return o;
 };
 const recRound = v => Number(v.toPrecision(9));   // valore per il confronto: i rapporti calcolati differiscono nelle ultime cifre
 // aggiunge un albero ai candidati di ogni primato per cui ha un valore: cands = { primato: [{ p, pos, slug, v }] }
 const recAdd = (cands, p, pos, slug) => {
-  if (p.stump || !REC_TAGS.some(k => p[k] != null)) return;   // quasi tutti gli alberi non hanno misure
+  if (p.stump || (p.elev == null && !REC_TAGS.some(k => p[k] != null))) return;   // quasi tutti gli alberi non hanno misure
   const v = recValues(p);
   for (const k in v) (cands[k] = cands[k] || []).push({ p, pos, slug, v: v[k] });
 };
@@ -4146,11 +4154,11 @@ const recTop = (k, cands, hidden = []) => {
 const recWarn = (k, p, m) => {
   const trunkTag = m.fromD ? "diameter" : "circumference";
   const tags = { height: ["height"], trunk: [trunkTag], slender: ["height", trunkTag], stocky: ["height", trunkTag],
-    crown: ["diameter_crown"], oldest: ["start_date"], isolated: [] }[k];
+    crown: ["diameter_crown"], oldest: ["start_date"], elevation: [], isolated: [] }[k];
   const ratio = ["too_slender", "too_slender_species", "too_stocky"];
   const hC = ["height", "height_species"], tC = ["circumference", "circumference_species", m.fromD ? "diameter_unit" : "circ_diam_mismatch"];
   const codes = { height: [...hC, ...ratio], trunk: [...tC, ...ratio], slender: [...hC, ...tC, ...ratio],
-    stocky: [...hC, ...tC, ...ratio], crown: ["crown"], oldest: [], isolated: [] }[k];
+    stocky: [...hC, ...tC, ...ratio], crown: ["crown"], oldest: [], elevation: [], isolated: [] }[k];
   const iss = p.issues || "|", out = codes.filter(c => iss.includes(`|${c}|`));
   const listed = (v, sep) => String(v || "").split(sep).some(x => tags.includes(x.split("|")[0]));
   if (iss.includes("|comma|") && listed(p.comma, ";")) out.push("comma");
@@ -4168,6 +4176,7 @@ const recShow = (k, p, m) => {
     case "trunk": return [m.fromD ? `⌀ ${fmtRec(m.d * 1000, { maximumFractionDigits: 1 })} mm` : fmtRec(m.c) + " m", ""];
     case "crown": return [fmtRec(m.cd) + " m", ""];
     case "oldest": return [String(p.start_date), ""];
+    case "elevation": return [fmtRec(p.elev, { maximumFractionDigits: 0 }) + " m", ""];
     // distanza in km (sotto 1 km in metri); con "cap" niente entro ISO_CAP_KM di fetch_trees.py: «oltre 50 km»
     case "isolated": return p.cap ? [L.rc.isoOver(fmtRec(p.iso, { maximumFractionDigits: 0 })), L.rc.isoNothing]
       : [p.iso < 1 ? fmtRec(p.iso * 1000, { maximumFractionDigits: 0 }) + " m" : fmtRec(p.iso) + " km", L.rc.isoNear[p.nk] || ""];
@@ -5619,6 +5628,7 @@ const MONOTYPIC = {
   Tetracentron: "Tetracentron sinense", Trochodendron: "Trochodendron aralioides", Oxydendrum: "Oxydendrum arboreum",
   Franklinia: "Franklinia alatamaha", Umbellularia: "Umbellularia californica",
 };
+const ELEV_HINT = 1800;   // m: da qui in su, consiglio sugli alberi senza species=* (highNoSpecies)
 const SEQUOIA_NOTE = new Set(["IT", "FR", "BE", "LU", "CH", "MC", "GB", "IE", "US", "CA", "AU", "NZ"]);
 function hints(p, pos) {
   const H = L.hint, out = [], codes = String(p.issues || "");
@@ -5666,6 +5676,10 @@ function hints(p, pos) {
   // genus=Sequoia nei paesi dove «sequoia» (séquoia) indica spesso anche la sequoia gigante, Sequoiadendron:
   // Italia, paesi francofoni e anglofoni
   if (mono === MONOTYPIC.Sequoia && SEQUOIA_NOTE.has(currentIso.slice(0, 2).toUpperCase())) out.push(H.sequoiaNote);
+  // albero senza species=* da ELEV_HINT metri in su (elev: solo nelle regioni con le quote, fetch_trees.py), se un
+  // altro consiglio non propone già una specie
+  if (!p.species && p.elev >= ELEV_HINT && !mono && !binomialHint(p.hint_sp) && !binomialHint(p.hint_sn) && !binomialHint(p.hint_wn))
+    out.push(H.highNoSpecies(fmtRec(p.elev, { maximumFractionDigits: 0 })));
   // leaf_type / leaf_cycle mancanti (non sbagliati: quelli sono errori), stimati dalle liste della wiki
   // I valori presi dal genere (lg, lgk: specie non nella lista, fetch_trees.py) si attribuiscono al genere, gli altri
   // alla specie: due consigli solo se la specie dà un valore e il genere l'altro

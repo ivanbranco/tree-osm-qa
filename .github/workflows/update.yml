@@ -178,6 +178,8 @@ jobs:
           PYTHONUNBUFFERED: "1"   # i messaggi dello script compaiono subito nel log
           # facoltativa: senza (o senza la spunta "Use FairwayMapper"), si usano solo i server pubblici
           FAIRWAYMAPPER_KEY: ${{ inputs.fairwaymapper && secrets.FAIRWAYMAPPER_KEY || '' }}
+          # quote degli alberi (overpass.ch), solo nelle regioni con "elevation" in scripts/regions.json
+          OVERPASS_CH_KEY: ${{ secrets.OVERPASS_CH_KEY }}
         run: python scripts/fetch_trees.py "${REGIONS:-$REGION}"
       - name: Commit
         if: ${{ !cancelled() }}

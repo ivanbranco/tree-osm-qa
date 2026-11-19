@@ -3226,6 +3226,67 @@ def write_gz(path, raw):
             gz.write(raw)
 
 
+# --- Quota degli alberi: primato «Quota più alta» e consiglio sugli alberi in quota senza species (index.html) ---
+# Solo nelle regioni con "elevation": true in scripts/regions.json. Proprietà "elev" (metri sul livello del mare, al
+# decimetro) di ogni albero e ceppo, dall'Elevation API di overpass.ch (https://overpass.ch/docs): fuori da Svizzera e
+# Liechtenstein il modello Copernicus GLO-30, una griglia di 30 m che misura la superficie (chiome ed edifici
+# compresi), in Svizzera swissALTI3D (il terreno, griglia di 2 m). Serve la chiave in OVERPASS_CH_KEY (secret
+# dell'Action). Si chiedono solo le quote degli alberi nuovi o spostati: le altre restano quelle del file precedente
+# della regione. Senza chiave, o se il servizio non risponde, gli alberi che non hanno una quota nel file precedente
+# restano senza (il resto dell'aggiornamento va avanti).
+ELEV_URL = "https://api.overpass.ch/v1/{key}/elevation"
+ELEV_BATCH = 10000     # punti per richiesta (massimo dei piani a pagamento)
+
+
+def add_elevation(region, fc, path):
+    """Aggiunge "elev" agli alberi di fc (vedi sopra); path = il file della regione scritto dall'aggiornamento
+    precedente."""
+    if not region.get("elevation"):
+        return
+    prev = {}
+    if path.exists():
+        for f in json.loads(gzip.decompress(path.read_bytes()))["features"]:
+            if (e := f["properties"].get("elev")) is not None:
+                prev[f["properties"]["id"]] = (f["geometry"]["coordinates"], e)
+    todo = []
+    for f in fc["features"]:
+        old = prev.get(f["properties"]["id"])
+        if old and old[0] == f["geometry"]["coordinates"]:
+            f["properties"]["elev"] = old[1]
+        else:
+            todo.append(f)
+    if not todo:
+        return
+    key = os.environ.get("OVERPASS_CH_KEY", "").strip()
+    if not key:
+        warn(f"{region['slug']}: {len(todo)} alberi senza quota (manca OVERPASS_CH_KEY)")
+        return
+    hide = lambda s: str(s).replace(key, "***")   # la chiave è nell'indirizzo: mai nei messaggi
+    for i in range(0, len(todo), ELEV_BATCH):
+        part = todo[i:i + ELEV_BATCH]
+        body = {"locations": [[f["geometry"]["coordinates"][1], f["geometry"]["coordinates"][0]] for f in part]}
+        try:
+            for attempt in range(3):
+                r = requests.post(ELEV_URL.format(key=key), json=body, headers=HEADERS, timeout=180)
+                if r.status_code in (429, 500, 502, 503, 504) and attempt < 2:
+                    time.sleep(15 * (attempt + 1))
+                    continue
+                if not r.ok:
+                    raise RuntimeError(f"HTTP {r.status_code}: {' '.join(r.text.split())[:200]}")
+                break
+            res = r.json()["results"]
+            if len(res) != len(part):
+                raise RuntimeError(f"{len(res)} quote per {len(part)} punti")
+        except Exception as e:
+            warn(f"{region['slug']}: quote non disponibili ({hide(e)[:300]}), "
+                 f"{len(todo) - i} alberi restano senza quota")
+            return
+        for f, x in zip(part, res):
+            if x.get("elevation") is not None:
+                f["properties"]["elev"] = round(float(x["elevation"]), 1)
+    print(f"{region['slug']}: quote di {len(todo)} alberi (overpass.ch)")
+
+
 def minimal(fc):
     """File ridotto per il caricamento in due fasi: solo gli alberi visibili a zoom basso (con errori o
     monumentali, anche i membri di un insieme omogeneo MASAF). Il sito lo carica e lo mostra subito, mentre il file
@@ -3247,7 +3308,8 @@ def minimal(fc):
 # Primati: height = più alto; trunk = tronco più spesso (circumference, altrimenti π × diameter; diameter senza unità
 # è sempre in millimetri, anche sotto DIAM_MM_MIN; i valori di multi_stemmed non si usano); slender e stocky = rapporto
 # altezza / diametro del tronco più alto e più basso, solo con entrambe le misure e altezza di almeno RECORD_MIN_H;
-# crown = chioma più larga (diameter_crown); oldest = start_date più vecchia. Ceppi esclusi. I valori segnalati dai
+# crown = chioma più larga (diameter_crown); oldest = start_date più vecchia; elevation = quota più alta ("elev", solo
+# nelle regioni con le quote: add_elevation). Ceppi esclusi. I valori segnalati dai
 # check contano lo stesso (il sito li marca con ⚠); quelli non leggibili, nulli o negativi no.
 RECORDS_FILE = DATA / "records.json"
 RECORD_MIN_H = 2.0     # m: sotto, niente rapporto altezza/diametro (alberelli appena piantati)
@@ -3256,7 +3318,8 @@ RECORD_LOW = {"stocky", "oldest"}   # primati in cui vince il valore più basso
 # tr e tr_est: il tronco disegnato sulla mappa, per il confronto dei primi tre più alti quando manca la circonferenza
 # leaf_type e lt (stimato) servono alla sagoma delle chiome nel confronto dall'alto di «Chioma più larga» (issue #60)
 RECORD_KEEP = ("id", "name", "species", "sp_it", "sp_en", "genus", "height", "circumference", "diameter",
-               "diameter_crown", "start_date", "issues", "comma", "unit_fix", "eq_keys", "tr", "tr_est", "leaf_type", "lt")
+               "diameter_crown", "start_date", "issues", "comma", "unit_fix", "eq_keys", "tr", "tr_est", "leaf_type", "lt",
+               "elev")
 # Frasi sull'anno per «Più vecchio» (pulsante nella riga del sito): una voce per anno, decennio o secolo, scritta a
 # mano. Le chiavi sono quelle di start_date_event_key
 YEAR_EVENTS = HERE / "year_events.json"
@@ -3425,6 +3488,8 @@ def record_values(p):
         out["crown"] = cd
     if (y := start_date_key(p.get("start_date"))) is not None:
         out["oldest"] = y // 10000         # l'anno: le date dello stesso anno sono a pari merito
+    if p.get("elev") is not None:          # anche sotto il livello del mare
+        out["elevation"] = p["elev"]
     return out
 
 
@@ -3439,9 +3504,9 @@ def record_warned(k, p):
     h_c = ("height", "height_species")
     t_c = ("circumference", "circumference_species", "diameter_unit" if from_d else "circ_diam_mismatch")
     tags = {"height": ("height",), "trunk": (trunk,), "slender": ("height", trunk), "stocky": ("height", trunk),
-            "crown": ("diameter_crown",), "oldest": ("start_date",)}[k]
+            "crown": ("diameter_crown",), "oldest": ("start_date",), "elevation": ()}[k]
     codes = {"height": h_c + RATIO_CHECKS, "trunk": t_c + RATIO_CHECKS, "slender": h_c + t_c + RATIO_CHECKS,
-             "stocky": h_c + t_c + RATIO_CHECKS, "crown": ("crown",), "oldest": ()}[k]
+             "stocky": h_c + t_c + RATIO_CHECKS, "crown": ("crown",), "oldest": (), "elevation": ()}[k]
     iss = p.get("issues") or "|"
     if any(f"|{c}|" in iss for c in codes):
         return True
@@ -3798,6 +3863,7 @@ def update_region(region, regions_index):
     update_gphotos_cache(els)    # indirizzo delle foto di Google Foto, per la scheda
     MASAF_GROUPS = load_masaf_groups(region, path) if IN_ITALY else {}   # insiemi omogenei MASAF, solo in Italia
     fc = build(data)
+    add_elevation(region, fc, path)   # quota degli alberi, solo nelle regioni con "elevation" in regions.json
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     digest = hashlib.sha1(raw).hexdigest()
     errors = sum(1 for f in fc["features"] if f["properties"]["issues"] != "|")  # alberi con almeno un errore
