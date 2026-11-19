@@ -130,11 +130,13 @@
    "updated": "2026-11-16T23:23:00Z"
   },
   "bulgaria": {
-   "count": 29084,
-   "errors": 28,
+   "count": 29157,
+   "errors": 55,
    "name": "Bulgaria",
-   "sha1": "cd8d3656076dfda5ea8c3dd725459456ae917d01",
-   "updated": "2026-11-12T19:07:40Z"
+   "osm_base": "2026-11-19T20:10:59Z",
+   "sha1": "48e4457dff612af04cd00558065756f49918cd07",
+   "tried": "2026-11-19",
+   "updated": "2026-11-19T20:12:34Z"
   },
   "burgenland": {
    "count": 15020,

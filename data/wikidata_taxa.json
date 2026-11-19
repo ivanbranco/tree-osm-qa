@@ -731,6 +731,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q106523374": {
+"en": "Fagus sylvatica in Beklemeto Pass",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1066106": {
 "alias": {
 "en": [
@@ -4297,6 +4303,12 @@
 "Q767728"
 ],
 "taxon": true
+},
+"Q12270529": {
+"en": "High School 78 Hristo Smirnenski",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q12306719": {
 "alias": {
@@ -7914,6 +7926,11 @@
 "Q4886"
 ],
 "taxon": true
+},
+"Q139005774": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1390911": {
 "alias": {
@@ -22331,6 +22348,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q2972102": {
+"en": "Granit Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2972106": {
 "en": "Remarkable oak in Hersberg-Altrier",
 "names": [],
@@ -31705,6 +31728,12 @@
 },
 "Q7961105": {
 "en": "Wakehurst",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q804139": {
+"en": "Baikushev's pine",
 "names": [],
 "ranks": [],
 "taxon": false
