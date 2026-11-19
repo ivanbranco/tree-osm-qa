@@ -1323,6 +1323,10 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:Horní Věstonice, Pálava (4).JPG": {
+"d": "2026-11-19",
+"s": "ok"
+},
 "commons:File:Houx commun sur le tour du plan d'eau de Saint-Clément 2025-05-02 16-46-43.JPG": {
 "d": "2026-11-08",
 "s": "ok"
@@ -1447,8 +1451,16 @@
 "d": "2026-11-09",
 "s": "ok"
 },
+"commons:File:Kaplička - zadní pohled, Suchdol, okres Prostějov.jpg": {
+"d": "2026-11-19",
+"s": "ok"
+},
 "commons:File:Kisulabeko_haritza.jpg": {
 "d": "2026-11-12",
+"s": "ok"
+},
+"commons:File:Kostel Všech svatých a boží muka, Jaroměřice, okres Svitavy.jpg": {
+"d": "2026-11-19",
 "s": "ok"
 },
 "commons:File:Kočevska_reka_oreh.jpg": {
@@ -1623,6 +1635,10 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:Masarykova lípa,Vlkov.jpg": {
+"d": "2026-11-19",
+"s": "ok"
+},
 "commons:File:MaytenusBoaria PlzChileValdivia.jpg": {
 "d": "2026-11-16",
 "s": "ok"
@@ -1641,6 +1657,10 @@
 },
 "commons:File:Micocoulier de Virginie dans le parc Kennedy (Vichy) 2023-06-25.JPG": {
 "d": "2026-11-08",
+"s": "ok"
+},
+"commons:File:Milionův buk u Lelekovic-2.jpg": {
+"d": "2026-11-19",
 "s": "ok"
 },
 "commons:File:Międzyzdroje Pomnik Przyrody.JPG": {
@@ -1813,6 +1833,18 @@
 },
 "commons:File:Palazzo Boncompagni - Giornata nazionale delle dimore storiche e WP25BO 14.jpg": {
 "d": "2026-11-08",
+"s": "ok"
+},
+"commons:File:Pamatna_hrusen-2017-08-klokocna.jpg": {
+"d": "2026-11-19",
+"s": "ok"
+},
+"commons:File:Památná lípa srdčitá před KD, Knínice u Boskovic.jpg": {
+"d": "2026-11-19",
+"s": "ok"
+},
+"commons:File:Památný strom na křižovatce ulic Na Střelnici a Lazecká, Olomouc.jpg": {
+"d": "2026-11-19",
 "s": "ok"
 },
 "commons:File:Panneau-chene-amitié-franco-belge.jpg": {
@@ -2275,6 +2307,14 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:Strom republiky - památník 100. výtočí založení Československa v Kolovratech.jpg": {
+"d": "2026-11-19",
+"s": "ok"
+},
+"commons:File:Stromy před branou do Troyersteinu - Rychtářov.jpg": {
+"d": "2026-11-19",
+"s": "ok"
+},
 "commons:File:Sveti Bor.jpg": {
 "d": "2026-11-09",
 "s": "ok"
@@ -2621,6 +2661,14 @@
 },
 "commons:File:Šaukėnų pušis.JPG": {
 "d": "2026-11-10",
+"s": "ok"
+},
+"commons:File:Šilheřovice, okres Opava, památný strom u hájenky - tisovec dvouřadý - Taxodium Distichum.JPG": {
+"d": "2026-11-19",
+"s": "ok"
+},
+"commons:File:Žernovník, lípy u hasičů.JPG": {
+"d": "2026-11-19",
 "s": "ok"
 },
 "commons:File:Ξηροκρήνη_Θεσσαλονίκης_το_παλαιότερο_δέντρο_της_πόλης.jpg": {
@@ -4411,6 +4459,10 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Chráněný jírovec Rosice 2.JPG": {
+"c": [],
+"d": "2026-11-19"
+},
 "geo:File:Church Street, Birmingham - geograph.org.uk - 6070912.jpg": {
 "c": [
 52.48268193,
@@ -4794,6 +4846,10 @@
 "object"
 ],
 "d": "2026-11-12"
+},
+"geo:File:Duby u Labe (1).jpg": {
+"c": [],
+"d": "2026-11-19"
 },
 "geo:File:Dąb Krutyński - Puszcza Piska.jpg": {
 "c": [
@@ -5595,6 +5651,14 @@
 ],
 "d": "2026-11-12"
 },
+"geo:File:Horní Věstonice, Pálava (4).JPG": {
+"c": [
+48.8748,
+16.62515833,
+"object"
+],
+"d": "2026-11-19"
+},
 "geo:File:Houx commun sur le tour du plan d'eau de Saint-Clément 2025-05-02 16-46-43.JPG": {
 "c": [
 46.08726,
@@ -5811,6 +5875,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Jeseník, PS Buk v Reymannově parku 02.jpg": {
+"c": [
+50.232967,
+17.206864,
+"camera"
+],
+"d": "2026-11-19"
+},
 "geo:File:Jubæa chilensis, fam. Arecacæ.jpg": {
 "c": [
 43.7771139,
@@ -5843,6 +5915,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Kaplička - zadní pohled, Suchdol, okres Prostějov.jpg": {
+"c": [
+49.5471664,
+16.8958854,
+"object"
+],
+"d": "2026-11-19"
+},
 "geo:File:Kisulabeko haritza.jpg": {
 "c": [
 43.0027366,
@@ -5858,6 +5938,14 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Kostel Všech svatých a boží muka, Jaroměřice, okres Svitavy.jpg": {
+"c": [
+49.6260427,
+16.7523359,
+"object"
+],
+"d": "2026-11-19"
 },
 "geo:File:Kočevska reka oreh.jpg": {
 "c": [
@@ -6131,6 +6219,18 @@
 ],
 "d": "2026-11-16"
 },
+"geo:File:Lípa Kapucínka.jpg": {
+"c": [],
+"d": "2026-11-19"
+},
+"geo:File:Lípy a jilm u Mlýnského rybníka 01.jpg": {
+"c": [],
+"d": "2026-11-19"
+},
+"geo:File:Lípy a jilm u Mlýnského rybníka 02.jpg": {
+"c": [],
+"d": "2026-11-19"
+},
 "geo:File:MAUGUIO - Arbre du Bicentenaire 1789-1989.jpg": {
 "c": [
 43.6191905,
@@ -6295,6 +6395,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Masarykova lípa,Vlkov.jpg": {
+"c": [
+49.15042908,
+14.72553154,
+"camera"
+],
+"d": "2026-11-19"
+},
 "geo:File:MaytenusBoaria PlzChileValdivia.jpg": {
 "c": [
 -39.81235,
@@ -6342,6 +6450,14 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Milionův buk u Lelekovic-2.jpg": {
+"c": [
+49.3045565,
+16.5680668,
+"object"
+],
+"d": "2026-11-19"
 },
 "geo:File:Międzyzdroje Pomnik Przyrody.JPG": {
 "c": [],
@@ -6702,6 +6818,30 @@
 "camera"
 ],
 "d": "2026-11-10"
+},
+"geo:File:Pamatna hrusen-2017-08-klokocna.jpg": {
+"c": [
+49.9595892,
+14.7137293,
+"object"
+],
+"d": "2026-11-19"
+},
+"geo:File:Památná lípa srdčitá před KD, Knínice u Boskovic.jpg": {
+"c": [
+49.540668,
+16.704167,
+"camera"
+],
+"d": "2026-11-19"
+},
+"geo:File:Památný strom na křižovatce ulic Na Střelnici a Lazecká, Olomouc.jpg": {
+"c": [
+49.599949,
+17.2509383,
+"object"
+],
+"d": "2026-11-19"
 },
 "geo:File:Panneau-chene-amitié-franco-belge.jpg": {
 "c": [
@@ -7751,6 +7891,22 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Strom republiky - památník 100. výtočí založení Československa v Kolovratech.jpg": {
+"c": [
+50.0110241,
+14.6276832,
+"camera"
+],
+"d": "2026-11-19"
+},
+"geo:File:Stromy před branou do Troyersteinu - Rychtářov.jpg": {
+"c": [
+49.3289006,
+16.9151433,
+"object"
+],
+"d": "2026-11-19"
+},
 "geo:File:Sveti Bor.jpg": {
 "c": [],
 "d": "2026-11-11"
@@ -8479,6 +8635,22 @@
 ],
 "d": "2026-11-10"
 },
+"geo:File:Šilheřovice, okres Opava, památný strom u hájenky - tisovec dvouřadý - Taxodium Distichum.JPG": {
+"c": [
+49.9280898,
+18.2760519,
+"object"
+],
+"d": "2026-11-19"
+},
+"geo:File:Žernovník, lípy u hasičů.JPG": {
+"c": [
+49.4051433,
+16.5440483,
+"object"
+],
+"d": "2026-11-19"
+},
 "geo:File:Ξηροκρήνη Θεσσαλονίκης το παλαιότερο δέντρο της πόλης.jpg": {
 "c": [],
 "d": "2026-11-10"
@@ -9095,6 +9267,14 @@
 "d": "2026-11-12",
 "s": "200"
 },
+"http://m.taggmanager.cz/2426": {
+"d": "2026-11-19",
+"s": "404"
+},
+"http://m.taggmanager.cz/cs/2408": {
+"d": "2026-11-19",
+"s": "404"
+},
 "http://online.ibc.regione.emilia-romagna.it/mtrees/treeDetail.htm?_flowExecutionKey=_cD4F5E0A2-777E-09FC-1A11-1771A855297D_kD80D87DC-A62B-BFDF-2802-76004EA51E8C": {
 "d": "2026-11-08",
 "s": "200"
@@ -9110,6 +9290,10 @@
 "http://otvm.uvigo.es/_OMA_bd_plantas/ficha_modelo.php?id=282": {
 "d": "2026-11-12",
 "s": "200"
+},
+"http://pamatnestromy.cz/pamatne-stromy-vojkov.html": {
+"d": "2026-11-19",
+"s": "conn"
 },
 "http://parafiakrzeczow.pl/wp-content/uploads/2017/07/krzeczow-otoczenie-044-e1499351139152-768x1024.jpg": {
 "d": "2026-11-08",
@@ -9395,6 +9579,10 @@
 "d": "2026-11-12",
 "s": "conn"
 },
+"http://www.natura-opava.org/opavsko/pamatne-stromy-opavska-30.html": {
+"d": "2026-11-19",
+"s": "521"
+},
 "http://www.pasvalia.lt/gidas/objektai/196-sakarniu-pusis": {
 "d": "2026-11-08",
 "s": "404"
@@ -9402,6 +9590,10 @@
 "http://www.pref.kagawa.jp/kankyo/shizen/guidemap/tree/tree6/92.htm": {
 "d": "2026-11-09",
 "s": "dns"
+},
+"http://www.ratmerice.cz/historie/zamek-a-park.php": {
+"d": "2026-11-19",
+"s": "404"
 },
 "http://www.sirveta.lt/images/com_osgallery/gal-5/original/sa-0018D1FA023-B4A1-601C-E8FF-53F6141B4923.jpg": {
 "d": "2026-11-08",
@@ -10041,6 +10233,30 @@
 },
 "https://commune-faverolles.fr/le-gros-chene-le-chene-jean-valjean/": {
 "d": "2026-11-08",
+"s": "200"
+},
+"https://coord.info/GC2BRWK": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://coord.info/GC3X2FN": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://coord.info/GC5GQ0W": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://coord.info/GC5YA7X": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://coord.info/GCAN1WW": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://coord.info/GCB0BDK": {
+"d": "2026-11-19",
 "s": "200"
 },
 "https://crfop.gdos.gov.pl/CRFOP/servlet/ImageServlet?id=1132": {
@@ -45255,6 +45471,10 @@
 "d": "2026-11-09",
 "s": "200"
 },
+"https://d34-a.sdn.cz/d_34/c_img_QM_BF/rjdqk2.jpeg": {
+"d": "2026-11-19",
+"s": "200"
+},
 "https://data.rbge.org.uk//living/19687757B": {
 "d": "2026-11-08",
 "s": "conn"
@@ -45345,6 +45565,70 @@
 },
 "https://drive.google.com/file/d/1ffKiAZ6xZYfx2mHKGYOZwZ3zVRKkdZeU/view?usp=share_link": {
 "d": "2026-11-14",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/odps/pstromy/index.php?ODPS_TREE=15043&SO_MOST=106402": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/odps/pstromy/index.php?ODPS_TREE=8125&SO_MOST=101325": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/odps/pstromy/index.php?frame&ODPS_TREE=9211&SO_MOST=102411": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/pstromy/index.php?SHOW_ONE=1&ID=14406": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/pstromy/index.php?SHOW_ONE=1&ID=7312": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/pstromy/index.php?SHOW_ONE=1&ID=7328": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/pstromy/index.php?SHOW_ONE=1&ID=7329": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/pstromy/index.php?SHOW_ONE=1&ID=7355": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/pstromy/index.php?SHOW_ONE=1&ID=7367": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/pstromy/index.php?SHOW_ONE=1&ID=7506": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/pstromy/index.php?SHOW_ONE=1&ID=7647": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/pstromy/index.php?SHOW_ONE=1&ID=9710": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/pstromy/index.php?SHOW_ONE=1&ID=9841": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/pstromy/index.php?frame&SHOW_ONE=1&ID=13870": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/pstromy/index.php?frame&SHOW_ONE=1&ID=14479": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://drusop.nature.cz/ost/chrobjekty/pstromy/index.php?frame&SHOW_ONE=1&ID=7511": {
+"d": "2026-11-19",
 "s": "200"
 },
 "https://drzewa.puszcza-bialowieska.eu/index.php5?rozdzial=drzewo&drzewo=3797": {
@@ -46687,6 +46971,10 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://lipyrepubliky.cz/wp-content/uploads/2018/02/lipa_1919_Bratkovice-400x600.jpg": {
+"d": "2026-11-19",
+"s": "200"
+},
 "https://live.staticflickr.com/65535/51193546698_1cf23264d9_o_d.jpg": {
 "d": "2026-11-08",
 "s": "200"
@@ -47202,6 +47490,10 @@
 "https://panoramax.openstreetmap.fr/images/62/95/d3/2d/420a-4dfb-9e95-46f9d70996f4.jpg": {
 "d": "2026-11-08",
 "s": "200"
+},
+"https://panorra.com/share/t84c3f87781-2026062009261500": {
+"d": "2026-11-19",
+"s": "timeout"
 },
 "https://parcsnaturals.gencat.cat/ca/coneixeu-nos/arbres-monumentals/am_arbres_monumentals_fitxes/osona/roure_de_la_creu_de_l_arc/": {
 "d": "2026-11-12",
@@ -49995,6 +50287,10 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://portal.nature.cz/w/uzemi-8224#/": {
+"d": "2026-11-19",
+"s": "200"
+},
 "https://portugal.treeoftheyear.eu/Previous-years/2019/Oliveira-do-Mouchao": {
 "d": "2026-11-10",
 "s": "conn"
@@ -50923,6 +51219,10 @@
 "d": "2026-11-08",
 "s": "400"
 },
+"https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Jesen%C3%ADk%2C_PS_Buk_v_Reymannov%C4%9B_parku_02.jpg/450px-Jesen%C3%ADk%2C_PS_Buk_v_Reymannov%C4%9B_parku_02.jpg": {
+"d": "2026-11-19",
+"s": "400"
+},
 "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/%C5%A0auk%C4%97n%C5%B3_pu%C5%A1is.JPG/500px-%C5%A0auk%C4%97n%C5%B3_pu%C5%A1is.JPG": {
 "d": "2026-11-08",
 "s": "429"
@@ -51831,6 +52131,10 @@
 "d": "2026-11-16",
 "s": "200"
 },
+"https://www.dresin.cz/turisticke-zajimavosti/": {
+"d": "2026-11-19",
+"s": "404"
+},
 "https://www.ecomuseomontagnafiorentina.it/luoghi-di-interesse/vallombrosa/albero-pi%C3%B9-alto-d-italia/": {
 "d": "2026-11-08",
 "s": "404"
@@ -51951,6 +52255,10 @@
 "d": "2026-11-12",
 "s": "200"
 },
+"https://www.geocaching.com/seek/cache_details.aspx?wp=GCAEEQ6&title=strom-slon": {
+"d": "2026-11-19",
+"s": "200"
+},
 "https://www.geograph.org.uk/photo/1593579": {
 "d": "2026-11-08",
 "s": "200"
@@ -52033,6 +52341,10 @@
 },
 "https://www.hanapedia.jp/plants/000330?lc=aboc-common&cc=3c99674c36d23943382d7ceffe82b868693c24cd56bc6ef4c2f89589f8c56f46": {
 "d": "2026-11-09",
+"s": "200"
+},
+"https://www.holesov.cz/1242-dub-letni-nazyvany-kral-lesa.html": {
+"d": "2026-11-19",
 "s": "200"
 },
 "https://www.ignalina.info/lankytinos-vietos/puziniskiu-azuolas/": {
@@ -52135,6 +52447,10 @@
 "d": "2026-11-11",
 "s": "200"
 },
+"https://www.klokocov.eu/klokocovska-lipa": {
+"d": "2026-11-19",
+"s": "200"
+},
 "https://www.kocevsko.com/sl/poi/najdebelejsi-slovenski-oreh/": {
 "d": "2026-11-08",
 "s": "200"
@@ -52161,6 +52477,10 @@
 },
 "https://www.londonremembers.com/memorials/friendship-tree": {
 "d": "2026-11-08",
+"s": "200"
+},
+"https://www.lukavice.com/aktuality/lukavicky-dub-je-strom-roku-2024": {
+"d": "2026-11-19",
 "s": "200"
 },
 "https://www.mairiehardinvast.fr/IMG/article_PDF/article_36.pdf": {
@@ -52803,6 +53123,10 @@
 "d": "2026-11-08",
 "s": "404"
 },
+"https://www.polabsketoulky.cz/11-borovice-v-karanem/": {
+"d": "2026-11-19",
+"s": "200"
+},
 "https://www.politicheagricole.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/11260": {
 "d": "2026-11-08",
 "s": "200"
@@ -53251,6 +53575,14 @@
 "d": "2026-11-08",
 "s": "200"
 },
+"https://www.stromroku.cz/Finaliste/2010/Lomnicky-buk.aspx?lat=49.40377759951688&lon=16.4168018682617&z=17": {
+"d": "2026-11-19",
+"s": "200"
+},
+"https://www.stromroku.cz/Finaliste/2015/masarykova-lipa.aspx": {
+"d": "2026-11-19",
+"s": "200"
+},
 "https://www.tagolsheim.fr/environnement/un-arbre-remarquable/": {
 "d": "2026-11-08",
 "s": "200"
@@ -53319,6 +53651,10 @@
 "d": "2026-11-08",
 "s": "404"
 },
+"https://www.treeoftheyear.org/Stromy/Chudobinska-borovice": {
+"d": "2026-11-19",
+"s": "404"
+},
 "https://www.treeoftheyear.org/Stromy/Jinan-z-Daruvaru": {
 "d": "2026-11-08",
 "s": "404"
@@ -53330,6 +53666,10 @@
 "https://www.turismoavila.com/es/pr-av54-senda-el-castanar-el-tiemblo.html": {
 "d": "2026-11-12",
 "s": "404"
+},
+"https://www.turistika.cz/mista/kryty-dub-hradecke-lesy/detail": {
+"d": "2026-11-19",
+"s": "200"
 },
 "https://www.untersberger-kerschbaumer.at/": {
 "d": "2026-11-09",

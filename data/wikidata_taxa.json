@@ -259,6 +259,35 @@
 "ranks": [],
 "taxon": false
 },
+"Q10294038": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q10296162": {
+"en": "Žižkův dub",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q10296167": {
+"en": "Žižka's oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q10296171": {
+"en": "Žižkův dub",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q10296176": {
+"en": "Žižkův dub",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1031120": {
 "alias": {
 "en": [],
@@ -403,6 +432,24 @@
 ],
 "taxon": true
 },
+"Q10406594": {
+"en": "Famous trees in Frýdek-Místek District",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q10407336": {
+"en": "Famous trees in Nový Jičín District",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q10408174": {
+"en": "list of famous trees in Třebíč District",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q104096326": {
 "alias": {
 "en": [],
@@ -417,6 +464,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q10414980": {
+"en": "Šrůtkova lípa",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1041653": {
 "alias": {
@@ -1298,6 +1351,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q10858010": {
+"en": "Zelenohorská hruška",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q10859220": {
 "alias": {
 "en": [
@@ -1335,6 +1394,12 @@
 },
 "Q10860801": {
 "en": "Jindai Zakura",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q10861005": {
+"en": "Zlatá lípa",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -1685,6 +1750,11 @@
 ],
 "taxon": true
 },
+"Q10937752": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q10937895": {
 "alias": {
 "en": [],
@@ -1929,6 +1999,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q11066834": {
+"en": "Beethovenův platan",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q110692156": {
 "alias": {
@@ -2352,6 +2428,11 @@
 ],
 "taxon": true
 },
+"Q11175387": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q11176093": {
 "en": "Prunus zippeliana",
 "it": "Prunus zippeliana",
@@ -2446,9 +2527,26 @@
 ],
 "taxon": true
 },
+"Q11232446": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11236462": {
+"en": "Bouchalovy lípy",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1124292": {
 "en": "Royal Oak",
 "it": "Royal Oak (albero)",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11248046": {
+"en": "Bratrská borovice",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -2616,6 +2714,18 @@
 ],
 "taxon": true
 },
+"Q11346689": {
+"en": "Broumovský jasan",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11346740": {
+"en": "Broumovský smrk",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q11352772": {
 "names": [],
 "ranks": [],
@@ -2646,6 +2756,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q11362529": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q11363887": {
 "en": "Chūjō-hime Seigan-zakura",
@@ -3235,6 +3350,17 @@
 "ranks": [],
 "taxon": false
 },
+"Q11706326": {
+"en": "Bystrcká lípa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11706731": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q117083315": {
 "alias": {
 "en": [],
@@ -3263,6 +3389,28 @@
 ],
 "taxon": true
 },
+"Q11722706": {
+"en": "Cedr Na Balkáně",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11723036": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11730335": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11775258": {
+"en": "Lípa u Hlásné Třebaně",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q11815640": {
 "en": "Styphnolobium",
 "it": "Styphnolobium",
@@ -3273,6 +3421,12 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q11827471": {
+"en": "Drašarova lípa",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q11832170": {
 "alias": {
@@ -3287,6 +3441,66 @@
 "Q1306176"
 ],
 "taxon": true
+},
+"Q11832197": {
+"en": "Dub sedmi bratří",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11832209": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11832480": {
+"en": "Dub u Postřižína",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11832491": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11832845": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11832900": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11833108": {
+"en": "Dub za Velkou Houkvicí",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11834575": {
+"en": "Duby u Stýskalu",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11834614": {
+"en": "Duby u rybníka Žid",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11834637": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11834641": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q11874202": {
 "alias": {
@@ -3303,6 +3517,30 @@
 "Q279749"
 ],
 "taxon": true
+},
+"Q11874604": {
+"en": "Lime in Boseň",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11877799": {
+"en": "Ujkovický dub",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11878191": {
+"en": "Vejdova lípa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11879240": {
+"en": "Vendolská lípa",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q118793363": {
 "alias": {
@@ -3354,6 +3592,12 @@
 ],
 "taxon": true
 },
+"Q11900756": {
+"en": "Vilémovický tis",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1190312": {
 "alias": {
 "en": [
@@ -3372,6 +3616,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q11927285": {
+"en": "Vojtěchův dub",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1193369": {
 "alias": {
@@ -3392,6 +3642,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q11934086": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q119410364": {
 "alias": {
@@ -3486,6 +3741,57 @@
 ],
 "taxon": true
 },
+"Q12017762": {
+"en": "Františkánský tis",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12018356": {
+"en": "Goethův dub",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12018858": {
+"en": "Hadravská lípa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12020655": {
+"en": "Hraniční buk",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12020714": {
+"en": "Hrnčířův jasan",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12020772": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12020783": {
+"en": "Hrušeň pod Oborou",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12020973": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12020976": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q12024": {
 "alias": {
 "en": [
@@ -3506,6 +3812,233 @@
 ],
 "taxon": true
 },
+"Q12024238": {
+"en": "Jasan ztepilý v Dubči",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12024239": {
+"en": "Jasan v Třebusicích",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12024756": {
+"en": "Ginkgo biloba Praga",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12024759": {
+"en": "Jinan v Lužánkách",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12027555": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12028065": {
+"en": "Kaplířova lípa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12029100": {
+"en": "Kaštan u pošty",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12029757": {
+"en": "Kojšická lípa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12030205": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12033438": {
+"en": "Libáňská borovice",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12033479": {
+"en": "Lidická hrušeň",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034328": {
+"en": "Lukasova lípa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034468": {
+"en": "Luňáčkova lípa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034475": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034518": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034629": {
+"en": "Světlá pod Ještědem - lípa Karoliny Světlé",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034644": {
+"en": "Lípa na Purku",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034645": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034686": {
+"en": "Lípa v Chabech",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034687": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034694": {
+"en": "Dvorská lípa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034696": {
+"en": "The lime tree at Lipka",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034700": {
+"en": "Lípa u školy v Mašově",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034701": {
+"en": "Lípa v Meziboří",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034702": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034708": {
+"en": "Lípa velkolistá v Želenicích",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034722": {
+"en": "Lípy u Mže",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034728": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034730": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12034735": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12035984": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12043432": {
+"en": "Walnut Tree in Kvasice",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12043519": {
+"en": "Pajkrův dub",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12043633": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12043821": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12045526": {
+"en": "Platan javorolistý na Kampě",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12045527": {
+"en": "Platan javorolistý na Karlově náměstí",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12045528": {
+"en": "Platan u svaté Anny",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12045529": {
+"en": "Platan javorolistý v zahradě Kinských",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12046395": {
+"en": "Popovický dub",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1204856": {
 "alias": {
 "en": [
@@ -3522,6 +4055,79 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q12054623": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12056609": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12057063": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12057340": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12057375": {
+"en": "Svatováclavský dub",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12057377": {
+"en": "Svatováclavský dub",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12057685": {
+"en": "Svárovská lípa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12058344": {
+"en": "lime tree in Taobity",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12059049": {
+"en": "Kotelské lípy",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12059051": {
+"en": "Tisíciletá lípa ve Staré Lysé",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12059401": {
+"en": "Topol bílý v Pozorce",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12059787": {
+"en": "Trsická lípa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12060091": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q120703507": {
 "names": [],
@@ -3644,6 +4250,11 @@
 "taxon": true
 },
 "Q121816267": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12205237": {
 "names": [],
 "ranks": [],
 "taxon": false
@@ -5414,6 +6025,12 @@
 "Q37517"
 ],
 "taxon": true
+},
+"Q130748527": {
+"en": "Six-stemmed Tilia, Zámrsku",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q13080853": {
 "en": "Saxegothaea",
@@ -7321,6 +7938,12 @@
 "it": []
 },
 "en": "Beurré Hardy",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q13986342": {
+"en": "Bratronická lípa",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -9789,6 +10412,12 @@
 ],
 "taxon": true
 },
+"Q15290753": {
+"en": "Lípa malolistá v Želenicích",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1529852": {
 "alias": {
 "en": [
@@ -9915,6 +10544,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q15360324": {
+"en": "Troják u Habrůvky",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q15368412": {
 "alias": {
@@ -10090,6 +10725,11 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q15406841": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1542486": {
 "en": "Eucalyptus regnans",
@@ -10895,6 +11535,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q15626995": {
+"en": "Martinské lípy v Jindřichovicích",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q156307": {
 "alias": {
@@ -12141,6 +12787,24 @@
 "it": "Diospyros kaki",
 "names": [
 "Diospyros kaki"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q158508": {
+"alias": {
+"en": [
+"wayfaring-tree",
+"wayfaringtree"
+],
+"it": []
+},
+"en": "Viburnum lantana",
+"it": "Viburnum lantana",
+"names": [
+"Viburnum lantana"
 ],
 "ranks": [
 "Q7432"
@@ -13771,6 +14435,12 @@
 ],
 "taxon": true
 },
+"Q16162854": {
+"en": "Platořská lípa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q161648": {
 "alias": {
 "en": [
@@ -14742,6 +15412,13 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q164471": {
+"en": "Jiřetín pod Jedlovou",
+"it": "Jiřetín pod Jedlovou",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q164545": {
 "alias": {
@@ -15753,6 +16430,11 @@
 ],
 "taxon": true
 },
+"Q17375896": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q17380176": {
 "alias": {
 "en": [],
@@ -16203,6 +16885,30 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q18249377": {
+"en": "Císařské duby v Kraslicích",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18249451": {
+"en": "Jasan v bývalé Dolní Vsi",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18249488": {
+"en": "Klen u secesní vily",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18249522": {
+"en": "Lípa v Krásné u Kraslic",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1825748": {
 "alias": {
@@ -16807,6 +17513,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q19602699": {
+"en": "Sluneční buk",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q19607284": {
 "alias": {
 "en": [],
@@ -17007,6 +17719,18 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q20058197": {
+"en": "Tepelský dub",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20081209": {
+"en": "Dub u Hamrnického zámečku",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q2008900": {
 "names": [],
@@ -17305,6 +18029,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q20741462": {
+"en": "Linda v Raspenavě",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2074775": {
 "alias": {
 "en": [],
@@ -17319,6 +18049,18 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q20755689": {
+"en": "Vetešníkův jasan v Perninku",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20799299": {
+"en": "Buk Na Kopečku",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q208021": {
 "en": "walnut",
@@ -18419,6 +19161,12 @@
 ],
 "taxon": true
 },
+"Q22345798": {
+"en": "Kolešovský jasan",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2249201": {
 "alias": {
 "en": [],
@@ -18778,6 +19526,12 @@
 ],
 "taxon": true
 },
+"Q23904981": {
+"en": "Kunratický liliovník",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2391288": {
 "alias": {
 "en": [],
@@ -18792,6 +19546,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q24003253": {
+"en": "Javor babyka v Pisárkách",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q24055170": {
 "en": "Alzina de la Font de Can Massanet",
@@ -19406,6 +20166,12 @@
 ],
 "taxon": true
 },
+"Q25713026": {
+"en": "Jakoubkova lípa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q258068": {
 "alias": {
 "en": [
@@ -19470,6 +20236,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q25906062": {
+"en": "Žlutický dub",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q259318": {
 "alias": {
@@ -19607,6 +20379,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q26161502": {
+"en": "Branišovský dub",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q261903": {
 "en": "Wisteria",
@@ -19852,6 +20630,24 @@
 ],
 "taxon": true
 },
+"Q26778892": {
+"en": "Skupina jírovců maďalů v Oboře Hvězda",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26779246": {
+"en": "Mikulášské lípy",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26780503": {
+"en": "Lípy u kapličky v Ondřejově",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q26782": {
 "alias": {
 "en": [
@@ -19872,6 +20668,178 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q26784141": {
+"en": "Acer pseudoplatanus (sycamore)",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26784425": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26784530": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26787054": {
+"en": "Lípa ve Velkém Poříčí",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26787158": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26787167": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26787368": {
+"en": "Jilm v Poustce",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26787371": {
+"en": "Dub letní v Luhu",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26787375": {
+"en": "Lípa v Modlibohově",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26787678": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26787684": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26788032": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26788625": {
+"en": "Všenorský dub",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26788706": {
+"en": "Populus × canadensis in Poděbrady",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26789207": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26789214": {
+"en": "Buk lesní v Oboře Hvězda",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26789216": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26789247": {
+"en": "Štítarský klen",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26789258": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26789423": {
+"en": "Dub letní na hrázi Libockého rybníka",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26789501": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26789573": {
+"en": "Dub u Čejkova rybníka",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26789596": {
+"en": "Jasan ztepilý",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26789739": {
+"en": "Dub Františka Josefa I.",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26789767": {
+"en": "Čapkův dub pod Chlumem",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26789803": {
+"en": "Dub letní v Kolovratech",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26790190": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26790216": {
+"en": "Josefský dub",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26790379": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26790576": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q26790625": {
+"en": "Lípa Skautů",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q26790870": {
 "alias": {
@@ -21357,6 +22325,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q2972101": {
+"en": "Oldřich Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2972106": {
 "en": "Remarkable oak in Hersberg-Altrier",
 "names": [],
@@ -22094,6 +23068,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q31175697": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q311864": {
 "alias": {
@@ -27078,6 +28057,12 @@
 ],
 "taxon": true
 },
+"Q52376097": {
+"en": "tree of Olga Havlová",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q5240324": {
 "alias": {
 "en": [
@@ -27743,6 +28728,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q56236126": {
+"en": "Strom Olgy Havlové",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q56289907": {
 "en": "Niel Gow's Oak",
 "names": [],
@@ -27772,6 +28763,24 @@
 "names": [],
 "ranks": [],
 "taxon": false
+},
+"Q5686857": {
+"alias": {
+"en": [
+"Hippophaë",
+"Sea-buckthorn"
+],
+"it": []
+},
+"en": "Hippophae",
+"it": "Hippophae",
+"names": [
+"Hippophae"
+],
+"ranks": [
+"Q34740"
+],
+"taxon": true
 },
 "Q568923": {
 "alias": {
@@ -28131,6 +29140,20 @@
 "names": [],
 "ranks": [],
 "taxon": false
+},
+"Q593894": {
+"basionyms": [
+"Pinus mertensiana"
+],
+"en": "Tsuga mertensiana",
+"it": "Tsuga mertensiana",
+"names": [
+"Tsuga mertensiana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
 },
 "Q59420135": {
 "alias": {
@@ -28831,6 +29854,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q63895119": {
+"en": "Chudobínská borovice",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q639615": {
 "alias": {
@@ -29908,6 +30937,23 @@
 "ranks": [],
 "taxon": false
 },
+"Q73601730": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q73602115": {
+"en": "Dub na Záběhlé - dvoják",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q73602116": {
+"en": "Dub na Záběhlé",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q738571": {
 "alias": {
 "en": [],
@@ -30502,6 +31548,12 @@
 ],
 "taxon": true
 },
+"Q78786154": {
+"en": "Memorable oaks in Nedvězí",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q7879317": {
 "alias": {
 "en": [],
@@ -30809,6 +31861,16 @@
 "Q68947"
 ],
 "taxon": true
+},
+"Q8188530": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q8188537": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q823016": {
 "alias": {
@@ -31250,6 +32312,12 @@
 ],
 "taxon": true
 },
+"Q8548168": {
+"en": "Třísovská lípa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q854884": {
 "alias": {
 "en": [
@@ -31292,6 +32360,12 @@
 "Q855274": {
 "en": "Bialbero di Casorzo",
 "it": "Bialbero di Casorzo",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q8556825": {
+"en": "Lípa Jana Gurreho",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -31713,6 +32787,14 @@
 "taxon": true
 },
 "Q89": {
+"alias": {
+"en": [
+"apple fruit"
+],
+"it": [
+"pomo"
+]
+},
 "en": "apple",
 "it": "mela",
 "names": [],
@@ -32279,6 +33361,12 @@
 ],
 "taxon": true
 },
+"Q93009892": {
+"en": "Buk lesní Ignaze Röslera",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q9301049": {
 "alias": {
 "en": [],
@@ -32344,6 +33432,13 @@
 "it": []
 },
 "en": "Platane",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q93476": {
+"en": "Škrdlovice",
+"it": "Škrdlovice",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -32437,6 +33532,11 @@
 "Q93981692": {
 "en": "Encina de la Peana",
 "it": "Encina de la Peana",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q93992163": {
 "names": [],
 "ranks": [],
 "taxon": false
@@ -32801,6 +33901,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q96247108": {
+"en": "Lípa republiky (Zahradní Město)",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q96400693": {
 "en": "Queen Elizabeth's Oak, Hatfield House",
 "names": [],
@@ -32817,6 +33923,12 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q96608687": {
+"en": "Lípa republiky (Kampus Dejvice)",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q97172025": {
 "alias": {
