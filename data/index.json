@@ -735,13 +735,13 @@
    "updated": "2026-11-16T08:27:59Z"
   },
   "piemonte": {
-   "count": 73094,
-   "errors": 164,
+   "count": 73111,
+   "errors": 159,
    "name": "Piemonte",
-   "osm_base": "2026-11-17T16:01:36Z",
-   "sha1": "94ba4d7fd790a135c3e3f7ebac35b3474d9f3fc7",
-   "tried": "2026-11-17",
-   "updated": "2026-11-17T16:04:30Z"
+   "osm_base": "2026-11-19T22:24:20Z",
+   "sha1": "cf00ceffa523a0cc74dd456173f2873395201282",
+   "tried": "2026-11-19",
+   "updated": "2026-11-19T22:26:49Z"
   },
   "podkarpackie": {
    "count": 90492,
