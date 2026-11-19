@@ -618,8 +618,10 @@
    "count": 658,
    "errors": 0,
    "name": "Monaco",
-   "sha1": "91a81ab781edf2fdb8b85de0fb06f72a088e46bc",
-   "updated": "2026-11-12T18:27:37Z"
+   "osm_base": "2026-11-19T22:55:44Z",
+   "sha1": "0b8bb7b909bcc76c7277f4ace14a429286494bd0",
+   "tried": "2026-11-19",
+   "updated": "2026-11-19T22:56:36Z"
   },
   "montenegro": {
    "count": 5797,
