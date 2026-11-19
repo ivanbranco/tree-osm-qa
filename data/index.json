@@ -214,13 +214,13 @@
    "updated": "2026-11-18T19:13:27Z"
   },
   "cechia": {
-   "count": 140837,
-   "errors": 831,
+   "count": 140842,
+   "errors": 833,
    "name": "Cechia",
-   "osm_base": "2026-11-18T23:57:34Z",
-   "sha1": "ee0c37ced97b0c147d6093a436c799eaa47eee39",
+   "osm_base": "2026-11-19T08:55:09Z",
+   "sha1": "4c9c4bb068e52d9fdd9b60550e04cb3ffbc43c39",
    "tried": "2026-11-19",
-   "updated": "2026-11-19T00:04:07Z"
+   "updated": "2026-11-19T08:58:40Z"
   },
   "centro-valle-della-loira": {
    "count": 190377,
