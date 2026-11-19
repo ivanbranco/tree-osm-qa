@@ -32650,6 +32650,22 @@
 "taxon": false,
 "wp": {}
 },
+"Q26780545": {
+"coords": [
+[
+15.836576506,
+49.724004383
+]
+],
+"heritage": [],
+"image": "Overview of famous trees Lípy ve Stružinci in Stružinec, Ždírec nad Doubravou, Havlíčkův Brod District.jpg",
+"mon": true,
+"taxa": [
+"Q158746"
+],
+"taxon": false,
+"wp": {}
+},
 "Q26783024": {
 "coords": [
 [
@@ -58712,6 +58728,22 @@
 ],
 "heritage": [],
 "image": "",
+"mon": true,
+"taxa": [
+"Q165145"
+],
+"taxon": false,
+"wp": {}
+},
+"Q26788085": {
+"coords": [
+[
+14.776700463,
+48.786141746
+]
+],
+"heritage": [],
+"image": "Dub v Údolí II (03).jpg",
 "mon": true,
 "taxa": [
 "Q165145"
@@ -97794,7 +97826,7 @@
 ]
 ],
 "heritage": [],
-"image": "Lípa velkolistá, Staré Prachatice (04).jpg",
+"image": "Lípa velkolistá, Staré Prachatice (07).jpg",
 "mon": true,
 "taxa": [],
 "taxon": false,

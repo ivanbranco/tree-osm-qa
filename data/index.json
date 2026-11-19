@@ -130,11 +130,13 @@
    "updated": "2026-11-16T23:23:00Z"
   },
   "bulgaria": {
-   "count": 29084,
-   "errors": 28,
+   "count": 29157,
+   "errors": 55,
    "name": "Bulgaria",
-   "sha1": "cd8d3656076dfda5ea8c3dd725459456ae917d01",
-   "updated": "2026-11-12T19:07:40Z"
+   "osm_base": "2026-11-19T20:10:59Z",
+   "sha1": "48e4457dff612af04cd00558065756f49918cd07",
+   "tried": "2026-11-19",
+   "updated": "2026-11-19T20:12:34Z"
   },
   "burgenland": {
    "count": 15020,
@@ -214,13 +216,13 @@
    "updated": "2026-11-18T19:13:27Z"
   },
   "cechia": {
-   "count": 140837,
-   "errors": 831,
+   "count": 140842,
+   "errors": 833,
    "name": "Cechia",
-   "osm_base": "2026-11-18T23:57:34Z",
-   "sha1": "ee0c37ced97b0c147d6093a436c799eaa47eee39",
+   "osm_base": "2026-11-19T08:55:09Z",
+   "sha1": "4c9c4bb068e52d9fdd9b60550e04cb3ffbc43c39",
    "tried": "2026-11-19",
-   "updated": "2026-11-19T00:04:07Z"
+   "updated": "2026-11-19T08:58:40Z"
   },
   "centro-valle-della-loira": {
    "count": 190377,
