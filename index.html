@@ -380,6 +380,7 @@ const fmtPct = (e, c) => !c || !e ? "0%" : 100 * e / c < 0.05 ? `<${(0.1).toLoca
 // &compare=side («Tronco a confronto») o &compare=top («Tronco visto dall'alto»): il link riapre scheda e finestra.
 let hashSlug = null, hashNode = null, hashCmp = null;
 let currentIso = "";   // codice ISO della regione caricata (da regions.json), per i consigli che dipendono dal paese
+let currentHigh = null;   // specie da cercare sugli alberi in quota della regione caricata (elevation.high_species di regions.json)
 const setHash = (slug = hashSlug) => {
   hashSlug = slug;
   const h = new URLSearchParams();
@@ -608,7 +609,7 @@ const I18N = {
       sexHint: (period, f, m) => `Se si riconosce il sesso di questo albero, si potrebbe aggiungere sex=female o sex=male.${period ? ` ${period} è un buon periodo per verificarlo.` : ""} ${f} ${m}`,
       sexPeriod: (a, b) => `Tra ${a} e ${b}`,
       monotypic: (g, s) => `${g} ha una sola specie vivente: si potrebbe aggiungere species=${s}`,
-      highNoSpecies: m => `Albero a circa ${m} m di quota senza species=*: sopra i 1800 m le specie di alberi sono poche, e sul posto si potrebbe riconoscerla e aggiungerla`,
+      highNoSpecies: (m, l) => `Albero a circa ${m} m di quota senza species=*. In questa regione, sopra i 1800 m, le specie più diffuse sono: ${l}`,
       sequoiaNote: "In questo paese il nome comune «sequoia» indica spesso anche la sequoia gigante (Sequoiadendron giganteum): conviene verificare che l'albero non lo sia",
     },
     masafNote: (l, code) => `Dall’${l("elenco degli alberi monumentali d’Italia")} del MASAF (${code}): non ancora su OpenStreetMap.`,
@@ -1163,7 +1164,7 @@ const I18N = {
       sexHint: (period, f, m) => `If the sex of this tree can be recognised, sex=female or sex=male could be added.${period ? ` ${period} is a good time to check.` : ""} ${f} ${m}`,
       sexPeriod: (a, b) => `${a} to ${b}`,
       monotypic: (g, s) => `${g} has a single living species: species=${s} could be added`,
-      highNoSpecies: m => `Tree at about ${m} m of elevation without species=*: above 1800 m there are few tree species, and on site it could be identified and added`,
+      highNoSpecies: (m, l) => `Tree at about ${m} m of elevation without species=*. In this region, above 1800 m, the most common species are: ${l}`,
       sequoiaNote: "In this country the common name \"sequoia\" is often used for the giant sequoia (Sequoiadendron giganteum) too: check that the tree is not one",
     },
     masafNote: (l, code) => `From the MASAF ${l("list of monumental trees of Italy")} (${code}): not on OpenStreetMap yet.`,
@@ -2567,6 +2568,7 @@ map.on("load", async () => {
   const setCurrent = slug => {
     current = slug;
     currentIso = metaBy[slug]?.iso || "";
+    currentHigh = metaBy[slug]?.elevation?.high_species || null;
     document.getElementById("dl").hidden = !slug;   // il download serve solo con una regione caricata
     // regione di una nazione divisa: si vedono le regioni vicine; regione-nazione (Bulgaria): si richiude
     // la nazione aperta prima. Senza regione (slug null) la nazione aperta resta com'è.
@@ -5677,9 +5679,15 @@ function hints(p, pos) {
   // Italia, paesi francofoni e anglofoni
   if (mono === MONOTYPIC.Sequoia && SEQUOIA_NOTE.has(currentIso.slice(0, 2).toUpperCase())) out.push(H.sequoiaNote);
   // albero senza species=* da ELEV_HINT metri in su (elev: solo nelle regioni con le quote, fetch_trees.py), se un
-  // altro consiglio non propone già una specie
-  if (!p.species && p.elev >= ELEV_HINT && !mono && !binomialHint(p.hint_sp) && !binomialHint(p.hint_sn) && !binomialHint(p.hint_wn))
-    out.push(H.highNoSpecies(fmtRec(p.elev, { maximumFractionDigits: 0 })));
+  // altro consiglio non propone già una specie: le specie da cercare, scritte a mano per la regione
+  // (elevation.high_species di regions.json: { needleleaved: [...], broadleaved: [...] }), solo quelle del leaf_type
+  // e del genus dell'albero, se ci sono. Senza specie adatte, niente consiglio
+  if (currentHigh && !p.species && p.elev >= ELEV_HINT && !mono && !binomialHint(p.hint_sp) && !binomialHint(p.hint_sn) && !binomialHint(p.hint_wn)) {
+    const g = String(p.genus || "").trim(), lt = ["needleleaved", "broadleaved"].includes(p.leaf_type) ? p.leaf_type : null;
+    const cand = Object.entries(currentHigh).filter(([t]) => !lt || t === lt).flatMap(([, l]) => l)
+      .filter(s => !g || s.split(" ")[0] === g);
+    if (cand.length) out.push(H.highNoSpecies(fmtRec(p.elev, { maximumFractionDigits: 0 }), cand.join(", ")));
+  }
   // leaf_type / leaf_cycle mancanti (non sbagliati: quelli sono errori), stimati dalle liste della wiki
   // I valori presi dal genere (lg, lgk: specie non nella lista, fetch_trees.py) si attribuiscono al genere, gli altri
   // alla specie: due consigli solo se la specie dà un valore e il genere l'altro

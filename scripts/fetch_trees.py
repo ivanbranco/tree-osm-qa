@@ -3257,7 +3257,10 @@ def add_elevation(region, fc, path):
             todo.append(f)
     if not todo:
         return
-    key = os.environ.get("OVERPASS_CH_KEY", "").strip()
+    # il secret può essere la sola chiave o l'indirizzo copiato da overpass-turbo (https://api.overpass.ch/v1/<key>/)
+    key = os.environ.get("OVERPASS_CH_KEY", "").strip().strip("\"'")
+    if m := re.search(r"/v1/([^/?#\s]+)", key):
+        key = m.group(1)
     if not key:
         warn(f"{region['slug']}: {len(todo)} alberi senza quota (manca OVERPASS_CH_KEY)")
         return
