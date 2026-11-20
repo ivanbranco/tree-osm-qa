@@ -2917,7 +2917,8 @@ KEEP = ["name", "species", "genus", "taxon", "taxon:variety", "variety", "taxon:
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
         "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion", "multi_stemmed",
-        "heritage:operator", "ref:icnf", "ref:CRFOP", "ref:gid", "ref:usop", "sex"]
+        "heritage:operator", "ref:icnf", "ref:CRFOP", "ref:gid", "ref:usop", "sex",
+        "ref"]   # ref: tra parentesi dopo il titolo della scheda (issue #89)
 
 # Alberi da frutto (rendering: puntini colorati sulla chioma, issue #3): mele, noci, limoni e arance. Solo specie
 # coltivate per i frutti, non i generi interi (molti Malus e Prunus sono ornamentali). Colore del frutto per specie.

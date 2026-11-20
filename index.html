@@ -222,6 +222,7 @@
   .card h3 .sex.unknown{color:#a5a5a5}   /* specie dioica senza sex=*: «♂/♀» più chiaro */
   .card h3 .sex.unknown svg{width:calc(.85em * 47 / 24)}
   .card h3 .sex .tip .more{display:block;margin-top:4px}
+  .card h3 .ref{font-weight:400;color:#555}   /* ref=* tra parentesi dopo il titolo (issue #89) */
   /* pop-up con la spiegazione del check: passando il mouse sul ⚠, o toccandolo (focus) da telefono */
   .why{cursor:help;outline:none}
   .why .tip{display:none;position:absolute;left:0;right:0;top:100%;z-index:6;background:#fff;color:#222;font-weight:400;
@@ -1807,9 +1808,13 @@ const historyP = WORLD ? Promise.resolve(null) : getJSON("data/history.json").ca
 // (o se manca) nelle schede degli alberi la specie non è un link
 let SPECIES_PAGES = {};
 getJSON(BASE + "species/index.json").then(d => { SPECIES_PAGES = d.pages || {}; }).catch(() => {});
-// pagina della specie dell'albero, se c'è: col nome della lista wiki (sp_key, per i sinonimi) o con species com'è scritto
+// pagina della specie dell'albero, se c'è: col nome della lista wiki (sp_key, per i sinonimi) o con species com'è scritto.
+// Per un albero (p.id) il link porta con sé l'albero, ?region=<slug>&node=<id> (mappa dei monumentali: ?node=<id>):
+// nella pagina della specie «DendrOSM» in alto riporta lì (FROM in scripts/species_template.html)
 const speciesPage = p => { const n = String(p.sp_key || p.species || "").split(/\s+/).filter(Boolean).join(" ").toLowerCase();
-  return n && !n.includes(";") && SPECIES_PAGES[n] ? `${BASE}species/${SPECIES_PAGES[n]}.html` : null; };
+  if (!n || n.includes(";") || !SPECIES_PAGES[n]) return null;
+  const from = p.id && (WORLD || hashSlug) ? "?" + new URLSearchParams(WORLD ? { node: p.id } : { region: hashSlug, node: p.id }) : "";
+  return `${BASE}species/${SPECIES_PAGES[n]}.html${from}`; };
 // Piante dioiche (fiori maschili e femminili su alberi diversi), generi interi o singole specie: per la voce «Sesso»
 // di Completezza (issue #58) e per il simbolo del sesso sconosciuto nella scheda. Ci devono essere tutte le chiavi di
 // L.sexTraits. Un albero è dioico se genus=* o la prima parola di species=* è uno dei generi, o se species=* è una
@@ -5056,6 +5061,11 @@ function card(p, pos) {
   const spPage = speciesPage(p);
   const spLink = html => spPage ? `<a href="${esc(spPage)}" target="_blank" rel="noopener">${html}</a>` : html;
   if (titleKey === "species") titleHtml = titleHtml.replace(`<i>${esc(p.species)}</i>`, spLink(`<i>${esc(p.species)}</i>`));
+  // ref=* (issue #89): tra parentesi dopo il titolo, «Quercus robur (1543)», in grigio; il tag nel suggerimento.
+  // Non se il titolo è name e ha lo stesso valore. Solo nella scheda: le righe di Alberi da record restano senza
+  const ref = String(p.ref ?? "").trim();
+  const refHtml = ref && !(titleKey === "name" && String(p.name).trim() === ref)
+    ? ` <span class="ref" title="ref=${esc(ref)}">(${esc(ref)})</span>` : "";
   const img = imageInfo(p, pos);
   const cat = !img && /^Category:/.test(p.wikimedia_commons || "") ? p.wikimedia_commons : null;
   // foto con i crediti in sovrimpressione (riempiti subito, o da fillPhoto per Commons); se non si carica sparisce
@@ -5083,7 +5093,7 @@ function card(p, pos) {
   // come Commons: la foto Panoramax mostrata ha già il link nel credito
   pano.forEach((id, i) => { if (id !== img?.pano) links.push(link(`https://api.panoramax.xyz/#focus=pic&pic=${id}`, pano.length > 1 ? `Panoramax ${i + 1}` : "Panoramax")); });
   if (fotoshiId(p) && !img?.href?.includes(fotoshiId(p))) links.push(link(`https://www.fotoshi.com/photo/${fotoshiId(p)}`, "Fotoshi"));
-  return `<div class="card"><h3>${titleHtml}${sexMark(p)}</h3>
+  return `<div class="card"><h3>${titleHtml}${refHtml}${sexMark(p)}</h3>
     ${photo}
     <dl>${rows}</dl>
     ${rec.map(([c, x]) => `<div class="rec${c ? " " + c : ""}">${x}</div>`).join("")}

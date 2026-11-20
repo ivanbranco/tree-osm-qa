@@ -12,8 +12,8 @@ generata prima. Serve quando è cambiato solo il modello. species/index.html (l'
 e legge species/index.json.
 
 Legge data/regions/*.geojson.gz (gli alberi delle regioni), data/world/monumental.geojson.gz (i monumentali di tutto
-il mondo, anche fuori dalle regioni), scripts/masaf_trees.json (l'elenco MASAF), data/regions_boundaries.geojson e
-data/index.json; scrive species/<slug>.html dal modello scripts/species_template.html, con i dati della specie dentro
+il mondo, anche fuori dalle regioni), scripts/masaf_trees.json (l'elenco MASAF), scripts/year_events.json (le frasi
+sull'anno di «Più vecchio», copiate nella pagina), data/regions_boundaries.geojson e data/index.json; scrive species/<slug>.html dal modello scripts/species_template.html, con i dati della specie dentro
 la pagina, e species/<slug>.mon.json con i monumentali della specie ([lon, lat, id, nome]), che la pagina scarica
 solo quando si accende la casella «Monumentali». I contorni delle regioni li carica la pagina da
 data/regions_boundaries.geojson.
@@ -422,6 +422,27 @@ def write_index():
     print(f"species/index.json: {len(pages)} pagine")
 
 
+def year_events(n, oldest, rinfo):
+    """Frase sull'anno per gli alberi di «Più vecchio» (come il tab «Alberi da record»): la voce di
+    scripts/year_events.json per la data dell'albero (ft.year_event, con il codice ISO della sua regione; i monumentali
+    fuori dalle regioni hanno solo le voci per tutti) va nella pagina come "ev". Le date senza una voce, né per l'anno
+    né per il decennio, si scrivono nel log, da aggiungere a mano; dopo averle aggiunte si rifà la pagina."""
+    events = ft.load_json(ft.YEAR_EVENTS)
+    missing = []
+    for t in oldest:
+        key = ft.start_date_event_key(t["tags"].get("start_date"))
+        if not key:
+            continue
+        ev = ft.year_event(key, events, (rinfo.get(t["r"]) or {}).get("iso", ""))
+        if ev:
+            t["ev"] = ev
+        else:
+            missing.append(key)
+    if missing:
+        print(f"{n}: anni senza una voce in scripts/year_events.json: {', '.join(dict.fromkeys(missing))}",
+              file=sys.stderr)
+
+
 def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
     lim = ft._RAW_LIMITS.get(n, {})
     # primati: come il tab «Alberi da record» (record_values, record_order, ⚠ da record_warned)
@@ -448,6 +469,7 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
     for k, rows in cands.items():
         rows.sort(key=lambda r: r[0])
         records[k] = [rec_tree(k, v, slug, f) for _, v, slug, f in rows[:TOP]]
+    year_events(n, records.get("oldest", []), rinfo)
     h_c = []                                   # rapporto altezza / circonferenza, come la colonna della wiki
     for slug, f in s["feats"]:
         pr = f["properties"]

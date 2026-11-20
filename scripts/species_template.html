@@ -61,6 +61,14 @@
   .rec summary{cursor:pointer;color:var(--muted)}
   .rec ol{margin:4px 0 0;padding-left:22px}
   .rec ol li{margin:1px 0}
+  /* «Più vecchio»: pulsante con la frase sull'anno (scripts/year_events.json) e la frase, sotto l'albero (come in index.html) */
+  .ev{display:inline-flex;align-items:center;vertical-align:-2px;margin-left:4px;padding:1px 2px;border:0;border-radius:3px;background:none;color:#1a5fb4;cursor:pointer}
+  .ev:hover,.ev[aria-expanded="true"]{background:#e3ecf9}
+  .ev:focus-visible{outline:2px solid #1a5fb4;outline-offset:-1px}
+  .ev svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round}
+  .evt{margin:4px 0 2px;padding:4px 8px;border-left:3px solid #c9d8ef;background:#f5f8fd;border-radius:0 4px 4px 0;font-size:13px;line-height:1.4;overflow-wrap:anywhere}
+  .wp{font:15px/1 "Linux Libertine","Georgia","Times New Roman",serif;color:#222;text-decoration:none}
+  .wp:hover{color:#0645ad}
   .none{color:var(--muted);font-style:italic}
   .stat .big{font-size:24px;font-weight:650;font-variant-numeric:tabular-nums}
   .stat .n{font-size:12.5px;color:var(--muted)}
@@ -142,6 +150,11 @@
 "use strict";
 const D = JSON.parse(document.getElementById("data").textContent);
 const hp = new URLSearchParams(location.hash.slice(1));
+// albero da cui si arriva: il link della specie nella scheda dell'albero aggiunge ?region=<slug>&node=<id> (dalla mappa
+// dei monumentali solo ?node=<id>), e «DendrOSM» in alto riporta a quell'albero (treeLink) invece che alla mappa intera
+const qp = new URLSearchParams(location.search);
+const FROM = (() => { const id = qp.get("node"), r = qp.get("region");
+  return /^\d+$/.test(id || "") && (r == null || /^[a-z0-9-]+$/.test(r)) ? { id, r } : null; })();
 const storedLang = () => { try { return localStorage.getItem("lang"); } catch (e) { return null; } };
 // stessa scelta della mappa: #lang=, poi la lingua salvata, poi quella del browser
 let LANG = [hp.get("lang"), storedLang(), (navigator.language || "").slice(0, 2).toLowerCase() === "it" ? "it" : "en"]
@@ -149,7 +162,7 @@ let LANG = [hp.get("lang"), storedLang(), (navigator.language || "").slice(0, 2)
 
 const I18N = {
   it: {
-    other: "English", crumb: "Specie",
+    other: "English", crumb: "Specie", back: "Torna all'albero sulla mappa",
     trees: "alberi mappati nelle regioni di DendrOSM", regions: (n, t) => `regioni in cui è presente, su ${t}`,
     mon: "monumentali su OSM nel mondo", masaf: "nell'elenco dei monumentali d'Italia (MASAF)",
     issues: "alberi con almeno una segnalazione",
@@ -166,6 +179,7 @@ const I18N = {
     isoHow: "Distanza dalla cosa più vicina tra gli altri alberi (di qualsiasi specie), i boschi e i filari di OpenStreetMap.",
     others: n => `i primi ${n}`, noRec: "Nessun albero con questa misura.", warned: "Valore segnalato da un check",
     wikiVal: v => `Record sulla wiki: ${v}`, monMap: "mappa dei monumentali", node: id => `nodo ${id}`,
+    evBtn: "Che cosa successe quell'anno", evSrc: "Fonte: Wikipedia",
     sizeTitle: "Misure tipiche", sizeLead: "Mediane degli alberi mappati, senza i valori segnalati dai check. Il grafico mostra quanti alberi ci sono per ogni misura (fino al 99° percentile).",
     height: "Altezza", trunkM: "Circonferenza del tronco", crownM: "Diametro della chioma", median: "mediana",
     on: n => `su ${n} alberi`, few: "Troppo pochi alberi con questa misura.",
@@ -202,7 +216,7 @@ const I18N = {
     foot: d => `Dati OpenStreetMap (ODbL), aggiornati al ${d}. Record e medie sulla wiki: pagina <a href="${WIKI}" target="_blank" rel="noopener">«Tree species records»</a>.`
   },
   en: {
-    other: "Italiano", crumb: "Species",
+    other: "Italiano", crumb: "Species", back: "Back to the tree on the map",
     trees: "trees mapped in the DendrOSM regions", regions: (n, t) => `regions where it is present, out of ${t}`,
     mon: "monumental trees on OSM worldwide", masaf: "in the list of monumental trees of Italy (MASAF)",
     issues: "trees with at least one warning",
@@ -219,6 +233,7 @@ const I18N = {
     isoHow: "Distance from the nearest of the other trees (of any species), woods and tree rows on OpenStreetMap.",
     others: n => `top ${n}`, noRec: "No tree with this measurement.", warned: "Value reported by a check",
     wikiVal: v => `Record on the wiki: ${v}`, monMap: "monumental map", node: id => `node ${id}`,
+    evBtn: "What happened that year", evSrc: "Source: Wikipedia",
     sizeTitle: "Typical sizes", sizeLead: "Medians of the mapped trees, without the values reported by the checks. The chart shows how many trees there are for each value (up to the 99th percentile).",
     height: "Height", trunkM: "Trunk circumference", crownM: "Crown diameter", median: "median",
     on: n => `from ${n} trees`, few: "Too few trees with this measurement.",
@@ -320,6 +335,26 @@ function recRow(k, t, warn = true) {   // warn = false: il ⚠ è già accanto a
   const place = regName(t.r) || T.monMap;
   return `<a href="${treeLink(t)}">${esc(t.name || T.node(t.id))}</a>, ${esc(place)}${warn && t.w ? ` <span class="warn" title="${T.warned}">⚠</span>` : ""}`;
 }
+// «Più vecchio»: t.ev = la voce di scripts/year_events.json per la data dell'albero (build_species.py, year_events).
+// evBtn: il pulsante col calendario, dopo l'albero; evText: la frase con la «W» della fonte su Wikipedia, sotto, chiusa
+// finché non si preme il pulsante. Una frase aperta alla volta (evOpen, l'id dell'albero), come nel tab della mappa
+const EV_ICON = '<svg viewBox="0 0 14 14" aria-hidden="true"><rect x="1.5" y="2.5" width="11" height="10" rx="1.5"/><path d="M1.5 5.5h11M4.5 1v3M9.5 1v3"/></svg>';
+let evOpen = null;
+const evBtn = t => t.ev ? `<button type="button" class="ev" data-ev="${t.id}" aria-expanded="${evOpen === t.id}" title="${esc(T.evBtn)}" aria-label="${esc(T.evBtn)}">${EV_ICON}</button>` : "";
+function evText(t) {
+  if (!t.ev) return "";
+  const ev = t.ev, src = ev["wiki_" + LANG] || ev.wiki_en;
+  const wp = src ? ` <a class="wp" href="https://${ev["wiki_" + LANG] ? LANG : "en"}.wikipedia.org/wiki/${encodeURIComponent(src.replace(/ /g, "_"))}" target="_blank" rel="noopener" title="${esc(T.evSrc)}" aria-label="${esc(T.evSrc)}">W</a>` : "";
+  return `<div class="evt" data-evt="${t.id}"${evOpen === t.id ? "" : " hidden"}>${esc(ev[LANG] || ev.en)}${wp}</div>`;
+}
+function bindEvents() {
+  document.querySelectorAll(".rec .ev").forEach(b => b.addEventListener("click", () => {
+    const id = Number(b.dataset.ev);
+    evOpen = evOpen === id ? null : id;
+    document.querySelectorAll(".rec .evt").forEach(x => { x.hidden = Number(x.dataset.evt) !== evOpen; });
+    document.querySelectorAll(".rec .ev").forEach(x => x.setAttribute("aria-expanded", Number(x.dataset.ev) === evOpen));
+  }));
+}
 function records() {
   const wiki = { height: D.wiki.height, trunk: D.wiki.circumference };
   // in grande il primo della classifica, anche se segnalato (con ⚠); nell'elenco richiudibile gli altri, dal secondo
@@ -328,10 +363,10 @@ function records() {
     if (!t) return `<div class="card rec"><h3>${T.rc[k]}</h3><div class="none">${T.noRec}</div></div>`;
     const nWarn = list.filter(x => x.w).length;
     const iso = k === "isolated";
-    const rest = list.slice(1).map((x, i) => `<li value="${i + 2}"><b>${recVal(k, x)}</b> · ${recRow(k, x)}${iso ? ` · ${esc(isoNear(x))}` : ""}</li>`);
+    const rest = list.slice(1).map((x, i) => `<li value="${i + 2}"><b>${recVal(k, x)}</b> · ${recRow(k, x)}${iso ? ` · ${esc(isoNear(x))}` : ""}${evBtn(x)}${evText(x)}</li>`);
     return `<div class="card rec"><h3>${T.rc[k]}</h3>
       <div class="val">${recVal(k, t)}${t.w ? ` <span class="warn" title="${T.warned}">⚠</span>` : ""} <small>${T.unit[k]}</small></div>
-      <div class="who">${recRow(k, t, false)}</div>
+      <div class="who">${recRow(k, t, false)}${evBtn(t)}</div>${evText(t)}
       ${iso ? `<div class="wiki">${esc(isoNear(t))}</div><div class="wiki">${esc(T.isoHow)}</div>` : ""}
       ${wiki[k] ? `<div class="wiki">${T.wikiVal(fmt(wiki[k], 2) + " m")}</div>` : ""}
       ${rest.length ? `<details><summary>${T.others(list.length)}${nWarn ? ` · ${T.nWarn(nWarn)}` : ""}</summary><ol>${rest.join("")}</ol></details>` : ""}</div>`;
@@ -633,11 +668,12 @@ function render() {
   document.documentElement.lang = LANG;
   document.getElementById("lang").textContent = T.other;
   document.getElementById("crumb").textContent = T.crumb;
+  if (FROM) { const b = document.querySelector("header.top .brand"); b.href = treeLink(FROM); b.title = T.back; }
   const view = map ? { c: map.getCenter(), z: map.getZoom() } : null;
   if (map) { map.remove(); map = null; BOUNDS = null; }
   document.getElementById("main").innerHTML = hero() + looks() + sexes() + records() + sizes() + mapSection();
   document.getElementById("foot").innerHTML = T.foot(new Date(D.updated).toLocaleDateString(LOC, { day: "numeric", month: "long", year: "numeric" }));
-  initMap(); bindMap(); bindLooks(); fillCredit();
+  initMap(); bindMap(); bindLooks(); bindEvents(); fillCredit();
   if (view) map.once("load", () => map.jumpTo({ center: view.c, zoom: view.z }));
 }
 document.getElementById("lang").addEventListener("click", () => {

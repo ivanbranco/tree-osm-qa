@@ -891,6 +891,8 @@ def feature_failures():
               ("diameter_crown: cr = metà, senza cr_est", (pc := ft.to_feature(node(9002, {**tags, "diameter_crown": "8"}))["properties"])
                .get("cr") == 4.0 and "cr_est" not in pc),
               ("membro: niente hint_ms", "hint_ms" not in mem),
+              # ref=* per il titolo della scheda (issue #89)
+              ("ref nella feature", ft.to_feature(node(9008, {**tags, "ref": "1543"}))["properties"].get("ref") == "1543"),
               # foto di Google Foto (cache gphotos.json finta): gp_img solo con un indirizzo letto
               ("Google Foto: gp_img dalla cache", (ft.GPHOTOS.update({"https://photos.app.goo.gl/x": {"i": "https://lh3.googleusercontent.com/pw/a", "d": "2026-11-16"},
                                                                       "https://photos.app.goo.gl/y": {"i": "", "d": "2026-11-16"}})
