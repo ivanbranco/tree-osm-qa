@@ -39,30 +39,54 @@ HEADERS = {
     "User-Agent": "tree-osm-qa/1.0 (https://github.com/ivanbranco/tree-osm-qa)",
     "Accept-Encoding": "gzip",
 }
-# Mirror Overpass di FairwayMapper (https://www.fairwaymapper.com/api/overpass): si usa per primo solo se c'è la
-# chiave nella variabile d'ambiente FAIRWAYMAPPER_KEY (nell'Action viene dal secret omonimo, mai scritta nei file).
-# Piano gratuito: 10 richieste al minuto e 2000 al mese. Se la chiave viene rifiutata o il limite è esaurito,
-# per il resto dell'esecuzione si usano solo gli altri server.
-# La chiave va nell'indirizzo (https://api.fairwaymapper.com/k/<chiave>/api/interpreter, la forma usata anche da
-# overpass-turbo e JOSM): nei messaggi l'indirizzo compare come "FairwayMapper" e la chiave è sempre oscurata.
-# Il secret può contenere la sola chiave (fm_…) o l'indirizzo intero copiato da overpass-turbo.
-FM_URL = "FairwayMapper"   # segnaposto nell'elenco ENDPOINTS
-_fm_raw = os.environ.get("FAIRWAYMAPPER_KEY", "").strip()
-FM_KEY = (re.search(r"/k/([^/\s]+)", _fm_raw) or re.match(r"(\S*)", _fm_raw)).group(1)
-FM_INTERVAL = 6.5          # secondi tra due richieste (massimo 10 al minuto)
+# Server Overpass con chiave, usati prima di quelli pubblici (la chiave non è mai scritta nei file: nell'Action viene
+# dai secret, in locale dalle variabili d'ambiente omonime; il secret può contenere la sola chiave o l'indirizzo
+# intero copiato da overpass-turbo). La chiave va nell'indirizzo: nei messaggi compare il nome del server e la
+# chiave è sempre oscurata. Se la chiave viene rifiutata o il limite del mese è esaurito, per il resto
+# dell'esecuzione si usano solo gli altri server.
+# - FairwayMapper (https://www.fairwaymapper.com/api/overpass): con FAIRWAYMAPPER_KEY. Piano gratuito: 10 richieste
+#   al minuto e 2000 al mese.
+# - overpass.ch (https://overpass.ch/docs): con OVERPASS_CH_KEY e OVERPASS_CH_OVERPASS=1 (la stessa chiave serve
+#   anche per le quote, add_elevation: da sola non fa usare overpass.ch per Overpass). La chiave in uso è un piano
+#   Starter concesso dall'autore: 100.000 richieste al mese, query di 3 minuti al massimo (il timeout più lungo
+#   della query viene abbassato; se non basta, la regione si divide in tile), e va usata con UNA richiesta alla
+#   volta (Overpass e quote), anche se il piano ne ammetterebbe due: lo script non fa mai richieste in parallelo a
+#   overpass.ch, e le due Action che lo usano sono nello stesso gruppo "concurrency". In più, per cortesia, almeno
+#   2,1 s tra due query (il limite di 30 al minuto del piano gratuito). Se ci sono tutte e due le chiavi,
+#   overpass.ch viene per primo.
+def _env_key(name, pattern):
+    raw = os.environ.get(name, "").strip().strip("\"'")
+    m = re.search(pattern, raw)
+    return m.group(1) if m else (raw.split() or [""])[0]
+
+
+FM_URL, OC_URL = "FairwayMapper", "overpass.ch"   # segnaposti nell'elenco ENDPOINTS
+FM_KEY = _env_key("FAIRWAYMAPPER_KEY", r"/k/([^/\s]+)")
+OC_KEY = _env_key("OVERPASS_CH_KEY", r"/v1/([^/?#\s]+)")
+MIRRORS = {   # interval: secondi tra due richieste
+    FM_URL: {"key": FM_KEY, "url": "https://api.fairwaymapper.com/k/{key}/api/interpreter", "interval": 6.5, "last": 0.0},
+    OC_URL: {"key": OC_KEY, "url": "https://api.overpass.ch/v1/{key}/interpreter", "interval": 2.1, "last": 0.0},
+}
 
 
 def hide_key(s):
-    return str(s).replace(FM_KEY, "***") if FM_KEY else str(s)
+    s = str(s)
+    for k in (FM_KEY, OC_KEY):
+        if k:
+            s = s.replace(k, "***")
+    return s
+
+
 if FM_KEY:
     ENDPOINTS.insert(0, FM_URL)
-_fm_last = 0.0
+if OC_KEY and os.environ.get("OVERPASS_CH_OVERPASS") == "1":
+    ENDPOINTS.insert(0, OC_URL)
 
 
-def fm_disable(reason):
-    if FM_URL in ENDPOINTS:
-        ENDPOINTS.remove(FM_URL)
-        warn(f"FairwayMapper non usato per il resto dell'aggiornamento: {reason}")
+def mirror_disable(url, reason):
+    if url in ENDPOINTS:
+        ENDPOINTS.remove(url)
+        warn(f"{url} non usato per il resto dell'aggiornamento: {reason}")
 
 
 def warn(msg):
@@ -98,23 +122,29 @@ def run_overpass(q, label, can_split, http_timeout=420):
     """Prova gli endpoint; restituisce il JSON solo se completo. Se la query è troppo pesante
     (timeout, errore di memoria, 504) e si può dividere, restituisce subito None. http_timeout: secondi di attesa
     della risposta (le query mondiali di fetch_world.py ne chiedono di più)."""
-    global _fm_last
     for url in list(ENDPOINTS):
         for attempt in range(2):
-            if url not in ENDPOINTS:     # FairwayMapper disattivato nel frattempo
+            if url not in ENDPOINTS:     # server con chiave disattivato nel frattempo
                 break
             try:
-                real = url
-                if url == FM_URL:
-                    time.sleep(max(0.0, _fm_last + FM_INTERVAL - time.time()))
-                    _fm_last = time.time()
-                    real = f"https://api.fairwaymapper.com/k/{FM_KEY}/api/interpreter"
+                real, mir = url, MIRRORS.get(url)
+                if mir:
+                    time.sleep(max(0.0, mir["last"] + mir["interval"] - time.time()))
+                    mir["last"] = time.time()
+                    real = mir["url"].format(key=mir["key"])
                 r = requests.post(real, data={"data": q}, headers=HEADERS, timeout=http_timeout)
-                if url == FM_URL and r.status_code in (401, 403):
-                    fm_disable(f"chiave rifiutata (HTTP {r.status_code}): {hide_key(r.text[:150])}")
+                if mir and r.status_code in (401, 403):
+                    mirror_disable(url, f"chiave rifiutata (HTTP {r.status_code}): {hide_key(r.text[:150])}")
                     break
-                if url == FM_URL and r.status_code == 429:
-                    fm_disable(f"limite di richieste raggiunto: {hide_key(r.text[:150])}")
+                if mir and r.status_code == 429:
+                    # troppe richieste al minuto: si aspetta quanto dice Retry-After (se è poco) e si riprova;
+                    # limite del mese esaurito (o attesa lunga): il server non si usa più
+                    wait = r.headers.get("Retry-After", "")
+                    if wait.isdigit() and int(wait) <= 120 and attempt == 0:
+                        print(f" [!] {url} -> HTTP 429 ({label}), attendo {wait}s")
+                        time.sleep(int(wait) + 1)
+                        continue
+                    mirror_disable(url, f"limite di richieste raggiunto: {hide_key(r.text[:150])}")
                     break
                 if r.status_code == 504 and can_split:
                     print(f" [!] {url} -> HTTP 504 ({label}): provo a dividere")
@@ -3257,14 +3287,15 @@ def add_elevation(region, fc, path):
             todo.append(f)
     if not todo:
         return
-    # il secret può essere la sola chiave o l'indirizzo copiato da overpass-turbo (https://api.overpass.ch/v1/<key>/)
-    key = os.environ.get("OVERPASS_CH_KEY", "").strip().strip("\"'")
-    if m := re.search(r"/v1/([^/?#\s]+)", key):
-        key = m.group(1)
+    # ELEVATION=0 (Action senza la spunta "Download elevations"): le quote nuove non si chiedono
+    if os.environ.get("ELEVATION") == "0":
+        warn(f"{region['slug']}: {len(todo)} alberi senza quota (quote non richieste in questo aggiornamento)")
+        return
+    key = OC_KEY   # sola chiave o indirizzo copiato da overpass-turbo (https://api.overpass.ch/v1/<key>/), vedi _env_key
     if not key:
         warn(f"{region['slug']}: {len(todo)} alberi senza quota (manca OVERPASS_CH_KEY)")
         return
-    hide = lambda s: str(s).replace(key, "***")   # la chiave è nell'indirizzo: mai nei messaggi
+    hide = hide_key   # la chiave è nell'indirizzo: mai nei messaggi
     for i in range(0, len(todo), ELEV_BATCH):
         part = todo[i:i + ELEV_BATCH]
         body = {"locations": [[f["geometry"]["coordinates"][1], f["geometry"]["coordinates"][0]] for f in part]}

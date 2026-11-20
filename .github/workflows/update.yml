@@ -146,8 +146,16 @@ on:
         type: string
         required: false
         default: ""
-      fairwaymapper:
-        description: "Use FairwayMapper (if the FAIRWAYMAPPER_KEY secret exists); untick to save the quota"
+      overpass:
+        description: "Overpass server to use first (with the key in the secret of the same name; the public servers are always used after it)"
+        type: choice
+        default: fairwaymapper
+        options:
+          - fairwaymapper
+          - overpass.ch
+          - public servers only
+      elevation:
+        description: "Download the elevations of new or moved trees from overpass.ch (regions with elevation in regions.json, OVERPASS_CH_KEY secret); untick to save the quota"
         type: boolean
         default: true
 
@@ -176,10 +184,13 @@ jobs:
           REGIONS: ${{ github.event.inputs.regions }}
           REGION: ${{ github.event.inputs.region || 'all' }}
           PYTHONUNBUFFERED: "1"   # i messaggi dello script compaiono subito nel log
-          # facoltativa: senza (o senza la spunta "Use FairwayMapper"), si usano solo i server pubblici
-          FAIRWAYMAPPER_KEY: ${{ inputs.fairwaymapper && secrets.FAIRWAYMAPPER_KEY || '' }}
-          # quote degli alberi (overpass.ch), solo nelle regioni con "elevation" in scripts/regions.json
-          OVERPASS_CH_KEY: ${{ secrets.OVERPASS_CH_KEY }}
+          # server Overpass con chiave scelto nel menu "overpass"; senza chiave si usano solo i server pubblici
+          FAIRWAYMAPPER_KEY: ${{ inputs.overpass == 'fairwaymapper' && secrets.FAIRWAYMAPPER_KEY || '' }}
+          OVERPASS_CH_OVERPASS: ${{ inputs.overpass == 'overpass.ch' && '1' || '0' }}
+          # la chiave di overpass.ch serve per Overpass (se scelto) e per le quote degli alberi (regioni con
+          # "elevation" in scripts/regions.json, se c'è la spunta "elevation")
+          OVERPASS_CH_KEY: ${{ (inputs.overpass == 'overpass.ch' || inputs.elevation) && secrets.OVERPASS_CH_KEY || '' }}
+          ELEVATION: ${{ inputs.elevation && '1' || '0' }}
         run: python scripts/fetch_trees.py "${REGIONS:-$REGION}"
       - name: Commit
         if: ${{ !cancelled() }}

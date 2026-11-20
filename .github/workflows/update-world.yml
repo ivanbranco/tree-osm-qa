@@ -3,10 +3,14 @@ name: Update monumental map
 on:
   workflow_dispatch:
     inputs:
-      fairwaymapper:
-        description: "Use FairwayMapper (if the FAIRWAYMAPPER_KEY secret exists); untick to save the quota"
-        type: boolean
-        default: true
+      overpass:
+        description: "Overpass server to use first (with the key in the secret of the same name; the public servers are always used after it)"
+        type: choice
+        default: fairwaymapper
+        options:
+          - fairwaymapper
+          - overpass.ch
+          - public servers only
 
 permissions:
   contents: write
@@ -28,7 +32,9 @@ jobs:
       - name: Download the data
         env:
           PYTHONUNBUFFERED: "1"
-          FAIRWAYMAPPER_KEY: ${{ inputs.fairwaymapper && secrets.FAIRWAYMAPPER_KEY || '' }}
+          FAIRWAYMAPPER_KEY: ${{ inputs.overpass == 'fairwaymapper' && secrets.FAIRWAYMAPPER_KEY || '' }}
+          OVERPASS_CH_OVERPASS: ${{ inputs.overpass == 'overpass.ch' && '1' || '0' }}
+          OVERPASS_CH_KEY: ${{ inputs.overpass == 'overpass.ch' && secrets.OVERPASS_CH_KEY || '' }}
         run: python scripts/fetch_world.py
       - name: Commit
         if: ${{ !cancelled() }}
