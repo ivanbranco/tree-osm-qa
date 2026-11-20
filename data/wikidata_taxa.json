@@ -3142,6 +3142,13 @@
 "ranks": [],
 "taxon": false
 },
+"Q115145930": {
+"en": "Quercia del Tasso",
+"it": "Quercia del Tasso",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q11516171": {
 "en": "Tsukize-no-Osugi",
 "names": [],
@@ -14850,7 +14857,8 @@
 "Prunus speciosa × Prunus itosakura"
 ]
 },
-"it": "Prunus ×yedoensis",
+"en": "Prunus × yedoensis",
+"it": "Prunus × yedoensis",
 "names": [
 "Prunus × yedoensis"
 ],
@@ -24425,6 +24433,13 @@
 ],
 "taxon": true
 },
+"Q3607997": {
+"en": "Mr Piccioni's tree",
+"it": "albero del Piccioni",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q3609454": {
 "en": "Porlieria chilensis",
 "it": "Porlieria chilensis",
@@ -24863,6 +24878,12 @@
 ],
 "taxon": true
 },
+"Q3895596": {
+"it": "Parco Bosco dei Ronchi e Parco ex-ILA",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q3899625": {
 "alias": {
 "en": [],
@@ -24964,6 +24985,13 @@
 "Q68947"
 ],
 "taxon": true
+},
+"Q3906387": {
+"en": "platano dei Cento Bersaglieri",
+"it": "platano dei Cento Bersaglieri",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q39126127": {
 "alias": {
@@ -25316,6 +25344,17 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q40854": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Gallarate",
+"it": "Gallarate",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q4095584": {
 "alias": {
@@ -28167,6 +28206,13 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q52731794": {
+"en": "Ozzastru",
+"it": "s'Ozzastru",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q528713": {
 "alias": {
@@ -33955,6 +34001,12 @@
 },
 "Q96608687": {
 "en": "Lípa republiky (Kampus Dejvice)",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q97163777": {
+"it": "La Roverella di Carassai",
 "names": [],
 "ranks": [],
 "taxon": false
