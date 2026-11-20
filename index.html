@@ -182,6 +182,7 @@
   #lang{font-size:12px;font-weight:400;color:#999}
   #lang a{color:#1a5fb4;text-decoration:none}
   #lang a.on{color:#222;font-weight:600;pointer-events:none}
+  #units[hidden]{display:none}
   .hdr{display:flex;align-items:center;gap:8px}
   #scale{display:flex;align-items:center;gap:6px;font-size:11px;color:#777;margin-top:6px}
   #scale[hidden]{display:none}
@@ -277,7 +278,7 @@
 <body>
 <div id="side">
 <div id="panel" class="box">
-  <h1><span data-i18n="title">DendrOSM</span><span class="hdr"><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a></span><a id="gh" href="https://github.com/ivanbranco/tree-osm-qa" target="_blank" rel="noopener"><svg width="16" height="14" viewBox="0 0 18 16" aria-hidden="true"><path d="M5.5 3.5L1.5 8l4 4.5M12.5 3.5l4 4.5-4 4.5M10.5 2L7.5 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></span></h1>
+  <h1><span data-i18n="title">DendrOSM</span><span class="hdr"><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a><span id="units" hidden> | <a href="#" data-units="m">m</a> · <a href="#" data-units="ft">ft</a></span></span><a id="gh" href="https://github.com/ivanbranco/tree-osm-qa" target="_blank" rel="noopener"><svg width="16" height="14" viewBox="0 0 18 16" aria-hidden="true"><path d="M5.5 3.5L1.5 8l4 4.5M12.5 3.5l4 4.5-4 4.5M10.5 2L7.5 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></span></h1>
   <div id="subtitle" data-i18n="subtitle">Controllo qualità degli alberi di OpenStreetMap</div>
   <button id="back-qa" class="world-only" type="button" data-i18n="backToQa">← Torna al tool QA</button>
   <select id="region" autocomplete="off"></select>
@@ -367,6 +368,7 @@ if (WORLD) document.body.classList.add("world");
 const LANGS = ["it", "en"];
 const hashParams = () => new URLSearchParams(location.hash.slice(1));
 const storedLang = () => { try { return localStorage.getItem("lang"); } catch (e) { return null; } };
+const storedUnits = () => { try { const u = localStorage.getItem("units"); return u === "m" || u === "ft" ? u : null; } catch (e) { return null; } };
 const LANG = [hashParams().get("lang"), storedLang(), (navigator.language || "").slice(0, 2).toLowerCase() === "it" ? "it" : "en"]
   .find(l => LANGS.includes(l));
 const LOC = LANG === "it" ? "it-IT" : "en-GB";
@@ -1573,7 +1575,7 @@ if (WORLD) {
   document.getElementById("subtitle").textContent = L.worldTitle[MODE];
   document.title = `DendrOSM – ${L.worldTitle[MODE]}`;   // come il tool: "DendrOSM – …"
 }
-document.querySelectorAll("#lang a").forEach(a => {
+document.querySelectorAll("#lang a[data-lang]").forEach(a => {
   a.classList.toggle("on", a.dataset.lang === LANG);
   a.onclick = ev => {          // cambia lingua: la ricorda e ricarica la pagina (la regione resta nell'indirizzo)
     ev.preventDefault();
@@ -4267,9 +4269,23 @@ const sexMark = p => { const s = SEX_SVG[p.sex];
   const photo = pk ? popPhoto(SEX_PHOTO[pk][p.sex], L.sexPhotoAlt[pk]?.[p.sex] || sp) : "";
   return box("sex", L.sex[p.sex], s, esc(text) + photo); };
 const ROWS = ROW_KEYS.map(k => [k, L.rows[k === "iv_gen" ? "genus" : k], ROW_FMT[k]]);
-// IMPERIAL: browser in en-US e sito in inglese: nella scheda altezza, circonferenza e chioma sono in piedi e pollici
+// IMPERIAL: sito in inglese e «ft» scelto (senza scelta: browser in en-US o en-LR): nella scheda altezza, circonferenza e chioma sono in piedi e pollici
 // (65 ft 7 in), con il valore in metri nel suggerimento; i messaggi dei check restano in metri
-const IMPERIAL = LANG === "en" && navigator.language === "en-US";
+// (issue #93) m · ft accanto a IT · EN cambia la scelta e la salva nel browser. Compare solo con il sito in inglese e il
+// browser in una lingua dei paesi con il sistema imperiale (en-US, en-LR), o se una scelta è già salvata (per poterla
+// cambiare anche dopo aver cambiato la lingua del browser); agli altri serve poco, perché vedono già i metri
+const IMP_LOCALE = ["en-US", "en-LR"].includes(navigator.language);
+const IMPERIAL = LANG === "en" && (storedUnits() ? storedUnits() === "ft" : IMP_LOCALE);
+{ const u = document.getElementById("units");
+  u.hidden = LANG !== "en" || !(IMP_LOCALE || storedUnits());
+  u.querySelectorAll("a").forEach(a => {
+    a.classList.toggle("on", (a.dataset.units === "ft") === IMPERIAL);
+    a.onclick = ev => {        // come la lingua: la ricorda e ricarica la pagina (regione e albero restano nell'indirizzo)
+      ev.preventDefault();
+      try { localStorage.setItem("units", a.dataset.units); } catch (e) {}
+      location.reload();
+    };
+  }); }
 const IMP_ROWS = new Set(["height", "circumference", "diameter_crown"]);
 const fmtFtIn = m => { const t = Math.round(m / 0.0254), f = Math.floor(t / 12), i = t % 12;
   return f && i ? `${f} ft ${i} in` : f ? `${f} ft` : `${i} in`; };

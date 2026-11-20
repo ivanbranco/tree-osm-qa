@@ -2,7 +2,7 @@
 
 # The map
 
-How trees are drawn, the filters, the keyboard shortcuts, the address parameters and how the language works. The card of a tree and the tabs of the panel have pages of their own: [The tree card](scheda.md) and [The panel tabs](pannello.md).
+How trees are drawn, the filters, the keyboard shortcuts, the address parameters and how the language and the units work. The card of a tree and the tabs of the panel have pages of their own: [The tree card](scheda.md) and [The panel tabs](pannello.md).
 
 ## Rendering
 
@@ -100,3 +100,7 @@ The address contains the region and the map position (`#region=lombardia&map=17.
 The site is in Italian if the browser language is Italian, otherwise in English. It is changed with IT · EN at the top of the panel: the choice is saved in the browser. It can also be forced from the address, for example `#lang=en` or `#region=lombardia&lang=en`.
 
 All texts are in the `I18N` object at the start of the script in `index.html`: to add a language, copy one of the two blocks, translate it and add the code to `LANGS`. Region names, OSM tags and values are not translated.
+
+## Units
+
+The "Height", "Circumference" and "Crown diameter" rows of the card ([The tree card](scheda.md)) are in feet and inches when the site is in English and the browser language is `en-US` or `en-LR`, otherwise in metres. In that case m · ft appears next to IT · EN ([issue #93](https://github.com/ivanbranco/tree-osm-qa/issues/93)) to choose the units; the choice is saved in the browser, and m · ft stays visible with the site in English as long as a choice is saved. In Italian everything is in metres, and m · ft is not shown. The messages of the checks are always in metres.
