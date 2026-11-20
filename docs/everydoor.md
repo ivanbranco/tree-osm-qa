@@ -40,6 +40,8 @@ Every Door compares values exactly as they are written: `species=Quercus ilex` i
 
 All the species and genera of the two lists can be found from the type search (the + button of the micromapping mode, or the title of the editor of an existing tree), by scientific name or by common name in Italian and English. The common names come from Wikidata and are not reviewed: 595 species have an English one, 186 an Italian one. The synonyms of `scripts/whitelist.json` lead to the species too, for example `Platanus acerifolia` to `Platanus × hispanica`. Typing the name of a genus lists the genus first, then its species.
 
+For a tree whose species and genus are not known, "Tree (unknown species)" is the first result when typing "tree" or "albero", before the species with these words in their common name. It sets only `natural=tree`.
+
 Choosing a species sets `natural=tree`, `species`, `species:wikidata`, `leaf_type` and `leaf_cycle`, with the values of the species list. Choosing a genus sets `natural=tree`, `genus`, `leaf_type`, and `leaf_cycle` only when it is the same for the whole genus. Other tags of the tree are kept.
 
 On a tree that already has the species but not the tags that follow from it, choosing the same species again adds them.

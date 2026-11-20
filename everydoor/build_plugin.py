@@ -174,6 +174,13 @@ def build_data():
         tr["it"][pid], tr["en"][pid] = {"name": it}, {"name": en}
         micro_markers[pid] = {"icon": g + ".svg"}
 
+    # 0. Scorciatoia generica, primo preset del file: nella ricerca esce prima delle specie con «albero» o «tree» nel
+    # nome comune (Every Door elenca i preset del plugin prima dei suoi, quindi il suo «Albero» finiva in fondo).
+    # Mette solo natural=tree; come le altre scorciatoie non è mai il tipo riconosciuto di un albero.
+    presets["dendrosm_tree"] = {"name": "Albero · Tree · sconosciuto · unknown", "icon": "neutral.svg", "area": False,
+                                "tags": NEVER, "addTags": {"natural": "tree"}, "fields": ["@natural/tree"]}
+    tr["it"]["dendrosm_tree"], tr["en"]["dendrosm_tree"] = {"name": "Albero (specie sconosciuta)"}, {"name": "Tree (unknown species)"}
+
     # 1. Tipi riconosciuti da tutti e due i tag delle foglie (3 tag: vincono sui preset da 2), palma e ceppo.
     # Tra preset con lo stesso numero di tag Every Door prende il primo: l'ordine di questa funzione conta.
     # Prima di tutti, le palme riconosciute dagli altri tag che usa il sito (PALM_TAGS): valgono più dei tag delle
