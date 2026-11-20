@@ -3408,9 +3408,15 @@ map.on("load", async () => {
   // anche i tronchi (singoli e multipli) aprono la scheda: da zoom 16 sono disegnati sopra la chioma
   for (const id of [...CROWN_IDS, ...TIERS.map(t => "crown-palm" + t.suf), ...TIERS.map(t => "trunk" + t.suf), ...TIERS.map(t => "stem" + t.suf),
     "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"]) {
+    // il punto dell'albero si prende dai dati caricati (ALL), come per #node= dell'indirizzo (issue #86): la geometria
+    // di e.features viene dalle tessere che MapLibre ricava dal GeoJSON, con le coordinate arrotondate alla griglia
+    // della tessera (a zoom basso anche di qualche metro), e per le sagome (poligoni) è il punto del clic. Scheda, link
+    // e tasto Z usano il punto della scheda. Se l'albero non è in ALL (alberi di Natale) resta il punto della tessera
     map.on("click", id, e => {
-      const g = e.features[0].geometry, pos = g.type === "Point" ? g.coordinates : [e.lngLat.lng, e.lngLat.lat];
-      openCard(e.features[0].properties, pos);
+      const f = e.features[0], g = f.geometry, node = f.properties.id;
+      const pos = ALL.find(x => x.properties.id === node)?.geometry.coordinates
+        || (g.type === "Point" ? g.coordinates : [e.lngLat.lng, e.lngLat.lat]);
+      openCard(f.properties, pos);
     });
     map.on("mouseenter", id, () => map.getCanvas().style.cursor = "pointer");
     map.on("mouseleave", id, () => map.getCanvas().style.cursor = "");
