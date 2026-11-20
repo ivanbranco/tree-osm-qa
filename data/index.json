@@ -811,11 +811,13 @@
    "updated": "2026-11-16T17:17:30Z"
   },
   "san-marino": {
-   "count": 1281,
+   "count": 1286,
    "errors": 0,
    "name": "San Marino",
-   "sha1": "0217f5cf6bc91e7e856b0091135a43039f45dd65",
-   "updated": "2026-11-12T18:27:43Z"
+   "osm_base": "2026-11-20T06:37:39Z",
+   "sha1": "dd0d4201f673486b1517cf10f6ce128e1680fa2b",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T06:39:06Z"
   },
   "sardegna": {
    "count": 5433,
