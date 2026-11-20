@@ -1,12 +1,13 @@
 {
  "regions": {
   "abruzzo": {
-   "count": 685311,
-   "errors": 1689,
+   "count": 686853,
+   "errors": 1694,
    "name": "Abruzzo",
-   "sha1": "46294b87bf11b6c349e23f97d9abf57747dc4469",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:10:19Z"
+   "osm_base": "2026-11-20T17:00:21Z",
+   "sha1": "9e40806f64ee4a581199af3703d2a10aec5e54dc",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T17:05:12Z"
   },
   "albania": {
    "count": 18014,
@@ -90,10 +91,10 @@
    "count": 14423,
    "errors": 81,
    "name": "Basilicata",
-   "osm_base": "2026-11-17T11:25:17Z",
-   "sha1": "e99ea14bc9e43a30ee4e9fc107b5496f39d056e0",
-   "tried": "2026-11-17",
-   "updated": "2026-11-17T11:26:32Z"
+   "osm_base": "2026-11-20T17:06:36Z",
+   "sha1": "1578ce07f15cc876ef660ad5356a64616290a723",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T17:07:46Z"
   },
   "bassa-austria": {
    "count": 186104,
@@ -147,20 +148,22 @@
    "updated": "2026-11-16T17:18:14Z"
   },
   "calabria": {
-   "count": 28424,
-   "errors": 27,
+   "count": 28433,
+   "errors": 29,
    "name": "Calabria",
-   "sha1": "a76149b1c09866af4547afd0bc94692d5a5c8b8d",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:13:01Z"
+   "osm_base": "2026-11-20T17:06:36Z",
+   "sha1": "7be2a8be7a2ca1a54157861d864f8bdcb171ef1c",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T17:08:32Z"
   },
   "campania": {
    "count": 15640,
-   "errors": 37,
+   "errors": 56,
    "name": "Campania",
-   "sha1": "b3034f580b35d5e6cf9ceab2726fc15cec0e843a",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:11:14Z"
+   "osm_base": "2026-11-20T17:04:28Z",
+   "sha1": "bb99881e353467b9e4f4cbf6bacdea253801ddc6",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T17:06:26Z"
   },
   "canarie": {
    "count": 65857,
@@ -303,12 +306,13 @@
    "updated": "2026-11-14T10:48:39Z"
   },
   "emilia-romagna": {
-   "count": 240570,
-   "errors": 2209,
+   "count": 240680,
+   "errors": 2169,
    "name": "Emilia-Romagna",
-   "sha1": "02899757533335c2f4134a7b9f023ef67a4b2a83",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:07:05Z"
+   "osm_base": "2026-11-20T16:55:05Z",
+   "sha1": "f25c789cb405299c2b7ee3176bdab0dfd007be09",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T16:58:07Z"
   },
   "est-inghilterra": {
    "count": 104372,
@@ -337,12 +341,13 @@
    "updated": "2026-11-18T19:15:15Z"
   },
   "friuli-venezia-giulia": {
-   "count": 29950,
-   "errors": 327,
+   "count": 29981,
+   "errors": 334,
    "name": "Friuli-Venezia Giulia",
-   "sha1": "8e270d0afef2dd5ea39d3aa949f00145cad99659",
-   "tried": "2026-11-15",
-   "updated": "2026-11-15T07:59:01Z"
+   "osm_base": "2026-11-20T16:54:06Z",
+   "sha1": "3fa9a2cfb402c1592496ac38dcce1317e1ca8adb",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T16:55:39Z"
   },
   "galizia": {
    "count": 55016,
@@ -440,12 +445,13 @@
    "updated": "2026-11-18T19:16:17Z"
   },
   "lazio": {
-   "count": 71113,
-   "errors": 334,
+   "count": 71309,
+   "errors": 349,
    "name": "Lazio",
-   "sha1": "26bf4633309f1ec7994f404d27f8092bea78d5e0",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:09:17Z"
+   "osm_base": "2026-11-20T16:59:21Z",
+   "sha1": "9eee2ee44dbf7ddadf54266f0ab3e9e085eba81c",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T17:01:25Z"
   },
   "leinster": {
    "count": 600143,
@@ -474,13 +480,13 @@
    "updated": "2026-11-17T20:01:03Z"
   },
   "liguria": {
-   "count": 8906,
+   "count": 8912,
    "errors": 144,
    "name": "Liguria",
-   "osm_base": "2026-11-18T22:09:47Z",
-   "sha1": "d12407e3dec04e025986dc12820d1eb6eecbec24",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T22:11:19Z"
+   "osm_base": "2026-11-20T16:55:05Z",
+   "sha1": "0ff20ec778af734945e46fa481d030353d3d3882",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T16:56:00Z"
   },
   "lituania": {
    "count": 89293,
@@ -499,12 +505,13 @@
    "updated": "2026-11-14T10:51:36Z"
   },
   "lombardia": {
-   "count": 387436,
-   "errors": 1012,
+   "count": 387967,
+   "errors": 1125,
    "name": "Lombardia",
-   "sha1": "9e87f8612dfbd4bd0934547af3d7aeb65b65be61",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T02:48:46Z"
+   "osm_base": "2026-11-20T16:47:59Z",
+   "sha1": "c0738733c0c31c1bc5296f1fcd0d32a25c15e9c5",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T16:52:26Z"
   },
   "londra": {
    "count": 213110,
@@ -558,18 +565,21 @@
   },
   "malta": {
    "count": 2740,
-   "errors": 22,
+   "errors": 17,
    "name": "Malta",
-   "sha1": "b5515903385aa8f91060b9b0aca7e4f9b7fab057",
-   "updated": "2026-11-12T18:27:29Z"
+   "osm_base": "2026-11-20T16:26:36Z",
+   "sha1": "57838bfae60fd0b8cbb5e560fc6999c9d6c7a108",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T16:28:01Z"
   },
   "marche": {
-   "count": 32341,
-   "errors": 165,
+   "count": 32431,
+   "errors": 171,
    "name": "Marche",
-   "sha1": "c803a27986b19dccd51bdb832a1f8697a03b1d94",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:08:28Z"
+   "osm_base": "2026-11-20T16:58:18Z",
+   "sha1": "b981a6010121d15e017bd1960f56f622bc308cd5",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T17:00:16Z"
   },
   "mazowieckie": {
    "count": 347481,
@@ -608,11 +618,12 @@
   },
   "molise": {
    "count": 57853,
-   "errors": 10,
+   "errors": 54,
    "name": "Molise",
-   "sha1": "252c58ca6fa02dfd1abdb86a45541881b2277b75",
-   "tried": "2026-11-15",
-   "updated": "2026-11-15T20:58:31Z"
+   "osm_base": "2026-11-20T17:04:28Z",
+   "sha1": "7d5140201403d2cfb3786a21ca3e76630ec6bf36",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T17:05:41Z"
   },
   "monaco": {
    "count": 658,
@@ -740,9 +751,9 @@
    "count": 73111,
    "errors": 159,
    "name": "Piemonte",
-   "osm_base": "2026-11-19T22:24:20Z",
+   "osm_base": "2026-11-20T16:46:58Z",
    "sha1": "cf00ceffa523a0cc74dd456173f2873395201282",
-   "tried": "2026-11-19",
+   "tried": "2026-11-20",
    "updated": "2026-11-19T22:26:49Z"
   },
   "podkarpackie": {
@@ -787,12 +798,13 @@
    "updated": "2026-11-16T23:35:50Z"
   },
   "puglia": {
-   "count": 52920,
+   "count": 52929,
    "errors": 487,
    "name": "Puglia",
-   "sha1": "eb24abcff9a890d8150c319cb965da092504b9b0",
-   "tried": "2026-11-15",
-   "updated": "2026-11-15T10:09:01Z"
+   "osm_base": "2026-11-20T17:05:34Z",
+   "sha1": "7318ab441b4b78c11972e51a08969b49f4a89e25",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T17:07:30Z"
   },
   "romania": {
    "count": 77705,
@@ -820,12 +832,13 @@
    "updated": "2026-11-20T06:39:06Z"
   },
   "sardegna": {
-   "count": 5433,
+   "count": 5445,
    "errors": 23,
    "name": "Sardegna",
-   "sha1": "a40a4deb49241ca79703dd788e936a28283f6b2d",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:14:45Z"
+   "osm_base": "2026-11-20T17:08:36Z",
+   "sha1": "5f9e5f308e6a7c31f9450faac57ceccdc98ee7ff",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T17:10:19Z"
   },
   "scozia": {
    "count": 237221,
@@ -846,13 +859,13 @@
    "updated": "2026-11-17T09:09:26Z"
   },
   "sicilia": {
-   "count": 49447,
+   "count": 49539,
    "errors": 513,
    "name": "Sicilia",
-   "osm_base": "2026-11-18T22:23:06Z",
-   "sha1": "cc967cb7754bff0d4b8d16f2f2234339bd7c355e",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T22:24:55Z"
+   "osm_base": "2026-11-20T17:07:35Z",
+   "sha1": "b849ec6223ed619665fca1e17da637ca72cad817",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T17:09:32Z"
   },
   "slaskie": {
    "count": 118949,
@@ -922,21 +935,22 @@
    "updated": "2026-11-16T17:16:27Z"
   },
   "toscana": {
-   "count": 117523,
-   "errors": 1381,
+   "count": 117620,
+   "errors": 1246,
    "name": "Toscana",
-   "osm_base": "2026-11-17T12:51:20Z",
-   "sha1": "d3874ed74c2ea9977f857be879ff544705f6cba7",
-   "tried": "2026-11-17",
-   "updated": "2026-11-17T12:53:44Z"
+   "osm_base": "2026-11-20T16:57:13Z",
+   "sha1": "6a9cafe6c4fac862bbb151f22bd0d0f3cacf0b43",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T16:59:34Z"
   },
   "trentino-alto-adige": {
-   "count": 67787,
-   "errors": 421,
+   "count": 67798,
+   "errors": 446,
    "name": "Trentino-Alto Adige",
-   "sha1": "3416add0ef4a2feed2667169d1460c2d137272c6",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T01:42:28Z"
+   "osm_base": "2026-11-20T16:51:06Z",
+   "sha1": "f04cb323578ad9c4c3cc7afcde8b730b28713a33",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T16:53:33Z"
   },
   "ulster-irlanda": {
    "count": 47000,
@@ -947,20 +961,22 @@
    "updated": "2026-11-15T23:52:55Z"
   },
   "umbria": {
-   "count": 17800,
-   "errors": 98,
+   "count": 17839,
+   "errors": 100,
    "name": "Umbria",
-   "sha1": "dd9ebd2bf44e9171f4eeac57a35a1094f19f74a9",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:08:14Z"
+   "osm_base": "2026-11-20T16:58:18Z",
+   "sha1": "3335e1d1328218c84daa14e1476e67f68d85b78a",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T16:59:51Z"
   },
   "valle-d-aosta": {
    "count": 18245,
-   "errors": 1,
+   "errors": 3,
    "name": "Valle d'Aosta",
-   "sha1": "5ce4a69fb3a84146bcaed47bd30ebb8f940e7d17",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:00:12Z"
+   "osm_base": "2026-11-20T16:47:59Z",
+   "sha1": "e93b06f22a6bdccad89b6a18ac320e71bfae61aa",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T16:49:34Z"
   },
   "vaticano": {
    "count": 795,
@@ -971,12 +987,13 @@
    "updated": "2026-11-16T17:34:31Z"
   },
   "veneto": {
-   "count": 149673,
-   "errors": 360,
+   "count": 149728,
+   "errors": 546,
    "name": "Veneto",
-   "sha1": "507667394ca531e0c773431d78727f433ac8add4",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T00:05:18Z"
+   "osm_base": "2026-11-20T16:52:06Z",
+   "sha1": "fba7a956f42387461e67b626884c80bc3451a34c",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T16:55:11Z"
   },
   "venezuela": {
    "count": 62864,

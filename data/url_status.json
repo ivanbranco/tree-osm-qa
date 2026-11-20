@@ -2903,6 +2903,14 @@
 ],
 "d": "2026-11-16"
 },
+"geo:File:-Morus nigra L..jpg": {
+"c": [
+46.0897,
+13.45136,
+"object"
+],
+"d": "2026-11-20"
+},
 "geo:File:02 Faggi bassa quota 20191229.jpg": {
 "c": [
 43.9675417,
@@ -3438,6 +3446,22 @@
 "object"
 ],
 "d": "2026-11-13"
+},
+"geo:File:Albero di Natale di ferro.JPG": {
+"c": [
+45.5661736,
+8.8756255,
+"object"
+],
+"d": "2026-11-20"
+},
+"geo:File:Albero di natale comune dell'asilo.jpg": {
+"c": [
+45.7211575,
+9.0795287,
+"object"
+],
+"d": "2026-11-20"
 },
 "geo:File:Albero latifoglia Via Farini.jpg": {
 "c": [
@@ -5543,6 +5567,14 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Ginko biloba.jpg": {
+"c": [
+46.0949,
+13.42889,
+"camera"
+],
+"d": "2026-11-20"
+},
 "geo:File:Goglio (Baceno) Faggio monumentale.jpg": {
 "c": [
 46.2948267,
@@ -6987,6 +7019,14 @@
 ],
 "d": "2026-11-12"
 },
+"geo:File:Pino Nero Laricio.jpg": {
+"c": [
+46.0942322,
+13.4273356,
+"object"
+],
+"d": "2026-11-20"
+},
 "geo:File:Pino de la Virgen (El Paso).jpg": {
 "c": [],
 "d": "2026-11-12"
@@ -8358,6 +8398,10 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Villa Balbianello 3687.jpg": {
+"c": [],
+"d": "2026-11-20"
 },
 "geo:File:Villa Taranto01.jpg": {
 "c": [
@@ -45477,6 +45521,10 @@
 },
 "https://d2exd72xrrp1s7.cloudfront.net/www/000/1k7/1m/1m4icjqcm4l035sezr5xe14f14mmupqim-uhi62031141/0?width=3072&height=2304&crop=false&q=70": {
 "d": "2026-11-09",
+"s": "200"
+},
+"https://d2exd72xrrp1s7.cloudfront.net/www/1g/1gt36gb0ngkzzllxdy1ogfsu05ztro1if-p802078184-full/1a1f950ed15?width=1680&crop=false&q=80": {
+"d": "2026-11-20",
 "s": "200"
 },
 "https://d34-a.sdn.cz/d_34/c_img_QM_BF/rjdqk2.jpeg": {
