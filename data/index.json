@@ -558,10 +558,12 @@
   },
   "malta": {
    "count": 2740,
-   "errors": 22,
+   "errors": 17,
    "name": "Malta",
-   "sha1": "b5515903385aa8f91060b9b0aca7e4f9b7fab057",
-   "updated": "2026-11-12T18:27:29Z"
+   "osm_base": "2026-11-20T16:26:36Z",
+   "sha1": "57838bfae60fd0b8cbb5e560fc6999c9d6c7a108",
+   "tried": "2026-11-20",
+   "updated": "2026-11-20T16:28:01Z"
   },
   "marche": {
    "count": 32341,
