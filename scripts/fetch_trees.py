@@ -3257,22 +3257,24 @@ def write_gz(path, raw):
 
 
 # --- Quota degli alberi: primato «Quota più alta» e consiglio sugli alberi in quota senza species (index.html) ---
-# Solo nelle regioni con "elevation": true in scripts/regions.json. Proprietà "elev" (metri sul livello del mare, al
-# decimetro) di ogni albero e ceppo, dall'Elevation API di overpass.ch (https://overpass.ch/docs): fuori da Svizzera e
-# Liechtenstein il modello Copernicus GLO-30, una griglia di 30 m che misura la superficie (chiome ed edifici
-# compresi), in Svizzera swissALTI3D (il terreno, griglia di 2 m). Serve la chiave in OVERPASS_CH_KEY (secret
-# dell'Action). Si chiedono solo le quote degli alberi nuovi o spostati: le altre restano quelle del file precedente
-# della regione. Senza chiave, o se il servizio non risponde, gli alberi che non hanno una quota nel file precedente
-# restano senza (il resto dell'aggiornamento va avanti).
+# Proprietà "elev" (metri sul livello del mare, al decimetro) di ogni albero e ceppo, dall'Elevation API di
+# overpass.ch (https://overpass.ch/docs): fuori da Svizzera e Liechtenstein il modello Copernicus GLO-30, una griglia
+# di 30 m che misura la superficie (chiome ed edifici compresi), in Svizzera swissALTI3D (il terreno, griglia di 2 m).
+# Le quote del file precedente della regione restano sempre (se l'albero non si è spostato). Quelle che mancano (alberi
+# nuovi o spostati, o tutti gli alberi di una regione che non ha ancora le quote) si chiedono solo con ELEVATION=1
+# (spunta "Download elevations" dell'Action, attiva di default; in locale va impostata a mano) e la chiave in
+# OVERPASS_CH_KEY. Senza, o se il servizio non risponde, quegli alberi restano senza quota (il resto
+# dell'aggiornamento va avanti). Se la chiave viene rifiutata (401, 402, 403) le quote non si chiedono più per il
+# resto dell'esecuzione. Le richieste rispettano l'intervallo di overpass.ch (MIRRORS), una alla volta.
 ELEV_URL = "https://api.overpass.ch/v1/{key}/elevation"
 ELEV_BATCH = 10000     # punti per richiesta (massimo dei piani a pagamento)
+ELEV_OFF = False       # True dopo un rifiuto della chiave
 
 
 def add_elevation(region, fc, path):
     """Aggiunge "elev" agli alberi di fc (vedi sopra); path = il file della regione scritto dall'aggiornamento
     precedente."""
-    if not region.get("elevation"):
-        return
+    global ELEV_OFF
     prev = {}
     if path.exists():
         for f in json.loads(gzip.decompress(path.read_bytes()))["features"]:
@@ -3287,21 +3289,28 @@ def add_elevation(region, fc, path):
             todo.append(f)
     if not todo:
         return
-    # ELEVATION=0 (Action senza la spunta "Download elevations"): le quote nuove non si chiedono
-    if os.environ.get("ELEVATION") == "0":
-        warn(f"{region['slug']}: {len(todo)} alberi senza quota (quote non richieste in questo aggiornamento)")
+    # senza la spunta "Download elevations" le quote nuove non si chiedono; l'avviso solo nelle regioni che le hanno
+    # già (le altre restano semplicemente senza)
+    if os.environ.get("ELEVATION") != "1" or ELEV_OFF:
+        if prev:
+            warn(f"{region['slug']}: {len(todo)} alberi senza quota (quote non richieste in questo aggiornamento)")
         return
     key = OC_KEY   # sola chiave o indirizzo copiato da overpass-turbo (https://api.overpass.ch/v1/<key>/), vedi _env_key
     if not key:
         warn(f"{region['slug']}: {len(todo)} alberi senza quota (manca OVERPASS_CH_KEY)")
         return
     hide = hide_key   # la chiave è nell'indirizzo: mai nei messaggi
+    mir = MIRRORS[OC_URL]   # stesso intervallo delle query Overpass su overpass.ch
     for i in range(0, len(todo), ELEV_BATCH):
         part = todo[i:i + ELEV_BATCH]
         body = {"locations": [[f["geometry"]["coordinates"][1], f["geometry"]["coordinates"][0]] for f in part]}
         try:
             for attempt in range(3):
+                time.sleep(max(0.0, mir["last"] + mir["interval"] - time.time()))
+                mir["last"] = time.time()
                 r = requests.post(ELEV_URL.format(key=key), json=body, headers=HEADERS, timeout=180)
+                if r.status_code in (401, 402, 403):
+                    ELEV_OFF = True
                 if r.status_code in (429, 500, 502, 503, 504) and attempt < 2:
                     time.sleep(15 * (attempt + 1))
                     continue
@@ -3897,7 +3906,7 @@ def update_region(region, regions_index):
     update_gphotos_cache(els)    # indirizzo delle foto di Google Foto, per la scheda
     MASAF_GROUPS = load_masaf_groups(region, path) if IN_ITALY else {}   # insiemi omogenei MASAF, solo in Italia
     fc = build(data)
-    add_elevation(region, fc, path)   # quota degli alberi, solo nelle regioni con "elevation" in regions.json
+    add_elevation(region, fc, path)   # quota degli alberi (spunta "Download elevations" dell'Action)
     raw = json.dumps(fc, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     digest = hashlib.sha1(raw).hexdigest()
     errors = sum(1 for f in fc["features"] if f["properties"]["issues"] != "|")  # alberi con almeno un errore

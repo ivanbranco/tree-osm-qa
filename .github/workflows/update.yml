@@ -155,7 +155,7 @@ on:
           - overpass.ch
           - public servers only
       elevation:
-        description: "Download the elevations of new or moved trees from overpass.ch (regions with elevation in regions.json, OVERPASS_CH_KEY secret); untick to save the quota"
+        description: "Download from overpass.ch the elevations of the trees that have none (new or moved trees; every tree of a region updated with this option for the first time), OVERPASS_CH_KEY secret; untick to save the quota (the elevations already downloaded are kept)"
         type: boolean
         default: true
 
@@ -187,8 +187,8 @@ jobs:
           # server Overpass con chiave scelto nel menu "overpass"; senza chiave si usano solo i server pubblici
           FAIRWAYMAPPER_KEY: ${{ inputs.overpass == 'fairwaymapper' && secrets.FAIRWAYMAPPER_KEY || '' }}
           OVERPASS_CH_OVERPASS: ${{ inputs.overpass == 'overpass.ch' && '1' || '0' }}
-          # la chiave di overpass.ch serve per Overpass (se scelto) e per le quote degli alberi (regioni con
-          # "elevation" in scripts/regions.json, se c'è la spunta "elevation")
+          # la chiave di overpass.ch serve per Overpass (se scelto) e per le quote degli alberi (se c'è la spunta
+          # "elevation": gli alberi senza quota di tutte le regioni dell'aggiornamento)
           OVERPASS_CH_KEY: ${{ (inputs.overpass == 'overpass.ch' || inputs.elevation) && secrets.OVERPASS_CH_KEY || '' }}
           ELEVATION: ${{ inputs.elevation && '1' || '0' }}
         run: python scripts/fetch_trees.py "${REGIONS:-$REGION}"
