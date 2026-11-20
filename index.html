@@ -3270,6 +3270,31 @@ map.on("load", async () => {
     });
   };
   const closeCard = () => { if (cardPopup) cardPopup.remove(); };
+  // #node=<id> senza "map" (issue #91): zoom 19 sull'albero, poi la mappa si sposta perché al centro della vista ci sia
+  // la scheda (con il suo albero), non l'albero. La posizione si calcola dall'altezza della scheda e non da dove è ora:
+  // MapLibre la mette sopra o sotto l'albero secondo lo spazio, e lo rivaluta a ogni spostamento. Con l'albero in mezzo
+  // in orizzontale e sotto il centro di metà scheda, la scheda sta sopra l'albero e l'insieme è al centro; se scheda e
+  // albero non entrano in altezza, la scheda parte dall'alto. Quando la foto della scheda finisce di caricarsi la scheda
+  // cresce e si ricentra, a meno che nel frattempo la mappa sia stata spostata a mano.
+  const openCardCentered = (p, pos) => {
+    map.jumpTo({ center: pos, zoom: 19 });
+    openCard(p, pos);
+    const popup = cardPopup, el = popup.getElement();
+    const center = () => {
+      if (cardPopup !== popup) return;
+      const H = map.getContainer().clientHeight, h = el.offsetHeight, M = 10, R = 8;   // margine; R: mezzo cerchio dell'albero
+      const y = h + R + 2 * M > H ? M + h : H / 2 + (h - R) / 2;   // posizione dell'albero dall'alto della mappa
+      map.easeTo({ center: pos, zoom: 19, offset: [0, y - H / 2], duration: 0 });
+    };
+    center();
+    let moved = false;
+    const onMove = e => { if (e.originalEvent) moved = true; };   // solo gli spostamenti fatti da chi usa la mappa
+    map.on("movestart", onMove);
+    const img = el.querySelector(".photo:not(.later) img");
+    const onLoad = () => { if (!moved) center(); };
+    img?.addEventListener("load", onLoad);
+    popup.on("close", () => { map.off("movestart", onMove); img?.removeEventListener("load", onLoad); });
+  };
   // tasto Z (issue #12): con una scheda aperta, la mappa si centra sull'albero a zoom 19 (non mentre si scrive in un campo).
   // Ripremuto, torna alla vista di prima (zoomBack), anche se nel frattempo si è aperta la scheda di un albero vicino o
   // la scheda è stata chiusa; se invece l'albero della scheda non è in vista o si è tornati sotto zoom 18, Z zooma su
@@ -3937,8 +3962,7 @@ map.on("load", async () => {
       if (!await load(slug)) return;
       const f = ALL.find(x => x.properties.id === id);
       if (f) {
-        if (!view) map.jumpTo({ center: f.geometry.coordinates, zoom: 19 });
-        openCard(f.properties, f.geometry.coordinates);
+        (view ? openCard : openCardCentered)(f.properties, f.geometry.coordinates);
         return;
       }
     }
@@ -3962,10 +3986,8 @@ map.on("load", async () => {
     revealMap();                       // la posizione iniziale è già impostata (loadRegion inquadra prima di caricare)
     await loading;
     const f = nodeFromHash && ALL.find(x => x.properties.id === nodeFromHash);
-    if (f) {
-      if (!startView) map.jumpTo({ center: f.geometry.coordinates, zoom: 19 });
-      openCard(f.properties, f.geometry.coordinates);
-    } else if (nodeFromHash && !startView) {   // nodo non trovato (es. albero cancellato): vista della regione
+    if (f) (startView ? openCard : openCardCentered)(f.properties, f.geometry.coordinates);
+    else if (nodeFromHash && !startView) {   // nodo non trovato (es. albero cancellato): vista della regione
       const box = unitBox[fromHash] || (ALL.length ? bboxOf(ALL.map(x => x.geometry.coordinates)) : null);
       if (box) map.fitBounds(box, { padding: 30, duration: 0 });
     }
@@ -3994,10 +4016,8 @@ map.on("load", async () => {
     }
     if (view) map.jumpTo(view);
     const f = node && ALL.find(x => x.properties.id === node);
-    if (f) {
-      if (!view) map.jumpTo({ center: f.geometry.coordinates, zoom: 19 });
-      openCard(f.properties, f.geometry.coordinates);
-    } else if (!node) closeCard();
+    if (f) (view ? openCard : openCardCentered)(f.properties, f.geometry.coordinates);
+    else if (!node) closeCard();
     else if (!WORLD && !h.get("region")) openNodeAlone(node, view);   // nodo fuori dalla regione caricata
     else if (!WORLD) addNote(L.nodeNotInData(nodeLink(node)));
   });

@@ -81,7 +81,7 @@ Parameters go after `#` in the address, joined by `&` (for example `#region=lomb
 | Parameter | What it does | Kept when the map moves |
 |---|---|---|
 | `region=<slug>` | opens that region (the slugs are in `scripts/regions.json`), see [Data and updates](dati.md) | yes |
-| `node=<id>` | opens the card of that OSM node; without `map`, centres it ([The tree card](scheda.md)). Also works without `region` | while the card is open |
+| `node=<id>` | opens the card of that OSM node; without `map`, zooms to the tree and centres the card together with its tree (re-centred when the card's photo finishes loading, unless the map has been moved; if the card is taller than the map, its top edge is at the top) ([The tree card](scheda.md)). Also works without `region` | while the card is open |
 | `compare=side` / `compare=top` | with `node`, also opens the "Trunk comparison" (`side`) or "Trunk from above" (`top`) window of that tree, if the tree has it ([The tree card](scheda.md#trunk-comparison), [issue #83](https://github.com/ivanbranco/tree-osm-qa/issues/83)) | while the window is open |
 | `map=<zoom>/<lat>/<lon>` | map position, e.g. `map=17.00/45.46420/9.18990` | yes (updated) |
 | `lang=it` / `lang=en` | forces the language ([Language](#language)) | yes |
