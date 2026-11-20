@@ -2497,6 +2497,11 @@
 "ranks": [],
 "taxon": false
 },
+"Q111980681": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q112080442": {
 "en": "Hagurosan Jijisugi",
 "names": [],
@@ -2540,6 +2545,12 @@
 },
 "Q11236462": {
 "en": "Bouchalovy lípy",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q112377862": {
+"en": "Asalnai pine",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -3630,6 +3641,11 @@
 ],
 "taxon": true
 },
+"Q119079140": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q11927285": {
 "en": "Vojtěchův dub",
 "names": [],
@@ -4700,6 +4716,58 @@
 "Q3238261"
 ],
 "taxon": true
+},
+"Q12649420": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12656224": {
+"en": "Vaineikiai tuberous oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12659822": {
+"en": "Karveliai Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12667095": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12670714": {
+"en": "Raganos uosis",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12670717": {
+"en": "Witch spruce",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12671985": {
+"en": "Viktoras Bergas oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12675681": {
+"en": "Upninkai linden",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12679491": {
+"en": "Šaravai oak",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q127849": {
 "alias": {
@@ -15438,9 +15506,70 @@
 ],
 "taxon": true
 },
+"Q16443496": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16443646": {
+"en": "Andriejaičiai oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16443747": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16443750": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16445790": {
+"en": "Jurgis Bielinis oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16446038": {
+"en": "Bradesiai oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16446417": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q164471": {
 "en": "Jiřetín pod Jedlovou",
 "it": "Jiřetín pod Jedlovou",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16449942": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16451897": {
+"en": "Glitiškės oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16452068": {
+"en": "The beautiful Plauginiai forest oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16452863": {
+"en": "Ilzenbergas manor oak",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -15451,6 +15580,149 @@
 "it": []
 },
 "en": "10th Mechanized Infantry Division",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16455507": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16456348": {
+"en": "Kiaunoriai oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16458607": {
+"en": "Liepa Motinėlė",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16464600": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16464931": {
+"en": "Molavėnai oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16465298": {
+"en": "Napoleon pine",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16465299": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16468728": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16469032": {
+"en": "Riverside Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16470434": {
+"en": "Pšemislo Verevičius ash",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16471635": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16472247": {
+"en": "The old Kaunas apple tree",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16472248": {
+"en": "The old elm of Geisciunai",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16472249": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16473442": {
+"en": "Storasis ash",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16473445": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16473814": {
+"en": "Pažaislis oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16474561": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16474999": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16475062": {
+"en": "Vainiai poplar",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16476744": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16477220": {
+"en": "Vytautas Park Linden Tree",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16477550": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16477562": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16477578": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q16478806": {
+"en": "Žažumbris oak",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -17214,6 +17486,87 @@
 ],
 "taxon": true
 },
+"Q18737288": {
+"en": "Alkai oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737297": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737325": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737338": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737432": {
+"en": "Buivydai ash",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737477": {
+"en": "Dapšionys oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737598": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737617": {
+"en": "Elmės oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737631": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737652": {
+"en": "Teodoras Grotusas oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737656": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737678": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737695": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737699": {
+"en": "Gojus forest oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18737823": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q187454": {
 "en": "Zelkova",
 "it": "Zelkova",
@@ -17848,6 +18201,110 @@
 },
 "en": "palm tree",
 "it": "palma",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20503630": {
+"en": "Obelų Ragas junipers",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20503780": {
+"en": "S. Daukantas memory oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20503797": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20503875": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20503885": {
+"en": "Mataučiznos elm",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20503905": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20503912": {
+"en": "Pavarių liepa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20503916": {
+"en": "Paveisiejai pine",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20503989": {
+"en": "The oldest linden",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20504014": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20504155": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20504285": {
+"en": "Noriūnai forest spruce",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20504399": {
+"en": "Varius oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20504402": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20504427": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20504440": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20504449": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20504492": {
+"en": "Šventeji oaks, Šilelis",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q20504514": {
 "names": [],
 "ranks": [],
 "taxon": false
@@ -20076,6 +20533,47 @@
 ],
 "taxon": true
 },
+"Q25494344": {
+"en": "Raudonės liepa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q25494684": {
+"en": "Lyaudiškės pine",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q25494788": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q25495123": {
+"en": "Papilės liepa",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q25495143": {
+"en": "Lithuanian linden",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q25495149": {
+"en": "Kurpiko juniper",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q25495162": {
+"en": "Stakai oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2549523": {
 "alias": {
 "en": [
@@ -20097,6 +20595,44 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q25495353": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q25496079": {
+"en": "A. Mickevičius oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q25498082": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q25498243": {
+"en": "Vepriai oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q25498885": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q25498929": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q25499369": {
+"en": "Perkūnas Oak",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q255375": {
 "alias": {
@@ -22379,6 +22915,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q2972120": {
+"en": "Stelmužė Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2983021": {
 "alias": {
 "en": [
@@ -23143,6 +23685,28 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q31198425": {
+"en": "Adamavas oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q31198851": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q31198860": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q31198871": {
+"en": "Abejučiai oak",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q3125935": {
 "alias": {
@@ -29635,6 +30199,102 @@
 ],
 "taxon": true
 },
+"Q61380003": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380006": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380052": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380246": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380259": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380260": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380265": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380281": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380287": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380317": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380329": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380334": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380347": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380358": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380378": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61380576": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61382331": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61386081": {
+"en": "Pagryniai oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q61387604": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q6146290": {
 "alias": {
 "en": [],
@@ -29950,6 +30610,21 @@
 "taxon": true
 },
 "Q65234193": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q65260618": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q65260670": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q65261564": {
 "names": [],
 "ranks": [],
 "taxon": false
