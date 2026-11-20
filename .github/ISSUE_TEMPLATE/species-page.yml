@@ -1,0 +1,28 @@
+name: Request a species page
+description: Request a page for a tree species that is not yet in the list of species pages.
+title: "Species page: "
+labels: ["new"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The species pages are listed at https://ivanbranco.github.io/tree-osm-qa/species/index.html. Write the species that is missing from that list.
+  - type: input
+    id: species
+    attributes:
+      label: Species
+      description: Scientific name (species=*).
+      placeholder: e.g. Ulmus minor
+    validations:
+      required: true
+  - type: input
+    id: common
+    attributes:
+      label: Common name
+      description: In any language (optional).
+      placeholder: e.g. Field elm
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Anything else useful, such as the regions where you map this species or links to sources (optional).

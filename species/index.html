@@ -49,6 +49,11 @@
   .sp-card .common{color:var(--muted);font-size:14px}
   .sp-card .nums{font-size:13px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
   .none{color:var(--muted);font-style:italic}
+  /* ultimo riquadro: richiesta di una nuova specie (issue #92) */
+  .list>li.req{border-style:dashed;background:transparent}
+  .list>li.req:hover,.list>li.req:focus-within{background:var(--card)}
+  .sp-card .plus{display:flex;align-items:center;justify-content:center;height:150px;font-size:56px;font-weight:300;color:var(--green);background:#eef2ee}
+  .sp-card .req-name{font-size:17px;font-weight:650;color:var(--green);overflow-wrap:anywhere}
   footer{max-width:1080px;margin:0 auto;padding:0 16px 30px;font-size:13px;color:var(--muted)}
 </style>
 </head>
@@ -85,6 +90,7 @@ const I18N = {
     count: (n, t) => n === t ? `${t} specie` : `${n} specie su ${t}`,
     trees: n => `${n} alber${n === "1" ? "o" : "i"}`, mon: n => `${n} monumental${n === "1" ? "e" : "i"}`,
     none: "Nessuna specie con questo nome.", error: "L'elenco delle specie non è disponibile.",
+    req: "Richiedi una nuova specie", reqQ: q => `Richiedi «${q}»`, reqSub: "Apre una issue su GitHub (in inglese)",
     foot: "Dati OpenStreetMap (ODbL). Foto da Wikimedia Commons: autore e licenza sono sotto ogni foto."
   },
   en: {
@@ -94,11 +100,13 @@ const I18N = {
     count: (n, t) => n === t ? `${t} species` : `${n} of ${t} species`,
     trees: n => `${n} tree${n === "1" ? "" : "s"}`, mon: n => `${n} monumental`,
     none: "No species with this name.", error: "The list of species is not available.",
+    req: "Request a new species", reqQ: q => `Request “${q}”`, reqSub: "Opens an issue on GitHub",
     foot: "OpenStreetMap data (ODbL). Photos from Wikimedia Commons: author and licence are under each photo."
   }
 };
 // per default dalla specie con più alberi
 let T, LOC, LIST = null, FAILED = false, sortBy = "n";
+const REQ_URL = "https://github.com/ivanbranco/tree-osm-qa/issues/new?template=species-page.yml";
 const CREDITS = {};  // nome del file -> «autore (licenza)», da Commons
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const fmt = v => Number(v).toLocaleString(LOC);
@@ -109,11 +117,17 @@ const common = r => LANG === "it" ? r.it || r.en : r.en || r.it;
 function draw() {
   const el = document.getElementById("list"), cnt = document.getElementById("count");
   if (!LIST) { el.innerHTML = FAILED ? `<li class="none">${T.error}</li>` : ""; cnt.textContent = ""; return; }
-  const q = fold(document.getElementById("q").value.trim());
+  const raw = document.getElementById("q").value.trim(), q = fold(raw);
   const rows = LIST.filter(r => !q || [r.name, r.it, r.en].some(x => fold(x).includes(q)));
   rows.sort(sortBy === "n" ? (a, b) => b.n - a.n || a.name.localeCompare(b.name) : (a, b) => a.name.localeCompare(b.name));
   cnt.textContent = T.count(rows.length, LIST.length);
-  el.innerHTML = rows.length ? rows.map(r => {
+  // ultimo riquadro, sempre: apre il modulo .github/ISSUE_TEMPLATE/species-page.yml; se la ricerca non trova nulla,
+  // il testo cercato va già nel campo «Species» e nel titolo
+  const pre = raw && !rows.length ? raw : "";
+  const req = `<li class="item req"><a class="sp-card" href="${esc(REQ_URL + (pre ? "&species=" + encodeURIComponent(pre)
+      + "&title=" + encodeURIComponent("Species page: " + pre) : ""))}" target="_blank" rel="noopener"><div class="plus" aria-hidden="true">+</div>
+      <div class="txt"><div class="req-name">${esc(pre ? T.reqQ(pre) : T.req)}</div><div class="nums">${T.reqSub}</div></div></a></li>`;
+  el.innerHTML = (rows.length ? rows.map(r => {
     const c = common(r);
     const img = r.img ? `<img loading="lazy" alt="" src="https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(r.img)}?width=500">`
       : `<div class="noimg"></div>`;
@@ -122,7 +136,7 @@ function draw() {
       ${c ? `<div class="common">${esc(c)}</div>` : ""}
       <div class="nums">${T.trees(fmt(r.n))}${r.mon ? " · " + T.mon(fmt(r.mon)) : ""}</div></div></a>
       ${r.img ? `<div class="credit" title="${esc(cr)}"><a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(r.img)}" target="_blank" rel="noopener">${esc(cr)}</a></div>` : ""}</li>`;
-  }).join("") : `<li class="none">${T.none}</li>`;
+  }).join("") : `<li class="none">${T.none}</li>`) + req;
 }
 
 // autore e licenza delle foto da Commons (come creditName in scripts/species_template.html), 50 file per richiesta
