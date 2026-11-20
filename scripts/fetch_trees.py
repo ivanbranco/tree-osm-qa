@@ -1984,7 +1984,7 @@ def species_unidentified(sp):
     return m.group(2) if m else None
 
 
-EQ_KEYS = ("species", "genus", "taxon", "name", "start_date", "ref:masaf", "ref:rami")   # check tag_in_value
+EQ_KEYS = ("species", "genus", "taxon", "name", "start_date", "planted_date", "ref:masaf", "ref:rami")   # check tag_in_value
 
 
 def not_latin(v):
@@ -2547,7 +2547,7 @@ def undocumented_tags(t):
 # --- chiavi scritte male (issue #32): Species, heigth, leaftype, circumfence ---
 # Chiavi note degli alberi: una chiave che non è tra queste ma ne differisce di poco è segnalata (check key_typo)
 KNOWN_KEYS = ("natural", "species", "genus", "taxon", "leaf_type", "leaf_cycle", "denotation", "circumference",
-              "height", "diameter_crown", "diameter", "start_date", "name", "wikidata", "wikipedia",
+              "height", "diameter_crown", "diameter", "start_date", "planted_date", "name", "wikidata", "wikipedia",
               "wikimedia_commons", "image", "species:wikidata", "species:wikipedia", "genus:wikidata",
               "genus:wikipedia", "taxon:wikidata", "taxon:wikipedia", "ref:masaf", "masaf:criteria", "ref:rami",
               "ref:monumentaltrees", "heritage:operator", "panoramax", "website", "multi_stemmed", "sex",
@@ -2895,8 +2895,13 @@ def checks(t, pos, osm_id=None):
         flag("masaf_removed", masaf_rm="\n".join(f"{c}|{r}|{d}" for c, r, d in rm))
     if unk := masaf_unknown(t):         # codici separati da ";"
         flag("masaf_unknown", masaf_unk=";".join(unk))
-    if "start_date" in t and "start_date" not in eq and (why := start_date_problem(t["start_date"])):
-        flag("start_date_invalid", **({"sd_future": 1} if why == "future" else {}))
+    # start_date e planted_date (issue #81), con le stesse forme. sd_bad: righe "chiave|motivo" separate da ";"
+    # (motivo: invalid o future, start_date_problem). Con le due date leggibili e scritte in modo diverso: date_mismatch
+    if sd_bad := [(k, why) for k in DATE_KEYS if k in t and k not in eq and (why := start_date_problem(t[k]))]:
+        flag("start_date_invalid", sd_bad=";".join(f"{k}|{w}" for k, w in sd_bad))
+    elif (all(k in t and k not in eq for k in DATE_KEYS)
+          and " ".join(t["start_date"].split()) != " ".join(t["planted_date"].split())):
+        flag("date_mismatch")
     # voce di wikipedia=* (wp_v) il cui elemento Wikidata (wp_tx) è un taxon; wp_genus: è di rango genere (Q34740), la
     # voce va in genus:wikipedia e non in species:wikipedia
     if wpt := wikipedia_taxon(t):
@@ -2915,7 +2920,7 @@ def checks(t, pos, osm_id=None):
 
 KEEP = ["name", "species", "genus", "taxon", "taxon:variety", "variety", "taxon:cultivar", "cultivar",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
-        "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date",
+        "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date", "planted_date",
         "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion", "multi_stemmed",
         "heritage:operator", "ref:icnf", "ref:CRFOP", "ref:gid", "ref:usop", "sex",
         "ref"]   # ref: tra parentesi dopo il titolo della scheda (issue #89)
@@ -3352,7 +3357,8 @@ def minimal(fc):
 # Primati: height = più alto; trunk = tronco più spesso (circumference, altrimenti π × diameter; diameter senza unità
 # è sempre in millimetri, anche sotto DIAM_MM_MIN; i valori di multi_stemmed non si usano); slender e stocky = rapporto
 # altezza / diametro del tronco più alto e più basso, solo con entrambe le misure e altezza di almeno RECORD_MIN_H;
-# crown = chioma più larga (diameter_crown); oldest = start_date più vecchia; elevation = quota più alta ("elev", solo
+# crown = chioma più larga (diameter_crown); oldest = data più vecchia (tree_date: start_date o, se manca,
+# planted_date); elevation = quota più alta ("elev", solo
 # nelle regioni con le quote: add_elevation). Ceppi esclusi. I valori segnalati dai
 # check contano lo stesso (il sito li marca con ⚠); quelli non leggibili, nulli o negativi no.
 RECORDS_FILE = DATA / "records.json"
@@ -3362,7 +3368,7 @@ RECORD_LOW = {"stocky", "oldest"}   # primati in cui vince il valore più basso
 # tr e tr_est: il tronco disegnato sulla mappa, per il confronto dei primi tre più alti quando manca la circonferenza
 # leaf_type e lt (stimato) servono alla sagoma delle chiome nel confronto dall'alto di «Chioma più larga» (issue #60)
 RECORD_KEEP = ("id", "name", "species", "sp_it", "sp_en", "genus", "height", "circumference", "diameter",
-               "diameter_crown", "start_date", "issues", "comma", "unit_fix", "eq_keys", "tr", "tr_est", "leaf_type", "lt",
+               "diameter_crown", "start_date", "planted_date", "issues", "comma", "unit_fix", "eq_keys", "tr", "tr_est", "leaf_type", "lt",
                "elev")
 # Frasi sull'anno per «Più vecchio» (pulsante nella riga del sito): una voce per anno, decennio o secolo, scritta a
 # mano. Le chiavi sono quelle di start_date_event_key
@@ -3378,6 +3384,20 @@ SD_DECADE = re.compile(r"^(\d{2,3}0)s$")
 SD_CENTURY = re.compile(r"^(?:(early|mid|late)\s+)?C(\d{1,2})$", re.I)
 SD_BC = re.compile(r"^(\d{1,5})\s*(?:BCE?|B\.C\.(?:E\.)?)$", re.I)
 SD_THIRD = {"early": 0, "mid": 33, "late": 66}
+# planted_date (https://wiki.openstreetmap.org/wiki/Key:planted_date, issue #81): si legge con le stesse forme di
+# start_date e la sostituisce quando manca (età nella scheda, «Più vecchio», frasi sull'anno). Con tutte e due conta
+# start_date; se sono diverse c'è il check date_mismatch
+DATE_KEYS = ("start_date", "planted_date")
+
+
+def tree_date_key(p):
+    """La chiave della data di un albero (tag o proprietà della feature): "start_date" o, se manca, "planted_date"."""
+    return "start_date" if p.get("start_date") or not p.get("planted_date") else "planted_date"
+
+
+def tree_date(p):
+    """La data di un albero com'è scritta: start_date o, se manca, planted_date (None senza tutte e due)."""
+    return p.get(tree_date_key(p))
 
 
 def start_date_key(v):
@@ -3530,7 +3550,7 @@ def record_values(p):
             out["slender"] = out["stocky"] = h / d
     if cd and cd > 0:
         out["crown"] = cd
-    if (y := start_date_key(p.get("start_date"))) is not None:
+    if (y := start_date_key(tree_date(p))) is not None:
         out["oldest"] = y // 10000         # l'anno: le date dello stesso anno sono a pari merito
     if p.get("elev") is not None:          # anche sotto il livello del mare
         out["elevation"] = p["elev"]
@@ -3548,7 +3568,7 @@ def record_warned(k, p):
     h_c = ("height", "height_species")
     t_c = ("circumference", "circumference_species", "diameter_unit" if from_d else "circ_diam_mismatch")
     tags = {"height": ("height",), "trunk": (trunk,), "slender": ("height", trunk), "stocky": ("height", trunk),
-            "crown": ("diameter_crown",), "oldest": ("start_date",), "elevation": ()}[k]
+            "crown": ("diameter_crown",), "oldest": (tree_date_key(p),), "elevation": ()}[k]
     codes = {"height": h_c + RATIO_CHECKS, "trunk": t_c + RATIO_CHECKS, "slender": h_c + t_c + RATIO_CHECKS,
              "stocky": h_c + t_c + RATIO_CHECKS, "crown": ("crown",), "oldest": (), "elevation": ()}[k]
     iss = p.get("issues") or "|"
@@ -3573,7 +3593,7 @@ def record_order(k, v, p):
     vecchia; infine l'id del nodo, che dà un ordine fisso."""
     old, v = k == "oldest", record_round(v)
     return (v if k in RECORD_LOW else -v, 0 if record_warned(k, p) else 1,
-            start_date_precision(p.get("start_date")) if old else 0, start_date_key(p.get("start_date")) if old else 0, p["id"])
+            start_date_precision(tree_date(p)) if old else 0, start_date_key(tree_date(p)) if old else 0, p["id"])
 
 
 def region_records(feats):
@@ -3839,9 +3859,9 @@ def missing_year_events():
     found, where = {}, collections.defaultdict(set)
     for slug, rec in load_json(RECORDS_FILE).items():
         for t in (rec.get("oldest") or {}).get("t", []):
-            key = start_date_event_key(t.get("start_date"))
+            key = start_date_event_key(tree_date(t))
             if key and not year_event(key, events, iso.get(slug)):   # un anno con la voce del decennio non manca
-                found[key] = min(found.get(key, math.inf), start_date_key(t["start_date"]))
+                found[key] = min(found.get(key, math.inf), start_date_key(tree_date(t)))
                 where[key].add(slug)
     return [(k, sorted(where[k])) for k in sorted(found, key=lambda x: (found[x], x))]
 

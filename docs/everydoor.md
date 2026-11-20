@@ -14,7 +14,7 @@ https://plugins.every-door.app/i/dendrosm?url=https%3A%2F%2Fivanbranco.github.io
 
 Or download [`dendrosm.edp`](https://ivanbranco.github.io/tree-osm-qa/everydoor/dendrosm.edp) and open it with Every Door. The plugin is then listed in "Settings → Plugins", where it can be disabled or deleted.
 
-After updating an installed copy, close Every Door completely and open it again: until then the type search keeps the order of results of the previous version.
+After updating an installed copy, close Every Door completely (remove it from the recent apps, or force stop it in the Android settings) and open it again: until then the type search keeps the order of results of the previous version, and presets new in this version come after all the others.
 
 If the plugin cannot be enabled, the reason is in "Settings → About → System Log".
 
@@ -58,4 +58,4 @@ The plugin adds no mode of its own.
 
 `everydoor/build_plugin.py` writes `everydoor/dendrosm.edp` from `scripts/species_list.json`, `scripts/genus_list.json`, the palm genera of `scripts/fetch_trees.py`, the synonyms of `scripts/whitelist.json` and the common names in `everydoor/names.json` (downloaded from Wikidata by `everydoor/fetch_names.py`). The version number in `everydoor/version.json` goes up by itself when the content of the plugin changes, so that Every Door updates an installed copy. With `--preview` it also redraws the image above.
 
-The plugin has no code: Every Door 7.1 plugins are a configuration file, so wrong values cannot be fixed automatically. The order of the search results is the order of the presets in the file: Every Door 7.1 lists plugin presets as they were loaded.
+The plugin has no code: Every Door 7.1 plugins are a configuration file, so wrong values cannot be fixed automatically. The order of the search results is the order of the presets in the file: Every Door 7.1 lists plugin presets as they were loaded, before its own presets, and shows at most 14 results.

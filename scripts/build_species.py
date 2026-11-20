@@ -430,7 +430,7 @@ def year_events(n, oldest, rinfo):
     events = ft.load_json(ft.YEAR_EVENTS)
     missing = []
     for t in oldest:
-        key = ft.start_date_event_key(t["tags"].get("start_date"))
+        key = ft.start_date_event_key(ft.tree_date(t["tags"]))   # start_date o, se manca, planted_date
         if not key:
             continue
         ev = ft.year_event(key, events, (rinfo.get(t["r"]) or {}).get("iso", ""))
@@ -463,7 +463,7 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
         return {"v": round(v, 3), "w": ft.record_warned(k, f["properties"]), "r": slug,
                 "id": f["properties"]["id"], "name": f["properties"].get("name") or "",
                 "tags": {t: f["properties"][t] for t in ("height", "circumference", "diameter", "diameter_crown",
-                                                        "start_date") if t in f["properties"]}}
+                                                        "start_date", "planted_date") if t in f["properties"]}}
     # per ogni primato i primi TOP, valori segnalati compresi (⚠), come il tab «Alberi da record»
     records = {}
     for k, rows in cands.items():

@@ -499,6 +499,23 @@ CASES = [
     ("start_date_invalid: nel futuro", {"natural": "tree", "start_date": "2999-01"}, ["start_date_invalid"]),
     ("dipendenza: con tag_in_value niente start_date_invalid", {"natural": "tree", "start_date": "start_date=1990"},
      ["tag_in_value"]),
+    # --- planted_date (issue #81): stesse forme di start_date ---
+    ("planted_date nelle forme della wiki", {"natural": "tree", "planted_date": "2020-03"}, []),
+    ("planted_date approssimativo", {"natural": "tree", "planted_date": "~1990"}, []),
+    ("start_date_invalid: planted_date non valido", {"natural": "tree", "planted_date": "spring 2020"},
+     ["start_date_invalid"]),
+    ("start_date_invalid: planted_date nel futuro", {"natural": "tree", "planted_date": "2999"}, ["start_date_invalid"]),
+    ("start_date_invalid: tutte e due le date, un solo codice", {"natural": "tree", "start_date": "old",
+                                                                 "planted_date": "2999"}, ["start_date_invalid"]),
+    ("planted_date uguale a start_date", {"natural": "tree", "start_date": "2020-03-01", "planted_date": "2020-03-01"}, []),
+    ("planted_date uguale a start_date, spazi in più", {"natural": "tree", "start_date": "2020", "planted_date": " 2020"},
+     []),
+    ("date_mismatch", {"natural": "tree", "start_date": "1990", "planted_date": "1992-04"}, ["date_mismatch"]),
+    ("dipendenza: con start_date non valido niente date_mismatch", {"natural": "tree", "start_date": "old",
+                                                                     "planted_date": "1992"}, ["start_date_invalid"]),
+    ("dipendenza: con tag_in_value niente date_mismatch", {"natural": "tree", "start_date": "1990",
+                                                            "planted_date": "planted_date=1992"}, ["tag_in_value"]),
+    ("key_typo: planted:date", {"natural": "tree", "planted:date": "2020"}, ["key_typo"]),
 
     # --- denotation, tag non documentati, chiavi ---
     ("denotation_value: formato", {"natural": "tree", "denotation": "Urban"}, ["denotation_value"]),
@@ -915,6 +932,16 @@ def feature_failures():
                 and "t" not in palm_nolist.get("lgk", "")),
                ("palma: species_lang_extras propone broadleaved",
                 ft.species_lang_extras({"natural": "tree"}, "Trachycarpus fortunei").get("sp_lang_lt") == "broadleaved")]
+    # data dell'albero per «Più vecchio» (issue #81): start_date o, se manca, planted_date
+    sd_pd = ft.to_feature(node(9009, {"natural": "tree", "start_date": "1900", "planted_date": "1850"}))["properties"]
+    pd_only = ft.to_feature(node(9010, {"natural": "tree", "planted_date": "~1850"}))["properties"]
+    checks += [("planted_date nella feature", pd_only.get("planted_date") == "~1850"),
+               ("Più vecchio: planted_date senza start_date", ft.record_values(pd_only).get("oldest") == 1850
+                and ft.tree_date(pd_only) == "~1850"),
+               ("Più vecchio: con tutte e due conta start_date", ft.record_values(sd_pd).get("oldest") == 1900
+                and ft.tree_date_key(sd_pd) == "start_date"),
+               ("Più vecchio: ⚠ da tag_in_value su planted_date", ft.record_warned("oldest", {
+                   "planted_date": "planted_date=1850", "issues": "|tag_in_value|", "eq_keys": "planted_date"}))]
     out += [f"FALLITO: {n}" for n, ok in checks if not ok]
     return out
 

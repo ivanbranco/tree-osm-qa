@@ -328,7 +328,7 @@ async function fillCap(cap) {
 // ---------- primati ----------
 // isolated: calcolato con QLever da build_species.py (species_isolated); "cap" = niente entro 50 km («> 50»)
 const REC = ["height", "trunk", "crown", "slender", "stocky", "oldest", "isolated"];
-const recVal = (k, t) => k === "oldest" ? esc(t.tags.start_date || t.v) : k === "isolated" && t.cap ? `&gt; ${fmt(t.v)}`
+const recVal = (k, t) => k === "oldest" ? esc(t.tags.start_date || t.tags.planted_date || t.v) : k === "isolated" && t.cap ? `&gt; ${fmt(t.v)}`
   : fmt(t.v, k === "slender" || k === "stocky" ? 1 : 2);
 const isoNear = t => t.cap ? T.isoCap : T.isoNear[t.nk] || "";
 function recRow(k, t, warn = true) {   // warn = false: il ⚠ è già accanto al valore in grande
