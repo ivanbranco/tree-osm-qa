@@ -30,8 +30,9 @@
   ul{margin:0 0 8px;padding-left:18px;line-height:1.5}
   a{color:#1a5fb4}
   .links{display:flex;flex-direction:column;gap:6px;margin-top:10px}
-  .links a{display:block;text-align:center;padding:5px 6px;border:1px solid #ccc;border-radius:4px;text-decoration:none;color:#222;background:#f7f7f7}
+  .links a{display:flex;align-items:center;justify-content:center;gap:6px;padding:5px 6px;border:1px solid #ccc;border-radius:4px;text-decoration:none;color:#222;background:#f7f7f7}
   .links a:hover{background:#ececec}
+  .links img{width:16px;height:16px;flex:none}
 </style>
 </head>
 <body class="wait">
@@ -42,8 +43,8 @@
   <p id="t-text"></p>
   <div id="group" hidden><p id="t-group"></p><ul id="group-list"></ul></div>
   <div class="links">
-    <a id="to-qa" href="./"></a>
-    <a id="to-mon" href="monumental-trees/"></a>
+    <a id="to-qa" href="./"><img alt="" data-src="favicon.svg"><span></span></a>
+    <a id="to-mon" href="monumental-trees/"><img alt="" data-src="monumental-trees/favicon.svg"><span></span></a>
   </div>
 </main>
 <script>
@@ -75,8 +76,10 @@ const path = decode(location.pathname.slice(BASE.length));
 document.getElementById("subtitle").textContent = L.subtitle;
 document.getElementById("t-title").textContent = L.title;
 document.getElementById("t-text").innerHTML = L.text(esc("/" + path));
-document.getElementById("to-qa").textContent = L.qa;
-document.getElementById("to-mon").textContent = L.mon;
+document.querySelector("#to-qa span").textContent = L.qa;
+document.querySelector("#to-mon span").textContent = L.mon;
+// logo verde (tool QA) e dorato (monumentali) nei due pulsanti: le icone delle due pagine
+document.querySelectorAll(".links img").forEach(im => { im.src = BASE + im.dataset.src; });
 for (const [id, href] of [["home", ""], ["to-qa", ""], ["to-mon", "monumental-trees/"]])
   document.getElementById(id).href = BASE + href;
 document.querySelectorAll("#lang a[data-lang]").forEach(a => {
