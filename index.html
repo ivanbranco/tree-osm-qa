@@ -61,8 +61,15 @@
   .cp-row.on{background:#fde6f3;box-shadow:inset 0 0 0 1.5px #e6007e}
   .cp-top{display:flex;flex-wrap:wrap;align-items:center;gap:0 4px}
   .cp-top .nums{margin-left:auto;color:#555;font-size:12px;white-space:nowrap;font-variant-numeric:tabular-nums}
-  .cp-bar{height:7px;border-radius:4px;background:#e0e0e0;margin-top:3px;overflow:hidden}
-  .cp-bar i{display:block;height:100%;width:0;background:#2e9e45;border-radius:4px}
+  .cp-bar{display:flex;height:7px;border-radius:4px;background:#e0e0e0;margin-top:3px;overflow:hidden}
+  .cp-bar i{display:block;flex:none;height:100%;width:0;background:#2e9e45;border-radius:4px}
+  /* età delle misure (issue #94): verde, giallo, arancione uno dopo l'altro; gli angoli li arrotonda la barra */
+  .cp-bar.age i{border-radius:0}  .cp-bar i.y{background:#e3b505}  .cp-bar i.o{background:#e8730c}
+  .cp-age{display:flex;flex-wrap:wrap;gap:0 8px;margin-top:2px;font-size:11px;color:#555;font-variant-numeric:tabular-nums}
+  .cp-age>*::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:3px;vertical-align:-1px;background:#2e9e45}
+  .cp-age .y::before{background:#e3b505}  .cp-age .o::before{background:#e8730c}
+  .cp-age button{font:inherit;color:inherit;background:none;border:0;padding:0 2px;margin:0 -2px;border-radius:3px;cursor:pointer;text-decoration:underline dotted}
+  .cp-age button:hover{color:#1a5fb4}  .cp-age button.on{background:#fde6f3;box-shadow:inset 0 0 0 1.5px #e6007e}
   .cp-row.sm{padding:2px 6px}  .cp-row.sm.on{background:none;box-shadow:none}  .cp-row.sm.on:hover{background:#f2f2f2}   /* acceso si vede sulla riga «Italia» */
 .cp-row.sm .cp-bar{height:4px;margin-top:1px}
   #comp details.cp-reg>summary{cursor:pointer;color:#555;font-size:12px;margin:4px 0 2px 6px}
@@ -490,6 +497,11 @@ const I18N = {
       rowTitle: "Evidenzia sulla mappa gli alberi a cui manca questo dato",
       hl: n => `Evidenziati: senza ${n}`, hlMasaf: "Evidenziati: MASAF non su OSM", hlOff: "Togli l'evidenziazione",
       measured: "I valori vanno rilevati sul posto o presi da una fonte, non stimati.",
+      // età delle misure (issue #94): ages nell'ordine delle parti della barra (verde, giallo, arancione)
+      ages: ["<5 anni", "5-10 anni", ">10 anni"],
+      ageTip: "I colori della barra dicono quando l'albero è stato modificato l'ultima volta su OSM: verde meno di 5 anni fa, giallo tra 5 e 10 anni fa, arancione più di 10 anni fa. È la data dell'albero, non della misura: una misura vecchia su un albero modificato di recente per un altro tag conta nel verde. Toccando la parte arancione, o «>10 anni» sotto la barra, si evidenziano quegli alberi.",
+      oldTitle: "Evidenzia sulla mappa gli alberi con questo dato modificati l'ultima volta più di 10 anni fa",
+      hlOld: n => `Evidenziati: ${n}, ultima modifica più di 10 anni fa`,
       masafTitle: "Elenco MASAF già su OSM", italy: "Italia", regions: "Per regione",
       masafRowTitle: "Evidenzia sulla mappa gli alberi dell'elenco MASAF non ancora su OSM",
       masafTip: "Alberi dell'elenco degli alberi monumentali d'Italia del MASAF già su OpenStreetMap: quelli con un elemento che ha il loro codice in ref:masaf, o con un albero monumentale dello stesso genere entro 25 m.",
@@ -604,6 +616,7 @@ const I18N = {
         : `image=* è una pagina web (${site}), non il file di un'immagine. Una foto si può anche caricare su Wikimedia Commons o Panoramax e collegare con wikimedia_commons=* o panoramax=*`,
       feetInchSpace: (k, v, fix) => `${k}=${v}: la wiki indica di scrivere piedi e pollici senza spazi (${fix})`,
       leadDot: (k, v, fix) => `${k}=${v}: il numero inizia con il punto; con lo zero davanti (${fix}) è più leggibile`,
+      oldMeasures: (tags, d) => `${tags.length > 1 ? "Misure invariate" : "Misura invariata"} da più di 10 anni: ${tags.join(", ")} (ultima modifica dell'albero: ${d}). Dopo un nuovo rilievo sul posto, anche con gli stessi valori, si può aggiungere check_date=* con la data del rilievo`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,      notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
       // issue #25; seeds(t): HTML delle parole che aprono la foto dei semi (south: emisfero australe)
       ginkgoSex: (south, seeds) => `Se questo ginkgo è un esemplare femminile, si potrebbe aggiungere sex=female. ${south ? "Da ottobre a maggio" : "Da aprile a novembre"} è un buon periodo per verificarlo: le femmine portano ovuli appaiati in primavera e ${seeds("semi carnosi e maleodoranti")} che cadono in autunno, spesso a terra sotto la chioma.`,
@@ -1065,6 +1078,10 @@ const I18N = {
       rowTitle: "Highlight on the map the trees missing this value",
       hl: n => `Highlighted: no ${n}`, hlMasaf: "Highlighted: MASAF trees not on OSM", hlOff: "Remove the highlight",
       measured: "Values should be surveyed on the ground or taken from a source, not estimated.",
+      ages: ["<5 years", "5-10 years", ">10 years"],
+      ageTip: "The colours of the bar tell when the tree was last edited on OSM: green less than 5 years ago, yellow between 5 and 10 years ago, orange more than 10 years ago. It is the date of the tree, not of the measurement: an old measurement on a tree recently edited for another tag counts in the green. Tapping the orange part, or \">10 years\" below the bar, highlights those trees.",
+      oldTitle: "Highlight on the map the trees with this value last edited more than 10 years ago",
+      hlOld: n => `Highlighted: ${n}, last edited more than 10 years ago`,
       masafTitle: "MASAF list already on OSM", italy: "Italy", regions: "By region",
       masafRowTitle: "Highlight on the map the trees of the MASAF list not yet on OSM",
       masafTip: "Trees of the MASAF list of monumental trees of Italy already on OpenStreetMap: those with an element carrying their code in ref:masaf, or with a monumental tree of the same genus within 25 m.",
@@ -1164,6 +1181,7 @@ const I18N = {
       imagePage: (site, mly) => site === "mapillary.com" ? `image=* contains a Mapillary photo: Mapillary has its own tag, mapillary=*${mly ? `; mapillary=${mly} could be used` : ""}`
         : `image=* is a web page (${site}), not an image file. A photo can also be uploaded to Wikimedia Commons or Panoramax and linked with wikimedia_commons=* or panoramax=*`,      feetInchSpace: (k, v, fix) => `${k}=${v}: the wiki writes feet and inches without spaces (${fix})`,
       leadDot: (k, v, fix) => `${k}=${v}: the number starts with the point; with a zero in front (${fix}) it is easier to read`,
+      oldMeasures: (tags, d) => `${tags.length > 1 ? "Measurements" : "Measurement"} unchanged for more than 10 years: ${tags.join(", ")} (last edit of the tree: ${d}). After surveying again on the ground, even with the same values, check_date=* can be added with the date of the survey`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,      notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
       ginkgoSex: (south, seeds) => `If this ginkgo is a female tree, sex=female could be added. ${south ? "October to May" : "April to November"} is a good time to check: females bear paired ovules in spring and fleshy, ${seeds("foul-smelling seeds")} that fall in autumn, often lying under the canopy.`,
       ginkgoSeedsAlt: "Ginkgo biloba seeds",
@@ -1552,6 +1570,12 @@ document.getElementById("gh").title = L.github;
 const SIDE_BOXES = ["legend-box", "rank-box", "chart-box", "comp-box", "rec-box"].map(id => document.getElementById(id));
 let onCompToggle = () => {};   // scheda Completezza aperta o chiusa (renderComp, definita quando la mappa è pronta)
 let onRecToggle = () => {};    // scheda Alberi da record aperta o chiusa (renderRec)
+// Età delle misure (issue #94), dall'ultima modifica del nodo (ts, AAAA-MM-GG), rispetto a oggi: prima di AGE_CUT[1]
+// più di 10 anni, da AGE_CUT[1] ad AGE_CUT[0] da 5 a 10 anni, dopo (o senza data) meno di 5. È la data dell'albero, non
+// della misura. AGE_KEYS: le voci della scheda Completezza con la barra divisa per età (solo nel tool QA)
+const yearsAgo = y => { const d = new Date(); d.setUTCFullYear(d.getUTCFullYear() - y); return d.toISOString().slice(0, 10); };
+const AGE_CUT = [yearsAgo(5), yearsAgo(10)];
+const AGE_KEYS = ["height", "circumference", "diameter_crown"];
 SIDE_BOXES.forEach(b => b.addEventListener("toggle", () => {
   if (b.open) SIDE_BOXES.forEach(o => { if (o !== b) o.open = false; });
   if (b.id === "comp-box") onCompToggle();
@@ -2893,6 +2917,12 @@ map.on("load", async () => {
     sex: { has: hasTag("sex"), miss: ["all", DIO_EXPR, noTag("sex")], among: isDio, hlText: L.cp.hlSex },
   };
   for (const k in COMP) COMP[k].label = k === "photo" ? L.cp.photo : k === "sex" ? L.cp.sex : k === "species" ? L.cp.taxon : L.rows[k];
+  // evidenziazione «più di 10 anni» delle voci di AGE_KEYS (hl = "old:" + chiave, issue #94): alberi con il dato e
+  // l'ultima modifica prima di AGE_CUT[1]
+  const hasT = k => ["!=", ["coalesce", ["get", k], ""], ""];
+  const OLD_HL = Object.fromEntries(AGE_KEYS.map(k => ["old:" + k, { label: COMP[k].label,
+    miss: ["all", k === "circumference" ? ["any", hasT("circumference"), hasT("diameter")] : hasT(k),
+      ["<", ["coalesce", ["get", "ts"], "9999"], AGE_CUT[1]]], hlText: L.cp.hlOld(COMP[k].label.toLowerCase()) }]));
   // gruppi di voci: nel tool QA i dati di base e, a parte, misure e foto; nella mappa dei monumentali il diametro
   // della chioma è l'unica voce facoltativa. In fondo, in entrambe, le piante dioiche (gruppo nascosto se non ce ne sono)
   const COMP_GROUPS = (WORLD ? [[L.cp.inView, "", ["species", "height", "circumference", "photo"]], [L.cp.optional, "", ["diameter_crown"]]]
@@ -2922,7 +2952,7 @@ map.on("load", async () => {
   const hlChip = document.getElementById("hl-chip"), compBox = document.getElementById("comp-box"), compEl = document.getElementById("comp");
   hlChip.title = L.cp.hlOff;
   const applyHl = () => {
-    const item = COMP[hl];
+    const item = COMP[hl] || OLD_HL[hl];
     for (const l of HL_LAYERS) {
       if (item) map.setFilter(l.id, ["all", l.cond, item.miss, ...REST]);
       map.setLayoutProperty(l.id, "visibility", item ? "visible" : "none");
@@ -2932,17 +2962,24 @@ map.on("load", async () => {
     hlChip.innerHTML = hl ? `<span>${esc(hl === "masaf" ? L.cp.hlMasaf : item.hlText || L.cp.hl(item.label.toLowerCase()))}</span><b>×</b>` : "";
     compEl.querySelectorAll(".cp-row").forEach(r => {
       r.classList.toggle("on", r.dataset.key === hl); r.setAttribute("aria-pressed", r.dataset.key === hl); });
+    compEl.querySelectorAll(".cp-age button").forEach(b => { const on = "old:" + b.closest(".cp-row").dataset.key === hl;
+      b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
   };
   const toggleHl = k => { hl = hl === k ? null : k; applyHl(); };
   hlChip.onclick = () => toggleHl(hl);
-  // una riga della scheda: nome, ⓘ con la spiegazione, numeri e barra; un tocco (o Invio) accende e spegne l'evidenziazione
-  const compRow = (key, label, tipHtml, title, small) => {
+  // una riga della scheda: nome, ⓘ con la spiegazione, numeri e barra; un tocco (o Invio) accende e spegne l'evidenziazione.
+  // Le voci di AGE_KEYS (age) hanno la barra in tre parti e sotto la riga delle età (setCompRow): un tocco sulla parte
+  // arancione o su «più di 10 anni» evidenzia gli alberi con il dato e l'ultima modifica di più di 10 anni fa
+  const compRow = (key, label, tipHtml, title, small, age) => {
     const r = document.createElement("div");
     r.className = "cp-row" + (small ? " sm" : ""); r.tabIndex = 0; r.dataset.key = key; r.title = title;
     r.setAttribute("role", "button"); r.setAttribute("aria-pressed", "false");
     r.innerHTML = `<div class="cp-top"><span class="lb">${small ? esc(label) : `<b>${esc(label)}</b>`}</span>${tipHtml
-      ? `<span class="cp-info" tabindex="0">ⓘ<span class="tip">${tipHtml}</span></span>` : ""}<span class="nums"></span></div><div class="cp-bar"><i></i></div>`;
-    r.onclick = e => { if (!e.target.closest(".cp-info")) toggleHl(key); };
+      ? `<span class="cp-info" tabindex="0">ⓘ<span class="tip">${tipHtml}</span></span>` : ""}<span class="nums"></span></div>`
+      + (age ? `<div class="cp-bar age"><i></i><i class="y"></i><i class="o" data-old="1" title="${esc(L.cp.oldTitle)}"></i></div>`
+        + `<div class="cp-age" hidden><span></span><span class="y"></span><button type="button" class="o" data-old="1" title="${esc(L.cp.oldTitle)}" aria-pressed="false"></button></div>`
+        : `<div class="cp-bar"><i></i></div>`);
+    r.onclick = e => { if (!e.target.closest(".cp-info")) toggleHl(e.target.closest("[data-old]") ? "old:" + key : key); };
     r.onkeydown = e => { if ((e.key === "Enter" || e.key === " ") && e.target === r) { e.preventDefault(); toggleHl(key); } };
     // la scheda scorre: la spiegazione si posiziona rispetto alla finestra, larga quanto la scheda, sotto la ⓘ (senza
     // spazio in mezzo, così il mouse ci arriva) o sopra se sotto non c'è posto
@@ -2961,9 +2998,17 @@ map.on("load", async () => {
   // "38% · 1.204 di 3.170": percentuale intera, ma mai 0% o 100% se non lo è davvero
   const compPct = (n, tot) => { const x = tot ? 100 * n / tot : 0;
     return (n && x < 0.5 ? "<1" : n < tot && x >= 99.5 ? ">99" : String(Math.round(x))) + "%"; };
-  const setCompRow = (r, n, tot) => {
+  // ag (voci di AGE_KEYS): [meno di 5 anni o senza data, da 5 a 10, più di 10, con la data] tra gli n alberi con il
+  // dato. Senza nessuna data (regione scritta prima di ts) la barra resta tutta verde e la riga delle età non si vede
+  const setCompRow = (r, n, tot, ag) => {
     r.querySelector(".nums").textContent = `${compPct(n, tot)} · ${fmtN(n)} ${L.cp.of} ${fmtN(tot)}`;
-    r.querySelector(".cp-bar i").style.width = (tot ? 100 * n / tot : 0) + "%";
+    const parts = ag && ag[3] ? ag.slice(0, 3) : [n, 0, 0];
+    r.querySelectorAll(".cp-bar i").forEach((b, i) => { b.style.width = (tot ? 100 * parts[i] / tot : 0) + "%"; });
+    const line = r.querySelector(".cp-age");
+    if (line) {
+      line.hidden = !(ag && ag[3] && n);
+      [...line.children].forEach((s, i) => { s.textContent = `${compPct(parts[i], n)} ${L.cp.ages[i]}`; s.hidden = !parts[i]; });   // le età a 0% non si scrivono
+    }
   };
   const wikiKey = k => link("https://wiki.openstreetmap.org/wiki/Key:" + k, k + "=*");
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; };
@@ -3021,8 +3066,9 @@ map.on("load", async () => {
     for (const [title, sub, keys] of COMP_GROUPS) {
       const h = el("h4", "", title);
       if (sub) h.append(" ", el("small", "", "· " + sub));
-      compRows.append(h, ...keys.map(k => { COMP[k].head = h; return COMP[k].row = compRow(k, COMP[k].label,
-        L.cp.tips[k](wikiKey, dioList, dioSp) + (k === "photo" ? "" : " " + esc(L.cp.measured)), L.cp.rowTitle); }));
+      compRows.append(h, ...keys.map(k => { COMP[k].head = h; const age = !WORLD && AGE_KEYS.includes(k);
+        return COMP[k].row = compRow(k, COMP[k].label, L.cp.tips[k](wikiKey, dioList, dioSp) + (k === "photo" ? "" : " " + esc(L.cp.measured))
+          + (age ? " " + esc(L.cp.ageTip) : ""), L.cp.rowTitle, false, age); }));
     }
     compEl.append(compMsg, compRows, compNote);
     applyHl();
@@ -3035,9 +3081,15 @@ map.on("load", async () => {
     showMasaf();
     // cnt: alberi con il dato; den: alberi a cui la voce si applica (tutti, o quelli di among, es. i dioici per il sesso)
     const z = map.getZoom(), cnt = Object.fromEntries(COMP_KEYS.map(k => [k, 0])), den = { ...cnt };
+    // ag: età dell'ultima modifica degli alberi con il dato, per le voci di AGE_KEYS (setCompRow)
+    const ag = WORLD ? {} : Object.fromEntries(AGE_KEYS.map(k => [k, [0, 0, 0, 0]]));
     let tot = 0;
     eachInView(p => { tot++;
-      for (const k of COMP_KEYS) { const c = COMP[k]; if (c.among && !c.among(p)) continue; den[k]++; if (c.has(p)) cnt[k]++; } });
+      for (const k of COMP_KEYS) { const c = COMP[k]; if (c.among && !c.among(p)) continue; den[k]++;
+        if (!c.has(p)) continue;
+        cnt[k]++;
+        const a = ag[k], t = p.ts;
+        if (a) { if (t) a[3]++; a[!t || t >= AGE_CUT[0] ? 0 : t >= AGE_CUT[1] ? 1 : 2]++; } } });
     // stati vuoti: nessuna regione, dati ancora in arrivo (del file della regione c'è solo la parte ridotta, o la
     // mappa dei monumentali non è ancora caricata), nessun albero nella vista
     const msg = !current ? L.cp.noRegion : !ALL.length || (partial && z >= ALL_Z) ? L.cp.loading : !tot ? L.cp.noTrees : "";
@@ -3045,7 +3097,7 @@ map.on("load", async () => {
     const note = msg ? "" : WORLD ? (z < FULL_Z ? L.cp.partialWorld : "") : z < ALL_Z ? L.cp.partialQa : "";
     compNote.textContent = note; compNote.hidden = !note;
     if (!msg) {
-      for (const k of COMP_KEYS) { COMP[k].row.hidden = !den[k]; setCompRow(COMP[k].row, cnt[k], den[k]); }
+      for (const k of COMP_KEYS) { COMP[k].row.hidden = !den[k]; setCompRow(COMP[k].row, cnt[k], den[k], ag[k]); }
       // un gruppo senza righe visibili (piante dioiche assenti dalla vista) non mostra neanche il titolo
       for (const [, , keys] of COMP_GROUPS) COMP[keys[0]].head.hidden = keys.every(k => !den[k]);
     }
@@ -5716,6 +5768,10 @@ function hints(p, pos) {
   // note=* (hint_nt: righe "chiave=valore", fetch_trees.py): anche sui ceppi; la scheda mostra solo il valore
   for (const kv of String(p.hint_nt || "").split("\n").filter(Boolean)) out.push(H.note(kv.slice(kv.indexOf("=") + 1)));
   if (p.stump) return out;
+  // misure su un albero non modificato da più di 10 anni (issue #94; ts: ultima modifica del nodo, AGE_CUT)
+  const oldM = p.ts && p.ts < AGE_CUT[1] ? ["height", "circumference", "diameter", "diameter_crown"].filter(k => p[k]) : [];
+  if (oldM.length) out.push(H.oldMeasures(oldM.map(k => `${k}=${p[k]}`),
+    new Date(p.ts + "T00:00:00Z").toLocaleDateString(LOC, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })));
   if (binomialHint(p.hint_sp)) out.push(H.wdSpecies(p.hint_sp));
   // l'elemento Wikidata dell'albero ha solo il genere della specie taggata (hint_wg = "QID|genere", fetch_trees.py)
   if (p.hint_wg) { const [q, g] = String(p.hint_wg).split("|"); if (q && g) out.push(H.wdGenusOnly(g)); }

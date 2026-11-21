@@ -121,6 +121,7 @@
     {"key": "fixme", "object_types": ["node"], "description": "Used for a QA check: the value is shown in the info panel."},
     {"key": "FIXME", "object_types": ["node"], "description": "Used for a QA check, like fixme: the value is shown in the info panel."},
     {"key": "note", "object_types": ["node"], "description": "Shown as a hint in the info panel."},
+    {"key": "check_date", "object_types": ["node"], "description": "Suggested in a hint when a tree with height, circumference, diameter or diameter_crown was last edited more than 10 years ago: it can be added after surveying the measurements again, even with the same values."},
     {"key": "name", "object_types": ["node"], "description": "Shown in the info panel."},
     {"key": "ref", "object_types": ["node"], "description": "Shown in brackets after the title of the info panel (e.g. \"Quercus robur (1543)\")."},
     {"key": "wikipedia", "object_types": ["node"], "description": "Used for a QA check (the article's Wikidata item is a taxon: species:wikipedia or, for a genus, genus:wikipedia is suggested). Suggested when website or url is a Wikipedia article about the tree; compared with a Wikipedia article in website or url."},

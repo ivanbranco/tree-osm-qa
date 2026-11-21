@@ -3988,20 +3988,26 @@ def last_run(slug, regions_index, hist):
     return max(rows[-1][0] if rows else "", regions_index.get(slug, {}).get("tried", ""))
 
 
-def oldest(groups, regions_index):
-    """Per "oldest": il paese (tutte le sue regioni) o la regione senza gruppo scaricati meno di recente. La data di
-    un paese è quella della sua regione scaricata meno di recente; a parità di data vale l'ordine di regions.json."""
+OLDEST = {"oldest": 1, "three-oldest": 3}   # nome -> quanti paesi o regioni senza gruppo
+
+
+def oldest(groups, regions_index, n=1):
+    """Per "oldest" / "three-oldest": gli n paesi (tutte le loro regioni) o regioni senza gruppo scaricati meno di
+    recente. La data di un paese è quella della sua regione scaricata meno di recente; a parità di data vale
+    l'ordine di regions.json (sorted è stabile)."""
     hist = load_json(HISTORY)
     units = list(groups.values()) + [[r] for r in REGIONS if not r.get("group")]
     dates = [min(last_run(r["slug"], regions_index, hist) for r in u) for u in units]
-    i = min(range(len(units)), key=lambda k: dates[k])
-    print(f"oldest: {', '.join(r['slug'] for r in units[i])} (ultimo scaricamento: {dates[i] or 'mai'})", flush=True)
-    return units[i]
+    out = []
+    for i in sorted(range(len(units)), key=lambda k: dates[k])[:n]:
+        print(f"oldest: {', '.join(r['slug'] for r in units[i])} (ultimo scaricamento: {dates[i] or 'mai'})", flush=True)
+        out += units[i]
+    return out
 
 
 def main(argv):
     # regioni separate da spazi o virgole; "all" = tutte; il nome di un gruppo (es. "italia") = tutte le sue regioni;
-    # "oldest" = il paese o la regione senza gruppo scaricati meno di recente
+    # "oldest" = il paese o la regione senza gruppo scaricati meno di recente; "three-oldest" = i tre
     names = [x.lower() for a in argv for x in re.split(r"[\s,]+", a) if x] or ["all"]
     by_slug = {r["slug"]: r for r in REGIONS}
     groups = {}
@@ -4012,12 +4018,13 @@ def main(argv):
     if "all" in names:
         todo = REGIONS
     else:
-        unknown = [x for x in names if x not in by_slug and x not in groups and x != "oldest"]
+        unknown = [x for x in names if x not in by_slug and x not in groups and x not in OLDEST]
         if unknown:
             sys.exit(f"Regione sconosciuta: {', '.join(unknown)}. "
-                     f"Disponibili: all, oldest, {', '.join([*groups, *by_slug])}")
+                     f"Disponibili: all, {', '.join([*OLDEST, *groups, *by_slug])}")
         todo = list({r["slug"]: r for x in names                                         # senza doppioni
-                     for r in (oldest(groups, regions_index) if x == "oldest" else groups.get(x) or [by_slug[x]])}.values())
+                     for r in (oldest(groups, regions_index, OLDEST[x]) if x in OLDEST
+                               else groups.get(x) or [by_slug[x]])}.values())
     ok = True
     for i, region in enumerate(todo, 1):
         print(f"== {region['name']} ({i}/{len(todo)})", flush=True)
