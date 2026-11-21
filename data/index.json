@@ -878,12 +878,13 @@
    "updated": "2026-11-14T10:56:59Z"
   },
   "slovenia": {
-   "count": 51281,
-   "errors": 73,
+   "count": 51401,
+   "errors": 88,
    "name": "Slovenia",
-   "sha1": "5af625214014102a11fa2a50086eb282f7a6b318",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T11:20:37Z"
+   "osm_base": "2026-11-21T22:41:20Z",
+   "sha1": "99f1e2d32f9f2de6f054ae18db0f782ca262eb67",
+   "tried": "2026-11-21",
+   "updated": "2026-11-21T22:43:34Z"
   },
   "stiria": {
    "count": 42095,

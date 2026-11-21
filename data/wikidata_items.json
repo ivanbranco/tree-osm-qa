@@ -20102,7 +20102,7 @@
 "image": "Kraljica Roga 2023.jpg",
 "mon": true,
 "taxa": [
-"Q25350"
+"Q146992"
 ],
 "taxon": false,
 "wp": {}
@@ -21358,6 +21358,20 @@
 "taxa": [
 "Q12004"
 ],
+"taxon": false,
+"wp": {}
+},
+"Q135084936": {
+"coords": [
+[
+13.8378142,
+45.9974989
+]
+],
+"heritage": [],
+"image": "Javor nad mojsko drago 1.jpg",
+"mon": true,
+"taxa": [],
 "taxon": false,
 "wp": {}
 },
