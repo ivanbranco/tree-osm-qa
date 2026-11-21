@@ -4441,13 +4441,42 @@
 "ranks": [],
 "taxon": false
 },
+"Q12359501": {
+"en": "Arbimäe pine",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12366782": {
+"en": "Kelch's linden",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12368162": {
+"en": "Laasu oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q123685020": {
 "en": "Defynnog Yew",
 "names": [],
 "ranks": [],
 "taxon": false
 },
+"Q12371649": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q123717399": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12372259": {
+"en": "Peetri pine",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -4461,6 +4490,30 @@
 },
 "en": "plum",
 "it": "susina",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12372680": {
+"en": "Porkuni pine",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12373235": {
+"en": "Pühajärv War Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12375722": {
+"en": "Gingko tree at Süda street",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q12377616": {
+"en": "Tülivere Oak",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -9833,6 +9886,12 @@
 ],
 "taxon": true
 },
+"Q14954931": {
+"en": "Kaarli pine",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q149553": {
 "alias": {
 "en": [
@@ -9856,6 +9915,18 @@
 "Q1306176"
 ],
 "taxon": true
+},
+"Q14955992": {
+"en": "Tärkma oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q14956408": {
+"en": "Viiralt's Oak",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q149622": {
 "alias": {
@@ -15211,6 +15282,12 @@
 ],
 "taxon": true
 },
+"Q16409267": {
+"en": "Pühaliistu oak in Osula",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q164097": {
 "alias": {
 "en": [
@@ -15235,6 +15312,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q16410069": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q164101": {
 "alias": {
@@ -17412,6 +17494,22 @@
 ],
 "taxon": true
 },
+"Q18623495": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18623643": {
+"en": "Lautsi pine",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18625146": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q18657483": {
 "alias": {
 "en": [],
@@ -17577,6 +17675,12 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q18759691": {
+"en": "Hollow tree of Palivere",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1891342": {
 "alias": {
@@ -18326,6 +18430,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q20530083": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q20550435": {
 "en": "Teixo dos Tenreiro",
@@ -23725,6 +23834,12 @@
 ],
 "taxon": true
 },
+"Q31272104": {
+"en": "Upsi Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q31274714": {
 "en": "ginkgo leaf",
 "it": "Ginkgo foglia",
@@ -25271,6 +25386,12 @@
 "Q767728"
 ],
 "taxon": true
+},
+"Q3736402": {
+"en": "Tamme-Lauri oak",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q37453": {
 "alias": {
@@ -28550,6 +28671,16 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q51755216": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q51760012": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q5182543": {
 "alias": {

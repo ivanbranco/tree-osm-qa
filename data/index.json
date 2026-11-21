@@ -324,12 +324,13 @@
    "updated": "2026-11-18T23:36:25Z"
   },
   "estonia": {
-   "count": 80952,
-   "errors": 783,
+   "count": 81103,
+   "errors": 782,
    "name": "Estonia",
-   "sha1": "67f60be228af6503ef630e28bc36a509d0534ddf",
-   "tried": "2026-11-13",
-   "updated": "2026-11-13T03:42:02Z"
+   "osm_base": "2026-11-21T18:12:54Z",
+   "sha1": "b89bfd1fd44dea07ea85bb4489658a0e865caf2e",
+   "tried": "2026-11-21",
+   "updated": "2026-11-21T18:14:54Z"
   },
   "estremadura": {
    "count": 71622,
