@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>DendrOSM</title>
+<!-- Pagina che GitHub Pages mostra per ogni indirizzo inesistente sotto /tree-osm-qa/ (con stato 404). La stessa pagina
+     arriva a qualunque profondità (/tree-osm-qa/a/b/c), quindi icone e collegamenti partono da BASE, non sono relativi.
+     Se il percorso è il nome di una regione (slug, nome italiano o inglese di regions.json), apre subito quella regione
+     (es. /tree-osm-qa/lombardia -> /tree-osm-qa/#region=lombardia); se è il nome di un paese diviso in regioni (gruppo
+     di regions.json), le elenca. Stile del riquadro e dell'intestazione come #panel di index.html. -->
+<style>
+  html,body{margin:0;min-height:100%;font:14px system-ui,sans-serif;background:#eef0ec;color:#222}
+  body{display:flex;justify-content:center;align-items:flex-start;padding:12vh 16px 16px;box-sizing:border-box}
+  body.wait main{visibility:hidden}   /* finché non si sa se è una regione: niente lampo della pagina prima di aprirla */
+  .box{background:#fff;padding:10px 12px;border-radius:6px;box-shadow:0 1px 6px #0004;width:100%;max-width:340px;box-sizing:border-box}
+  h1{font-size:15px;margin:0 0 6px;display:flex;justify-content:space-between;align-items:baseline}
+  h1 a{color:inherit;text-decoration:none}
+  .hdr{display:flex;align-items:center;gap:8px}
+  #lang{font-size:12px;font-weight:400;color:#999}
+  #lang a{color:#1a5fb4;text-decoration:none}
+  #lang a.on{color:#222;font-weight:600;pointer-events:none}
+  #gh{color:#999;display:flex;position:relative;top:.5px}
+  #gh:hover{color:#222}
+  #subtitle{font-size:12px;color:#666;margin:-4px 0 8px}
+  h2{font-size:14px;margin:10px 0 4px}
+  p{margin:0 0 8px;line-height:1.4}
+  code{font-size:12px;background:#f2f2f2;padding:1px 4px;border-radius:3px;word-break:break-all}
+  ul{margin:0 0 8px;padding-left:18px;line-height:1.5}
+  a{color:#1a5fb4}
+  .links{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+  .links a{display:block;text-align:center;padding:5px 6px;border:1px solid #ccc;border-radius:4px;text-decoration:none;color:#222;background:#f7f7f7}
+  .links a:hover{background:#ececec}
+</style>
+</head>
+<body class="wait">
+<main class="box">
+  <h1><a id="home" href="./">DendrOSM</a><span class="hdr"><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a></span><a id="gh" href="https://github.com/ivanbranco/tree-osm-qa" target="_blank" rel="noopener"><svg width="16" height="14" viewBox="0 0 18 16" aria-hidden="true"><path d="M5.5 3.5L1.5 8l4 4.5M12.5 3.5l4 4.5-4 4.5M10.5 2L7.5 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></span></h1>
+  <div id="subtitle"></div>
+  <h2 id="t-title"></h2>
+  <p id="t-text"></p>
+  <div id="group" hidden><p id="t-group"></p><ul id="group-list"></ul></div>
+  <div class="links">
+    <a id="to-qa" href="./"></a>
+    <a id="to-mon" href="monumental-trees/"></a>
+  </div>
+</main>
+<script>
+// radice del sito: /tree-osm-qa/ su GitHub Pages, / sul server di prova (.claude/serve.ps1)
+const BASE = location.pathname.startsWith("/tree-osm-qa/") ? "/tree-osm-qa/" : "/";
+const hashParams = () => new URLSearchParams(location.hash.slice(1));
+const storedLang = () => { try { return localStorage.getItem("lang"); } catch (e) { return null; } };
+// lingua come index.html: lang=… nell'indirizzo, poi quella scelta l'ultima volta, poi quella del browser
+const LANG = [hashParams().get("lang"), storedLang(), (navigator.language || "").slice(0, 2).toLowerCase() === "it" ? "it" : "en"]
+  .find(l => l === "it" || l === "en");
+const L = {
+  it: { subtitle: "Controllo qualità degli alberi di OpenStreetMap", title: "Pagina non trovata",
+        text: p => `L'indirizzo <code>${p}</code> non corrisponde a nessuna pagina del sito.`,
+        group: g => `${g}, regioni sulla mappa:`, qa: "Mappa degli errori", mon: "Mappa dei monumentali" },
+  en: { subtitle: "Quality check of OpenStreetMap trees", title: "Page not found",
+        text: p => `The address <code>${p}</code> does not match any page of the site.`,
+        group: g => `${g}, regions on the map:`, qa: "Error map", mon: "Monumental tree map" },
+}[LANG];
+document.documentElement.lang = LANG;
+document.title = `DendrOSM – ${L.title}`;
+for (const [type, file] of [["image/svg+xml", "favicon.svg"], ["image/png", "favicon.png"]]) {
+  const ic = document.createElement("link");
+  Object.assign(ic, { rel: "icon", type, href: BASE + file });
+  document.head.appendChild(ic);
+}
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const decode = s => { try { return decodeURIComponent(s); } catch (e) { return s; } };
+const path = decode(location.pathname.slice(BASE.length));
+document.getElementById("subtitle").textContent = L.subtitle;
+document.getElementById("t-title").textContent = L.title;
+document.getElementById("t-text").innerHTML = L.text(esc("/" + path));
+document.getElementById("to-qa").textContent = L.qa;
+document.getElementById("to-mon").textContent = L.mon;
+for (const [id, href] of [["home", ""], ["to-qa", ""], ["to-mon", "monumental-trees/"]])
+  document.getElementById(id).href = BASE + href;
+document.querySelectorAll("#lang a[data-lang]").forEach(a => {
+  a.classList.toggle("on", a.dataset.lang === LANG);
+  a.onclick = ev => {
+    ev.preventDefault();
+    try { localStorage.setItem("lang", a.dataset.lang); } catch (e) {}
+    const h = hashParams();
+    if (h.get("lang")) { h.set("lang", a.dataset.lang); location.hash = h.toString(); }
+    location.reload();
+  };
+});
+
+// confronto dei nomi: minuscole, senza accenti, spazi e segni come trattini ("Bassa Austria" = "bassa_austria" = "bassa-austria")
+const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+// destinazione per un percorso di un solo pezzo (es. "lombardia", "Lower Austria/", "lettonia.html"): una regione
+// ({ slug }) o un paese diviso in regioni ({ group, regions }); null se non corrisponde a niente
+function target(p, regions) {
+  const parts = p.split("/").filter(Boolean);
+  if (parts.length !== 1) return null;
+  const key = norm(parts[0].replace(/\.html?$/i, ""));
+  if (!key) return null;
+  const reg = regions.find(r => [r.slug, r.name, r.name_en].some(n => n && norm(n) === key));
+  if (reg) return { slug: reg.slug };
+  const inGroup = regions.filter(r => [r.group, r.group_en].some(n => n && norm(n) === key));
+  if (inGroup.length) return { group: inGroup[0]["group_" + LANG] || inGroup[0].group, regions: inGroup };
+  return null;
+}
+const show = () => document.body.classList.remove("wait");
+setTimeout(show, 2000);   // se regions.json tarda, la pagina si mostra comunque
+fetch(BASE + "scripts/regions.json").then(r => r.ok ? r.json() : []).then(regions => {
+  const t = target(path, regions);
+  if (t && t.slug) {
+    // il resto dell'indirizzo sbagliato (#node=…, #lang=…) resta, dopo la regione
+    const h = new URLSearchParams({ region: t.slug });
+    hashParams().forEach((v, k) => { if (k !== "region") h.append(k, v); });
+    location.replace(BASE + "#" + h.toString());
+    return;
+  }
+  if (t && t.group) {
+    const name = r => r["name_" + LANG] || r.name;
+    const lang = hashParams().get("lang") ? "&lang=" + LANG : "";   // la lingua forzata nell'indirizzo resta
+    document.getElementById("t-group").textContent = L.group(t.group);
+    document.getElementById("group-list").innerHTML = t.regions.slice().sort((a, b) => name(a).localeCompare(name(b), LANG))
+      .map(r => `<li><a href="${BASE}#region=${encodeURIComponent(r.slug)}${lang}">${esc(name(r))}</a></li>`).join("");
+    document.getElementById("group").hidden = false;
+  }
+  show();
+}).catch(show);
+</script>
+</body>
+</html>

@@ -95,6 +95,10 @@ The address contains the region and the map position (`#region=lombardia&map=17.
 
 `colors=1` and `xmas=1` are read when the page opens: they disappear from the address as soon as the map moves, but their effect stays until the page is reloaded. Changing `region`, `node` or `map` by hand in the address bar takes effect without reloading; changing `lang` reloads the page. On the monumental trees map `region` is not used.
 
+### Wrong addresses
+
+An address that does not match any page of the site (for example `/tree-osm-qa/foo`) shows a "Page not found" page (`404.html`) with links to the error map and the monumental tree map. If the path is a region, written as its slug or as its Italian or English name (case, accents, spaces and hyphens do not matter: `/tree-osm-qa/lombardia`, `/tree-osm-qa/Lower Austria`), the page opens that region instead, keeping the parameters after `#` (`/tree-osm-qa/molise#node=6311161280` opens `#region=molise&node=6311161280`). If the path is a country divided into regions on the map (`/tree-osm-qa/austria`), the page lists its regions.
+
 ## Language
 
 The site is in Italian if the browser language is Italian, otherwise in English. It is changed with IT · EN at the top of the panel: the choice is saved in the browser. It can also be forced from the address, for example `#lang=en` or `#region=lombardia&lang=en`.
