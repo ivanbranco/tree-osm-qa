@@ -277,9 +277,10 @@
    "count": 45809,
    "errors": 21,
    "name": "Connacht",
-   "sha1": "79063a597c0ce21a758ae410932e43bf8d4e8ac8",
-   "tried": "2026-11-15",
-   "updated": "2026-11-15T23:52:17Z"
+   "osm_base": "2026-11-22T22:30:51Z",
+   "sha1": "2e950f18918e930b61f1104ed7e4a451c740dd90",
+   "tried": "2026-11-22",
+   "updated": "2026-11-22T22:32:58Z"
   },
   "corsica": {
    "count": 3560,
@@ -363,13 +364,13 @@
    "updated": "2026-11-18T19:16:07Z"
   },
   "galles": {
-   "count": 59347,
-   "errors": 38,
+   "count": 59376,
+   "errors": 41,
    "name": "Galles",
-   "osm_base": "2026-11-18T23:23:50Z",
-   "sha1": "c013ea1f73713a977aa01213184df9cdb06f7755",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T23:25:47Z"
+   "osm_base": "2026-11-22T22:32:50Z",
+   "sha1": "8bf869cd403f85818915de080a4fcb7b68d2bc15",
+   "tried": "2026-11-22",
+   "updated": "2026-11-22T22:35:15Z"
   },
   "giappone": {
    "count": 305640,
@@ -406,13 +407,13 @@
    "updated": "2026-11-16T23:30:40Z"
   },
   "irlanda-del-nord": {
-   "count": 45493,
+   "count": 45598,
    "errors": 14,
    "name": "Irlanda del Nord",
-   "osm_base": "2026-11-18T23:24:54Z",
-   "sha1": "4ec3ddd226e87029e5afebb7312324cbf24dcb67",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T23:27:37Z"
+   "osm_base": "2026-11-22T22:32:50Z",
+   "sha1": "51a9b4323da7dd8bd5a3b0e971004b2da695527f",
+   "tried": "2026-11-22",
+   "updated": "2026-11-22T22:34:25Z"
   },
   "isole-baleari": {
    "count": 9362,
@@ -459,12 +460,13 @@
    "updated": "2026-11-20T17:01:25Z"
   },
   "leinster": {
-   "count": 600143,
-   "errors": 1105,
+   "count": 602703,
+   "errors": 1126,
    "name": "Leinster",
-   "sha1": "de4fe5f815ffb6a4e031d28bef1917634ceda8a0",
-   "tried": "2026-11-15",
-   "updated": "2026-11-15T23:50:41Z"
+   "osm_base": "2026-11-22T22:26:47Z",
+   "sha1": "f9a0c50bd184aff81f38f95f0bd0dbb2d0402892",
+   "tried": "2026-11-22",
+   "updated": "2026-11-22T22:30:35Z"
   },
   "lettonia": {
    "count": 103537,
@@ -653,12 +655,13 @@
    "updated": "2026-11-14T00:19:44Z"
   },
   "munster": {
-   "count": 247377,
-   "errors": 154,
+   "count": 251328,
+   "errors": 158,
    "name": "Munster",
-   "sha1": "9e4b4541e9baf2245f66e4d840c4ddf970895fc6",
-   "tried": "2026-11-15",
-   "updated": "2026-11-15T23:51:36Z"
+   "osm_base": "2026-11-22T22:29:51Z",
+   "sha1": "dea180f6b8f0c70b7167d273eebf14c035d04d57",
+   "tried": "2026-11-22",
+   "updated": "2026-11-22T22:32:15Z"
   },
   "murcia": {
    "count": 49220,
@@ -855,13 +858,13 @@
    "updated": "2026-11-20T17:10:19Z"
   },
   "scozia": {
-   "count": 237221,
+   "count": 237229,
    "errors": 227,
    "name": "Scozia",
-   "osm_base": "2026-11-18T23:26:55Z",
-   "sha1": "005b109665f98814a49b90400d3f025949bba303",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T23:28:48Z"
+   "osm_base": "2026-11-22T22:33:51Z",
+   "sha1": "0e4e55e09df8e5f8845396602443918e31b91124",
+   "tried": "2026-11-22",
+   "updated": "2026-11-22T22:36:52Z"
   },
   "serbia": {
    "count": 40112,
@@ -972,9 +975,10 @@
    "count": 47000,
    "errors": 0,
    "name": "Ulster",
-   "sha1": "f37d7acc18df4ef52c17a068920e10608979548b",
-   "tried": "2026-11-15",
-   "updated": "2026-11-15T23:52:55Z"
+   "osm_base": "2026-11-22T22:31:47Z",
+   "sha1": "846f3ab4901c0a8bb9a5f0dc2749d0917501640a",
+   "tried": "2026-11-22",
+   "updated": "2026-11-22T22:33:40Z"
   },
   "umbria": {
    "count": 17839,
