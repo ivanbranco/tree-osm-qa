@@ -373,12 +373,13 @@
    "updated": "2026-11-22T22:35:15Z"
   },
   "giappone": {
-   "count": 305640,
-   "errors": 7607,
+   "count": 306324,
+   "errors": 7909,
    "name": "Giappone",
-   "sha1": "2225014979d76d26b3b5c4bad031a9002cc40efc",
-   "tried": "2026-11-15",
-   "updated": "2026-11-15T23:16:30Z"
+   "osm_base": "2026-11-22T23:13:26Z",
+   "sha1": "cc00b372e23184b9352d1366bb2f9e06bdd9a199",
+   "tried": "2026-11-22",
+   "updated": "2026-11-22T23:17:09Z"
   },
   "grand-est": {
    "count": 253982,
@@ -648,11 +649,12 @@
   },
   "montenegro": {
    "count": 5797,
-   "errors": 49,
+   "errors": 78,
    "name": "Montenegro",
-   "sha1": "a0f1e5e4d40bf50a89337fb3b0e5c9a6d45fa2c1",
-   "tried": "2026-11-14",
-   "updated": "2026-11-14T00:19:44Z"
+   "osm_base": "2026-11-22T23:13:26Z",
+   "sha1": "fde25fe10491f1b0c28d2b9bf25d1aca06f8ac56",
+   "tried": "2026-11-22",
+   "updated": "2026-11-22T23:14:48Z"
   },
   "munster": {
    "count": 251328,
@@ -1016,12 +1018,13 @@
    "updated": "2026-11-20T16:55:11Z"
   },
   "venezuela": {
-   "count": 62864,
-   "errors": 1435,
+   "count": 62876,
+   "errors": 1462,
    "name": "Venezuela",
-   "sha1": "53522f366771e84a1cec3c78fe572b06d86b2388",
-   "tried": "2026-11-14",
-   "updated": "2026-11-14T09:18:20Z"
+   "osm_base": "2026-11-22T23:12:27Z",
+   "sha1": "af156ee84c79554e3ad5b37260ff236d4b196ff8",
+   "tried": "2026-11-22",
+   "updated": "2026-11-22T23:14:13Z"
   },
   "vienna": {
    "count": 173184,

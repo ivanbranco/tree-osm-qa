@@ -2679,6 +2679,14 @@
 "d": "2026-11-10",
 "s": "ok"
 },
+"commons:File:うめきたの森 桂.jpg": {
+"d": "2026-11-22",
+"s": "ok"
+},
+"commons:File:うめきたの森 辛夷（こぶし）.jpg": {
+"d": "2026-11-22",
+"s": "ok"
+},
 "commons:File:おまき桜（開花状況）.jpg": {
 "d": "2026-11-09",
 "s": "ok"
@@ -9115,6 +9123,14 @@
 "c": [],
 "d": "2026-11-10"
 },
+"geo:File:うめきたの森 桂.jpg": {
+"c": [],
+"d": "2026-11-22"
+},
+"geo:File:うめきたの森 辛夷（こぶし）.jpg": {
+"c": [],
+"d": "2026-11-22"
+},
 "geo:File:おまき桜（開花状況）.jpg": {
 "c": [
 35.5388078,
@@ -10063,6 +10079,10 @@
 "d": "2026-11-09",
 "s": "404"
 },
+"http://www.tree-flower.jp/18/higashiaioi_1410/higashiaioi_katsura_icho.html": {
+"d": "2026-11-22",
+"s": "200"
+},
 "http://www.tree-flower.jp/29/kasuga_ohsugi_477/syatou_ohsugi.html": {
 "d": "2026-11-09",
 "s": "200"
@@ -10533,6 +10553,14 @@
 },
 "https://commons.wikimedia.org/wiki/File%3ASommerlinde_in_Persenbeug-Gottsdorf_01_2015-08_NDM_ME-002.jpg": {
 "d": "2026-11-09",
+"s": "200"
+},
+"https://commons.wikimedia.org/wiki/File:%E3%81%86%E3%82%81%E3%81%8D%E3%81%9F%E3%81%AE%E6%A3%AE_%E6%A1%82.jpg": {
+"d": "2026-11-22",
+"s": "200"
+},
+"https://commons.wikimedia.org/wiki/File:%E3%81%86%E3%82%81%E3%81%8D%E3%81%9F%E3%81%AE%E6%A3%AE_%E8%BE%9B%E5%A4%B7%EF%BC%88%E3%81%93%E3%81%B6%E3%81%97%EF%BC%89.jpg": {
+"d": "2026-11-22",
 "s": "200"
 },
 "https://commons.wikimedia.org/wiki/File:1120_Theodor_K%C3%B6rner-Park_Breitenfurterstra%C3%9Fe_1_-Theodor_K%C3%B6rner-Eiche_-_dahinter_Theodor_K%C3%B6rner-Gedenkstein_IMG_4865.jpg": {
