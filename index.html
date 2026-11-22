@@ -244,7 +244,7 @@
   .pop:focus-visible{outline:1px dotted currentColor}
   .pop.open .tip{display:block}
   .card .rec{margin:4px 0}
-  /* riconoscimento di un ente (MASAF, RAMI, ICNF, ANF, CRFOP, ÚSOP): ★ davanti, le righe a capo allineate al testo; i criteri MASAF
+  /* riconoscimento di un ente (MASAF, RAMI, ICNF, ANF, CRFOP, ÚSOP, TROBI): ★ davanti, le righe a capo allineate al testo; i criteri MASAF
      (.sub) rientrano allo stesso punto, sotto la riga MASAF */
   .card .rec.off{padding-left:1.2em;text-indent:-1.2em}
   .card .rec.off::before{content:"★";content:"★" / "";display:inline-block;width:1.2em;text-indent:0;color:#b8860b}
@@ -997,6 +997,10 @@ const I18N = {
     recAnf: l => `Albero tutelato in Lussemburgo dall’${l("ANF")}`,
     recCrfop: (l, ref) => `Monumento naturale (pomnik przyrody) iscritto nel ${l("registro CRFOP")} della Polonia${ref ? ` (${ref})` : ""}`,
     recUsop: (l, ref) => `Albero monumentale (památný strom) iscritto nel ${l("registro ÚSOP")} della Cechia (${ref})`,
+    // ref:TROBI: l(testo) = link al registro; refs = numeri, già con i link alle pagine degli alberi (solo per i soci)
+    recTrobi: (l, refs) => `Albero iscritto nel ${l("Tree Register of Britain and Ireland")} (${refs})`,
+    // champion tree: where = champion:territory, what = champion:category e champion:date (già con l'escape) o ""
+    recChampion: (where, what) => `Champion tree: albero da record per la sua specie${where ? ` in ${where}` : ""}${what ? ` (${what})` : ""}`,
     // specie dichiarata Monumento Natural in Cile (CL_MONUMENT_SPECIES): l(testo) = link al decreto
     recClMonument: (l, n, y) => `Specie dichiarata Monumento Natural in Cile (${l(`decreto ${n} del ${y}`)})`,
     // l(url, testo): link; kind = "zapis" (ref:zapis; il numero, di una lista non ufficiale, non si mostra),
@@ -1549,6 +1553,8 @@ const I18N = {
     recAnf: l => `Tree protected in Luxembourg by the ${l("ANF")}`,
     recCrfop: (l, ref) => `Natural monument (pomnik przyrody) listed in the Polish ${l("CRFOP register")}${ref ? ` (${ref})` : ""}`,
     recUsop: (l, ref) => `Memorial tree (památný strom) listed in the Czech ${l("ÚSOP register")} (${ref})`,
+    recTrobi: (l, refs) => `Listed in the ${l("Tree Register of Britain and Ireland")} (${refs})`,
+    recChampion: (where, what) => `Champion tree: record tree of its species${where ? ` in ${where}` : ""}${what ? ` (${what})` : ""}`,
     recClMonument: (l, n, y) => `Species declared a Natural Monument in Chile (${l(`decree ${n} of ${y}`)})`,
     recSacred: (l, kind) => kind ? `Sacred tree: ${l(SACRED_WP[kind], SACRED_NAME[kind])}` : "Sacred tree",
     recMart: l => `The map has hung a ${l("martenitsa")} on this tree: the red and white thread that in Bulgaria and North Macedonia is tied to trees when spring arrives.`,
@@ -4695,6 +4701,10 @@ const ANF_URL = "https://anf.gouvernement.lu/";     // heritage:operator=anf (Lu
 const CRFOP_URL = "https://crfop.gdos.gov.pl/";      // ref:CRFOP, ref:gid (Polonia)
 // ref:usop (Cechia): portale della banca dati DRUSOP. Non c'è un indirizzo pubblico per la pagina di un solo albero
 const USOP_URL = "https://drusop.nature.cz/portal/";
+// ref:TROBI (Tree Register of Britain and Ireland): pagina di ogni albero /tree-directory/tree/<numero>, con i
+// dettagli solo per i soci (verificato a novembre 2026)
+const TROBI_URL = "https://www.treeregister.org/";
+const TROBI_TREE_URL = "https://www.treeregister.org/tree-directory/tree/";
 // Specie dichiarate Monumento Natural in Cile (issue #82): [numero del decreto, anno della promulgazione, idNorma
 // della Biblioteca del Congreso Nacional]. Ogni decreto vale per ogni individuo della specie nel territorio nazionale
 // (testi verificati su bcn.cl a novembre 2026). Non sono alberi monumentali: solo una riga ★ nella scheda
@@ -4782,6 +4792,17 @@ function recognitions(p) {
   const crfop = p["ref:CRFOP"] || p["ref:gid"];
   if (crfop) r.push(["off", L.recCrfop(t => link(CRFOP_URL, t), esc(crfop))]);
   if (p["ref:usop"]) r.push(["off", L.recUsop(t => link(USOP_URL, t), esc(p["ref:usop"]))]);
+  // TROBI (ref:TROBI; ref:trobi, non sulla wiki, vale uguale): i numeri con il link alla pagina dell'albero, gli altri
+  // valori come sono. Sotto, rientrata, la riga champion tree (division:champion=yes, o senza division:champion
+  // ma con champion:territory o champion:category; altri valori come "perhaps" no). Valori a testo libero, in inglese
+  const trobi = String(p["ref:TROBI"] || p["ref:trobi"] || "").split(";").map(x => x.trim()).filter(Boolean);
+  if (trobi.length) r.push(["off", L.recTrobi(t => link(TROBI_URL, t),
+    trobi.map(x => /^\d+$/.test(x) ? link(TROBI_TREE_URL + x, x) : esc(x)).join(", "))]);
+  const dc = String(p["division:champion"] || "").trim().toLowerCase();
+  if (dc === "yes" || (!dc && (p["champion:territory"] || p["champion:category"]))) {
+    const what = [p["champion:category"], p["champion:date"]].filter(Boolean).map(esc).join(", ");
+    r.push([trobi.length ? "sub" : "off", L.recChampion(esc(p["champion:territory"] || ""), what)]);
+  }
   // specie Monumento Natural in Cile: dipende dalla specie (nome senza autore, solo le prime due parole) e dalla
   // regione, non da un tag dell'albero; i decreti valgono per gli individui vivi, quindi non per i ceppi
   const clMon = !p.stump && treeIso(p).slice(0, 2).toUpperCase() === "CL"

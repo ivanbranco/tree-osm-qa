@@ -559,6 +559,9 @@ CASES = [
     ("key_typo: ref: con il resto scritto male", {"natural": "tree", "ref:massaf": LISTED}, ["key_typo"]),
     ("key_typo: non per un'altra chiave ref: corta", {"natural": "tree", "ref:uid": "12"}, []),
     ("key_typo: ref:usop in maiuscolo", {**MON, "ref:USOP": "103456"}, ["key_typo"], None, "CZ"),
+    # TROBI e champion trees: chiavi note, nessun errore (né monument_denotation: non è un registro di tutela)
+    ("TROBI e champion tree senza errori", {**MON, "ref:TROBI": "107129", "ref:trobi": "107129", "division:champion": "yes",
+     "champion:territory": "Ireland and Britain", "champion:category": "Girth/Height", "champion:date": "2012"}, [], None, "IE"),
     ("fixme", {"natural": "tree", "fixme": "check species"}, ["fixme"]),
     ("fixme: anche FIXME, senza key_typo", {"natural": "tree", "FIXME": "survey"}, ["fixme"]),
     ("fixme: anche su un ceppo", {"natural": "tree_stump", "fixme": "survey"}, ["fixme"]),
@@ -949,6 +952,11 @@ def feature_failures():
               ("membro: niente hint_ms", "hint_ms" not in mem),
               # ref=* per il titolo della scheda (issue #89)
               ("ref nella feature", ft.to_feature(node(9008, {**tags, "ref": "1543"}))["properties"].get("ref") == "1543"),
+              # TROBI e champion trees: tag per la riga ★ della scheda
+              ("TROBI e champion nella feature", all(ft.to_feature(node(9011, {**tags, **ch}))["properties"].get(k) == v
+                  for ch in [{"ref:TROBI": "107129", "ref:trobi": "107129", "division:champion": "yes",
+                              "champion:territory": "Ireland and Britain", "champion:category": "Girth/Height",
+                              "champion:date": "2012"}] for k, v in ch.items())),
               # foto di Google Foto (cache gphotos.json finta): gp_img solo con un indirizzo letto
               ("Google Foto: gp_img dalla cache", (ft.GPHOTOS.update({"https://photos.app.goo.gl/x": {"i": "https://lh3.googleusercontent.com/pw/a", "d": "2026-11-16"},
                                                                       "https://photos.app.goo.gl/y": {"i": "", "d": "2026-11-16"}})

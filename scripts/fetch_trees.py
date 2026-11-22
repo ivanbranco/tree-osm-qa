@@ -2592,7 +2592,8 @@ KNOWN_KEYS = ("natural", "species", "genus", "taxon", "leaf_type", "leaf_cycle",
               "genus:wikipedia", "taxon:wikidata", "taxon:wikipedia", "ref:masaf", "masaf:criteria", "ref:rami",
               "ref:monumentaltrees", "heritage:operator", "panoramax", "website", "multi_stemmed", "sex",
               "sacred_tree", "religion", "operator", "source", "description", "check_date", "survey:date",
-              "protected", "image:fotoshi", "ref:zapis", "ref:icnf", "ref:CRFOP", "ref:gid", "ref:usop")
+              "protected", "image:fotoshi", "ref:zapis", "ref:icnf", "ref:CRFOP", "ref:gid", "ref:usop",
+              "ref:TROBI", "division:champion", "champion")
 KNOWN_KEY_SET = set(KNOWN_KEYS)
 NUMBERED_KEY = re.compile(r"[:_ ]?\d+$")   # image2, panoramax:1: varianti numerate, non errori
 
@@ -2985,6 +2986,9 @@ KEEP = ["name", "species", "genus", "taxon", "taxon:variety", "variety", "taxon:
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date", "planted_date",
         "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion", "multi_stemmed",
         "heritage:operator", "ref:icnf", "ref:CRFOP", "ref:gid", "ref:usop", "sex",
+        # Tree Register of Britain and Ireland e champion trees: riga ★ nella scheda (recognitions in index.html).
+        # ref:trobi non è sulla wiki ma ha circa 50 usi: vale come ref:TROBI
+        "ref:TROBI", "ref:trobi", "division:champion", "champion:territory", "champion:category", "champion:date",
         "ref"]   # ref: tra parentesi dopo il titolo della scheda (issue #89)
 
 # Alberi da frutto (rendering: puntini colorati sulla chioma, issue #3): mele, noci, limoni e arance. Solo specie
