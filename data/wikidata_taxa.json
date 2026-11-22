@@ -907,6 +907,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q1071485": {
+"en": "Chełmoński oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1072851": {
 "alias": {
 "en": [],
@@ -1228,6 +1234,12 @@
 ],
 "taxon": true
 },
+"Q107646014": {
+"en": "Dąb Dunin",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q10771199": {
 "alias": {
 "en": [
@@ -1431,6 +1443,12 @@
 "taxon": false
 },
 "Q108653996": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q1087503": {
+"en": "Chrobry Oak",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -2284,6 +2302,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q111134010": {
+"en": "Poplar Tree Tekla",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q11116703": {
 "alias": {
@@ -3369,7 +3393,23 @@
 "ranks": [],
 "taxon": false
 },
+"Q11695784": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11695786": {
+"en": "Dzierżoń Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q11695787": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11695788": {
 "names": [],
 "ranks": [],
 "taxon": false
@@ -3413,6 +3453,11 @@
 ],
 "taxon": true
 },
+"Q117225631": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q11722706": {
 "en": "Cedr Na Balkáně",
 "names": [],
@@ -3445,6 +3490,16 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q11823674": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q11823675": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q11827471": {
 "en": "Drašarova lípa",
@@ -5192,6 +5247,12 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q1301101": {
+"en": "Henryków Yew",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q130143": {
 "alias": {
@@ -14644,6 +14705,11 @@
 ],
 "taxon": true
 },
+"Q1616726": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q161702": {
 "alias": {
 "en": [
@@ -16209,6 +16275,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q1678453": {
+"en": "Jagiełło Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q167881": {
 "alias": {
 "en": [
@@ -16895,6 +16967,12 @@
 ],
 "taxon": true
 },
+"Q17480881": {
+"en": "Gubec lime",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q17561950": {
 "en": "Populus ×petrowskiana",
 "it": "Populus × petrowskiana",
@@ -17361,6 +17439,11 @@
 },
 "Q18388116": {
 "en": "Darley Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q18423853": {
 "names": [],
 "ranks": [],
 "taxon": false
@@ -17870,6 +17953,12 @@
 ],
 "taxon": true
 },
+"Q1932208": {
+"en": "Mieszko Oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q1936162": {
 "alias": {
 "en": [
@@ -17918,6 +18007,12 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q19400551": {
+"en": "Dąbek Wolności",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q1940705": {
 "alias": {
@@ -18637,6 +18732,11 @@
 "it": []
 },
 "en": "Bonne Louise d'Avranches",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q2073400": {
 "names": [],
 "ranks": [],
 "taxon": false
@@ -19616,6 +19716,12 @@
 ],
 "taxon": true
 },
+"Q21856069": {
+"en": "The Giant Plane",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q21877190": {
 "alias": {
 "en": [
@@ -19970,6 +20076,12 @@
 ],
 "taxon": true
 },
+"Q23137236": {
+"en": "Lime in Cielętniki",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2331107": {
 "alias": {
 "en": [],
@@ -20309,6 +20421,16 @@
 ],
 "taxon": true
 },
+"Q24650598": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q24650610": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q2473331": {
 "alias": {
 "en": [
@@ -20404,6 +20526,17 @@
 "Q68947"
 ],
 "taxon": true
+},
+"Q24941483": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q24945968": {
+"en": "The Donnersmarck's yew in Kalety, Poland",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q2498293": {
 "alias": {
@@ -20663,6 +20796,12 @@
 ],
 "taxon": true
 },
+"Q2549024": {
+"en": "Dąb Warcisław",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q25494344": {
 "en": "Raudonės liepa",
 "names": [],
@@ -20744,6 +20883,12 @@
 },
 "Q25498243": {
 "en": "Vepriai oak",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q25498376": {
+"en": "Fir Tsar",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -21087,6 +21232,12 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q26248702": {
+"en": "Dąb Bartuś",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q263162": {
 "alias": {
@@ -22509,6 +22660,27 @@
 },
 "Q2859716": {
 "en": "Arboretum de la Vallée-aux-Loups",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q28672969": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q28673935": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q28674521": {
+"en": "Dąb Kotowic",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q28674595": {
 "names": [],
 "ranks": [],
 "taxon": false
@@ -29525,6 +29697,12 @@
 "ranks": [],
 "taxon": false
 },
+"Q56490178": {
+"en": "Sokolica Scots Pine",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q567948": {
 "alias": {
 "en": [],
@@ -30141,6 +30319,12 @@
 "it": []
 },
 "en": "apple tree",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q604709": {
+"en": "Bolesław Oak",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -31726,6 +31910,12 @@
 ],
 "taxon": true
 },
+"Q72862847": {
+"en": "Defenders Poplar in Warsaw",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q731443": {
 "alias": {
 "en": [
@@ -31846,6 +32036,12 @@
 },
 "Q73602116": {
 "en": "Dub na Záběhlé",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q737594": {
+"en": "Napoleon Oak",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -32703,6 +32899,12 @@
 "Q811534": {
 "en": "remarkable tree",
 "it": "pianta monumentale",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q812618": {
+"en": "Bażyński Oak",
 "names": [],
 "ranks": [],
 "taxon": false
@@ -34206,7 +34408,38 @@
 ],
 "taxon": true
 },
+"Q9249128": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q9249135": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q9249137": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q9249143": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q9249145": {
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q9249147": {
+"en": "Dąb Sobieskiego w Łężczoku",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q9249155": {
 "names": [],
 "ranks": [],
 "taxon": false
@@ -34313,6 +34546,12 @@
 ],
 "taxon": true
 },
+"Q9339709": {
+"en": "Sosna Waligóra",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q934035": {
 "alias": {
 "en": [
@@ -34334,6 +34573,11 @@
 "it": []
 },
 "en": "Platane",
+"names": [],
+"ranks": [],
+"taxon": false
+},
+"Q9343770": {
 "names": [],
 "ranks": [],
 "taxon": false
@@ -34366,6 +34610,11 @@
 "Q7432"
 ],
 "taxon": true
+},
+"Q9360076": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q9360082": {
 "names": [],
@@ -34903,6 +35152,11 @@
 "Q4886"
 ],
 "taxon": true
+},
+"Q97372879": {
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q974954": {
 "alias": {
