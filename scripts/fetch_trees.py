@@ -2600,9 +2600,21 @@ def key_typo(k):
     return best
 
 
+# Sinonimi di planted_date (issue #90): chiavi diverse che indicano la stessa cosa. planted=* è segnalata solo se il
+# valore non è yes o no (planted=yes/no è un uso a sé, non una data)
+SYNONYM_KEYS = {"year_planted": "planted_date", "date:planted": "planted_date", "date_planted": "planted_date",
+                "planted:date": "planted_date", "planted": "planted_date"}
+
+
+def key_synonym(k, v):
+    """Chiave nota di cui k è un sinonimo (con i valori che la rendono tale), o None."""
+    kn = SYNONYM_KEYS.get(k.casefold())
+    return None if kn is None or (k.casefold() == "planted" and str(v).strip().casefold() in ("yes", "no")) else kn
+
+
 def key_typos(t):
-    """Chiavi scritte male: [(chiave, chiave nota, valore)]."""
-    return [(k, kn, v) for k, v in t.items() if (kn := key_typo(k))]
+    """Chiavi scritte male o sinonimi: [(chiave, chiave nota, valore)]."""
+    return [(k, kn, v) for k, v in t.items() if (kn := key_synonym(k, v) or key_typo(k))]
 
 
 def keys_named(t, name):

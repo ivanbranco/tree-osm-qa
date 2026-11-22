@@ -126,6 +126,11 @@
     {"key": "ref", "object_types": ["node"], "description": "Shown in brackets after the title of the info panel (e.g. \"Quercus robur (1543)\")."},
     {"key": "wikipedia", "object_types": ["node"], "description": "Used for a QA check (the article's Wikidata item is a taxon: species:wikipedia or, for a genus, genus:wikipedia is suggested). Suggested when website or url is a Wikipedia article about the tree; compared with a Wikipedia article in website or url."},
     {"key": "start_date", "object_types": ["node"], "description": "Used for a QA check (invalid or future date); shown in the info panel, with the age of the tree (today minus the date); used for the oldest trees in the Record trees tab (dates of the same year are tied), where its year also selects a sentence about what happened that year. Compared with planted_date (QA check: different values)."},
-    {"key": "planted_date", "object_types": ["node"], "description": "Used in place of start_date when start_date is missing: shown in the info panel with the age of the tree, used for the oldest trees in the Record trees tab and for the sentence about that year. Used for QA checks (invalid or future date, in the same forms as start_date; value different from start_date)."}
+    {"key": "planted_date", "object_types": ["node"], "description": "Used in place of start_date when start_date is missing: shown in the info panel with the age of the tree, used for the oldest trees in the Record trees tab and for the sentence about that year. Used for QA checks (invalid or future date, in the same forms as start_date; value different from start_date)."},
+    {"key": "year_planted", "object_types": ["node"], "description": "Used for a QA check: synonym of planted_date, planted_date is suggested."},
+    {"key": "date:planted", "object_types": ["node"], "description": "Used for a QA check: synonym of planted_date, planted_date is suggested."},
+    {"key": "date_planted", "object_types": ["node"], "description": "Used for a QA check: synonym of planted_date, planted_date is suggested."},
+    {"key": "planted:date", "object_types": ["node"], "description": "Used for a QA check: synonym of planted_date, planted_date is suggested."},
+    {"key": "planted", "object_types": ["node"], "description": "Used for a QA check: with a value other than yes or no, synonym of planted_date, planted_date is suggested."}
   ]
 }

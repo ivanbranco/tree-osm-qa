@@ -516,6 +516,13 @@ CASES = [
     ("dipendenza: con tag_in_value niente date_mismatch", {"natural": "tree", "start_date": "1990",
                                                             "planted_date": "planted_date=1992"}, ["tag_in_value"]),
     ("key_typo: planted:date", {"natural": "tree", "planted:date": "2020"}, ["key_typo"]),
+    # --- sinonimi di planted_date (issue #90) ---
+    ("key_typo: year_planted", {"natural": "tree", "year_planted": "2020"}, ["key_typo"]),
+    ("key_typo: date:planted", {"natural": "tree", "date:planted": "2020"}, ["key_typo"]),
+    ("key_typo: date_planted", {"natural": "tree", "date_planted": "2020"}, ["key_typo"]),
+    ("key_typo: planted con una data", {"natural": "tree", "planted": "2020"}, ["key_typo"]),
+    ("key_typo: non per planted=yes", {"natural": "tree", "planted": "yes"}, []),
+    ("key_typo: non per planted=no", {"natural": "tree", "planted": "no"}, []),
 
     # --- denotation, tag non documentati, chiavi ---
     ("denotation_value: formato", {"natural": "tree", "denotation": "Urban"}, ["denotation_value"]),

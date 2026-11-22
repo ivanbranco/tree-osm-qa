@@ -616,7 +616,7 @@ const I18N = {
         : `image=* è una pagina web (${site}), non il file di un'immagine. Una foto si può anche caricare su Wikimedia Commons o Panoramax e collegare con wikimedia_commons=* o panoramax=*`,
       feetInchSpace: (k, v, fix) => `${k}=${v}: la wiki indica di scrivere piedi e pollici senza spazi (${fix})`,
       leadDot: (k, v, fix) => `${k}=${v}: il numero inizia con il punto; con lo zero davanti (${fix}) è più leggibile`,
-      oldMeasures: (tags, d) => `${tags.length > 1 ? "Misure invariate" : "Misura invariata"} da più di 10 anni: ${tags.join(", ")} (ultima modifica dell'albero: ${d}). Dopo un nuovo rilievo sul posto, anche con gli stessi valori, si può aggiungere check_date=* con la data del rilievo`,
+      oldMeasures: (tags, d) => `${tags.length > 1 ? "Misure invariate" : "Misura invariata"} da più di 10 anni: ${tags.join(", ")} (ultima modifica: ${d}). Dopo un nuovo rilievo sul posto, anche con gli stessi valori, si può aggiungere check_date=* con la data del rilievo`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,      notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
       // issue #25; seeds(t): HTML delle parole che aprono la foto dei semi (south: emisfero australe)
       ginkgoSex: (south, seeds) => `Se questo ginkgo è un esemplare femminile, si potrebbe aggiungere sex=female. ${south ? "Da ottobre a maggio" : "Da aprile a novembre"} è un buon periodo per verificarlo: le femmine portano ovuli appaiati in primavera e ${seeds("semi carnosi e maleodoranti")} che cadono in autunno, spesso a terra sotto la chioma.`,
@@ -653,7 +653,7 @@ const I18N = {
       register_country: "Tag di un registro di un'altra nazione", start_date_invalid: "start_date o planted_date non valido o nel futuro",
       date_mismatch: "start_date e planted_date diversi",
       wikipedia_is_taxon: "wikipedia è un taxon",
-      undocumented_tag: "Tag non documentato (tree, type)", key_typo: "Chiave scritta male (heigth, Species…)", fixme: "Tag fixme",
+      undocumented_tag: "Tag non documentato (tree, type)", key_typo: "Chiave scritta male (heigth, Species, year_planted…)", fixme: "Tag fixme",
       circumference_species: "Circonferenza > limite della specie",
       height_species: "Altezza > limite della specie", species_typo: "Species forse scritta male",
       species_epithet_case: "Species con maiuscole sbagliate", species_common_name: "Species non scientifica (nome comune?)",
@@ -865,7 +865,7 @@ const I18N = {
       wikipedia_is_taxon: p => `wikipedia=* collega la voce del singolo albero; la voce ${p.wp_genus ? "del genere si collega con genus:wikipedia=*" : "della specie si collega con species:wikipedia=*"}. L'elemento Wikidata collegato alla voce è un taxon (ha un nome scientifico, P225).`,
       denotation_value: "Confronto con gli usi su Taginfo: segnalati i valori usati al massimo 10 volte, quelli con un formato non valido, quelli con spazi intorno al \";\" che separa più valori e quelli comuni con altro testo attaccato.",
       undocumented_tag: "tree=* e type=* non sono documentati per gli alberi nella wiki OSM.",
-      key_typo: "La chiave non è tra quelle usate per gli alberi, ma differisce da una di esse solo per le maiuscole, per una lettera (due nelle chiavi di almeno 12 lettere) o per due lettere vicine scambiate. Le chiavi in OSM sono minuscole. Il valore non è usato per disegnare l'albero.",
+      key_typo: "La chiave non è tra quelle usate per gli alberi, ma differisce da una di esse solo per le maiuscole, per una lettera (due nelle chiavi di almeno 12 lettere) o per due lettere vicine scambiate. Sono segnalati anche i sinonimi di planted_date: year_planted, date:planted, date_planted, planted:date e planted (tranne planted=yes e planted=no). Le chiavi in OSM sono minuscole. Il valore non è usato per disegnare l'albero.",
       fixme: "fixme=* (o FIXME=*) descrive qualcosa da verificare o correggere nei dati dell'albero (wiki OSM, Key:fixme). Una volta risolto, il tag va tolto.",
       wikidata_mismatch: "Confronto con il QID che la lista delle specie della wiki OSM associa a species=*.",
       wikidata_not_taxon: "Un taxon su Wikidata ha un nome scientifico (P225): questo elemento non ce l'ha, oppure non esiste.",
@@ -1181,7 +1181,7 @@ const I18N = {
       imagePage: (site, mly) => site === "mapillary.com" ? `image=* contains a Mapillary photo: Mapillary has its own tag, mapillary=*${mly ? `; mapillary=${mly} could be used` : ""}`
         : `image=* is a web page (${site}), not an image file. A photo can also be uploaded to Wikimedia Commons or Panoramax and linked with wikimedia_commons=* or panoramax=*`,      feetInchSpace: (k, v, fix) => `${k}=${v}: the wiki writes feet and inches without spaces (${fix})`,
       leadDot: (k, v, fix) => `${k}=${v}: the number starts with the point; with a zero in front (${fix}) it is easier to read`,
-      oldMeasures: (tags, d) => `${tags.length > 1 ? "Measurements" : "Measurement"} unchanged for more than 10 years: ${tags.join(", ")} (last edit of the tree: ${d}). After surveying again on the ground, even with the same values, check_date=* can be added with the date of the survey`,
+      oldMeasures: (tags, d) => `${tags.length > 1 ? "Measurements" : "Measurement"} unchanged for more than 10 years: ${tags.join(", ")} (last edit: ${d}). After surveying again on the ground, even with the same values, check_date=* can be added with the date of the survey`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,      notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
       ginkgoSex: (south, seeds) => `If this ginkgo is a female tree, sex=female could be added. ${south ? "October to May" : "April to November"} is a good time to check: females bear paired ovules in spring and fleshy, ${seeds("foul-smelling seeds")} that fall in autumn, often lying under the canopy.`,
       ginkgoSeedsAlt: "Ginkgo biloba seeds",
@@ -1216,7 +1216,7 @@ const I18N = {
       register_country: "Register tag from another country", start_date_invalid: "Invalid or future start_date or planted_date",
       date_mismatch: "Different start_date and planted_date",
       wikipedia_is_taxon: "wikipedia is a taxon",
-      undocumented_tag: "Undocumented tag (tree, type)", key_typo: "Misspelled key (heigth, Species…)", fixme: "fixme tag",
+      undocumented_tag: "Undocumented tag (tree, type)", key_typo: "Misspelled key (heigth, Species, year_planted…)", fixme: "fixme tag",
       circumference_species: "Circumference > species limit",
       height_species: "Height > species limit", species_typo: "Possibly misspelled species",
       species_epithet_case: "Species with wrong capitalisation", species_common_name: "Non-scientific species (common name?)",
@@ -1417,7 +1417,7 @@ const I18N = {
       wikipedia_is_taxon: p => `wikipedia=* links the article about the individual tree; the ${p.wp_genus ? "genus article is linked with genus:wikipedia=*" : "species article is linked with species:wikipedia=*"}. The Wikidata item linked to the article is a taxon (it has a scientific name, P225).`,
       denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format, values with spaces around the \";\" that separates multiple values and common values with other text attached.",
       undocumented_tag: "tree=* and type=* are not documented for trees on the OSM wiki.",
-      key_typo: "The key is not one of those used for trees, but differs from one of them only in capitalisation, by one letter (two in keys of at least 12 letters) or by two adjacent letters swapped. OSM keys are lowercase. The value is not used to draw the tree.",
+      key_typo: "The key is not one of those used for trees, but differs from one of them only in capitalisation, by one letter (two in keys of at least 12 letters) or by two adjacent letters swapped. Synonyms of planted_date are reported too: year_planted, date:planted, date_planted, planted:date and planted (except planted=yes and planted=no). OSM keys are lowercase. The value is not used to draw the tree.",
       fixme: "fixme=* (or FIXME=*) describes something to check or correct in the tree's data (OSM wiki, Key:fixme). Once it is resolved, the tag should be removed.",
       wikidata_mismatch: "Compared with the QID that the OSM wiki species list gives for species=*.",
       wikidata_not_taxon: "A taxon on Wikidata has a scientific name (P225): this item does not, or does not exist.",
@@ -5770,8 +5770,7 @@ function hints(p, pos) {
   if (p.stump) return out;
   // misure su un albero non modificato da più di 10 anni (issue #94; ts: ultima modifica del nodo, AGE_CUT)
   const oldM = p.ts && p.ts < AGE_CUT[1] ? ["height", "circumference", "diameter", "diameter_crown"].filter(k => p[k]) : [];
-  if (oldM.length) out.push(H.oldMeasures(oldM.map(k => `${k}=${p[k]}`),
-    new Date(p.ts + "T00:00:00Z").toLocaleDateString(LOC, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })));
+  if (oldM.length) out.push(H.oldMeasures(oldM.map(k => `${k}=${p[k]}`), p.ts));   // la data come AAAA-MM-GG
   if (binomialHint(p.hint_sp)) out.push(H.wdSpecies(p.hint_sp));
   // l'elemento Wikidata dell'albero ha solo il genere della specie taggata (hint_wg = "QID|genere", fetch_trees.py)
   if (p.hint_wg) { const [q, g] = String(p.hint_wg).split("|"); if (q && g) out.push(H.wdGenusOnly(g)); }
