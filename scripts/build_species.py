@@ -492,9 +492,13 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
         if "height" in vals and "trunk" in vals and not ft.record_warned("slender", pr):
             h_c.append(vals["height"] / vals["trunk"])
             h_c_pts.append((vals["trunk"], vals["height"]))
+    # max: il valore più grande non segnalato, per il righello sotto il grafico (mediana, max, record della wiki)
+    top = lambda k: round(max(meas[k]), 2) if meas[k] else None   # noqa: E731
     stats = {
-        "height": {"med": median(meas["height"]), "n": len(meas["height"]), "hist": histogram(meas["height"], 1)},
-        "trunk": {"med": median(meas["trunk"]), "n": len(meas["trunk"]), "hist": histogram(meas["trunk"], 0.25)},
+        "height": {"med": median(meas["height"]), "n": len(meas["height"]), "hist": histogram(meas["height"], 1),
+                   "max": top("height")},
+        "trunk": {"med": median(meas["trunk"]), "n": len(meas["trunk"]), "hist": histogram(meas["trunk"], 0.25),
+                  "max": top("trunk")},
         "crown": {"med": median(meas["crown"]), "n": len(meas["crown"]), "hist": histogram(meas["crown"], 1)},
         "h_c": {"med": median(h_c), "n": len(h_c), "sc": scatter(h_c_pts)},
         "cr_c": {"med": median(meas["crown_circ"]), "n": len(meas["crown_circ"]), "sc": scatter(cr_c_pts)},

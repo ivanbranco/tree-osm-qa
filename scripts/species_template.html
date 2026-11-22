@@ -180,7 +180,8 @@ const I18N = {
     others: n => `i primi ${n}`, noRec: "Nessun albero con questa misura.", warned: "Valore segnalato da un check",
     wikiVal: v => `Record sulla wiki: ${v}`, monMap: "mappa dei monumentali", node: id => `nodo ${id}`,
     evBtn: "Che cosa successe quell'anno", evSrc: "Fonte: Wikipedia",
-    sizeTitle: "Misure tipiche", sizeLead: "Mediane degli alberi mappati, senza i valori segnalati dai check. Il grafico mostra quanti alberi ci sono per ogni misura (fino al 99° percentile).",
+    sizeTitle: "Misure tipiche", sizeLead: "Mediane degli alberi mappati, senza i valori segnalati dai check. Il grafico mostra quanti alberi ci sono per ogni misura (fino al 99° percentile). La barra sotto va da 0 al valore più grande: il punto è la mediana, il tratto verde arriva al valore più grande mappato e la tacca marrone è il record sulla wiki.",
+    rulMax: "massimo su OSM", rulRec: "record wiki",
     height: "Altezza", trunkM: "Circonferenza del tronco", crownM: "Diametro della chioma", median: "mediana",
     on: n => `su ${n} alberi`, few: "Troppo pochi alberi con questa misura.",
     hc: "Altezza / circonferenza", crc: "Chioma / circonferenza",
@@ -234,7 +235,8 @@ const I18N = {
     others: n => `top ${n}`, noRec: "No tree with this measurement.", warned: "Value reported by a check",
     wikiVal: v => `Record on the wiki: ${v}`, monMap: "monumental map", node: id => `node ${id}`,
     evBtn: "What happened that year", evSrc: "Source: Wikipedia",
-    sizeTitle: "Typical sizes", sizeLead: "Medians of the mapped trees, without the values reported by the checks. The chart shows how many trees there are for each value (up to the 99th percentile).",
+    sizeTitle: "Typical sizes", sizeLead: "Medians of the mapped trees, without the values reported by the checks. The chart shows how many trees there are for each value (up to the 99th percentile). The bar below goes from 0 to the largest value: the dot is the median, the green stretch reaches the largest mapped value and the brown mark is the record on the wiki.",
+    rulMax: "largest on OSM", rulRec: "wiki record",
     height: "Height", trunkM: "Trunk circumference", crownM: "Crown diameter", median: "median",
     on: n => `from ${n} trees`, few: "Too few trees with this measurement.",
     hc: "Height / circumference", crc: "Crown / circumference",
@@ -386,6 +388,22 @@ function histSvg(h, med, unit) {
     <line x1="4" x2="${W - 4}" y1="${H - P}" y2="${H - P}" stroke="#c9d1cb"/>${ticks.join("")}
     ${mx != null ? `<line x1="${mx}" x2="${mx}" y1="4" y2="${H - P}" stroke="#1b6b2c" stroke-width="1.5" stroke-dasharray="3 2"/>` : ""}</svg>`;
 }
+// righello sotto il grafico, in scala da 0 al più grande tra il massimo non segnalato (s.max, build_species.py) e il
+// record della wiki (rec): punto = mediana, tratto verde = fino al massimo su OSM, tacca marrone = record. Il grafico
+// sopra si ferma al 99° percentile, il righello no. Le etichette di massimo e record stanno sotto e sopra la barra,
+// perché i due valori sono spesso vicini
+function rulerSvg(med, max, rec) {
+  const W = 320, H = 46, y = 24, end = Math.max(max, rec), R = v => 8 + v / end * (W - 16);
+  const lab = (x, yy, fill, txt) => `<text x="${x}" y="${yy}" font-size="10" fill="${fill}" text-anchor="${x > W - 70 ? "end" : x < 70 ? "start" : "middle"}">${txt}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(`${T.median} ${fmt(med, 2)} · ${T.rulMax} ${fmt(max, 2)} · ${T.rulRec} ${fmt(rec, 2)}`)}">
+    <rect x="8" y="${y - 3}" width="${W - 16}" height="6" rx="3" fill="#eef1ee"/>
+    <rect x="8" y="${y - 3}" width="${R(max) - 8}" height="6" rx="3" fill="#a9cdb1"/>
+    <line x1="${R(max)}" x2="${R(max)}" y1="${y - 6}" y2="${y + 6}" stroke="#2f7d40" stroke-width="2"/>
+    <line x1="${R(rec)}" x2="${R(rec)}" y1="${y - 9}" y2="${y + 9}" stroke="#b5651d" stroke-width="2"/>
+    <circle cx="${R(med)}" cy="${y}" r="4" fill="#1b6b2c"/>
+    ${lab(R(rec), y - 13, "#b5651d", `${T.rulRec} ${fmt(rec, 2)} m`)}
+    ${lab(R(max), y + 18, "#2f7d40", `${T.rulMax} ${fmt(max, 2)} m`)}</svg>`;
+}
 // passo «tondo» (1, 2, 5 × 10^k) per avere circa n tacche fino a max
 const niceStep = (max, n = 5) => { const raw = max / n, p = 10 ** Math.floor(Math.log10(raw)); return [1, 2, 5, 10].map(m => m * p).find(s => s >= raw); };
 // nuvola di punti dei rapporti (build_species.py, scatter): circonferenza in x, altezza o chioma in y; ogni punto è
@@ -417,9 +435,10 @@ function scatterSvg(sc, med, yLabel) {
 }
 function sizes() {
   const S = D.stats;
-  const box = (title, s, unit) => `<div class="card stat"><h3 style="margin:0;font-size:14px">${title}</h3>${s.med == null
+  // rec: record della wiki (D.wiki), per il righello sotto il grafico; la chioma non ne ha
+  const box = (title, s, unit, rec) => `<div class="card stat"><h3 style="margin:0;font-size:14px">${title}</h3>${s.med == null
     ? `<div class="none">${T.few}</div>` : `<div><span class="big">${fmt(s.med, 2)} ${unit}</span> <span class="n">${T.median}, ${T.on(fmt(s.n))}</span></div>
-    ${s.hist ? histSvg(s.hist, s.med, unit) : ""}`}</div>`;
+    ${s.hist ? histSvg(s.hist, s.med, unit) : ""}${s.max && rec ? rulerSvg(s.med, s.max, rec) : ""}`}</div>`;
   // spiegazione del grafico in un (?) in alto a destra: si apre passandoci sopra o toccandolo (focus)
   const tip = sc => `<span class="tip" tabindex="0" role="button" aria-label="${esc(T.scHelp)}">?<span class="tipbox" role="tooltip">${T.scInfo}${sc.over ? " " + T.scOver(fmt(sc.over)) : ""}</span></span>`;
   const ratio = (title, s, info, wiki, yLabel) => `<div class="card stat">${s.med != null && s.sc ? tip(s.sc) : ""}<h3 style="margin:0;font-size:14px">${title}</h3>${s.med == null
@@ -427,7 +446,7 @@ function sizes() {
     <div class="n" style="margin-top:4px">${info}</div>
     ${s.med != null && s.sc ? scatterSvg(s.sc, s.med, yLabel) : ""}</div>`;
   return `<section><h2>${T.sizeTitle}</h2><p class="lead">${T.sizeLead}</p>
-    <div class="grid3">${box(T.height, S.height, "m")}${box(T.trunkM, S.trunk, "m")}${box(T.crownM, S.crown, "m")}</div>
+    <div class="grid3">${box(T.height, S.height, "m", D.wiki.height)}${box(T.trunkM, S.trunk, "m", D.wiki.circumference)}${box(T.crownM, S.crown, "m")}</div>
     <div class="ratios">${ratio(T.hc, S.h_c, T.hcInfo, D.wiki.height_circ_ratio, T.axH)}${ratio(T.crc, S.cr_c, T.crcInfo, D.wiki.crown_circ_ratio, T.axCr)}</div></section>`;
 }
 
@@ -460,8 +479,9 @@ function mapSection() {
   // per la quota solo le regioni con almeno 500 alberi con una specie qualunque (sp), senza nota nella pagina
   const byShare = rows.filter(([, s]) => s.sp >= 500).sort((a, b) => b[1].n / b[1].sp - a[1].n / a[1].sp).slice(0, 10);
   const byCount = rows.sort((a, b) => b[1].n - a[1].n).slice(0, 10);
+  // il nome della regione porta alla sua mappa (index.html#region=<slug>)
   const table = list => `<table><thead><tr><th>${T.region}</th><th class="num">${T.treesCol}</th><th class="num">${T.shareCol}</th><th class="num">${T.densCol}</th></tr></thead><tbody>${list.map(([k, s]) =>
-    `<tr><td>${esc(regName(k))}</td><td class="num">${fmt(s.n)}</td><td class="num">${fmt(100 * s.n / s.sp, 1)}%</td><td class="num">${s.km2 ? sig(s.n / s.km2) : "–"}</td></tr>`).join("")}</tbody></table>`;
+    `<tr><td><a href="../index.html#region=${encodeURIComponent(k)}">${esc(regName(k))}</a></td><td class="num">${fmt(s.n)}</td><td class="num">${fmt(100 * s.n / s.sp, 1)}%</td><td class="num">${s.km2 ? sig(s.n / s.km2) : "–"}</td></tr>`).join("")}</tbody></table>`;
   return `<section><h2>${T.mapTitle}</h2><p class="lead">${T.mapLead}</p>
     <div class="controls">${seg("mode", [["share", T.mShare], ["count", T.mCount], ["dens", T.mDens]], mapMode)}
       ${seg("group", [["reg", T.gReg], ["nat", T.gNat]], mapGroup)}
