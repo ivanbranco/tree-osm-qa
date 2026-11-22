@@ -192,7 +192,8 @@ def synonyms_of(n, counts):
 def wikipedia_info(qid):
     """Voci di Wikipedia (it, en) dell'elemento Wikidata della specie e la loro immagine principale (pageimages, la
     foto in testa alla voce): {"it": {"url", "img"}, "en": {...}}. Autore e licenza della foto li chiede la pagina a
-    Commons, come la scheda dell'albero. Vuoto se la rete non risponde."""
+    Commons, come la scheda dell'albero. Vuoto senza qid; None se Wikidata, Wikipedia o Commons non rispondono (main
+    riprende allora le voci della pagina generata prima, se c'è)."""
     import urllib.parse
     import urllib.request
 
@@ -230,6 +231,7 @@ def wikipedia_info(qid):
                 out["og"] = info["thumburl"].split("?")[0]      # senza i parametri utm_* aggiunti dall'API
     except Exception as e:  # noqa: BLE001 - la foto non è indispensabile
         print(f"{qid}: Wikipedia non risponde ({e})", file=sys.stderr)
+        return None
     return out
 
 
@@ -238,10 +240,12 @@ def most_common(c):
 
 
 def main(names, keep_isolated=False):
-    want = {n: slug_of(n) for n in names}
     for n in names:
         if " ".join(n.split()).lower() not in RAW_NAMES:
             sys.exit(f"{n}: non è nella lista wiki (species_limits.json)")
+    # il nome scritto come nella lista wiki ("quercus robur" -> "Quercus robur"): è quello che dà wiki_name agli alberi
+    names = list(dict.fromkeys(RAW_NAMES[" ".join(n.split()).lower()] for n in names))
+    want = {n: slug_of(n) for n in names}
     regions = ft.load_json(HERE / "regions.json")
     rinfo = {r["slug"]: r for r in regions}
     index = ft.load_json(ROOT / "data" / "index.json")["regions"]
@@ -276,6 +280,8 @@ def main(names, keep_isolated=False):
                 s["syn"][ns] += 1
             lon, lat = f["geometry"]["coordinates"]
             s["grid"][(round(math.floor(lon / GRID) * GRID + GRID / 2, 3), round(math.floor(lat / GRID) * GRID + GRID / 2, 3))] += 1
+            if pr.get("issues", "|") != "|":   # segnalati: ceppi compresi, come il totale (per_region)
+                s["issues"] += 1
             if pr.get("stump"):
                 continue
             s["feats"].append((slug, f))
@@ -290,8 +296,6 @@ def main(names, keep_isolated=False):
                 s["sex"][pr["sex"]] += 1
             if pr.get("hint_sw"):
                 s["qid"][pr["hint_sw"]] += 1
-            if pr.get("issues", "|") != "|":
-                s["issues"] += 1
             # albero d'esempio per «vedi sulla mappa»: nella regione più piccola, senza errori, con la chioma mappata
             if pr.get("issues", "|") == "|" and pr.get("diameter_crown"):
                 key = (index.get(slug, {}).get("count", 1e12), pr["id"])
@@ -324,6 +328,10 @@ def main(names, keep_isolated=False):
     rels = [rinfo[slug]["rel"] for slug in index if slug in rinfo and rinfo[slug].get("rel")]
     for n, s in S.items():
         data = build_data(n, s, rinfo, index, sp_trees, group_of, area, updated)
+        if data["wp"] is None:      # Wikipedia non risponde: foto e link della pagina generata prima, se c'è
+            data["wp"] = prev_wp(want[n])
+            print(f"{n}: {'foto e link di Wikipedia dalla pagina precedente' if data['wp'] else 'pagina senza foto né link a Wikipedia'}",
+                  file=sys.stderr)
         iso = None if keep_isolated else species_isolated(n, s, rels)
         if iso is None:     # QLever non risponde o --keep-isolated: resta la lista della pagina generata prima, se c'è
             iso = prev_isolated(want[n])
@@ -388,6 +396,13 @@ def prev_isolated(slug):
     p = OUT_DIR / f"{slug}.html"
     d = page_data(p) if p.exists() else None
     return (d.get("records") or {}).get("isolated") if d else None
+
+
+def prev_wp(slug):
+    """Voci di Wikipedia e foto della pagina species/<slug>.html generata prima ({} se manca)."""
+    p = OUT_DIR / f"{slug}.html"
+    d = page_data(p) if p.exists() else None
+    return (d.get("wp") or {}) if d else {}
 
 
 def page_data(p):
