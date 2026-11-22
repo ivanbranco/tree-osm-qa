@@ -5009,9 +5009,12 @@ const HINT_FIXES = [
     if (p.stump || !n || !p.taxon) return [];
     const other = !p.species && (binomialHint(p.hint_sn) || binomialHint(p.hint_wn) || MONOTYPIC[String(p.genus || "").trim()]);
     if (k === "species" && other && other !== n) return [];
-    // taxon:xx (hint_txl, "taxon:en=Rowan" separati da "\n") passa in species:xx / genus:xx: da solo resterebbe senza taxon
+    // taxon:xx (hint_txl, "taxon:en=Rowan" separati da "\n") passa in species:xx / genus:xx: da solo resterebbe senza taxon.
+    // taxon:xx non è tra le proprietà della feature: il vecchio valore (quinto elemento) viene da hint_txl, altrimenti
+    // fixList scarterebbe la rimozione
     const langs = String(p.hint_txl || "").split("\n").filter(Boolean).flatMap(kv => {
-      const i = kv.indexOf("="); return [[`${k}:${kv.slice(6, i)}`, kv.slice(i + 1)], [kv.slice(0, i), REMOVE]]; });
+      const i = kv.indexOf("="), v = kv.slice(i + 1);
+      return [[`${k}:${kv.slice(6, i)}`, v], [kv.slice(0, i), REMOVE, undefined, false, v]]; });
     return [...p[k] ? [] : [[k, n]], ["taxon", REMOVE], ...langs]; }, "more precise tag instead of taxon"],
   [p => p.stump ? [] : hybridX(p), "hybrid sign × instead of x"],
   // varietà, cultivar e genere abbreviato in species (infraMove): species senza, i tag taxon:* e, per quella specie,
