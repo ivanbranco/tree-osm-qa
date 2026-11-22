@@ -843,6 +843,9 @@ def hint_props(t, osm_id=None):
     hint_txl: con hint_tx, i taxon:xx dell'albero ("taxon:en=Rowan" separati da "\n"): la correzione li sposta in
     species:xx o genus:xx. Se quel tag c'è già con un altro valore, né hint_tx né hint_txl;
     hint_ne: name:en con l'iniziale minuscola -> il valore (index.html propone la maiuscola);
+    hint_nm: name=* è il nome comune di una specie, senza species=* ma con genus=* dello stesso genere (name_taxon)
+    -> "species|nome": la correzione aggiunge species e lascia name (senza nessun tag del taxon, o con un taxon
+    diverso, sono i check name_taxon_missing e name_taxon_mismatch);
     hint_nt: note=* (anche NOTE) -> righe "chiave=valore" separate da "\n" (issue #85);
     hint_imp_u: source=* di un import non documentato (scripts/imports.json) -> il valore;
     hint_imp_d: source=* di un import documentato -> "valore|pagina della wiki";
@@ -896,6 +899,8 @@ def hint_props(t, osm_id=None):
         out["hint_it"] = ";".join(x[:1].upper() + x[1:] for x in sit)
     if (ne := str(t.get("name:en") or "")).lstrip(" ×")[:1].islower():
         out["hint_ne"] = ne
+    if (nmt := name_taxon(t)) and nmt[2] == "hint":
+        out["hint_nm"] = "|".join(nmt[:2])
     if nt := keys_named(t, "note"):     # note=*: righe "chiave=valore" separate da "\n" (issue #85)
         out["hint_nt"] = "\n".join(f"{k}={v}" for k, v in nt)
     if tp := taxon_precise(t):
@@ -2405,6 +2410,41 @@ def taxon_precise(t):
     return None
 
 
+def name_taxon(t):
+    """name=* che è il nome comune di una specie (species_names di whitelist.json: name=Roverella) o di un genere
+    (GENUS_NAMES: name=Faggio): (tipo, nome, stato, tag) con tipo "species" o "genus" e stato:
+    "missing": nessun tag del taxon (species, genus, taxon) -> check name_taxon_missing, si aggiunge tipo=nome;
+    "mismatch": species o genus indicano un'altra specie o un altro genere (tag = quello diverso) -> check
+    name_taxon_mismatch. Si confrontano solo i valori che hanno la forma giusta: un genere noto come genus o come prima
+    parola di species, e per una specie genere ed epiteto (i sinonimi della whitelist valgono come la specie);
+    "hint": nome di una specie con il solo genus, dello stesso genere -> consiglio hint_nm (species lo precisa).
+    None con più valori, se il nome non è noto o se i tag coincidono."""
+    nm = " ".join(str(t.get("name") or "").split())
+    if not nm or ";" in nm:
+        return None
+    sp, g = str(t.get("species") or "").strip(), str(t.get("genus") or "").strip()
+    s = common_name_species(nm)[0]
+    kind, val = ("species", s) if s else ("genus", common_name_genus_lang(nm)[0])
+    if not val:
+        return None
+    if not sp and not g and not str(t.get("taxon") or "").strip():
+        return kind, val, "missing", ""
+    want_g = genus_key(genus_of_species(val) if s else val)
+    if sp and ";" not in sp and (sg := genus_key(genus_of_species(sp).lstrip("×"))) in KNOWN_GENERA:
+        if sg != want_g:
+            return kind, val, "mismatch", "species"
+        b, bs = binomial(sp), binomial(s or "")
+        if s and len(b.split()) == 2 and b != bs:
+            syn = {binomial(k): binomial(v) for k, v in SYNONYMS.items()}   # sinonimi come genere ed epiteto
+            if syn.get(b, b) != syn.get(bs, bs):
+                return kind, val, "mismatch", "species"
+    if g and ";" not in g and (gk := genus_key(g.lstrip("× "))) in KNOWN_GENERA and gk != want_g:
+        return kind, val, "mismatch", "genus"
+    if s and not sp and g and genus_key(g.lstrip("× ")) == want_g:
+        return kind, val, "hint", ""
+    return None
+
+
 # "sp." o "spp." dopo il nome comune: species:pl=Klon sp. vale come Klon (sp_name in index.html)
 SP_SUFFIX = re.compile(r"\s+spp?\.?$", re.I)
 
@@ -2831,6 +2871,16 @@ def checks(t, pos, osm_id=None):
             gm = (sg[:1].upper() + sg[1:] if sg.casefold() in KNOWN_GENERA and gw[0].casefold() not in KNOWN_GENERA
                   and not gcn and levenshtein(gw[0].casefold(), sg.casefold(), 2) <= 2 else None)
             flag("genus_mismatch", **({"gm_fix": gm} if gm else {}))
+    # name=* è il nome comune di una specie o di un genere (name_taxon): senza tag del taxon (name_taxon_missing) o con
+    # species/genus di un'altra specie o di un altro genere (name_taxon_mismatch). nm_tx: "species|Quercus pubescens" o
+    # "genus|Fagus"; nm_tag: il tag diverso; nm_wd, nm_lt, nm_lc: species:wikidata, leaf_type e leaf_cycle che mancano
+    # per la specie da aggiungere (la correzione con JOSM li aggiunge insieme a species)
+    if (nmt := name_taxon(t)) and nmt[2] == "missing":
+        flag("name_taxon_missing", nm_tx="|".join(nmt[:2]))
+        if nmt[0] == "species":
+            props.update(species_lang_extras(t, nmt[1], "nm_"))
+    elif nmt and nmt[2] == "mismatch":
+        flag("name_taxon_mismatch", nm_tx="|".join(nmt[:2]), nm_tag=nmt[3])
     list_issues, list_props = species_list_mismatches(t)
     nt = not_taxon_tags(t)
     if any(k == "species:wikidata" for k, _ in nt) and "wikidata_mismatch" in list_issues:

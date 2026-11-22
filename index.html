@@ -592,6 +592,7 @@ const I18N = {
       speciesFromWp: n => `species:wikipedia indica ${n}: si potrebbe aggiungere species=${n}`,
       speciesIt: v => `Su OSM quasi tutti i valori di species:it iniziano con la maiuscola: species:it=${v}`,
       nameEn: v => `In inglese un nome proprio inizia con la maiuscola: name:en=${v}`,
+      nameTaxon: (v, k, n) => `name=${v} è il nome comune ${k === "genus" ? "di un genere" : "di una specie"}: si potrebbe aggiungere ${k}=${n}, lasciando name`,
       note: v => `Nota per chi mappa: ${v}`,
       // taxon=* (hint_tx, fetch_trees.py: "species|nome" o "genus|nome" se le liste wiki lo riconoscono)
       // has: c'è già species o genus con lo stesso nome
@@ -642,6 +643,7 @@ const I18N = {
       circ_diam_mismatch: "circumference e diameter non coincidono",
       trunk_overlap: "Tronco sovrapposto a quello di un altro albero", same_point: "Nello stesso punto di un altro albero",
       number_invalid: "Valore numerico non valido (testo, intervallo, zero)", genus_mismatch: "Genus diverso dalla species",
+      name_taxon_missing: "Name è una specie o un genere, senza species/genus", name_taxon_mismatch: "Name indica un'altra specie o genere",
       link_format: "Link con formato non valido", broken_link: "Link non raggiungibile",
       website_wikipedia: "Voce di Wikipedia in website",
       commons_far: "Foto di Commons a più di 500 m", wikidata_mismatch: "species:wikidata incoerente con la species",
@@ -849,6 +851,8 @@ const I18N = {
       tag_in_value: "Questi tag non contengono «=»: il valore ha la forma di un tag (chiave=valore).",
       not_latin: "I nomi scientifici si scrivono in alfabeto latino.",
       genus_mismatch: "La prima parola di species=* è il genere, e deve coincidere con genus=*.",
+      name_taxon_missing: "La specie o il genere vanno in species=* o genus=* (il nome scientifico); name=* può restare.",
+      name_taxon_mismatch: "name=* è il nome comune di una specie o di un genere, e species=* o genus=* indicano un'altra cosa.",
       leaf_type: "Valori documentati: broadleaved, needleleaved, leafless, palm.",
       leaf_cycle: "Valori documentati: deciduous, semi_deciduous, evergreen, semi_evergreen.",
       leaf_type_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. Per le palme (Arecaceae) valgono sia palm sia broadleaved; palm è ammesso anche per le piante dall'aspetto di palma (Yucca, Cordyline, Dracaena, Cycas, Musa…), non per le altre latifoglie. Per Tamarix valgono needleleaved e broadleaved, per Cycas anche palm. Con leaf_type=palm il genere si prende anche da taxon.",
@@ -973,6 +977,9 @@ const I18N = {
       leaf_cycle_mismatch: (v, f, e) => `leaf_cycle=${v}, ma per ${f} la lista wiki indica ${e}`,
       // fix: genus corretto (gm_fix, fetch_trees.py), se genus sembra il genere di species scritto male
       genus_mismatch: (g, sp, fix) => `genus (${g}) diverso dal genere della species (${sp})` + (fix ? `: genus=${fix}` : ""),
+      // k: "species" o "genus", n: il nome scientifico (nm_tx, fetch_trees.py); tag, v: il tag diverso e il suo valore
+      name_taxon_missing: (nm, k, n) => `name=${nm} è il nome comune ${k === "genus" ? "di un genere" : "di una specie"}, ma manca ${k}=*: ${k}=${n}`,
+      name_taxon_mismatch: (nm, k, n, tag, v) => `name=${nm} è il nome comune di ${n}, ma ${tag}=${v}`,
       species: "species di una sola parola", species_as_genus: (sp, g) => `species=${sp} è un genere: usare genus=${g} senza species`,
       species_common_genus: (sp, g, kv) => `species=${sp} è il nome comune del genere ${g}: usare genus=${g}` + (kv ? ` e ${kv}` : "") + " senza species",
       species_lowercase: "species con iniziale minuscola",
@@ -1169,6 +1176,7 @@ const I18N = {
       speciesFromWp: n => `species:wikipedia points to ${n}: species=${n} could be added`,
       speciesIt: v => `On OSM almost all species:it values start with a capital letter: species:it=${v}`,
       nameEn: v => `In English a proper name starts with a capital letter: name:en=${v}`,
+      nameTaxon: (v, k, n) => `name=${v} is the common name of a ${k === "genus" ? "genus" : "species"}: ${k}=${n} could be added, keeping name`,
       note: v => `Note for mappers: ${v}`,
       taxon: (v, k, n, has, b) => `taxon=${v} does not say which rank the name belongs to: ${!k ? "consider using a more precise tag if possible (species, genus, taxon:cultivar…)"
         : b ? `a genus and an epithet are the form of a species name (not in the wiki list), ${has ? "already in species=*: taxon could be removed"
@@ -1209,6 +1217,7 @@ const I18N = {
       circ_diam_mismatch: "circumference and diameter do not match",
       trunk_overlap: "Trunk overlapping another tree's trunk", same_point: "At the same point as another tree",
       number_invalid: "Invalid numeric value (text, range, zero)", genus_mismatch: "Genus differs from species",
+      name_taxon_missing: "Name is a species or genus, without species/genus", name_taxon_mismatch: "Name points to another species or genus",
       link_format: "Link with invalid format", broken_link: "Broken link",
       website_wikipedia: "Wikipedia article in website",
       commons_far: "Commons photo more than 500 m away", wikidata_mismatch: "species:wikidata inconsistent with species",
@@ -1406,6 +1415,8 @@ const I18N = {
       tag_in_value: "These tags never contain \"=\": the value has the form of a tag (key=value).",
       not_latin: "Scientific names are written in the Latin script.",
       genus_mismatch: "The first word of species=* is the genus, and it must match genus=*.",
+      name_taxon_missing: "The species or genus goes in species=* or genus=* (the scientific name); name=* can stay.",
+      name_taxon_mismatch: "name=* is the common name of a species or genus, and species=* or genus=* point to something else.",
       leaf_type: "Documented values: broadleaved, needleleaved, leafless, palm.",
       leaf_cycle: "Documented values: deciduous, semi_deciduous, evergreen, semi_evergreen.",
       leaf_type_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. For palms (Arecaceae) both palm and broadleaved are accepted; palm is also accepted for palm-like plants (Yucca, Cordyline, Dracaena, Cycas, Musa…), not for other broadleaved trees. For Tamarix both needleleaved and broadleaved are accepted, for Cycas palm too. With leaf_type=palm the genus is also taken from taxon.",
@@ -1521,6 +1532,8 @@ const I18N = {
       leaf_type_mismatch: (v, f, e) => `leaf_type=${v}, but the wiki list gives ${e} for ${f}`,
       leaf_cycle_mismatch: (v, f, e) => `leaf_cycle=${v}, but the wiki list gives ${e} for ${f}`,
       genus_mismatch: (g, sp, fix) => `genus (${g}) differs from the genus of species (${sp})` + (fix ? `: genus=${fix}` : ""),
+      name_taxon_missing: (nm, k, n) => `name=${nm} is the common name of a ${k === "genus" ? "genus" : "species"}, but ${k}=* is missing: ${k}=${n}`,
+      name_taxon_mismatch: (nm, k, n, tag, v) => `name=${nm} is the common name of ${n}, but ${tag}=${v}`,
       species: "single-word species", species_as_genus: (sp, g) => `species=${sp} is a genus: use genus=${g} without species`,
       species_common_genus: (sp, g, kv) => `species=${sp} is the common name of the genus ${g}: use genus=${g}` + (kv ? ` and ${kv}` : "") + " without species",
       species_lowercase: "species starting lowercase",
@@ -2800,7 +2813,7 @@ map.on("load", async () => {
       "too_slender", "too_slender_species", "too_stocky", "small_monument"]],
     ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_common_name",
       "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "taxon_lang_only", "not_a_tree", "underscore", "multiple_values", "tag_in_value",
-      "not_latin", "genus", "genus_lowercase", "genus_common_name", "genus_mismatch"]],
+      "not_latin", "genus", "genus_lowercase", "genus_common_name", "genus_mismatch", "name_taxon_missing", "name_taxon_mismatch"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
       "wikidata_is_taxon", "wikipedia_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
     ["links", ["link_format", "broken_link", "website_wikipedia", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed", "masaf_unknown",
@@ -4663,6 +4676,11 @@ const issueBase = (i, p) => {
     case "leaf_type_mismatch": return T[i](p.leaf_type, expFor(p), p.exp_lt);
     case "leaf_cycle_mismatch": return T[i](p.leaf_cycle, expFor(p), expLc(p));
     case "genus_mismatch": return T[i](p.genus, p.species, p.gm_fix);   // gm_fix: fetch_trees.py
+    // nm_tx: "species|nome" o "genus|nome"; nm_tag: il tag diverso (fetch_trees.py)
+    case "name_taxon_missing": case "name_taxon_mismatch": {
+      const [k, n] = String(p.nm_tx || "").split("|");
+      return T[i](p.name, k, n, p.nm_tag, p[p.nm_tag]);
+    }
     // sp_as_genus: species è un genere; sp_common_genus: è il nome comune di un genere (fetch_trees.py)
     case "species": return p.sp_as_genus ? T.species_as_genus(p.species, p.sp_as_genus)
       : p.sp_common_genus ? T.species_common_genus(p.species, p.sp_common_genus, p.sp_common_kv) : T[i];
@@ -5016,6 +5034,12 @@ const HINT_FIXES = [
       const i = kv.indexOf("="), v = kv.slice(i + 1);
       return [[`${k}:${kv.slice(6, i)}`, v], [kv.slice(0, i), REMOVE, undefined, false, v]]; });
     return [...p[k] ? [] : [[k, n]], ["taxon", REMOVE], ...langs]; }, "more precise tag instead of taxon"],
+  // name=* che è il nome comune di una specie o di un genere (hint_nm, fetch_trees.py): si aggiunge species o genus,
+  // name resta. Non se un altro consiglio propone una species diversa o se il tag c'è già
+  [p => { const [k, n] = String(p.hint_nm || "").split("|");
+    if (p.stump || !n || p[k] || p.species) return [];
+    const other = binomialHint(p.hint_sn) || binomialHint(p.hint_wn) || MONOTYPIC[String(p.genus || "").trim()];
+    return k === "species" && other && other !== n ? [] : [[k, n]]; }, "species or genus from the common name in name"],
   [p => p.stump ? [] : hybridX(p), "hybrid sign × instead of x"],
   // varietà, cultivar e genere abbreviato in species (infraMove): species senza, i tag taxon:* e, per quella specie,
   // species:wikidata, leaf_type e leaf_cycle che mancano (sp_base_wd, sp_base_lt, sp_base_lc); con genere e cultivar
@@ -5094,6 +5118,13 @@ const FIXES = {
       ...!p.genus && !p.species ? [["genus", p.wd_rank_g, "add genus", true]] : []];
   }, "genus item in genus:wikidata instead of species:wikidata"],
   genus_mismatch: [p => p.gm_fix ? [["genus", p.gm_fix]] : [], "fix the spelling of genus"],
+  // name=* nome comune di una specie o di un genere, senza tag del taxon (nm_tx, fetch_trees.py): si aggiunge species
+  // (con species:wikidata, leaf_type e leaf_cycle che mancano: nm_wd, nm_lt, nm_lc) o genus; name resta. Per
+  // name_taxon_mismatch nessuna correzione: non si sa quale dei due tag è giusto
+  name_taxon_missing: [p => { const [k, n] = String(p.nm_tx || "").split("|");
+    return !n || p[k] ? [] : [[k, n], ["species:wikidata", p.nm_wd, "add species:wikidata", true],
+      ["leaf_type", p.nm_lt, "add leaf_type", true], ["leaf_cycle", p.nm_lc, "add leaf_cycle", true]]; },
+    "scientific name from the common name in name"],
   // spazi intorno a ";" in denotation (den_why "space", fetch_trees.py): si tolgono, i valori restano
   denotation_value: [p => String(p.den_why || "").split(";").includes("space") && p.denotation
     ? [["denotation", String(p.denotation).split(";").map(x => x.trim()).filter(Boolean).join(";")]] : [],
@@ -5878,6 +5909,8 @@ function hints(p, pos) {
   if (binomialHint(p.hint_wn)) out.push(H.speciesFromWp(p.hint_wn));
   if (p.hint_it) out.push(H.speciesIt(p.hint_it));
   if (p.hint_ne) out.push(H.nameEn(capFirst(p.hint_ne)));   // hint_ne: name:en con la minuscola (fetch_trees.py)
+  // hint_nm: name=* è il nome comune di una specie o di un genere, "species|nome" o "genus|nome" (fetch_trees.py)
+  { const [k, n] = String(p.hint_nm || "").split("|"); if (n && p.name && !p[k] && !p.species) out.push(H.nameTaxon(p.name, k, n)); }
   // taxon=* non dice il rango; hint_tx: "species|nome" o "genus|nome" se è nelle liste wiki (fetch_trees.py)
   if (p.taxon) { const [k, n, b] = String(p.hint_tx || "").split("|"); out.push(H.taxon(p.taxon, n ? k : "", n, !!(n && p[k]), b === "b")); }
   for (const [k, v] of hybridX(p)) out.push(H.hybridSign(k, v));
