@@ -1691,6 +1691,9 @@
 ],
 "leaf_type": "broadleaved",
 "names": {
+"en": [
+"Plane"
+],
 "fr": [
 "Platane"
 ]
@@ -2090,7 +2093,8 @@
 },
 "Sophora": {
 "leaf_cycle": [
-"deciduous"
+"deciduous",
+"evergreen"
 ],
 "leaf_type": "broadleaved"
 },

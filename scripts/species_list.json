@@ -1,5 +1,5 @@
 {
-"count": 682,
+"count": 683,
 "license": "CC BY-SA 2.0 (OpenStreetMap Wiki)",
 "source": "https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species",
 "species": {
@@ -2508,6 +2508,11 @@
 "leaf_type": "broadleaved",
 "wikidata": "Q7263791"
 },
+"Pyrus pyraster": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q149332"
+},
 "Quercus acerifolia": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
@@ -3191,7 +3196,7 @@
 "Taxus brevifolia": {
 "leaf_cycle": "evergreen",
 "leaf_type": "needleleaved",
-"wikidata": "Q20655540"
+"wikidata": "Q2065540"
 },
 "Taxus canadensis": {
 "leaf_cycle": "evergreen",
