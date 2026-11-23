@@ -408,6 +408,9 @@ NOT_TREES = _WL.get("not_trees", {})
 LEAF_TYPE_GENERA = {k.casefold(): set(v) for k, v in _WL.get("leaf_types", {}).items()}
 # alberi monumentali piccoli davvero (id dei nodi), da non segnalare con small_monument
 SMALL_MON_WHITELIST = {int(k) for k in _WL.get("small_monument", {})}
+# tutele (P1435) che su un albero non indicano un albero monumentale, aggiunte caso per caso su segnalazione (oggi
+# nessuna): non sono una fonte di monument_denotation (wikidata_heritage)
+HERITAGE_NOT_NATURAL = set(_WL.get("heritage_not_natural", {}))
 
 # Valori di denotation sui nodi con il numero di usi, da Taginfo (scripts/update_reference_lists.py)
 DEN_COUNTS = load_json(HERE / "denotation_values.json", "values")
@@ -454,7 +457,7 @@ def denotation_problems(t):
 # seguono.
 # data/wikidata_items.json, elementi di wikidata=* (i singoli alberi): {"Q…": {"taxon": bool, "coords": [[lon, lat]…]
 #   (P625), "image": file di Commons (P18), "winter": file della veduta invernale (P5252, se c'è), "taxa": [QID di P10241 "individuo del taxon"], "heritage": [[etichetta it,
-#   etichetta en] di P1435 "tutela"], "wp": {"it": url, "en": url} (voci di Wikipedia), "mt": id di monumentaltrees.com
+#   etichetta en, QID] di P1435 "tutela"; le voci scritte prima hanno solo le etichette],"wp": {"it": url, "en": url} (voci di Wikipedia), "mt": id di monumentaltrees.com
 #   (P9704), "mon": true se è istanza diretta (P31) di "pianta monumentale" (Q811534)}}
 # data/wikidata_taxa.json, elementi di species:wikidata, genus:wikidata e delle specie di P10241: {"Q…": {"taxon": bool,
 #   "names": [P225 nome scientifico], "ranks": [QID di P105 rango], "it": etichetta, "en": etichetta,
@@ -542,7 +545,7 @@ def store_items(batch, rows):
             add(e["taxa"], qid_of(b, "taxon"))
         if "her" in b:
             add(e["heritage"], [b.get("herIt", b.get("herEn", {})).get("value", qid_of(b, "her")),
-                                b.get("herEn", b.get("herIt", {})).get("value", qid_of(b, "her"))])
+                                b.get("herEn", b.get("herIt", {})).get("value", qid_of(b, "her")), qid_of(b, "her")])
         for lang in WP_SITES:
             if "wp" + lang in b:
                 e["wp"][lang] = b["wp" + lang]["value"]
@@ -947,12 +950,19 @@ def hint_props(t, osm_id=None):
 
 
 def wikidata_heritage(t):
-    """[(QID, [etichetta it, etichetta en])] se l'elemento di wikidata=* ha una tutela (P1435) e manca
-    denotation=natural_monument."""
+    """[(QID, [etichetta it, etichetta en])] se l'elemento di wikidata=* ha una tutela (P1435) che non è in
+    HERITAGE_NOT_NATURAL e manca denotation=natural_monument. L'etichetta è quella della prima tutela
+    che resta."""
     if "natural_monument" in [x.strip() for x in str(t.get("denotation", "")).split(";")]:
         return []
-    return [(q, WD_ITEMS[q]["heritage"][0]) for q in qids(t, "wikidata")
-            if taxon_status(q) is not True and WD_ITEMS.get(q, {}).get("heritage")]
+    out = []
+    for q in qids(t, "wikidata"):
+        if taxon_status(q) is True:
+            continue
+        her = [h for h in WD_ITEMS.get(q, {}).get("heritage", []) if not (len(h) > 2 and h[2] in HERITAGE_NOT_NATURAL)]
+        if her:
+            out.append((q, her[0][:2]))
+    return out
 
 
 def wikidata_extras(t, wd_ok=True):
@@ -1376,10 +1386,22 @@ def genus_ref(t):
 
 def leaf_species_ref(t, key):
     """Voce della lista delle specie con il valore di key (leaf_type o leaf_cycle), se species=* è una sola specie
-    della lista; altrimenti None (la stima viene dal genere)."""
+    della lista; altrimenti None (la stima viene dal genere). Se il nome ha altro dopo genere ed epiteto (cultivar,
+    autore, rango: Quercus robur 'Fastigiata'), vale la specie della lista con lo stesso genere ed epiteto, come per i
+    limiti delle misure (species_max_limit); non per un ibrido scritto con i due genitori (Salix alba × fragilis)."""
     sp = t.get("species")
-    ref = SPECIES_REF.get(norm_species(sp)) if sp and ";" not in sp else None
+    ref = _leaf_species_ref(sp)[1] if sp and ";" not in sp else None
     return ref if ref and ref.get(key) else None
+
+
+@functools.lru_cache(maxsize=None)
+def _leaf_species_ref(sp):
+    """(nome, voce) della specie della lista per le foglie di species (vedi leaf_species_ref); (None, None) se manca."""
+    if ref := SPECIES_REF.get(norm_species(sp)):
+        return sp.strip(), ref
+    if any(w in HYBRID_SIGNS for w in sp.split()[2:]):
+        return None, None
+    return SPECIES_REF_BIN.get(binomial(sp), (None, None))
 
 
 def leaf_type_estimate(t):
@@ -1424,6 +1446,10 @@ for _name in _LIST:
 for _alt in _WL.get("synonyms", {}):        # i sinonimi della whitelist valgono come nomi della lista
     SPECIES_BIN.setdefault(binomial(_alt), _alt)
 KNOWN_GENERA = {b.split()[0] for b in SPECIES_BIN} | set(GENUS_REF)
+# voci della lista che sono solo genere ed epiteto (con il segno di ibrido), per genere ed epiteto: le foglie di una
+# cultivar o di un nome con l'autore sono quelle della specie (leaf_species_ref); non le cultivar della lista
+SPECIES_REF_BIN = {binomial(_name): (_name, _v) for _name, _v in _LIST.items()
+                   if len([w for w in norm_species(_name).split() if w != "×"]) == 2}
 # epiteti delle specie della lista, di qualunque genere (species_epithet_case); non le cultivar ("Ulmus 'New Horizon'")
 LIST_EPITHETS = {b.split()[1] for b, _name in SPECIES_BIN.items()
                  if len(b.split()) > 1 and name_words(_name)[1][:1].islower()}
@@ -1472,9 +1498,22 @@ def species_typo(sp):
             best, dist = (cand, name), d
     if best is None:
         return None
-    # una specie della whitelist più vicina di quella della lista ("Quercus myrsinfolia": a una lettera da "Quercus
-    # myrsinifolia", a due da "Quercus myrtifolia"): la specie da proporre non è in lista, quindi nessuna proposta
-    if any(levenshtein(b, w, dist - 1) < dist for w in TYPO_WHITELIST):
+    # una specie della whitelist vicina almeno quanto quella della lista ("Quercus myrsinfolia": a una lettera da
+    # "Quercus myrsinifolia", a due da "Quercus myrtifolia"): la specie da proporre può non essere in lista, quindi
+    # nessuna proposta
+    if any(levenshtein(b, w, dist) <= dist for w in TYPO_WHITELIST):
+        return None
+    # un'altra specie della lista (non un sinonimo) vicina quanto la prima trovata ("Pirus piraster": a due lettere sia
+    # da "Pyrus pyraster" sia da "Pinus pinaster"): proposta incerta
+    if any(c != best[0] and group_name(n) != group_name(best[1]) and levenshtein(b, c, dist) <= dist
+           for c, n in SPECIES_BIN.items()):
+        return None
+    # epiteto con un'altra iniziale ("Quercus ruber" -> "Quercus suber") quando un'altra specie dello stesso genere,
+    # con la stessa iniziale, è a una sola lettera in più ("Quercus robur", "Quercus rubra"): proposta incerta
+    gw, ew = b.split()[:2]
+    if best[0].split()[1][:1] != ew[:1] and any(
+            c.split()[0] == gw and c.split()[1:2] and c.split()[1][:1] == ew[:1] and levenshtein(b, c, dist + 1) <= dist + 1
+            for c in SPECIES_BIN):
         return None
     if dist == 2 and b.split()[0] != best[0].split()[0] and b.split()[0] in KNOWN_GENERA:
         return None   # genere diverso ed esistente: probabilmente un'altra specie, non un errore
@@ -1519,9 +1558,12 @@ def species_list_mismatches(t):
         elif not ref and wd in QID_TO_SPECIES and not same_species(species_typo(sp.strip()), QID_TO_SPECIES[wd]):
             issues.append("wikidata_mismatch")
             props.update(sp_wd=wd, exp_sp=QID_TO_SPECIES[wd])
-    if ref:
-        exp_for, exp_lt = sp.strip(), ref.get("leaf_type")
-        exp_lc = [ref["leaf_cycle"]] if ref.get("leaf_cycle") else []
+    # foglie: anche dalla specie con lo stesso genere ed epiteto, per una cultivar o un nome con l'autore (Quercus
+    # robur 'Fastigiata': exp_for = Quercus robur); species:wikidata sopra resta confrontato con il nome esatto
+    leaf_for, leaf_ref = _leaf_species_ref(sp) if sp and SPECIES_REF else (None, None)
+    if leaf_ref:
+        exp_for, exp_lt = leaf_for, leaf_ref.get("leaf_type")
+        exp_lc = [leaf_ref["leaf_cycle"]] if leaf_ref.get("leaf_cycle") else []
     else:
         g = genus_ref(t)
         exp_for, exp_lt, exp_lc = (g[0], g[1].get("leaf_type"), g[1].get("leaf_cycle") or []) if g else (None, None, [])
@@ -1602,6 +1644,10 @@ LEN_ALIASES = {"metre": "m", "metres": "m", "meter": "m", "meters": "m", "mt": "
                "feet": "ft", "foot": "ft", "inch": "in", "inches": "in"}
 # il numero può iniziare con il punto (.75): si legge 0.75; non è un errore, index.html dà un consiglio
 LEN_RE = re.compile(r"^\s*([+-]?(?:\d+(?:[.,]\d+)?|[.,]\d+))(\s*)([a-zA-Z]*)\s*$")
+# virgola seguita da tre cifre dopo un numero da 1 a 999 (1,200): può essere la virgola decimale (1.2) o il separatore
+# delle migliaia (1200). Il valore non si usa (niente disegno, primati, rapporti) e resta solo il check comma; "0,250"
+# non è ambiguo
+AMBIGUOUS_COMMA = re.compile(r"^[+-]?[1-9]\d{0,2},\d{3}$")
 # piedi e pollici: 7'4" (forma della wiki); solo pollici: 5". Con le parole (7 ft 4 in, 7 feet 4 inches) o con apici
 # diversi da ' e " (7′4″, 7’4”, 7'4'') il valore si usa ma è segnalato. Gli spazi (7' 4") non sono un errore (anche
 # Osmose li accetta): index.html dà un consiglio
@@ -1627,6 +1673,8 @@ def _parse_length(s, default):
         n, space, unit = m.group(1).replace(",", "."), m.group(2), m.group(3)
         if n.lstrip("+-").startswith("."):         # numero senza lo zero davanti al punto (.75): nelle correzioni
             n = n.replace(".", "0.", 1)            # proposte si scrive con lo zero
+        if AMBIGUOUS_COMMA.match(m.group(1)):
+            return None, []                        # 1,200: 1.2 oppure 1200, non si usa (resta il check comma)
         if not unit:
             return float(n) * default, []          # solo numero (l'eventuale virgola è il check comma)
         canon = unit.lower()
@@ -1741,7 +1789,11 @@ URL = re.compile(r"^https?://\S+$", re.I)
 
 def bad_number(v):
     """Vero se il valore non è una misura leggibile (numero con o senza unità, vedi parse_length) oppure è <= 0.
-    Segnala quindi testo, intervalli, elenchi, unità sconosciute e valori nulli o negativi."""
+    Segnala quindi testo, intervalli, elenchi, unità sconosciute e valori nulli o negativi. Un numero come 1,200
+    (AMBIGUOUS_COMMA) non si legge ma è un numero: c'è il check comma."""
+    if (m := LEN_RE.match(str(v))) and AMBIGUOUS_COMMA.match(m.group(1)):
+        unit = LEN_ALIASES.get(m.group(3).lower(), m.group(3).lower())
+        return m.group(1).startswith("-") or (unit != "" and unit not in LEN_UNITS)
     x = parse_length(v)[0]
     return x is None or x <= 0
 
@@ -2118,7 +2170,8 @@ def split_author(sp):
         return None, False, False
     words = sp.split()
     base = 3 if {"×", "x", "X"} & set(words[:2]) else 2   # genere ed epiteto (con il segno di ibrido)
-    if len(words) <= base or not words[base - 1][:1].islower():
+    # il segno di ibrido può essere attaccato all'epiteto: "Malus ×purpurea (E.Barbier) Rehder"
+    if len(words) <= base or not words[base - 1].lstrip("×")[:1].islower():
         return None, False, False                # epiteto maiuscolo: non è un nome scientifico (es. "Black Matipo (…)")
     kept, found, in_author, quoted, extra, i = words[:base], False, False, False, False, base
     # pending: parole maiuscole senza punto dopo l'epiteto ("Siebold", "Sukaczev"): sono l'autore se dopo vengono un
@@ -3442,7 +3495,7 @@ YEAR_EVENTS = HERE / "year_events.json"
 
 # start_date (https://wiki.openstreetmap.org/wiki/Key:start_date): AAAA, AAAA-MM, AAAA-MM-GG, decennio (1850s),
 # secolo (C16, anche early/mid/late C16), anni avanti Cristo (500 BC), con davanti ~, before o after, e intervalli
-# (1500..1600). Le date approssimative contano con l'anno più vecchio che indicano: ~1500 e before 1500 = 1500,
+# (1500..1600); data del calendario giuliano (j:1918-01-31, vedi SD_JULIAN). Le date approssimative contano con l'anno più vecchio che indicano: ~1500 e before 1500 = 1500,
 # 1850s = 1850, C16 = 1500 (early 1500, mid 1533, late 1566), 1500..1600 = 1500.
 SD_PREFIX = re.compile(r"^(?:~|(?:before|after)\s+)\s*", re.I)
 SD_DATE = re.compile(r"^(\d{3,4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?$")
@@ -3450,6 +3503,9 @@ SD_DECADE = re.compile(r"^(\d{2,3}0)s$")
 SD_CENTURY = re.compile(r"^(?:(early|mid|late)\s+)?C(\d{1,2})$", re.I)
 SD_BC = re.compile(r"^(\d{1,5})\s*(?:BCE?|B\.C\.(?:E\.)?)$", re.I)
 SD_THIRD = {"early": 0, "mid": 33, "late": 66}
+# data del calendario giuliano (j:1918-01-31, forma della wiki di start_date): solo AAAA, AAAA-MM o AAAA-MM-GG dopo
+# "j:"; il giorno si converte nel calendario gregoriano per ordinare e per l'età (julian_to_gregorian)
+SD_JULIAN = "j:"
 # planted_date (https://wiki.openstreetmap.org/wiki/Key:planted_date, issue #81): si legge con le stesse forme di
 # start_date e la sostituisce quando manca (età nella scheda, «Più vecchio», frasi sull'anno). Con tutte e due conta
 # start_date; se sono diverse c'è il check date_mismatch
@@ -3466,6 +3522,20 @@ def tree_date(p):
     return p.get(tree_date_key(p))
 
 
+def julian_to_gregorian(y, mo, d):
+    """La data gregoriana (datetime.date) di una data del calendario giuliano, o None se nel giuliano non esiste
+    (anni bisestili ogni 4, anche 1700-02-29). Dal numero del giorno giuliano: j:1918-01-31 -> 1918-02-13."""
+    if not 1 <= mo <= 12:
+        return None
+    days = (29 if y % 4 == 0 else 28) if mo == 2 else [31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][mo - 1]
+    if not 1 <= d <= days:
+        return None
+    a = (14 - mo) // 12
+    yy, mm = y + 4800 - a, mo + 12 * a - 3
+    jdn = d + (153 * mm + 2) // 5 + 365 * yy + yy // 4 - 32083
+    return datetime.date.fromordinal(jdn - 1721425)
+
+
 def start_date_key(v):
     """Numero per ordinare start_date (anno × 10000 + mese × 100 + giorno; più basso = più vecchio); None se manca o
     non è in una delle forme lette (vedi sopra). Gli anni di una o due cifre non si leggono (start_date=50)."""
@@ -3474,12 +3544,20 @@ def start_date_key(v):
     s = " ".join(str(v).split()).split("..")[0].strip()
     while m := SD_PREFIX.match(s):
         s = s[m.end():]
+    julian = s.startswith(SD_JULIAN)
+    if julian:
+        s = s[len(SD_JULIAN):]
+        if not SD_DATE.match(s):
+            return None
     if m := SD_BC.match(s):
         return -int(m.group(1)) * 10000
     if m := SD_DATE.match(s):
         mo, d = int(m.group(2) or 0), int(m.group(3) or 0)
         if mo > 12 or d > 31 or (m.group(2) and not mo) or (m.group(3) and not d):
             return None
+        if julian and d:
+            g = julian_to_gregorian(int(m.group(1)), mo, d)
+            return g.year * 10000 + g.month * 100 + g.day if g else None
         return int(m.group(1)) * 10000 + mo * 100 + d
     if m := SD_DECADE.match(s):
         return int(m.group(1)) * 10000
@@ -3513,14 +3591,17 @@ def start_date_problem(v, today=None):
             return "invalid"
         pre = SD_PREFIX.match(part)
         core = part[pre.end():] if pre else part
+        julian = core.startswith(SD_JULIAN)
+        core = core[len(SD_JULIAN):] if julian else core
         if SD_PREFIX.match(core) or re.search(r"\bc\d", core):
             return "invalid"
         m = SD_DATE.match(core)
         if m and any(x is not None and len(x) != 2 for x in m.group(2, 3)):
             return "invalid"
         if m and m.group(3):
+            # una data giuliana esiste se esiste nel calendario giuliano (start_date_key l'ha già convertita)
             try:
-                datetime.date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+                julian or datetime.date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
             except ValueError:
                 return "invalid"
         keys.append(k)
@@ -3537,12 +3618,13 @@ def start_date_problem(v, today=None):
 
 
 def _sd_parts(v):
-    """start_date senza ~, before, after e senza il secondo estremo di un intervallo, e se era una di queste forme."""
+    """start_date senza ~, before, after, senza "j:" (calendario giuliano) e senza il secondo estremo di un
+    intervallo, e se era una di queste forme (non conta "j:": la data è precisa)."""
     raw = " ".join(str(v if v is not None else "").split())
     s, approx = raw.split("..")[0].strip(), ".." in raw
     while m := SD_PREFIX.match(s):
         s, approx = s[m.end():], True
-    return s, approx
+    return s.removeprefix(SD_JULIAN), approx
 
 
 def start_date_precision(v):
@@ -3567,8 +3649,8 @@ def start_date_event_key(v):
     s, _ = _sd_parts(v)
     if m := SD_BC.match(s):
         return f"{int(m.group(1))} BC"
-    if m := SD_DATE.match(s):
-        return str(int(m.group(1)))
+    if SD_DATE.match(s):     # l'anno della data letta: per una data giuliana quello del calendario gregoriano
+        return str(start_date_key(v) // 10000)
     if m := SD_DECADE.match(s):
         return f"{int(m.group(1))}s"
     if m := SD_CENTURY.match(s):

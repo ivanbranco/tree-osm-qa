@@ -39,6 +39,11 @@ _SPECIES = {
     # due specie vicine: "Prunus serratula" è a due lettere dalla prima e ha le stesse lettere della seconda
     "Prunus serrula": {"wikidata": "Q920008", "leaf_type": "broadleaved", "leaf_cycle": "deciduous"},
     "Prunus serrulata": {"wikidata": "Q920009", "leaf_type": "broadleaved", "leaf_cycle": "deciduous"},
+    # "Quercus ruber": a una lettera da Quercus suber, a due da Quercus robur (stessa iniziale dell'epiteto)
+    "Quercus suber": {"wikidata": "Q920011", "leaf_type": "broadleaved", "leaf_cycle": "evergreen"},
+    # "Pirus piraster": a due lettere da Pinus pinaster e da Pyrus pyraster
+    "Pinus pinaster": {"wikidata": "Q920012", "leaf_type": "needleleaved", "leaf_cycle": "evergreen"},
+    "Pyrus pyraster": {"wikidata": "Q920013", "leaf_type": "broadleaved", "leaf_cycle": "deciduous"},
 }
 _GENERA = {
     "Quercus": {"leaf_type": "broadleaved", "leaf_cycle": ["deciduous", "evergreen"]},
@@ -57,12 +62,14 @@ FIXTURES = {
     "SPECIES_REF": {ft.norm_species(k): v for k, v in _SPECIES.items()},
     "QID_TO_SPECIES": {v["wikidata"]: k for k, v in _SPECIES.items()},
     "SPECIES_BIN": {ft.binomial(k): k for k in _SPECIES},
+    "SPECIES_REF_BIN": {ft.binomial(k): (k, v) for k, v in _SPECIES.items()},
     "GENUS_REF": {k.casefold(): (k, v) for k, v in _GENERA.items()},
     "KNOWN_GENERA": {k.casefold() for k in _GENERA},
     "LIST_EPITHETS": {k.split()[1] for k in _SPECIES},
     # eccezioni (come in whitelist.json)
     "WD_WHITELIST": {"quercus robur": {"Q920009"}},
     "TYPO_WHITELIST": {"quercus robar"},
+    "HERITAGE_NOT_NATURAL": {"Q43874039"},       # monumento archeologico
     "SYNONYMS": {"quercus pedunculata": "Quercus robur"},
     "GROUP_NAME": {"quercus pedunculata": "Quercus robur", "quercus robur": "Quercus robur"},
     "SMALL_MON_WHITELIST": {4242},
@@ -94,6 +101,10 @@ FIXTURES = {
         "Q910006": {"taxon": False, "image": "Far_tree.jpg"},         # foto (P18), senza coordinate
         "Q910007": {"taxon": False, "taxa": ["Q920001"]},             # individuo di Quercus robur (P10241)
         "Q910008": {"taxon": False, "taxa": ["Q920003"]},             # individuo del genere Quercus
+        # solo una tutela culturale (HERITAGE_NOT_NATURAL); una culturale e una naturale
+        "Q910009": {"taxon": False, "heritage": [["monumento archeologico", "archaeological monument", "Q43874039"]]},
+        "Q910010": {"taxon": False, "heritage": [["monumento archeologico", "archaeological monument", "Q43874039"],
+                                                 ["monumento naturale", "natural monument", "Q23790"]]},
     },
     # elementi di species:wikidata e genus:wikidata
     "WD_TAXA": {
@@ -161,6 +172,12 @@ CASES = [
     ("comma: con l'unità", {"natural": "tree", "circumference": "2,9 m"}, ["comma"]),
     ("comma: non per un elenco", {"natural": "tree", "height": "10, 12"}, ["number_invalid"]),
     ("comma: non per più virgole", {"natural": "tree", "diameter": "66,60,51"}, ["number_invalid"]),
+    ("comma: tre cifre dopo la virgola (150 o 150000), il valore non si usa", {"natural": "tree", "height": "150,000"},
+     ["comma"]),                # non height: 150 m non si legge
+    ("comma: tre cifre dopo la virgola, con l'unità", {"natural": "tree", "height": "150,000 m"}, ["comma"]),
+    ("comma: 0,500 non è ambiguo", {"natural": "tree", "circumference": "50,0", "height": "0,500"},
+     ["circumference", "comma"]),
+    ("number_invalid: tre cifre dopo la virgola, negativo", {"natural": "tree", "height": "-1,200"}, ["number_invalid"]),
     ("diameter_unit", {"natural": "tree", "diameter": "0.5"}, ["diameter_unit"]),
     ("unit_format: parola intera", {"natural": "tree", "height": "8 metres"}, ["unit_format"]),
     ("unit_format: senza spazio", {"natural": "tree", "circumference": "150cm"}, ["unit_format"]),
@@ -256,6 +273,8 @@ CASES = [
      {"natural": "tree", "species": "Malus toringo (Siebold) Siebold ex de Vriese"}, ["species_author"]),
     ("species_parentheses: sinonimi tra parentesi, non un autore",
      {"natural": "tree", "species": "Ulmus laevis (Ulmus pedenculata, Ulmus effusa)"}, ["species_parentheses"]),
+    ("species_author: segno di ibrido attaccato all'epiteto",
+     {"natural": "tree", "species": "Malus ×purpurea (E.Barbier) Rehder"}, ["species_author"]),
     ("species_author: con altro prima del nome", {"natural": "tree", "species": "Insieme omogeneo di Fagus sylvatica L."},
      ["species_author"]),
     ("underscore", {"natural": "tree", "genus": "Tilia_cordata"}, ["underscore"]),
@@ -267,6 +286,15 @@ CASES = [
     ("species_typo: stesse lettere in un altro ordine", {"natural": "tree", "species": "Prunus serratula"},
      ["species_typo"]),
     ("species_typo: non se una specie della whitelist è più vicina", {"natural": "tree", "species": "Quercus robarr"}, []),
+    ("species_typo: non se una specie della whitelist è vicina quanto quella della lista",
+     {"natural": "tree", "species": "Quercus robor"}, []),
+    ("species_typo: non se due specie della lista sono vicine uguali", {"natural": "tree", "species": "Pirus piraster"}, []),
+    ("species_typo: specie della lista vicina, nessun pareggio", {"natural": "tree", "species": "Pyrus piraster"},
+     ["species_typo"]),
+    ("species_typo: non se la proposta cambia l'iniziale dell'epiteto e un'altra specie con quell'iniziale è vicina",
+     {"natural": "tree", "species": "Quercus ruber"}, []),
+    ("species_typo: iniziale dell'epiteto diversa, nessun'altra specie vicina", {"natural": "tree", "species": "Quercus tuber"},
+     ["species_typo"]),
     ("species_typo: non per una parola maiuscola corta con due lettere diverse",
      {"natural": "tree", "species": "Quercus Rabus"}, ["species_common_name"]),
     ("species_typo: parola maiuscola con una lettera diversa", {"natural": "tree", "species": "Quercus Rubur"},
@@ -359,6 +387,14 @@ CASES = [
     ("leaf_types in whitelist: palm, genere da species",
      {"natural": "tree", "species": "Cycas revoluta", "leaf_type": "palm"}, []),
     ("leaf_cycle_mismatch", {**OAK, "leaf_cycle": "evergreen"}, ["leaf_cycle_mismatch"]),
+    ("leaf_cycle_mismatch: cultivar, dalla specie", {"natural": "tree", "species": "Quercus robur 'Fastigiata'",
+                                                     "leaf_cycle": "evergreen"}, ["leaf_cycle_mismatch"]),
+    ("leaf_cycle_mismatch: con l'autore, dalla specie", {"natural": "tree", "species": "Quercus robur L.",
+                                                         "leaf_cycle": "evergreen"}, ["leaf_cycle_mismatch", "species_author"]),
+    ("leaf_type_mismatch: cultivar, dalla specie", {"natural": "tree", "species": "Quercus robur 'Fastigiata'",
+                                                    "leaf_type": "needleleaved"}, ["leaf_type_mismatch"]),
+    ("leaf_cycle: non dalla prima specie di un ibrido con due genitori",
+     {"natural": "tree", "species": "Quercus robur × petraea", "leaf_cycle": "evergreen"}, []),
     ("semi_deciduous vale come deciduous", {**OAK, "leaf_cycle": "semi_deciduous"}, []),
     ("genere con entrambi i leaf_cycle", {"natural": "tree", "genus": "Magnolia", "leaf_cycle": "evergreen"}, []),
 
@@ -445,6 +481,9 @@ CASES = [
     ("monument_denotation: monumentaltrees.com",
      {"natural": "tree", "website": "https://www.monumentaltrees.com/en/ita/lazio/1/"}, ["monument_denotation"]),
     ("monument_denotation: tutela su Wikidata", {"natural": "tree", "wikidata": "Q910004"}, ["monument_denotation"]),
+    ("monument_denotation: non per una tutela solo culturale su Wikidata", {"natural": "tree", "wikidata": "Q910009"}, []),
+    ("monument_denotation: tutela culturale e naturale su Wikidata", {"natural": "tree", "wikidata": "Q910010"},
+     ["monument_denotation"]),
     ("monument_denotation: id di monumentaltrees.com su Wikidata", {"natural": "tree", "wikidata": "Q910005"},
      ["monument_denotation"]),
     ("fonte monumentale con natural_monument", {**MON, "ref:masaf": LISTED}, []),
@@ -516,6 +555,13 @@ CASES = [
     ("start_date_invalid: secolo con la c minuscola", {"natural": "tree", "start_date": "c16"},
      ["start_date_invalid"]),
     ("start_date_invalid: nel futuro", {"natural": "tree", "start_date": "2999-01"}, ["start_date_invalid"]),
+    ("start_date: data giuliana", {"natural": "tree", "start_date": "j:1918-01-31"}, []),
+    ("start_date: data giuliana del 29 febbraio, che nel gregoriano non c'è", {"natural": "tree", "start_date": "j:1700-02-29"},
+     []),
+    ("start_date: data giuliana approssimativa, solo l'anno", {"natural": "tree", "start_date": "~j:1850"}, []),
+    ("start_date_invalid: data giuliana inesistente", {"natural": "tree", "start_date": "j:1918-02-30"},
+     ["start_date_invalid"]),
+    ("start_date_invalid: decennio con j:", {"natural": "tree", "start_date": "j:1850s"}, ["start_date_invalid"]),
     ("dipendenza: con tag_in_value niente start_date_invalid", {"natural": "tree", "start_date": "start_date=1990"},
      ["tag_in_value"]),
     # --- planted_date (issue #81): stesse forme di start_date ---
@@ -987,6 +1033,10 @@ def feature_failures():
                 and ft.tree_date(pd_only) == "~1850"),
                ("Più vecchio: con tutte e due conta start_date", ft.record_values(sd_pd).get("oldest") == 1900
                 and ft.tree_date_key(sd_pd) == "start_date"),
+               ("data giuliana convertita nel calendario gregoriano", ft.start_date_key("j:1918-01-31") == 19180213
+                and ft.start_date_key("j:1700-02-29") == 17000311 and ft.start_date_key("j:1850") == 18500000),
+               ("data giuliana: anno gregoriano per le frasi sull'anno", ft.start_date_event_key("j:1700-12-25") == "1701"
+                and ft.start_date_precision("j:1918-01-31") == 0),
                ("Più vecchio: ⚠ da tag_in_value su planted_date", ft.record_warned("oldest", {
                    "planted_date": "planted_date=1850", "issues": "|tag_in_value|", "eq_keys": "planted_date"}))]
     out += [f"FALLITO: {n}" for n, ok in checks if not ok]

@@ -4212,10 +4212,13 @@ map.on("load", async () => {
 });
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const num = v => { const m = String(v).match(/^\s*(-?\d+(?:[.,]\d+)?)\s*(m)?\s*$/); return m ? m[1].replace(",", ".") : null; };
+// virgola seguita da tre cifre dopo un numero da 1 a 999 (1,200): 1.2 oppure 1200, il valore non si usa e si mostra
+// com'è scritto (AMBIGUOUS_COMMA in fetch_trees.py)
+const AMBIG_COMMA = /^[+-]?[1-9]\d{0,2},\d{3}$/;
+const num = v => { const m = String(v).match(/^\s*(-?\d+(?:[.,]\d+)?)\s*(m)?\s*$/); return m && !AMBIG_COMMA.test(m[1]) ? m[1].replace(",", ".") : null; };
 const fmtM = v => { const n = num(v); return n === null ? v : Number(n).toLocaleString(LOC, { maximumFractionDigits: 3 }) + " m"; };
 // diameter senza unità è in millimetri (Key:diameter); con un'unità si mostra com'è scritto
-const fmtD = v => /^\s*\d+(?:[.,]\d+)?\s*$/.test(v) ? Number(String(v).replace(",", ".")).toLocaleString(LOC, { maximumFractionDigits: 3 }) + " mm" : v;
+const fmtD = v => /^\s*\d+(?:[.,]\d+)?\s*$/.test(v) && !AMBIG_COMMA.test(String(v).trim()) ? Number(String(v).replace(",", ".")).toLocaleString(LOC, { maximumFractionDigits: 3 }) + " mm" : v;
 const tr = (dict, v) => dict[v] || v;
 
 // ---- Alberi da record (issue #15): valori di un albero per i primati. Le stesse regole di record_values in
@@ -4232,6 +4235,7 @@ const lenM = (v, def = 1) => {
   const s = String(v);
   let m = LEN_RE.exec(s);
   if (m) {
+    if (AMBIG_COMMA.test(m[1])) return null;
     const n = Number(m[1].replace(",", "."));
     if (!m[3]) return n * def;
     const u = m[3].toLowerCase(), c = Object.hasOwn(LEN_ALIASES, u) ? LEN_ALIASES[u] : u;
@@ -4245,14 +4249,37 @@ const lenM = (v, def = 1) => {
 // before o after, e intervalli (vale il primo estremo). null se la data non è in una di queste forme
 const SD_PREFIX = /^(?:~|(?:before|after)\s+)\s*/i, SD_DATE = /^(\d{3,4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?$/, SD_DECADE = /^(\d{2,3}0)s$/;
 const SD_CENTURY = /^(?:(early|mid|late)\s+)?C(\d{1,2})$/i, SD_BC = /^(\d{1,5})\s*(?:BCE?|B\.C\.(?:E\.)?)$/i, SD_THIRD = { early: 0, mid: 33, late: 66 };
+// data del calendario giuliano (j:1918-01-31): solo AAAA, AAAA-MM o AAAA-MM-GG dopo "j:"; il giorno si converte nel
+// calendario gregoriano (julGreg, come julian_to_gregorian in fetch_trees.py: dal numero del giorno giuliano; null se
+// la data nel giuliano non esiste)
+const SD_JULIAN = "j:";
+const julGreg = (y, mo, d) => {
+  if (mo < 1 || mo > 12) return null;
+  const days = mo === 2 ? (y % 4 === 0 ? 29 : 28) : [31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][mo - 1];
+  if (d < 1 || d > days) return null;
+  const a = Math.floor((14 - mo) / 12), yy = y + 4800 - a, mm = mo + 12 * a - 3;
+  const jdn = d + Math.floor((153 * mm + 2) / 5) + 365 * yy + Math.floor(yy / 4) - 32083;
+  let l = jdn + 68569;
+  const n = Math.floor(4 * l / 146097);
+  l -= Math.floor((146097 * n + 3) / 4);
+  const i = Math.floor(4000 * (l + 1) / 1461001);
+  l = l - Math.floor(1461 * i / 4) + 31;
+  const j = Math.floor(80 * l / 2447), gd = l - Math.floor(2447 * j / 80);
+  l = Math.floor(j / 11);
+  return [100 * (n - 49) + i + l, j + 2 - 12 * l, gd];
+};
 const sdKey = v => {
   if (v == null) return null;
   let s = String(v).trim().split(/\s+/).join(" ").split("..")[0].trim(), m;
   while ((m = SD_PREFIX.exec(s))) s = s.slice(m[0].length);
+  const julian = s.startsWith(SD_JULIAN);
+  if (julian && !SD_DATE.test(s = s.slice(SD_JULIAN.length))) return null;
   if ((m = SD_BC.exec(s))) return -Number(m[1]) * 10000;
   if ((m = SD_DATE.exec(s))) {
     const mo = Number(m[2] || 0), d = Number(m[3] || 0);
-    return mo > 12 || d > 31 || (m[2] && !mo) || (m[3] && !d) ? null : Number(m[1]) * 10000 + mo * 100 + d;
+    if (mo > 12 || d > 31 || (m[2] && !mo) || (m[3] && !d)) return null;
+    if (julian && d) { const g = julGreg(Number(m[1]), mo, d); return g ? g[0] * 10000 + g[1] * 100 + g[2] : null; }
+    return Number(m[1]) * 10000 + mo * 100 + d;
   }
   if ((m = SD_DECADE.exec(s))) return Number(m[1]) * 10000;
   if ((m = SD_CENTURY.exec(s))) return Number(m[2]) ? ((Number(m[2]) - 1) * 100 + SD_THIRD[(m[1] || "early").toLowerCase()]) * 10000 : null;
@@ -4267,7 +4294,7 @@ const sdParts = v => {
   const raw = String(v ?? "").trim().split(/\s+/).join(" ");
   let s = raw.split("..")[0].trim(), m, approx = raw.includes("..");
   while ((m = SD_PREFIX.exec(s))) { s = s.slice(m[0].length); approx = true; }
-  return { s, approx };
+  return { s: s.startsWith(SD_JULIAN) ? s.slice(SD_JULIAN.length) : s, approx };   // "j:" non rende la data approssimativa
 };
 const sdPrec = v => {
   const { s, approx } = sdParts(v);
@@ -4279,7 +4306,8 @@ const sdEvent = v => {
   if (sdKey(v) == null) return null;
   const { s } = sdParts(v);
   let m;
-  return (m = SD_BC.exec(s)) ? `${Number(m[1])} BC` : (m = SD_DATE.exec(s)) ? String(Number(m[1]))
+  // per una data giuliana l'anno del calendario gregoriano
+  return (m = SD_BC.exec(s)) ? `${Number(m[1])} BC` : SD_DATE.test(s) ? String(Math.floor(sdKey(v) / 10000))
     : (m = SD_DECADE.exec(s)) ? `${Number(m[1])}s` : (m = SD_CENTURY.exec(s)) ? `C${Number(m[2])}` : null;
 };
 // sdEventDecade: la voce di ripiego per un anno senza voce, il suo decennio ("1853" -> "1850s", "975 BC" -> "970s BC"),
@@ -5157,8 +5185,10 @@ const FIXES = {
     ? [["denotation", String(p.denotation).split(";").map(x => x.trim()).filter(Boolean).join(";")]] : [],
     "remove the spaces around ; in denotation"],
   // solo un numero con una virgola tra le cifre (2,9 o 2,9 m): altri valori con la virgola non sono certi
-  // non con tre cifre dopo la virgola (1,200): può essere 1.2 oppure 1200, la correzione si fa a mano
-  comma: [p => String(p.comma || "").split(";").filter(k => /^\s*\d+,\d+\s*[a-zA-Z]*\s*$/.test(p[k] ?? "") && !/,\d{3}(?!\d)/.test(p[k]))
+  // non con tre cifre dopo la virgola e un numero da 1 a 999 (1,200, AMBIG_COMMA): può essere 1.2 oppure 1200, la
+  // correzione si fa a mano
+  comma: [p => String(p.comma || "").split(";").filter(k => /^\s*\d+,\d+\s*[a-zA-Z]*\s*$/.test(p[k] ?? "")
+      && !AMBIG_COMMA.test(String(p[k]).replace(/[a-zA-Z]/g, "").trim()))
     .map(k => [k, p[k].replace(",", ".")]), "decimal point instead of comma"],
   // unit_fix: righe "chiave|valore|correzione|…" (fetch_trees.py), se il valore è lo stesso. Con due correzioni la
   // prima è quella senza unità (metri; millimetri per diameter: parse_length), che si scrive
