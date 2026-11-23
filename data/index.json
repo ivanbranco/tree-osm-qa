@@ -73,12 +73,13 @@
    "updated": "2026-11-23T17:33:25Z"
   },
   "arizona": {
-   "count": 122280,
-   "errors": 54,
+   "count": 122854,
+   "errors": 58,
    "name": "Arizona",
-   "sha1": "50a706793f0c0093e99c6772dd9f1b4cd8ab45b5",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T16:33:54Z"
+   "osm_base": "2026-11-23T20:11:36Z",
+   "sha1": "ce7e99cf26263bab37165f151d1d3a7917ec9626",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T20:13:40Z"
   },
   "asturie": {
    "count": 10610,
@@ -764,12 +765,13 @@
    "updated": "2026-11-23T19:54:37Z"
   },
   "pennsylvania": {
-   "count": 97197,
-   "errors": 7,
+   "count": 97648,
+   "errors": 10,
    "name": "Pennsylvania",
-   "sha1": "d9fed404f4ccdde1b28348671fa03f779c6ba047",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T08:27:59Z"
+   "osm_base": "2026-11-23T20:12:36Z",
+   "sha1": "3e388287860bb342649729ff43de9715ad5abb11",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T20:14:38Z"
   },
   "piemonte": {
    "count": 73111,
@@ -834,12 +836,13 @@
    "updated": "2026-11-20T17:07:30Z"
   },
   "romania": {
-   "count": 77705,
-   "errors": 1679,
+   "count": 77816,
+   "errors": 1557,
    "name": "Romania",
-   "sha1": "9f302eba9ac85495793a72bc5283093d8ee2e7f5",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T08:37:04Z"
+   "osm_base": "2026-11-23T20:14:38Z",
+   "sha1": "130fb88cfc0b7517f1aabb6c51c1c068981f68e5",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T20:16:56Z"
   },
   "salisburgo": {
    "count": 22340,
@@ -953,9 +956,10 @@
    "count": 203,
    "errors": 1,
    "name": "Terre australi e antartiche francesi",
-   "sha1": "79813696ec2d4aabe19af7aecfdd72ad59710ae0",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T17:28:50Z"
+   "osm_base": "2026-11-23T20:14:38Z",
+   "sha1": "28bbe416f344c6df3d97d9f1db984a120712e7a8",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T20:15:56Z"
   },
   "tirolo": {
    "count": 48439,
@@ -1065,13 +1069,13 @@
    "updated": "2026-11-21T23:29:29Z"
   },
   "washington": {
-   "count": 128720,
-   "errors": 551,
+   "count": 129182,
+   "errors": 570,
    "name": "Stato di Washington",
-   "osm_base": "2026-11-17T22:23:51Z",
-   "sha1": "34317840e9f0508994b7c9b1855f491a85864121",
-   "tried": "2026-11-17",
-   "updated": "2026-11-17T22:26:25Z"
+   "osm_base": "2026-11-23T20:13:36Z",
+   "sha1": "e17af425b4f40c0183abbe0ee746ac7b90d254dd",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T20:15:49Z"
   },
   "wielkopolskie": {
    "count": 109563,
