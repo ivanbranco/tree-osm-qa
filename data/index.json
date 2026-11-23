@@ -11,11 +11,12 @@
   },
   "albania": {
    "count": 18014,
-   "errors": 1702,
+   "errors": 653,
    "name": "Albania",
-   "sha1": "affd52f66d833adef87101a9252ee44af12185d7",
-   "tried": "2026-11-15",
-   "updated": "2026-11-15T12:23:48Z"
+   "osm_base": "2026-11-23T17:05:50Z",
+   "sha1": "35b75605fb43bbf1b13a74a75ecee891230f7fab",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T17:07:18Z"
   },
   "alta-austria": {
    "count": 98075,
@@ -429,9 +430,10 @@
    "count": 5569,
    "errors": 38,
    "name": "Kosovo",
-   "sha1": "d8a7e26ce8b8bf107843ed0101da9f09ccc83b8f",
-   "tried": "2026-11-15",
-   "updated": "2026-11-15T17:33:29Z"
+   "osm_base": "2026-11-23T17:05:50Z",
+   "sha1": "6bb3964974c71d6fcc46e558e251679e554a316c",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T17:07:33Z"
   },
   "kujawsko-pomorskie": {
    "count": 53639,
@@ -559,12 +561,13 @@
    "updated": "2026-11-16T17:02:55Z"
   },
   "macedonia-del-nord": {
-   "count": 2186,
+   "count": 2202,
    "errors": 0,
    "name": "Macedonia del Nord",
-   "sha1": "92903f753a6a3db473a842d78b7ed4afd7890e53",
-   "tried": "2026-11-15",
-   "updated": "2026-11-15T09:35:58Z"
+   "osm_base": "2026-11-23T17:04:51Z",
+   "sha1": "660b531c5efe39e61cdb2554d74949b7fda42003",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T17:06:45Z"
   },
   "malopolskie": {
    "count": 257563,
