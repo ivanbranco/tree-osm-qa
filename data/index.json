@@ -45,13 +45,13 @@
    "updated": "2026-11-16T23:25:03Z"
   },
   "andalusia": {
-   "count": 190160,
-   "errors": 2652,
+   "count": 190266,
+   "errors": 2657,
    "name": "Andalusia",
-   "osm_base": "2026-11-18T19:04:09Z",
-   "sha1": "0b316d532e03ffd58f7742e7868ad9eb4f35a92f",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:07:06Z"
+   "osm_base": "2026-11-23T17:27:08Z",
+   "sha1": "3dba79c44d062dd101bf853bc98c1d620cbcd2d8",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T17:30:07Z"
   },
   "andorra": {
    "count": 849,
@@ -63,13 +63,13 @@
    "updated": "2026-11-16T23:22:00Z"
   },
   "aragona": {
-   "count": 41233,
-   "errors": 217,
+   "count": 41203,
+   "errors": 218,
    "name": "Aragona",
-   "osm_base": "2026-11-18T19:06:12Z",
-   "sha1": "9f1a701d3d9e3d2fe93084990aeafb94e221920e",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:07:54Z"
+   "osm_base": "2026-11-23T17:31:21Z",
+   "sha1": "e7cad65363e3f1bdb150687f13a6c600af9c9879",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T17:33:25Z"
   },
   "arizona": {
    "count": 122280,
@@ -212,13 +212,13 @@
    "updated": "2026-11-21T21:46:17Z"
   },
   "catalogna": {
-   "count": 367746,
-   "errors": 1507,
+   "count": 367918,
+   "errors": 1510,
    "name": "Catalogna",
-   "osm_base": "2026-11-18T19:11:14Z",
-   "sha1": "e2b4f312577ab02c57e4aedeb7b9acb008f08bcc",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:13:27Z"
+   "osm_base": "2026-11-23T17:33:19Z",
+   "sha1": "1eb2c12ca815e8f66ccc8da6f714e56718a6c7d2",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T17:37:03Z"
   },
   "cechia": {
    "count": 140842,
@@ -248,31 +248,31 @@
    "updated": "2026-11-18T19:13:34Z"
   },
   "cile": {
-   "count": 231773,
-   "errors": 5032,
+   "count": 231789,
+   "errors": 5005,
    "name": "Cile",
-   "osm_base": "2026-11-16T23:09:26Z",
-   "sha1": "dc8e38b4f9a002775b4329613f185d0f5c7a87cb",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T23:12:06Z"
+   "osm_base": "2026-11-23T17:28:13Z",
+   "sha1": "7d2c14140ac3aa154360bed0a09137fc5ac9d3fd",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T17:31:51Z"
   },
   "comunita-di-madrid": {
-   "count": 148976,
-   "errors": 833,
+   "count": 149004,
+   "errors": 851,
    "name": "Comunità di Madrid",
-   "osm_base": "2026-11-18T19:15:14Z",
-   "sha1": "50957073f7026e2217fc278b1e2b929fc80b8bcd",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:16:42Z"
+   "osm_base": "2026-11-23T17:30:20Z",
+   "sha1": "26f49f42c8c8a3785f290c87f6ee990ca457f9d7",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T17:32:40Z"
   },
   "comunita-valenciana": {
-   "count": 167935,
-   "errors": 1692,
+   "count": 167962,
+   "errors": 1694,
    "name": "Comunità Valenciana",
-   "osm_base": "2026-11-18T19:12:14Z",
-   "sha1": "acfde39ee73228b0bd637f617601003ad1d41938",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:14:33Z"
+   "osm_base": "2026-11-23T17:32:21Z",
+   "sha1": "0bdfae52c97ac53895e8760e62e496fbf04e2b4f",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T17:34:46Z"
   },
   "connacht": {
    "count": 45809,
