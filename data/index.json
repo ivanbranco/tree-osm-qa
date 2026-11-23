@@ -379,13 +379,13 @@
    "updated": "2026-11-22T22:35:15Z"
   },
   "giappone": {
-   "count": 306324,
-   "errors": 7909,
+   "count": 306403,
+   "errors": 8151,
    "name": "Giappone",
-   "osm_base": "2026-11-22T23:13:26Z",
-   "sha1": "cc00b372e23184b9352d1366bb2f9e06bdd9a199",
-   "tried": "2026-11-22",
-   "updated": "2026-11-22T23:17:09Z"
+   "osm_base": "2026-11-23T21:47:02Z",
+   "sha1": "70bcd359db2212e99ac8701bd730ba378b2fd98b",
+   "tried": "2026-11-23",
+   "updated": "2026-11-23T21:49:50Z"
   },
   "grand-est": {
    "count": 254313,
