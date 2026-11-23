@@ -2123,10 +2123,16 @@ map.on("load", async () => {
       if (f.properties.id !== id) out.push([(f.geometry.coordinates[0] - lon) * mx, (f.geometry.coordinates[1] - lat) * 111320]);
     return out;
   };
+  const DECO_KEYS = ["id", "issues", "ts", "genus", "species", "sp_key", "denotation", "imp", "mg", "mz", "stump", "mk", "tr_est"];
   const decoPoints = ft => {
     const [lon, lat] = ft.geometry.coordinates, p = ft.properties, id = p.id;
     const kx = 1 / (111320 * Math.cos(lat * Math.PI / 180)), ky = 1 / 111320;
-    const pt = (dx, dy, dk, dr, dc) => ({ type: "Feature", properties: { ...p, dk, dr, dc },
+    // proprietà ridotte: quelle lette dai filtri dei livelli (tier.cond, menu delle specie e degli errori) e dagli
+    // stili (mk, tr_est); i tronchi multipli ("stem") le tengono tutte perché il clic apre la scheda con quelle.
+    // Nei frutteti ogni frutto con tutte le proprietà dell'albero raddoppiava i dati passati a setData
+    const fp = {};
+    for (const k of DECO_KEYS) if (p[k] !== undefined) fp[k] = p[k];
+    const pt = (dx, dy, dk, dr, dc) => ({ type: "Feature", properties: dk === "stem" ? { ...p, dk, dr, dc } : { ...fp, dk, dr, dc },
       geometry: { type: "Point", coordinates: [lon + dx * kx, lat + dy * ky] } });
     const out = [];
     const stems = p.stems ? String(p.stems).split(";").map(Number).filter(r => r > 0) : null;
@@ -2163,7 +2169,7 @@ map.on("load", async () => {
       const start = ring.reduce((m, c, k) => ang(c) < ang(ring[m]) ? k : m, 0);
       const r = [...ring.slice(start), ...ring.slice(0, start)];
       const left = r.filter(c => ang(c) < Math.PI), right = r.filter(c => ang(c) >= Math.PI);
-      const line = (coords, dc) => ({ type: "Feature", properties: { ...p, dk: "dual", dc }, geometry: { type: "LineString", coordinates: coords } });
+      const line = (coords, dc) => ({ type: "Feature", properties: { ...fp, dk: "dual", dc }, geometry: { type: "LineString", coordinates: coords } });
       if (left.length && right.length) {        // le due metà si toccano: ognuna finisce sul primo punto dell'altra
         out.push(line([...left, right[0]], "#e6a800"), line([...right, left[0]], "#1a9fe0"));
       }
@@ -2173,8 +2179,8 @@ map.on("load", async () => {
       const want = SPOT_DENSITY * Math.PI * p.cr * p.cr, n = Math.min(Math.round(want), SPOT_MAX, spotLeft);
       const dr = SPOT_R * Math.sqrt(Math.max(want / Math.max(n, 1), 1));
       spotLeft -= n;
-      // proprietà ridotte: quelle dei filtri dei livelli (tier.cond) più fase, scala e colori
-      const base = { dk: "spot", dr, mk: p.mk, ph: p.ph, denotation: p.denotation, imp: p.imp, mg: p.mg, mz: p.mz };
+      // proprietà ridotte (fp, come gli altri punti: anche i menu delle specie e degli errori) più fase e colori
+      const base = { ...fp, dk: "spot", dr, ph: p.ph };
       const rnd = seededRnd(id);
       for (let k = 0; k < n; k++) {
         const a = rnd() * 2 * Math.PI, d = p.cr * 0.9 * Math.sqrt(rnd());
