@@ -2039,6 +2039,10 @@
 "d": "2026-11-10",
 "s": "ok"
 },
+"commons:File:Pouzelas robinier gui 1.jpg": {
+"d": "2026-11-23",
+"s": "ok"
+},
 "commons:File:Przeworsk (zespół pałacowo-parkowy) - lipa Sobieskiego.jpg": {
 "d": "2026-11-08",
 "s": "ok"
@@ -4154,6 +4158,14 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Breitenfurt Linde 3691.jpg": {
+"c": [
+48.1402102,
+16.1376701,
+"object"
+],
+"d": "2026-11-23"
 },
 "geo:File:Brzoza ~26y08oyg.jpg": {
 "c": [],
@@ -6359,6 +6371,22 @@
 "c": [],
 "d": "2026-11-16"
 },
+"geo:File:Linde Etschenberg, Gutenstein 02.jpg": {
+"c": [
+47.8884786,
+15.9164754,
+"object"
+],
+"d": "2026-11-23"
+},
+"geo:File:Linde Etschenberg, Gutenstein 09.jpg": {
+"c": [
+47.8885229,
+15.9161582,
+"object"
+],
+"d": "2026-11-23"
+},
 "geo:File:Linde St. Georgenberg 1.jpg": {
 "c": [],
 "d": "2026-11-11"
@@ -6863,6 +6891,46 @@
 ],
 "d": "2026-11-11"
 },
+"geo:File:Naturdenkmal 32 Lebensbaum Lobaugasse.jpg": {
+"c": [
+48.214725,
+16.491009,
+"object"
+],
+"d": "2026-11-23"
+},
+"geo:File:Naturdenkmal 348 Lebensbäume Siegesplatz.jpg": {
+"c": [
+48.217504,
+16.487252,
+"object"
+],
+"d": "2026-11-23"
+},
+"geo:File:Naturdenkmal 436 Stieleiche.jpg": {
+"c": [
+48.249159,
+16.497431,
+"object"
+],
+"d": "2026-11-23"
+},
+"geo:File:Naturdenkmal 811 2012-07-30 0054 Wien22 Klenaugasse Trauerschnurbaum GuentherZ.jpg": {
+"c": [
+48.249417,
+16.437815,
+"object"
+],
+"d": "2026-11-23"
+},
+"geo:File:Naturdenkmal ND 9 8-Ahornbäume neben der Kirche in Pertisau 05.JPG": {
+"c": [
+47.43973,
+11.696258,
+"object"
+],
+"d": "2026-11-23"
+},
 "geo:File:Naturdenkmal in der Ortsmitte von Unterpinswang bei einem Brunnen.jpg": {
 "c": [
 47.5439717,
@@ -7022,6 +7090,14 @@
 "object"
 ],
 "d": "2026-11-16"
+},
+"geo:File:Opfersteine und Schwarzföhre, Merkenstein - Schwarzföhre oben2.jpg": {
+"c": [
+47.9815851,
+16.142099,
+"object"
+],
+"d": "2026-11-23"
 },
 "geo:File:Oranger des Osages au sud du pôle Lardy (Vichy) 2025-11-11.JPG": {
 "c": [
@@ -7619,6 +7695,14 @@
 "c": [],
 "d": "2026-11-10"
 },
+"geo:File:Pouzelas robinier gui 1.jpg": {
+"c": [
+47.075159,
+1.940337,
+"camera"
+],
+"d": "2026-11-23"
+},
 "geo:File:Prirodni spomenik Stabla u Zemunskom parku 1 - Tisa i Pterokarija.jpg": {
 "c": [
 44.8416396,
@@ -8086,6 +8170,14 @@
 "object"
 ],
 "d": "2026-11-12"
+},
+"geo:File:Sequoyah62.JPG": {
+"c": [
+48.2419565,
+16.3064168,
+"object"
+],
+"d": "2026-11-23"
 },
 "geo:File:Seto 20210330-90.jpg": {
 "c": [
@@ -8882,6 +8974,14 @@
 "object"
 ],
 "d": "2026-11-11"
+},
+"geo:File:Wiener Naturdenkmal 773 - Kornelkirsche (Döbling) a.JPG": {
+"c": [
+48.247826,
+16.331427,
+"object"
+],
+"d": "2026-11-23"
 },
 "geo:File:Wiener Naturdenkmal 80 - Stieleiche(Döbling) a.jpg": {
 "c": [
@@ -48073,6 +48173,10 @@
 },
 "https://kulturasdati.lv/lv/kulturvesturiskas-vietas/zemites-elku-liepa-un-upurozols": {
 "d": "2026-11-08",
+"s": "200"
+},
+"https://lestetardsarboricoles.fr/wordpress/2013/01/24/le-chataignier-petit-jean-saint-sulpice-les-feuilles-haute-vienne/": {
+"d": "2026-11-23",
 "s": "200"
 },
 "https://lestetardsarboricoles.fr/wordpress/2013/01/31/le-ginkgo-biloba-du-square-planchon-montpellier-herault/": {

@@ -19305,12 +19305,12 @@
 "it": []
 },
 "en": "Prunus × schmittii",
-"it": "Prunus ×schmittii",
+"it": "Prunus × schmittii",
 "names": [
-"Prunus ×schmittii"
+"Prunus × schmittii"
 ],
 "ranks": [
-"Q7432"
+"Q1306176"
 ],
 "taxon": true
 },
@@ -21908,6 +21908,10 @@
 "taxon": true
 },
 "Q2703639": {
+"alias": {
+"en": [],
+"it": []
+},
 "en": "Melia",
 "it": "Melia",
 "names": [
@@ -24585,6 +24589,21 @@
 "names": [],
 "ranks": [],
 "taxon": false
+},
+"Q3314271": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Quercus × cerrioides",
+"it": "Quercus cerrioides",
+"names": [
+"Quercus × cerrioides"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
 },
 "Q3315524": {
 "alias": {
@@ -31422,8 +31441,6 @@
 "en": [],
 "it": []
 },
-"en": "Morus australis",
-"it": "Morus australis",
 "names": [
 "Morus australis"
 ],
@@ -35131,7 +35148,7 @@
 "Salix ×fragilis"
 ],
 "ranks": [
-"Q7432"
+"Q1306176"
 ],
 "taxon": true
 },
