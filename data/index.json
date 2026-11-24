@@ -217,13 +217,13 @@
    "updated": "2026-11-21T21:46:17Z"
   },
   "catalogna": {
-   "count": 367918,
-   "errors": 1510,
+   "count": 367919,
+   "errors": 1506,
    "name": "Catalogna",
-   "osm_base": "2026-11-23T17:33:19Z",
-   "sha1": "1eb2c12ca815e8f66ccc8da6f714e56718a6c7d2",
-   "tried": "2026-11-23",
-   "updated": "2026-11-23T17:37:03Z"
+   "osm_base": "2026-11-24T10:08:36Z",
+   "sha1": "556c73a16c227fd41fa449506ffe2d4bfe0bf968",
+   "tried": "2026-11-24",
+   "updated": "2026-11-24T10:11:12Z"
   },
   "cechia": {
    "count": 140842,
