@@ -1027,10 +1027,10 @@
    "count": 149783,
    "errors": 586,
    "name": "Veneto",
-   "osm_base": "2026-11-24T23:39:09Z",
-   "sha1": "bad84dbb1aeaec73789c79b1663a413188d05754",
+   "osm_base": "2026-11-24T23:53:33Z",
+   "sha1": "76d5374a6e7423f0ea56a2f86ba5a3d8e4a8b468",
    "tried": "2026-11-24",
-   "updated": "2026-11-24T23:41:26Z"
+   "updated": "2026-11-24T23:55:12Z"
   },
   "venezuela": {
    "count": 62876,
