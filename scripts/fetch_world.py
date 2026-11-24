@@ -252,6 +252,10 @@ def implicit_monuments():
                 p["qa"] = slug
                 members[p["id"]] = f
                 continue
+            # monument=tree ha l'errore monument_denotation (anche senza altre fonti), ma arriva già dalla query
+            # (issue #95): qui sarebbe un doppione
+            if ft.is_natural_monument(p):
+                continue
             other = any(c in p.get("issues", "") for c in IMPLICIT_CHECKS)
             if p.get("hint_ms") and BAD_CIRC & set(p.get("issues", "").strip("|").split("|")):
                 del p["hint_ms"]                   # circonferenza non affidabile: niente nota sulla soglia

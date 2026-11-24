@@ -825,7 +825,7 @@ def species_name(n):
     return n if len(n.replace("×", " ").split()) >= 2 else None
 
 
-def hint_props(t, osm_id=None):
+def hint_props(t, osm_id=None, pos=None):
     """Dati per i consigli della scheda (ⓘ: informazioni, non errori; index.html li mostra e non li segnala sulla
     mappa). Solo quelli che la pagina non può ricavare da sola:
     hint_sp: nessun species né genus, ma l'elemento di wikidata=* indica la specie (P10241, non un genere o più su)
@@ -853,6 +853,8 @@ def hint_props(t, osm_id=None):
     hint_imp_u: source=* di un import non documentato (scripts/imports.json) -> il valore;
     hint_imp_d: source=* di un import documentato -> "valore|pagina della wiki";
     hint_mc: ref:masaf senza masaf:criteria -> i criteri dell'elenco MASAF (masaf_trees.json) per quei codici;
+    hint_mf: solo nelle regioni italiane e non sui ceppi, codici di ref:masaf iscritti nell'elenco con le coordinate a
+    più di MASAF_FAR_KM dall'albero (pos = [lon, lat]) -> righe "codice|km|comune dell'elenco" separate da "\n";
     hint_ip: image=* è una pagina web di un sito di IMAGE_PAGE_SITES, non il file dell'immagine -> il sito;
     hint_mly: quella pagina è una foto di Mapillary e manca mapillary=* -> l'identificativo della foto (la correzione
     con JOSM lo sposta in mapillary);
@@ -897,6 +899,13 @@ def hint_props(t, osm_id=None):
         cr = {c for raw in str(t["ref:masaf"]).split(";") for c in MASAF_CRITERIA_OF.get(masaf_code(raw), [])}
         if cr:
             out["hint_mc"] = ",".join(sorted(cr, key=MASAF_ORDER.index))
+    if pos and IN_ITALY and t.get("ref:masaf") and t.get("natural") != "tree_stump":
+        far = []
+        for raw in dict.fromkeys(x.strip() for x in str(t["ref:masaf"]).split(";") if x.strip()):
+            if (mp := MASAF_POS_OF.get(masaf_code(raw))) and (km := distance_m(pos, mp[:2]) / 1000) > MASAF_FAR_KM:
+                far.append(f"{raw}|{km:.1f}|{mp[2]}")
+        if far:
+            out["hint_mf"] = "\n".join(far)
     sit = [x.strip() for x in str(t.get("species:it", "")).split(";") if x.strip()]
     if any(x[:1].islower() for x in sit):
         out["hint_it"] = ";".join(x[:1].upper() + x[1:] for x in sit)
@@ -951,9 +960,9 @@ def hint_props(t, osm_id=None):
 
 def wikidata_heritage(t):
     """[(QID, [etichetta it, etichetta en])] se l'elemento di wikidata=* ha una tutela (P1435) che non è in
-    HERITAGE_NOT_NATURAL e manca denotation=natural_monument (o monument=tree). L'etichetta è quella della prima
-    tutela che resta."""
-    if is_natural_monument(t):
+    HERITAGE_NOT_NATURAL e manca denotation=natural_monument (anche con monument=tree, issue #95). L'etichetta è
+    quella della prima tutela che resta."""
+    if "natural_monument" in [x.strip() for x in str(t.get("denotation", "")).split(";")]:
         return []
     out = []
     for q in qids(t, "wikidata"):
@@ -1847,7 +1856,8 @@ USOP_KEY = "ref:usop"
 
 def is_natural_monument(t):
     """Albero monumentale per i suoi tag: denotation=natural_monument (anche tra più valori) o monument=tree (issue
-    #95: circa 4.300 alberi nel mondo a novembre 2026, vale come denotation=natural_monument)."""
+    #95: circa 4.300 alberi nel mondo a novembre 2026, vale come denotation=natural_monument). Non per i check
+    monument_denotation e wikidata_heritage, che chiedono denotation=natural_monument anche con monument=tree."""
     return ("natural_monument" in [x.strip() for x in str(t.get("denotation", "")).split(";")]
             or "tree" in [x.strip() for x in str(t.get("monument", "")).split(";")])
 
@@ -1913,6 +1923,10 @@ MASAF_CRITERIA_OF = {x["c"]: x["cr"] for x in load_json(HERE / "masaf_trees.json
 # tipo degli alberi iscritti (campo "t": albero singolo, gruppo, filare singolo…), per i check masaf_shared e
 # masaf_group_single (masaf_code_checks); codici normalizzati con masaf_code
 MASAF_TYPE_OF = {masaf_code(x["c"]): x["t"] for x in load_json(HERE / "masaf_trees.json", "trees") or [] if x.get("t")}
+# posizione e comune degli alberi iscritti: codice normalizzato -> (lon, lat, comune), per il consiglio hint_mf
+MASAF_POS_OF = {masaf_code(x["c"]): (x["lon"], x["lat"], x.get("co") or "")
+                for x in load_json(HERE / "masaf_trees.json", "trees") or [] if x.get("lat") is not None and x.get("lon") is not None}
+MASAF_FAR_KM = 5   # hint_mf: distanza oltre la quale le coordinate dell'elenco MASAF si dicono lontane dall'albero
 MASAF_ORDER = ["a1", "a2.1", "a2.2", "a2.3", "b", "c", "d", "e", "f", "g"]
 # circonferenze minime MASAF per specie (scripts/masaf_thresholds.json, in cm), per il consiglio hint_ms; solo in Italia
 MASAF_MIN_CIRC = {binomial(k): v for k, v in load_json(HERE / "masaf_thresholds.json", "species").items()}
@@ -2998,7 +3012,11 @@ def checks(t, pos, osm_id=None):
     hr = wikidata_heritage(t)
     src = monument_sources(t)
     den_src = [s for s in src if s not in CRFOP_KEYS] if t.get("natural") == "tree_stump" else src
-    if (den_src or hr) and not is_natural_monument(t):
+    # monument=tree (anche tra più valori) è una fonte anche da solo, ceppi compresi: per il resto del tool vale come
+    # denotation=natural_monument (is_natural_monument, issue #95), ma l'errore resta finché manca il tag
+    if "tree" in [x.strip() for x in str(t.get("monument", "")).split(";")]:
+        den_src = [*den_src, "monument=tree"]
+    if (den_src or hr) and "natural_monument" not in [x.strip() for x in t.get("denotation", "").split(";")]:
         flag("monument_denotation", mon_src=";".join(den_src))
         if hr:
             q, (label_it, label_en) = hr[0]
@@ -3252,7 +3270,7 @@ def to_feature(el, fast=True):
     if r is not None and r0:
         p.update(hc_ratio=round(r, 3), hc_circ=round(circ_value(t)[0], 2), sp_ratio=r0)
     p.update(props)
-    p.update(hint_props(t, el["id"]))     # consigli della scheda (non errori)
+    p.update(hint_props(t, el["id"], [el["lon"], el["lat"]]))     # consigli della scheda (non errori)
     if SLENDER_CHECKS & set(iss):          # rapporto altezza/circonferenza segnalato: niente consiglio sulla soglia MASAF
         p.pop("hint_ms", None)
     return {"type": "Feature", "properties": p,

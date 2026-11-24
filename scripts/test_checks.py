@@ -12,7 +12,7 @@ ricava da quei file sono sostituite dalle piccole tabelle finte scritte qui sott
 inventati. Le soglie fisse dei check (MAX_HEIGHT, SLENDER_MAX, …) sono invece quelle vere: i casi usano valori lontani
 dalle soglie, ma se una soglia cambia molto vanno riguardati.
 
-HINT_CASES prova i consigli hint_ms e hint_wg; GROUP_ELEMENTS e feature_failures la lettura delle relazioni con ref:masaf
+HINT_CASES prova i consigli hint_ms, hint_mf e hint_wg; GROUP_ELEMENTS e feature_failures la lettura delle relazioni con ref:masaf
 (insiemi omogenei, issue #9) e i loro membri nelle feature.
 
 Quando si aggiunge o si cambia un check: aggiornare CASES. Un codice che checks() può segnalare e che nessun caso
@@ -91,6 +91,8 @@ FIXTURES = {
                    ft.masaf_code(GROUP_CODE): None},
     # tipo degli alberi iscritti (masaf_shared, masaf_group_single: masaf_code_failures)
     "MASAF_TYPE_OF": {ft.masaf_code(LISTED): "albero singolo", ft.masaf_code(GROUP_CODE): "filare singolo"},
+    # posizione e comune degli alberi iscritti (hint_mf, HINT_CASES): LISTED dove sono gli alberi finti, GROUP_CODE lontano
+    "MASAF_POS_OF": {ft.masaf_code(LISTED): (*POS, "Roma"), ft.masaf_code(GROUP_CODE): (*FAR, "Rieti")},
     # membri di insiemi omogenei MASAF (relazioni con ref:masaf): id del nodo -> righe "mg" (come masaf_groups)
     "MASAF_GROUPS": {MEMBER: [f"17460265|0|{LISTED}|a1|Glicini"]},
     # soglie MASAF di circonferenza (cm) per il consiglio hint_ms (HINT_CASES)
@@ -485,12 +487,24 @@ CASES = [
     ("monument_denotation: monumentaltrees.com",
      {"natural": "tree", "website": "https://www.monumentaltrees.com/en/ita/lazio/1/"}, ["monument_denotation"]),
     ("monument_denotation: tutela su Wikidata", {"natural": "tree", "wikidata": "Q910004"}, ["monument_denotation"]),
-    # monument=tree vale come denotation=natural_monument (issue #95)
-    ("monument=tree: niente monument_denotation", {"natural": "tree", "monument": "tree", "ref:masaf": LISTED}, []),
-    ("monument=tree: niente monument_denotation dalla tutela", {"natural": "tree", "monument": "tree", "wikidata": "Q910004"}, []),
-    ("monument=tree tra più valori", {"natural": "tree", "monument": "memorial;tree", "ref:masaf": LISTED}, []),
-    ("monument=memorial non vale", {"natural": "tree", "monument": "memorial", "ref:masaf": LISTED}, ["monument_denotation"]),
-    ("small_monument: monument=tree", {"natural": "tree", "monument": "tree", "height": "1"}, ["small_monument"]),
+    # monument=tree vale come denotation=natural_monument (issue #95), ma è anche una fonte di monument_denotation:
+    # l'errore resta finché manca denotation=natural_monument
+    ("monument_denotation: monument=tree", {"natural": "tree", "monument": "tree"}, ["monument_denotation"]),
+    ("monument_denotation: monument=tree tra più valori", {"natural": "tree", "monument": "memorial;tree"},
+     ["monument_denotation"]),
+    ("monument_denotation: monument=tree su un ceppo", {"natural": "tree_stump", "monument": "tree"},
+     ["monument_denotation"]),
+    ("monument=tree con natural_monument", {**MON, "monument": "tree"}, []),
+    ("monument_denotation: non per monument=memorial", {"natural": "tree", "monument": "memorial"}, []),
+    ("monument_denotation: anche con monument=tree", {"natural": "tree", "monument": "tree", "ref:masaf": LISTED},
+     ["monument_denotation"]),
+    ("monument_denotation: tutela su Wikidata anche con monument=tree", {"natural": "tree", "monument": "tree",
+                                                                        "wikidata": "Q910004"}, ["monument_denotation"]),
+    ("small_monument: monument=tree", {"natural": "tree", "monument": "tree", "height": "1"},
+     ["monument_denotation", "small_monument"]),
+    ("small_monument: monument=tree tra più valori", {"natural": "tree", "monument": "memorial;tree", "height": "1"},
+     ["monument_denotation", "small_monument"]),
+    ("small_monument: non per monument=memorial", {"natural": "tree", "monument": "memorial", "height": "1"}, []),
     ("monument_denotation: non per una tutela solo culturale su Wikidata", {"natural": "tree", "wikidata": "Q910009"}, []),
     ("monument_denotation: tutela culturale e naturale su Wikidata", {"natural": "tree", "wikidata": "Q910010"},
      ["monument_denotation"]),
@@ -643,13 +657,20 @@ CASES = [
 
 
 # Consigli di hint_props: (nome, tag, id del nodo, proprietà, atteso: True = c'è, False = non c'è, o il valore).
-# hint_ms: soglia MASAF di circonferenza, solo nelle regioni italiane; hint_wg: l'elemento Wikidata dell'albero ha
-# solo il genere della specie
+# hint_ms: soglia MASAF di circonferenza, solo nelle regioni italiane; hint_mf: coordinate dell'elenco MASAF lontane
+# dall'albero; hint_wg: l'elemento Wikidata dell'albero ha solo il genere della specie
 HINT_CASES = [
     ("hint_ms: circonferenza oltre la soglia", {**OAK, "circumference": "5"}, None, "hint_ms", True),
     ("hint_ms: non con natural_monument", {**MON, **OAK, "circumference": "5"}, None, "hint_ms", False),
     ("hint_ms: non per un membro di un insieme omogeneo", {**OAK, "denotation": "park", "circumference": "5"}, MEMBER,
      "hint_ms", False),
+    # hint_mf: gli alberi finti sono in POS (feature_failures), GROUP_CODE nell'elenco è in FAR
+    ("hint_mf: coordinate MASAF lontane", {**MON, "ref:masaf": GROUP_CODE}, None, "hint_mf", f"{GROUP_CODE}|138.1|Rieti"),
+    ("hint_mf: coordinate MASAF vicine", {**MON, "ref:masaf": LISTED}, None, "hint_mf", False),
+    ("hint_mf: solo i codici lontani", {**MON, "ref:masaf": f"{LISTED};{GROUP_CODE}"}, None, "hint_mf",
+     f"{GROUP_CODE}|138.1|Rieti"),
+    ("hint_mf: non su un ceppo", {"natural": "tree_stump", "ref:masaf": GROUP_CODE}, None, "hint_mf", False),
+    ("hint_mf: non per un codice senza coordinate", {**MON, "ref:masaf": REMOVED}, None, "hint_mf", False),
     ("hint_wg: Wikidata ha solo il genere", {**OAK, "wikidata": "Q910008"}, None, "hint_wg", "Q910008|Quercus"),
     ("hint_wg: non per un altro genere", {"natural": "tree", "species": "Pinus pinea", "wikidata": "Q910008"}, None,
      "hint_wg", False),
@@ -939,7 +960,7 @@ def feature_failures():
     out = []
     ft.IN_ITALY, ft.COUNTRY = True, "IT"
     for name, tags, osm_id, key, want in HINT_CASES:
-        val = ft.hint_props(dict(tags), osm_id).get(key)
+        val = ft.hint_props(dict(tags), osm_id, POS).get(key)
         got = (val is not None) if isinstance(want, bool) else val
         if got != want:
             out.append(f"FALLITO: {name}\n  tag:     {tags}\n  atteso:  {key}={want}\n  uscito:  {key}={val}")
