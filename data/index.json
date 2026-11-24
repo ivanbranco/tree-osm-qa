@@ -1024,13 +1024,13 @@
    "updated": "2026-11-16T17:34:31Z"
   },
   "veneto": {
-   "count": 149728,
-   "errors": 546,
+   "count": 149783,
+   "errors": 586,
    "name": "Veneto",
-   "osm_base": "2026-11-20T16:52:06Z",
-   "sha1": "fba7a956f42387461e67b626884c80bc3451a34c",
-   "tried": "2026-11-20",
-   "updated": "2026-11-20T16:55:11Z"
+   "osm_base": "2026-11-24T23:39:09Z",
+   "sha1": "bad84dbb1aeaec73789c79b1663a413188d05754",
+   "tried": "2026-11-24",
+   "updated": "2026-11-24T23:41:26Z"
   },
   "venezuela": {
    "count": 62876,
