@@ -30,7 +30,8 @@ POS = [12.0, 42.0]          # posizione degli alberi finti ([lon, lat])
 FAR = [13.0, 43.0]          # un punto a più di 100 km
 COUNTRY = "IT"              # nazione della regione degli alberi finti, se il caso non ne indica un'altra
 REMOVED = "001/A001/RM/01"  # codice MASAF finto, rimosso dall'elenco
-LISTED = "002/A002/RM/02"   # codice MASAF finto, iscritto
+LISTED = "002/A002/RM/02"   # codice MASAF finto, iscritto (albero singolo)
+GROUP_CODE = "004/A004/RM/04"   # codice MASAF finto, iscritto come filare singolo
 MEMBER = 9001               # id di un nodo membro di un insieme omogeneo MASAF (FIXTURES["MASAF_GROUPS"])
 
 _SPECIES = {
@@ -86,7 +87,10 @@ FIXTURES = {
     "LEAF_TYPE_GENERA": {"cycas": {"needleleaved", "broadleaved", "palm"}},
     "DEN_COUNTS": _DEN,
     "DEN_COMMON": sorted((v for v, n in _DEN.items() if n >= ft.DEN_COMMON_MIN), key=len, reverse=True),
-    "MASAF_LIST": {ft.masaf_code(REMOVED): ["morte naturale", "D.M. 1/2020"], ft.masaf_code(LISTED): None},
+    "MASAF_LIST": {ft.masaf_code(REMOVED): ["morte naturale", "D.M. 1/2020"], ft.masaf_code(LISTED): None,
+                   ft.masaf_code(GROUP_CODE): None},
+    # tipo degli alberi iscritti (masaf_shared, masaf_group_single: masaf_code_failures)
+    "MASAF_TYPE_OF": {ft.masaf_code(LISTED): "albero singolo", ft.masaf_code(GROUP_CODE): "filare singolo"},
     # membri di insiemi omogenei MASAF (relazioni con ref:masaf): id del nodo -> righe "mg" (come masaf_groups)
     "MASAF_GROUPS": {MEMBER: [f"17460265|0|{LISTED}|a1|Glicini"]},
     # soglie MASAF di circonferenza (cm) per il consiglio hint_ms (HINT_CASES)
@@ -481,6 +485,12 @@ CASES = [
     ("monument_denotation: monumentaltrees.com",
      {"natural": "tree", "website": "https://www.monumentaltrees.com/en/ita/lazio/1/"}, ["monument_denotation"]),
     ("monument_denotation: tutela su Wikidata", {"natural": "tree", "wikidata": "Q910004"}, ["monument_denotation"]),
+    # monument=tree vale come denotation=natural_monument (issue #95)
+    ("monument=tree: niente monument_denotation", {"natural": "tree", "monument": "tree", "ref:masaf": LISTED}, []),
+    ("monument=tree: niente monument_denotation dalla tutela", {"natural": "tree", "monument": "tree", "wikidata": "Q910004"}, []),
+    ("monument=tree tra più valori", {"natural": "tree", "monument": "memorial;tree", "ref:masaf": LISTED}, []),
+    ("monument=memorial non vale", {"natural": "tree", "monument": "memorial", "ref:masaf": LISTED}, ["monument_denotation"]),
+    ("small_monument: monument=tree", {"natural": "tree", "monument": "tree", "height": "1"}, ["small_monument"]),
     ("monument_denotation: non per una tutela solo culturale su Wikidata", {"natural": "tree", "wikidata": "Q910009"}, []),
     ("monument_denotation: tutela culturale e naturale su Wikidata", {"natural": "tree", "wikidata": "Q910010"},
      ["monument_denotation"]),
@@ -605,6 +615,15 @@ CASES = [
     ("key_typo: ref: con il resto scritto male", {"natural": "tree", "ref:massaf": LISTED}, ["key_typo"]),
     ("key_typo: non per un'altra chiave ref: corta", {"natural": "tree", "ref:uid": "12"}, []),
     ("key_typo: ref:usop in maiuscolo", {**MON, "ref:USOP": "103456"}, ["key_typo"], None, "CZ"),
+    # altre chiavi dei registri dei monumentali (issue #95)
+    ("key_typo: ref:mipaaf", {**MON, "ref:mipaaf": LISTED}, ["key_typo"]),
+    ("key_typo: ref:drusop", {**MON, "ref:drusop": "100217"}, ["key_typo"], None, "CZ"),
+    ("key_typo: ref:DRUSOP", {**MON, "ref:DRUSOP": "7221"}, ["key_typo"], None, "CZ"),
+    ("key_typo: ref:drusop:tree", {**MON, "ref:drusop:tree": "7231"}, ["key_typo"], None, "CZ"),
+    ("key_typo: ref:GID", {**MON, "ref:GID": "185044"}, ["key_typo"], None, "PL"),
+    ("chiavi nuove note: niente key_typo", {**MON, "ref:baumkunde": "https://www.baumkunde.de/baumregister/1/",
+                                           "ref:mbreg": "http://mbreg.de/mbr/mbr_europe.php?q1=id&q=260",
+                                           "ref:inaturalist.org": "69612090;172572384"}, []),
     # TROBI e champion trees: chiavi note, nessun errore (né monument_denotation: non è un registro di tutela)
     ("TROBI e champion tree senza errori", {**MON, "ref:TROBI": "107129", "ref:trobi": "107129", "division:champion": "yes",
      "champion:territory": "Ireland and Britain", "champion:category": "Girth/Height", "champion:date": "2012"}, [], None, "IE"),
@@ -1039,6 +1058,35 @@ def feature_failures():
                 and ft.start_date_precision("j:1918-01-31") == 0),
                ("Più vecchio: ⚠ da tag_in_value su planted_date", ft.record_warned("oldest", {
                    "planted_date": "planted_date=1850", "issues": "|tag_in_value|", "eq_keys": "planted_date"}))]
+    # codici MASAF confrontati tra gli alberi (masaf_code_checks, issue #95): LISTED è un albero singolo, GROUP_CODE un
+    # filare singolo. Con lo stesso punto c'è anche same_point: qui conta solo masaf_*
+    def masaf_build(els, groups=None):
+        saved, ft.MASAF_GROUPS = ft.MASAF_GROUPS, groups if groups is not None else {}
+        try:
+            return {f["properties"]["id"]: f["properties"] for f in ft.build({"elements": els})["features"]}
+        finally:
+            ft.MASAF_GROUPS = saved
+    has = lambda p, c: f"|{c}|" in p["issues"]
+    mk = lambda i, code, nat="tree": node(i, {"natural": nat, "denotation": "natural_monument", "ref:masaf": code})
+    fb = masaf_build([mk(9101, LISTED), mk(9102, f"{LISTED};{REMOVED}"), mk(9103, LISTED, "tree_stump"),
+                      mk(9104, GROUP_CODE), mk(9105, REMOVED)])
+    fb2 = masaf_build([mk(9104, GROUP_CODE), mk(9106, GROUP_CODE)])
+    fb_rel = masaf_build([mk(9104, GROUP_CODE)], {9999: [f"1|0|{GROUP_CODE}||Filare"]})
+    ft.IN_ITALY = False
+    fb_out = masaf_build([mk(9104, GROUP_CODE)])
+    ft.IN_ITALY = True
+    checks += [("masaf_shared: albero singolo su due alberi", has(fb[9101], "masaf_shared") and fb[9101].get("msh") == f"{LISTED}|9102"
+                and fb[9102].get("msh") == f"{LISTED}|9101"),
+               ("masaf_shared: il ceppo non conta e non è segnalato", not has(fb[9103], "masaf_shared")
+                and "9103" not in fb[9101].get("msh", "")),
+               ("masaf_shared: non per un codice senza tipo", not has(fb[9105], "masaf_shared")),
+               ("masaf_group_single: filare su un solo albero", has(fb[9104], "masaf_group_single")
+                and fb[9104].get("mgs") == f"{GROUP_CODE}|filare singolo" and not has(fb[9104], "masaf_shared")),
+               ("masaf_group_single: non su due alberi", not any(has(p, "masaf_group_single") for p in fb2.values())),
+               ("masaf_group_single: non con una relazione con il codice", not has(fb_rel[9104], "masaf_group_single")),
+               ("masaf_group_single: non fuori dall'Italia", not has(fb_out[9104], "masaf_group_single")),
+               ("monument=tree nel file ridotto", b'"id":8' in ft.minimal({"features": [{"properties": {
+                   "id": 8, "issues": "|", "monument": "tree"}}]}))]
     out += [f"FALLITO: {n}" for n, ok in checks if not ok]
     return out
 

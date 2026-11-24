@@ -888,8 +888,8 @@ def hint_props(t, osm_id=None):
             out["hint_imp_u"] = imp[1]
     den = {x.strip() for x in str(t.get("denotation", "")).split(";")}
     sp_bin = binomial(t.get("species") or "") if ";" not in str(t.get("species", "")) else ""
-    if (IN_ITALY and t.get("natural") == "tree" and not t.get("ref:masaf") and not den & {"natural_monument", "landmark"}
-            and not masaf_member(osm_id) and (min_cm := MASAF_MIN_CIRC.get(sp_bin))):
+    if (IN_ITALY and t.get("natural") == "tree" and not t.get("ref:masaf") and "landmark" not in den
+            and not is_natural_monument(t) and not masaf_member(osm_id) and (min_cm := MASAF_MIN_CIRC.get(sp_bin))):
         c, _ = circ_value(t)
         if c is not None and c * 100 >= min_cm:
             out["hint_ms"] = f"{round(c, 2):g}|{min_cm / 100:g}"
@@ -951,9 +951,9 @@ def hint_props(t, osm_id=None):
 
 def wikidata_heritage(t):
     """[(QID, [etichetta it, etichetta en])] se l'elemento di wikidata=* ha una tutela (P1435) che non è in
-    HERITAGE_NOT_NATURAL e manca denotation=natural_monument. L'etichetta è quella della prima tutela
-    che resta."""
-    if "natural_monument" in [x.strip() for x in str(t.get("denotation", "")).split(";")]:
+    HERITAGE_NOT_NATURAL e manca denotation=natural_monument (o monument=tree). L'etichetta è quella della prima
+    tutela che resta."""
+    if is_natural_monument(t):
         return []
     out = []
     for q in qids(t, "wikidata"):
@@ -1844,6 +1844,13 @@ CRFOP_KEYS = ("ref:CRFOP", "ref:gid")
 # dall'import da RUIAN (https://wiki.openstreetmap.org/wiki/Organised_Editing/Activities/Reperfect.it)
 USOP_KEY = "ref:usop"
 
+
+def is_natural_monument(t):
+    """Albero monumentale per i suoi tag: denotation=natural_monument (anche tra più valori) o monument=tree (issue
+    #95: circa 4.300 alberi nel mondo a novembre 2026, vale come denotation=natural_monument)."""
+    return ("natural_monument" in [x.strip() for x in str(t.get("denotation", "")).split(";")]
+            or "tree" in [x.strip() for x in str(t.get("monument", "")).split(";")])
+
 # tag dei registri nazionali degli alberi monumentali: (chiave, valore o None per qualsiasi valore, codice ISO della
 # nazione). Check register_country: il tag su un albero di una regione di un'altra nazione
 NATIONAL_TAGS = (("ref:masaf", None, "IT"), ("masaf:criteria", None, "IT"), ("ref:rami", None, "IT"),
@@ -1903,6 +1910,9 @@ from update_masaf import masaf_code   # noqa: E402 (stessa normalizzazione dei c
 MASAF_LIST = load_json(HERE / "masaf_list.json", "codes")
 # criteri degli alberi iscritti (scripts/masaf_trees.json, campo "cr"), per il consiglio hint_mc
 MASAF_CRITERIA_OF = {x["c"]: x["cr"] for x in load_json(HERE / "masaf_trees.json", "trees") or [] if x.get("cr")}
+# tipo degli alberi iscritti (campo "t": albero singolo, gruppo, filare singolo…), per i check masaf_shared e
+# masaf_group_single (masaf_code_checks); codici normalizzati con masaf_code
+MASAF_TYPE_OF = {masaf_code(x["c"]): x["t"] for x in load_json(HERE / "masaf_trees.json", "trees") or [] if x.get("t")}
 MASAF_ORDER = ["a1", "a2.1", "a2.2", "a2.3", "b", "c", "d", "e", "f", "g"]
 # circonferenze minime MASAF per specie (scripts/masaf_thresholds.json, in cm), per il consiglio hint_ms; solo in Italia
 MASAF_MIN_CIRC = {binomial(k): v for k, v in load_json(HERE / "masaf_thresholds.json", "species").items()}
@@ -2646,7 +2656,8 @@ KNOWN_KEYS = ("natural", "species", "genus", "taxon", "leaf_type", "leaf_cycle",
               "ref:monumentaltrees", "heritage:operator", "panoramax", "website", "multi_stemmed", "sex",
               "sacred_tree", "religion", "operator", "source", "description", "check_date", "survey:date",
               "protected", "image:fotoshi", "ref:zapis", "ref:icnf", "ref:CRFOP", "ref:gid", "ref:usop",
-              "ref:TROBI", "division:champion", "champion")
+              "ref:TROBI", "division:champion", "champion", "monument", "ref:baumkunde", "ref:mbreg",
+              "ref:inaturalist.org")
 KNOWN_KEY_SET = set(KNOWN_KEYS)
 NUMBERED_KEY = re.compile(r"[:_ ]?\d+$")   # image2, panoramax:1: varianti numerate, non errori
 
@@ -2697,7 +2708,10 @@ def key_typo(k):
 # Sinonimi di planted_date (issue #90): chiavi diverse che indicano la stessa cosa. planted=* è segnalata solo se il
 # valore non è yes o no (planted=yes/no è un uso a sé, non una data)
 SYNONYM_KEYS = {"year_planted": "planted_date", "date:planted": "planted_date", "date_planted": "planted_date",
-                "planted:date": "planted_date", "planted": "planted_date"}
+                "planted:date": "planted_date", "planted": "planted_date",
+                # registri degli alberi monumentali con un'altra chiave (issue #95): MiPAAF è il nome precedente del
+                # ministero del MASAF; DRUSOP è la banca dati del registro ÚSOP. ref:GID (maiuscole) lo trova key_typo
+                "ref:mipaaf": "ref:masaf", "ref:drusop": "ref:usop", "ref:drusop:tree": "ref:usop"}
 
 
 def key_synonym(k, v):
@@ -2984,7 +2998,7 @@ def checks(t, pos, osm_id=None):
     hr = wikidata_heritage(t)
     src = monument_sources(t)
     den_src = [s for s in src if s not in CRFOP_KEYS] if t.get("natural") == "tree_stump" else src
-    if (den_src or hr) and "natural_monument" not in [x.strip() for x in t.get("denotation", "").split(";")]:
+    if (den_src or hr) and not is_natural_monument(t):
         flag("monument_denotation", mon_src=";".join(den_src))
         if hr:
             q, (label_it, label_en) = hr[0]
@@ -2993,7 +3007,7 @@ def checks(t, pos, osm_id=None):
     # non in whitelist (issue #34). Non si ripete la misura che un check sul rapporto altezza/circonferenza dà già per
     # sbagliata: la circonferenza se l'albero è troppo slanciato, l'altezza se è troppo tozzo. sm_keys: misure sotto la
     # soglia, separate da ";". Essere membro di un insieme omogeneo non è una fonte di monument_denotation (MASAF_GROUPS)
-    if ((src or masaf_member(osm_id) or "natural_monument" in [x.strip() for x in t.get("denotation", "").split(";")])
+    if ((src or masaf_member(osm_id) or is_natural_monument(t))
             and t.get("natural") != "tree_stump" and osm_id not in SMALL_MON_WHITELIST):
         sm = []
         if h is not None and 0 < h < SMALL_MON_HEIGHT and "too_stocky" not in issues:
@@ -3042,7 +3056,10 @@ KEEP = ["name", "species", "genus", "taxon", "taxon:variety", "variety", "taxon:
         # Tree Register of Britain and Ireland e champion trees: riga ★ nella scheda (recognitions in index.html).
         # ref:trobi non è sulla wiki ma ha circa 50 usi: vale come ref:TROBI
         "ref:TROBI", "ref:trobi", "division:champion", "champion:territory", "champion:category", "champion:date",
-        "ref"]   # ref: tra parentesi dopo il titolo della scheda (issue #89)
+        "ref",   # ref: tra parentesi dopo il titolo della scheda (issue #89)
+        # monument=tree vale come denotation=natural_monument (is_natural_monument, isMon in index.html); schede di
+        # baumkunde.de e mbreg.de e osservazioni di iNaturalist: righe con il link nella scheda (issue #95)
+        "monument", "ref:baumkunde", "ref:mbreg", "ref:inaturalist.org"]
 
 # Alberi da frutto (rendering: puntini colorati sulla chioma, issue #3): mele, noci, limoni e arance. Solo specie
 # coltivate per i frutti, non i generi interi (molti Malus e Prunus sono ornamentali). Colore del frutto per specie.
@@ -3310,6 +3327,51 @@ def neighbour_checks(feats):
             p["issues"] = "|" + "|".join([*p["issues"].strip("|").split("|"), *extra]).lstrip("|") + "|"
 
 
+MASAF_SINGLE = {"albero singolo", "albero isolato"}                          # tipi MASAF di un albero solo
+MASAF_GROUP = {"gruppo", "filare singolo", "filare doppio", "viale alberato"}  # e di più alberi (anche "insieme omogeneo…")
+
+
+def masaf_kind(code):
+    """"single" se l'elenco MASAF dà il codice (normalizzato) come un albero solo, "group" se come più alberi, None se
+    il tipo non c'è o non si riconosce."""
+    t = str(MASAF_TYPE_OF.get(code, "")).strip().casefold()
+    return "single" if t in MASAF_SINGLE else "group" if t in MASAF_GROUP or t.startswith("insieme omogeneo") else None
+
+
+def masaf_code_checks(feats):
+    """Check sui codici ref:masaf confrontando gli alberi tra loro (non i ceppi), dopo quelli del singolo albero
+    (issue #95):
+    masaf_shared = un codice che l'elenco MASAF dà come albero singolo è anche su altri alberi (msh: righe
+    "codice|id;id…" degli altri alberi, separate da "\n");
+    masaf_group_single = solo nelle regioni italiane, un codice che l'elenco dà come gruppo, filare, viale o insieme
+    omogeneo è su questo solo albero e su nessuna relazione con ref:masaf (MASAF_GROUPS) (mgs: righe "codice|tipo
+    dell'elenco", separate da "\n")."""
+    trees = [f for f in feats if not f["properties"].get("stump") and f["properties"].get("ref:masaf")]
+    codes = lambda p: [(raw, masaf_code(raw)) for raw in (x.strip() for x in str(p["ref:masaf"]).split(";")) if raw]
+    by_code = collections.defaultdict(set)
+    for f in trees:
+        for _, c in codes(f["properties"]):
+            by_code[c].add(f["properties"]["id"])
+    rel_codes = {masaf_code(c.strip()) for rows in MASAF_GROUPS.values() for row in rows
+                 for c in row.split("|")[2].split(";") if c.strip()}
+    for f in trees:
+        p, extra, shared, group = f["properties"], [], [], []
+        for raw, c in dict.fromkeys(codes(p)):
+            kind = masaf_kind(c)
+            if kind == "single" and len(by_code[c]) > 1:
+                shared.append(f"{raw}|{';'.join(map(str, sorted(by_code[c] - {p['id']})))}")
+            elif kind == "group" and IN_ITALY and len(by_code[c]) == 1 and c not in rel_codes:
+                group.append(f"{raw}|{MASAF_TYPE_OF[c].strip()}")
+        if shared:
+            extra.append("masaf_shared")
+            p["msh"] = "\n".join(shared)
+        if group:
+            extra.append("masaf_group_single")
+            p["mgs"] = "\n".join(group)
+        if extra:
+            p["issues"] = "|" + "|".join([*p["issues"].strip("|").split("|"), *extra]).lstrip("|") + "|"
+
+
 def xmas_feature(el):
     """Albero di Natale (xmas:feature=tree) che non è natural=tree né tree_stump, spesso un albero tagliato o finto in
     una piazza: solo per il disegno dall'8 dicembre al 6 gennaio (#7), senza check. Chioma da diameter_crown o raggio
@@ -3362,7 +3424,8 @@ def build(data):
     feats = [to_feature(e) for e in nodes if is_tree(e)]
     feats.sort(key=lambda f: f["properties"]["id"])  # ordine stabile: se i dati non cambiano, il file resta identico
     neighbour_checks(feats)
-    fc = {"type": "FeatureCollection", "features": feats}
+    masaf_code_checks(feats)
+    fc ={"type": "FeatureCollection", "features": feats}
     # filari senza alberi mappati tra i nodi: membro aggiuntivo "rows", come "xmas" fuori da conteggi, errori e storico
     if rows := tree_rows(data["elements"]):
         fc["rows"] = rows
@@ -3460,7 +3523,7 @@ def minimal(fc):
     monumentali, anche i membri di un insieme omogeneo MASAF). Il sito lo carica e lo mostra subito, mentre il file
     completo si carica in secondo piano."""
     feats = [f for f in fc["features"] if f["properties"]["issues"] != "|" or f["properties"].get("mg")
-             or "natural_monument" in [x.strip() for x in str(f["properties"].get("denotation", "")).split(";")]]
+             or is_natural_monument(f["properties"])]
     return json.dumps({"type": "FeatureCollection", "features": feats}, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
 

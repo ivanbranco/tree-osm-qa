@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Mappa mondiale di DendrOSM (monumental-trees/): scarica da Overpass tutti gli alberi monumentali
-(denotation=natural_monument) del mondo, calcola gli stessi check del tool QA e scrive
+(denotation=natural_monument o monument=tree) del mondo, calcola gli stessi check del tool QA e scrive
 data/world/<mappa>.geojson.gz e data/world/index.json (stessa forma di data/index.json).
 
 Ogni albero che cade in una regione del tool QA con dati riceve la proprietà "qa" (lo slug della regione): la
@@ -26,15 +26,19 @@ BOUNDARIES = ft.DATA / "regions_boundaries.geojson"
 # Nei riquadri solo il valore esatto denotation=natural_monument, senza ["natural"="tree"]: con quel filtro anche i
 # riquadri quasi vuoti superavano i 120 s ("timed out in query"); natural=tree si controlla dopo, in Python. I valori
 # multipli (natural_monument;landmark, una manciata di nodi su Taginfo a novembre 2026) arrivano da "multi", una
-# query mondiale a parte che esclude il valore esatto.
+# query mondiale a parte che esclude il valore esatto. monument=tree vale come denotation=natural_monument (issue #95,
+# is_natural_monument di fetch_trees.py): nei riquadri anche il valore esatto monument=tree, nella query "multi" i valori
+# multipli (monument=tree;…).
 MAPS = {
     "monumental": {
         "name": "Alberi monumentali",
         "query": """[out:json][timeout:300];
-node["denotation"="natural_monument"]({bbox});
+(node["denotation"="natural_monument"]({bbox});
+ node["monument"="tree"]({bbox}););
 out body qt;""",
         "multi": """[out:json][timeout:300];
-node["denotation"~"(^|;)natural_monument(;|$)"]["denotation"!="natural_monument"];
+(node["denotation"~"(^|;)natural_monument(;|$)"]["denotation"!="natural_monument"];
+ node["monument"~"(^|;)tree(;|$)"]["monument"!="tree"];);
 out body qt;""",
     },
 }
@@ -227,8 +231,8 @@ IMPLICIT_CHECKS = ("|monument_denotation|", "|wikidata_heritage|")
 
 
 def group_only(p):
-    """Vero per un membro di un insieme omogeneo MASAF senza denotation=natural_monument."""
-    return bool(p.get("mg")) and "natural_monument" not in str(p.get("denotation", "")).split(";")
+    """Vero per un membro di un insieme omogeneo MASAF senza denotation=natural_monument (né monument=tree)."""
+    return bool(p.get("mg")) and not ft.is_natural_monument(p)
 
 
 def implicit_monuments():

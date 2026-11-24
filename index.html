@@ -453,7 +453,7 @@ const I18N = {
     legFruitAlways: "Frutti (sempre)", legFruitOff: "Frutti (nascosti)",
     legFruitToggle: "Clic per cambiare: frutti solo nella loro stagione, sempre, o nascosti",    // pop-up sulle icone della legenda: i tag che le producono (chiave = data-i18n della voce)
     legTips: {
-      legMonument: "denotation=natural_monument, o membro di una relazione con ref:masaf (insieme omogeneo dell'elenco MASAF)",
+      legMonument: "denotation=natural_monument o monument=tree, o membro di una relazione con ref:masaf (insieme omogeneo dell'elenco MASAF)",
       legSacred: "ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree o religion=shinto",
       legMonSacred: "denotation=natural_monument e anche ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree o religion=shinto (da zoom 16)",
       legMasaf: "Alberi dell'elenco degli alberi monumentali d'Italia del MASAF che su OpenStreetMap non hanno ancora un nodo con il loro ref:masaf né un albero monumentale dello stesso genere entro 25 m (da zoom 7)",
@@ -655,6 +655,7 @@ const I18N = {
       monument_denotation: "Fonte monumentale senza natural_monument",
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
       masaf_removed: "Albero rimosso dall'elenco MASAF", masaf_unknown: "ref:masaf non presente nell'elenco MASAF",
+      masaf_shared: "Codice MASAF di un albero singolo su più alberi", masaf_group_single: "Codice MASAF di un gruppo su un solo albero",
       register_country: "Tag di un registro di un'altra nazione", start_date_invalid: "start_date o planted_date non valido o nel futuro",
       date_mismatch: "start_date e planted_date diversi",
       wikipedia_is_taxon: "wikipedia è un taxon",
@@ -824,7 +825,7 @@ const I18N = {
       too_slender: "Soglia: altezza più di 100 volte la circonferenza. È larga di proposito, per evitare falsi positivi.",
       too_slender_species: p => `Il rapporto tipico di questa specie è ${Number(p.sp_ratio).toLocaleString(LOC)} (mediana dei dati OSM, pagina wiki «Tree species records»). Segnalato oltre 4 volte quel valore (e comunque oltre 40), solo per alberi alti almeno 10 m: gli alberelli appena piantati sono sottili.`,
       too_stocky: "Soglia: circonferenza più di 3 volte l'altezza. Gli alberi reali più tozzi, come gli olivi monumentali, hanno un rapporto altezza/circonferenza intorno a 0,5.",
-      small_monument: "L'albero ha denotation=natural_monument o una fonte monumentale (ref:masaf, ref:rami, monumentaltrees.com…), o è membro di una relazione con ref:masaf, ma è alto meno di 1,5 m o ha una circonferenza sotto 20 cm, le misure di una piccola pianta o di una canna di bambù. Le soglie sono basse di proposito, per evitare falsi positivi.",
+      small_monument: "L'albero ha denotation=natural_monument (o monument=tree) o una fonte monumentale (ref:masaf, ref:rami, monumentaltrees.com…), o è membro di una relazione con ref:masaf, ma è alto meno di 1,5 m o ha una circonferenza sotto 20 cm, le misure di una piccola pianta o di una canna di bambù. Le soglie sono basse di proposito, per evitare falsi positivi.",
       comma: "In OSM il separatore decimale è il punto (2.9, non 2,9).",
       diameter_unit: "Senza unità, diameter è in millimetri (wiki OSM, Key:diameter): questo valore sarebbe un tronco di meno di 1 cm. Se è in metri, va scritta l'unità (es. diameter=0.5 m); meglio ancora usare circumference, in metri. Il valore non è usato per disegnare il tronco.",
       unit_format: "In OSM un'unità di misura si scrive dopo il numero, separata da uno spazio e in minuscolo (150 cm), e piedi e pollici con gli apici ' e \", senza spazi: 30', 7'4\" (wiki OSM, Map features/Units; come Osmose, anche 30 ft è segnalato). Per i metri l'unità si può omettere, tranne in diameter, dove senza unità il valore è in millimetri. Il valore è comunque usato per disegnare l'albero.",
@@ -861,18 +862,20 @@ const I18N = {
       website_wikipedia: "website=* o url=* con l'indirizzo di una voce di Wikipedia: per le voci c'è il tag wikipedia=*, che indica la voce del singolo albero.",
       broken_link: "Segnalati: pagine 404 o 410, siti che non esistono più e file assenti su Commons. Non sono segnalati 403, 429, errori del server e timeout, che spesso sono blocchi verso i programmi automatici.",
       commons_far: "Le coordinate del file di Commons collegato (wikimedia_commons o image) distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
-      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, ref:usop, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) o con una tutela (P1435) indicano un albero monumentale, che in OSM ha denotation=natural_monument. Sui ceppi ref:CRFOP e ref:gid non sono segnalati.",
+      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, ref:usop, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) o con una tutela (P1435) indicano un albero monumentale, che in OSM ha denotation=natural_monument (monument=tree vale uguale). Sui ceppi ref:CRFOP e ref:gid non sono segnalati.",
       register_country: "Tag dei registri nazionali degli alberi monumentali: ref:masaf, masaf:criteria e ref:rami (Italia), ref:icnf e heritage:operator=icnf (Portogallo), heritage:operator=anf (Lussemburgo), ref:CRFOP e ref:gid (Polonia), ref:usop (Cechia). Segnalati sugli alberi delle regioni di altre nazioni.",
       masaf_criteria: "Codici ammessi: a–g, a1, a2, a2.1, a2.2, a2.3, separati da virgole senza spazi.",
       masaf_removed: "Il codice ref:masaf corrisponde a un albero che l'elenco degli alberi monumentali d'Italia dà come rimosso. Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       masaf_unknown: "Il codice ref:masaf non è nell'elenco degli alberi monumentali d'Italia, né tra gli alberi iscritti né tra quelli rimossi. Lo zero iniziale del primo numero non conta (01/G114/CN/01 vale come 001/G114/CN/01). Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
+      masaf_shared: "L'elenco MASAF dà il codice come un albero singolo (o isolato), ma nella regione lo stesso ref:masaf è su più alberi (i ceppi non contano). Il confronto è tra gli alberi della stessa regione.",
+      masaf_group_single: "L'elenco MASAF dà il codice come un gruppo, un filare, un viale o un insieme omogeneo, ma nella regione il ref:masaf è su questo solo albero e su nessuna relazione. Per la wiki (IT:Key:ref:masaf, «Gli \"insiemi omogenei\"») il gruppo si mappa con una relazione type=site con ref:masaf, natural=tree_group e denotation=natural_monument, che ha per membri gli alberi. Solo nelle regioni italiane.",
       start_date_invalid: "Forme della wiki OSM (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 e gli intervalli 1850..1900. Valgono anche per planted_date. Sono segnalate anche le date che non esistono (2020-02-30) e quelle dopo la data dell'aggiornamento dei dati.",
       date_mismatch: "L'albero ha start_date e planted_date con valori diversi (spazi in più esclusi). Per l'età nella scheda e per «Più vecchio» il sito usa start_date. Non segnalato se una delle due date non è valida («start_date o planted_date non valido o nel futuro»).",
       // wp_genus (fetch_trees.py): l'elemento della voce è di rango genere
       wikipedia_is_taxon: p => `wikipedia=* collega la voce del singolo albero; la voce ${p.wp_genus ? "del genere si collega con genus:wikipedia=*" : "della specie si collega con species:wikipedia=*"}. L'elemento Wikidata collegato alla voce è un taxon (ha un nome scientifico, P225).`,
       denotation_value: "Confronto con gli usi su Taginfo: segnalati i valori usati al massimo 10 volte, quelli con un formato non valido, quelli con spazi intorno al \";\" che separa più valori e quelli comuni con altro testo attaccato.",
       undocumented_tag: "tree=* e type=* non sono documentati per gli alberi nella wiki OSM.",
-      key_typo: "La chiave non è tra quelle usate per gli alberi, ma differisce da una di esse solo per le maiuscole, per una lettera (due nelle chiavi di almeno 12 lettere) o per due lettere vicine scambiate. Sono segnalati anche i sinonimi di planted_date: year_planted, date:planted, date_planted, planted:date e planted (tranne planted=yes e planted=no). Le chiavi in OSM sono minuscole. Il valore non è usato per disegnare l'albero.",
+      key_typo: "La chiave non è tra quelle usate per gli alberi, ma differisce da una di esse solo per le maiuscole, per una lettera (due nelle chiavi di almeno 12 lettere) o per due lettere vicine scambiate. Sono segnalati anche i sinonimi di planted_date: year_planted, date:planted, date_planted, planted:date e planted (tranne planted=yes e planted=no), e le chiavi diverse dei registri degli alberi monumentali: ref:mipaaf (ref:masaf), ref:drusop e ref:drusop:tree (ref:usop). Le chiavi in OSM sono minuscole. Il valore non è usato per disegnare l'albero.",
       fixme: "fixme=* (o FIXME=*) descrive qualcosa da verificare o correggere nei dati dell'albero (wiki OSM, Key:fixme). Una volta risolto, il tag va tolto.",
       wikidata_mismatch: "Confronto con il QID che la lista delle specie della wiki OSM associa a species=*.",
       wikidata_not_taxon: "Un taxon su Wikidata ha un nome scientifico (P225): questo elemento non ce l'ha, oppure non esiste.",
@@ -960,6 +963,8 @@ const I18N = {
       // senza il codice: compare già nella riga «Albero inserito nell'elenco…» della scheda
       masaf_removed: (code, why) => `L'albero è stato rimosso dall'elenco MASAF ${why}`,
       masaf_unknown: code => `ref:masaf=${code} non è nell'elenco MASAF`,
+      masaf_shared: (code, ids) => `ref:masaf=${code} è un albero singolo nell'elenco MASAF, ma è anche ${ids.length > 1 ? `sui nodi ${ids.join(", ")}` : `sul nodo ${ids[0]}`}`,
+      masaf_group_single: (code, kind) => `ref:masaf=${code} nell'elenco MASAF ha il tipo «${kind}», ma è solo su questo albero`,
       start_date_invalid: (k, v, future) => future ? `${k}=${v} è nel futuro` : `${k}=${v} non è in una delle forme della wiki`,
       date_mismatch: (sd, pd) => `start_date=${sd} e planted_date=${pd} sono diversi`,
       wikipedia_is_taxon: (v, q, g) => `wikipedia=${v} è la voce di un taxon (${q}): wikipedia indica il singolo albero, la voce ${g ? "del genere va in genus:wikipedia" : "della specie va in species:wikipedia"}`,
@@ -1014,6 +1019,7 @@ const I18N = {
       "a2.3": "ampiezza chioma", b: "forma o portamento particolari", c: "valore ecologico", d: "rarità botanica",
       e: "architettura vegetale", f: "pregio/valore paesaggistico", g: "valore storico-culturale o religioso" },
     recMt: l => `Censito su ${l}`,
+    recInat: (l, n) => `${n > 1 ? "Osservazioni" : "Osservazione"} su ${l}`,
     stump: "Ceppo", stumpOf: b => `${b} (ceppo)`, unknownSpecies: "Specie sconosciuta",
   },
   en: {
@@ -1051,7 +1057,7 @@ const I18N = {
     legColorsToggle: "Click to switch the species colours off or on (when off, crowns take the leaf cycle colour)",
     legFruitAlways: "Fruits (always)", legFruitOff: "Fruits (hidden)",
     legFruitToggle: "Click to switch: fruits only in their season, always, or hidden",    legTips: {
-      legMonument: "denotation=natural_monument, or member of a relation with ref:masaf (homogeneous group of the MASAF list)",
+      legMonument: "denotation=natural_monument or monument=tree, or member of a relation with ref:masaf (homogeneous group of the MASAF list)",
       legSacred: "ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree or religion=shinto",
       legMonSacred: "denotation=natural_monument and also ref:zapis=*, sacred_tree=*, place_of_worship=sacred_tree or religion=shinto (from zoom 16)",
       legMasaf: "Trees of the MASAF list of monumental trees of Italy that on OpenStreetMap have no node with their ref:masaf yet, nor a monumental tree of the same genus within 25 m (from zoom 7)",
@@ -1233,6 +1239,7 @@ const I18N = {
       monument_denotation: "Monumental source without natural_monument",
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
       masaf_removed: "Tree removed from the MASAF list", masaf_unknown: "ref:masaf not in the MASAF list",
+      masaf_shared: "MASAF code of a single tree on several trees", masaf_group_single: "MASAF code of a group on one tree only",
       register_country: "Register tag from another country", start_date_invalid: "Invalid or future start_date or planted_date",
       date_mismatch: "Different start_date and planted_date",
       wikipedia_is_taxon: "wikipedia is a taxon",
@@ -1392,7 +1399,7 @@ const I18N = {
       too_slender: "Threshold: height more than 100 times the circumference. It is deliberately loose, to avoid false positives.",
       too_slender_species: p => `The typical ratio for this species is ${Number(p.sp_ratio).toLocaleString(LOC)} (median of OSM data, OSM wiki page "Tree species records"). Reported above 4 times that value (and anyway above 40), only for trees at least 10 m tall: newly planted saplings are thin.`,
       too_stocky: "Threshold: circumference more than 3 times the height. The stockiest real trees, like monumental olive trees, have a height/circumference ratio around 0.5.",
-      small_monument: "The tree has denotation=natural_monument or a monumental source (ref:masaf, ref:rami, monumentaltrees.com…), or is a member of a relation with ref:masaf, but it is less than 1.5 m tall or has a circumference under 20 cm, the size of a small plant or a bamboo cane. The thresholds are deliberately low, to avoid false positives.",
+      small_monument: "The tree has denotation=natural_monument (or monument=tree) or a monumental source (ref:masaf, ref:rami, monumentaltrees.com…), or is a member of a relation with ref:masaf, but it is less than 1.5 m tall or has a circumference under 20 cm, the size of a small plant or a bamboo cane. The thresholds are deliberately low, to avoid false positives.",
       comma: "In OSM the decimal separator is the point (2.9, not 2,9).",
       diameter_unit: "Without a unit, diameter is in millimetres (OSM wiki, Key:diameter): this value would be a trunk under 1 cm. If it is in metres, the unit must be written (e.g. diameter=0.5 m); better still, use circumference, in metres. The value is not used to draw the trunk.",
       unit_format: "In OSM a unit is written after the number, separated by a space and in lowercase (150 cm), and feet and inches with the ' and \" marks, without spaces: 30', 7'4\" (OSM wiki, Map features/Units; as in Osmose, 30 ft is reported too). For metres the unit can be omitted, except in diameter, where without a unit the value is in millimetres. The value is used to draw the tree anyway.",
@@ -1429,17 +1436,19 @@ const I18N = {
       website_wikipedia: "website=* or url=* with the address of a Wikipedia article: articles have their own tag, wikipedia=*, which gives the article about the single tree.",
       broken_link: "Reported: 404 or 410 pages, sites that no longer exist and files missing on Commons. 403, 429, server errors and timeouts are not reported, as they are often blocks against automated tools.",
       commons_far: "The coordinates of the linked Commons file (wikimedia_commons or image) are more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
-      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, ref:usop, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) or with a heritage designation (P1435) indicate a monumental tree, which in OSM has denotation=natural_monument. On tree stumps ref:CRFOP and ref:gid are not reported.",
+      monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, ref:usop, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) or with a heritage designation (P1435) indicate a monumental tree, which in OSM has denotation=natural_monument (monument=tree counts the same). On tree stumps ref:CRFOP and ref:gid are not reported.",
       register_country: "Tags of the national registers of monumental trees: ref:masaf, masaf:criteria and ref:rami (Italy), ref:icnf and heritage:operator=icnf (Portugal), heritage:operator=anf (Luxembourg), ref:CRFOP and ref:gid (Poland), ref:usop (Czechia). Reported on trees of regions in other countries.",
       masaf_criteria: "Allowed codes: a–g, a1, a2, a2.1, a2.2, a2.3, separated by commas without spaces.",
       masaf_removed: "The ref:masaf code belongs to a tree that the list of monumental trees of Italy reports as removed. Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       masaf_unknown: "The ref:masaf code is not in the list of monumental trees of Italy, neither among the listed trees nor among the removed ones. The leading zero of the first number does not count (01/G114/CN/01 is the same as 001/G114/CN/01). Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
+      masaf_shared: "The MASAF list gives the code as a single (or isolated) tree, but in the region the same ref:masaf is on several trees (tree stumps do not count). The comparison is between trees of the same region.",
+      masaf_group_single: "The MASAF list gives the code as a group, a row, an avenue or a homogeneous group, but in the region the ref:masaf is only on this tree and on no relation. According to the wiki (IT:Key:ref:masaf, «Gli \"insiemi omogenei\"») the group is mapped with a type=site relation with ref:masaf, natural=tree_group and denotation=natural_monument, with the trees as members. Italian regions only.",
       start_date_invalid: "Forms on the OSM wiki (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 and the ranges 1850..1900. They apply to planted_date too. Dates that do not exist (2020-02-30) and dates after the data update are reported too.",
       date_mismatch: "The tree has start_date and planted_date with different values (extra spaces aside). For the age in the info panel and for \"Oldest\" the site uses start_date. Not reported if one of the two dates is invalid (\"Invalid or future start_date or planted_date\").",
       wikipedia_is_taxon: p => `wikipedia=* links the article about the individual tree; the ${p.wp_genus ? "genus article is linked with genus:wikipedia=*" : "species article is linked with species:wikipedia=*"}. The Wikidata item linked to the article is a taxon (it has a scientific name, P225).`,
       denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format, values with spaces around the \";\" that separates multiple values and common values with other text attached.",
       undocumented_tag: "tree=* and type=* are not documented for trees on the OSM wiki.",
-      key_typo: "The key is not one of those used for trees, but differs from one of them only in capitalisation, by one letter (two in keys of at least 12 letters) or by two adjacent letters swapped. Synonyms of planted_date are reported too: year_planted, date:planted, date_planted, planted:date and planted (except planted=yes and planted=no). OSM keys are lowercase. The value is not used to draw the tree.",
+      key_typo: "The key is not one of those used for trees, but differs from one of them only in capitalisation, by one letter (two in keys of at least 12 letters) or by two adjacent letters swapped. Synonyms of planted_date are reported too: year_planted, date:planted, date_planted, planted:date and planted (except planted=yes and planted=no), and other keys of the registers of monumental trees: ref:mipaaf (ref:masaf), ref:drusop and ref:drusop:tree (ref:usop). OSM keys are lowercase. The value is not used to draw the tree.",
       fixme: "fixme=* (or FIXME=*) describes something to check or correct in the tree's data (OSM wiki, Key:fixme). Once it is resolved, the tag should be removed.",
       wikidata_mismatch: "Compared with the QID that the OSM wiki species list gives for species=*.",
       wikidata_not_taxon: "A taxon on Wikidata has a scientific name (P225): this item does not, or does not exist.",
@@ -1520,6 +1529,8 @@ const I18N = {
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "invalid codes" : "invalid code"} ${bad.join(", ")} (allowed a–g, a1, a2, a2.1–a2.3, comma-separated without spaces)`,
       masaf_removed: (code, why) => `The tree was removed from the MASAF list ${why}`,
       masaf_unknown: code => `ref:masaf=${code} is not in the MASAF list`,
+      masaf_shared: (code, ids) => `ref:masaf=${code} is a single tree in the MASAF list, but it is also on ${ids.length > 1 ? `nodes ${ids.join(", ")}` : `node ${ids[0]}`}`,
+      masaf_group_single: (code, kind) => `ref:masaf=${code} has the type «${kind}» in the MASAF list, but it is only on this tree`,
       start_date_invalid: (k, v, future) => future ? `${k}=${v} is in the future` : `${k}=${v} is not in one of the wiki forms`,
       date_mismatch: (sd, pd) => `start_date=${sd} and planted_date=${pd} are different`,
       wikipedia_is_taxon: (v, q, g) => `wikipedia=${v} is the article of a taxon (${q}): wikipedia is for the individual tree, the ${g ? "genus article goes in genus:wikipedia" : "species article goes in species:wikipedia"}`,
@@ -1564,6 +1575,7 @@ const I18N = {
       "a2.3": "crown width", b: "particular shape or habit", c: "ecological value", d: "botanical rarity",
       e: "plant architecture", f: "landscape value", g: "historical-cultural or religious value" },
     recMt: l => `Recorded on ${l}`,
+    recInat: (l, n) => `${n > 1 ? "Observations" : "Observation"} on ${l}`,
     stump: "Stump", stumpOf: b => `${b} (stump)`, unknownSpecies: "Unknown species",
   },
 };
@@ -1655,9 +1667,10 @@ const px = (prop, minPx, z) => ["max", minPx, metersPx(["get", prop], z)];
 // raggio in pixel = max(minimo, metri / (m per pixel)); uno stop per ogni zoom intero, così il minimo è un vero max
 const radius = (prop, minPx, div = 1) => ["interpolate", ["exponential", 2], ["zoom"],
   ...Array.from({ length: 23 }, (_, z) => [z, div === 1 ? px(prop, minPx, z) : ["/", px(prop, minPx, z), div]]).flat()];
-// monumentale: denotation=natural_monument, "implicito" (imp, mappa dei monumentali) o membro di un insieme omogeneo
-// MASAF (mg, fetch_trees.py); come hasDen sulla mappa
-const isMon = p => !!p.imp || !!p.mg || String(p.denotation || "").split(";").some(v => v.trim() === "natural_monument");
+// monumentale: denotation=natural_monument, monument=tree (vale uguale, issue #95), "implicito" (imp, mappa dei
+// monumentali) o membro di un insieme omogeneo MASAF (mg, fetch_trees.py); come hasDen sulla mappa
+const monTag = p => String(p.monument || "").split(";").some(v => v.trim() === "tree");
+const isMon = p => !!p.imp || !!p.mg || monTag(p) || String(p.denotation || "").split(";").some(v => v.trim() === "natural_monument");
 const leafOf = p => p.lt || p.leaf_type;   // lt = leaf_type stimato dalle liste quando il tag manca; palm per le palme, anche con un altro leaf_type (#55)
 // leaf_type da proporre quando manca: lt, ma palm non si propone mai (#55: tollerato, non suggerito); per le palme
 // si propone il valore delle liste (lts, di solito broadleaved), se c'è
@@ -1849,7 +1862,7 @@ const addScale = fc => {
 const CROWN_R = 3, CROWN_JITTER = 0.15;
 const CROWN_R_BY_DEN = [["natural_monument", 5], ["landmark", 5], ["parking", 2], ["decoration", 2], ["agricultural", 2.5], ["orchard", 2.5]];
 const fallbackCrown = p => {
-  const den = p.mg ? ["natural_monument"] : p.denotation == null ? null : String(p.denotation).split(";").map(x => x.trim());
+  const den = p.mg || monTag(p) ? ["natural_monument"] : p.denotation == null ? null : String(p.denotation).split(";").map(x => x.trim());
   const r = den ? (CROWN_R_BY_DEN.find(([name]) => den.includes(name)) || [0, CROWN_R])[1] : CROWN_R;
   if (den && (den.includes("natural_monument") || den.includes("landmark"))) return r;
   // (id × 2654435761) mod 2^32: bastano i 32 bit bassi dell'id, e Math.imul dà i 32 bit bassi del prodotto
@@ -2002,9 +2015,10 @@ map.on("load", async () => {
   // fetch_trees.py dividendo sui ";"
   // monumentale "implicito" (imp, solo nella mappa dei monumentali: monumentale per altre fonti, vedi fetch_world.py):
   // disegnato come denotation=natural_monument; così anche il membro di un insieme omogeneo MASAF (mg, relazione con
-  // ref:masaf, issue #9), in entrambe le mappe
+  // ref:masaf, issue #9), in entrambe le mappe, e monument=tree (issue #95; anche tra più valori, come denotation)
   const hasDen = v => ["any", ["in", `;${v};`, ["concat", ";", ["coalesce", ["get", "denotation"], ""], ";"]],
-    ...(v === "natural_monument" ? [["has", "imp"], ["has", "mg"]] : [])];
+    ...(v === "natural_monument" ? [["has", "imp"], ["has", "mg"],
+      ["in", ";tree;", ["concat", ";", ["coalesce", ["get", "monument"], ""], ";"]]] : [])];
   // errore: precedenza massima (non nelle mappe mondiali, che non mostrano la parte QA)
   const HAS_ISSUE = WORLD ? false : ["!=", ["get", "issues"], "|"];
   const STROKE_COLOR = ["case",
@@ -2829,7 +2843,7 @@ map.on("load", async () => {
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
       "wikidata_is_taxon", "wikipedia_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
     ["links", ["link_format", "broken_link", "website_wikipedia", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed", "masaf_unknown",
-      "register_country"]],
+      "masaf_shared", "masaf_group_single", "register_country"]],
   ];
   const issueGroupOf = code => (ISSUE_GROUPS.find(([, codes]) => codes.includes(code)) || ["other"])[0];
   const RECENT_DAYS = 30, RECENT_CUT = new Date(Date.now() - RECENT_DAYS * 864e5).toISOString().slice(0, 10);
@@ -4683,6 +4697,11 @@ const issueBase = (i, p) => {
       return String(p.masaf_rm || "").split("\n").filter(Boolean).map(x => { const [c, r, d] = x.split("|");
         return T[i](c, T.masafRemovedWhy[r] ?? "", d).replace(/ +\(/, " (").replace(/ $/, ""); }).join("\n");
     case "masaf_unknown": return String(p.masaf_unk || "").split(";").filter(Boolean).map(c => T[i](c)).join("\n");   // masaf_unk: fetch_trees.py
+    // msh: righe "codice|id;id…" degli altri alberi; mgs: righe "codice|tipo dell'elenco" (masaf_code_checks, fetch_trees.py)
+    case "masaf_shared": return String(p.msh || "").split("\n").filter(Boolean)
+      .map(r => { const [c, ids] = r.split("|"); return T[i](c, ids.split(";").filter(Boolean)); }).join("\n");
+    case "masaf_group_single": return String(p.mgs || "").split("\n").filter(Boolean)
+      .map(r => { const [c, ...k] = r.split("|"); return T[i](c, k.join("|")); }).join("\n");
     // sd_bad: righe "chiave|motivo" separate da ";" (motivo: invalid o future; fetch_trees.py). I dati scaricati prima
     // dell'issue #81 hanno solo sd_future, per start_date
     case "start_date_invalid": return (p.sd_bad ? String(p.sd_bad).split(";").filter(Boolean).map(x => x.split("|"))
@@ -4846,6 +4865,20 @@ function recognitions(p) {
   if (isMart(p)) r.push(["", L.recMart(t => link(L.martWp, t))]);   // easter egg: albero con la martenitsa sulla mappa
   const mt = monumentalTreesUrl(p);
   if (mt) r.push(["", L.recMt(link(mt, "monumentaltrees.com"))]);
+  // schede di baumkunde.de e mbreg.de (ref:baumkunde, ref:mbreg, issue #95): solo i valori che sono indirizzi di quel
+  // sito, una riga per scheda, come monumentaltrees.com
+  for (const [k, host] of [["ref:baumkunde", "baumkunde.de"], ["ref:mbreg", "mbreg.de"]]) {
+    for (const part of String(p[k] || "").split(";")) {
+      try {
+        const u = new URL(part.trim());
+        if (/^https?:$/.test(u.protocol) && (u.hostname === host || u.hostname.endsWith("." + host))) r.push(["", L.recMt(link(u.href, host))]);
+      } catch (e) {}
+    }
+  }
+  // osservazioni di iNaturalist (ref:inaturalist.org): numeri separati da ";", ognuno con il link all'osservazione
+  const inat = String(p["ref:inaturalist.org"] || "").split(";").map(x => x.trim()).filter(x => /^\d+$/.test(x));
+  if (inat.length) r.push(["", `${L.recInat(link("https://www.inaturalist.org/", "iNaturalist"), inat.length)}: `
+    + inat.map(x => link(`https://www.inaturalist.org/observations/${x}`, x)).join(", ")]);
   return r;
 }
 
@@ -6010,7 +6043,7 @@ function hints(p, pos) {
   }
   // wikidata=* senza natural_monument né landmark (e senza un errore che lo dica già)
   const den = String(p.denotation || "").split(";").map(v => v.trim());
-  if (p.wikidata && !den.includes("natural_monument") && !den.includes("landmark")
+  if (p.wikidata && !den.includes("natural_monument") && !den.includes("landmark") && !monTag(p)
       && !/\|(wikidata_is_taxon|wikidata_not_taxon|monument_denotation)\|/.test(codes)) out.push(H.notable);
   // Ginkgo biloba (o genus=Ginkgo, genere con una sola specie) senza sex=*: da aprile a novembre (da ottobre a maggio
   // nell'emisfero australe) si possono riconoscere le femmine da ovuli e semi (issue #25)
