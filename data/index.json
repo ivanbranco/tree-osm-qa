@@ -523,13 +523,13 @@
    "updated": "2026-11-21T23:19:51Z"
   },
   "lombardia": {
-   "count": 387967,
-   "errors": 1125,
+   "count": 388252,
+   "errors": 1148,
    "name": "Lombardia",
-   "osm_base": "2026-11-20T16:47:59Z",
-   "sha1": "c0738733c0c31c1bc5296f1fcd0d32a25c15e9c5",
-   "tried": "2026-11-20",
-   "updated": "2026-11-20T16:52:26Z"
+   "osm_base": "2026-11-24T23:28:29Z",
+   "sha1": "0efbc7ea888fccbb0a7cbf3967b0a9ebf303521d",
+   "tried": "2026-11-24",
+   "updated": "2026-11-24T23:31:31Z"
   },
   "londra": {
    "count": 213110,
@@ -980,13 +980,13 @@
    "updated": "2026-11-20T16:59:34Z"
   },
   "trentino-alto-adige": {
-   "count": 67798,
-   "errors": 446,
+   "count": 67806,
+   "errors": 451,
    "name": "Trentino-Alto Adige",
-   "osm_base": "2026-11-20T16:51:06Z",
-   "sha1": "f04cb323578ad9c4c3cc7afcde8b730b28713a33",
-   "tried": "2026-11-20",
-   "updated": "2026-11-20T16:53:33Z"
+   "osm_base": "2026-11-24T23:29:35Z",
+   "sha1": "1ca668355a508e5a2060c079664e92c03839e864",
+   "tried": "2026-11-24",
+   "updated": "2026-11-24T23:32:14Z"
   },
   "ulster-irlanda": {
    "count": 47000,
