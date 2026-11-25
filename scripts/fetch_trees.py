@@ -2968,6 +2968,10 @@ def checks(t, pos, osm_id=None):
               if not gr and len(spw) == 1 and ";" not in g0 and len(genus_words(g0)) == 1 else None)
         if bn:
             props.update(species_lang_extras(t, bn, "sp_bin_"))
+        # con un genus diverso (genus=Quercus, species=Ilex) non si sa quale dei due sia sbagliato: niente sp_as_genus,
+        # che direbbe di usare genus=Ilex; i due generi diversi li segnala genus_mismatch
+        if gr and genus_words(g0) and genus_words(g0)[0].casefold() != gr[0].lstrip("× ").casefold():
+            gr = None
         flag("species", **({"sp_as_genus": gr[0]} if gr else {"sp_binom": bn} if bn else
                            {"sp_common_genus": cg} if cg else {}),
              **({"sp_common_kv": ckv} if ckv and not bn else {}))
@@ -3103,11 +3107,12 @@ def checks(t, pos, osm_id=None):
         flag("leaf_cycle")
     # species di una sola parola minuscola (es. species=alba): è un epiteto, non un genere da confrontare
     # (anche dopo il segno di ibrido: "x carnea"). Con più valori in genus o in species (Crataegus;Quercus) non si
-    # confronta: il genere di una specie non è quello delle altre. Dopo il segno di ibrido vale anche la parola
-    # maiuscola che non è un genere noto ("x Sepulcralis" con genus=Salix): è l'epiteto scritto maiuscolo
+    # confronta: il genere di una specie non è quello delle altre. Vale anche la parola maiuscola che non è un genere
+    # noto ("Pinea" o "x Sepulcralis" con genus=Quercus o Salix): è l'epiteto scritto maiuscolo, e basta l'errore
+    # species (una sola parola)
     sp_words = name_words(sp) if sp is not None else []
-    sp_epithet = len(sp_words) == 1 and (sp_words[0][:1].islower() or (
-        sp.split()[0] in HYBRID_SIGNS and sp_words[0].lstrip("×").casefold() not in KNOWN_GENERA))
+    sp_epithet = len(sp_words) == 1 and (sp_words[0][:1].islower()
+                                         or sp_words[0].lstrip("×").casefold() not in KNOWN_GENERA)
     if (g is not None and sp is not None and ";" not in g and ";" not in sp and len(gw := genus_words(g)) == 1
             and not sp_epithet and not nl and "sp_binom" not in props):   # con sp_binom species è l'epiteto
         sg = genus_of_species(sp).lstrip("×")   # il segno di ibrido non conta, né nel genus né nella species

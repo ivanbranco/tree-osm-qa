@@ -433,8 +433,10 @@ CASES = [
      {"natural": "tree", "genus": "Quercus", "species": "robur"}, ["species"]),
     ("dipendenza: genus ed epiteto maiuscolo sono una specie della lista, niente genus_mismatch",
      {"natural": "tree", "genus": "Pinus", "species": "Pinea"}, ["species"]),
-    ("genus ed epiteto maiuscolo che non sono una specie della lista: genus_mismatch",
-     {"natural": "tree", "genus": "Quercus", "species": "Pinea"}, ["species", "genus_mismatch"]),
+    ("dipendenza: epiteto maiuscolo che con genus non è una specie della lista, niente genus_mismatch",
+     {"natural": "tree", "genus": "Quercus", "species": "Pinea"}, ["species"]),
+    ("species di una parola che è un altro genere: genus_mismatch",
+     {"natural": "tree", "genus": "Quercus", "species": "Pinus"}, ["species", "genus_mismatch"]),
 
     # --- leaf_type e leaf_cycle ---
     ("leaf_type", {"natural": "tree", "leaf_type": "broad"}, ["leaf_type"]),
@@ -1020,9 +1022,12 @@ SP_FIX_CASES = [
     ("genus ed epiteto che non sono una specie della lista: nessuna proposta",
      {"natural": "tree", "genus": "Quercus", "species": "Pinea"}, {"sp_binom": None}),
     ("species di una parola senza genus: nessuna proposta", {"natural": "tree", "species": "robur"}, {"sp_binom": None}),
-    ("species di una parola che è un genere: sp_as_genus, non sp_binom", {"natural": "tree", "genus": "Quercus",
-                                                                         "species": "Pinus"},
+    ("species di una parola che è un genere, senza genus: sp_as_genus", {"natural": "tree", "species": "Pinus"},
      {"sp_binom": None, "sp_as_genus": "Pinus"}),
+    ("species di una parola che è lo stesso genere di genus: sp_as_genus",
+     {"natural": "tree", "genus": "Pinus", "species": "pinus"}, {"sp_as_genus": "Pinus"}),
+    ("species di una parola che è un altro genere: niente sp_as_genus né sp_binom",
+     {"natural": "tree", "genus": "Quercus", "species": "Pinus"}, {"sp_binom": None, "sp_as_genus": None}),
     # altre proposte delle correzioni con JOSM: genus (gm_fix, g_common) e il rango della voce di wikipedia (wp_genus)
     ("genus scritto male: genus di species", {**OAK, "genus": "Quercos"}, {"gm_fix": "Quercus"}),
     ("genus diverso, ma un genere noto: nessuna correzione", {**OAK, "genus": "Pinus"}, {"gm_fix": None}),
