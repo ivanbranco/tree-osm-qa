@@ -19660,13 +19660,13 @@
 ],
 "it": []
 },
-"en": "Prunus ×hillieri",
-"it": "Prunus ×hillieri",
+"en": "Prunus × hillieri",
+"it": "Prunus × hillieri",
 "names": [
-"Prunus ×hillieri"
+"Prunus × hillieri"
 ],
 "ranks": [
-"Q7432"
+"Q1306176"
 ],
 "taxon": true
 },
@@ -25414,9 +25414,9 @@
 "it": []
 },
 "en": "Prunus × fruticans",
-"it": "Prunus fruticans",
+"it": "Prunus × fruticans",
 "names": [
-"Prunus fruticans"
+"Prunus × fruticans"
 ],
 "ranks": [
 "Q1306176"
@@ -30956,6 +30956,12 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q60752627": {
+"en": "Nellie's Tree",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q6078218": {
 "en": "Platycladus",

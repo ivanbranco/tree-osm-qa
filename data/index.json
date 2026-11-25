@@ -47,12 +47,12 @@
   },
   "andalusia": {
    "count": 190266,
-   "errors": 2657,
+   "errors": 2660,
    "name": "Andalusia",
-   "osm_base": "2026-11-23T17:27:08Z",
-   "sha1": "3dba79c44d062dd101bf853bc98c1d620cbcd2d8",
-   "tried": "2026-11-23",
-   "updated": "2026-11-23T17:30:07Z"
+   "osm_base": "2026-11-25T01:17:59Z",
+   "sha1": "05f2da3883044cfa91fe57fad43a5b111bb641da",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:20:21Z"
   },
   "andorra": {
    "count": 849,
@@ -65,12 +65,12 @@
   },
   "aragona": {
    "count": 41203,
-   "errors": 218,
+   "errors": 219,
    "name": "Aragona",
-   "osm_base": "2026-11-23T17:31:21Z",
-   "sha1": "e7cad65363e3f1bdb150687f13a6c600af9c9879",
-   "tried": "2026-11-23",
-   "updated": "2026-11-23T17:33:25Z"
+   "osm_base": "2026-11-25T01:19:02Z",
+   "sha1": "ab1ab8aea3874c70bcc41c0bf8500ef5afcfd37d",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:20:58Z"
   },
   "arizona": {
    "count": 122854,
@@ -85,10 +85,10 @@
    "count": 10610,
    "errors": 145,
    "name": "Asturie",
-   "osm_base": "2026-11-18T19:06:12Z",
-   "sha1": "d66373a0678e32b6187e7b06fcce832ea482490f",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:08:10Z"
+   "osm_base": "2026-11-25T01:19:59Z",
+   "sha1": "1575354658223d8d8b405521bd4f8c2bc8932280",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:21:13Z"
   },
   "basilicata": {
    "count": 14423,
@@ -172,22 +172,22 @@
    "updated": "2026-11-20T17:06:26Z"
   },
   "canarie": {
-   "count": 65857,
-   "errors": 1004,
+   "count": 65858,
+   "errors": 1008,
    "name": "Canarie",
-   "osm_base": "2026-11-18T19:07:12Z",
-   "sha1": "7362cdd869093d798058b2c0cfd36064fb4fee9b",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:09:49Z"
+   "osm_base": "2026-11-25T01:20:59Z",
+   "sha1": "6665903ba5f627f33d21442619d7a07269cd5e01",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:22:43Z"
   },
   "cantabria": {
    "count": 51350,
-   "errors": 18,
+   "errors": 23,
    "name": "Cantabria",
-   "osm_base": "2026-11-18T19:08:13Z",
-   "sha1": "4c05ca41f6e8e51b208557da4bf597cced4e12f8",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:10:02Z"
+   "osm_base": "2026-11-25T01:21:58Z",
+   "sha1": "703bca0e1ce1f2ce56e112814b958614e7d6bc01",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:23:06Z"
   },
   "carinzia": {
    "count": 11610,
@@ -199,31 +199,31 @@
    "updated": "2026-11-23T19:33:23Z"
   },
   "castiglia-e-leon": {
-   "count": 139674,
-   "errors": 477,
+   "count": 139714,
+   "errors": 481,
    "name": "Castiglia e León",
-   "osm_base": "2026-11-18T19:09:13Z",
-   "sha1": "89d50258c8e80b52ac8ddff259bd0330bda7155f",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:11:09Z"
+   "osm_base": "2026-11-25T01:21:58Z",
+   "sha1": "9d1a27b88e82b3d93d6018fadccb69d694fc87bf",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:24:21Z"
   },
   "castiglia-la-mancia": {
-   "count": 58077,
-   "errors": 3,
+   "count": 58141,
+   "errors": 7,
    "name": "Castiglia-La Mancia",
-   "osm_base": "2026-11-21T21:44:17Z",
-   "sha1": "3ae4e41d13e63efec9a8de8db41772908cd19e62",
-   "tried": "2026-11-21",
-   "updated": "2026-11-21T21:46:17Z"
+   "osm_base": "2026-11-25T01:23:04Z",
+   "sha1": "719a62b4938f77fce4382513f1c408bfbacd984f",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:24:59Z"
   },
   "catalogna": {
-   "count": 367919,
-   "errors": 1506,
+   "count": 367914,
+   "errors": 1515,
    "name": "Catalogna",
-   "osm_base": "2026-11-24T10:08:36Z",
-   "sha1": "556c73a16c227fd41fa449506ffe2d4bfe0bf968",
-   "tried": "2026-11-24",
-   "updated": "2026-11-24T10:11:12Z"
+   "osm_base": "2026-11-25T01:24:04Z",
+   "sha1": "8dfb55a246a76ab3c5adf0bf56d4aa2e6955d8c1",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:26:01Z"
   },
   "cechia": {
    "count": 140842,
@@ -247,10 +247,10 @@
    "count": 107,
    "errors": 0,
    "name": "Ceuta",
-   "osm_base": "2026-11-18T19:12:14Z",
-   "sha1": "2e6c6d834d83f4f13ead861f0e074416b3b1c70a",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:13:34Z"
+   "osm_base": "2026-11-25T01:24:58Z",
+   "sha1": "c488eee9a60bf71a047eaa30fa11323cee8201ee",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:26:09Z"
   },
   "cile": {
    "count": 231789,
@@ -263,21 +263,21 @@
   },
   "comunita-di-madrid": {
    "count": 149004,
-   "errors": 851,
+   "errors": 852,
    "name": "Comunità di Madrid",
-   "osm_base": "2026-11-23T17:30:20Z",
-   "sha1": "26f49f42c8c8a3785f290c87f6ee990ca457f9d7",
-   "tried": "2026-11-23",
-   "updated": "2026-11-23T17:32:40Z"
+   "osm_base": "2026-11-25T01:27:05Z",
+   "sha1": "d73b949982aa9a5a4b48bb8b8d0766f921b8d2a7",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:29:04Z"
   },
   "comunita-valenciana": {
-   "count": 167962,
-   "errors": 1694,
+   "count": 167979,
+   "errors": 1695,
    "name": "Comunità Valenciana",
-   "osm_base": "2026-11-23T17:32:21Z",
-   "sha1": "0bdfae52c97ac53895e8760e62e496fbf04e2b4f",
-   "tried": "2026-11-23",
-   "updated": "2026-11-23T17:34:46Z"
+   "osm_base": "2026-11-25T01:24:58Z",
+   "sha1": "1034e61b57a89bff1192d691fea4b89b9d20b6fb",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:26:55Z"
   },
   "connacht": {
    "count": 45809,
@@ -325,13 +325,13 @@
    "updated": "2026-11-20T16:58:07Z"
   },
   "est-inghilterra": {
-   "count": 104372,
-   "errors": 271,
+   "count": 104423,
+   "errors": 285,
    "name": "Est dell'Inghilterra",
-   "osm_base": "2026-11-18T23:34:05Z",
-   "sha1": "05aafb432301ce7cd640b0e3a3ca62ad2f06b984",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T23:36:25Z"
+   "osm_base": "2026-11-25T01:11:50Z",
+   "sha1": "65b146471c7b6fd5aa818e9d03053d84a91700d2",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:14:28Z"
   },
   "estonia": {
    "count": 81103,
@@ -343,13 +343,13 @@
    "updated": "2026-11-21T18:14:54Z"
   },
   "estremadura": {
-   "count": 71622,
-   "errors": 32,
+   "count": 72049,
+   "errors": 74,
    "name": "Estremadura",
-   "osm_base": "2026-11-18T19:13:15Z",
-   "sha1": "6192816dcd0ff6ef7e36d2944555cfed906917eb",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:15:15Z"
+   "osm_base": "2026-11-25T01:26:07Z",
+   "sha1": "1ea74c01426b111cd6fac37823fae8192867a54b",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:27:46Z"
   },
   "friuli-venezia-giulia": {
    "count": 29981,
@@ -361,22 +361,22 @@
    "updated": "2026-11-20T16:55:39Z"
   },
   "galizia": {
-   "count": 55016,
-   "errors": 1908,
+   "count": 55021,
+   "errors": 1324,
    "name": "Galizia",
-   "osm_base": "2026-11-18T19:14:15Z",
-   "sha1": "e08fef3987a15fd0b2e03ff953d0d28abca82bea",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:16:07Z"
+   "osm_base": "2026-11-25T01:26:07Z",
+   "sha1": "3e4d7eeb840cb2024e6e13a44c8a0f974381e912",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:28:35Z"
   },
   "galles": {
-   "count": 59376,
+   "count": 59415,
    "errors": 41,
    "name": "Galles",
-   "osm_base": "2026-11-22T22:32:50Z",
-   "sha1": "8bf869cd403f85818915de080a4fcb7b68d2bc15",
-   "tried": "2026-11-22",
-   "updated": "2026-11-22T22:35:15Z"
+   "osm_base": "2026-11-25T01:03:37Z",
+   "sha1": "fc5ba52b72c7b09db34cbabbb56361ccbc5798b7",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:05:59Z"
   },
   "giappone": {
    "count": 306403,
@@ -415,22 +415,22 @@
    "updated": "2026-11-23T19:46:05Z"
   },
   "irlanda-del-nord": {
-   "count": 45598,
+   "count": 45607,
    "errors": 14,
    "name": "Irlanda del Nord",
-   "osm_base": "2026-11-22T22:32:50Z",
-   "sha1": "51a9b4323da7dd8bd5a3b0e971004b2da695527f",
-   "tried": "2026-11-22",
-   "updated": "2026-11-22T22:34:25Z"
+   "osm_base": "2026-11-25T01:04:40Z",
+   "sha1": "297aec45d2a37cc182515c607e48ba1514e9474f",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:06:35Z"
   },
   "isole-baleari": {
    "count": 9362,
    "errors": 392,
    "name": "Isole Baleari",
-   "osm_base": "2026-11-18T19:07:12Z",
-   "sha1": "61481a125703ec6c19917e6f9ee66a79681dc0b1",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:08:53Z"
+   "osm_base": "2026-11-25T01:19:59Z",
+   "sha1": "d2c5590ffe602e1b746ac12ea78e4550e1eed513",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:21:50Z"
   },
   "kosovo": {
    "count": 5569,
@@ -452,12 +452,12 @@
   },
   "la-rioja": {
    "count": 5776,
-   "errors": 14,
+   "errors": 21,
    "name": "La Rioja",
-   "osm_base": "2026-11-18T19:15:14Z",
-   "sha1": "eba0a19ae0434e4a6718cee75df2a0b29bcc6e02",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:16:17Z"
+   "osm_base": "2026-11-25T01:27:05Z",
+   "sha1": "d31d0d445386c68dd15dc19947ab5cb545b903cd",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:28:45Z"
   },
   "lazio": {
    "count": 71309,
@@ -478,13 +478,13 @@
    "updated": "2026-11-22T22:30:35Z"
   },
   "lettonia": {
-   "count": 103537,
-   "errors": 39,
+   "count": 104557,
+   "errors": 40,
    "name": "Lettonia",
-   "osm_base": "2026-11-18T18:35:47Z",
-   "sha1": "69a2a6ef29ead6977b840b7ccc005adfa3b9e89a",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T18:37:35Z"
+   "osm_base": "2026-11-25T01:29:16Z",
+   "sha1": "3bf8fa1adf5bbf6edfbbcdf0504160af6e5f9df7",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:31:40Z"
   },
   "liechtenstein": {
    "count": 11887,
@@ -532,13 +532,13 @@
    "updated": "2026-11-24T23:31:31Z"
   },
   "londra": {
-   "count": 213110,
-   "errors": 10155,
+   "count": 213548,
+   "errors": 10168,
    "name": "Londra",
-   "osm_base": "2026-11-18T23:35:06Z",
-   "sha1": "d326be40f6015afc7603061499a2b7afdc74def0",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T23:37:05Z"
+   "osm_base": "2026-11-25T01:12:51Z",
+   "sha1": "e4f628439f65dcb52d29e832e70879a25a7d5fee",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:15:42Z"
   },
   "lubelskie": {
    "count": 81563,
@@ -616,28 +616,28 @@
    "count": 92,
    "errors": 0,
    "name": "Melilla",
-   "osm_base": "2026-11-18T19:15:14Z",
-   "sha1": "13d15dc3dca09f8757ed56afd0c6a0cc87c0d324",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:16:49Z"
+   "osm_base": "2026-11-25T01:28:10Z",
+   "sha1": "397d914553142662b95960bb9c13b465bb83df6d",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:29:12Z"
   },
   "midlands-occidentali": {
-   "count": 207158,
-   "errors": 713,
+   "count": 207229,
+   "errors": 712,
    "name": "Midlands Occidentali",
-   "osm_base": "2026-11-18T23:33:06Z",
-   "sha1": "4bbc18612555a30f31edd411eec4f45ef95c650a",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T23:35:27Z"
+   "osm_base": "2026-11-25T01:10:48Z",
+   "sha1": "859f1d31f9e8a9df971d43dd2c455a734e629da3",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:13:25Z"
   },
   "midlands-orientali": {
-   "count": 199530,
-   "errors": 358,
+   "count": 200372,
+   "errors": 363,
    "name": "Midlands Orientali",
-   "osm_base": "2026-11-18T23:32:05Z",
-   "sha1": "8623f84d882892eaa5c2b6789e9cc277fc9d1ac1",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T23:34:20Z"
+   "osm_base": "2026-11-25T01:08:49Z",
+   "sha1": "f611fe6138357f0203bb5fdbdf0c81e98ccb57d0",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:11:43Z"
   },
   "molise": {
    "count": 57853,
@@ -676,40 +676,40 @@
    "updated": "2026-11-22T22:32:15Z"
   },
   "murcia": {
-   "count": 49220,
+   "count": 49215,
    "errors": 397,
    "name": "Regione di Murcia",
-   "osm_base": "2026-11-18T19:15:14Z",
-   "sha1": "21b9de34cf5fe51c00e923840d8389eefb750e96",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:17:05Z"
+   "osm_base": "2026-11-25T01:28:10Z",
+   "sha1": "0d2376bcd0ac22f4279ccbdde9d4abcc7332fd1e",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:29:34Z"
   },
   "navarra": {
-   "count": 13392,
+   "count": 13400,
    "errors": 33,
    "name": "Navarra",
-   "osm_base": "2026-11-18T19:16:16Z",
-   "sha1": "c4d28ff2a1070b16607f483357e35904d364ca25",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:17:22Z"
+   "osm_base": "2026-11-25T01:28:10Z",
+   "sha1": "26c8d498a9f10c1b3cf0c14192fa5ce36e21b757",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:29:50Z"
   },
   "nord-est-inghilterra": {
-   "count": 12278,
-   "errors": 5,
+   "count": 12279,
+   "errors": 1,
    "name": "Nord Est dell'Inghilterra",
-   "osm_base": "2026-11-18T23:27:58Z",
-   "sha1": "de14fd890643db9a96dd7a2991fa19c4cb028db9",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T23:29:30Z"
+   "osm_base": "2026-11-25T01:05:46Z",
+   "sha1": "27e79dd5cca942d3838d7d9acf967cef65e6e243",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:08:03Z"
   },
   "nord-ovest-inghilterra": {
-   "count": 112374,
-   "errors": 123,
+   "count": 112830,
+   "errors": 126,
    "name": "Nord Ovest dell'Inghilterra",
-   "osm_base": "2026-11-18T23:27:58Z",
-   "sha1": "4594cd1b0e4c6904ea1ad0c5e31135e6431f5cd9",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T23:30:27Z"
+   "osm_base": "2026-11-25T01:06:47Z",
+   "sha1": "ff408a03c6096c5fc0ccaaff37615d7ee1b70dc3",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:09:10Z"
   },
   "normandia": {
    "count": 118936,
@@ -748,13 +748,13 @@
    "updated": "2026-11-21T23:24:30Z"
   },
   "paesi-baschi": {
-   "count": 102801,
-   "errors": 787,
+   "count": 102914,
+   "errors": 812,
    "name": "Paesi Baschi",
-   "osm_base": "2026-11-18T19:16:16Z",
-   "sha1": "a82681233660fda2d3fce7515ee77acfcfd2da05",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T19:17:48Z"
+   "osm_base": "2026-11-25T01:29:16Z",
+   "sha1": "b8db4cee36eb7543453eb05d63461f4cc1ef6fd8",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:30:32Z"
   },
   "paesi-della-loira": {
    "count": 124264,
@@ -877,10 +877,10 @@
    "count": 237229,
    "errors": 227,
    "name": "Scozia",
-   "osm_base": "2026-11-22T22:33:51Z",
-   "sha1": "0e4e55e09df8e5f8845396602443918e31b91124",
-   "tried": "2026-11-22",
-   "updated": "2026-11-22T22:36:52Z"
+   "osm_base": "2026-11-25T01:05:46Z",
+   "sha1": "968ed5daea35126abc18b0ac4927948350b48b08",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:07:26Z"
   },
   "serbia": {
    "count": 40136,
@@ -928,22 +928,22 @@
    "updated": "2026-11-23T19:32:28Z"
   },
   "sud-est-inghilterra": {
-   "count": 451045,
-   "errors": 427,
+   "count": 454211,
+   "errors": 434,
    "name": "Sud Est dell'Inghilterra",
-   "osm_base": "2026-11-18T23:36:07Z",
-   "sha1": "9620eabf4635404fdd7ae0d3f8a8afb6c62e08c6",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T23:38:26Z"
+   "osm_base": "2026-11-25T01:14:56Z",
+   "sha1": "9790d245056de5b2afa9f3df04a1a4b75ea8bec4",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:18:17Z"
   },
   "sud-ovest-inghilterra": {
-   "count": 123994,
-   "errors": 791,
+   "count": 124920,
+   "errors": 796,
    "name": "Sud Ovest dell'Inghilterra",
-   "osm_base": "2026-11-18T23:37:09Z",
-   "sha1": "10bdd026ffbd6fcd4bc5774882a3c36ccd5a7bda",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T23:39:31Z"
+   "osm_base": "2026-11-25T01:17:01Z",
+   "sha1": "753e1b7a99ec43d0e2cbf3380cb89a4f3656c829",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:19:29Z"
   },
   "swietokrzyskie": {
    "count": 39628,
@@ -1090,13 +1090,13 @@
    "updated": "2026-11-21T23:30:47Z"
   },
   "yorkshire-e-humber": {
-   "count": 76321,
-   "errors": 85,
+   "count": 76392,
+   "errors": 94,
    "name": "Yorkshire e Humber",
-   "osm_base": "2026-11-18T23:29:01Z",
-   "sha1": "327c3d0bfaa518315a500235982c98df183cf844",
-   "tried": "2026-11-18",
-   "updated": "2026-11-18T23:33:18Z"
+   "osm_base": "2026-11-25T01:07:50Z",
+   "sha1": "b4cc70d58dc38b49c177c24982a68e4c52bf3a3e",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T01:10:04Z"
   },
   "zachodniopomorskie": {
    "count": 224258,

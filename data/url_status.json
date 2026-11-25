@@ -2371,6 +2371,10 @@
 "d": "2026-11-08",
 "s": "ok"
 },
+"commons:File:The Old Man of Calke - geograph.org.uk - 251044.jpg": {
+"d": "2026-11-25",
+"s": "ok"
+},
 "commons:File:The_Cloisters,_New_College,_Oxford_-_geograph.org.uk_-_2658969.jpg": {
 "d": "2026-11-08",
 "s": "ok"
@@ -8511,6 +8515,14 @@
 ],
 "d": "2026-11-12"
 },
+"geo:File:The Old Man of Calke - geograph.org.uk - 251044.jpg": {
+"c": [
+52.8024,
+-1.4629,
+"object"
+],
+"d": "2026-11-25"
+},
 "geo:File:Thuir plaque olivier pierre mestre.jpg": {
 "c": [
 42.63958397,
@@ -10541,6 +10553,10 @@
 },
 "https://ati.woodlandtrust.org.uk/tree-search/tree/?treeId=2733#/": {
 "d": "2026-11-08",
+"s": "200"
+},
+"https://ati.woodlandtrust.org.uk/tree-search/tree?treeid=109": {
+"d": "2026-11-25",
 "s": "200"
 },
 "https://ati.woodlandtrust.org.uk/tree-search/tree?treeid=113122": {
