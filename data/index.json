@@ -535,10 +535,10 @@
    "count": 213548,
    "errors": 10168,
    "name": "Londra",
-   "osm_base": "2026-11-25T01:12:51Z",
-   "sha1": "e4f628439f65dcb52d29e832e70879a25a7d5fee",
+   "osm_base": "2026-11-25T11:55:19Z",
+   "sha1": "f0a8a74330f1ddb4224f52db73e07e3b0befe02b",
    "tried": "2026-11-25",
-   "updated": "2026-11-25T01:15:42Z"
+   "updated": "2026-11-25T11:57:32Z"
   },
   "lubelskie": {
    "count": 81563,
