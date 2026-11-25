@@ -4,13 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       region:
-        description: "Region to update (all = every region; oldest = the country or region downloaded least recently; three-oldest = the three countries or regions downloaded least recently; italia, polonia, regno-unito, francia, spagna, irlanda, austria, stati-uniti = all the regions of that country)"
+        description: "Region to update (all = every region; oldest = the country or region downloaded least recently; three-oldest = the three countries or regions downloaded least recently; all-but-recent = every region except those downloaded in the last 7 days; italia, polonia, regno-unito, francia, spagna, irlanda, austria, stati-uniti = all the regions of that country)"
         type: choice
         default: all
         options:
           - all
           - oldest
           - three-oldest
+          - all-but-recent
           - italia
           - polonia
           - regno-unito

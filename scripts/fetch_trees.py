@@ -4301,9 +4301,26 @@ def oldest(groups, regions_index, n=1):
     return out
 
 
+RECENT_DAYS = 7   # "all-but-recent": salta le regioni scaricate negli ultimi 7 giorni (oggi compreso)
+
+
+def all_but_recent(regions_index):
+    """Per "all-but-recent": tutte le regioni, nell'ordine di regions.json, tranne quelle scaricate (con o senza
+    successo, come per "oldest") negli ultimi RECENT_DAYS giorni, oggi compreso."""
+    hist = load_json(HISTORY)
+    limit = time.strftime("%Y-%m-%d", time.gmtime(time.time() - (RECENT_DAYS - 1) * 86400))
+    out, skipped = [], []
+    for r in REGIONS:
+        (skipped if last_run(r["slug"], regions_index, hist) >= limit else out).append(r)
+    print(f"all-but-recent: {len(out)} regioni; saltate {len(skipped)} scaricate dal {limit}"
+          + (f": {', '.join(r['slug'] for r in skipped)}" if skipped else ""), flush=True)
+    return out
+
+
 def main(argv):
     # regioni separate da spazi o virgole; "all" = tutte; il nome di un gruppo (es. "italia") = tutte le sue regioni;
-    # "oldest" = il paese o la regione senza gruppo scaricati meno di recente; "three-oldest" = i tre
+    # "oldest" = il paese o la regione senza gruppo scaricati meno di recente; "three-oldest" = i tre;
+    # "all-but-recent" = tutte tranne quelle scaricate negli ultimi 7 giorni
     names = [x.lower() for a in argv for x in re.split(r"[\s,]+", a) if x] or ["all"]
     by_slug = {r["slug"]: r for r in REGIONS}
     groups = {}
@@ -4314,12 +4331,14 @@ def main(argv):
     if "all" in names:
         todo = REGIONS
     else:
-        unknown = [x for x in names if x not in by_slug and x not in groups and x not in OLDEST]
+        unknown = [x for x in names if x not in by_slug and x not in groups and x not in OLDEST
+                   and x != "all-but-recent"]
         if unknown:
             sys.exit(f"Regione sconosciuta: {', '.join(unknown)}. "
-                     f"Disponibili: all, {', '.join([*OLDEST, *groups, *by_slug])}")
+                     f"Disponibili: all, all-but-recent, {', '.join([*OLDEST, *groups, *by_slug])}")
         todo = list({r["slug"]: r for x in names                                         # senza doppioni
                      for r in (oldest(groups, regions_index, OLDEST[x]) if x in OLDEST
+                               else all_but_recent(regions_index) if x == "all-but-recent"
                                else groups.get(x) or [by_slug[x]])}.values())
     ok = True
     for i, region in enumerate(todo, 1):
