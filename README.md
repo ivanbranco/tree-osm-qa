@@ -14,7 +14,7 @@ Map of OpenStreetMap trees (`natural=tree`, and stumps `natural=tree_stump`), di
 
 ## What it does
 
-* **Checks the data**: 48 checks on measurements, species and genus names, Wikidata, links and monumental trees. Trees with at least one error have a red outline, and the card explains each error
+* **Checks the data**: 71 checks on measurements, species and genus names, Wikidata, links and monumental trees. Trees with at least one error have a red outline, and the card explains each error
 * **Draws the trees** with their real measurements: crown, trunk, shape according to leaf type, colour according to leaf cycle, plus monumental trees, sacred trees, multiple trunks, ivy and stumps
 * **Helps fix the data**: filters by species and by error type, a card with photo and links, opening the tree in iD, JOSM or MapComplete, a one-click fix in JOSM for errors and hints with only one possible fix, downloading the errors as GeoJSON
 * **Shows what is missing**: the Completeness tab counts how many trees in view have species or genus, leaf type, leaf cycle, height, circumference, crown diameter, a photo and, for dioecious trees, the sex, and highlights on the map those that lack each one

@@ -410,7 +410,12 @@ def genus_name_here(key):
     return not ex or not ({REGION_ISO.upper(), REGION_ISO[:2].upper()} & ex)
 # nomi comuni delle specie (species_names di whitelist.json, scritti a mano): {("pl", "klon zwyczajny"): "Acer
 # platanoides"}; per questi si propone species=<la specie>
-SPECIES_NAMES = {(lang, n.casefold()): s for lang, d in _WL.get("species_names", {}).items() for n, s in d.items()}
+SPECIES_NAMES = {(lang, n.casefold()): s.split(" subsp. ")[0]
+                 for lang, d in _WL.get("species_names", {}).items() for n, s in d.items()}
+# nomi che indicano una sottospecie ("Mirabellier": "Prunus domestica subsp. syriaca"): {("fr", "mirabellier"):
+# "Prunus domestica subsp. syriaca"}; per i loro species:xx senza species=* si propone anche taxon:subspecies
+SPECIES_NAME_SSP = {(lang, n.casefold()): s for lang, d in _WL.get("species_names", {}).items()
+                    for n, s in d.items() if " subsp. " in s}
 # gli stessi nomi scritti come in whitelist.json ({("en", "northern red oak"): "Northern Red Oak"}): la correzione con
 # JOSM sistema le maiuscole di species:xx
 SPECIES_NAME_FORM = {(lang, n.casefold()): n for lang, d in _WL.get("species_names", {}).items() for n in d}
@@ -2563,13 +2568,14 @@ EPITHET = re.compile(r"[a-z]+(?:-[a-z]+)?")
 NOT_EPITHETS = {"sp", "spp", "ssp", "subsp", "var", "cv", "f", "x", "hybrid", "species"}
 
 
-def taxon_precise(t):
+def taxon_precise(t, tx=None):
     """Tag più preciso per il valore di taxon=*, dalle liste wiki: ("species", nome della lista) se è genere ed
     epiteto di una specie della lista (senza cultivar o altro), ("genus", genere) se è un genere della lista;
     ("species", valore, "b") se non è nella lista ma è un genere noto con l'iniziale maiuscola seguito da un epiteto
     (taxon=Citrus sinensis): genere ed epiteto sono la forma del nome di una specie. None altrimenti, o se species o
-    genus (o il genere di species) dicono già un'altra cosa: la proposta non sarebbe certa."""
-    tx = str(t.get("taxon") or "").strip()
+    genus (o il genere di species) dicono già un'altra cosa: la proposta non sarebbe certa. Con tx, lo stesso per quel
+    valore al posto di taxon=* (name:botanical, botanical_precise)."""
+    tx = str(t.get("taxon") or "").strip() if tx is None else tx.strip()
     if not tx or ";" in tx or "=" in tx:
         return None
     sp, g = str(t.get("species") or "").strip(), str(t.get("genus") or "").strip()
@@ -2588,6 +2594,22 @@ def taxon_precise(t):
         if (not g or genus_key(g) == genus_key(gr[0])) and (not sp or genus_key(genus_of_species(sp)) == genus_key(gr[0])):
             return "genus", gr[0]
     return None
+
+
+# «sp.» o «spp.» in fondo a name:botanical (Betula sp.): il nome è quello del genere
+SP_END = re.compile(r"\s+spp?\.?$", re.I)
+
+
+def botanical_value(t):
+    """name:botanical=* (deprecato sulla wiki, check name_botanical): il valore con gli spazi ripuliti, "" se manca."""
+    return " ".join(str(t.get("name:botanical") or "").split())
+
+
+def botanical_precise(t):
+    """Tag per il valore di name:botanical=*, come taxon_precise per taxon=*: ("species", nome), ("genus", genere) o
+    ("species", valore, "b"). «sp.» e «spp.» in fondo non contano (name:botanical=Betula sp. -> genus=Betula)."""
+    nb = botanical_value(t)
+    return taxon_precise(t, SP_END.sub("", nb)) if nb else None
 
 
 def taxon_conflict(t):
@@ -3063,6 +3085,12 @@ def checks(t, pos, osm_id=None):
         cand = {s for _, _, s, _ in sl} | {s for _, _, _, s in gl if s}
         if len(cand) == 1:
             props.update(species_lang_extras(t, next(iter(cand))))
+            # sp_lang_ssp: righe "species:fr=Mirabellier|Prunus domestica subsp. syriaca" per i nomi di una sottospecie
+            # (SPECIES_NAME_SSP), se è una sola e taxon:subspecies manca: la correzione con JOSM la aggiunge con species
+            ssp = [(k, v, s) for k, v, _, _ in sl
+                   if (s := SPECIES_NAME_SSP.get((re.split(r"[-_]", k[8:])[0], v.strip().casefold())))]
+            if len({s for _, _, s in ssp}) == 1 and "taxon:subspecies" not in t:
+                props["sp_lang_ssp"] = "\n".join(f"{k}={v}|{s}" for k, v, s in ssp)
         flag("species_lang_only", sp_lang="\n".join(f"{k}={v}" for k, v in lang),
              **({"sp_lang_sp": "\n".join(f"{k}={v}|{s}" + (f"|{n}" if n else "") for k, v, s, n in sl)} if sl else {}),
              **({"sp_lang_genus": "\n".join(f"{k}={v}|{g}" + (f"|{s}" if s else "") for k, v, g, s in gl),
@@ -3142,6 +3170,14 @@ def checks(t, pos, osm_id=None):
     # taxon=* indica un'altra specie o un altro genere di species=* o genus=* (tx_tag: quale dei due)
     if txc := taxon_conflict(t):
         flag("taxon_mismatch", tx_tag=txc)
+    # name:botanical=* è deprecato sulla wiki: il nome va in species o genus. nb: il valore (name:botanical non è tra le
+    # proprietà della feature); nb_tx: "species|nome", "genus|nome" o "species|valore|b" come hint_tx (botanical_precise),
+    # se il tag si può dire; nb_wd, nb_lt, nb_lc: species:wikidata, leaf_type e leaf_cycle che mancano per quella species
+    if nb := botanical_value(t):
+        bp = botanical_precise(t)
+        if bp and bp[0] == "species" and not str(t.get("species") or "").strip():
+            props.update(species_lang_extras(t, bp[1], "nb_"))
+        flag("name_botanical", nb=nb, **({"nb_tx": "|".join(bp)} if bp else {}))
     list_issues, list_props = species_list_mismatches(t)
     nt = not_taxon_tags(t)
     if any(k == "species:wikidata" for k, _ in nt) and "wikidata_mismatch" in list_issues:
