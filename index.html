@@ -664,6 +664,7 @@ const I18N = {
       circumference_species: "Circonferenza > limite della specie",
       height_species: "Altezza > limite della specie", species_typo: "Species forse scritta male",
       species_epithet_case: "Species con maiuscole sbagliate", species_common_name: "Species non scientifica (nome comune?)",
+      species_hybrid_end: "Segno di ibrido in fondo a species",
       species_unidentified: "Species non identificata (sp., spp.)", species_parentheses: "Parentesi in species", species_author: "Species con l'autore del nome",
       underscore: "Trattino basso (_) in species o genus", multiple_values: "Più valori (;) in species o genus", tag_in_value: "Tag scritto nel valore (=)",
       not_latin: "Species o genus in alfabeto non latino",
@@ -841,6 +842,7 @@ const I18N = {
       species_typo: "Il nome non è nella lista delle specie della wiki OSM, ma differisce di una o due lettere da una specie che c'è.",
       species_epithet_case: "In un nome scientifico è maiuscola solo l'iniziale del genere: il resto del genere e l'epiteto sono minuscoli (Taxus baccata). Il segno di ibrido è × (Platanus × hispanica), non una X maiuscola.",
       species_common_name: "species=* contiene il nome scientifico (Genere epiteto, con l'epiteto minuscolo). Il nome comune va in species:xx (es. species:it).",
+      species_hybrid_end: "Nel nome di un ibrido il segno × sta tra il genere e l'epiteto (Platanus × hispanica), o prima del genere per un ibrido tra generi diversi (× Chitalpa tashkentensis), non in fondo al nome.",
       species_unidentified: "«sp.» e «spp.» indicano una specie non identificata: in OSM si indica solo il genere.",
       species_parentheses: "Nessun nome scientifico contiene parentesi.",
       species_author: "species=* contiene solo il nome, senza l'autore che ha descritto la specie (L., Mill., …).",
@@ -908,6 +910,7 @@ const I18N = {
       species_typo: (sp, s) => `species=${sp} non è nella lista delle specie: forse ${s}?`,
       species_unidentified: (sp, g) => `species=${sp} indica una specie non identificata: usare genus=${g} senza species`,
       species_epithet_case: (sp, s) => `species=${sp}: va maiuscola solo l'iniziale del genere, species=${s}`,
+      species_hybrid_end: (sp, s) => `species=${sp}: il segno di ibrido × va tra il genere e l'epiteto, non in fondo` + (s ? `: species=${s}` : ""),
       species_parentheses: sp => `species=${sp} contiene parentesi, che nei nomi scientifici non ci sono`,
       species_common_name: (sp, s, g, kv, known) => `species=${sp} non ha la forma di un nome scientifico (Genere epiteto)`
         + (s && known ? `: è il nome comune di ${s}, usare species=${s}` + (kv ? ` e ${kv}` : "") : s ? `: species=${s}?`
@@ -1249,6 +1252,7 @@ const I18N = {
       circumference_species: "Circumference > species limit",
       height_species: "Height > species limit", species_typo: "Possibly misspelled species",
       species_epithet_case: "Species with wrong capitalisation", species_common_name: "Non-scientific species (common name?)",
+      species_hybrid_end: "Hybrid sign at the end of species",
       species_unidentified: "Unidentified species (sp., spp.)", species_parentheses: "Parentheses in species", species_author: "Species with the author name",
       underscore: "Underscore (_) in species or genus", multiple_values: "Multiple values (;) in species or genus", tag_in_value: "Tag written in the value (=)",
       not_latin: "Species or genus in a non-Latin script",
@@ -1416,6 +1420,7 @@ const I18N = {
       species_typo: "The name is not in the OSM wiki species list, but differs by one or two letters from a species that is.",
       species_epithet_case: "In a scientific name only the initial of the genus is uppercase: the rest of the genus and the epithet are lowercase (Taxus baccata). The hybrid sign is × (Platanus × hispanica), not an uppercase X.",
       species_common_name: "species=* holds the scientific name (Genus epithet, with a lowercase epithet). The common name goes in species:xx (e.g. species:en).",
+      species_hybrid_end: "In the name of a hybrid the sign × goes between the genus and the epithet (Platanus × hispanica), or before the genus for a hybrid between different genera (× Chitalpa tashkentensis), not at the end of the name.",
       species_unidentified: "\"sp.\" and \"spp.\" mean an unidentified species: in OSM only the genus is tagged.",
       species_parentheses: "No scientific name contains parentheses.",
       species_author: "species=* holds only the name, without the author who described the species (L., Mill., …).",
@@ -1480,6 +1485,7 @@ const I18N = {
       species_typo: (sp, s) => `species=${sp} is not in the species list: did you mean ${s}?`,
       species_unidentified: (sp, g) => `species=${sp} means an unidentified species: use genus=${g} without species`,
       species_epithet_case: (sp, s) => `species=${sp}: only the initial of the genus should be uppercase, species=${s}`,
+      species_hybrid_end: (sp, s) => `species=${sp}: the hybrid sign × goes between the genus and the epithet, not at the end` + (s ? `: species=${s}` : ""),
       species_parentheses: sp => `species=${sp} contains parentheses, which scientific names never have`,
       species_common_name: (sp, s, g, kv, known) => `species=${sp} is not a scientific name (Genus epithet)`
         + (s && known ? `: it is the common name of ${s}, use species=${s}` + (kv ? ` and ${kv}` : "") : s ? `: species=${s}?`
@@ -2839,7 +2845,7 @@ map.on("load", async () => {
   const ISSUE_GROUPS = [
     ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "unit_format", "circ_diam_mismatch", "trunk_overlap", "number_invalid", "circumference_species", "height_species",
       "too_slender", "too_slender_species", "too_stocky", "small_monument"]],
-    ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_common_name",
+    ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_hybrid_end", "species_common_name",
       "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "taxon_lang_only", "not_a_tree", "underscore", "multiple_values", "tag_in_value",
       "not_latin", "genus", "genus_lowercase", "genus_common_name", "genus_mismatch", "name_taxon_missing", "name_taxon_mismatch"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
@@ -4608,6 +4614,7 @@ const issueBase = (i, p) => {
     // genus:xx): fetch_trees.py
     case "species_epithet_case": case "species_common_name": return T[i](p.species, p.sp_sci, p.sp_cn_genus, p.sp_cn_kv, p.sp_cn_sp);
     case "species_parentheses": return T[i](p.species);
+    case "species_hybrid_end": return T[i](p.species, p.sp_hyb);            // sp_hyb: fetch_trees.py
     case "not_a_tree": return T[i](p.nt_sp);                                  // nt_sp: fetch_trees.py
     case "underscore": return String(p.und_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");
     case "multiple_values": return String(p.mv_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");   // mv_keys: fetch_trees.py
@@ -5175,6 +5182,8 @@ const FIXES = {
   // natural non è tra le proprietà della feature: il vecchio valore (quinto elemento) è tree, l'unico per cui scatta
   not_a_tree: [p => [["natural", "plant", undefined, false, "tree"]], "plant that is not a tree: natural=plant"],
   species_epithet_case: [p => [["species", p.sp_sci]], "fix capitalisation in species"],
+  // segno di ibrido in fondo a species: il nome della lista (sp_hyb, fetch_trees.py), solo se nella lista è un ibrido
+  species_hybrid_end: [p => [["species", p.sp_hyb]], "hybrid sign between genus and epithet in species"],
   // website=* o url=* con la stessa voce di wikipedia=* (wpw_same, fetch_trees.py): la chiave si toglie
   website_wikipedia: [p => { const k = String(p.wpw || "").split("|")[0];
     return p.wpw_same && p[k] ? [[k, REMOVE]] : []; }, "remove the Wikipedia article already in wikipedia"],

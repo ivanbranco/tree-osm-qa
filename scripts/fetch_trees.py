@@ -2091,8 +2091,8 @@ def species_common_name(sp):
     second = words[1]
     if not second[:1].isupper() or second[:1] in "'‘`\"“(" or AUTHOR.match(second):
         return None
-    if second == "X" and len(words) > 2 and words[2][:1].islower():
-        return None                              # segno di ibrido scritto maiuscolo ("Crataegus X prunifolia")
+    if second == "X" and (len(words) == 2 or words[2][:1].islower()):
+        return None                              # segno di ibrido scritto maiuscolo ("Crataegus X prunifolia", "Tilia X")
     m = re.search(r"\(([^)]*)\)", sp)
     return m.group(1).strip() if m and SCI_NAME.match(m.group(1).strip()) else ""
 
@@ -2118,7 +2118,11 @@ def species_epithet_case(sp):
         l_pos = [i for i, w in enumerate(lw) if w != "×"]
         if len(l_pos) < 2 or lw[l_pos[1]][:1] in "'‘’`´\"“”":
             return None                          # in lista c'è genere e cultivar: il resto non si può attaccare
-        return " ".join(lw[:l_pos[1] + 1] + sw[sp_pos[1] + 1:])
+        tail = sw[sp_pos[1] + 1:]
+        # il segno di ibrido in fondo ("Platanus Acerifolia x", species_hybrid_end) è già nel nome della lista
+        if len(tail) == 1 and tail[0] in HYBRID_SIGNS and "×" in lw[:l_pos[1]]:
+            tail = []
+        return " ".join(lw[:l_pos[1] + 1] + tail)
     words = [w for w in sp.split() if w != "×"]
     # due parole con un genere noto: la proposta c'è solo se la seconda è un epiteto, cioè l'epiteto di una specie
     # della lista (di qualunque genere: "Prunus Chinensis") o a poche lettere da una specie della lista ("Quercus
@@ -2160,6 +2164,26 @@ def species_inner_case(sp):
     for i in hx:
         words[i] = "×"
     return " ".join(words)
+
+
+@functools.lru_cache(maxsize=None)
+def species_hybrid_end(sp):
+    """Se species è genere ed epiteto con il segno di ibrido (×, x o X) scritto in fondo come parola a sé ("Platanus
+    acerifolia x", "Tilia euchlora x": issue #100): il nome della lista con quel genere ed epiteto, se nella lista ha
+    il segno di ibrido ("Platanus × acerifolia"); altrimenti "" (nessuna proposta: "Salix alba x"). None negli altri
+    casi: il segno in mezzo al nome (Platanus × acerifolia, Salix alba × fragilis), altro dopo il segno (cultivar,
+    autore), epiteto maiuscolo, più valori."""
+    if not sp or ";" in sp:
+        return None
+    words = sp.split()
+    if len(words) < 3 or words[-1] not in HYBRID_SIGNS:
+        return None
+    rest = [w for w in words[:-1] if w not in HYBRID_SIGNS]   # anche con il segno già in mezzo: "Tilia × euchlora x"
+    if len(rest) != 2 or not rest[1].lstrip("×")[:1].islower():
+        return None
+    # la proposta: un nome della lista di sole due parole più il segno (non una cultivar della lista)
+    lw = norm_species(listed).split() if (listed := SPECIES_BIN.get(binomial(sp))) else []
+    return listed if "×" in lw and len([w for w in lw if w != "×"]) == 2 else ""
 
 
 AUTHOR_PARTICLE = {"de", "van", "von", "der", "den", "du", "da", "di", "d'", "le", "la", "ter"}   # "Siebold ex de Vriese"
@@ -2812,7 +2836,8 @@ def checks(t, pos, osm_id=None):
     spw = name_words(spf) if spf is not None else []
     # genere seguito dal solo autore ("Tilia L.", "Malus Hybr."): vale come una parola sola
     genus_author = len(spw) == 2 and bool(AUTHOR.match(spw[1])) and not species_unidentified(spf)
-    one_word = len(spw) == 1 or genus_author
+    # anche il genere seguito dal solo segno di ibrido scritto "x" o "X" ("Platanus x"): "×" name_words lo toglie già
+    one_word = len(spw) == 1 or genus_author or (len(spw) == 2 and spw[1] in HYBRID_SIGNS)
     if one_word:
         # se la parola è un genere della lista wiki (es. species=magnolia), la scheda propone genus=Magnolia
         # se è il nome comune di un genere (species=oak), propone genus=Quercus (sp_common_genus)
@@ -2827,10 +2852,17 @@ def checks(t, pos, osm_id=None):
     # l'iniziale del genere; species_lowercase resta per i nomi che hanno solo l'iniziale minuscola
     no_auth = species_without_author(spf) if spf else None
     ec = species_epithet_case(spf) if spf and not no_auth else None
+    # segno di ibrido in fondo al nome ("Platanus acerifolia x"). Con le maiuscole sbagliate vale il nome già corretto
+    # (ec): "Platanus Acerifolia x" -> "Platanus × acerifolia" non si ripete, "Salix Alba x" -> "Salix alba x" sì.
+    # hyb: il nome della lista proposto, "" se non c'è
+    hyb = species_hybrid_end(ec or spf) if spf and not no_auth else None
     # con una sola parola basta l'errore precedente: la correzione è la stessa, minuscola o no
-    # il segno di ibrido iniziale scritto "x" non è un'iniziale minuscola
-    if len(spw) > 1 and not one_word and spw[0].lstrip("×")[:1].islower() and not no_auth and not ec:
+    # il segno di ibrido iniziale scritto "x" non è un'iniziale minuscola; con la proposta del segno di ibrido no,
+    # perché il nome della lista ha già la maiuscola
+    if len(spw) > 1 and not one_word and spw[0].lstrip("×")[:1].islower() and not no_auth and not ec and not hyb:
         flag("species_lowercase")
+    if hyb is not None:
+        flag("species_hybrid_end", **({"sp_hyb": hyb} if hyb else {}))
     if spf and (g_un := species_unidentified(spf)):
         flag("species_unidentified", sp_genus=g_un)
     if ec:                                                        # maiuscole sbagliate nel nome scientifico
@@ -2874,7 +2906,12 @@ def checks(t, pos, osm_id=None):
     # per species_author, perché le due proposte non si contraddicano (Cupréssus sempervìrens L. -> Cupressus
     # sempervirens). sp_fix_wd, sp_fix_lt, sp_fix_lc: species:wikidata, leaf_type e leaf_cycle che mancano, per la
     # specie corretta (sp_fix o sp_clean): la correzione li aggiunge insieme a species
-    if typo and not (no_auth and "sp_clean" not in props) and len(name_words(no_auth or spf)) == 2:
+    # Con il segno di ibrido in fondo (species_hybrid_end) il segno non conta, se la specie proposta è un ibrido:
+    # "Prunus yedonensis x" -> "Prunus × yedoensis"
+    fix_words = name_words(no_auth or spf) if typo else []
+    if typo and hyb is not None and "×" in norm_species(typo).split():
+        fix_words = fix_words[:-1]
+    if typo and not (no_auth and "sp_clean" not in props) and len(fix_words) == 2:
         props["sp_fix"] = typo
     if fixed := props.get("sp_fix") or props.get("sp_clean"):
         props.update(species_lang_extras(t, fixed, "sp_fix_"))
