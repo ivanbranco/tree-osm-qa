@@ -303,7 +303,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "2021 Plane tree of Rossio PT.jpg",
@@ -85240,6 +85241,7 @@
 "heritage": [
 [
 "Q108785492",
+"Q108785492",
 "Q108785492"
 ]
 ],
@@ -85560,7 +85562,8 @@
 "heritage": [
 [
 "monumento naturale",
-"natural monument"
+"natural monument",
+"Q23790"
 ]
 ],
 "image": "Фикус у Дому културе Чачак, Заштићено природно добро III категорије 02.jpg",
@@ -90670,7 +90673,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "",
@@ -97709,7 +97713,7 @@
 ]
 ],
 "heritage": [],
-"image": "",
+"image": "Zapis-1073-Siljakovac-Tri-hrasta-manji 20161029 8478.jpg",
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -98462,7 +98466,8 @@
 "heritage": [
 [
 "Immovable Cultural Heritage of Municipal Interest",
-"Immovable Cultural Heritage of Municipal Interest"
+"Immovable Cultural Heritage of Municipal Interest",
+"Q11791"
 ]
 ],
 "image": "Metrosidero tree - Ponta Delgada, Azores - panoramio.jpg",
@@ -98483,7 +98488,8 @@
 "heritage": [
 [
 "Immovable Cultural Heritage of Municipal Interest",
-"Immovable Cultural Heritage of Municipal Interest"
+"Immovable Cultural Heritage of Municipal Interest",
+"Q11791"
 ]
 ],
 "image": "Árvore-da-borracha.jpg",
@@ -98502,7 +98508,8 @@
 "heritage": [
 [
 "Immovable Cultural Heritage of Municipal Interest",
-"Immovable Cultural Heritage of Municipal Interest"
+"Immovable Cultural Heritage of Municipal Interest",
+"Q11791"
 ]
 ],
 "image": "2019-05-24 12-46-53 PT Sao Miguel JHe K70 (54509873518).jpg",
@@ -98518,7 +98525,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "",
@@ -102921,7 +102929,13 @@
 40.228193
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
 "mon": true,
 "taxa": [
@@ -102937,8 +102951,15 @@
 40.2062887
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q782275"
 ],
@@ -102952,8 +102973,15 @@
 40.1919
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q59420135"
 ],
@@ -102967,8 +102995,15 @@
 41.864936
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Eucalipto na Casa de Esteiró, Caminha - 03.jpg",
+"mon": true,
 "taxa": [
 "Q159528"
 ],
@@ -102982,8 +103017,15 @@
 41.8605
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q22699"
 ],
@@ -102997,8 +103039,15 @@
 41.864861
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Araucária na Casa de Esteiró, Caminha - 06.jpg",
+"mon": true,
 "taxa": [
 "Q161070"
 ],
@@ -103012,8 +103061,15 @@
 41.790683
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q147525"
 ],
@@ -103027,8 +103083,15 @@
 41.7733
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Magnólia do Convento das Cabanas - Afife, Viana do Castelo - 13.jpg",
+"mon": true,
 "taxa": [
 "Q161116"
 ],
@@ -103045,7 +103108,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "Casa da Rua 5 de Outubro, Vila Praia de Âncora - 10.jpg",
@@ -103063,8 +103127,15 @@
 41.7209
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -103078,8 +103149,15 @@
 41.791
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q22699"
 ],
@@ -103093,8 +103171,15 @@
 41.7205
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q156137"
 ],
@@ -103108,8 +103193,15 @@
 41.7368
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Árvore isolada em Jardim Público.jpg",
+"mon": true,
 "taxa": [
 "Q623489"
 ],
@@ -103123,8 +103215,15 @@
 41.4624
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q22699"
 ],
@@ -103138,8 +103237,15 @@
 39.754
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q271582"
 ],
@@ -103153,8 +103259,15 @@
 41.4012
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Árvore de grande porte no Largo das Árvores, Murça - 15.jpg",
+"mon": true,
 "taxa": [
 "Q159528"
 ],
@@ -103168,8 +103281,15 @@
 40.211154
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q782275"
 ],
@@ -103183,8 +103303,15 @@
 40.652652
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Árvore isolada em No cruzamento da Rua do Cerrado com a Rua Três do Cerrado - IMG 20251120 164351.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -103198,8 +103325,15 @@
 40.210966
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q159127"
 ],
@@ -103213,8 +103347,15 @@
 40.652683
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Árvore isolada em No cruzamento da Rua do Cerrado com a Rua Três do Cerrado - IMG 20251120 164351.jpg",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -103228,8 +103369,15 @@
 40.06391
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -103256,8 +103404,15 @@
 41.152678
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q623489"
 ],
@@ -103271,8 +103426,15 @@
 41.1532
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q59420135"
 ],
@@ -103286,8 +103448,15 @@
 40.468781
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q165145"
 ],
@@ -103301,8 +103470,15 @@
 41.146
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Araucária no Jardim da Cordoaria - Porto - 03.jpg",
+"mon": true,
 "taxa": [
 "Q782275"
 ],
@@ -103316,8 +103492,15 @@
 37.095795
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Oliveira no Aldeamento Turistico de Pedras de El Rey 02.jpg",
+"mon": true,
 "taxa": [
 "Q37083"
 ],
@@ -103331,8 +103514,15 @@
 41.1453
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q43284"
 ],
@@ -103346,8 +103536,15 @@
 41.0621
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q156137"
 ],
@@ -103361,8 +103558,15 @@
 38.683015
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q37083"
 ],
@@ -103376,8 +103580,15 @@
 38.6885
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q3351769"
 ],
@@ -103391,8 +103602,15 @@
 38.9767
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q156137"
 ],
@@ -103406,8 +103624,15 @@
 38.9001
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q156137"
 ],
@@ -103421,8 +103646,15 @@
 37.943156
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q37083"
 ],
@@ -103436,8 +103668,15 @@
 37.677806
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q156137"
 ],
@@ -103451,8 +103690,15 @@
 41.148641
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q311747"
 ],
@@ -103466,8 +103712,15 @@
 41.092418
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Freixo Duarte de Armas - Freixo de Espada à Cinta - 02.jpg",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -103479,8 +103732,15 @@
 41.440776
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q156687"
 ],
@@ -103494,8 +103754,15 @@
 41.439321
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q158783"
 ],
@@ -103509,8 +103776,15 @@
 39.341487
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q162822"
 ],
@@ -103524,8 +103798,15 @@
 39.4541
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q156907"
 ],
@@ -103542,7 +103823,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "Oliveira de Mouchão.jpg",
@@ -103560,8 +103842,15 @@
 39.3917
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q518949"
 ],
@@ -103575,8 +103864,15 @@
 39.0682
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q161070"
 ],
@@ -103590,8 +103886,15 @@
 38.803031
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q37083"
 ],
@@ -103605,8 +103908,15 @@
 38.795577
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q128887"
 ],
@@ -103620,8 +103930,15 @@
 38.7967
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q2432250"
 ],
@@ -103635,8 +103952,15 @@
 38.796472
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q2432250"
 ],
@@ -103650,8 +103974,15 @@
 38.769
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q255375"
 ],
@@ -103665,8 +103996,15 @@
 38.779986
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q1999042"
 ],
@@ -103683,7 +104021,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "Olivais - Árvore isolada em Quinta do Conde D`Arcos - 2025-10-15 18-55-11 001.jpeg",
@@ -103701,8 +104040,15 @@
 38.745317
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "EUROPA - PORTUGAL - SETUBAL - CANHA - SOBREIRO 03.jpg",
+"mon": true,
 "taxa": [
 "Q156137"
 ],
@@ -103719,7 +104065,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "Plátano Hospital Pulido Valente 003.jpeg",
@@ -103737,8 +104084,15 @@
 38.7369
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q1439079"
 ],
@@ -103752,8 +104106,15 @@
 38.7308
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q43284"
 ],
@@ -103767,8 +104128,15 @@
 38.72153
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q275160"
 ],
@@ -103785,7 +104153,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "Santa Maria Maior - Árvore isolada em Largo do Limoeiro - 20120528172947.jpg",
@@ -103806,7 +104175,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "Jardim Roque Gameiro-2.jpg",
@@ -103827,7 +104197,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "Árvore Parque dos Moinhos Santana 5.jpg",
@@ -103845,8 +104216,15 @@
 38.6857
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Plano geral do Dragoeiro no interior do Hospital de Santa Ana.jpg",
+"mon": true,
 "taxa": [
 "Q157952"
 ],
@@ -103863,7 +104241,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "Bela-sombra Restelo 1.jpg",
@@ -103884,7 +104263,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "Árvore Jerónimos 1.jpg",
@@ -103902,8 +104282,15 @@
 38.694648
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Base dos troncos.jpg",
+"mon": true,
 "taxa": [
 "Q1439079"
 ],
@@ -103917,8 +104304,15 @@
 38.650748
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q25292"
 ],
@@ -103935,7 +104329,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "Plátano Travessa do Arco da Torre 1.jpg",
@@ -103953,8 +104348,15 @@
 38.538389
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q106094"
 ],
@@ -103968,8 +104370,15 @@
 38.538272
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q106094"
 ],
@@ -103983,8 +104392,15 @@
 38.5983
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q156137"
 ],
@@ -103998,8 +104414,15 @@
 38.586597
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "2018 Whistler cork oak tree PT.jpg",
+"mon": true,
 "taxa": [
 "Q156137"
 ],
@@ -104018,7 +104441,8 @@
 "heritage": [
 [
 "Árvore de Interesse Público",
-"Tree of Public Interest"
+"Tree of Public Interest",
+"Q52062847"
 ]
 ],
 "image": "Eucalipto de contige 03.jpg",
@@ -104036,8 +104460,15 @@
 40.6563
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Árvore do Hotel Grão Vasco light.jpg",
+"mon": true,
 "taxa": [
 "Q623489"
 ],
@@ -104051,8 +104482,15 @@
 40.6362
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Árvore isolada no Jardim Infante D. Pedro em Aveiro.jpg",
+"mon": true,
 "taxa": [
 "Q161070"
 ],
@@ -104066,8 +104504,15 @@
 40.4188
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "Casa da Cerca de Santa Rita Árvore anexa.jpg",
+"mon": true,
 "taxa": [
 "Q179729"
 ],
@@ -104081,8 +104526,15 @@
 40.36335
 ]
 ],
-"heritage": [],
+"heritage": [
+[
+"Árvore de Interesse Público",
+"Tree of Public Interest",
+"Q52062847"
+]
+],
 "image": "",
+"mon": true,
 "taxa": [
 "Q22699"
 ],
