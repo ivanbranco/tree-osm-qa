@@ -12,7 +12,7 @@ ricava da quei file sono sostituite dalle piccole tabelle finte scritte qui sott
 inventati. Le soglie fisse dei check (MAX_HEIGHT, SLENDER_MAX, …) sono invece quelle vere: i casi usano valori lontani
 dalle soglie, ma se una soglia cambia molto vanno riguardati.
 
-HINT_CASES prova i consigli hint_ms, hint_mf e hint_wg; GROUP_ELEMENTS e feature_failures la lettura delle relazioni con ref:masaf
+HINT_CASES prova i consigli di hint_props (hint_ms, hint_mf, hint_wg, hint_hx, hint_nl…); GROUP_ELEMENTS e feature_failures la lettura delle relazioni con ref:masaf
 (insiemi omogenei, issue #9) e i loro membri nelle feature.
 
 Quando si aggiunge o si cambia un check: aggiornare CASES. Un codice che checks() può segnalare e che nessun caso
@@ -62,7 +62,10 @@ _DEN = {"natural_monument": 50000, "urban": 100000, "avenue": 50000, "park": 200
 # nome della variabile di fetch_trees.py -> valore finto
 FIXTURES = {
     "SPECIES_LIMITS": {"quercus robur": {"circumference": 15.0, "height": 45.0, "height_circ_ratio": 10.0}},
-    "SPECIES_REF": {ft.norm_species(k): v for k, v in _SPECIES.items()},
+    # con l'ibrido della lista scritto senza × (HYBRID_ALIAS), come fa fetch_trees.py
+    "SPECIES_REF": {**{ft.norm_species(k): v for k, v in _SPECIES.items()},
+                    "platanus acerifolia": _SPECIES["Platanus × acerifolia"]},
+    "HYBRID_ALIAS": {"platanus acerifolia": "Platanus × acerifolia"},
     "QID_TO_SPECIES": {v["wikidata"]: k for k, v in _SPECIES.items()},
     "SPECIES_BIN": {ft.binomial(k): k for k in _SPECIES},
     "SPECIES_REF_BIN": {ft.binomial(k): (k, v) for k, v in _SPECIES.items()},
@@ -74,7 +77,8 @@ FIXTURES = {
     "TYPO_WHITELIST": {"quercus robar"},
     "HERITAGE_NOT_NATURAL": {"Q43874039"},       # monumento archeologico
     "SYNONYMS": {"quercus pedunculata": "Quercus robur"},
-    "GROUP_NAME": {"quercus pedunculata": "Quercus robur", "quercus robur": "Quercus robur"},
+    "GROUP_NAME": {"quercus pedunculata": "Quercus robur", "quercus robur": "Quercus robur",
+                   "platanus × acerifolia": "Platanus × acerifolia", "platanus acerifolia": "Platanus × acerifolia"},
     "SMALL_MON_WHITELIST": {4242},
     "GENUS_NAMES": {("fr", "tilleul"): "Tilia", ("it", "quercia"): "Quercus", ("en", "plane"): "Platanus",
                     ("pl", "świerk"): "Picea"},
@@ -836,6 +840,30 @@ HINT_CASES = [
      None, "hint_mly", "200327278592861"),
     ("hint_mly: non con mapillary=*", {"natural": "tree", "mapillary": "1", "image": "https://www.mapillary.com/app/?pKey=1"},
      None, "hint_mly", False),
+    # ibrido della lista scritto senza × (hint_hx): vale come la specie della lista (hint_sw dà il suo QID)
+    ("hint_hx: ibrido della lista senza ×", {"natural": "tree", "species": "Platanus acerifolia"}, None, "hint_hx",
+     "Platanus × acerifolia"),
+    ("hint_hx: senza × vale come la specie della lista", {"natural": "tree", "species": "Platanus acerifolia"}, None,
+     "hint_sw", "Q920014"),
+    ("hint_hx: non con il segno ×", {"natural": "tree", "species": "Platanus × acerifolia"}, None, "hint_hx", False),
+    ("hint_hx: non con x (è il consiglio sul segno x)", {"natural": "tree", "species": "Platanus x acerifolia"}, None,
+     "hint_hx", False),
+    # specie con la forma di una specie, non nella lista wiki (hint_nl)
+    ("hint_nl: specie non nella lista", {"natural": "tree", "species": "Pinus halepensis"}, None, "hint_nl", True),
+    ("hint_nl: anche con il segno ×", {"natural": "tree", "species": "Tilia × euchlora"}, None, "hint_nl", True),
+    ("hint_nl: anche un ibrido intergenerico", {"natural": "tree", "species": "× Chitalpa tashkentensis"}, None,
+     "hint_nl", True),
+    ("hint_nl: non per una specie della lista", OAK, None, "hint_nl", False),
+    ("hint_nl: non per un sinonimo", {"natural": "tree", "species": "Quercus pedunculata"}, None, "hint_nl", False),
+    ("hint_nl: non per un ibrido della lista senza ×", {"natural": "tree", "species": "Platanus acerifolia"}, None,
+     "hint_nl", False),
+    ("hint_nl: non con la cultivar", {"natural": "tree", "species": "Pinus halepensis 'Nana'"}, None, "hint_nl", False),
+    ("hint_nl: non per un genere", {"natural": "tree", "species": "Pinus"}, None, "hint_nl", False),
+    ("hint_nl: non con l'epiteto maiuscolo", {"natural": "tree", "species": "Pinus Halepensis"}, None, "hint_nl", False),
+    ("hint_nl: non con il genere minuscolo", {"natural": "tree", "species": "pinus halepensis"}, None, "hint_nl", False),
+    ("hint_nl: non con l'autore", {"natural": "tree", "species": "Pinus halepensis Mill."}, None, "hint_nl", False),
+    ("hint_nl: non con più valori", {"natural": "tree", "species": "Pinus halepensis;Pinus pinea"}, None, "hint_nl", False),
+    ("hint_nl: non su un ceppo", {"natural": "tree_stump", "species": "Pinus halepensis"}, None, "hint_nl", False),
 ]
 
 # Proposta di species_author (sp_clean, quello che «Fix with JOSM» scrive in species): species -> valore atteso,
@@ -1101,6 +1129,13 @@ def feature_failures():
               ("diameter_crown: cr = metà, senza cr_est", (pc := ft.to_feature(node(9002, {**tags, "diameter_crown": "8"}))["properties"])
                .get("cr") == 4.0 and "cr_est" not in pc),
               ("membro: niente hint_ms", "hint_ms" not in mem),
+              # consigli sulla lista wiki (hint_nl, hint_hx): non con un errore sul nome, che propone già una correzione
+              ("hint_nl nella feature", ft.to_feature(node(9013, {"natural": "tree", "species": "Pinus halepensis"}))
+               ["properties"].get("hint_nl") == 1),
+              ("hint_nl: non con un errore sul nome", "hint_nl" not in ft.to_feature(node(9014, {"natural": "tree",
+               "species": "Agave americana"}))["properties"]),
+              ("sp_key: ibrido senza × contato con la specie della lista", ft.to_feature(node(9015, {"natural": "tree",
+               "species": "Platanus acerifolia"}))["properties"].get("sp_key") == "Platanus × acerifolia"),
               # ref=* per il titolo della scheda (issue #89)
               ("ref nella feature", ft.to_feature(node(9008, {**tags, "ref": "1543"}))["properties"].get("ref") == "1543"),
               # TROBI e champion trees: tag per la riga ★ della scheda

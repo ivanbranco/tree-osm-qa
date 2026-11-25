@@ -245,6 +245,8 @@ SLENDER_SP_MIN_H = 10      # m: solo alberi alti almeno 10 m
 # con questi niente consiglio hint_ms: rapporto altezza/circonferenza o circonferenza oltre il limite (generico o della
 # specie) già segnalati
 NO_MASAF_HINT = {"too_slender", "too_slender_species", "too_stocky", "circumference", "circumference_species"}
+# errori sul nome che tolgono i consigli hint_nl e hint_hx, oltre a quelli che iniziano con "species" (to_feature)
+SPECIES_NAME_ISSUES = {"not_a_tree", "tag_in_value", "not_latin", "underscore", "multiple_values"}
 # Albero monumentale molto piccolo (check small_monument, issue #34): soglie basse di proposito, misure di una piccola
 # pianta o di una canna di bambù, per non segnalare alberi monumentali veri; le eccezioni vanno in whitelist.json.
 # Provato a novembre 2026 su 58.855 alberi con denotation=natural_monument: 14 sotto 1,5 m, 28 sotto 0,2 m
@@ -359,6 +361,23 @@ for _members in _GROUPS.values():
 # nome della specie per statistiche e filtro del sito ("sp_key" in to_feature): il nome della lista wiki, per i
 # sinonimi e per le scritture diverse dello stesso nome ("x" al posto di "×")
 GROUP_NAME = {m: _name for _alt, _name in SYNONYMS.items() for m in (norm_species(_name), _alt)}
+# ibridi della lista scritti senza il segno ×: "Tilia europaea" vale come "Tilia × europaea" (il segno dice solo che è
+# un ibrido, la specie è la stessa) in tutti i controlli, nelle statistiche e nel filtro, come "x" al posto di "×".
+# Solo per genere ed epiteto, e se il nome senza × non è già un altro nome della lista o un sinonimo. Non è un
+# sinonimo (non va tra i sinonimi delle pagine delle specie): il consiglio hint_hx propone la forma della lista
+HYBRID_ALIAS = {}
+for _name in _LIST:
+    _w = norm_species(_name).split()
+    if "×" in _w and len(_alt := [w for w in _w if w != "×"]) == 2:
+        if (_alt := " ".join(_alt)) not in SPECIES_REF and _alt not in SYNONYMS:
+            HYBRID_ALIAS.setdefault(_alt, _name)
+for _alt, _name in HYBRID_ALIAS.items():
+    _n = norm_species(_name)
+    SPECIES_REF[_alt] = SPECIES_REF[_n]
+    WD_WHITELIST.setdefault(_alt, set(WD_WHITELIST.get(_n, ())))
+    _g = GROUP_NAME.get(_n, _name)
+    GROUP_NAME.setdefault(_n, _g)
+    GROUP_NAME[_alt] = _g
 
 
 # Lista dei generi della wiki OSM (scripts/update_reference_lists.py): leaf_cycle (uno o entrambi) e leaf_type
@@ -848,6 +867,11 @@ def hint_props(t, osm_id=None, pos=None):
     hint_txl: con hint_tx, i taxon:xx dell'albero ("taxon:en=Rowan" separati da "\n"): la correzione li sposta in
     species:xx o genus:xx. Se quel tag c'è già con un altro valore, né hint_tx né hint_txl;
     hint_ne: name:en con l'iniziale minuscola -> il valore (index.html propone la maiuscola);
+    hint_hx: species è un ibrido della lista scritto senza il segno × (HYBRID_ALIAS) -> il nome della lista (la
+    correzione con JOSM lo scrive in species);
+    hint_nl: 1 se species ha la forma di una specie ma non è nella lista wiki (not_in_list): la scheda invita ad
+    aggiungerla alla lista o, se è un sinonimo, a segnalarla con una issue. Non sui ceppi; to_feature lo toglie se c'è
+    un errore sul nome (SPECIES_NAME_ISSUES);
     hint_nm: name=* è il nome comune di una specie, senza species=* ma con genus=* dello stesso genere (name_taxon)
     -> "species|nome": la correzione aggiunge species e lascia name (senza nessun tag del taxon, o con un taxon
     diverso, sono i check name_taxon_missing e name_taxon_mismatch);
@@ -944,6 +968,11 @@ def hint_props(t, osm_id=None, pos=None):
     wq = wikipedia_qid(t) if t.get("species:wikipedia") else None
     if wq and (taxon_status(wq) is not True or rank_problem("species:wikidata", wq)):
         wq = None
+    # ibrido della lista scritto senza × (HYBRID_ALIAS): la forma della lista
+    if sp and ";" not in sp and (hx := HYBRID_ALIAS.get(norm_species(sp))) and sp != hx:
+        out["hint_hx"] = hx
+    if sp and t.get("natural") != "tree_stump" and not_in_list(sp):
+        out["hint_nl"] = 1
     if sp and "species:wikidata" not in t and (q := list_qid(sp)):
         out["hint_sw"] = q
     elif wq and "species:wikidata" not in t:
@@ -1598,6 +1627,19 @@ def species_list_mismatches(t):
     if issues and from_genus and "exp_for" in props:
         props["exp_genus"] = True
     return issues, props
+
+
+SPECIES_FORM = re.compile(r"[A-Z][a-zë-]+ [a-zë-]+")
+
+
+@functools.lru_cache(maxsize=None)
+def not_in_list(sp):
+    """species ha la forma di una specie (due parole: genere con la maiuscola ed epiteto minuscolo; il segno di ibrido
+    × non conta) ma non è nella lista wiki, nemmeno come sinonimo, scritta con "x" o senza il segno ×."""
+    sp = sp.strip()
+    if ";" in sp or not SPECIES_FORM.fullmatch(" ".join(name_words(sp))):
+        return False
+    return norm_species(sp) not in SPECIES_REF and norm_species(sp) not in SYNONYMS and _leaf_species_ref(sp)[1] is None
 
 
 def species_limit(t):
@@ -3340,6 +3382,10 @@ def to_feature(el, fast=True):
     p.update(hint_props(t, el["id"], [el["lon"], el["lat"]]))     # consigli della scheda (non errori)
     if NO_MASAF_HINT & set(iss):     # circonferenza o rapporto già segnalati: niente consiglio sulla soglia MASAF
         p.pop("hint_ms", None)
+    # nome della specie già segnalato (che propone una sua correzione): niente consigli sulla forma della lista
+    if any(i.startswith("species") or i in SPECIES_NAME_ISSUES for i in iss):
+        p.pop("hint_nl", None)
+        p.pop("hint_hx", None)
     return {"type": "Feature", "properties": p,
             "geometry": {"type": "Point", "coordinates": [round(el["lon"], 7), round(el["lat"], 7)]}}
 

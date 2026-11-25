@@ -609,6 +609,10 @@ const I18N = {
         + (tags.length ? ` con ${tags.join(" e ")}` : "") + (gen ? " al posto di species" : "")
         + (check ? ". Controllare che sia una varietà e non una cultivar, che va in taxon:cultivar" : ""),
       hybridSign: (k, v) => `Il segno di ibrido si scrive × al posto della lettera x: ${k}=${v}`,
+      hybridList: v => `Nella lista delle specie della wiki il nome è scritto con il segno di ibrido: species=${v}`,
+      // specie non nella lista della wiki (hint_nl): HTML; n è già escapato, wiki e issue danno i link dal testo
+      notInList: (n, wiki, issue) => `species=${n} non è nella lista delle specie della wiki. Se il nome è in uso, si potrebbe
+        ${wiki("aggiungere alla lista")}; se è un sinonimo o un nome non più in uso di una specie della lista, si può ${issue("segnalare su GitHub")}`,
       masafCriteria: v => `Secondo l'elenco MASAF si potrebbe aggiungere masaf:criteria=${v}`,
       masafFar: (code, km, co) => `Nell'elenco MASAF le coordinate di ${code}${co ? ` (${co})` : ""} sono a ${km} km da questo albero`,
       importUndoc: v => `Albero da un import non documentato (source=${v})`,
@@ -1203,6 +1207,9 @@ const I18N = {
         + (tags.length ? ` with ${tags.join(" and ")}` : "") + (gen ? " instead of species" : "")
         + (check ? ". Check that it is a variety and not a cultivar, which goes in taxon:cultivar" : ""),
       hybridSign: (k, v) => `The hybrid sign is written × instead of the letter x: ${k}=${v}`,
+      hybridList: v => `In the wiki list of species the name is written with the hybrid sign: species=${v}`,
+      notInList: (n, wiki, issue) => `species=${n} is not in the wiki list of species. If the name is in use, it could be
+        ${wiki("added to the list")}; if it is a synonym or a name no longer in use of a species in the list, it can be ${issue("reported on GitHub")}`,
       masafCriteria: v => `According to the MASAF list, masaf:criteria=${v} could be added`,
       masafFar: (code, km, co) => `In the MASAF list the coordinates of ${code}${co ? ` (${co})` : ""} are ${km} km from this tree`,
       importUndoc: v => `Tree from an undocumented import (source=${v})`,
@@ -4793,6 +4800,7 @@ const countryName = cc => { try { return new Intl.DisplayNames([LANG], { type: "
 const langName = c => { try { return new Intl.DisplayNames([LANG], { type: "language" }).of(c) || c; } catch (e) { return c; } };
 const CONTACT_URL ="https://www.openstreetmap.org/messages/new/ivanbranco";   // richieste di nuove regioni
 const ISSUE_URL = "https://github.com/ivanbranco/tree-osm-qa/issues/new?template=region.yml";   // idem, come issue
+const SPECIES_LIST_URL = "https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species";   // consiglio hint_nl
 // Dati di una regione aggiornati almeno OLD_DAYS giorni fa (issue #59): dopo «Dati aggiornati al …» un avviso in
 // arancione con i giorni e un'iconcina che apre la issue di richiesta già compilata (tipo «Update of an existing
 // region» e nome della regione: i campi kind e region di .github/ISSUE_TEMPLATE/region.yml)
@@ -5147,6 +5155,8 @@ const HINT_FIXES = [
     const other = binomialHint(p.hint_sn) || binomialHint(p.hint_wn) || MONOTYPIC[String(p.genus || "").trim()];
     return k === "species" && other && other !== n ? [] : [[k, n]]; }, "species or genus from the common name in name"],
   [p => p.stump ? [] : hybridX(p), "hybrid sign × instead of x"],
+  // ibrido della lista scritto senza × (hint_hx, fetch_trees.py): il nome della lista
+  [p => p.stump || !p.hint_hx ? [] : [["species", p.hint_hx]], "hybrid sign × as in the wiki list of species"],
   // varietà, cultivar e genere abbreviato in species (infraMove): species senza, i tag taxon:* e, per quella specie,
   // species:wikidata, leaf_type e leaf_cycle che mancano (sp_base_wd, sp_base_lt, sp_base_lc); con genere e cultivar
   // (sp_gen) species si toglie e genus si aggiunge se manca
@@ -6038,6 +6048,15 @@ function hints(p, pos) {
   // taxon=* non dice il rango; hint_tx: "species|nome" o "genus|nome" se è nelle liste wiki (fetch_trees.py)
   if (p.taxon) { const [k, n, b] = String(p.hint_tx || "").split("|"); out.push(H.taxon(p.taxon, n ? k : "", n, !!(n && p[k]), b === "b")); }
   for (const [k, v] of hybridX(p)) out.push(H.hybridSign(k, v));
+  // ibrido della lista scritto senza × (hint_hx) e specie non nella lista della wiki (hint_nl): fetch_trees.py, che li
+  // toglie se c'è un errore sul nome. La issue è già compilata con il nome e l'albero (il nome della lista lo scrive chi segnala)
+  if (p.hint_hx) out.push(H.hybridList(p.hint_hx));
+  if (p.hint_nl && p.species) {
+    const sp = String(p.species).trim(), tree = `${SITE_URL}#region=${p.qa || hashSlug || ""}&node=${p.id}`;
+    const issue = `https://github.com/ivanbranco/tree-osm-qa/issues/new?title=${encodeURIComponent(`Species name not in the wiki list: ${sp}`)}`
+      + `&body=${encodeURIComponent(`species=${sp}\nTree: ${tree}\n\nSpecies of the wiki list with this name (synonym or name no longer in use): `)}`;
+    out.push({ html: H.notInList(esc(sp), t => link(SPECIES_LIST_URL, t), t => link(issue, t)) });
+  }
   // varietà e cultivar scritte in species: taxon:variety e taxon:cultivar (infraMove); il solo genere abbreviato è
   // l'errore species_genus_abbr
   const im = infraMove(p);
