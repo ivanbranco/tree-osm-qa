@@ -403,6 +403,10 @@ CASES = [
     ("dipendenza: con tag_in_value niente multiple_values", {"natural": "tree", "genus": "a=b;c"}, ["tag_in_value"]),
     ("dipendenza: species è un epiteto, niente genus_mismatch",
      {"natural": "tree", "genus": "Quercus", "species": "robur"}, ["species"]),
+    ("dipendenza: genus ed epiteto maiuscolo sono una specie della lista, niente genus_mismatch",
+     {"natural": "tree", "genus": "Pinus", "species": "Pinea"}, ["species"]),
+    ("genus ed epiteto maiuscolo che non sono una specie della lista: genus_mismatch",
+     {"natural": "tree", "genus": "Quercus", "species": "Pinea"}, ["species", "genus_mismatch"]),
 
     # --- leaf_type e leaf_cycle ---
     ("leaf_type", {"natural": "tree", "leaf_type": "broad"}, ["leaf_type"]),
@@ -936,6 +940,20 @@ SP_FIX_CASES = [
      {"sp_clean": "Quercus robur", "sp_fix": None, "sp_fix_wd": None, "sp_fix_lc": "deciduous"}),
     ("solo l'autore, senza species:wikidata", {"natural": "tree", "species": "Quercus robur L."},
      {"sp_fix_wd": "Q920001"}),
+    # species di una parola che con genus è una specie della lista (sp_binom) e i tag che mancano (sp_bin_*)
+    ("genus ed epiteto maiuscolo: la specie della lista", {"natural": "tree", "genus": "Pinus", "species": "Pinea"},
+     {"sp_binom": "Pinus pinea", "sp_bin_wd": "Q920002", "sp_bin_lt": "needleleaved", "sp_bin_lc": "evergreen"}),
+    ("genus ed epiteto minuscolo: la specie della lista", {"natural": "tree", "genus": "Quercus", "species": "robur",
+                                                          "leaf_type": "broadleaved"},
+     {"sp_binom": "Quercus robur", "sp_bin_lt": None}),
+    ("genus ed epiteto dopo il segno di ibrido: l'ibrido della lista",
+     {"natural": "tree", "genus": "Platanus", "species": "x acerifolia"}, {"sp_binom": "Platanus × acerifolia"}),
+    ("genus ed epiteto che non sono una specie della lista: nessuna proposta",
+     {"natural": "tree", "genus": "Quercus", "species": "Pinea"}, {"sp_binom": None}),
+    ("species di una parola senza genus: nessuna proposta", {"natural": "tree", "species": "robur"}, {"sp_binom": None}),
+    ("species di una parola che è un genere: sp_as_genus, non sp_binom", {"natural": "tree", "genus": "Quercus",
+                                                                         "species": "Pinus"},
+     {"sp_binom": None, "sp_as_genus": "Pinus"}),
     # altre proposte delle correzioni con JOSM: genus (gm_fix, g_common) e il rango della voce di wikipedia (wp_genus)
     ("genus scritto male: genus di species", {**OAK, "genus": "Quercos"}, {"gm_fix": "Quercus"}),
     ("genus diverso, ma un genere noto: nessuna correzione", {**OAK, "genus": "Pinus"}, {"gm_fix": None}),

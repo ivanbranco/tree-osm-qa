@@ -991,6 +991,7 @@ const I18N = {
       name_taxon_missing: (nm, k, n) => `name=${nm} è il nome comune ${k === "genus" ? "di un genere" : "di una specie"}, ma manca ${k}=*: ${k}=${n}`,
       name_taxon_mismatch: (nm, k, n, tag, v) => `name=${nm} è il nome comune di ${n}, ma ${tag}=${v}`,
       species: "species di una sola parola", species_as_genus: (sp, g) => `species=${sp} è un genere: usare genus=${g} senza species`,
+      species_binom: (g, sp, b) => `genus=${g} e species=${sp} insieme danno ${b}: usare species=${b}`,
       species_common_genus: (sp, g, kv) => `species=${sp} è il nome comune del genere ${g}: usare genus=${g}` + (kv ? ` e ${kv}` : "") + " senza species",
       species_lowercase: "species con iniziale minuscola",
       genus_lowercase: "genus con iniziale minuscola", circumference: "circonferenza > 43 m", height: "altezza > 116,22 m",
@@ -1560,6 +1561,7 @@ const I18N = {
       name_taxon_missing: (nm, k, n) => `name=${nm} is the common name of a ${k === "genus" ? "genus" : "species"}, but ${k}=* is missing: ${k}=${n}`,
       name_taxon_mismatch: (nm, k, n, tag, v) => `name=${nm} is the common name of ${n}, but ${tag}=${v}`,
       species: "single-word species", species_as_genus: (sp, g) => `species=${sp} is a genus: use genus=${g} without species`,
+      species_binom: (g, sp, b) => `genus=${g} and species=${sp} together give ${b}: use species=${b}`,
       species_common_genus: (sp, g, kv) => `species=${sp} is the common name of the genus ${g}: use genus=${g}` + (kv ? ` and ${kv}` : "") + " without species",
       species_lowercase: "species starting lowercase",
       genus_lowercase: "genus starting lowercase", circumference: "circumference > 43 m", height: "height > 116.22 m",
@@ -4752,8 +4754,10 @@ const issueBase = (i, p) => {
       const [k, n] = String(p.nm_tx || "").split("|");
       return T[i](p.name, k, n, p.nm_tag, p[p.nm_tag]);
     }
-    // sp_as_genus: species è un genere; sp_common_genus: è il nome comune di un genere (fetch_trees.py)
+    // sp_as_genus: species è un genere; sp_common_genus: è il nome comune di un genere; sp_binom: genus e species insieme
+    // sono una specie della lista (fetch_trees.py)
     case "species": return p.sp_as_genus ? T.species_as_genus(p.species, p.sp_as_genus)
+      : p.sp_binom ? T.species_binom(p.genus, p.species, p.sp_binom)
       : p.sp_common_genus ? T.species_common_genus(p.species, p.sp_common_genus, p.sp_common_kv) : T[i];
     default: return T[i] || i;
   }
@@ -5187,8 +5191,13 @@ const FIXES = {
     : [["species", p.sp_full], ...p.sp_base === p.sp_full ? [["species:wikidata", p.sp_base_wd, "add species:wikidata", true],
       ["leaf_type", p.sp_base_lt, "add leaf_type", true], ["leaf_cycle", p.sp_base_lc, "add leaf_cycle", true]] : []], "genus written in full in species"],
   // species di una parola che è un genere (sp_as_genus) o il nome comune di un genere (sp_common_genus): species si
-  // toglie e diventa genus, se manca. Con un genus diverso (maiuscole e segno di ibrido a parte) la correzione non è certa
+  // toglie e diventa genus, se manca. Con un genus diverso (maiuscole e segno di ibrido a parte) la correzione non è certa.
+  // genus e species insieme sono una specie della lista (sp_binom): species diventa quella specie, con species:wikidata,
+  // leaf_type e leaf_cycle che mancano (sp_bin_wd, sp_bin_lt, sp_bin_lc); genus resta
   species: [p => {
+    if (p.sp_binom) return [["species", p.sp_binom, "genus and epithet in species"],
+      ["species:wikidata", p.sp_bin_wd, "add species:wikidata", true], ["leaf_type", p.sp_bin_lt, "add leaf_type", true],
+      ["leaf_cycle", p.sp_bin_lc, "add leaf_cycle", true]];
     const g = p.sp_as_genus || p.sp_common_genus, norm = v => String(v || "").replace(/^\s*×\s*/, "").trim().toLowerCase();
     if (!g || (norm(p.genus) && norm(p.genus) !== norm(g))) return [];
     return [["species", REMOVE], ...norm(p.genus) ? [] : [["genus", g, undefined, true]], ...kvFix(p.sp_common_kv)];

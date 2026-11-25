@@ -2858,8 +2858,18 @@ def checks(t, pos, osm_id=None):
         cg, cg_lang = (None, "") if gr else common_name_genus_lang(spw[0])
         # sp_common_kv: il nome comune spostato in genus:xx (species=Brzoza -> genus:pl=Brzoza), come g_common_kv
         ckv = common_name_kv(t, "genus", cg_lang, spw[0], sp) if cg else None
-        flag("species", **({"sp_as_genus": gr[0]} if gr else {"sp_common_genus": cg} if cg else {}),
-             **({"sp_common_kv": ckv} if ckv else {}))
+        # sp_binom: genus seguito dalla parola di species, in qualunque maiuscola, è una specie della lista wiki
+        # (genus=Taxus, species=Baccata -> species=Taxus baccata), scritta come nella lista; solo se la parola non è un
+        # genere e con un genus di una parola sola (senza ";"). sp_bin_wd, sp_bin_lt, sp_bin_lc: i tag che mancano per
+        # quella specie
+        g0 = str(t.get("genus") or "")
+        bn = (SPECIES_BIN.get(binomial(f"{genus_words(g0)[0]} {spw[0]}"))
+              if not gr and len(spw) == 1 and ";" not in g0 and len(genus_words(g0)) == 1 else None)
+        if bn:
+            props.update(species_lang_extras(t, bn, "sp_bin_"))
+        flag("species", **({"sp_as_genus": gr[0]} if gr else {"sp_binom": bn} if bn else
+                           {"sp_common_genus": cg} if cg else {}),
+             **({"sp_common_kv": ckv} if ckv and not bn else {}))
     # Una sola correzione per le maiuscole, perché le proposte non si contraddicano: con l'autore la propone
     # species_author (sp_clean già con le maiuscole giuste), altrimenti species_epithet_case, che sistema anche
     # l'iniziale del genere; species_lowercase resta per i nomi che hanno solo l'iniziale minuscola
@@ -2998,7 +3008,7 @@ def checks(t, pos, osm_id=None):
     sp_epithet = len(sp_words) == 1 and (sp_words[0][:1].islower() or (
         sp.split()[0] in HYBRID_SIGNS and sp_words[0].lstrip("×").casefold() not in KNOWN_GENERA))
     if (g is not None and sp is not None and ";" not in g and ";" not in sp and len(gw := genus_words(g)) == 1
-            and not sp_epithet and not nl):
+            and not sp_epithet and not nl and "sp_binom" not in props):   # con sp_binom species è l'epiteto
         sg = genus_of_species(sp).lstrip("×")   # il segno di ibrido non conta, né nel genus né nella species
         # genere abbreviato in species (species_genus_abbr): il genere sciolto, o se non si può dire basta l'iniziale
         if ab := genus_abbreviated(sp, g.strip()):
