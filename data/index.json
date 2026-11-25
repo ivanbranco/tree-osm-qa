@@ -58,10 +58,10 @@
    "count": 849,
    "errors": 0,
    "name": "Andorra",
-   "osm_base": "2026-11-16T23:20:35Z",
-   "sha1": "cdd5796c69355371aa6a5f579b1cbaa5d5b6d731",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T23:22:00Z"
+   "osm_base": "2026-11-25T00:16:51Z",
+   "sha1": "5ae8a6e3360b56a3bf44575fee8bc844f1ab8773",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T00:18:10Z"
   },
   "aragona": {
    "count": 41203,
@@ -388,13 +388,13 @@
    "updated": "2026-11-23T21:49:50Z"
   },
   "grand-est": {
-   "count": 254313,
-   "errors": 2144,
+   "count": 254555,
+   "errors": 12212,
    "name": "Grand Est",
-   "osm_base": "2026-11-23T19:39:47Z",
-   "sha1": "182c5f4c42442c5e8a8b9560e6c40d82facc0500",
-   "tried": "2026-11-23",
-   "updated": "2026-11-23T19:42:37Z"
+   "osm_base": "2026-11-25T00:16:51Z",
+   "sha1": "5fa9c48e590d0e851a8d042c859fe987de80e9b7",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T00:19:14Z"
   },
   "grecia": {
    "count": 62862,
@@ -559,12 +559,13 @@
    "updated": "2026-11-21T23:18:49Z"
   },
   "lussemburgo": {
-   "count": 78278,
-   "errors": 112,
+   "count": 78354,
+   "errors": 122,
    "name": "Lussemburgo",
-   "sha1": "2e04626a7184f3b299113d73c09dfc913d7b1028",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T17:02:55Z"
+   "osm_base": "2026-11-25T00:16:51Z",
+   "sha1": "e7c2511acd385aedd6cb0c19577edc040833bb77",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T00:18:02Z"
   },
   "macedonia-del-nord": {
    "count": 2202,
@@ -810,12 +811,13 @@
    "updated": "2026-11-21T23:27:17Z"
   },
   "portogallo": {
-   "count": 253460,
-   "errors": 512,
+   "count": 256139,
+   "errors": 703,
    "name": "Portogallo",
-   "sha1": "44c709983a97ebcb8d08fa679ea2575723cac273",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T10:12:27Z"
+   "osm_base": "2026-11-25T00:14:45Z",
+   "sha1": "01bf03a2a37c573b96518269c3133ae7703e4654",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T00:17:29Z"
   },
   "provenza-alpi-costa-azzurra": {
    "count": 185874,
