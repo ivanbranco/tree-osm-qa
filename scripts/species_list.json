@@ -1,5 +1,5 @@
 {
-"count": 683,
+"count": 737,
 "license": "CC BY-SA 2.0 (OpenStreetMap Wiki)",
 "source": "https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species",
 "species": {
@@ -508,6 +508,11 @@
 "leaf_type": "needleleaved",
 "wikidata": "Q158780"
 },
+"Araucaria columnaris": {
+"leaf_cycle": "evergreen",
+"leaf_type": "needleleaved",
+"wikidata": "Q134045"
+},
 "Araucaria heterophylla": {
 "leaf_cycle": "evergreen",
 "leaf_type": "needleleaved",
@@ -934,7 +939,7 @@
 "wikidata": "Q15536460"
 },
 "Cotoneaster frigidus": {
-"leaf_cycle": "semi_evergreen",
+"leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q811476"
 },
@@ -1551,7 +1556,7 @@
 "Ilex cornuta": {
 "leaf_cycle": "evergreen",
 "leaf_type": "broadleaved",
-"wikidata": "Q10744050"
+"wikidata": "Q1074050"
 },
 "Ilex cuthbertii": {
 "leaf_cycle": "deciduous",
@@ -1948,30 +1953,230 @@
 "leaf_type": "broadleaved",
 "wikidata": "Q5989920"
 },
+"Malus angustifolia": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4535958"
+},
+"Malus asiatica": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1075968"
+},
 "Malus baccata": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q1743596"
+},
+"Malus coronaria": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1936759"
+},
+"Malus crescimannoi": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17246258"
 },
 "Malus domestica": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q18674606"
 },
+"Malus doumeri": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q10915001"
+},
+"Malus florentina": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2842189"
+},
+"Malus fusca": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2564409"
+},
+"Malus halliana": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1571895"
+},
+"Malus honanensis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1953991"
+},
 "Malus hupehensis": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q1712421"
+},
+"Malus ioensis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3332919"
+},
+"Malus kansuensis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1937366"
+},
+"Malus kirghisorum": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q50843980"
+},
+"Malus komarovii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5458463"
+},
+"Malus ombrophila": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q11141050"
+},
+"Malus orientalis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q116078"
+},
+"Malus prattii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q963202"
+},
+"Malus prunifolia": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q738571"
+},
+"Malus rockii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1023660"
+},
+"Malus sikkimensis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q6744990"
 },
 "Malus spectabilis": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q1074153"
 },
+"Malus spontanea": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17245295"
+},
 "Malus sylvestris": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q47161"
+},
+"Malus toringo": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q52626848"
+},
+"Malus toringoides": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1023519"
+},
+"Malus transitoria": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q10951071"
+},
+"Malus trilobata": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q10951249"
+},
+"Malus turkmenorum": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q50844847"
+},
+"Malus yunnanensis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q6745003"
+},
+"Malus × atrosanguinea": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q21370191"
+},
+"Malus × brevipes": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q6744981"
+},
+"Malus × dawsoniana": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17246898"
+},
+"Malus × floribunda": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1683370"
+},
+"Malus × heterophylla": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q21370198"
+},
+"Malus × kaido": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q50844840"
+},
+"Malus × magdeburgensis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q21370199"
+},
+"Malus × platycarpa": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17247794"
+},
+"Malus × purpurea": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q886464"
+},
+"Malus × robusta": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q19309094"
+},
+"Malus × scheideckeri": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q21370204"
+},
+"Malus × soulardii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15542911"
+},
+"Malus × sublobata": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q6744991"
+},
+"Malus × zumi": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5990804"
 },
 "Mangifera indica": {
 "leaf_cycle": "evergreen",
@@ -2493,6 +2698,21 @@
 "leaf_type": "broadleaved",
 "wikidata": "Q121749"
 },
+"Pyrus betulifolia": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q9281564"
+},
+"Pyrus boissieriana": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q7263788"
+},
+"Pyrus bretschneideri": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2114345"
+},
 "Pyrus calleryana": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
@@ -2508,10 +2728,60 @@
 "leaf_type": "broadleaved",
 "wikidata": "Q7263791"
 },
-"Pyrus pyraster": {
+"Pyrus elaeagrifolia": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
-"wikidata": "Q149332"
+"wikidata": "Q162128"
+},
+"Pyrus glabra": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q21311676"
+},
+"Pyrus korshinskyi": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15545703"
+},
+"Pyrus nivalis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q7263800"
+},
+"Pyrus pashia": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q5245913"
+},
+"Pyrus phaeocarpa": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15235954"
+},
+"Pyrus pyrifolia": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q838963"
+},
+"Pyrus regelii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q17238257"
+},
+"Pyrus salicifolia": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1591053"
+},
+"Pyrus ussuriensis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q13172138"
+},
+"Pyrus × michauxii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q21370446"
 },
 "Quercus acerifolia": {
 "leaf_cycle": "deciduous",
