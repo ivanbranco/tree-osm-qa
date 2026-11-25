@@ -1884,14 +1884,55 @@ def bad_numeric_tags(t):
     return [k for k in NUMERIC_TAGS if k in t and bad_number(t[k])]
 
 
+# wikimedia_commons=File:… : il nome del file finisce con un'estensione (.jpg, .png, .ogg…), come in commonsOfImage
+# (index.html)
+FILE_EXT = re.compile(r"\.[A-Za-z0-9]{2,5}$")
+# Indirizzo di una pagina di Commons (…/wiki/File:… o …/wiki/Category:…, anche con commons.m.) e di un file aperto
+# dalla pagina di una categoria o di una voce (…#/media/File:…)
+COMMONS_PAGE_URL = re.compile(r"^https?://commons\.(?:m\.)?wikimedia\.org/wiki/(File|Category):([^?#]+)", re.I)
+COMMONS_MEDIA_URL = re.compile(r"^https?://commons\.(?:m\.)?wikimedia\.org/[^#]*#/media/File:([^?#]+)$", re.I)
+
+
+def commons_value_ok(x):
+    """Vero se x è un titolo di Commons: Category:… oppure File:… con l'estensione del file."""
+    return x.startswith("Category:") or (x.startswith("File:") and bool(FILE_EXT.search(x)))
+
+
+def commons_title(u):
+    """Titolo di Commons ("File:…" o "Category:…", spazi al posto dei trattini bassi) dall'indirizzo di una pagina di
+    Commons o di un file su upload.wikimedia.org (anche di una miniatura); None se non lo è o se il titolo non vale."""
+    u = unquote(u.strip())
+    if m := COMMONS_MEDIA_URL.match(u):
+        ns, name = "File", m.group(1)
+    elif m := COMMONS_PAGE_URL.match(u):
+        ns, name = m.group(1).capitalize(), m.group(2)
+    elif m := COMMONS_UPLOAD_URL.match(u):
+        ns, name = "File", m.group(1)
+    else:
+        return None
+    title = f"{ns}:" + " ".join(name.replace("_", " ").split())
+    return title if commons_value_ok(title) else None
+
+
+def commons_fix(t):
+    """wikimedia_commons=* corretto quando ha l'indirizzo di una pagina o di un file di Commons al posto del titolo
+    (correzione di link_format in index.html); None se un valore non si sa correggere o se non c'è niente da cambiare."""
+    parts = [x.strip() for x in str(t.get("wikimedia_commons", "")).split(";")]
+    fixed = [x if commons_value_ok(x) else commons_title(x) for x in parts]
+    if not all(fixed) or fixed == parts:
+        return None
+    return ";".join(dict.fromkeys(fixed))
+
+
 def bad_link_tags(t):
     """Tag di collegamento con formato non valido."""
     bad = []
     if "wikidata" in t and not WIKIDATA.match(t["wikidata"]):
         bad.append("wikidata")
+    # wikimedia_commons: titoli File:… (con l'estensione del file) o Category:…, non indirizzi
     if "wikimedia_commons" in t:
         parts = [x.strip() for x in t["wikimedia_commons"].split(";")]
-        if not all(x.startswith(("File:", "Category:")) for x in parts):
+        if not all(commons_value_ok(x) for x in parts):
             bad.append("wikimedia_commons")
     if "panoramax" in t:
         parts = [x.strip() for x in t["panoramax"].split(";")]
@@ -3211,6 +3252,8 @@ def checks(t, pos, osm_id=None):
         flag("number_invalid", bad_num=";".join(bad))
     if bad := bad_link_tags(t):
         flag("link_format", bad_links=";".join(bad))
+        if "wikimedia_commons" in bad and (wf := commons_fix(t)):   # wc_fix: il valore con i titoli di Commons
+            props["wc_fix"] = wf
     if bl := broken_links(t):           # righe "chiave=valore (stato)" separate da "\n" (i valori possono contenere ";")
         flag("broken_link", bad_url="\n".join(f"{k}={v} ({s})" for k, v, s in bl))
     # website=* o url=* con una voce di Wikipedia: wpw "chiave|lingua:Titolo"; wpw_wp il valore di wikipedia=*, se

@@ -518,6 +518,15 @@ CASES = [
      {"natural": "tree", "image": "https://example.org/ok.jpg;https://example.org/ok.jpg"}, ["link_format"]),
     ("link_format: due QID in wikidata", {"natural": "tree", "wikidata": "Q910001;Q910001"}, ["link_format"]),
     ("link_format: wikimedia_commons", {"natural": "tree", "wikimedia_commons": "Tree.jpg"}, ["link_format"]),
+    ("link_format: wikimedia_commons con l'indirizzo della pagina",
+     {"natural": "tree", "wikimedia_commons": "https://commons.wikimedia.org/wiki/File:Big_tree.jpg"}, ["link_format"]),
+    ("link_format: wikimedia_commons=File:… senza estensione", {"natural": "tree", "wikimedia_commons": "File:Big tree"},
+     ["link_format"]),
+    ("link_format: un file senza estensione tra più valori",
+     {"natural": "tree", "wikimedia_commons": "Category:Big trees;File:Big tree"}, ["link_format"]),
+    ("link_format: non per Category:… (senza estensione)", {"natural": "tree", "wikimedia_commons": "Category:Big trees"}, []),
+    ("link_format: non per File:… con l'estensione in maiuscolo",
+     {"natural": "tree", "wikimedia_commons": "File:Big tree.JPEG"}, []),
     ("link_format: panoramax", {"natural": "tree", "panoramax": "12345"}, ["link_format"]),
     ("broken_link: image", {"natural": "tree", "image": "https://example.org/gone.jpg"}, ["broken_link"]),
     ("website_wikipedia: website", {"natural": "tree", "website": "https://en.wikipedia.org/wiki/Kett%27s_Oak"},
@@ -933,6 +942,27 @@ SP_CLEAN_CASES = [
 # Correzione con JOSM di species_typo e species_author (sp_fix e i tag che mancano per la specie corretta, sp_fix_*):
 # (nome, tag, proprietà attese; None = la proprietà non c'è)
 SP_FIX_CASES = [
+    # wikimedia_commons con l'indirizzo al posto del titolo (wc_fix: correzione di link_format in index.html)
+    ("wc_fix: pagina del file, con i trattini bassi",
+     {"natural": "tree", "wikimedia_commons":
+      "https://commons.wikimedia.org/wiki/File:Eastern_European_Editathon,_Sofia_(_1070653).jpg"},
+     {"wc_fix": "File:Eastern European Editathon, Sofia ( 1070653).jpg"}),
+    ("wc_fix: indirizzo codificato", {"natural": "tree", "wikimedia_commons":
+     "https://commons.m.wikimedia.org/wiki/File%3AQuercia_di_San_Zeno%C2%B2.JPG?uselang=it"},
+     {"wc_fix": "File:Quercia di San Zeno².JPG"}),
+    ("wc_fix: pagina di una categoria", {"natural": "tree", "wikimedia_commons":
+     "https://commons.wikimedia.org/wiki/Category:Big_trees_in_Italy"}, {"wc_fix": "Category:Big trees in Italy"}),
+    ("wc_fix: file aperto dalla categoria", {"natural": "tree", "wikimedia_commons":
+     "https://commons.wikimedia.org/wiki/Category:Big_trees#/media/File:Old_oak.png"}, {"wc_fix": "File:Old oak.png"}),
+    ("wc_fix: miniatura su upload.wikimedia.org", {"natural": "tree", "wikimedia_commons":
+     "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Old_oak.jpg/800px-Old_oak.jpg"}, {"wc_fix": "File:Old oak.jpg"}),
+    ("wc_fix: solo il valore sbagliato tra più valori", {"natural": "tree", "wikimedia_commons":
+     "Category:Big trees;https://commons.wikimedia.org/wiki/File:Old_oak.jpg"}, {"wc_fix": "Category:Big trees;File:Old oak.jpg"}),
+    ("wc_fix: niente se un valore non si sa correggere", {"natural": "tree", "wikimedia_commons":
+     "Old oak.jpg;https://commons.wikimedia.org/wiki/File:Old_oak.jpg"}, {"wc_fix": None}),
+    ("wc_fix: niente per un file senza estensione", {"natural": "tree", "wikimedia_commons": "File:Old oak"}, {"wc_fix": None}),
+    ("wc_fix: niente per la pagina di un file senza estensione", {"natural": "tree", "wikimedia_commons":
+     "https://commons.wikimedia.org/wiki/File:Old_oak"}, {"wc_fix": None}),
     ("genere abbreviato: species con il genere per esteso", {"natural": "tree", "species": "Q. robur 'Fastigiata'"},
      {"sp_full": "Quercus robur 'Fastigiata'"}),
     ("genere abbreviato che non si scioglie: nessuna proposta", {"natural": "tree", "species": "A. campestre"}, {"sp_full": None}),

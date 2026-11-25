@@ -869,7 +869,7 @@ const I18N = {
       leaf_cycle: "Valori documentati: deciduous, semi_deciduous, evergreen, semi_evergreen.",
       leaf_type_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. Per le palme (Arecaceae) valgono sia palm sia broadleaved; palm è ammesso anche per le piante dall'aspetto di palma (Yucca, Cordyline, Dracaena, Cycas, Musa…), non per le altre latifoglie. Per Tamarix valgono needleleaved e broadleaved, per Cycas anche palm. Con leaf_type=palm il genere si prende anche da taxon.",
       leaf_cycle_mismatch: "Confronto con la lista delle specie della wiki OSM o, se la specie non c'è, con la lista dei generi. I valori semi_ valgono come quelli pieni.",
-      link_format: "wikidata vuole un QID (Q…), wikimedia_commons il prefisso File: o Category:, panoramax un UUID, image un solo indirizzo http(s) o un solo file di Commons (File:…).",
+      link_format: "wikidata vuole un QID (Q…), wikimedia_commons un titolo di Commons e non l'indirizzo della pagina (File:… con l'estensione del file, come .jpg, o Category:…), panoramax un UUID, image un solo indirizzo http(s) o un solo file di Commons (File:…).",
       website_wikipedia: "website=* o url=* con l'indirizzo di una voce di Wikipedia: per le voci c'è il tag wikipedia=*, che indica la voce del singolo albero.",
       broken_link: "Segnalati: pagine 404 o 410, siti che non esistono più e file assenti su Commons. Non sono segnalati 403, 429, errori del server e timeout, che spesso sono blocchi verso i programmi automatici.",
       commons_far: "Le coordinate del file di Commons collegato (wikimedia_commons o image) distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
@@ -1466,7 +1466,7 @@ const I18N = {
       leaf_cycle: "Documented values: deciduous, semi_deciduous, evergreen, semi_evergreen.",
       leaf_type_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. For palms (Arecaceae) both palm and broadleaved are accepted; palm is also accepted for palm-like plants (Yucca, Cordyline, Dracaena, Cycas, Musa…), not for other broadleaved trees. For Tamarix both needleleaved and broadleaved are accepted, for Cycas palm too. With leaf_type=palm the genus is also taken from taxon.",
       leaf_cycle_mismatch: "Compared with the OSM wiki species list or, if the species is not there, with the genus list. semi_ values count as the full ones.",
-      link_format: "wikidata needs a QID (Q…), wikimedia_commons the File: or Category: prefix, panoramax a UUID, image a single http(s) address or a single Commons file (File:…).",
+      link_format: "wikidata needs a QID (Q…), wikimedia_commons a Commons title rather than the address of the page (File:… with the file extension, such as .jpg, or Category:…), panoramax a UUID, image a single http(s) address or a single Commons file (File:…).",
       website_wikipedia: "website=* or url=* with the address of a Wikipedia article: articles have their own tag, wikipedia=*, which gives the article about the single tree.",
       broken_link: "Reported: 404 or 410 pages, sites that no longer exist and files missing on Commons. 403, 429, server errors and timeouts are not reported, as they are often blocks against automated tools.",
       commons_far: "The coordinates of the linked Commons file (wikimedia_commons or image) are more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
@@ -5250,6 +5250,8 @@ const FIXES = {
   species_epithet_case: [p => [["species", p.sp_sci]], "fix capitalisation in species"],
   // segno di ibrido in fondo a species: il nome della lista (sp_hyb, fetch_trees.py), solo se nella lista è un ibrido
   species_hybrid_end: [p => [["species", p.sp_hyb]], "hybrid sign between genus and epithet in species"],
+  // wikimedia_commons con l'indirizzo di una pagina o di un file di Commons al posto del titolo (wc_fix, fetch_trees.py)
+  link_format: [p => [["wikimedia_commons", p.wc_fix]], "Commons title in wikimedia_commons instead of the address"],
   // website=* o url=* con la stessa voce di wikipedia=* (wpw_same, fetch_trees.py): la chiave si toglie
   website_wikipedia: [p => { const k = String(p.wpw || "").split("|")[0];
     return p.wpw_same && p[k] ? [[k, REMOVE]] : []; }, "remove the Wikipedia article already in wikipedia"],
