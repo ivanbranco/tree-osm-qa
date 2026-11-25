@@ -626,6 +626,7 @@ const I18N = {
       feetInchSpace: (k, v, fix) => `${k}=${v}: la wiki indica di scrivere piedi e pollici senza spazi (${fix})`,
       leadDot: (k, v, fix) => `${k}=${v}: il numero inizia con il punto; con lo zero davanti (${fix}) è più leggibile`,
       oldMeasures: (tags, d) => `${tags.length > 1 ? "Misure invariate" : "Misura invariata"} da più di 10 anni: ${tags.join(", ")} (ultima modifica: ${d}). Dopo un nuovo rilievo sul posto, anche con gli stessi valori, si può aggiungere check_date=* con la data del rilievo`,
+      lowOld: (h, d) => `Albero alto meno di 2 m (height=${h}), con l'altezza invariata da più di 5 anni (ultima modifica: ${d}). Dopo un nuovo rilievo sul posto si può aggiornare height=*, o aggiungere check_date=* se l'altezza è la stessa`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,      notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
       // issue #25; seeds(t): HTML delle parole che aprono la foto dei semi (south: emisfero australe)
       ginkgoSex: (south, seeds) => `Se questo ginkgo è un esemplare femminile, si potrebbe aggiungere sex=female. ${south ? "Da ottobre a maggio" : "Da aprile a novembre"} è un buon periodo per verificarlo: le femmine portano ovuli appaiati in primavera e ${seeds("semi carnosi e maleodoranti")} che cadono in autunno, spesso a terra sotto la chioma.`,
@@ -674,13 +675,15 @@ const I18N = {
       underscore: "Trattino basso (_) in species o genus", multiple_values: "Più valori (;) in species o genus", tag_in_value: "Tag scritto nel valore (=)",
       not_latin: "Species o genus in alfabeto non latino",
       species_lang_only: "species:xx senza species", taxon_lang_only: "taxon:xx senza taxon",
-      not_a_tree: "Pianta che non è un albero (Agave americana)",
+      not_a_tree: "Pianta che non è un albero (Agave)",
       too_slender: "Albero troppo slanciato (altezza > 100 × circonferenza)",
       too_slender_species: "Albero troppo slanciato per la specie", too_stocky: "Albero troppo tozzo (circonferenza > 3 × altezza)",
-      small_monument: "Albero monumentale molto piccolo",
+      small_monument: "Albero monumentale molto piccolo", stump_crown: "Ceppo con la chioma",
       species: "Species di una sola parola", genus: "Genus non valido",
       species_lowercase: "Species con iniziale minuscola", genus_lowercase: "Genus con iniziale minuscola",
-      genus_common_name: "Genus non scientifico (nome comune)",
+      genus_common_name: "Genus non scientifico (nome comune)", genus_typo: "Genus forse scritto male",
+      genus_family: "Famiglia o ordine in genus", placeholder_value: "Species o genus senza un nome (-, ., Unknown)",
+      species_truncated: "Species interrotta a 30 caratteri",
       leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" },
     denotation: { natural_monument: "Albero monumentale", landmark: "Punto di riferimento", avenue: "Albero di viale",
       urban: "Albero urbano", cluster: "Gruppo di alberi", agricultural: "Albero agricolo" },
@@ -848,14 +851,19 @@ const I18N = {
       species_epithet_case: "In un nome scientifico è maiuscola solo l'iniziale del genere: il resto del genere e l'epiteto sono minuscoli (Taxus baccata). Il segno di ibrido è × (Platanus × hispanica), non una X maiuscola.",
       species_common_name: "species=* contiene il nome scientifico (Genere epiteto, con l'epiteto minuscolo). Il nome comune va in species:xx (es. species:it).",
       species_hybrid_end: "Nel nome di un ibrido il segno × sta tra il genere e l'epiteto (Platanus × hispanica), o prima del genere per un ibrido tra generi diversi (× Chitalpa tashkentensis), non in fondo al nome.",
-      species_unidentified: "«sp.» e «spp.» indicano una specie non identificata: in OSM si indica solo il genere.",
+      species_unidentified: "«sp.» e «spp.» (anche «spec.», «n. sp.», «species», «unidentified species» dopo un genere noto) indicano una specie non identificata: in OSM si indica solo il genere.",
       species_parentheses: "Nessun nome scientifico contiene parentesi.",
       species_genus_abbr: "In species=* il genere va scritto per esteso (Prunus avium, non P. avium). Il genere proposto è quello di genus=*, se comincia con quella lettera, oppure l'unico genere della lista della wiki con quell'iniziale e una specie con quell'epiteto.",
       species_author: "species=* contiene solo il nome, senza l'autore che ha descritto la specie (L., Mill., …).",
       species_lang_only: "species:xx affianca species=*, non lo sostituisce: il nome scientifico è lo stesso in tutte le lingue.",
       taxon_lang_only: "taxon:xx è il nome di taxon=* in una lingua: lo affianca, non lo sostituisce.",
       genus_common_name: "genus=* contiene il nome scientifico del genere (es. Salix), lo stesso in tutte le lingue. Il nome comune va in genus:xx (es. genus:pl).",
-      not_a_tree: "species=* o species:wikidata=* indicano una pianta che non è un albero, come l'agave americana (Agave americana, species:wikidata=Q161115). Le piante che non sono alberi si mappano con natural=plant.",
+      genus_typo: "Il genere non è nelle liste della wiki OSM, ma differisce di una lettera da un genere che c'è (di due per i nomi di almeno 9 lettere). Non segnalati i nomi sotto le 4 lettere e i nomi con più di un genere ugualmente vicino.",
+      genus_family: "genus=* contiene il nome di un genere. I nomi delle famiglie finiscono in -aceae (Cupressaceae) e vanno in taxon:family=*; quelli degli ordini finiscono in -ales.",
+      placeholder_value: "species=* e genus=* contengono il nome scientifico. Un valore senza lettere (-, .) o che significa «sconosciuto» (Unknown, Desconocido, Inconnu…) non indica una specie o un genere: se non si conosce, il tag si omette.",
+      species_truncated: "Il valore ha esattamente 30 caratteri e finisce con le virgolette di una cultivar aperte e non chiuse, o con una lettera sola dopo una parola: il valore di alcuni import è tagliato a 30 caratteri.",
+      stump_crown: "natural=tree_stump è il ceppo di un albero tagliato, che non ha chioma: diameter_crown=* su un ceppo è segnalato. L'altezza no: un albero tagliato in alto resta un ceppo.",
+      not_a_tree: "species=*, species:wikidata=* o genus=* indicano una pianta che non è un albero, come l'agave americana (Agave americana, species:wikidata=Q161115) o un'altra specie di un genere senza alberi (Agave). Le piante che non sono alberi si mappano con natural=plant.",
       underscore: "Nei nomi scientifici le parole sono separate da spazi.",
       multiple_values: "Un nodo natural=tree è un solo albero, con un solo genere e una sola specie.",
       tag_in_value: "Questi tag non contengono «=»: il valore ha la forma di un tag (chiave=valore).",
@@ -936,6 +944,13 @@ const I18N = {
         : kind === "s" ? `è il nome della specie ${n}` : "species=* c'è già"}, usare ${nkv}` + (add ? ` e ${add}` : ""),
       // lang: codice della lingua del nome (g_common_lang, fetch_trees.py), "" se è lo stesso in più lingue
       genus_common_name: (g, n, lang, kv) => `genus=${g} è il nome comune${lang ? ` in ${langName(lang)}` : ""} del genere ${n}: usare genus=${n}` + (kv ? ` e ${kv}` : ""),
+      genus_typo: (g, s) => `genus=${g} non è nelle liste dei generi: forse ${s}?`,
+      // rank: "family" o "order" (g_rank, fetch_trees.py); kv: "taxon:family=…" se taxon:family manca; same: c'è già
+      genus_family: (g, rank, kv, same) => `genus=${g} è il nome di ${rank === "order" ? "un ordine" : "una famiglia"}, non di un genere`
+        + (kv ? `: usare ${kv} senza genus` : same ? ": taxon:family c'è già, genus si può togliere" : ""),
+      placeholder_value: kv => `${kv} non indica una specie o un genere`,
+      species_truncated: sp => `species=${sp} si interrompe dopo 30 caratteri`,
+      stump_crown: v => `diameter_crown=${v} su un ceppo`,
       not_a_tree: sp => `${sp} non è un albero: usare natural=plant al posto di natural=tree`,
       species_lang_genus: (k, v, g, add) => `${k}=${v} è il nome del genere ${g}: usare ${k.replace("species:", "genus:")}=${genName(v)}` + (add ? ` e genus=${g}` : ""),
       species_lang_gx: (k, v, g, g2) => `${k}=${v} è il nome del genere ${g}, ma c'è genus=${g2}`,
@@ -1235,6 +1250,7 @@ const I18N = {
         : `image=* is a web page (${site}), not an image file. A photo can also be uploaded to Wikimedia Commons or Panoramax and linked with wikimedia_commons=* or panoramax=*`,      feetInchSpace: (k, v, fix) => `${k}=${v}: the wiki writes feet and inches without spaces (${fix})`,
       leadDot: (k, v, fix) => `${k}=${v}: the number starts with the point; with a zero in front (${fix}) it is easier to read`,
       oldMeasures: (tags, d) => `${tags.length > 1 ? "Measurements" : "Measurement"} unchanged for more than 10 years: ${tags.join(", ")} (last edit: ${d}). After surveying again on the ground, even with the same values, check_date=* can be added with the date of the survey`,
+      lowOld: (h, d) => `Tree less than 2 m tall (height=${h}), with the height unchanged for more than 5 years (last edit: ${d}). After surveying again on the ground, height=* can be updated, or check_date=* added if the height is the same`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,      notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
       ginkgoSex: (south, seeds) => `If this ginkgo is a female tree, sex=female could be added. ${south ? "October to May" : "April to November"} is a good time to check: females bear paired ovules in spring and fleshy, ${seeds("foul-smelling seeds")} that fall in autumn, often lying under the canopy.`,
       ginkgoSeedsAlt: "Ginkgo biloba seeds",
@@ -1281,13 +1297,15 @@ const I18N = {
       underscore: "Underscore (_) in species or genus", multiple_values: "Multiple values (;) in species or genus", tag_in_value: "Tag written in the value (=)",
       not_latin: "Species or genus in a non-Latin script",
       species_lang_only: "species:xx without species", taxon_lang_only: "taxon:xx without taxon",
-      not_a_tree: "Plant that is not a tree (Agave americana)",
+      not_a_tree: "Plant that is not a tree (Agave)",
       too_slender: "Tree too slender (height > 100 × circumference)",
       too_slender_species: "Tree too slender for its species", too_stocky: "Tree too stocky (circumference > 3 × height)",
-      small_monument: "Very small monumental tree",
+      small_monument: "Very small monumental tree", stump_crown: "Stump with a crown",
       species: "Single-word species", genus: "Invalid genus",
       species_lowercase: "Species starting lowercase", genus_lowercase: "Genus starting lowercase",
-      genus_common_name: "Non-scientific genus (common name)",
+      genus_common_name: "Non-scientific genus (common name)", genus_typo: "Genus possibly misspelled",
+      genus_family: "Family or order in genus", placeholder_value: "Species or genus without a name (-, ., Unknown)",
+      species_truncated: "Species cut off at 30 characters",
       leaf_type: "Invalid leaf_type", leaf_cycle: "Invalid leaf_cycle" },
     denotation: { natural_monument: "Monumental tree", landmark: "Landmark", avenue: "Avenue tree",
       urban: "Urban tree", cluster: "Tree cluster", agricultural: "Agricultural tree" },
@@ -1445,14 +1463,19 @@ const I18N = {
       species_epithet_case: "In a scientific name only the initial of the genus is uppercase: the rest of the genus and the epithet are lowercase (Taxus baccata). The hybrid sign is × (Platanus × hispanica), not an uppercase X.",
       species_common_name: "species=* holds the scientific name (Genus epithet, with a lowercase epithet). The common name goes in species:xx (e.g. species:en).",
       species_hybrid_end: "In the name of a hybrid the sign × goes between the genus and the epithet (Platanus × hispanica), or before the genus for a hybrid between different genera (× Chitalpa tashkentensis), not at the end of the name.",
-      species_unidentified: "\"sp.\" and \"spp.\" mean an unidentified species: in OSM only the genus is tagged.",
+      species_unidentified: "\"sp.\" and \"spp.\" (also \"spec.\", \"n. sp.\", \"species\", \"unidentified species\" after a known genus) mean an unidentified species: in OSM only the genus is tagged.",
       species_parentheses: "No scientific name contains parentheses.",
       species_genus_abbr: "In species=* the genus is written in full (Prunus avium, not P. avium). The proposed genus is the one in genus=*, if it starts with that letter, or else the only genus of the wiki list with that initial and a species with that epithet.",
       species_author: "species=* holds only the name, without the author who described the species (L., Mill., …).",
       species_lang_only: "species:xx goes alongside species=*, not instead of it: the scientific name is the same in every language.",
       taxon_lang_only: "taxon:xx is the name of taxon=* in a language: it goes alongside it, not instead of it.",
       genus_common_name: "genus=* holds the scientific name of the genus (e.g. Salix), the same in every language. The common name goes in genus:xx (e.g. genus:pl).",
-      not_a_tree: "species=* or species:wikidata=* indicate a plant that is not a tree, such as the century plant (Agave americana, species:wikidata=Q161115). Plants that are not trees are mapped with natural=plant.",
+      genus_typo: "The genus is not in the OSM wiki lists, but differs by one letter from a genus that is (by two for names of at least 9 letters). Names shorter than 4 letters and names with more than one equally close genus are not reported.",
+      genus_family: "genus=* holds the name of a genus. Family names end in -aceae (Cupressaceae) and go in taxon:family=*; order names end in -ales.",
+      placeholder_value: "species=* and genus=* hold the scientific name. A value without letters (-, .) or meaning \"unknown\" (Unknown, Desconocido, Inconnu…) does not indicate a species or a genus: when it is not known, the tag is left out.",
+      species_truncated: "The value is exactly 30 characters long and ends with the quotes of a cultivar opened and not closed, or with a single letter after a word: some imports cut the value at 30 characters.",
+      stump_crown: "natural=tree_stump is the stump of a felled tree, which has no crown: diameter_crown=* on a stump is reported. Height is not: a tree felled high up is still a stump.",
+      not_a_tree: "species=*, species:wikidata=* or genus=* indicate a plant that is not a tree, such as the century plant (Agave americana, species:wikidata=Q161115) or another species of a genus without trees (Agave). Plants that are not trees are mapped with natural=plant.",
       underscore: "In scientific names words are separated by spaces.",
       multiple_values: "A natural=tree node is a single tree, with a single genus and a single species.",
       tag_in_value: "These tags never contain \"=\": the value has the form of a tag (key=value).",
@@ -1528,6 +1551,12 @@ const I18N = {
       taxon_lang_mv: (kv, kind, n, nkv, add) => `${kv} is present but taxon=* is missing: ${kind === "g" ? `it is the name of the genus ${n}`
         : kind === "s" ? `it is the name of the species ${n}` : "species=* is already present"}, use ${nkv}` + (add ? ` and ${add}` : ""),
       genus_common_name: (g, n, lang, kv) => `genus=${g} is the${lang ? ` ${langName(lang)}` : ""} common name of the genus ${n}: use genus=${n}` + (kv ? ` and ${kv}` : ""),
+      genus_typo: (g, s) => `genus=${g} is not in the lists of genera: perhaps ${s}?`,
+      genus_family: (g, rank, kv, same) => `genus=${g} is the name of ${rank === "order" ? "an order" : "a family"}, not of a genus`
+        + (kv ? `: use ${kv} without genus` : same ? ": taxon:family is already there, genus can be removed" : ""),
+      placeholder_value: kv => `${kv} does not indicate a species or a genus`,
+      species_truncated: sp => `species=${sp} stops after 30 characters`,
+      stump_crown: v => `diameter_crown=${v} on a stump`,
       not_a_tree: sp => `${sp} is not a tree: use natural=plant instead of natural=tree`,
       species_lang_genus: (k, v, g, add) => `${k}=${v} is the name of the genus ${g}: use ${k.replace("species:", "genus:")}=${genName(v)}` + (add ? ` and genus=${g}` : ""),
       species_lang_gx: (k, v, g, g2) => `${k}=${v} is the name of the genus ${g}, but genus=${g2} is present`,
@@ -1660,6 +1689,7 @@ let onRecToggle = () => {};    // scheda Alberi da record aperta o chiusa (rende
 const yearsAgo = y => { const d = new Date(); d.setUTCFullYear(d.getUTCFullYear() - y); return d.toISOString().slice(0, 10); };
 const AGE_CUT = [yearsAgo(5), yearsAgo(10)];
 const AGE_KEYS = ["height", "circumference", "diameter_crown"];
+const LOW_H = 2;   // m: sotto questa altezza, consiglio lowOld se l'ultima modifica è di più di 5 anni fa (hints)
 SIDE_BOXES.forEach(b => b.addEventListener("toggle", () => {
   if (b.open) SIDE_BOXES.forEach(o => { if (o !== b) o.open = false; });
   if (b.id === "comp-box") onCompToggle();
@@ -2880,10 +2910,10 @@ map.on("load", async () => {
   // gruppi del menu errori: i codici non elencati finiscono in "Altri tag"
   const ISSUE_GROUPS = [
     ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "unit_format", "circ_diam_mismatch", "trunk_overlap", "number_invalid", "circumference_species", "height_species",
-      "too_slender", "too_slender_species", "too_stocky", "small_monument"]],
+      "too_slender", "too_slender_species", "too_stocky", "small_monument", "stump_crown"]],
     ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_hybrid_end", "species_common_name",
-      "species_unidentified", "species_author", "species_parentheses", "species_genus_abbr", "species_lang_only", "taxon_lang_only", "not_a_tree", "underscore", "multiple_values", "tag_in_value",
-      "not_latin", "genus", "genus_lowercase", "genus_common_name", "genus_mismatch", "name_taxon_missing", "name_taxon_mismatch", "taxon_mismatch", "name_botanical"]],
+      "species_unidentified", "species_truncated", "species_author", "species_parentheses", "species_genus_abbr", "species_lang_only", "taxon_lang_only", "not_a_tree", "underscore", "multiple_values", "tag_in_value",
+      "not_latin", "placeholder_value", "genus", "genus_lowercase", "genus_typo", "genus_family", "genus_common_name", "genus_mismatch", "name_taxon_missing", "name_taxon_mismatch", "taxon_mismatch", "name_botanical"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
       "wikidata_is_taxon", "wikipedia_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
     ["links", ["link_format", "broken_link", "website_wikipedia", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed", "masaf_unknown",
@@ -4657,6 +4687,11 @@ const issueBase = (i, p) => {
     case "multiple_values": return String(p.mv_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");   // mv_keys: fetch_trees.py
     case "tag_in_value": return String(p.eq_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // eq_keys: fetch_trees.py
     case "not_latin": return String(p.nl_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // nl_keys: fetch_trees.py
+    case "placeholder_value": return String(p.ph_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // ph_keys: fetch_trees.py
+    case "species_truncated": return T[i](p.species);
+    case "genus_typo": return T[i](p.genus, p.g_typo);                     // g_typo: fetch_trees.py
+    case "genus_family": return T[i](p.genus, p.g_rank, p.g_fam_kv, p.g_fam_same);   // g_rank, g_fam_kv, g_fam_same: fetch_trees.py
+    case "stump_crown": return T[i](p.diameter_crown);
     // sp_lang: righe "species:xx=valore"; sp_lang_genus: righe "species:fr=Tilleul|Tilia", nomi di un genere (lista
     // wiki e whitelist.json), con l'unica specie del genere se c'è ("species:fr=Cognassier|Cydonia|Cydonia oblonga",
     // fetch_trees.py): per quelli il consiglio preciso, per gli altri il messaggio generico. sp_lang_gx: le stesse
@@ -5133,8 +5168,8 @@ const commonsOfImage = p => {
 // tashkentensis", "Platanus x hispanica"): [[chiave, valore con ×]] per species e genus. Non con più valori (";") né
 // con un errore sulla forma del nome, che propone già una sua correzione
 const HYBRID_X = /(^|\s)[xX](?=\s+\S)/g;
-const HYBRID_SKIP = { species: /\|(species|species_\w+|tag_in_value|not_latin|underscore|multiple_values)\|/,
-  genus: /\|(genus|genus_lowercase|genus_common_name|tag_in_value|not_latin|underscore|multiple_values)\|/ };
+const HYBRID_SKIP = { species: /\|(species|species_\w+|tag_in_value|not_latin|placeholder_value|underscore|multiple_values)\|/,
+  genus: /\|(genus|genus_lowercase|genus_common_name|genus_typo|genus_family|tag_in_value|not_latin|placeholder_value|underscore|multiple_values)\|/ };
 const hybridX = p => ["species", "genus"].filter(k => p[k] && !String(p[k]).includes(";")
     && !HYBRID_SKIP[k].test(String(p.issues || "")) && String(p[k]).replace(HYBRID_X, "$1×") !== p[k])
   .map(k => [k, String(p[k]).replace(HYBRID_X, "$1×")]);
@@ -5285,6 +5320,18 @@ const FIXES = {
       ...!p.genus && !p.species ? [["genus", p.wd_rank_g, "add genus", true]] : []];
   }, "genus item in genus:wikidata instead of species:wikidata"],
   genus_mismatch: [p => p.gm_fix ? [["genus", p.gm_fix]] : [], "fix the spelling of genus"],
+  // genus scritto male (g_typo, fetch_trees.py): il genere proposto
+  genus_typo: [p => [["genus", p.g_typo]], "fix the spelling of genus"],
+  // famiglia in genus (g_fam_kv: "taxon:family=…" se manca; g_fam_same: c'è già con lo stesso nome): genus si toglie e la
+  // famiglia passa in taxon:family (taxon:family non è tra le proprietà: fetch_trees.py controlla che manchi). Per un
+  // ordine, o con un taxon:family diverso, nessuna correzione
+  genus_family: [p => p.g_fam_kv ? [["genus", REMOVE], ...kvFix(p.g_fam_kv, "family in taxon:family instead of genus")]
+    : p.g_fam_same ? [["genus", REMOVE]] : [], "family in taxon:family instead of genus"],
+  // species o genus che non indicano un taxon (ph_keys, fetch_trees.py): si tolgono
+  placeholder_value: [p => String(p.ph_keys || "").split(";").filter(k => p[k] != null).map(k => [k, REMOVE]),
+    "remove species or genus without a name"],
+  // un ceppo non ha chioma: diameter_crown si toglie
+  stump_crown: [p => p.diameter_crown != null ? [["diameter_crown", REMOVE]] : [], "remove diameter_crown from a stump"],
   // name=* nome comune di una specie o di un genere, senza tag del taxon (nm_tx, fetch_trees.py): si aggiunge species
   // (con species:wikidata, leaf_type e leaf_cycle che mancano: nm_wd, nm_lt, nm_lc) o genus; name resta. Per
   // name_taxon_mismatch nessuna correzione: non si sa quale dei due tag è giusto
@@ -5459,7 +5506,8 @@ function card(p, pos) {
   const photo = img || cat ? `<div class="photo"${img?.commons ? ` data-commons="${esc(img.commons)}"` : ""}${img?.pano ? ` data-pano="${esc(img.pano)}"` : ""}${cat ? ` data-cat="${esc(cat)}"` : ""}>
       <img ${img ? `src="${esc(img.src)}"` : "hidden"}${img?.noref ? ' referrerpolicy="no-referrer"' : ""} alt="" loading="lazy" onerror="this.parentNode.remove()" onload="this.parentNode.classList.add('loaded')">
       <a class="credit" target="_blank" rel="noopener"${img?.href ? ` href="${esc(img.href)}"` : ""}${img?.author ? ` title="${esc(creditText(img.author, img.lic))}"` : ""}>${img?.fs && img.author ? FOTOSHI_ICON : ""}${img?.author ? creditHtml(img.author, img.lic) : ""}</a></div>` : "";
-  const genusIssue = !WORLD && ["genus", "genus_lowercase", "genus_common_name", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`));
+  const genusIssue = !WORLD && ["genus", "genus_lowercase", "genus_common_name", "genus_typo", "genus_family", "genus_mismatch", "not_latin"].some(i => p.issues.includes(`|${i}|`))
+    || String(p.ph_keys || "").split(";").includes("genus");
   // senza circumference, diameter=* diventa una riga «Circonferenza … (da diameter)» (diametro × π; senza unità è in
   // millimetri); se il valore non è leggibile resta la riga del diametro com'è scritto
   const dm = p.circumference == null && p.diameter ? lenM(p.diameter, 0.001) : null;
@@ -6088,7 +6136,11 @@ function hints(p, pos) {
   for (const kv of String(p.hint_nt || "").split("\n").filter(Boolean)) out.push(H.note(kv.slice(kv.indexOf("=") + 1)));
   if (p.stump) return out;
   // misure su un albero non modificato da più di 10 anni (issue #94; ts: ultima modifica del nodo, AGE_CUT)
-  const oldM = p.ts && p.ts < AGE_CUT[1] ? ["height", "circumference", "diameter", "diameter_crown"].filter(k => p[k]) : [];
+  // albero alto meno di LOW_H m con l'ultima modifica di più di 5 anni fa (AGE_CUT[0]): un consiglio a sé, e height non si
+  // ripete tra le misure invariate da più di 10 anni
+  const hm = p.height != null ? lenM(p.height) : null, low = p.ts && p.ts < AGE_CUT[0] && hm > 0 && hm < LOW_H;
+  if (low) out.push(H.lowOld(p.height, p.ts));
+  const oldM = p.ts && p.ts < AGE_CUT[1] ? ["height", "circumference", "diameter", "diameter_crown"].filter(k => p[k] && !(low && k === "height")) : [];
   if (oldM.length) out.push(H.oldMeasures(oldM.map(k => `${k}=${p[k]}`), p.ts));   // la data come AAAA-MM-GG
   if (binomialHint(p.hint_sp)) out.push(H.wdSpecies(p.hint_sp));
   // l'elemento Wikidata dell'albero ha solo il genere della specie taggata (hint_wg = "QID|genere", fetch_trees.py)

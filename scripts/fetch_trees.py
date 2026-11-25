@@ -430,6 +430,8 @@ for _d in _WL.get("genus_of_names", {}).values():
 SINGLE_SPECIES = _WL.get("single_species_genera", {})
 # piante che non sono alberi (whitelist.json): {"Agave americana": "Q161115"}, species -> QID (check not_a_tree)
 NOT_TREES = _WL.get("not_trees", {})
+# generi senza nessuna specie che sia un albero (whitelist.json, "not_tree_genera"): genere minuscolo -> nome
+NOT_TREE_GENERA = {g.casefold(): g for g in _WL.get("not_tree_genera", [])}
 # generi per cui leaf_type_mismatch accetta più leaf_type (whitelist.json, "leaf_types"): genere minuscolo -> valori
 LEAF_TYPE_GENERA = {k.casefold(): set(v) for k, v in _WL.get("leaf_types", {}).items()}
 # alberi monumentali piccoli davvero (id dei nodi), da non segnalare con small_monument
@@ -1514,7 +1516,10 @@ for _name in _LIST:
     SPECIES_BIN.setdefault(binomial(_name), _name)
 for _alt in _WL.get("synonyms", {}):        # i sinonimi della whitelist valgono come nomi della lista
     SPECIES_BIN.setdefault(binomial(_alt), _alt)
-KNOWN_GENERA = {b.split()[0] for b in SPECIES_BIN} | set(GENUS_REF)
+# generi veri che non sono nelle liste della wiki ma differiscono di poco da un genere che c'è (genera di
+# whitelist.json: Chimonanthus, a una lettera da Chionanthus): valgono come generi noti, così genus_typo non li segnala
+KNOWN_GENERA = ({b.split()[0] for b in SPECIES_BIN} | set(GENUS_REF)
+                | {g.casefold() for g in _WL.get("genera", [])})
 # voci della lista che sono solo genere ed epiteto (con il segno di ibrido), per genere ed epiteto: le foglie di una
 # cultivar o di un nome con l'autore sono quelle della specie (leaf_species_ref); non le cultivar della lista
 SPECIES_REF_BIN = {binomial(_name): (_name, _v) for _name, _v in _LIST.items()
@@ -2166,6 +2171,12 @@ def masaf_member(osm_id):
 
 # --- Forma di species: specie non identificata (sp., spp.) e autore del nome (L., (L.) Kuntze, Merr.…) ---
 UNIDENTIFIED = re.compile(r"^\s*(×\s*)?(\S+)\s+(sp|spp)\.?\s*$", re.I)
+# altre forme della specie non identificata (voce 3.15), solo dopo un genere noto: «spec.» (abbreviazione di species,
+# Ficus spec.), «species» (Prunus species), «unidentified» o «unknown» seguiti al massimo da una parola (Crataegus
+# unidentified species, Chamaecyparis unidentified spe, Prunus unidentified hybrid), «Species Unidentified», «n. sp.»
+# (in botanica nova species, ma nei dati di Île-de-France è usato al posto di sp.: Tilia n. sp.)
+UNIDENTIFIED_WORDS = re.compile(r"^\s*(×\s*)?(\S+)\s+(?:spec\.?|n\.\s*sp\.?|species(?:\s+unidentified)?|(?:unidentified|unknown)"
+                                r"(?:\s+\S+)?)\s*$", re.I)
 INFRA = {"subsp.", "ssp.", "var.", "subvar.", "f.", "forma", "cv.", "nothosubsp.", "nothovar."}
 # autore: iniziale maiuscola e punto (L., Mill., J.), oppure tra parentesi ((L.), (Lindl.))
 AUTHOR = re.compile(r"^\(?[A-ZÀ-Ý][\w'’.-]*\.\)?$|^\([^)]*[A-ZÀ-Ý][^)]*\)$|^\([A-ZÀ-Ý]")
@@ -2174,9 +2185,12 @@ AUTHOR_LINK = {"ex", "&", "et", "in"}   # parole che uniscono due autori: "Kuntz
 
 @functools.lru_cache(maxsize=None)
 def species_unidentified(sp):
-    """Il genere, se species è "Genere sp." o "Genere spp." (specie non identificata); altrimenti None."""
-    m = UNIDENTIFIED.match(sp or "")
-    return m.group(2) if m else None
+    """Il genere, se species è "Genere sp." o "Genere spp." (specie non identificata), o una delle forme di
+    UNIDENTIFIED_WORDS con un genere noto; altrimenti None."""
+    if m := UNIDENTIFIED.match(sp or ""):
+        return m.group(2)
+    m = UNIDENTIFIED_WORDS.match(sp or "")
+    return m.group(2) if m and m.group(2).casefold() in KNOWN_GENERA else None
 
 
 EQ_KEYS = ("species", "genus", "taxon", "name", "start_date", "planted_date", "ref:masaf", "ref:rami")   # check tag_in_value
@@ -2525,6 +2539,115 @@ def genus_words(g):
     return words
 
 
+# genus scritto male (genus_typo, voce 3.14): una lettera di differenza da un genere noto, due per i nomi di almeno 9
+# lettere (Styphlonobium -> Styphnolobium); mai per i nomi sotto 4 lettere (Acca, a due lettere da Acer e Acacia, è un
+# genere vero)
+GENUS_TYPO_MIN = 4
+GENUS_TYPO_LONG = 9
+
+
+@functools.lru_cache(maxsize=None)
+def genus_typo(word):
+    """Genere noto (KNOWN_GENERA) che word, un genus di una parola che non è un genere noto, probabilmente voleva
+    scrivere, con le maiuscole della lista (GENUS_REF) o con l'iniziale maiuscola; None se non c'è o se i generi più
+    vicini sono più di uno (Pirus: Pinus e Pyrus)."""
+    w = word.casefold()
+    if len(w) < GENUS_TYPO_MIN or w in KNOWN_GENERA or not w.isalpha():
+        return None
+    # la dieresi è ammessa nei nomi scientifici (Hippophaë come Hippophae)
+    if w.replace("ë", "e").replace("ï", "i") in KNOWN_GENERA:
+        return None
+    limit = 2 if len(w) >= GENUS_TYPO_LONG else 1
+    # con due lettere di differenza, non un genere seguito da altre lettere (Magnoliacé, nome francese della famiglia,
+    # non è Magnolia scritto male)
+    near = [(d, k) for k in KNOWN_GENERA if abs(len(k) - len(w)) <= limit
+            and (d := levenshtein(w, k, limit)) <= limit and not (d == 2 and w.startswith(k))]
+    if not near:
+        return None
+    best = min(d for d, _ in near)
+    found = [k for d, k in near if d == best]
+    if len(found) != 1:
+        return None
+    k = found[0]
+    return GENUS_REF[k][0].lstrip("× ") if k in GENUS_REF else k[:1].upper() + k[1:]
+
+
+# famiglia o ordine scritti in genus (genus_family, voce 3.14): le famiglie finiscono in -aceae (anche i nomi
+# alternativi ammessi dal codice di nomenclatura, Palmae, Leguminosae…), gli ordini in -ales
+FAMILY_ALT = {"compositae", "cruciferae", "gramineae", "guttiferae", "labiatae", "leguminosae", "palmae", "umbelliferae"}
+
+
+def genus_rank(word):
+    """("family", nome con l'iniziale maiuscola) se word è il nome di una famiglia, ("order", nome) se è il nome di un
+    ordine, altrimenti None."""
+    w = word.casefold()
+    if not w.isalpha() or w in KNOWN_GENERA:
+        return None
+    if w.endswith("aceae") or w in FAMILY_ALT:
+        return "family", w[:1].upper() + w[1:]
+    if w.endswith("ales") and len(w) > 6:
+        return "order", w[:1].upper() + w[1:]
+    return None
+
+
+# valori che non indicano un taxon (placeholder_value, voce 3.14): senza lettere ("-", ".", "42"), o una parola che vuol
+# dire «sconosciuto», «specie» o «nessuno» (casefold)
+PLACEHOLDER_WORDS = {"unknown", "unidentified", "none", "null", "n/a", "desconocido", "desconocida", "sconosciuto",
+                     "sconosciuta", "inconnu", "inconnue", "indéterminé", "indéterminée", "unbekannt", "nieznany",
+                     "neznámý", "essence", "sp", "sp.", "spp", "spp."}
+
+
+def placeholder(v):
+    """Vero se il valore (di species o genus) non contiene lettere o è una parola di PLACEHOLDER_WORDS."""
+    s = str(v or "").strip()
+    return bool(s) and (not any(c.isalpha() for c in s) or s.casefold() in PLACEHOLDER_WORDS)
+
+
+# species troncato (species_truncated, voce 3.15): esattamente TRUNC_LEN caratteri, con le virgolette della cultivar
+# aperte e non chiuse ("Pyrus calleryana 'Chanticclere") o con l'ultima parola di una lettera sola ("Misc group of
+# trees of mixed s"): alcuni import tagliano il valore a 30 caratteri
+TRUNC_LEN = 30
+QUOTES = "'‘’`\"“”"
+
+
+def species_truncated(sp):
+    """Vero se species ha la forma di un valore tagliato a TRUNC_LEN caratteri (vedi sopra)."""
+    s = sp.strip()
+    if len(s) != TRUNC_LEN or s[-1] in QUOTES:
+        return False
+    words = s.split()
+    # l'ultima lettera da sola dopo una parola, non dopo un numero ("> 10 m" è un'unità)
+    return any(w[:1] in QUOTES for w in words[1:]) or (len(words) > 2 and len(words[-1]) == 1 and words[-1].isalpha()
+                                                        and words[-1] not in HYBRID_SIGNS and words[-2].isalpha())
+
+
+# nomi comuni con la seconda parola minuscola (species_common_name, voce 3.15): parole che in un nome scientifico non ci
+# sono, e lettere non ASCII (gli epiteti le hanno solo nella dieresi: ë, ï)
+COMMON_WORDS = {"de", "del", "della", "des", "di", "du", "da", "la", "le", "of", "the", "non", "tree", "blossom"}
+
+
+def species_common_lower(sp):
+    """Vero se species non ha la forma di un nome scientifico anche se la seconda parola è minuscola: la prima parola
+    non è un genere noto e il nome è il nome comune di una specie (SPECIES_NAMES: Klon jawor), oppure una parola è il
+    nome comune di un genere (GENUS_NAMES: London plane), è una parola di COMMON_WORDS (Micocoulier de Provence) o ha
+    lettere non ASCII dopo la prima (Ciprs común). Il genere abbreviato ("T. baccata") non conta, né i nomi con la
+    seconda parola che è l'epiteto di una specie della lista, anche con gli accenti: sono generi scritti male o nomi
+    comuni del genere seguiti dall'epiteto (Betulla pendula, Cupréssus sempervìrens)."""
+    words = name_words(sp)
+    if len(words) < 2 or not words[0][:1].isupper() or words[0].endswith(".") or ";" in sp:
+        return False
+    if words[0].lstrip("×").casefold() in KNOWN_GENERA or species_unidentified(sp):
+        return False
+    if common_name_species(sp)[0]:
+        return True
+    rest = words[1:]
+    plain = "".join(c for c in unicodedata.normalize("NFD", rest[0]) if not unicodedata.combining(c)).casefold()
+    if plain in LIST_EPITHETS:
+        return False
+    return (any(common_name_genus(w) for w in words) or any(w.casefold() in COMMON_WORDS for w in rest)
+            or any(not c.isascii() and c.isalpha() and c not in "ëï" for w in rest for c in w))
+
+
 # Nome della specie in una lingua: species:<codice lingua>, es. species:it, species:pl, species:en, species:zh-Hans
 # (2-3 lettere, con eventuale variante). species:wikidata, species:wikipedia e simili non sono lingue.
 SPECIES_LANG = re.compile(r"^species:([a-z]{2,3})(?:[-_][A-Za-z]{2,4})?$")
@@ -2802,11 +2925,18 @@ def species_lang_extras(t, species, prefix="sp_lang_"):
 
 def not_a_tree(t):
     """Pianta di NOT_TREES (non un albero, es. Agave americana) indicata da species=* (genere ed epiteto, anche con
-    autore o cultivar) o da species:wikidata=*, su un natural=tree: il nome della specie, altrimenti None."""
+    autore o cultivar) o da species:wikidata=*, su un natural=tree: il nome della specie; oppure un genere di
+    NOT_TREE_GENERA (nessuna specie è un albero, es. Agave) indicato da genus=* o dalla prima parola di species=*: il
+    nome del genere; altrimenti None."""
     if t.get("natural") != "tree":
         return None
     b, qs = binomial(t.get("species") or ""), qids(t, "species:wikidata")
-    return next((s for s, q in NOT_TREES.items() if (b and binomial(s) == b) or q in qs), None)
+    if s := next((s for s, q in NOT_TREES.items() if (b and binomial(s) == b) or q in qs), None):
+        return s
+    for v in (t.get("genus"), b.split()[0] if b else None):
+        if v and ";" not in v and (gk := genus_key(v.strip().lstrip("× "))) in NOT_TREE_GENERA:
+            return NOT_TREE_GENERA[gk]
+    return None
 
 
 def common_name_genus(word):
@@ -3007,8 +3137,12 @@ def checks(t, pos, osm_id=None):
     # species o genus in un alfabeto non latino (es. genus=череша): con questo errore non si ripetono i check sulla forma
     if nl := [k for k in ("species", "genus") if k not in eq and not_latin(t.get(k))]:
         flag("not_latin", nl_keys=";".join(nl))
+    # species o genus che non indicano un taxon ("-", ".", Desconocido): come per "=" e l'alfabeto non latino, con
+    # questo errore non si ripetono i check sulla forma del nome, né il confronto tra genus e species
+    if ph := [k for k in ("species", "genus") if k not in eq and k not in nl and placeholder(t.get(k))]:
+        flag("placeholder_value", ph_keys=";".join(ph))
     sp = t.get("species")
-    spf = None if "species" in eq or "species" in nl else sp   # species per i check sulla forma del nome
+    spf = None if "species" in eq or "species" in nl or "species" in ph else sp   # species per i check sulla forma del nome
     # parole di species senza il segno di ibrido scritto a sé (× o x): "x carnea" è una parola sola
     spw = name_words(spf) if spf is not None else []
     # genere seguito dal solo autore ("Tilia L.", "Malus Hybr."): vale come una parola sola
@@ -3054,11 +3188,20 @@ def checks(t, pos, osm_id=None):
         flag("species_lowercase")
     if hyb is not None:
         flag("species_hybrid_end", **({"sp_hyb": hyb} if hyb else {}))
-    if spf and (g_un := species_unidentified(spf)):
+    if g_un := species_unidentified(spf) if spf else None:
         flag("species_unidentified", sp_genus=g_un)
+    # valore tagliato a 30 caratteri; non con la specie non identificata, che dice già cosa fare
+    # (Chamaecyparis unidentified spe)
+    if spf and not g_un and species_truncated(spf):
+        flag("species_truncated")
     if ec:                                                        # maiuscole sbagliate nel nome scientifico
         flag("species_epithet_case", sp_sci=ec)
-    elif spf and (common := species_common_name(spf)) is not None:  # "" se non c'è un nome scientifico da proporre
+    # anche i nomi comuni con la seconda parola minuscola (species_common_lower: Micocoulier de Provence, Klon jawor);
+    # non la specie non identificata scritta per esteso (Quercus Unidentified Species), né i nomi con l'autore, che segnala
+    # species_author (Insieme omogeneo di Fagus sylvatica L.)
+    elif spf and not g_un and ((common := species_common_name(spf)) is not None
+                               or (not no_auth and species_common_lower(spf))):
+        # common: "" se non c'è un nome scientifico da proporre, None per i nomi con la seconda parola minuscola
         # senza nome scientifico tra parentesi: se species è il nome comune di un genere (GENUS_NAMES) o un nome con il
         # genere certo (GENUS_OF_NAMES: species=Horse Chestnut -> Aesculus), sp_cn_genus = quel genere
         # Il nome comune di una specie di SPECIES_NAMES (species=American Chestnut -> Castanea dentata): sp_sci = la
@@ -3151,16 +3294,27 @@ def checks(t, pos, osm_id=None):
     if nt_sp := not_a_tree(t):          # una pianta che non è un albero: natural=plant (nt_sp: il nome della specie)
         flag("not_a_tree", nt_sp=nt_sp)
     g = t.get("genus")
-    gf = None if "genus" in eq or "genus" in nl else g   # genus per i check sulla forma del nome
+    gf = None if "genus" in eq or "genus" in nl or "genus" in ph else g   # genus per i check sulla forma del nome
     gw = genus_words(gf) if gf is not None else None    # senza il segno di ibrido (× Sycoparrotia)
     if gw is not None and len(gw) > 1:
         flag("genus")
+    # genus di una parola che è il nome di una famiglia (genus=Cupressaceae) o di un ordine (genus=Arecales): la famiglia
+    # va in taxon:family. g_rank: "family" o "order"; g_fam: il nome con l'iniziale maiuscola; g_fam_kv: "taxon:family=…"
+    # se taxon:family manca, g_fam_same: 1 se c'è già con lo stesso nome (la correzione con JOSM toglie solo genus).
+    # Al posto degli altri errori sulla forma di genus e del confronto con species
+    grk = genus_rank(gw[0]) if gw and len(gw) == 1 else None
+    if grk:
+        tf = str(t.get("taxon:family") or "").strip()
+        flag("genus_family", g_rank=grk[0], g_fam=grk[1],
+             **({} if grk[0] != "family" else {"g_fam_kv": f"taxon:family={grk[1]}"} if not tf
+                else {"g_fam_same": 1} if tf.casefold() == grk[1].casefold() else {}))
     # genus di una parola che non è un genere noto ma il nome comune di un genere (genus=wierzba -> Salix, in polacco):
     # al posto di genus_lowercase, che proporrebbe la maiuscola di un nome che non va bene comunque
     gcn, gcn_lang = (common_name_genus_lang(gw[0]) if gw and len(gw) == 1 and gw[0].casefold() not in KNOWN_GENERA
-                     else (None, ""))
+                     and not grk else (None, ""))
     if gcn and gcn.casefold() == gw[0].casefold():
         gcn = None
+    gty = None
     if gcn:
         # g_common_kv: il nome comune spostato in genus:xx con l'iniziale maiuscola (genus=świerk -> genus:pl=Świerk),
         # se la lingua è una sola e genus:xx manca
@@ -3168,8 +3322,15 @@ def checks(t, pos, osm_id=None):
                if gcn_lang and f"genus:{gcn_lang}" not in t and gw[0] == gf.strip() else None)
         flag("genus_common_name", g_common=gcn, **({"g_common_lang": gcn_lang} if gcn_lang else {}),
              **({"g_common_kv": gkv} if gkv else {}))
-    elif gw and gw[0][:1].islower():
+    # genus scritto male (genus=Sambuscus -> Sambucus), in qualunque maiuscola: al posto di genus_lowercase, perché il
+    # genere proposto ha già l'iniziale maiuscola. g_typo: il genere proposto
+    elif gty := (genus_typo(gw[0]) if gw and len(gw) == 1 and not grk else None):
+        flag("genus_typo", g_typo=gty)
+    elif gw and gw[0][:1].islower() and not grk:
         flag("genus_lowercase")
+    # un ceppo non ha una chioma (voce 3.9)
+    if t.get("natural") == "tree_stump" and str(t.get("diameter_crown") or "").strip():
+        flag("stump_crown")
     if "leaf_type" in t and t["leaf_type"] not in LEAF_TYPE:
         flag("leaf_type")
     if "leaf_cycle" in t and t["leaf_cycle"] not in LEAF_CYCLE:
@@ -3183,13 +3344,16 @@ def checks(t, pos, osm_id=None):
     sp_epithet = len(sp_words) == 1 and (sp_words[0][:1].islower()
                                          or sp_words[0].lstrip("×").casefold() not in KNOWN_GENERA)
     if (g is not None and sp is not None and ";" not in g and ";" not in sp and len(gw := genus_words(g)) == 1
-            and not sp_epithet and not nl and "sp_binom" not in props):   # con sp_binom species è l'epiteto
+            and not sp_epithet and not nl and not ph and not grk
+            and "sp_binom" not in props):   # con sp_binom species è l'epiteto; con genus famiglia o ordine basta genus_family
         sg = genus_of_species(sp).lstrip("×")   # il segno di ibrido non conta, né nel genus né nella species
         # genere abbreviato in species (species_genus_abbr): il genere sciolto, o se non si può dire basta l'iniziale
         if ab := genus_abbreviated(sp, g.strip()):
             sg = ab[1].split()[0] if ab[1] else (gw[0] if gw[0][:1].upper() == ab[0] else sg)
-        # con genus nome comune dello stesso genere di species basta genus_common_name
-        if sg and gw[0].casefold() != sg.casefold() and not (gcn and gcn.casefold() == sg.casefold()):
+        # con genus nome comune dello stesso genere di species basta genus_common_name, con genus scritto male e il
+        # genere di species proposto basta genus_typo (genus=Thuya, species=Thuja plicata)
+        if (sg and gw[0].casefold() != sg.casefold() and not (gcn and gcn.casefold() == sg.casefold())
+                and not (gty and gty.casefold() == sg.casefold())):
             # correzione (gm_fix): genus non è un genere noto, quello di species sì, e i due nomi differiscono di poco
             # (genus=Styphlonobium con species=Styphnolobium japonicum): un errore di battitura in genus
             gm = (sg[:1].upper() + sg[1:] if sg.casefold() in KNOWN_GENERA and gw[0].casefold() not in KNOWN_GENERA
