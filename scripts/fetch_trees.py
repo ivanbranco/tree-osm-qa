@@ -867,6 +867,9 @@ def hint_props(t, osm_id=None, pos=None):
     hint_txl: con hint_tx, i taxon:xx dell'albero ("taxon:en=Rowan" separati da "\n"): la correzione li sposta in
     species:xx o genus:xx. Se quel tag c'è già con un altro valore, né hint_tx né hint_txl;
     hint_ne: name:en con l'iniziale minuscola -> il valore (index.html propone la maiuscola);
+    hint_la: species:la (nome latino, almeno due parole) senza species, e senza un genus di un altro genere -> il nome
+    della lista wiki con lo stesso genere ed epiteto o, se non c'è, il valore (la correzione con JOSM lo scrive in
+    species, species:la resta);
     hint_hx: species è un ibrido della lista scritto senza il segno × (HYBRID_ALIAS) -> il nome della lista (la
     correzione con JOSM lo scrive in species);
     hint_nl: 1 se species ha la forma di una specie ma non è nella lista wiki (not_in_list): la scheda invita ad
@@ -950,6 +953,15 @@ def hint_props(t, osm_id=None, pos=None):
             if lang:
                 out["hint_txl"] = "\n".join(f"{k}={v}" for k, v in sorted(lang))
     sp = (t.get("species") or "").strip()
+    # species:la (nome latino) senza species: il nome come nella lista wiki se genere ed epiteto ci sono, altrimenti
+    # com'è scritto; solo con almeno due parole e con un genus assente o dello stesso genere
+    la = " ".join(str(t.get("species:la") or "").split())
+    if (not sp and la and ";" not in la and "=" not in la and t.get("natural") != "tree_stump"
+            and len(name_words(la)) >= 2 and not species_unidentified(la)):
+        g = str(t.get("genus") or "").strip()
+        name = SPECIES_BIN.get(binomial(la)) if len(name_words(la)) == 2 else None
+        if not g or genus_key(g) == genus_key(genus_of_species(name or la)):
+            out["hint_la"] = name or la
     if not sp and not t.get("genus"):
         for q in qids(t, "wikidata"):
             names = [n for tx in WD_ITEMS.get(q, {}).get("taxa", []) if not rank_problem("species:wikidata", tx)
@@ -1442,6 +1454,18 @@ def _leaf_species_ref(sp):
     if any(w in HYBRID_SIGNS for w in sp.split()[2:]):
         return None, None
     return SPECIES_REF_BIN.get(binomial(sp), (None, None))
+
+
+def leaf_tags(t):
+    """Tag da cui stimare leaf_type e leaf_cycle per il disegno (to_feature): t, oppure, senza species né genus, t con
+    il valore di taxon=* come genus (una parola) o come species (taxon=Olea europaea). Solo per le stime e il
+    consiglio della scheda: i check sulle foglie continuano a guardare species e genus."""
+    if t.get("species") or t.get("genus"):
+        return t
+    tx = " ".join(str(t.get("taxon") or "").split())
+    if not tx or ";" in tx or "=" in tx:
+        return t
+    return {**t, "genus" if len(name_words(tx)) == 1 else "species": tx}
 
 
 def leaf_type_estimate(t):
@@ -2566,9 +2590,39 @@ def taxon_precise(t):
     return None
 
 
+def taxon_conflict(t):
+    """Tag ("species" o "genus") che indica un'altra specie o un altro genere rispetto a taxon=* (check
+    taxon_mismatch, voce 3.12). Si confrontano solo i valori con la forma giusta e un genere noto (KNOWN_GENERA): i
+    generi sempre (la prima parola di taxon e di species, o genus di una parola), genere ed epiteto solo se taxon e
+    species li hanno tutti e due; i sinonimi della whitelist valgono come la specie, cultivar, varietà e autore dopo
+    genere ed epiteto non contano. None con più valori, o se non si può confrontare."""
+    tx = " ".join(str(t.get("taxon") or "").split())
+    if not tx or ";" in tx or "=" in tx:
+        return None
+    tw = name_words(tx)
+    tg = genus_key(tw[0]) if tw else ""
+    if tg not in KNOWN_GENERA:
+        return None
+    epithet = lambda w: len(w) >= 2 and EPITHET.fullmatch(w[1]) and w[1] not in NOT_EPITHETS
+    sp = " ".join(str(t.get("species") or "").split())
+    if sp and ";" not in sp and "=" not in sp and (sw := name_words(sp)) and (sg := genus_key(sw[0])) in KNOWN_GENERA:
+        if sg != tg:
+            return "species"
+        if epithet(tw) and epithet(sw) and (b := binomial(sp)) != (bt := binomial(tx)):
+            syn = {binomial(k): binomial(v) for k, v in SYNONYMS.items()}   # sinonimi come genere ed epiteto
+            if syn.get(b, b) != syn.get(bt, bt):
+                return "species"
+    g = str(t.get("genus") or "").strip()
+    if g and ";" not in g and len(gw := genus_words(g)) == 1 and (gk := genus_key(gw[0])) in KNOWN_GENERA and gk != tg:
+        return "genus"
+    return None
+
+
 def name_taxon(t):
     """name=* che è il nome comune di una specie (species_names di whitelist.json: name=Roverella) o di un genere
-    (GENUS_NAMES: name=Faggio): (tipo, nome, stato, tag) con tipo "species" o "genus" e stato:
+    (GENUS_NAMES: name=Faggio), oppure il nome scientifico di una specie della lista wiki, solo genere ed epiteto
+    (name=Ceratonia siliqua, scritto come nella lista), o di un genere della lista (name=Quercus): (tipo, nome, stato,
+    tag, sci) con sci True per il nome scientifico, tipo "species" o "genus" e stato:
     "missing": nessun tag del taxon (species, genus, taxon) -> check name_taxon_missing, si aggiunge tipo=nome;
     "mismatch": species o genus indicano un'altra specie o un altro genere (tag = quello diverso) -> check
     name_taxon_mismatch. Si confrontano solo i valori che hanno la forma giusta: un genere noto come genus o come prima
@@ -2580,24 +2634,29 @@ def name_taxon(t):
         return None
     sp, g = str(t.get("species") or "").strip(), str(t.get("genus") or "").strip()
     s = common_name_species(nm)[0]
+    # anche il nome scientifico di una specie della lista wiki, solo genere ed epiteto (name=Ceratonia siliqua): sci
+    sci = not s and len(name_words(nm)) == 2 and (s := SPECIES_BIN.get(binomial(nm))) is not None
     kind, val = ("species", s) if s else ("genus", common_name_genus_lang(nm)[0])
+    # e il nome scientifico di un genere della lista wiki (name=Quercus), se non è già il nome comune di un genere
+    if not val and len(name_words(nm)) == 1 and (gr := GENUS_REF.get(nm.lstrip("× ").casefold())):
+        val, sci = gr[0], True
     if not val:
         return None
     if not sp and not g and not str(t.get("taxon") or "").strip():
-        return kind, val, "missing", ""
+        return kind, val, "missing", "", sci
     want_g = genus_key(genus_of_species(val) if s else val)
     if sp and ";" not in sp and (sg := genus_key(genus_of_species(sp).lstrip("×"))) in KNOWN_GENERA:
         if sg != want_g:
-            return kind, val, "mismatch", "species"
+            return kind, val, "mismatch", "species", sci
         b, bs = binomial(sp), binomial(s or "")
         if s and len(b.split()) == 2 and b != bs:
             syn = {binomial(k): binomial(v) for k, v in SYNONYMS.items()}   # sinonimi come genere ed epiteto
             if syn.get(b, b) != syn.get(bs, bs):
-                return kind, val, "mismatch", "species"
+                return kind, val, "mismatch", "species", sci
     if g and ";" not in g and (gk := genus_key(g.lstrip("× "))) in KNOWN_GENERA and gk != want_g:
-        return kind, val, "mismatch", "genus"
+        return kind, val, "mismatch", "genus", sci
     if s and not sp and g and genus_key(g.lstrip("× ")) == want_g:
-        return kind, val, "hint", ""
+        return kind, val, "hint", "", sci
     return None
 
 
@@ -3066,12 +3125,18 @@ def checks(t, pos, osm_id=None):
     # species/genus di un'altra specie o di un altro genere (name_taxon_mismatch). nm_tx: "species|Quercus pubescens" o
     # "genus|Fagus"; nm_tag: il tag diverso; nm_wd, nm_lt, nm_lc: species:wikidata, leaf_type e leaf_cycle che mancano
     # per la specie da aggiungere (la correzione con JOSM li aggiunge insieme a species)
-    if (nmt := name_taxon(t)) and nmt[2] == "missing":
+    # nm_sci: 1 se name è il nome scientifico (non quello comune), per il testo del messaggio
+    if (nmt := name_taxon(t)) and nmt[4]:
+        props["nm_sci"] = 1
+    if nmt and nmt[2] == "missing":
         flag("name_taxon_missing", nm_tx="|".join(nmt[:2]))
         if nmt[0] == "species":
             props.update(species_lang_extras(t, nmt[1], "nm_"))
     elif nmt and nmt[2] == "mismatch":
         flag("name_taxon_mismatch", nm_tx="|".join(nmt[:2]), nm_tag=nmt[3])
+    # taxon=* indica un'altra specie o un altro genere di species=* o genus=* (tx_tag: quale dei due)
+    if txc := taxon_conflict(t):
+        flag("taxon_mismatch", tx_tag=txc)
     list_issues, list_props = species_list_mismatches(t)
     nt = not_taxon_tags(t)
     if any(k == "species:wikidata" for k, _ in nt) and "wikidata_mismatch" in list_issues:
@@ -3337,26 +3402,28 @@ def to_feature(el, fast=True):
             p["fruit"] = fi[0]
             if fi[1]:
                 p["fm"] = ",".join(map(str, fi[1]))
-        # leaf_type e leaf_cycle mancanti o non validi: stimati dalle liste (forma e colore della chioma)
+        # leaf_type e leaf_cycle mancanti o non validi: stimati dalle liste (forma e colore della chioma); senza
+        # species né genus, da taxon (leaf_tags)
         # Le palme riconosciute da is_palm hanno lt=palm anche con un leaf_type valido diverso (broadleaved,
         # needleleaved): il sito disegna lt prima di leaf_type (#55). leafless resta com'è
-        if t.get("leaf_type") not in LEAF_TYPE and (est := leaf_type_estimate(t)):
+        lt_t = leaf_tags(t)
+        if t.get("leaf_type") not in LEAF_TYPE and (est := leaf_type_estimate(lt_t)):
             p["lt"] = est
             # lt=palm è solo per il disegno: il valore da proporre (consiglio, Fix with JOSM) è quello delle liste
             # (lts), di solito broadleaved; senza lts non si propone niente
-            if est == "palm" and (lts := leaf_type_list(t)):
+            if est == "palm" and (lts := leaf_type_list(lt_t)):
                 p["lts"] = lts
         elif t.get("leaf_type") in ("broadleaved", "needleleaved") and is_palm(t):
             p["lt"] = "palm"
-        if t.get("leaf_cycle") not in LEAF_CYCLE and (est := leaf_cycle_estimate(t)):
+        if t.get("leaf_cycle") not in LEAF_CYCLE and (est := leaf_cycle_estimate(lt_t)):
             p["lc"] = est
         # stime prese dal genere (specie assente dalla lista): lg = nome del genere, lgk = quali ("t" leaf_type,
         # "c" leaf_cycle), perché il consiglio della scheda nomini il genere e non la specie
         # (lt=palm senza lts non conta: non si propone)
         lgk = "".join(k for k, key, prop in (("t", "leaf_type", "lt"), ("c", "leaf_cycle", "lc"))
                       if prop in p and not (prop == "lt" and p["lt"] == "palm" and "lts" not in p)
-                      and not leaf_species_ref(t, key))
-        if lgk and (g := genus_ref(t)):
+                      and not leaf_species_ref(lt_t, key))
+        if lgk and (g := genus_ref(lt_t)):
             p["lg"], p["lgk"] = g[0], lgk
     if wd_img := wikidata_image(t):   # per la scheda, se l'albero non ha altre immagini
         p["wd_img"] = wd_img
