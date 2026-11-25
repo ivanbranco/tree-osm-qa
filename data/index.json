@@ -37,13 +37,13 @@
    "updated": "2026-11-23T19:43:47Z"
   },
   "alvernia-rodano-alpi": {
-   "count": 384845,
+   "count": 384941,
    "errors": 1751,
    "name": "Alvernia-Rodano-Alpi",
-   "osm_base": "2026-11-23T19:34:48Z",
-   "sha1": "377d8d4da28f05ad5459ea2dbc49aa85006960d0",
-   "tried": "2026-11-23",
-   "updated": "2026-11-23T19:37:45Z"
+   "osm_base": "2026-11-25T12:36:50Z",
+   "sha1": "2ccf77e68abc7745a227663f8bcc4a1ec78b8581",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T12:40:31Z"
   },
   "andalusia": {
    "count": 190266,
@@ -1000,13 +1000,13 @@
    "updated": "2026-11-22T22:33:40Z"
   },
   "umbria": {
-   "count": 17839,
-   "errors": 100,
+   "count": 17843,
+   "errors": 106,
    "name": "Umbria",
-   "osm_base": "2026-11-20T16:58:18Z",
-   "sha1": "3335e1d1328218c84daa14e1476e67f68d85b78a",
-   "tried": "2026-11-20",
-   "updated": "2026-11-20T16:59:51Z"
+   "osm_base": "2026-11-25T12:36:50Z",
+   "sha1": "8d93cc03568eee51487794ba75e3aa89dbd2de2b",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T12:38:18Z"
   },
   "valle-d-aosta": {
    "count": 18245,
