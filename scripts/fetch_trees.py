@@ -819,23 +819,59 @@ def wikidata_name_problems(t, skip_species):
     return out
 
 
+def species_la_name(t):
+    """species:la (nome latino) senza species: il nome come nella lista wiki se genere ed epiteto ci sono, altrimenti
+    com'è scritto; solo con almeno due parole e con un genus assente o dello stesso genere. None altrimenti."""
+    la = " ".join(str(t.get("species:la") or "").split())
+    if (str(t.get("species") or "").strip() or not la or ";" in la or "=" in la or t.get("natural") == "tree_stump"
+            or len(name_words(la)) < 2 or species_unidentified(la)):
+        return None
+    g = str(t.get("genus") or "").strip()
+    name = SPECIES_BIN.get(binomial(la)) if len(name_words(la)) == 2 else None
+    return name or la if not g or genus_key(g) == genus_key(genus_of_species(name or la)) else None
+
+
+def osm_species_names(t):
+    """[(tag, nome)]: le specie che i tag dell'albero indicano, per il confronto con Wikidata (wikidata_tree_species).
+    species e i nomi di species:wikidata; senza species anche taxon=* che è una specie (taxon_precise), species:la
+    (species_la_name), la voce di species:wikipedia se è una specie e name=* che è il nome di una specie senza nessun
+    tag del taxon (name_taxon)."""
+    sp = str(t.get("species") or "").strip()
+    out = [("species", sp)] if sp and ";" not in sp else []
+    out += [("species:wikidata", n) for q in qids(t, "species:wikidata") for n in taxon_names(q)]
+    if sp:
+        return out
+    if (tp := taxon_precise(t)) and tp[0] == "species":
+        out.append(("taxon", tp[1]))
+    if la := species_la_name(t):
+        out.append(("species:la", la))
+    if ((wq := wikipedia_qid(t) if t.get("species:wikipedia") else None) and taxon_status(wq) is True
+            and not rank_problem("species:wikidata", wq)):
+        out += [("species:wikipedia", n) for n in taxon_names(wq) if species_name(n)]
+    if (nmt := name_taxon(t)) and nmt[0] == "species" and nmt[2] == "missing":
+        out.append(("name", nmt[1]))
+    return out
+
+
 def wikidata_tree_species(t):
-    """[(QID, nome)] quando la specie dell'albero su Wikidata (P10241 dell'elemento di wikidata=*) non corrisponde
-    a species:wikidata né a species (si confrontano i QID e i nomi scientifici)."""
+    """[(QID, nome, nome su OSM)] quando la specie dell'albero su Wikidata (P10241 dell'elemento di wikidata=*) non
+    corrisponde a nessuna delle specie indicate dai tag dell'albero (osm_species_names: species, species:wikidata e,
+    senza species, taxon, species:la, species:wikipedia, name; si confrontano i QID e i nomi scientifici). Il nome su
+    OSM è il primo di quelli dei tag. Con questo errore hint_props non propone nessun valore per species."""
     out = []
-    sw, sp = qids(t, "species:wikidata"), (t.get("species") or "").strip()
-    own = {binomial(n) for q2 in sw for n in taxon_names(q2)} | ({binomial(sp)} if sp and ";" not in sp else set())
+    sw, src = qids(t, "species:wikidata"), osm_species_names(t)
+    own = {binomial(n) for _, n in src}
     for q in qids(t, "wikidata"):
         taxa = WD_ITEMS.get(q, {}).get("taxa", [])
         names = [n for tx in taxa for n in taxon_names(tx)]
         if taxon_status(q) is True or not names or set(sw) & set(taxa) or not own:
             continue
-        # anche i sinonimi di species (whitelist.json): Platanus acerifolia = Platanus × hispanica
-        if sp and ";" not in sp and not own & {binomial(n) for n in names}:
-            g = group_name(sp)
-            own |= {binomial(m) for m, n in GROUP_NAME.items() if norm_species(n) == g}
+        # anche i sinonimi (whitelist.json): Platanus acerifolia = Platanus × hispanica
+        if not own & {binomial(n) for n in names}:
+            gs = {group_name(n) for k, n in src if k != "species:wikidata"}
+            own |= {binomial(m) for m, n in GROUP_NAME.items() if norm_species(n) in gs}
         if not own & {binomial(n) for n in names} and not wd_tree_genus_only(names, own):
-            out.append((q, names[0]))
+            out.append((q, names[0], src[0][1]))
     return out
 
 
@@ -857,7 +893,8 @@ def hint_props(t, osm_id=None, pos=None):
     """Dati per i consigli della scheda (ⓘ: informazioni, non errori; index.html li mostra e non li segnala sulla
     mappa). Solo quelli che la pagina non può ricavare da sola:
     hint_sp: nessun species né genus, ma l'elemento di wikidata=* indica la specie (P10241, non un genere o più su)
-    -> nome scientifico;
+    -> nome scientifico; non se un altro consiglio propone già una species (hint_sn, hint_wn, hint_la, hint_tx, hint_nm).
+    Con l'errore wikidata_tree_species (senza species) nessuno di questi consigli propone una species;
     hint_wg: species, ma l'elemento di wikidata=* indica solo il suo genere (P10241) -> "QID|genere": su Wikidata si
     potrebbe precisare la specie, con una fonte compatibile con la sua licenza (i dati di OSM non lo sono);
     hint_sw: species (dalla lista wiki) senza species:wikidata -> QID della specie nella lista;
@@ -867,7 +904,7 @@ def hint_props(t, osm_id=None, pos=None):
     ma non è una regola scritta: per questo è un consiglio e non un errore), ogni parte separata da ";";
     hint_wp: species:wikipedia senza species:wikidata (e senza il QID della lista, che dà già hint_sw) -> QID
     dell'elemento Wikidata della voce, se è una specie;
-    hint_wn: species:wikipedia senza species (e senza hint_sn o hint_sp) -> nome scientifico (P225) di quell'elemento;
+    hint_wn: species:wikipedia senza species (e senza hint_sn) -> nome scientifico (P225) di quell'elemento;
     hint_tx: taxon=* che nelle liste wiki è una specie o un genere (taxon_precise) -> "species|nome" o "genus|nome",
     o che non è nella lista ma ha la forma di una specie (genere noto ed epiteto) -> "species|valore|b": la correzione
     con JOSM lo sposta in species o genus (il consiglio su taxon=* c'è comunque, index.html);
@@ -960,15 +997,8 @@ def hint_props(t, osm_id=None, pos=None):
             if lang:
                 out["hint_txl"] = "\n".join(f"{k}={v}" for k, v in sorted(lang))
     sp = (t.get("species") or "").strip()
-    # species:la (nome latino) senza species: il nome come nella lista wiki se genere ed epiteto ci sono, altrimenti
-    # com'è scritto; solo con almeno due parole e con un genus assente o dello stesso genere
-    la = " ".join(str(t.get("species:la") or "").split())
-    if (not sp and la and ";" not in la and "=" not in la and t.get("natural") != "tree_stump"
-            and len(name_words(la)) >= 2 and not species_unidentified(la)):
-        g = str(t.get("genus") or "").strip()
-        name = SPECIES_BIN.get(binomial(la)) if len(name_words(la)) == 2 else None
-        if not g or genus_key(g) == genus_key(genus_of_species(name or la)):
-            out["hint_la"] = name or la
+    if la := species_la_name(t):     # species:la senza species
+        out["hint_la"] = la
     if not sp and not t.get("genus"):
         for q in qids(t, "wikidata"):
             names = [n for tx in WD_ITEMS.get(q, {}).get("taxa", []) if not rank_problem("species:wikidata", tx)
@@ -1003,8 +1033,23 @@ def hint_props(t, osm_id=None, pos=None):
                     and (names := [n for n in taxon_names(q) if species_name(n)])):
                 out["hint_sn"] = names[0]
                 break
-        if wq and "hint_sn" not in out and "hint_sp" not in out and (names := [n for n in taxon_names(wq) if species_name(n)]):
+        if wq and "hint_sn" not in out and (names := [n for n in taxon_names(wq) if species_name(n)]):
             out["hint_wn"] = names[0]
+    # la specie dall'elemento Wikidata dell'albero solo se nessun tag dell'albero ne propone una (species:wikidata,
+    # species:wikipedia, species:la, taxon, name): uguale sarebbe un doppione, diversa un consiglio in conflitto
+    if "hint_sp" in out and (any(k in out for k in ("hint_sn", "hint_wn", "hint_la"))
+                             or any(str(out.get(k, "")).startswith("species|") for k in ("hint_tx", "hint_nm"))):
+        del out["hint_sp"]
+    # la specie dell'albero su Wikidata è diversa da quella dei tag (errore wikidata_tree_species): nessun consiglio
+    # propone un valore per species, va scelto dopo una verifica sul posto
+    if not sp and wikidata_tree_species(t):
+        for k in ("hint_sp", "hint_sn", "hint_wn", "hint_la"):
+            out.pop(k, None)
+        if str(out.get("hint_tx", "")).startswith("species|"):     # resta il consiglio su taxon, senza un nome
+            out.pop("hint_tx")
+            out.pop("hint_txl", None)
+        if str(out.get("hint_nm", "")).startswith("species|"):
+            out.pop("hint_nm")
     return out
 
 
@@ -3407,7 +3452,8 @@ def checks(t, pos, osm_id=None):
     if nm := wikidata_name_problems(t, "wikidata_mismatch" in list_issues):
         flag("wikidata_name_mismatch", wd_name=";".join(f"{k}={q}:{n}" for k, q, n in nm))
     if ts := wikidata_tree_species(t):
-        flag("wikidata_tree_species", wd_tree_sp=";".join(f"{q}:{n}" for q, n in ts))
+        # wd_tree_osm: la specie indicata dai tag dell'albero, per il messaggio
+        flag("wikidata_tree_species", wd_tree_sp=";".join(f"{q}:{n}" for q, n, _ in ts), wd_tree_osm=ts[0][2])
     if far := wikidata_far(t, pos):     # "QID:km;…"
         flag("wikidata_far", wd_far=";".join(f"{q}:{km}" for q, km in far))
     if wpf := wikidata_photo_far(t, pos):   # righe "QID|metri|tipo|File:…" separate da "\n"

@@ -903,7 +903,7 @@ const I18N = {
       wikidata_photo_far: "L'elemento su Wikidata non ha coordinate, ma la sua immagine (P18) ha coordinate su Commons, e distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
       wikidata_rank: "species:wikidata indica una specie (o un rango inferiore), genus:wikidata un genere (rango: P105).",
       wikidata_name_mismatch: "Confronto con il nome scientifico dell'elemento su Wikidata (P225), solo genere ed epiteto.",
-      wikidata_tree_species: "Confronto con la specie dell'albero su Wikidata (P10241, individuo del taxon)." },
+      wikidata_tree_species: "Confronto con la specie dell'albero su Wikidata (P10241, individuo del taxon): species, species:wikidata e, senza species, taxon, species:la, species:wikipedia, name." },
     issue: {
       circumference_species: (v, sp) => `circonferenza > ${v} (limite per ${sp})`,
       height_species: (v, sp) => `altezza > ${v} (limite per ${sp})`,
@@ -975,7 +975,7 @@ const I18N = {
       linkWhy: { "404": "pagina inesistente (404)", "410": "pagina rimossa (410)", dns: "il sito non esiste più",
         missing: "file inesistente su Commons" },
       wikidata_name_mismatch: (kq, name, val) => `${kq} su Wikidata è ${name}, non ${val}`,
-      wikidata_tree_species: (q, name) => `su Wikidata l'albero${q ? ` (wikidata=${q})` : ""} è ${name}`,
+      wikidata_tree_species: (q, name, osm) => `su Wikidata l'albero${q ? ` (wikidata=${q})` : ""} è ${name}${osm ? `, i tag dell'albero indicano ${osm}: da verificare sul posto` : ""}`,
       rankSpecies: "specie", rankGenus: "genere",
       ranks: { Q7432: "specie", Q34740: "genere", Q35409: "famiglia", Q68947: "sottospecie", Q767728: "varietà", Q279749: "forma",
         Q36602: "ordine", Q3238261: "sottogenere", Q3181348: "sezione", Q5998839: "sottosezione", Q3025161: "serie",
@@ -1514,7 +1514,7 @@ const I18N = {
       wikidata_photo_far: "The Wikidata item has no coordinates, but its image (P18) has coordinates on Commons, more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
       wikidata_rank: "species:wikidata points to a species (or a lower rank), genus:wikidata to a genus (rank: P105).",
       wikidata_name_mismatch: "Compared with the scientific name of the Wikidata item (P225), genus and epithet only.",
-      wikidata_tree_species: "Compared with the tree's species on Wikidata (P10241, individual of taxon)." },
+      wikidata_tree_species: "Compared with the tree's species on Wikidata (P10241, individual of taxon): species, species:wikidata and, without species, taxon, species:la, species:wikipedia, name." },
     issue: {
       circumference_species: (v, sp) => `circumference > ${v} (limit for ${sp})`,
       height_species: (v, sp) => `height > ${v} (limit for ${sp})`,
@@ -1579,7 +1579,7 @@ const I18N = {
       linkWhy: { "404": "page not found (404)", "410": "page removed (410)", dns: "the website no longer exists",
         missing: "file not found on Commons" },
       wikidata_name_mismatch: (kq, name, val) => `${kq} is ${name} on Wikidata, not ${val}`,
-      wikidata_tree_species: (q, name) => `on Wikidata the tree${q ? ` (wikidata=${q})` : ""} is ${name}`,
+      wikidata_tree_species: (q, name, osm) => `on Wikidata the tree${q ? ` (wikidata=${q})` : ""} is ${name}${osm ? `, the tree's tags indicate ${osm}: to be checked on the ground` : ""}`,
       rankSpecies: "species", rankGenus: "genus",
       ranks: { Q7432: "species", Q34740: "genus", Q35409: "family", Q68947: "subspecies", Q767728: "variety", Q279749: "form",
         Q36602: "order", Q3238261: "subgenus", Q3181348: "section", Q5998839: "subsection", Q3025161: "series",
@@ -4744,7 +4744,7 @@ const issueBase = (i, p) => {
     // l'elemento Wikidata si scrive solo se wikidata=* ne ha più di uno: il link è già sotto, tra i pulsanti
     case "wikidata_tree_species": { const xs = String(p.wd_tree_sp || "").split(";");
       return xs.map(x => { const j = x.indexOf(":");
-        return T[i](xs.length > 1 ? x.slice(0, j) : "", x.slice(j + 1)); }).join("\n"); }
+        return T[i](xs.length > 1 ? x.slice(0, j) : "", x.slice(j + 1), p.wd_tree_osm); }).join("\n"); }   // wd_tree_osm: specie dei tag (fetch_trees.py)
     case "broken_link":          // bad_url: righe "chiave=valore (stato)" (fetch_trees.py)
       return String(p.bad_url || "").split("\n").filter(Boolean).map(x => { const m = /^(.*) \((\w+)\)$/.exec(x);
         return m ? T[i](m[1], T.linkWhy[m[2]] || m[2]) : x; }).join("\n");
@@ -5436,7 +5436,13 @@ function botanicalHas(p) {
 // Niente sulla mappa dei monumentali, che non mostra errori né consigli
 function fixList(p) {
   const by = new Map(), why = new Map(), kind = new Map(), old = new Map();
+  // senza species, con la specie dell'albero su Wikidata diversa da quella dei tag (wikidata_tree_species): nessuna
+  // correzione aggiunge species, né i tag che ne derivano (species:wikidata, taxon:subspecies, leaf_type e leaf_cycle
+  // della specie proposta). species va scelto dopo una verifica sul posto
+  const wdConflict = !p.species && String(p.issues || "").split("|").includes("wikidata_tree_species");
   const add = (list, w0, k_) => list.forEach(([k, n, w = w0, canAdd, o0]) => {
+    if (wdConflict && (["species", "species:wikidata", "taxon:subspecies"].includes(k)
+        || ["add leaf_type", "add leaf_cycle"].includes(w))) return;
     const o = p[k] ?? o0, rm = n === REMOVE;
     if (rm) n = "";
     if ((!n && !rm) || n === o || (o == null && (rm || (k_ === "bad" && !canAdd))) || /\|/.test((o ?? "") + n)
