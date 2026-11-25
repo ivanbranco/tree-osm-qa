@@ -22,6 +22,7 @@
     {"key": "species", "value": "Betula utilis", "object_types": ["node"], "description": "Rendered with a white trunk (also with a variety, e.g. var. jacquemontii), on the map and in the trunk comparison drawing."},
     {"key": "species", "value": "Acer griseum", "object_types": ["node"], "description": "Rendered with an orange-red trunk, on the map and in the trunk comparison drawing."},
     {"key": "species", "value": "Eucalyptus deglupta", "object_types": ["node"], "description": "Easter egg: rendered with a rainbow trunk, on the map and in the trunk comparison drawing."},
+    {"key": "species", "value": "Araucaria columnaris", "object_types": ["node"], "description": "Rendered (from zoom 16) with a teardrop-shaped crown that leans towards the equator, more at higher latitudes; the offset also uses height=*."},
     {"key": "species", "value": "Malus domestica", "object_types": ["node"], "description": "Rendered with red fruits on the crown, in season (August–October in the northern hemisphere)."},
     {"key": "species", "value": "Juglans regia", "object_types": ["node"], "description": "Rendered with green fruits (walnuts) on the crown, in season (July–October in the northern hemisphere)."},
     {"key": "species", "value": "Citrus limon", "object_types": ["node"], "description": "Rendered with yellow fruits (lemons) on the crown, all year."},

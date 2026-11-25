@@ -1053,6 +1053,9 @@ const I18N = {
     // martenitsa sulla mappa (isMart): non dipende dai tag
     recMart: l => `Su questo albero la mappa ha appeso una ${l("martenitsa")}, il filo bianco e rosso che in Bulgaria e Macedonia del Nord si lega agli alberi all'arrivo della primavera.`,
     martWp: "https://it.wikipedia.org/wiki/Marteniza",
+    // Araucaria columnaris (isLean): chioma a goccia sulla mappa
+    recLean: l => `Gli alberi di questa specie si ${l("inclinano verso l'equatore")}: la mappa disegna la chioma a goccia, spostata da quella parte.`,
+    leanWp: "https://it.wikipedia.org/wiki/Araucaria_columnaris",
     recCriteria: list => `Criteri di monumentalità MASAF: ${list}`,
     masafCriteria: { a: "età e/o dimensioni", a1: "età", a2: "dimensioni", "a2.1": "circonferenza", "a2.2": "altezza",
       "a2.3": "ampiezza chioma", b: "forma o portamento particolari", c: "valore ecologico", d: "rarità botanica",
@@ -1643,6 +1646,8 @@ const I18N = {
     recSacred: (l, kind) => kind ? `Sacred tree: ${l(SACRED_WP[kind], SACRED_NAME[kind])}` : "Sacred tree",
     recMart: l => `The map has hung a ${l("martenitsa")} on this tree: the red and white thread that in Bulgaria and North Macedonia is tied to trees when spring arrives.`,
     martWp: "https://en.wikipedia.org/wiki/Martenitsa",
+    recLean: l => `Trees of this species ${l("lean towards the equator")}: the map draws the crown as a teardrop, shifted that way.`,
+    leanWp: "https://en.wikipedia.org/wiki/Araucaria_columnaris",
     recCriteria: list => `MASAF monumentality criteria: ${list}`,
     masafCriteria: { a: "age and/or size", a1: "age", a2: "size", "a2.1": "circumference", "a2.2": "height",
       "a2.3": "crown width", b: "particular shape or habit", c: "ecological value", d: "botanical rarity",
@@ -1842,6 +1847,61 @@ const crownOutline = (kind, id, r) => {
     }
   }
   return pts;
+};
+// Araucaria columnaris: gli alberi di questa specie sono inclinati verso l'equatore, di più lontano dall'equatore
+// (Johns et al. 2017, Ecology; it.wikipedia). Dall'alto la chioma a colonna inclinata è una goccia: tonda intorno al
+// tronco, che resta sul nodo, e più stretta verso l'equatore, dove si proietta la cima. LEAN_DEG: gradi di
+// inclinazione per grado di latitudine (a 38° circa 10,6°, a 19° circa 5,3°); LEAN_H: altezza in m senza height=*
+// (o con un valore fuori da 2–80 m). Solo la specie scritta in species=*, non stimata dal genere
+const LEAN_SPECIES = "Araucaria columnaris", LEAN_DEG = 0.28, LEAN_H = 20;
+const isLean = p => !p.stump && speciesKey(p.species) === LEAN_SPECIES;
+// spostamento della cima rispetto al tronco, [est, nord] in metri: verso l'equatore (sud nell'emisfero nord, nord
+// in quello sud), con una deviazione fissa per albero (dall'id) di al massimo ±10°
+const leanOf = (p, lat) => {
+  let h = lenM(p.height);
+  if (!(h >= 2 && h <= 80)) h = LEAN_H;
+  const d = h * Math.sin(Math.abs(lat) * LEAN_DEG * Math.PI / 180);
+  const b = (lat >= 0 ? Math.PI : 0) + (hash01(Number(p.id) || 0, 7) - 0.5) * Math.PI / 9;   // azimut dal nord, orario
+  return [d * Math.sin(b), d * Math.cos(b)];
+};
+// sagoma a goccia: inviluppo convesso di due cerchi, la base (raggio rb, centro sul tronco) e la cima (raggio
+// 0,45 rb, centro a 0,9 dello spostamento [dx, dy]), con le punte corte della stella delle aghifoglie lungo il bordo
+// (stessa distanza tra le punte e stessa profondità, rispetto a rb, della stella a 14 punte; spostate per ogni albero
+// dall'id) e l'area del cerchio di raggio r come le altre sagome. Punti [x, y] in metri, in senso antiorario; senza
+// spostamento è la stella delle aghifoglie
+const leanOutline = (r, [dx, dy], id) => {
+  const N = 48, KIN = 0.74, ph = (id % 11) / 11;          // KIN e rotazione come la stella ("spiky" di crownOutline)
+  const spiky = rb => {
+    const h = hull(rb), m = h.length, cum = [0];
+    for (let k = 0; k < m; k++) { const [x, y] = h[k], [u, v] = h[(k + 1) % m]; cum.push(cum[k] + Math.hypot(u - x, v - y)); }
+    const P = cum[m], n = Math.max(14, Math.round(14 * P / (2 * Math.PI * rb))), out = [];
+    for (let k = 0; k < 2 * n; k++) {
+      const t = (k + 2 * ph) / (2 * n) * P % P;            // punta (k pari) o incavo (k dispari) a t lungo il bordo
+      let j = 0;
+      while (j < m - 1 && cum[j + 1] < t) j++;
+      const [x, y] = h[j], [u, v] = h[(j + 1) % m], L = cum[j + 1] - cum[j] || 1, f = (t - cum[j]) / L;
+      const px = x + (u - x) * f, py = y + (v - y) * f, d = k % 2 ? rb * (1 - KIN) : 0;
+      out.push([px - (v - y) / L * d, py + (u - x) / L * d]);   // incavo: verso l'interno (a sinistra del bordo)
+    }
+    return out;
+  };
+  const hull = rb => {
+    const pts = [];
+    for (const [f, k] of [[0, 1], [0.9, 0.45]]) for (let i = 0; i < N; i++) {
+      const a = i / N * 2 * Math.PI;
+      pts.push([dx * f + rb * k * Math.cos(a), dy * f + rb * k * Math.sin(a)]);
+    }
+    pts.sort((u, v) => u[0] - v[0] || u[1] - v[1]);       // inviluppo convesso (catena monotona di Andrew)
+    const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+    const lo = [], up = [];
+    for (const q of pts) { while (lo.length > 1 && cross(lo[lo.length - 2], lo[lo.length - 1], q) <= 0) lo.pop(); lo.push(q); }
+    for (const q of [...pts].reverse()) { while (up.length > 1 && cross(up[up.length - 2], up[up.length - 1], q) <= 0) up.pop(); up.push(q); }
+    return [...lo.slice(0, -1), ...up.slice(0, -1)];
+  };
+  const area = ps => Math.abs(ps.reduce((s, [x, y], k) => { const [u, v] = ps[(k + 1) % ps.length]; return s + x * v - u * y; }, 0)) / 2;
+  let rb = r, ps = spiky(rb);
+  for (let n = 0; n < 6; n++) { rb *= Math.sqrt(Math.PI * r * r / area(ps)); ps = spiky(rb); }   // stessa area del cerchio
+  return ps;
 };
 const hash01 = (id, k) => { let x = (id * 2654435761 + k * 40503) >>> 0; x ^= x >>> 15; x = Math.imul(x, 2246822507) >>> 0;
   x ^= x >>> 13; return (x >>> 0) / 4294967296; };
@@ -2177,7 +2237,9 @@ map.on("load", async () => {
     if (ring) return ring;
     const [lon, lat] = ft.geometry.coordinates, p = ft.properties;
     const kx = 1 / (111320 * Math.cos(lat * Math.PI / 180)), ky = 1 / 111320;
-    const pts = crownOutline(isPalm(p) ? "palm" : isSpiky(p) ? "spiky" : "blob", p.id, p.cr).map(([x, y]) => [lon + x * kx, lat + y * ky]);
+    // Araucaria columnaris (isLean): goccia verso l'equatore al posto della stella
+    const pts = (isLean(p) ? leanOutline(p.cr, leanOf(p, lat), p.id) : crownOutline(isPalm(p) ? "palm" : isSpiky(p) ? "spiky" : "blob", p.id, p.cr))
+      .map(([x, y]) => [lon + x * kx, lat + y * ky]);
     pts.push(pts[0]);
     RINGS.set(ft, ring = [pts]);
     return ring;
@@ -4954,6 +5016,7 @@ function recognitions(p) {
   if (clMon) r.push(["off", L.recClMonument(t => link(`https://www.bcn.cl/leychile/navegar?idNorma=${clMon[2]}`, t), clMon[0], clMon[1])]);
   if (p.sacred) r.push(["", L.recSacred(link, sacredKind(p))]);
   if (isMart(p)) r.push(["", L.recMart(t => link(L.martWp, t))]);   // easter egg: albero con la martenitsa sulla mappa
+  if (isLean(p)) r.push(["", L.recLean(t => link(L.leanWp, t))]);   // Araucaria columnaris: chioma a goccia verso l'equatore
   const mt = monumentalTreesUrl(p);
   if (mt) r.push(["", L.recMt(link(mt, "monumentaltrees.com"))]);
   // schede di baumkunde.de e mbreg.de (ref:baumkunde, ref:mbreg, issue #95): solo i valori che sono indirizzi di quel
