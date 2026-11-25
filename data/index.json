@@ -218,12 +218,12 @@
   },
   "catalogna": {
    "count": 367914,
-   "errors": 1515,
+   "errors": 1516,
    "name": "Catalogna",
-   "osm_base": "2026-11-25T01:24:04Z",
-   "sha1": "8dfb55a246a76ab3c5adf0bf56d4aa2e6955d8c1",
+   "osm_base": "2026-11-25T14:21:20Z",
+   "sha1": "cecc7a47518d835cae5cc400477b5127c3fca234",
    "tried": "2026-11-25",
-   "updated": "2026-11-25T01:26:01Z"
+   "updated": "2026-11-25T14:19:40Z"
   },
   "cechia": {
    "count": 140842,
@@ -523,13 +523,13 @@
    "updated": "2026-11-21T23:19:51Z"
   },
   "lombardia": {
-   "count": 388252,
-   "errors": 1148,
+   "count": 388267,
+   "errors": 1158,
    "name": "Lombardia",
-   "osm_base": "2026-11-24T23:28:29Z",
-   "sha1": "0efbc7ea888fccbb0a7cbf3967b0a9ebf303521d",
-   "tried": "2026-11-24",
-   "updated": "2026-11-24T23:31:31Z"
+   "osm_base": "2026-11-25T14:22:21Z",
+   "sha1": "0275a6af9c48e8e620ca9febbc3848832d3c5a5c",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T14:20:49Z"
   },
   "londra": {
    "count": 213548,
