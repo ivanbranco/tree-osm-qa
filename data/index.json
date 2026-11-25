@@ -220,7 +220,7 @@
    "count": 367914,
    "errors": 1516,
    "name": "Catalogna",
-   "osm_base": "2026-11-25T14:17:20Z",
+   "osm_base": "2026-11-25T14:21:20Z",
    "sha1": "cecc7a47518d835cae5cc400477b5127c3fca234",
    "tried": "2026-11-25",
    "updated": "2026-11-25T14:19:40Z"
@@ -526,7 +526,7 @@
    "count": 388267,
    "errors": 1158,
    "name": "Lombardia",
-   "osm_base": "2026-11-25T14:18:20Z",
+   "osm_base": "2026-11-25T14:22:21Z",
    "sha1": "0275a6af9c48e8e620ca9febbc3848832d3c5a5c",
    "tried": "2026-11-25",
    "updated": "2026-11-25T14:20:49Z"
