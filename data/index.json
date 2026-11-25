@@ -487,13 +487,13 @@
    "updated": "2026-11-18T18:37:35Z"
   },
   "liechtenstein": {
-   "count": 11901,
-   "errors": 1,
+   "count": 11887,
+   "errors": 0,
    "name": "Liechtenstein",
-   "osm_base": "2026-11-17T20:00:06Z",
-   "sha1": "c8e5ced061810fe27ad62e545c15b62c033ee628",
-   "tried": "2026-11-17",
-   "updated": "2026-11-17T20:01:03Z"
+   "osm_base": "2026-11-25T00:25:03Z",
+   "sha1": "dc03b06ca965955fdf96d5391cae0127b5467c03",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T00:26:40Z"
   },
   "liguria": {
    "count": 8912,
@@ -883,13 +883,13 @@
    "updated": "2026-11-22T22:36:52Z"
   },
   "serbia": {
-   "count": 40112,
-   "errors": 384,
+   "count": 40136,
+   "errors": 419,
    "name": "Serbia",
-   "osm_base": "2026-11-17T09:07:03Z",
-   "sha1": "7439e92b753aa55400d6b826825695bc95d3385f",
-   "tried": "2026-11-17",
-   "updated": "2026-11-17T09:09:26Z"
+   "osm_base": "2026-11-25T00:24:04Z",
+   "sha1": "8fb2f915c1e9fbef6ba57d1402719fbe6bfeb737",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T00:26:28Z"
   },
   "sicilia": {
    "count": 49539,
@@ -1021,9 +1021,10 @@
    "count": 795,
    "errors": 0,
    "name": "Città del Vaticano",
-   "sha1": "4e464632b69e3db0f23ddc08de517ffa8eaeb773",
-   "tried": "2026-11-16",
-   "updated": "2026-11-16T17:34:31Z"
+   "osm_base": "2026-11-25T00:24:04Z",
+   "sha1": "5da85fda1cb15575ecb645e9ca408f6e76bf7427",
+   "tried": "2026-11-25",
+   "updated": "2026-11-25T00:25:38Z"
   },
   "veneto": {
    "count": 149783,
