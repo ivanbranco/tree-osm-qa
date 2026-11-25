@@ -242,7 +242,9 @@ STOCKY_MIN = 1 / 3         # sotto: albero troppo tozzo (circonferenza più di 3
 SLENDER_SP_FACTOR = 4      # oltre 4 volte il rapporto tipico della specie
 SLENDER_SP_MIN = 40        # ma mai sotto 40 (specie con rapporto basso, come l'olivo: i giovani sono più slanciati)
 SLENDER_SP_MIN_H = 10      # m: solo alberi alti almeno 10 m
-SLENDER_CHECKS = {"too_slender", "too_slender_species", "too_stocky"}   # con questi niente consiglio hint_ms
+# con questi niente consiglio hint_ms: rapporto altezza/circonferenza o circonferenza oltre il limite (generico o della
+# specie) già segnalati
+NO_MASAF_HINT = {"too_slender", "too_slender_species", "too_stocky", "circumference", "circumference_species"}
 # Albero monumentale molto piccolo (check small_monument, issue #34): soglie basse di proposito, misure di una piccola
 # pianta o di una canna di bambù, per non segnalare alberi monumentali veri; le eccezioni vanno in whitelist.json.
 # Provato a novembre 2026 su 58.855 alberi con denotation=natural_monument: 14 sotto 1,5 m, 28 sotto 0,2 m
@@ -2307,6 +2309,17 @@ def expand_genus(initial, epithet, genus):
     return next(iter(found)) if len(found) == 1 else None
 
 
+def genus_abbreviated(sp, genus=""):
+    """(iniziale, species con il genere per esteso) se species comincia con il genere abbreviato all'iniziale e
+    seguito da un epiteto minuscolo ("P. avium" -> ("P", "Prunus avium"); "T. baccata 'Fastigiata'" con genus=Taxus ->
+    ("T", "Taxus baccata 'Fastigiata'")); il secondo è "" se il genere non si può dire (expand_genus). None altrimenti."""
+    w = sp.split()
+    if len(w) < 2 or not ABBR_GENUS.match(w[0]) or not re.fullmatch(r"[a-zë-]+", w[1]) or w[1] in HYBRID_SIGNS:
+        return None
+    g = expand_genus(w[0][0], w[1], genus)
+    return w[0][0], " ".join([g] + w[1:]) if g else ""
+
+
 _VARIETY_NAMES = {}   # WD_TAXA (l'oggetto) -> nomi normalizzati dei taxon di rango varietà; riempito alla prima chiamata
 
 
@@ -2893,6 +2906,10 @@ def checks(t, pos, osm_id=None):
     # nessun nome scientifico contiene parentesi; non si ripete se le spiegano già l'autore o il nome comune
     if spf and ("(" in spf or ")" in spf) and not {"species_author", "species_common_name"} & set(issues):
         flag("species_parentheses")
+    # genere abbreviato all'iniziale ("P. avium"): sp_full = species con il genere per esteso (expand_genus), il resto
+    # com'è; senza, se il genere non si può dire o se c'è l'autore (species_author propone già la sua species)
+    if spf and (ab := genus_abbreviated(spf, str(t.get("genus") or "").strip())):
+        flag("species_genus_abbr", **({"sp_full": ab[1]} if ab[1] and not no_auth else {}))
     if und := [k for k in ("species", "genus") if "_" in str(t.get(k, "")) and k not in eq]:
         flag("underscore", und_keys=";".join(und))
     # più valori separati da ";" in species o genus: un nodo è un solo albero, con un solo genere e una sola specie
@@ -2983,6 +3000,9 @@ def checks(t, pos, osm_id=None):
     if (g is not None and sp is not None and ";" not in g and ";" not in sp and len(gw := genus_words(g)) == 1
             and not sp_epithet and not nl):
         sg = genus_of_species(sp).lstrip("×")   # il segno di ibrido non conta, né nel genus né nella species
+        # genere abbreviato in species (species_genus_abbr): il genere sciolto, o se non si può dire basta l'iniziale
+        if ab := genus_abbreviated(sp, g.strip()):
+            sg = ab[1].split()[0] if ab[1] else (gw[0] if gw[0][:1].upper() == ab[0] else sg)
         # con genus nome comune dello stesso genere di species basta genus_common_name
         if sg and gw[0].casefold() != sg.casefold() and not (gcn and gcn.casefold() == sg.casefold()):
             # correzione (gm_fix): genus non è un genere noto, quello di species sì, e i due nomi differiscono di poco
@@ -3308,7 +3328,7 @@ def to_feature(el, fast=True):
         p.update(hc_ratio=round(r, 3), hc_circ=round(circ_value(t)[0], 2), sp_ratio=r0)
     p.update(props)
     p.update(hint_props(t, el["id"], [el["lon"], el["lat"]]))     # consigli della scheda (non errori)
-    if SLENDER_CHECKS & set(iss):          # rapporto altezza/circonferenza segnalato: niente consiglio sulla soglia MASAF
+    if NO_MASAF_HINT & set(iss):     # circonferenza o rapporto già segnalati: niente consiglio sulla soglia MASAF
         p.pop("hint_ms", None)
     return {"type": "Feature", "properties": p,
             "geometry": {"type": "Point", "coordinates": [round(el["lon"], 7), round(el["lat"], 7)]}}

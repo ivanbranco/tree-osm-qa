@@ -601,12 +601,11 @@ const I18N = {
           : `si potrebbe scrivere species=${n} al posto di taxon. Il nome è da controllare (sinonimi, segno di ibrido ×)`}`
         : has ? `è ${k === "species" ? "una specie" : "un genere"} della lista della wiki, già in ${k}=*: taxon si potrebbe togliere`
         : `è ${k === "species" ? "una specie" : "un genere"} della lista della wiki, si potrebbe scrivere ${k}=${n} al posto di taxon`}`,
-      // varietà e cultivar scritte in species, genere abbreviato (sp_base, sp_gen, sp_var, sp_cv, sp_abbr:
-      // fetch_trees.py). abbr: genere abbreviato; what: "", "v", "c" o "vc"; main: species=… senza, o genus=… se
-      // species è genere e cultivar (gen); tags: i tag che mancano (vuoto se taxon:variety o taxon:cultivar ci sono
-      // già con lo stesso valore); check: la varietà non è tra quelle note (senza sp_var_ok), da controllare
-      infra: (sp, abbr, what, main, tags, gen, check) => `species=${sp} ${[abbr && "ha il genere abbreviato",
-          what && `comprende ${{ v: "la varietà", c: "la cultivar", vc: "la varietà e la cultivar" }[what]}`].filter(Boolean).join(" e ")}: si potrebbe scrivere ${main}`
+      // varietà e cultivar scritte in species (sp_base, sp_gen, sp_var, sp_cv: fetch_trees.py; il genere abbreviato è
+      // l'errore species_genus_abbr, ma main ha già il genere per esteso). what: "v", "c" o "vc"; main: species=… senza,
+      // o genus=… se species è genere e cultivar (gen); tags: i tag che mancano (vuoto se taxon:variety o
+      // taxon:cultivar ci sono già con lo stesso valore); check: la varietà non è tra quelle note (senza sp_var_ok)
+      infra: (sp, what, main, tags, gen, check) => `species=${sp} comprende ${{ v: "la varietà", c: "la cultivar", vc: "la varietà e la cultivar" }[what]}: si potrebbe scrivere ${main}`
         + (tags.length ? ` con ${tags.join(" e ")}` : "") + (gen ? " al posto di species" : "")
         + (check ? ". Controllare che sia una varietà e non una cultivar, che va in taxon:cultivar" : ""),
       hybridSign: (k, v) => `Il segno di ibrido si scrive × al posto della lettera x: ${k}=${v}`,
@@ -665,7 +664,7 @@ const I18N = {
       height_species: "Altezza > limite della specie", species_typo: "Species forse scritta male",
       species_epithet_case: "Species con maiuscole sbagliate", species_common_name: "Species non scientifica (nome comune?)",
       species_hybrid_end: "Segno di ibrido in fondo a species",
-      species_unidentified: "Species non identificata (sp., spp.)", species_parentheses: "Parentesi in species", species_author: "Species con l'autore del nome",
+      species_unidentified: "Species non identificata (sp., spp.)", species_parentheses: "Parentesi in species", species_genus_abbr: "Species con il genere abbreviato", species_author: "Species con l'autore del nome",
       underscore: "Trattino basso (_) in species o genus", multiple_values: "Più valori (;) in species o genus", tag_in_value: "Tag scritto nel valore (=)",
       not_latin: "Species o genus in alfabeto non latino",
       species_lang_only: "species:xx senza species", taxon_lang_only: "taxon:xx senza taxon",
@@ -845,6 +844,7 @@ const I18N = {
       species_hybrid_end: "Nel nome di un ibrido il segno × sta tra il genere e l'epiteto (Platanus × hispanica), o prima del genere per un ibrido tra generi diversi (× Chitalpa tashkentensis), non in fondo al nome.",
       species_unidentified: "«sp.» e «spp.» indicano una specie non identificata: in OSM si indica solo il genere.",
       species_parentheses: "Nessun nome scientifico contiene parentesi.",
+      species_genus_abbr: "In species=* il genere va scritto per esteso (Prunus avium, non P. avium). Il genere proposto è quello di genus=*, se comincia con quella lettera, oppure l'unico genere della lista della wiki con quell'iniziale e una specie con quell'epiteto.",
       species_author: "species=* contiene solo il nome, senza l'autore che ha descritto la specie (L., Mill., …).",
       species_lang_only: "species:xx affianca species=*, non lo sostituisce: il nome scientifico è lo stesso in tutte le lingue.",
       taxon_lang_only: "taxon:xx è il nome di taxon=* in una lingua: lo affianca, non lo sostituisce.",
@@ -912,6 +912,7 @@ const I18N = {
       species_epithet_case: (sp, s) => `species=${sp}: va maiuscola solo l'iniziale del genere, species=${s}`,
       species_hybrid_end: (sp, s) => `species=${sp}: il segno di ibrido × va tra il genere e l'epiteto, non in fondo` + (s ? `: species=${s}` : ""),
       species_parentheses: sp => `species=${sp} contiene parentesi, che nei nomi scientifici non ci sono`,
+      species_genus_abbr: (sp, f) => `species=${sp} ha il genere abbreviato` + (f ? `: species=${f}` : ""),
       species_common_name: (sp, s, g, kv, known) => `species=${sp} non ha la forma di un nome scientifico (Genere epiteto)`
         + (s && known ? `: è il nome comune di ${s}, usare species=${s}` + (kv ? ` e ${kv}` : "") : s ? `: species=${s}?`
           : g ? `: usare genus=${g}` + (kv ? ` e ${kv}` : "") + " senza species" : ""),
@@ -1197,8 +1198,7 @@ const I18N = {
           : `it could be written as species=${n} instead of taxon. Check the name (synonyms, hybrid sign ×)`}`
         : has ? `it is a ${k} in the wiki list, already in ${k}=*: taxon could be removed`
         : `it is a ${k} in the wiki list, it could be written as ${k}=${n} instead of taxon`}`,
-      infra: (sp, abbr, what, main, tags, gen, check) => `species=${sp} ${[abbr && "has the genus abbreviated",
-          what && `includes ${{ v: "the variety", c: "the cultivar", vc: "the variety and the cultivar" }[what]}`].filter(Boolean).join(" and ")}: it could be written as ${main}`
+      infra: (sp, what, main, tags, gen, check) => `species=${sp} includes ${{ v: "the variety", c: "the cultivar", vc: "the variety and the cultivar" }[what]}: it could be written as ${main}`
         + (tags.length ? ` with ${tags.join(" and ")}` : "") + (gen ? " instead of species" : "")
         + (check ? ". Check that it is a variety and not a cultivar, which goes in taxon:cultivar" : ""),
       hybridSign: (k, v) => `The hybrid sign is written × instead of the letter x: ${k}=${v}`,
@@ -1253,7 +1253,7 @@ const I18N = {
       height_species: "Height > species limit", species_typo: "Possibly misspelled species",
       species_epithet_case: "Species with wrong capitalisation", species_common_name: "Non-scientific species (common name?)",
       species_hybrid_end: "Hybrid sign at the end of species",
-      species_unidentified: "Unidentified species (sp., spp.)", species_parentheses: "Parentheses in species", species_author: "Species with the author name",
+      species_unidentified: "Unidentified species (sp., spp.)", species_parentheses: "Parentheses in species", species_genus_abbr: "Species with the genus abbreviated", species_author: "Species with the author name",
       underscore: "Underscore (_) in species or genus", multiple_values: "Multiple values (;) in species or genus", tag_in_value: "Tag written in the value (=)",
       not_latin: "Species or genus in a non-Latin script",
       species_lang_only: "species:xx without species", taxon_lang_only: "taxon:xx without taxon",
@@ -1423,6 +1423,7 @@ const I18N = {
       species_hybrid_end: "In the name of a hybrid the sign × goes between the genus and the epithet (Platanus × hispanica), or before the genus for a hybrid between different genera (× Chitalpa tashkentensis), not at the end of the name.",
       species_unidentified: "\"sp.\" and \"spp.\" mean an unidentified species: in OSM only the genus is tagged.",
       species_parentheses: "No scientific name contains parentheses.",
+      species_genus_abbr: "In species=* the genus is written in full (Prunus avium, not P. avium). The proposed genus is the one in genus=*, if it starts with that letter, or else the only genus of the wiki list with that initial and a species with that epithet.",
       species_author: "species=* holds only the name, without the author who described the species (L., Mill., …).",
       species_lang_only: "species:xx goes alongside species=*, not instead of it: the scientific name is the same in every language.",
       taxon_lang_only: "taxon:xx is the name of taxon=* in a language: it goes alongside it, not instead of it.",
@@ -1487,6 +1488,7 @@ const I18N = {
       species_epithet_case: (sp, s) => `species=${sp}: only the initial of the genus should be uppercase, species=${s}`,
       species_hybrid_end: (sp, s) => `species=${sp}: the hybrid sign × goes between the genus and the epithet, not at the end` + (s ? `: species=${s}` : ""),
       species_parentheses: sp => `species=${sp} contains parentheses, which scientific names never have`,
+      species_genus_abbr: (sp, f) => `species=${sp} has the genus abbreviated` + (f ? `: species=${f}` : ""),
       species_common_name: (sp, s, g, kv, known) => `species=${sp} is not a scientific name (Genus epithet)`
         + (s && known ? `: it is the common name of ${s}, use species=${s}` + (kv ? ` and ${kv}` : "") : s ? `: species=${s}?`
           : g ? `: use genus=${g}` + (kv ? ` and ${kv}` : "") + " without species" : ""),
@@ -2846,7 +2848,7 @@ map.on("load", async () => {
     ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "unit_format", "circ_diam_mismatch", "trunk_overlap", "number_invalid", "circumference_species", "height_species",
       "too_slender", "too_slender_species", "too_stocky", "small_monument"]],
     ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_hybrid_end", "species_common_name",
-      "species_unidentified", "species_author", "species_parentheses", "species_lang_only", "taxon_lang_only", "not_a_tree", "underscore", "multiple_values", "tag_in_value",
+      "species_unidentified", "species_author", "species_parentheses", "species_genus_abbr", "species_lang_only", "taxon_lang_only", "not_a_tree", "underscore", "multiple_values", "tag_in_value",
       "not_latin", "genus", "genus_lowercase", "genus_common_name", "genus_mismatch", "name_taxon_missing", "name_taxon_mismatch"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
       "wikidata_is_taxon", "wikipedia_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
@@ -4614,6 +4616,7 @@ const issueBase = (i, p) => {
     // genus:xx): fetch_trees.py
     case "species_epithet_case": case "species_common_name": return T[i](p.species, p.sp_sci, p.sp_cn_genus, p.sp_cn_kv, p.sp_cn_sp);
     case "species_parentheses": return T[i](p.species);
+    case "species_genus_abbr": return T[i](p.species, p.sp_full);           // sp_full: fetch_trees.py
     case "species_hybrid_end": return T[i](p.species, p.sp_hyb);            // sp_hyb: fetch_trees.py
     case "not_a_tree": return T[i](p.nt_sp);                                  // nt_sp: fetch_trees.py
     case "underscore": return String(p.und_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");
@@ -5097,7 +5100,9 @@ const hybridX = p => ["species", "genus"].filter(k => p[k] && !String(p[k]).incl
 // ceppi, un tag con un altro valore, un errore sulla forma di species o il segno di ibrido scritto x, che propongono
 // già un'altra species; con genere e cultivar (sp_gen), un genus diverso
 const infraMove = p => {
-  if (!(p.sp_base || p.sp_gen) || !p.species || p.stump || HYBRID_SKIP.species.test(String(p.issues || "")) || hybridX(p).some(([k]) => k === "species")) return null;
+  // il genere abbreviato (species_genus_abbr) non blocca: sp_base ha già il genere per esteso
+  if (!(p.sp_base || p.sp_gen) || !p.species || p.stump || HYBRID_SKIP.species.test(String(p.issues || "").replace("|species_genus_abbr|", "|"))
+      || hybridX(p).some(([k]) => k === "species")) return null;
   const norm = v => String(v).trim().replace(/^['‘`"“]|['’`"”]$/g, "").toLowerCase(), tags = [];
   const gn = v => String(v).replace(/^\s*×\s*/, "").trim().toLowerCase();
   if (p.sp_gen && p.genus && gn(p.genus) !== gn(p.sp_gen)) return null;
@@ -5144,7 +5149,8 @@ const HINT_FIXES = [
   // Con una varietà che non è un taxon di rango varietà su Wikidata (senza sp_var_ok) nessuna correzione: con "var."
   // si trovano scritte anche le cultivar, e il consiglio invita a controllare
   [p => { const im = infraMove(p);
-    if (!im || (p.sp_var && !p.sp_var_ok)) return [];
+    // il solo genere abbreviato lo corregge l'errore species_genus_abbr (FIXES)
+    if (!im || !(p.sp_var || p.sp_cv) || (p.sp_var && !p.sp_var_ok)) return [];
     const w = [p.sp_abbr && "genus written in full in species",
       (p.sp_var || p.sp_cv) && "variety or cultivar moved from species to its own tag"].filter(Boolean).join("; ");
     return p.sp_gen ? [["species", REMOVE, w], ...p.genus ? [] : [["genus", p.sp_gen, w]], ...im.map(([k, v]) => [k, v, w])]
@@ -5172,6 +5178,14 @@ const FIXES = {
   species_author: [p => [["species", p.sp_fix || p.sp_clean], ...spFixExtras(p)], "remove the author name from species"],
   // refuso: solo con sp_fix, cioè se species è genere ed epiteto e basta (eventualmente con l'autore)
   species_typo: [p => p.sp_fix ? [["species", p.sp_fix], ...spFixExtras(p)] : [], "fix the spelling of species"],
+  // genere abbreviato (sp_full: species con il genere per esteso, fetch_trees.py). Con varietà o cultivar, se c'è la
+  // correzione del consiglio (HINT_FIXES: species senza varietà e cultivar, sp_base, e i tag taxon:*), la stessa species,
+  // perché non si contraddicano; senza, species=sp_full e i tag che mancano per quella specie (sp_base_*: sp_base è la
+  // stessa species)
+  species_genus_abbr: [p => !p.sp_full ? [] : (p.sp_var || p.sp_cv) ? [infraMove(p) && !(p.sp_var && !p.sp_var_ok)
+      ? ["species", p.sp_base, "genus written in full in species; variety or cultivar moved from species to its own tag"] : ["species", p.sp_full]]
+    : [["species", p.sp_full], ...p.sp_base === p.sp_full ? [["species:wikidata", p.sp_base_wd, "add species:wikidata", true],
+      ["leaf_type", p.sp_base_lt, "add leaf_type", true], ["leaf_cycle", p.sp_base_lc, "add leaf_cycle", true]] : []], "genus written in full in species"],
   // species di una parola che è un genere (sp_as_genus) o il nome comune di un genere (sp_common_genus): species si
   // toglie e diventa genus, se manca. Con un genus diverso (maiuscole e segno di ibrido a parte) la correzione non è certa
   species: [p => {
@@ -6015,9 +6029,10 @@ function hints(p, pos) {
   // taxon=* non dice il rango; hint_tx: "species|nome" o "genus|nome" se è nelle liste wiki (fetch_trees.py)
   if (p.taxon) { const [k, n, b] = String(p.hint_tx || "").split("|"); out.push(H.taxon(p.taxon, n ? k : "", n, !!(n && p[k]), b === "b")); }
   for (const [k, v] of hybridX(p)) out.push(H.hybridSign(k, v));
-  // varietà e cultivar scritte in species: taxon:variety e taxon:cultivar (infraMove)
+  // varietà e cultivar scritte in species: taxon:variety e taxon:cultivar (infraMove); il solo genere abbreviato è
+  // l'errore species_genus_abbr
   const im = infraMove(p);
-  if (im) out.push(H.infra(p.species, !!p.sp_abbr, (p.sp_var ? "v" : "") + (p.sp_cv ? "c" : ""),
+  if (im && (p.sp_var || p.sp_cv)) out.push(H.infra(p.species, (p.sp_var ? "v" : "") + (p.sp_cv ? "c" : ""),
     p.sp_gen ? `genus=${p.sp_gen}` : `species=${p.sp_base}`, im.map(([k, v]) => `${k}=${v}`), !!p.sp_gen, !!p.sp_var && !p.sp_var_ok));
   if (p.hint_mc) out.push(H.masafCriteria(p.hint_mc));
   // coordinate dell'elenco MASAF lontane dall'albero (hint_mf: righe "codice|km|comune", fetch_trees.py)

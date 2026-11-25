@@ -290,6 +290,12 @@ CASES = [
     ("dipendenza: con species_author niente species_parentheses",
      {"natural": "tree", "species": "Camellia sinensis (L.) Kuntze"}, ["species_author"]),
     ("species_parentheses", {"natural": "tree", "species": "Quercus robur (red)"}, ["species_parentheses"]),
+    ("species_genus_abbr", {"natural": "tree", "species": "Q. robur"}, ["species_genus_abbr"]),
+    ("species_genus_abbr: con genus, niente genus_mismatch", {"natural": "tree", "species": "Q. robur", "genus": "Quercus"},
+     ["species_genus_abbr"]),
+    ("species_genus_abbr: genus con un'altra iniziale", {"natural": "tree", "species": "Q. robur", "genus": "Pinus"},
+     ["species_genus_abbr", "genus_mismatch"]),
+    ("species_genus_abbr: genere che non si scioglie", {"natural": "tree", "species": "A. campestre"}, ["species_genus_abbr"]),
     ("species_parentheses: parola maiuscola tra parentesi in fondo, non un autore",
      {"natural": "tree", "species": "Quercus robur (Farnia)"}, ["species_parentheses"]),
     ("species_parentheses: parole maiuscole tra parentesi in fondo, non un autore",
@@ -849,6 +855,11 @@ SP_CLEAN_CASES = [
 # Correzione con JOSM di species_typo e species_author (sp_fix e i tag che mancano per la specie corretta, sp_fix_*):
 # (nome, tag, proprietà attese; None = la proprietà non c'è)
 SP_FIX_CASES = [
+    ("genere abbreviato: species con il genere per esteso", {"natural": "tree", "species": "Q. robur 'Fastigiata'"},
+     {"sp_full": "Quercus robur 'Fastigiata'"}),
+    ("genere abbreviato che non si scioglie: nessuna proposta", {"natural": "tree", "species": "A. campestre"}, {"sp_full": None}),
+    ("genere abbreviato con l'autore: la proposta è di species_author", {"natural": "tree", "species": "Q. robur L."},
+     {"sp_full": None, "sp_clean": "Q. robur"}),
     ("nome comune con un genere certo in species: genus proposto", {"natural": "tree", "species": "Horse Chestnut"},
      {"sp_cn_genus": "Aesculus", "sp_sci": None}),
     ("nome comune che inizia con il nome di un genere ma non è un nome noto: nessuna proposta",
@@ -1089,6 +1100,9 @@ def feature_failures():
                   '<meta property="og:image" content="https://lh3.googleusercontent.com/pw/AP1G-x_y=w600-h315-p-k">').group(1)
                == "https://lh3.googleusercontent.com/pw/AP1G-x_y"),
               ("non membro: niente mg, hint_ms", "mg" not in other and "hint_ms" in other),
+              # circonferenza oltre il limite della specie (o generico, anche da diameter): solo l'errore, niente hint_ms
+              ("circumference_species: niente hint_ms", all("hint_ms" not in ft.to_feature(node(9012, {**OAK, **m}))["properties"]
+                  for m in ({"circumference": "20"}, {"circumference": "50"}, {"diameter": "20000"}))),
               ("ceppo membro: resta un ceppo, senza mg", stump.get("stump") == 1 and "mg" not in stump),
               ("file ridotto: il membro c'è, l'albero qualsiasi no", f'"id":{MEMBER}' in small.decode() and '"id":9002' not in small.decode())]
     # palme (#55): disegnate come palme (lt=palm), ma il leaf_type da proporre è quello della lista (lts), mai palm
