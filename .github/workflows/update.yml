@@ -22,6 +22,7 @@ on:
           - stati-uniti
           - albania
           - andorra
+          - armenia
           - bosnia-erzegovina
           - bulgaria
           - cechia
@@ -30,6 +31,9 @@ on:
           - estonia
           - giappone
           - grecia
+          - islanda
+          - isole-falkland
+          - isole-faroe
           - kosovo
           - lettonia
           - liechtenstein
@@ -37,7 +41,9 @@ on:
           - lussemburgo
           - macedonia-del-nord
           - malta
+          - moldavia
           - monaco
+          - mongolia
           - montenegro
           - portogallo
           - romania

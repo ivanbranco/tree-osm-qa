@@ -26,7 +26,7 @@ Map of OpenStreetMap trees (`natural=tree`, and stumps `natural=tree_stump`), di
 
 ## Regions
 
-Italy, Poland, metropolitan France, Spain (in the autonomous communities and cities), the United Kingdom and Ireland (divided into regions), Austria (in the nine Länder), the states of Washington, Pennsylvania and Arizona in the United States; Portugal, Luxembourg, the Baltic states, Czechia, Slovenia, Croatia, Bosnia and Herzegovina, Serbia, Montenegro, Kosovo, Albania, North Macedonia, Greece, Bulgaria, Romania, the European microstates (Andorra, Liechtenstein, Malta, Monaco, San Marino, Vatican City), Japan, Venezuela, Chile and the French Southern and Antarctic Lands (one region each).
+Italy, Poland, metropolitan France, Spain (in the autonomous communities and cities), the United Kingdom and Ireland (divided into regions), Austria (in the nine Länder), the states of Washington, Pennsylvania and Arizona in the United States; Portugal, Luxembourg, the Baltic states, Czechia, Slovenia, Croatia, Bosnia and Herzegovina, Serbia, Montenegro, Kosovo, Albania, North Macedonia, Greece, Bulgaria, Romania, Moldova, Iceland, the Faroe Islands, the European microstates (Andorra, Liechtenstein, Malta, Monaco, San Marino, Vatican City), Armenia, Mongolia, Japan, Venezuela, Chile, the Falkland Islands and the French Southern and Antarctic Lands (one region each).
 
 A new region can be requested from the menu ("+ Request a new region…") or by clicking an uncovered country on the map. You can also ask for a new region, or for an update of an existing one, by opening a [GitHub issue](https://github.com/ivanbranco/tree-osm-qa/issues/new?template=region.yml).
 
