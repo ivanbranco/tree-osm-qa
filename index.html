@@ -5642,6 +5642,11 @@ function card(p, pos) {
   const spPage = speciesPage(p);
   const spLink = html => spPage ? `<a href="${esc(spPage)}" target="_blank" rel="noopener">${html}</a>` : html;
   if (titleKey === "species") titleHtml = titleHtml.replace(`<i>${esc(p.species)}</i>`, spLink(`<i>${esc(p.species)}</i>`));
+  // cardRowIvLink: le righe «Varietà» e «Cultivar» portano all'elemento di taxon:variety:wikidata e
+  // taxon:cultivar:wikidata, se è un solo QID; il tag nel suggerimento
+  const IV_WD = { iv_var: "taxon:variety:wikidata", iv_cv: "taxon:cultivar:wikidata" };
+  const ivLink = (k, html) => { const q = String(p[IV_WD[k]] ?? "").trim();
+    return /^Q\d+$/.test(q) ? `<a href="https://www.wikidata.org/wiki/${q}" target="_blank" rel="noopener" title="${esc(`${IV_WD[k]}=${q}`)}">${html}</a>` : html; };
   // ref=* (issue #89): tra parentesi dopo il titolo, «Quercus robur (1543)», in grigio; il tag nel suggerimento.
   // Non se il titolo è name e ha lo stesso valore. Solo nella scheda: le righe di Alberi da record restano senza
   const ref = String(p.ref ?? "").trim();
@@ -5661,7 +5666,7 @@ function card(p, pos) {
   const fromDiam = dm > 0;
   const rows = ROWS.filter(([k]) => (k === "diameter" ? p[k] && !fromDiam : p[k] || (k === "circumference" && fromDiam)) && k !== titleKey && !(k === "planted_date" && p.start_date) && !(k === "genus" && p.species && !genusIssue && !p.sp_gen) && !(k === "species" && p.sp_gen)).map(([k, label, f]) => k === "circumference" && fromDiam
     ? `<dt>${label}</dt><dd>${cardLen(String(Number((dm * Math.PI).toFixed(3))))}${esc(L.fromDiameter)}${planPick(p)}</dd>`
-    : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : k === "multi_stemmed" ? stemsHtml(p[k]) : k === "species" ? spLink(esc(p.sp_base || p[k])) : esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
+    : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : k === "multi_stemmed" ? stemsHtml(p[k]) : k === "species" ? spLink(esc(p.sp_base || p[k])) : IV_WD[k] ? ivLink(k, esc(f ? f(p[k]) : p[k])) : esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
   const rec = recognitions(p);
   const links = [osmMenu(p, pos)];

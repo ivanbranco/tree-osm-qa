@@ -51,6 +51,8 @@
     {"key": "taxon:subspecies", "object_types": ["node"], "description": "Suggested, with the 'Fix with JOSM' link, together with species when species is missing and species:xx is a common name of a subspecies in the site's lists (e.g. species:fr=Mirabellier -> species=Prunus domestica and taxon:subspecies=Prunus domestica subsp. syriaca)."},
     {"key": "taxon:variety", "object_types": ["node"], "description": "Shown in the info panel (Variety). Suggested, with the 'Fix with JOSM' link, when species includes a variety (var. epithet) that is a taxon of variety rank on Wikidata."},
     {"key": "taxon:cultivar", "object_types": ["node"], "description": "Shown in the info panel (Cultivar). Suggested, with the 'Fix with JOSM' link, when species includes a cultivar (in quotation marks, or without after a species of the OSM wiki list)."},
+    {"key": "taxon:variety:wikidata", "object_types": ["node"], "description": "The Variety row of the info panel links to this Wikidata item."},
+    {"key": "taxon:cultivar:wikidata", "object_types": ["node"], "description": "The Cultivar row of the info panel links to this Wikidata item."},
     {"key": "variety", "object_types": ["node"], "description": "Shown in the info panel (Variety) when taxon:variety is missing."},
     {"key": "cultivar", "object_types": ["node"], "description": "Shown in the info panel (Cultivar) when taxon:cultivar is missing."},
     {"key": "genus:wikipedia", "object_types": ["node"], "description": "Suggested by a QA check when wikipedia=* links the article of a genus."},

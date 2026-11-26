@@ -3545,6 +3545,8 @@ def checks(t, pos, osm_id=None):
 
 
 KEEP = ["name", "species", "genus", "taxon", "taxon:variety", "variety", "taxon:cultivar", "cultivar",
+        # elemento Wikidata della varietà e della cultivar: le righe della scheda portano lì (cardRowIvLink in index.html)
+        "taxon:variety:wikidata", "taxon:cultivar:wikidata",
         "denotation", "leaf_type", "leaf_cycle", "circumference", "height",
         "diameter_crown", "image", "wikimedia_commons", "wikidata", "start_date", "planted_date",
         "ref:masaf", "masaf:criteria", "ref:rami", "website", "url", "diameter", "image:fotoshi", "ref:zapis", "sacred_tree", "religion", "multi_stemmed",
