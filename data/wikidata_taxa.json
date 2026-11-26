@@ -25320,6 +25320,24 @@
 ],
 "taxon": true
 },
+"Q33517452": {
+"alias": {
+"en": [],
+"it": []
+},
+"basionyms": [
+"Tilia caucasica"
+],
+"en": "Tilia dasystyla subsp. caucasica",
+"it": "Tilia dasystyla subsp. caucasica",
+"names": [
+"Tilia dasystyla subsp. caucasica"
+],
+"ranks": [
+"Q68947"
+],
+"taxon": true
+},
 "Q3351769": {
 "alias": {
 "en": [],

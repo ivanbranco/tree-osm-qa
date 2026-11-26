@@ -81,6 +81,15 @@
    "tried": "2026-11-23",
    "updated": "2026-11-23T20:13:40Z"
   },
+  "armenia": {
+   "count": 25831,
+   "errors": 2229,
+   "name": "Armenia",
+   "osm_base": "2026-11-26T19:15:50Z",
+   "sha1": "7599e6d021289e7d37a04a42a3801818d73de0ec",
+   "tried": "2026-11-26",
+   "updated": "2026-11-26T19:18:26Z"
+  },
   "asturie": {
    "count": 10610,
    "errors": 145,
