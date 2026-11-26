@@ -262,13 +262,13 @@
    "updated": "2026-11-25T01:26:09Z"
   },
   "cile": {
-   "count": 231789,
-   "errors": 5005,
+   "count": 231917,
+   "errors": 4808,
    "name": "Cile",
-   "osm_base": "2026-11-23T17:28:13Z",
-   "sha1": "7d2c14140ac3aa154360bed0a09137fc5ac9d3fd",
-   "tried": "2026-11-23",
-   "updated": "2026-11-23T17:31:51Z"
+   "osm_base": "2026-11-26T21:46:28Z",
+   "sha1": "3c9d2e791bcc886f529cfe0e6af11607f61850a7",
+   "tried": "2026-11-26",
+   "updated": "2026-11-26T21:48:07Z"
   },
   "comunita-di-madrid": {
    "count": 149004,
