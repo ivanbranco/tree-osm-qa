@@ -5487,7 +5487,7 @@ const FIXES = {
   // (con species:wikidata, leaf_type e leaf_cycle che mancano: nm_wd, nm_lt, nm_lc) o genus; name resta. Per
   // name_taxon_mismatch nessuna correzione: non si sa quale dei due tag è giusto
   name_taxon_missing: [p => { const [k, n] = String(p.nm_tx || "").split("|");
-    return !n || p[k] ? [] : [[k, n], ["species:wikidata", p.nm_wd, "add species:wikidata", true],
+    return !n || p[k] ? [] : [[k, n, undefined, true], ["species:wikidata", p.nm_wd, "add species:wikidata", true],
       ["leaf_type", p.nm_lt, "add leaf_type", true], ["leaf_cycle", p.nm_lc, "add leaf_cycle", true]]; },
     "scientific name from name"],
   // name:botanical deprecato (nb_tx, fetch_trees.py): si toglie e il nome passa in species o genus, se manca (con
