@@ -693,6 +693,15 @@
    "tried": "2026-11-19",
    "updated": "2026-11-19T22:56:36Z"
   },
+  "mongolia": {
+   "count": 10951,
+   "errors": 5,
+   "name": "Mongolia",
+   "osm_base": "2026-11-26T19:10:51Z",
+   "sha1": "59fa9bf71541d41b9ed096c430871298f5f0468a",
+   "tried": "2026-11-26",
+   "updated": "2026-11-26T19:12:12Z"
+  },
   "montenegro": {
    "count": 5797,
    "errors": 78,
