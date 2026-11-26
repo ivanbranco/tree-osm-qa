@@ -7723,7 +7723,7 @@
 ]
 ],
 "heritage": [],
-"image": "Chudenínská lípa.jpg",
+"image": "Chudenín - památná lípa.JPG",
 "mon": true,
 "taxa": [
 "Q21384730"
@@ -13291,7 +13291,8 @@
 "heritage": [
 [
 "part of national cultural heritage site in the Czech Republic",
-"part of national cultural heritage site in the Czech Republic"
+"part of national cultural heritage site in the Czech Republic",
+"Q30118401"
 ]
 ],
 "image": "Lidice (32).jpg",
@@ -21136,7 +21137,8 @@
 "heritage": [
 [
 "remarkable tree in the Czech Republic",
-"remarkable tree in the Czech Republic"
+"remarkable tree in the Czech Republic",
+"Q21296252"
 ]
 ],
 "image": "Overview of famous tree Věstoňovická lípa in Věstoňovice, Benetice, Třebíč District.jpg",
@@ -24622,6 +24624,17 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q164163": {
+"coords": [],
+"heritage": [],
+"image": "Tamarix aphylla.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Tamarix",
+"it": "https://it.wikipedia.org/wiki/Tamarix"
+}
 },
 "Q16443496": {
 "coords": [
@@ -30616,6 +30629,17 @@
 "taxon": false,
 "wp": {}
 },
+"Q2452407": {
+"coords": [],
+"heritage": [],
+"image": "Cercis canadensis.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Cercis_canadensis",
+"it": "https://it.wikipedia.org/wiki/Cercis_canadensis"
+}
+},
 "Q24576302": {
 "coords": [
 [
@@ -31395,6 +31419,17 @@
 ],
 "taxon": false,
 "wp": {}
+},
+"Q25618": {
+"coords": [],
+"heritage": [],
+"image": "Mélèze en Automne.JPG",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Larch",
+"it": "https://it.wikipedia.org/wiki/Larix"
+}
 },
 "Q25713026": {
 "coords": [
@@ -98029,7 +98064,7 @@
 ]
 ],
 "heritage": [],
-"image": "Lípa velkolistá, Staré Prachatice (07).jpg",
+"image": "Lípa velkolistá, Staré Prachatice (04).jpg",
 "mon": true,
 "taxa": [],
 "taxon": false,
