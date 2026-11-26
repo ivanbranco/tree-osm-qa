@@ -2135,6 +2135,12 @@ def masaf_removed(t):
     return out
 
 
+def masaf_all_removed(t):
+    """Vero se ref:masaf ha almeno un codice e l'elenco MASAF li dà tutti come rimossi (monument_denotation)."""
+    codes = [masaf_code(x) for x in str(t.get("ref:masaf", "")).split(";") if x.strip()]
+    return bool(codes) and all(MASAF_LIST.get(c) for c in codes)
+
+
 def masaf_unknown(t):
     """Codici di ref:masaf che non sono nell'elenco MASAF, né tra gli iscritti né tra i rimossi. Il primo numero può
     avere due o tre cifre (02/G114/CN/01 vale come 002/G114/CN/01, masaf_code), non una sola (2/G114/CN/01 si
@@ -3476,10 +3482,14 @@ def checks(t, pos, osm_id=None):
         flag("commons_far", cm_far="\n".join(f"{m}|{k}|{f}" for f, m, k in cf))
     # un solo check per tutte le fonti monumentali, anche la tutela su Wikidata (P1435, wd_her_*): chiedono tutte
     # la stessa correzione
-    # Su un ceppo i codici CRFOP non chiedono natural_monument (CRFOP_KEYS)
+    # Su un ceppo i codici CRFOP non chiedono natural_monument (CRFOP_KEYS). Nemmeno le altre fonti (né la tutela su
+    # Wikidata) su un ceppo i cui codici ref:masaf l'elenco MASAF dà tutti come rimossi: l'albero non c'è più e non è
+    # più nell'elenco. Con un codice ancora iscritto l'errore resta
     hr = wikidata_heritage(t)
     src = monument_sources(t)
     den_src = [s for s in src if s not in CRFOP_KEYS] if t.get("natural") == "tree_stump" else src
+    if t.get("natural") == "tree_stump" and masaf_all_removed(t):
+        den_src, hr = [], []
     # monument=tree (anche tra più valori) è una fonte anche da solo, ceppi compresi: per il resto del tool vale come
     # denotation=natural_monument (is_natural_monument, issue #95), ma l'errore resta finché manca il tag
     if "tree" in [x.strip() for x in str(t.get("monument", "")).split(";")]:
