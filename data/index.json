@@ -423,6 +423,15 @@
    "tried": "2026-11-25",
    "updated": "2026-11-25T01:06:35Z"
   },
+  "islanda": {
+   "count": 4821,
+   "errors": 2,
+   "name": "Islanda",
+   "osm_base": "2026-11-26T19:01:38Z",
+   "sha1": "9525c8b00e01f929af72361fe83b22bc56328d81",
+   "tried": "2026-11-26",
+   "updated": "2026-11-26T19:03:01Z"
+  },
   "isole-baleari": {
    "count": 9362,
    "errors": 392,
@@ -431,6 +440,24 @@
    "sha1": "d2c5590ffe602e1b746ac12ea78e4550e1eed513",
    "tried": "2026-11-25",
    "updated": "2026-11-25T01:21:50Z"
+  },
+  "isole-falkland": {
+   "count": 167,
+   "errors": 0,
+   "name": "Isole Falkland",
+   "osm_base": "2026-11-26T19:01:38Z",
+   "sha1": "e3ea6ab804f24da52f73ef248ca13a4f685afe5d",
+   "tried": "2026-11-26",
+   "updated": "2026-11-26T19:03:16Z"
+  },
+  "isole-faroe": {
+   "count": 194,
+   "errors": 0,
+   "name": "Isole Fær Øer",
+   "osm_base": "2026-11-26T19:01:38Z",
+   "sha1": "2cf9727e640fc9a754a94dc88a83c253f0eb4c5e",
+   "tried": "2026-11-26",
+   "updated": "2026-11-26T19:03:08Z"
   },
   "kosovo": {
    "count": 5569,
@@ -639,6 +666,15 @@
    "tried": "2026-11-25",
    "updated": "2026-11-25T01:11:43Z"
   },
+  "moldavia": {
+   "count": 130099,
+   "errors": 496,
+   "name": "Moldavia",
+   "osm_base": "2026-11-26T19:02:44Z",
+   "sha1": "186178376e4cdce98e6f206e4ad81d844e8e05a1",
+   "tried": "2026-11-26",
+   "updated": "2026-11-26T19:04:05Z"
+  },
   "molise": {
    "count": 57853,
    "errors": 54,
@@ -656,6 +692,15 @@
    "sha1": "0b8bb7b909bcc76c7277f4ace14a429286494bd0",
    "tried": "2026-11-19",
    "updated": "2026-11-19T22:56:36Z"
+  },
+  "mongolia": {
+   "count": 10951,
+   "errors": 5,
+   "name": "Mongolia",
+   "osm_base": "2026-11-26T19:10:51Z",
+   "sha1": "59fa9bf71541d41b9ed096c430871298f5f0468a",
+   "tried": "2026-11-26",
+   "updated": "2026-11-26T19:12:12Z"
   },
   "montenegro": {
    "count": 5797,
