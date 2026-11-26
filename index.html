@@ -2047,6 +2047,9 @@ indexP.catch(() => {});
 const regionsP = WORLD ? Promise.resolve([]) : getJSON("scripts/regions.json");   // nome e gruppo (es. "Italia") di ogni regione
 regionsP.catch(() => {});
 const boundsP = WORLD ? Promise.resolve(null) : getJSON("data/regions_boundaries.geojson").catch(() => null);
+// zone non coperte (nazioni senza regioni, stati USA senza dati): grigie, il clic invita a chiederle. Non si aspettano:
+// arrivano dopo e si aggiungono ai confini (update_boundaries.py)
+const uncoveredP = WORLD ? Promise.resolve(null) : getJSON("data/uncovered_boundaries.geojson").catch(() => null);
 const historyP = WORLD ? Promise.resolve(null) : getJSON("data/history.json").catch(() => null);   // storico degli errori
 // pagine delle specie (species/, scripts/build_species.py): {nome in minuscolo: slug}. Finché l'elenco non è arrivato
 // (o se manca) nelle schede degli alberi la specie non è un link
@@ -2854,7 +2857,14 @@ map.on("load", async () => {
     }
     if (clusters.length) allBounds = bboxOf(clusters.sort((a, c) => c.boxes.length - a.boxes.length)[0].boxes.flat());
     map.addSource("regions", { type: "geojson", data: boundaries, promoteId: "key" });
-    map.addLayer({ id: "regions-fill", type: "fill", source: "regions", maxzoom: ALL_Z, filter: ["get", "show"], paint: {
+    // zone non coperte (u: true, uncovered_boundaries.geojson): livello a parte, sotto le regioni, con il grigio fisso.
+    // Nello stesso livello delle regioni, con il colore calcolato per zona, MapLibre 4.7.1 non disegnava niente nelle
+    // tile con la Groenlandia (spariva anche il Canada)
+    const UNC = ["to-boolean", ["get", "u"]];
+    map.addLayer({ id: "uncovered-fill", type: "fill", source: "regions", maxzoom: ALL_Z, filter: ["all", ["get", "show"], UNC],
+      paint: { "fill-color": "#999999",
+        "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.6, 0.35] } }, "crown");
+    map.addLayer({ id: "regions-fill", type: "fill", source: "regions", maxzoom: ALL_Z, filter: ["all", ["get", "show"], ["!", UNC]], paint: {
       "fill-color": ["case", ["<", ["get", "t"], 0], "#999999",
         ["interpolate", ["linear"], ["get", "t"], 0, "#2e9e45", 0.5, "#f0a020", 1, "#d00020"]],
       "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.6, 0.35] } }, "crown");
@@ -2904,6 +2914,16 @@ map.on("load", async () => {
     refreshBoundaries();
   };
   refreshBoundaries();
+  // zone non coperte: in testa all'elenco, così le aree coperte (disegnate dopo) restano sopra e vincono il clic.
+  // Non hanno dati (grigie, «dati non ancora disponibili»), non entrano nella vista d'insieme (unitBox) né nelle
+  // regioni candidate per #node (solo le chiavi di idx); gli stati USA hanno il gruppo e si vedono aprendo la nazione
+  uncoveredP.then(fc => {
+    if (!boundaries || !fc || !fc.features) return;
+    const feats = fc.features.filter(f => !idx[f.properties.key]);
+    feats.forEach(f => { f.properties.u = true; });   // livello «uncovered-fill»
+    boundaries.features.unshift(...feats);
+    refreshBoundaries();
+  });
 
   // Ceppi: una X (immagine disegnata al volo), grande quanto la circonferenza ma mai sotto i 5 px di raggio
   const xImage = color => {
@@ -4267,6 +4287,8 @@ map.on("load", async () => {
   onContextChange = () => { renderChart(); renderRec(); };   // i primati seguono il livello aperto
   renderChart();
 
+  // nome di una regione (regions.json) o di una zona non coperta (name / name_en del file dei confini)
+  const unitName = p => metaBy[p.key] ? regionName(p.key) : p["name_" + LANG] || p.name;
   if (boundaries) {
     let hovered = null;
     const hover = id => {
@@ -4274,25 +4296,39 @@ map.on("load", async () => {
       hovered = id;
       if (id) map.setFeatureState({ source: "regions", id }, { hover: true });
     };
-    map.on("mousemove", "regions-fill", e => {
+    // le zone non coperte stanno sotto le regioni: dove si sovrappongono (acque territoriali) vale la regione
+    const FILLS = ["regions-fill", "uncovered-fill"];
+    const underRegion = e => map.queryRenderedFeatures(e.point, { layers: ["regions-fill"] }).length > 0;
+    const onMove = e => {
+      if (e.features[0].layer.id === "uncovered-fill" && underRegion(e)) return;
       const p = e.features[0].properties;
       hover(p.key);
-      const nm = p.country ? groupName(p.group) : metaBy[p.key] ? regionName(p.key) : p.name;
+      const nm = p.country ? groupName(p.group) : unitName(p);
       tip.textContent = p.has_data ? L.tipTrees(nm, p.count) + (p.errors != null ? L.tipErr(fmtPct(p.errors, p.count)) : "")
-        : L.tipNoData(nm);
+        : p.key.startsWith("u:") ? nm : L.tipNoData(nm);   // zona non coperta: solo il nome
       tip.style.left = (e.point.x + 12) + "px"; tip.style.top = (e.point.y + 12) + "px"; tip.style.display = "block";
       map.getCanvas().style.cursor = "pointer";   // anche senza dati: il clic apre l'invito a chiedere la regione
-    });
-    map.on("mouseleave", "regions-fill", () => { hover(null); tip.style.display = "none"; map.getCanvas().style.cursor = ""; });
-    map.on("click", "regions-fill", e => {
+    };
+    // uscendo da un livello si può essere già sull'altro: si nasconde solo se sotto il mouse non resta niente
+    const onLeave = e => {
+      if (e.point && map.queryRenderedFeatures(e.point, { layers: FILLS }).length) return;
+      hover(null); tip.style.display = "none"; map.getCanvas().style.cursor = "";
+    };
+    const onClick = e => {
+      // un clic vale una volta sola: aprendo una nazione la mappa si sposta e l'altro livello riceverebbe lo
+      // stesso clic in un punto diverso
+      if (e.originalEvent._region) return;
+      if (e.features[0].layer.id === "uncovered-fill" && underRegion(e)) return;
+      e.originalEvent._region = true;
       // se il clic cade su un albero (la chioma può sconfinare in una regione vicina) vale la scheda dell'albero
       if (map.queryRenderedFeatures(e.point, { layers: [...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"] }).length) return;
       const p = e.features[0].properties;
       hover(null); tip.style.display = "none";
       if (p.country) openCountry(p.group);
       else if (p.has_data) selectRegion(p.key);
-      else showRequest(e.lngLat, metaBy[p.key] ? regionName(p.key) : p.name);   // regione senza dati: invito a chiederla
-    });
+      else showRequest(e.lngLat, unitName(p));   // regione senza dati o zona non coperta: invito a chiederla
+    };
+    for (const id of FILLS) { map.on("mousemove", id, onMove); map.on("mouseleave", id, onLeave); map.on("click", id, onClick); }
   }
 
   // Vista d'insieme: un clic fuori dalle regioni coperte chiede il nome del paese a Nominatim e propone di chiederne
@@ -4314,8 +4350,9 @@ map.on("load", async () => {
       .setHTML(`<div class="card">${title ? `<h3>${esc(title)}</h3>` : ""}${esc(L.reqAsk)}<br>${L.reqContact(t => link(ISSUE_URL, t), t => link(CONTACT_URL, t))}</div>`).addTo(map);
   }
   map.on("click", async e => {
-    if (map.getZoom() >= ALL_Z) return;
-    const layers = ["regions-fill", ...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"].filter(l => map.getLayer(l));
+    // clic già gestito da una regione o zona (aprendo gli Stati Uniti la mappa si sposta e qui il punto cadrebbe altrove)
+    if (map.getZoom() >= ALL_Z || e.originalEvent._region) return;
+    const layers = ["regions-fill", "uncovered-fill", ...CROWN_IDS, "stumps", "crown-issues", "crown-issues-mid", "crown-issues-wait"].filter(l => map.getLayer(l));
     if (map.queryRenderedFeatures(e.point, { layers }).length) return;
     // la regione aperta non è disegnata come zona cliccabile: un clic al suo interno non è fuori dalle regioni coperte
     const open = current && boundaries && boundaries.features.find(f => f.properties.key === current);

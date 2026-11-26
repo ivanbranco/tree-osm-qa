@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       all:
-        description: "Download all the boundaries again (otherwise only those missing from the file)"
+        description: "Download all the boundaries again (otherwise only those missing from the files)"
         type: boolean
         default: false
 
@@ -26,5 +26,5 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add data/regions_boundaries.geojson
+          git add data/regions_boundaries.geojson data/uncovered_boundaries.geojson
           git diff --cached --quiet || (git commit -m "Update region boundaries" && git pull --rebase && git push)
