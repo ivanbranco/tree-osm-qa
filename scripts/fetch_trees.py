@@ -4754,8 +4754,9 @@ def all_but_recent(regions_index):
     out, skipped = [], []
     for r in REGIONS:
         (skipped if last_run(r["slug"], regions_index, hist) >= limit else out).append(r)
-    print(f"all-but-recent: {len(out)} regioni; saltate {len(skipped)} scaricate dal {limit}"
-          + (f": {', '.join(r['slug'] for r in skipped)}" if skipped else ""), flush=True)
+    print(f"all-but-recent: {len(out)} regioni"
+          + (f" ({', '.join(r['slug'] for r in out)})" if out else "")
+          + f"; saltate {len(skipped)} scaricate dal {limit}", flush=True)
     return out
 
 
