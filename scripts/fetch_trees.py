@@ -1100,6 +1100,11 @@ URL_KEYS = ("image", "website", "url")
 URL_BROKEN = {"404", "410", "dns", "missing"}
 URL_WORKERS = 8        # siti controllati in parallelo; i link dello stesso sito uno alla volta
 URL_PAUSE = 0.5        # s tra due link dello stesso sito
+# link di uno stesso sito controllati al massimo in un aggiornamento di una regione: i link dello stesso sito vanno
+# uno alla volta, e una regione con migliaia di link di un sito (Armenia: ~7000 su yerevan.treemaps.app) terrebbe
+# ferma l'Action per ore. Prima quelli mai controllati, poi i più vecchi; gli altri si controllano negli
+# aggiornamenti successivi (un link non controllato non si segnala come rotto)
+URL_HOST_MAX = 100
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
 
 
@@ -1217,6 +1222,13 @@ def update_url_cache(elements):
     by_host = collections.defaultdict(list)
     for u in urls:
         by_host[urlparse(u).hostname or ""].append(u)
+    left = {}   # sito -> link rimandati al prossimo aggiornamento (URL_HOST_MAX)
+    for host, lst in by_host.items():
+        if len(lst) > URL_HOST_MAX:
+            lst.sort(key=lambda u: (u in URL_STATUS, URL_STATUS.get(u, {}).get("d", "")))   # mai controllati, poi i più vecchi
+            left[host] = len(lst) - URL_HOST_MAX
+            del lst[URL_HOST_MAX:]
+    urls = sorted(u for lst in by_host.values() for u in lst)
 
     def check_host(host_urls):
         out = {}
@@ -1272,6 +1284,9 @@ def update_url_cache(elements):
     if urls or files or geo:
         broken = sum(1 for k in urls + ["commons:" + f for f in files] if URL_STATUS.get(k, {}).get("s") in URL_BROKEN)
         print(f" link controllati: {len(urls)} indirizzi, {len(files)} file di Commons ({broken} rotti)")
+    if left:
+        print(f" link rimandati al prossimo aggiornamento (al massimo {URL_HOST_MAX} per sito): "
+              + ", ".join(f"{h} {n}" for h, n in sorted(left.items(), key=lambda x: -x[1])))
         URL_FILE.write_text(json.dumps(URL_STATUS, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
