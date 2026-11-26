@@ -532,13 +532,13 @@
    "updated": "2026-11-25T00:26:40Z"
   },
   "liguria": {
-   "count": 8912,
-   "errors": 144,
+   "count": 8919,
+   "errors": 208,
    "name": "Liguria",
-   "osm_base": "2026-11-20T16:55:05Z",
-   "sha1": "0ff20ec778af734945e46fa481d030353d3d3882",
-   "tried": "2026-11-20",
-   "updated": "2026-11-20T16:56:00Z"
+   "osm_base": "2026-11-26T21:30:07Z",
+   "sha1": "3cbda9eb5ca0720982cdc60a41d29daba374e425",
+   "tried": "2026-11-26",
+   "updated": "2026-11-26T21:31:54Z"
   },
   "lituania": {
    "count": 89381,
