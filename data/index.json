@@ -262,13 +262,13 @@
    "updated": "2026-11-25T01:26:09Z"
   },
   "cile": {
-   "count": 231789,
-   "errors": 5005,
+   "count": 231917,
+   "errors": 4808,
    "name": "Cile",
-   "osm_base": "2026-11-23T17:28:13Z",
-   "sha1": "7d2c14140ac3aa154360bed0a09137fc5ac9d3fd",
-   "tried": "2026-11-23",
-   "updated": "2026-11-23T17:31:51Z"
+   "osm_base": "2026-11-26T21:46:28Z",
+   "sha1": "3c9d2e791bcc886f529cfe0e6af11607f61850a7",
+   "tried": "2026-11-26",
+   "updated": "2026-11-26T21:48:07Z"
   },
   "comunita-di-madrid": {
    "count": 149004,
@@ -532,13 +532,13 @@
    "updated": "2026-11-25T00:26:40Z"
   },
   "liguria": {
-   "count": 8912,
-   "errors": 144,
+   "count": 8919,
+   "errors": 208,
    "name": "Liguria",
-   "osm_base": "2026-11-20T16:55:05Z",
-   "sha1": "0ff20ec778af734945e46fa481d030353d3d3882",
-   "tried": "2026-11-20",
-   "updated": "2026-11-20T16:56:00Z"
+   "osm_base": "2026-11-26T21:30:07Z",
+   "sha1": "3cbda9eb5ca0720982cdc60a41d29daba374e425",
+   "tried": "2026-11-26",
+   "updated": "2026-11-26T21:31:54Z"
   },
   "lituania": {
    "count": 89381,
