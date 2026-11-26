@@ -1,5 +1,5 @@
 {
-"count": 737,
+"count": 748,
 "license": "CC BY-SA 2.0 (OpenStreetMap Wiki)",
 "source": "https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/List_of_Species",
 "species": {
@@ -1088,11 +1088,6 @@
 "leaf_type": "broadleaved",
 "wikidata": "Q5182573"
 },
-"Crataegus media": {
-"leaf_cycle": "deciduous",
-"leaf_type": "broadleaved",
-"wikidata": "Q1940705"
-},
 "Crataegus mollis": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
@@ -1232,6 +1227,11 @@
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q1693676"
+},
+"Crataegus × media": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1940705"
 },
 "Cryptomeria japonica": {
 "leaf_cycle": "evergreen",
@@ -2238,15 +2238,30 @@
 "leaf_type": "broadleaved",
 "wikidata": "Q1520764"
 },
+"Nothofagus alpina": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1317892"
+},
 "Nothofagus antarctica": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q571422"
 },
+"Nothofagus dombeyi": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q1107183"
+},
 "Nothofagus obliqua": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q1486147"
+},
+"Nothofagus pumilio": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q1817587"
 },
 "Nyssa sylvatica": {
 "leaf_cycle": "deciduous",
@@ -2483,6 +2498,11 @@
 "leaf_type": "broadleaved",
 "wikidata": "Q18080352"
 },
+"Platanus wrightii": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q4115345"
+},
 "Platanus × hispanica": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
@@ -2697,6 +2717,36 @@
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q121749"
+},
+"Pterocarya hupehensis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q7256730"
+},
+"Pterocarya macroptera": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15249704"
+},
+"Pterocarya rhoifolia": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3008950"
+},
+"Pterocarya stenoptera": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q2699896"
+},
+"Pterocarya tonkinensis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q15248126"
+},
+"Pterocarya × rehderiana": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q3410269"
 },
 "Pyrus betulifolia": {
 "leaf_cycle": "deciduous",
@@ -3328,6 +3378,11 @@
 "leaf_type": "broadleaved",
 "wikidata": "Q159565"
 },
+"Salix chilensis": {
+"leaf_cycle": "deciduous",
+"leaf_type": "broadleaved",
+"wikidata": "Q50864811"
+},
 "Salix cinerea": {
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
@@ -3382,6 +3437,11 @@
 "leaf_cycle": "evergreen",
 "leaf_type": "needleleaved",
 "wikidata": "Q149851"
+},
+"Sophora cassioides": {
+"leaf_cycle": "evergreen",
+"leaf_type": "broadleaved",
+"wikidata": "Q3237144"
 },
 "Sophora tomentosa": {
 "leaf_cycle": "deciduous",
@@ -3672,11 +3732,6 @@
 "leaf_cycle": "deciduous",
 "leaf_type": "broadleaved",
 "wikidata": "Q11181633"
-},
-"latanuss wrightii": {
-"leaf_cycle": "deciduous",
-"leaf_type": "broadleaved",
-"wikidata": "Q4115345"
 },
 "× Arsorbus thuringiaca": {
 "leaf_cycle": "deciduous",
