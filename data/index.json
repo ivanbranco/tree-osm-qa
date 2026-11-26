@@ -209,12 +209,12 @@
   },
   "castiglia-la-mancia": {
    "count": 58141,
-   "errors": 7,
+   "errors": 2,
    "name": "Castiglia-La Mancia",
-   "osm_base": "2026-11-25T01:23:04Z",
-   "sha1": "719a62b4938f77fce4382513f1c408bfbacd984f",
-   "tried": "2026-11-25",
-   "updated": "2026-11-25T01:24:59Z"
+   "osm_base": "2026-11-26T18:34:21Z",
+   "sha1": "51734a508e0aca424318aaba727c47389da4971e",
+   "tried": "2026-11-26",
+   "updated": "2026-11-26T18:36:31Z"
   },
   "catalogna": {
    "count": 368050,
@@ -622,13 +622,13 @@
    "updated": "2026-11-25T01:29:12Z"
   },
   "midlands-occidentali": {
-   "count": 207229,
-   "errors": 712,
+   "count": 207232,
+   "errors": 877,
    "name": "Midlands Occidentali",
-   "osm_base": "2026-11-25T01:10:48Z",
-   "sha1": "859f1d31f9e8a9df971d43dd2c455a734e629da3",
-   "tried": "2026-11-25",
-   "updated": "2026-11-25T01:13:25Z"
+   "osm_base": "2026-11-26T18:36:20Z",
+   "sha1": "5f38cb5cb978b61558b6d5b6ad5cc8d8aedb4921",
+   "tried": "2026-11-26",
+   "updated": "2026-11-26T18:38:26Z"
   },
   "midlands-orientali": {
    "count": 200372,
@@ -892,13 +892,13 @@
    "updated": "2026-11-25T00:26:28Z"
   },
   "sicilia": {
-   "count": 49615,
-   "errors": 560,
+   "count": 49616,
+   "errors": 561,
    "name": "Sicilia",
-   "osm_base": "2026-11-26T13:20:06Z",
-   "sha1": "9894632f6a4f82e75a8f5be333e2a29d84efb818",
+   "osm_base": "2026-11-26T18:35:19Z",
+   "sha1": "1d5782115b43a79c936b6090a04c9d38de108e01",
    "tried": "2026-11-26",
-   "updated": "2026-11-26T13:22:10Z"
+   "updated": "2026-11-26T18:37:18Z"
   },
   "slaskie": {
    "count": 120012,
