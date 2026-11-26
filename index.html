@@ -44,7 +44,8 @@
      con la tastiera), in alto a destra sulla riga del titolo; con la scheda chiusa il browser li nasconde da solo */
   #rank-box,#chart-box{position:relative}
   #rank-mode,#chart-mode{position:absolute;top:9px;right:12px}
-  #rank-box[open]>summary{padding-right:52px}   /* solo da aperta: da chiusa il titolo resta centrato */
+  #rank-box[open]>summary{padding-right:52px}
+  #rank-box[open]:has(#rank-mode [data-mode="l"]:not([hidden]))>summary{padding-right:76px}   /* solo da aperta: da chiusa il titolo resta centrato */
   #chart-box[open]>summary{padding-right:28px}
   #chart-mode{display:flex;padding:1px 3px;border:1px solid #ccc;border-radius:3px;background:#fff;color:#555;cursor:pointer}
   #chart-mode:hover{color:#1a5fb4;border-color:#1a5fb4}
@@ -158,6 +159,15 @@
   .rk{display:flex;flex:1;min-width:0;justify-content:space-between;gap:6px}
   .rk b{font-weight:600}
   .rk .n{color:#777;white-space:nowrap;font-variant-numeric:tabular-nums}   /* colore dalla posizione: vedi rankShade */
+  #rank .note{font-size:11.5px;color:#888;margin:0 0 6px}
+  #rank .it{display:flex;justify-content:space-between;gap:8px;padding:5px 6px;cursor:pointer;border-top:1px solid #eee}
+  #rank .it:hover{background:#f2f2f2}
+  #rank .it>span:first-child{min-width:0}
+  #rank .it .t{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #rank .it .e{display:block;font-size:12px;color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #rank .it .d{flex:none;font-size:12px;color:#777;white-space:nowrap}
+  #rank-mode button[hidden]{display:none}
+  #rank-mode svg{vertical-align:-1px}
   #rank li{cursor:pointer}
   #rank li:hover,#rank .solo:hover{background:#f2f2f2}
   #rank .solo{cursor:pointer;display:flex;padding-left:16px}
@@ -337,8 +347,9 @@
     <div class="note" data-i18n="legNote">Tronco e forme da zoom 16</div>
   </details>
   <details id="rank-box" class="box">
-    <summary><span data-i18n="rank">Classifica errori</span></summary>
-    <span id="rank-mode"><button type="button" data-mode="p">%</button><button type="button" data-mode="n">#</button></span>
+    <summary><span id="rank-name" data-i18n="rank">Classifica errori</span></summary>
+    <!-- l = ultimi alberi con errori modificati della regione aperta (solo con una regione aperta) -->
+    <span id="rank-mode"><button type="button" data-mode="p">%</button><button type="button" data-mode="n">#</button><button type="button" data-mode="l" hidden><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6 3V6L8 7.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button></span>
     <div id="rank"></div>  </details>
   <details id="chart-box" class="box" hidden>
     <!-- titolo dallo script: «Andamenti» da chiusa, «Andamento errori» o «Andamento alberi» da aperta (renderChart) -->
@@ -437,6 +448,10 @@ const I18N = {
     allTaxa: "Tutti i genus e le specie", unknown: "Sconosciuto", withSpecies: "Con species", genusGroup: "Genus", speciesGroup: "Specie",
     allIssues: "Tutti gli errori", onlyIssues: "Solo gli errori", noIssues: "Nessun errore",
     recentIssues: n => `Modificati negli ultimi ${n} giorni`,
+    latestTitle: "Ultimi alberi con errori modificati",
+    latestNote: r => `${r}: data dell'ultima modifica dell'albero su OSM`, latestNone: "Nessun albero con errori.",
+    latestMoreErr: n => `+${n} ${n === 1 ? "errore" : "errori"}`,
+    agoToday: "oggi", agoYesterday: "ieri", agoDays: n => `${n} giorni fa`,
     allOfGroup: g => `Tutti gli errori di «${g}»`,
     download: "Scarica questi errori di tutta la regione (GeoJSON)",
     speciesPages: "Schede delle specie", speciesPage: "Scheda della specie",
@@ -1084,6 +1099,10 @@ const I18N = {
     allTaxa: "All genera and species", unknown: "Unknown", withSpecies: "With species", genusGroup: "Genus", speciesGroup: "Species",
     allIssues: "All errors", onlyIssues: "Errors only", noIssues: "No errors",
     recentIssues: n => `Edited in the last ${n} days`,
+    latestTitle: "Latest edited trees with errors",
+    latestNote: r => `${r}: date of the tree's last edit on OSM`, latestNone: "No trees with errors.",
+    latestMoreErr: n => `+${n} ${n === 1 ? "error" : "errors"}`,
+    agoToday: "today", agoYesterday: "yesterday", agoDays: n => `${n} days ago`,
     allOfGroup: g => `All "${g}" errors`,
     download: "Download these errors for the whole region (GeoJSON)",
     speciesPages: "Species pages", speciesPage: "Species page",
@@ -3894,6 +3913,7 @@ map.on("load", async () => {
       setRows(fc.rows, cal);                          // filari (fc.rows, solo nel file completo): alberi finti da SHAPE_Z
       map.getSource(src).setData(fc);
       updateTaxa(); updateShapes(); update(); if (hintsOn) updateHintMarks();
+      renderLatest();
     };
     // stesso criterio di minimal() in fetch_trees.py
     const reduce = fc => ({ type: "FeatureCollection", features: markColors(fc, cal).features.filter(f => f.properties.issues !== "|"
@@ -3947,7 +3967,7 @@ map.on("load", async () => {
     setCurrent(null); regSel.value = ""; info.textContent = "";
     setHash(null);
     taxSel.value = ""; taxSig = "";
-    apply(); updateTaxa(); updateShapes();
+    apply(); updateTaxa(); updateShapes(); renderLatest();
   };
   // apre una nazione divisa in regioni: si vedono le sue regioni, colorate in classifica tra loro; gli alberi
   // di una regione caricata altrove (es. Bulgaria) si tolgono
@@ -3985,10 +4005,25 @@ map.on("load", async () => {
   const cutoff = lastDate && new Date(Date.parse(lastDate + "T00:00:00Z") - RANK_DAYS * 864e5).toISOString().slice(0, 10);
   const prevDate = [histDates.filter(d => d <= cutoff).pop() || histDates[0]].find(d => d && d < lastDate);
   const prevOf = slug => { const r = (HIST[slug] || []).filter(x => x[0] <= prevDate).pop(); return r ? { count: r[1], errors: r[2] } : null; };
-  let rankMode = "p";                 // predefinita: per percentuale (la scelta fatta con i pulsanti resta salvata)
+  // predefinita: per percentuale (la scelta fatta con % e # resta salvata; "l", gli ultimi alberi, no).
+  // var e non let: renderLatest può essere chiamata durante l'attesa di historyP, prima di questa riga
+  var rankMode = "p";
   try { if (localStorage.getItem("rankMode") === "n") rankMode = "n"; } catch (e) {}
+  let rankSaved = rankMode;           // % o #, per tornare alla classifica quando si chiude la regione
+  // titolo della scheda: da chiusa sempre «Classifica errori» (nella riga delle schede chiuse non c'è spazio)
+  const rankBox = document.getElementById("rank-box");
+  const rankName = () => { document.getElementById("rank-name").textContent = rankMode === "l" && rankBox.open ? L.latestTitle : L.rank; };
+  rankBox.addEventListener("toggle", rankName);
   const renderRank = () => {
     const box = document.getElementById("rank");
+    rankName();
+    if (rankMode === "l") {
+      document.querySelectorAll("#rank-mode button").forEach(b => {
+        b.classList.toggle("on", b.dataset.mode === "l");
+        b.setAttribute("aria-pressed", b.dataset.mode === "l");
+      });
+      return renderLatestList(box);
+    }
     const fmt = fmtN, pct = fmtPct;
     const val = x => x == null || x.errors == null ? null : rankMode === "p" ? (x.count ? x.errors / x.count : 0) : x.errors;
     // posizione (1 = più errori) di ogni elemento con un valore, per il valore attuale (cur) o precedente (prev)
@@ -4051,7 +4086,7 @@ map.on("load", async () => {
     document.querySelectorAll("#rank-mode button").forEach(b => {
       b.classList.toggle("on", b.dataset.mode === rankMode);
       b.setAttribute("aria-pressed", b.dataset.mode === rankMode);
-      b.title = b.dataset.mode === "p" ? L.rankByP : L.rankByN;
+      b.title = { p: L.rankByP, n: L.rankByN, l: L.latestTitle }[b.dataset.mode];
     });
     if (list.every(n => n.cur.errors == null)) {
       box.textContent = L.rankEmpty;
@@ -4083,10 +4118,53 @@ map.on("load", async () => {
   const openNations = new Set();   // nazioni aperte nella classifica: restano aperte cambiando ordine
   document.querySelectorAll("#rank-mode button").forEach(b => b.onclick = () => {
     rankMode = b.dataset.mode;
-    try { localStorage.setItem("rankMode", rankMode); } catch (e) {}
+    if (rankMode !== "l") {
+      rankSaved = rankMode;
+      try { localStorage.setItem("rankMode", rankMode); } catch (e) {}
+    }
     renderRank();
   });
   renderRank();
+  renderLatest();
+
+  // Ultimi alberi con errori modificati (pulsante con l'orologio della classifica): i LATEST_N alberi della regione
+  // aperta con almeno un errore e la data di modifica (ts) più recente, al posto della classifica, nello stesso
+  // elenco che scorre. Un tocco apre la scheda. La data è quella dell'albero, non dell'errore.
+  // renderLatest: dichiarata (non const) perché la chiamano show() di loadRegion e clearRegion; mostra il pulsante
+  // solo con una regione aperta e, senza regione, torna alla classifica
+  function renderLatest() {
+    if (rankMode === undefined) return;   // classifica non ancora pronta: ci pensa la chiamata dopo renderRank()
+    document.querySelector('#rank-mode [data-mode="l"]').hidden = WORLD || !current;
+    if (rankMode === "l" && !current) rankMode = rankSaved;
+    if (rankMode === "l" || !current) renderRank();
+  }
+  function renderLatestList(box) {
+    const LATEST_N = 10;
+    const feats = ALL.filter(f => f.properties.issues !== "|" && f.properties.ts)
+      .sort((a, b) => b.properties.ts.localeCompare(a.properties.ts) || b.properties.id - a.properties.id).slice(0, LATEST_N);
+    if (!feats.length) { box.textContent = L.latestNone; return; }
+    const today = Date.parse(new Date().toISOString().slice(0, 10));
+    const ago = ts => {
+      const n = Math.max(0, Math.round((today - Date.parse(ts)) / 864e5));
+      return n === 0 ? L.agoToday : n === 1 ? L.agoYesterday : n < 60 ? L.agoDays(n)
+        : new Date(ts + "T00:00:00").toLocaleDateString(LOC, { day: "numeric", month: "short", year: "numeric" });
+    };
+    const items = feats.map(f => {
+      const p = f.properties, codes = p.issues.split("|").filter(Boolean);
+      const it = document.createElement("div"); it.className = "it";
+      const l = document.createElement("span");
+      const t = document.createElement("span"); t.className = "t"; t.innerHTML = title(p)[0];
+      const e = document.createElement("span"); e.className = "e";
+      e.textContent = issueText(codes[0], p).split("\n")[0] + (codes.length > 1 ? " · " + L.latestMoreErr(codes.length - 1) : "");
+      l.append(t, e);
+      const d = document.createElement("span"); d.className = "d"; d.textContent = ago(p.ts);
+      it.append(l, d);
+      it.onclick = () => openCardCentered(p, f.geometry.coordinates);
+      return it;
+    });
+    const note = document.createElement("div"); note.className = "note"; note.textContent = L.latestNote(regionName(current));
+    box.replaceChildren(note, ...items);
+  }
 
   // Andamento errori: quota di alberi con almeno un errore nel tempo (data/history.json, una riga al giorno per
   // regione) per la regione caricata, la nazione aperta o tutte le regioni. Per una nazione o per tutte, a ogni data
