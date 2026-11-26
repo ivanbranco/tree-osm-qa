@@ -618,10 +618,12 @@ const I18N = {
         : has ? `è ${k === "species" ? "una specie" : "un genere"} della lista della wiki, già in ${k}=*: taxon si potrebbe togliere`
         : `è ${k === "species" ? "una specie" : "un genere"} della lista della wiki, si potrebbe scrivere ${k}=${n} al posto di taxon`}`,
       // varietà e cultivar scritte in species (sp_base, sp_gen, sp_var, sp_cv: fetch_trees.py; il genere abbreviato è
-      // l'errore species_genus_abbr, ma main ha già il genere per esteso). what: "v", "c" o "vc"; main: species=… senza,
+      // l'errore species_genus_abbr, ma main ha già il genere per esteso). what: le lettere di sottospecie, varietà e
+      // cultivar ("s", "v", "c", "sv", "svc"…); main: species=… senza,
       // o genus=… se species è genere e cultivar (gen); tags: i tag che mancano (vuoto se taxon:variety o
       // taxon:cultivar ci sono già con lo stesso valore); check: la varietà non è tra quelle note (senza sp_var_ok)
-      infra: (sp, what, main, tags, gen, check) => `species=${sp} comprende ${{ v: "la varietà", c: "la cultivar", vc: "la varietà e la cultivar" }[what]}: si potrebbe scrivere ${main}`
+      infra: (sp, what, main, tags, gen, check) => `species=${sp} comprende ${[...what].map(c => ({ s: "la sottospecie", v: "la varietà", c: "la cultivar" })[c])
+        .join(", ").replace(/, ([^,]*)$/, " e $1")}: si potrebbe scrivere ${main}`
         + (tags.length ? ` con ${tags.join(" e ")}` : "") + (gen ? " al posto di species" : "")
         + (check ? ". Controllare che sia una varietà e non una cultivar, che va in taxon:cultivar" : ""),
       hybridSign: (k, v) => `Il segno di ibrido si scrive × al posto della lettera x: ${k}=${v}`,
@@ -704,7 +706,7 @@ const I18N = {
       urban: "Albero urbano", cluster: "Gruppo di alberi", agricultural: "Albero agricolo" },
     leafType: { broadleaved: "Latifoglia", needleleaved: "Aghifoglia", leafless: "Senza foglie", palm: "Palma" },
     leafCycle: { deciduous: "Caducifoglia", semi_deciduous: "Semi-caducifoglia", evergreen: "Sempreverde", semi_evergreen: "Semi-sempreverde" },
-    rows: { species: "Specie", iv_var: "Varietà", iv_cv: "Cultivar", sp_common: "Nome comune", genus: "Genere", taxon: "Taxon", denotation: "Categoria", leaf_type: "Tipo di foglie",
+    rows: { species: "Specie", iv_ssp: "Sottospecie", iv_var: "Varietà", iv_cv: "Cultivar", sp_common: "Nome comune", genus: "Genere", taxon: "Taxon", denotation: "Categoria", leaf_type: "Tipo di foglie",
       lt: "Tipo di foglie (stimato)", leaf_cycle: "Ciclo fogliare", lc: "Ciclo fogliare (stimato)", circumference: "Circonferenza", diameter: "Diametro tronco",
       height: "Altezza", diameter_crown: "Diametro chioma", start_date: "Messa a dimora", planted_date: "Messa a dimora", multi_stemmed: "Policormico" },
     // valore di multi_stemmed=* nella scheda (issue #46): yes/no, numero di tronchi, circonferenze dei tronchi
@@ -1255,7 +1257,8 @@ const I18N = {
           : `it could be written as species=${n} instead of taxon. Check the name (synonyms, hybrid sign ×)`}`
         : has ? `it is a ${k} in the wiki list, already in ${k}=*: taxon could be removed`
         : `it is a ${k} in the wiki list, it could be written as ${k}=${n} instead of taxon`}`,
-      infra: (sp, what, main, tags, gen, check) => `species=${sp} includes ${{ v: "the variety", c: "the cultivar", vc: "the variety and the cultivar" }[what]}: it could be written as ${main}`
+      infra: (sp, what, main, tags, gen, check) => `species=${sp} includes ${[...what].map(c => ({ s: "the subspecies", v: "the variety", c: "the cultivar" })[c])
+        .join(", ").replace(/, ([^,]*)$/, " and $1")}: it could be written as ${main}`
         + (tags.length ? ` with ${tags.join(" and ")}` : "") + (gen ? " instead of species" : "")
         + (check ? ". Check that it is a variety and not a cultivar, which goes in taxon:cultivar" : ""),
       hybridSign: (k, v) => `The hybrid sign is written × instead of the letter x: ${k}=${v}`,
@@ -1333,7 +1336,7 @@ const I18N = {
       urban: "Urban tree", cluster: "Tree cluster", agricultural: "Agricultural tree" },
     leafType: { broadleaved: "Broadleaved", needleleaved: "Needleleaved", leafless: "Leafless", palm: "Palm" },
     leafCycle: { deciduous: "Deciduous", semi_deciduous: "Semi-deciduous", evergreen: "Evergreen", semi_evergreen: "Semi-evergreen" },
-    rows: { species: "Species", iv_var: "Variety", iv_cv: "Cultivar", sp_common: "Common name", genus: "Genus", taxon: "Taxon", denotation: "Category", leaf_type: "Leaf type",
+    rows: { species: "Species", iv_ssp: "Subspecies", iv_var: "Variety", iv_cv: "Cultivar", sp_common: "Common name", genus: "Genus", taxon: "Taxon", denotation: "Category", leaf_type: "Leaf type",
       lt: "Leaf type (estimated)", leaf_cycle: "Leaf cycle", lc: "Leaf cycle (estimated)", circumference: "Circumference", diameter: "Trunk diameter",
       height: "Height", diameter_crown: "Crown diameter", start_date: "Planting date", planted_date: "Planting date", multi_stemmed: "Multi-stemmed" },
     stems: { yes: "yes", no: "no", n: n => n === 1 ? "1 trunk" : `${n} trunks`, circ: (n, c) => `${n} trunks with circumference ${c}` },
@@ -4658,8 +4661,8 @@ const recShow = (k, p, m) => {
 
 // iv_var, iv_cv: varietà e cultivar (issue #68), da taxon:variety / variety e taxon:cultivar / cultivar o, se mancano,
 // da species (sp_var, sp_cv: fetch_trees.py); iv_gen: il genere, se species è genere e cultivar (sp_gen) e genus
-// manca; li calcola card()
-const ROW_KEYS = ["species", "iv_gen", "iv_var", "iv_cv", "sp_common", "genus", "taxon", "denotation", "leaf_type", "lt", "leaf_cycle", "lc",
+// manca; iv_ssp: la sottospecie, da taxon:subspecies o da species (sp_ssp); li calcola card()
+const ROW_KEYS = ["species", "iv_gen", "iv_ssp", "iv_var", "iv_cv", "sp_common", "genus", "taxon", "denotation", "leaf_type", "lt", "leaf_cycle", "lc",
   "circumference", "diameter", "multi_stemmed", "height", "diameter_crown", "start_date", "planted_date"];
 // planted_date nella scheda solo senza start_date (treeDate); se sono diverse lo dice il check date_mismatch
 const ROW_FMT = { denotation: v => tr(L.denotation, v), leaf_type: v => tr(L.leafType, v), lt: v => tr(L.leafType, v),
@@ -5314,8 +5317,8 @@ const HYBRID_SKIP = { species: /\|(species|species_\w+|tag_in_value|not_latin|pl
 const hybridX = p => ["species", "genus"].filter(k => p[k] && !String(p[k]).includes(";")
     && !HYBRID_SKIP[k].test(String(p.issues || "")) && String(p[k]).replace(HYBRID_X, "$1×") !== p[k])
   .map(k => [k, String(p[k]).replace(HYBRID_X, "$1×")]);
-// Varietà e cultivar scritte in species, genere abbreviato (sp_base, sp_gen, sp_var, sp_cv, sp_abbr: fetch_trees.py,
-// issue #68): i tag da aggiungere, [["taxon:variety", v], ["taxon:cultivar", c]], senza quelli che ci sono già con lo
+// Sottospecie, varietà e cultivar scritte in species, genere abbreviato (sp_base, sp_gen, sp_ssp, sp_var, sp_cv, sp_abbr:
+// fetch_trees.py, issue #68): i tag da aggiungere, [["taxon:subspecies", s], ["taxon:variety", v], ["taxon:cultivar", c]], senza quelli che ci sono già con lo
 // stesso valore (anche in variety o cultivar; maiuscole e virgolette a parte). null se non c'è niente da proporre:
 // ceppi, un tag con un altro valore, un errore sulla forma di species o il segno di ibrido scritto x, che propongono
 // già un'altra species; con genere e cultivar (sp_gen), un genus diverso
@@ -5326,14 +5329,22 @@ const infraMove = p => {
   const norm = v => String(v).trim().replace(/^['‘`"“]|['’`"”]$/g, "").toLowerCase(), tags = [];
   const gn = v => String(v).replace(/^\s*×\s*/, "").trim().toLowerCase();
   if (p.sp_gen && p.genus && gn(p.genus) !== gn(p.sp_gen)) return null;
-  for (const [k, plain, v] of [["taxon:variety", "variety", p.sp_var], ["taxon:cultivar", "cultivar", p.sp_cv]]) {
+  // sottospecie (sp_ssp: il nome intero, "Pinus nigra subsp. laricio"): vale anche taxon:subspecies con il solo
+  // epiteto ("laricio") o con "ssp."
+  const ssp = v => norm(v).replace(/(^|\s)ssp\.?(?=\s)/g, "$1subsp.");
+  const same = (k, cur, v) => k !== "taxon:subspecies" ? norm(cur) === norm(v)
+    : ssp(cur) === ssp(v) || ssp(cur) === ssp(v).split(" ").pop();
+  for (const [k, plain, v] of [["taxon:subspecies", null, p.sp_ssp], ["taxon:variety", "variety", p.sp_var], ["taxon:cultivar", "cultivar", p.sp_cv]]) {
     if (!v) continue;
-    const cur = p[k] ?? p[plain];
+    const cur = p[k] ?? (plain && p[plain]);
     if (cur == null) tags.push([k, v]);
-    else if (norm(cur) !== norm(v)) return null;
+    else if (!same(k, cur, v)) return null;
   }
   return tags;
 };
+// commento della correzione: "subspecies and cultivar moved from species to their own tags"
+const infraWhy = p => { const w = [p.sp_ssp && "subspecies", p.sp_var && "variety", p.sp_cv && "cultivar"].filter(Boolean);
+  return w.length ? `${w.length > 1 ? w.slice(0, -1).join(", ") + " and " + w.at(-1) : w[0]} moved from species to ${w.length > 1 ? "their own tags" : "its own tag"}` : ""; };
 const HINT_FIXES = [
   [p => ["circumference", "height", "diameter_crown", "diameter"].filter(k => FEET_SPACE.test(p[k] || ""))
     .map(k => [k, String(p[k]).replace(/\s+/g, "")]), "feet and inches without spaces"],
@@ -5373,9 +5384,8 @@ const HINT_FIXES = [
   // si trovano scritte anche le cultivar, e il consiglio invita a controllare
   [p => { const im = infraMove(p);
     // il solo genere abbreviato lo corregge l'errore species_genus_abbr (FIXES)
-    if (!im || !(p.sp_var || p.sp_cv) || (p.sp_var && !p.sp_var_ok)) return [];
-    const w = [p.sp_abbr && "genus written in full in species",
-      (p.sp_var || p.sp_cv) && "variety or cultivar moved from species to its own tag"].filter(Boolean).join("; ");
+    if (!im || !(p.sp_ssp || p.sp_var || p.sp_cv) || (p.sp_var && !p.sp_var_ok)) return [];
+    const w = [p.sp_abbr && "genus written in full in species", infraWhy(p)].filter(Boolean).join("; ");
     return p.sp_gen ? [["species", REMOVE, w], ...p.genus ? [] : [["genus", p.sp_gen, w]], ...im.map(([k, v]) => [k, v, w])]
       : [["species", p.sp_base, w], ...im.map(([k, v]) => [k, v, w]), ["species:wikidata", p.sp_base_wd, "add species:wikidata"],
         ["leaf_type", p.sp_base_lt, "add leaf_type"], ["leaf_cycle", p.sp_base_lc, "add leaf_cycle"]]; }, ""],
@@ -5405,8 +5415,8 @@ const FIXES = {
   // correzione del consiglio (HINT_FIXES: species senza varietà e cultivar, sp_base, e i tag taxon:*), la stessa species,
   // perché non si contraddicano; senza, species=sp_full e i tag che mancano per quella specie (sp_base_*: sp_base è la
   // stessa species)
-  species_genus_abbr: [p => !p.sp_full ? [] : (p.sp_var || p.sp_cv) ? [infraMove(p) && !(p.sp_var && !p.sp_var_ok)
-      ? ["species", p.sp_base, "genus written in full in species; variety or cultivar moved from species to its own tag"] : ["species", p.sp_full]]
+  species_genus_abbr: [p => !p.sp_full ? [] : (p.sp_ssp || p.sp_var || p.sp_cv) ? [infraMove(p) && !(p.sp_var && !p.sp_var_ok)
+      ? ["species", p.sp_base, "genus written in full in species; " + infraWhy(p)] : ["species", p.sp_full]]
     : [["species", p.sp_full], ...p.sp_base === p.sp_full ? [["species:wikidata", p.sp_base_wd, "add species:wikidata", true],
       ["leaf_type", p.sp_base_lt, "add leaf_type", true], ["leaf_cycle", p.sp_base_lc, "add leaf_cycle", true]] : []], "genus written in full in species"],
   // species di una parola che è un genere (sp_as_genus) o il nome comune di un genere (sp_common_genus): species si
@@ -5635,7 +5645,7 @@ function card(p, pos) {
   // varietà e cultivar: il tag se c'è, altrimenti quello che è scritto in species; la riga «Specie» mostra species
   // senza e con il genere per esteso (sp_base). Con genere e cultivar (sp_gen) al posto della riga «Specie» c'è
   // «Genere». Il titolo, se è la specie, resta il valore intero
-  p = { ...p, sp_common: p["sp_" + LANG], iv_var: p["taxon:variety"] || p.variety || p.sp_var,
+  p = { ...p, sp_common: p["sp_" + LANG], iv_ssp: p["taxon:subspecies"] || p.sp_ssp, iv_var: p["taxon:variety"] || p.variety || p.sp_var,
     iv_cv: p["taxon:cultivar"] || p.cultivar || p.sp_cv, iv_gen: p.genus ? undefined : p.sp_gen };
   let [titleHtml, titleKey] = title(p);
   // la specie (riga «Specie» o titolo, se fa da titolo) porta alla sua pagina in species/, se c'è
@@ -6321,7 +6331,7 @@ function hints(p, pos) {
   // varietà e cultivar scritte in species: taxon:variety e taxon:cultivar (infraMove); il solo genere abbreviato è
   // l'errore species_genus_abbr
   const im = infraMove(p);
-  if (im && (p.sp_var || p.sp_cv)) out.push(H.infra(p.species, (p.sp_var ? "v" : "") + (p.sp_cv ? "c" : ""),
+  if (im && (p.sp_ssp || p.sp_var || p.sp_cv)) out.push(H.infra(p.species, (p.sp_ssp ? "s" : "") + (p.sp_var ? "v" : "") + (p.sp_cv ? "c" : ""),
     p.sp_gen ? `genus=${p.sp_gen}` : `species=${p.sp_base}`, im.map(([k, v]) => `${k}=${v}`), !!p.sp_gen, !!p.sp_var && !p.sp_var_ok));
   if (p.hint_mc) out.push(H.masafCriteria(p.hint_mc));
   // coordinate dell'elenco MASAF lontane dall'albero (hint_mf: righe "codice|km|comune", fetch_trees.py)

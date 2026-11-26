@@ -189,6 +189,42 @@ def synonyms_of(n, counts):
     return sorted(out, key=lambda r: (-r[1], r[0]))
 
 
+# Sottospecie, varietà e cultivar degli alberi contati come la specie: i tag letti, in ordine (il primo che c'è).
+# Solo i tag: gli alberi con la cultivar o la varietà scritta in species non hanno il nome della lista (wiki_name)
+INFRA_KEYS = {"ssp": ("taxon:subspecies",), "var": ("taxon:variety", "variety"), "cv": ("taxon:cultivar", "cultivar")}
+RANK_WORD = {"ssp": r"(?:subsp|ssp)\.?", "var": r"var\.?", "cv": r"cv\.?"}
+NO_QUOTES = str.maketrans("", "", "'‘’`´\"“”")
+
+
+def infra_value(n, k, v):
+    """Valore di sottospecie, varietà o cultivar da contare per la specie n, per riunire le scritture diverse dello
+    stesso nome: senza virgolette e spazi in più, senza la specie e il rango davanti ("Acer platanoides 'Globosum'" ->
+    "Globosum", "Acer platanoides var. Emerald Queen" -> "Emerald Queen"). La sottospecie è il nome intero con
+    "subsp." ("laricio" e "Pinus nigra ssp. laricio" -> "Pinus nigra subsp. laricio"). "" se non resta niente."""
+    v = " ".join(v.translate(NO_QUOTES).split())
+    # la specie davanti, anche con x o senza il segno di ibrido
+    sp = r"\s+".join("[×xX]?" if w == "×" else re.escape(w) for w in n.split()).replace(r"\s+[×xX]?\s+", r"\s+(?:[×xX]\s+)?")
+    v = re.sub(rf"^{sp}(?:\s+|$)", "", v, flags=re.I)
+    v = re.sub(rf"^{RANK_WORD[k]}\s+", "", v, flags=re.I).strip()
+    if k == "ssp" and v:
+        return f"{n} subsp. {v}" if " " not in v else re.sub(r"(?<!\S)ssp\.?(?!\S)", "subsp.", v)
+    return v
+
+
+def infra_of(counts):
+    """{"ssp" | "var" | "cv": [[nome, alberi]]}, dal più usato; le scritture che differiscono solo per le maiuscole
+    sono un nome solo, scritto come la più usata. Senza le chiavi vuote."""
+    out = {}
+    for k, c in counts.items():
+        by = {}
+        for v, m in c.items():
+            by.setdefault(v.casefold(), collections.Counter())[v] = m
+        rows = [[f.most_common(1)[0][0], sum(f.values())] for f in by.values()]
+        if rows:
+            out[k] = sorted(rows, key=lambda r: (-r[1], r[0]))
+    return out
+
+
 def wikipedia_info(qid):
     """Voci di Wikipedia (it, en) dell'elemento Wikidata della specie e la loro immagine principale (pageimages, la
     foto in testa alla voce): {"it": {"url", "img"}, "en": {...}}. Autore e licenza della foto li chiede la pagina a
@@ -256,7 +292,8 @@ def main(names, keep_isolated=False):
     S = {n: {"feats": [], "per_region": collections.Counter(), "grid": collections.Counter(), "ids": set(),
              "lt": collections.Counter(), "lc": collections.Counter(), "fruit": collections.Counter(),
              "it": collections.Counter(), "en": collections.Counter(), "qid": collections.Counter(),
-             "sex": collections.Counter(), "syn": collections.Counter(), "issues": 0, "sample": None} for n in names}
+             "sex": collections.Counter(), "syn": collections.Counter(), "issues": 0, "sample": None,
+             "infra": {k: collections.Counter() for k in INFRA_KEYS}} for n in names}
     sp_trees = collections.Counter()      # alberi con species=* per regione
     for r in regions:
         slug = r["slug"]
@@ -278,6 +315,9 @@ def main(names, keep_isolated=False):
             s["ids"].add(pr["id"])
             if (ns := ft.norm_species(pr["species"])) in ft.SYNONYMS:      # contato con il nome di un sinonimo
                 s["syn"][ns] += 1
+            for k, keys in INFRA_KEYS.items():          # sottospecie, varietà e cultivar dei tag (infra_of)
+                for v in {infra_value(n, k, x) for x in str(next((pr[t] for t in keys if pr.get(t)), "")).split(";")} - {""}:
+                    s["infra"][k][v] += 1
             lon, lat = f["geometry"]["coordinates"]
             s["grid"][(round(math.floor(lon / GRID) * GRID + GRID / 2, 3), round(math.floor(lat / GRID) * GRID + GRID / 2, 3))] += 1
             if pr.get("issues", "|") != "|":   # segnalati: ceppi compresi, come il totale (per_region)
@@ -531,6 +571,7 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
         "bark": BARK.get(n),
         "sex": sex_info(n, s["sex"]),
         "synonyms": synonyms_of(n, s["syn"]),
+        "infra": infra_of(s["infra"]),
         "name": n, "slug": slug_of(n), "genus": n.split()[0],
         "names": {k: most_common(s[k]) for k in ("it", "en") if s[k]},
         "qid": qid,

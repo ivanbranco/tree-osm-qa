@@ -167,6 +167,8 @@ const I18N = {
     mon: "monumentali su OSM nel mondo", masaf: "nell'elenco dei monumentali d'Italia (MASAF)",
     issues: "alberi con almeno una segnalazione",
     syn: "Sinonimi contati come questa specie in tutta la pagina", synN: n => `${n} ${n === 1 ? "albero" : "alberi"} nelle regioni di DendrOSM`,
+    infra: { ssp: "Sottospecie", var: "Varietà", cv: "Cultivar" }, infraTag: k => `degli alberi di questa specie (${k})`,
+    infraMore: (n, k) => `e altr${n === 1 ? "a" : "e"} ${n} (${k} ${k === "1" ? "albero" : "alberi"})`,
     lt: { broadleaved: "latifoglia", needleleaved: "aghifoglia", palm: "palma" },
     lc: { deciduous: "caducifoglia", semi_deciduous: "semi-caducifoglia", evergreen: "sempreverde", semi_evergreen: "semi-sempreverde" },
     fruitTag: "frutti sulla mappa", wikidata: "Wikidata", wikiRec: "Wiki: Tree species records",
@@ -222,6 +224,8 @@ const I18N = {
     mon: "monumental trees on OSM worldwide", masaf: "in the list of monumental trees of Italy (MASAF)",
     issues: "trees with at least one warning",
     syn: "Synonyms counted as this species throughout the page", synN: n => `${n} ${n === 1 ? "tree" : "trees"} in the DendrOSM regions`,
+    infra: { ssp: "Subspecies", var: "Varieties", cv: "Cultivars" }, infraTag: k => `of the trees of this species (${k})`,
+    infraMore: (n, k) => `and ${n} more (${k} ${k === "1" ? "tree" : "trees"})`,
     lt: { broadleaved: "broadleaved", needleleaved: "needleleaved", palm: "palm" },
     lc: { deciduous: "deciduous", semi_deciduous: "semi-deciduous", evergreen: "evergreen", semi_evergreen: "semi-evergreen" },
     fruitTag: "fruits on the map", wikidata: "Wikidata", wikiRec: "Wiki: Tree species records",
@@ -298,8 +302,17 @@ function hero() {
   // sinonimi di whitelist.json contati come questa specie (build_species.py, synonyms_of): nome e alberi con quel nome
   const syn = (D.synonyms || []).length ? `<div class="syn">${T.syn}: ${D.synonyms.map(([s, k]) =>
     `<i title="${esc(T.synN(fmt(k)))}">${esc(s)}</i> (${fmt(k)})`).join(", ")}</div>` : "";
+  // sottospecie, varietà e cultivar scritte nei tag degli alberi contati (build_species.py, infra_of): i primi
+  // INFRA_TOP, poi quante altre e con quanti alberi. Le cultivar non sono in corsivo
+  const INFRA_TOP = 12, TAGS = { ssp: "taxon:subspecies", var: "taxon:variety", cv: "taxon:cultivar" };
+  const infra = Object.entries(D.infra || {}).map(([k, rows]) => {
+    const shown = rows.length > INFRA_TOP + 1 ? rows.slice(0, INFRA_TOP) : rows, rest = rows.slice(shown.length);
+    const item = ([s, n]) => `${k === "cv" ? `<span title="${esc(T.synN(fmt(n)))}">${esc(s)}</span>` : `<i title="${esc(T.synN(fmt(n)))}">${esc(s)}</i>`} (${fmt(n)})`;
+    return `<div class="syn">${T.infra[k]} ${esc(T.infraTag(TAGS[k]))}: ${shown.map(item).join(", ")}${rest.length
+      ? " " + esc(T.infraMore(rest.length, fmt(rest.reduce((a, r) => a + r[1], 0)))) : ""}</div>`;
+  }).join("");
   return `<div class="hero"><div class="txt"><h1>${esc(D.name)}</h1>${common ? `<div class="common">${esc(common)}</div>` : ""}
-    ${syn}<div class="tags">${tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+    ${syn}${infra}<div class="tags">${tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
 </div>${photo}</div>
     <div class="kpis">${kpi(fmt(D.total), T.trees)}${kpi(fmt(D.n_regions), T.regions(D.n_regions, fmt(nReg)))}
     ${kpi(fmt(D.mon_n), T.mon)}${D.masaf && LANG === "it" ? kpi(fmt(D.masaf), T.masaf) : ""}
