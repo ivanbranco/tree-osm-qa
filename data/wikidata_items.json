@@ -3845,7 +3845,8 @@
 "heritage": [
 [
 "monumento naturale",
-"natural monument"
+"natural monument",
+"Q23790"
 ]
 ],
 "image": "",
@@ -7574,7 +7575,8 @@
 "heritage": [
 [
 "monumento naturale",
-"natural monument"
+"natural monument",
+"Q23790"
 ]
 ],
 "image": "Sosna wszebora 4.jpg",
@@ -23110,7 +23112,8 @@
 "heritage": [
 [
 "monumento naturale",
-"natural monument"
+"natural monument",
+"Q23790"
 ]
 ],
 "image": "Castagno dei Cento Cavalli.jpg",
@@ -23562,6 +23565,17 @@
 "taxon": true,
 "wp": {
 "en": "https://en.wikipedia.org/wiki/Vachellia_caven"
+}
+},
+"Q155833": {
+"coords": [],
+"heritage": [],
+"image": "Nerium oleander flowers leaves.jpg",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Nerium",
+"it": "https://it.wikipedia.org/wiki/Nerium_oleander"
 }
 },
 "Q15586282": {
@@ -25562,6 +25576,16 @@
 "taxon": false,
 "wp": {}
 },
+"Q16880920": {
+"coords": [],
+"heritage": [],
+"image": "",
+"taxa": [],
+"taxon": false,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Palm_(surname)"
+}
+},
 "Q16956869": {
 "coords": [
 [
@@ -27266,7 +27290,8 @@
 "heritage": [
 [
 "monumento naturale",
-"natural monument"
+"natural monument",
+"Q23790"
 ]
 ],
 "image": "Dąb Mieszko I w Warszawie 01.jpg",
@@ -98852,7 +98877,8 @@
 "heritage": [
 [
 "monumento naturale",
-"natural monument"
+"natural monument",
+"Q23790"
 ]
 ],
 "image": "Topola obrońców telefony.jpg",
@@ -101225,6 +101251,17 @@
 "taxon": false,
 "wp": {}
 },
+"Q775229": {
+"coords": [],
+"heritage": [],
+"image": "Lagerstroemia indica Blanco1.207.png",
+"taxa": [],
+"taxon": true,
+"wp": {
+"en": "https://en.wikipedia.org/wiki/Lagerstroemia",
+"it": "https://it.wikipedia.org/wiki/Lagerstroemia"
+}
+},
 "Q775529": {
 "coords": [],
 "heritage": [],
@@ -101315,7 +101352,8 @@
 "heritage": [
 [
 "monumento naturale",
-"natural monument"
+"natural monument",
+"Q23790"
 ]
 ],
 "image": "Bartek-ulica.jpg",

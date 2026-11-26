@@ -1197,6 +1197,23 @@
 ],
 "taxon": true
 },
+"Q1075968": {
+"alias": {
+"en": [
+"Malus × asiatica"
+],
+"it": []
+},
+"en": "Malus asiatica",
+"it": "Malus asiatica",
+"names": [
+"Malus asiatica"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q1075985": {
 "alias": {
 "en": [
@@ -8505,6 +8522,12 @@
 "Q34740"
 ],
 "taxon": true
+},
+"Q142268058": {
+"it": "Albero di Garibaldi",
+"names": [],
+"ranks": [],
+"taxon": false
 },
 "Q142788": {
 "alias": {
@@ -19642,6 +19665,26 @@
 ],
 "taxon": true
 },
+"Q21370191": {
+"alias": {
+"en": [
+"Malus x atrosanguinea",
+"Malus ×atrosanguinea",
+"Malus atrosanguinea",
+"carmine crabapple"
+],
+"it": []
+},
+"en": "Malus × atrosanguinea",
+"it": "Malus ×atrosanguinea",
+"names": [
+"Malus ×atrosanguinea"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
 "Q21370382": {
 "en": "Pinus × schwerinii",
 "it": "Pinus × schwerinii",
@@ -21293,6 +21336,29 @@
 "it": "Crataegus tanacetifolia",
 "names": [
 "Crataegus tanacetifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q2564409": {
+"alias": {
+"en": [
+"Oregon crab apple",
+"Oregon crabapple",
+"western crabapple",
+"Pacific crabapple"
+],
+"it": []
+},
+"basionyms": [
+"Pyrus fusca"
+],
+"en": "Malus fusca",
+"it": "Malus fusca",
+"names": [
+"Malus fusca"
 ],
 "ranks": [
 "Q7432"
@@ -25076,6 +25142,27 @@
 "it": "Picea retroflexa",
 "names": [
 "Picea retroflexa"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q3332919": {
+"alias": {
+"en": [
+"prairie crabapple",
+"Iowa crab"
+],
+"it": []
+},
+"basionyms": [
+"Pyrus coronaria var. ioensis"
+],
+"en": "Malus ioensis",
+"it": "Malus ioensis",
+"names": [
+"Malus ioensis"
 ],
 "ranks": [
 "Q7432"
@@ -30133,6 +30220,16 @@
 "ranks": [],
 "taxon": false
 },
+"Q55742263": {
+"alias": {
+"en": [],
+"it": []
+},
+"it": "Quercia castagnara",
+"names": [],
+"ranks": [],
+"taxon": false
+},
 "Q55742387": {
 "en": "Platano della Tesoriera",
 "it": "Platano della Tesoriera",
@@ -33693,6 +33790,38 @@
 "it": "Jacaranda mimosifolia",
 "names": [
 "Jacaranda mimosifolia"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q838963": {
+"alias": {
+"en": [
+"Asian pear",
+"Chinese pear",
+"Korean pear",
+"Japanese pear",
+"Taiwan pear",
+"sand pear",
+"nashi pear",
+"apple pear"
+],
+"it": [
+"Nashi",
+"pera-mela",
+"peramela",
+"pero asiatico"
+]
+},
+"basionyms": [
+"Ficus pyrifolia"
+],
+"en": "Pyrus pyrifolia",
+"it": "Pyrus pyrifolia",
+"names": [
+"Pyrus pyrifolia"
 ],
 "ranks": [
 "Q7432"
