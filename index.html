@@ -842,7 +842,19 @@ const I18N = {
         desc: (c, d) => `Questo albero: circonferenza ${c}, diametro del tronco ${d}.`,
         topTrunk: (c, d) => `circonferenza ${c}, diametro del tronco ${d}.`,
         topCrown: (d, lt) => `diametro della chioma ${d}${lt ? `, ${lt.toLowerCase()}` : ""}.`,
-        subj: { trunk: "Il diametro del tronco", trunk1: "Il diametro del tronco 1", crown1: "Il diametro della chioma 1" },
+        subj: { trunk: "Il diametro del tronco", trunk1: "Il diametro del tronco 1", crown1: "Il diametro della chioma 1", circle: d => `Il diametro di ${d}`, largest: "Il diametro del tronco più grande" },
+        pickStems: "Vedi i tronchi dall'alto, in scala",
+        stemsNoteNoC: "La posizione dei tronchi non è mappata: sono disegnati vicini.",
+        // albero policormico con le circonferenze dei tronchi in multi_stemmed=* (issue #75)
+        stemsLeg: n => `${n} tronchi`,
+        descStems: (c, d) => `Questo albero: circonferenza ${c}, diametro ${d}.`,
+        stems: (n, cs, ds) => `${n} tronchi: circonferenze ${cs}, diametri ${ds}.`,
+        stemsSum: "La somma delle circonferenze dei tronchi è uguale alla circonferenza.",
+        stemsMax: "La circonferenza è uguale a quella del tronco più grande.",
+        stemsSumIs: s => `La somma delle circonferenze dei tronchi è ${s}.`,
+        typSame: s => `${s} è uguale a quello del tronco tipico della specie, entro il 10%.`,
+        typTimes: (s, k) => `${s} è ${k} volte quello del tronco tipico della specie.`,
+        stemsNote: "La posizione dei tronchi non è mappata: sono disegnati vicini, al centro del cerchio.",
         is: (s, x, r) => `${s} è circa ${x} ${r.of}.`, same: (s, r) => `${s} è circa uguale ${r.to}.`, times: (s, k, r) => `${s} è circa ${k} volte ${r.the}.`,
         ref: { person: { name: "persona", of: "della larghezza delle spalle di una persona", to: "alla larghezza delle spalle di una persona", the: "la larghezza delle spalle di una persona", ref: (w, h) => `le spalle di una persona (${w} × ${h})` },
           car: { name: "auto", of: "della lunghezza di un'auto", to: "alla lunghezza di un'auto", the: "la lunghezza di un'auto", ref: (w, h) => `un'auto (${w} × ${h})` },
@@ -1490,7 +1502,18 @@ const I18N = {
         desc: (c, d) => `This tree: circumference ${c}, trunk diameter ${d}.`,
         topTrunk: (c, d) => `circumference ${c}, trunk diameter ${d}.`,
         topCrown: (d, lt) => `crown diameter ${d}${lt ? `, ${lt.toLowerCase()}` : ""}.`,
-        subj: { trunk: "The trunk diameter", trunk1: "The diameter of trunk 1", crown1: "The diameter of crown 1" },
+        subj: { trunk: "The trunk diameter", trunk1: "The diameter of trunk 1", crown1: "The diameter of crown 1", circle: d => `The ${d} diameter`, largest: "The diameter of the largest trunk" },
+        pickStems: "View the trunks from above, to scale",
+        stemsNoteNoC: "The position of the trunks is not mapped: they are drawn close together.",
+        stemsLeg: n => `${n} trunks`,
+        descStems: (c, d) => `This tree: circumference ${c}, diameter ${d}.`,
+        stems: (n, cs, ds) => `${n} trunks: circumferences ${cs}, diameters ${ds}.`,
+        stemsSum: "The sum of the trunk circumferences equals the circumference.",
+        stemsMax: "The circumference equals that of the largest trunk.",
+        stemsSumIs: s => `The sum of the trunk circumferences is ${s}.`,
+        typSame: s => `${s} is the same as that of the typical trunk for the species, within 10%.`,
+        typTimes: (s, k) => `${s} is ${k} times that of the typical trunk for the species.`,
+        stemsNote: "The position of the trunks is not mapped: they are drawn close together, at the centre of the circle.",
         is: (s, x, r) => `${s} is about ${x} ${r.of}.`, same: (s, r) => `${s} is about the same as ${r.to}.`, times: (s, k, r) => `${s} is about ${k} times ${r.the}.`,
         ref: { person: { name: "person", of: "of the shoulder width of a person", to: "the shoulder width of a person", the: "the shoulder width of a person", ref: (w, h) => `the shoulders of a person (${w} × ${h})` },
           car: { name: "car", of: "of the length of a car", to: "the length of a car", the: "the length of a car", ref: (w, h) => `a car (${w} × ${h})` },
@@ -4888,15 +4911,18 @@ const fmtFtIn = m => { const t = Math.round(m / 0.0254), f = Math.floor(t / 12),
 const cardLen = v => { const m = IMPERIAL ? lenM(v) : null;
   return m > 0 ? `<span title="${esc(fmtM(v))}">${fmtFtIn(m)}</span>` : esc(fmtM(v)); };
 const list = v => String(v || "").split(";").join(", ");
+// circonferenze dei tronchi (m) da multi_stemmed=*, se è un elenco con ";" di almeno due misure leggibili e positive
+// (in metri senza unità; le regole di stem_radii in fetch_trees.py), altrimenti null
+const stemCircs = v => { const cs = String(v ?? "").split(";").map(x => x.trim()).filter(Boolean).map(x => lenM(x));
+  return cs.length > 1 && cs.every(c => c > 0) ? cs : null; };
 // riga «Policormico» della scheda (issue #46), con le regole di stem_radii in fetch_trees.py: yes / no, un intero =
-// numero di tronchi, più valori con ";" = circonferenze dei singoli tronchi (in metri senza unità); altrimenti il
-// valore com'è scritto
+// numero di tronchi, più valori con ";" = circonferenze dei singoli tronchi (stemCircs); altrimenti il valore com'è
+// scritto
 const stemsHtml = v => {
   const s = String(v).trim(), low = s.toLowerCase(), parts = s.split(";").map(x => x.trim()).filter(Boolean);
   if (low === "yes" || low === "no") return esc(L.stems[low]);
   if (/^\d+$/.test(s)) return esc(L.stems.n(Number(s)));
-  if (parts.length > 1 && parts.every(x => lenM(x) > 0))
-    return L.stems.circ(parts.length, new Intl.ListFormat(LANG, { type: "conjunction" }).format(parts.map(cardLen)));
+  if (stemCircs(s)) return L.stems.circ(parts.length, new Intl.ListFormat(LANG, { type: "conjunction" }).format(parts.map(cardLen)));
   return esc(s);
 };
 const fromD = (i, p) => p.diam_used && i.startsWith("circumference") ? L.fromDiameter : "";
@@ -5849,8 +5875,9 @@ function card(p, pos) {
   const dm = p.circumference == null && p.diameter ? lenM(p.diameter, 0.001) : null;
   const fromDiam = dm > 0;
   // data propria di una misura (md_<chiave>, da check_date:<chiave>, issue #99): dopo il valore, tra parentesi e in
-  // grigio, con il tag nel suggerimento; nella riga «Circonferenza … (da diameter)» quella di diameter, dentro la
-  // stessa parentesi («(da diameter, 2018-04)»)
+  // grigio, solo l'anno (la data intera è nel suggerimento, con il tag); nella riga «Circonferenza … (da diameter)»
+  // quella di diameter, dentro la stessa parentesi («(da diameter, 2018)»)
+  const mYear = k => esc(String(p["md_" + k]).slice(0, 4));
   const mSpan = (k, html) => `<span class="mdate" title="${esc(L.measChecked(`check_date:${k}=${p["md_" + k]}`))}">${html}</span>`;
   // dopo la data, un pallino giallo (da 5 a 10 anni fa) o arancione (più di 10), con i colori della barra di
   // Completezza (AGE_CUT, before). Solo nel tool QA e solo per la data di check_date:<misura>: non per check_date=* né
@@ -5859,11 +5886,11 @@ function card(p, pos) {
     if (i < 0) return "";
     const t = esc(L.measAge[i](`check_date:${k}=${d}`));
     return ` <span class="mage ${i ? "o" : "y"}" role="img" title="${t}" aria-label="${t}"></span>`; };
-  const mDate = k => p["md_" + k] ? " " + mSpan(k, `(${esc(p["md_" + k])})`) + mAge(k) : "";
-  const fromDiamHtml = p.md_diameter ? `${esc(L.fromDiameter.replace(/\)$/, ", "))}${mSpan("diameter", esc(p.md_diameter))})${mAge("diameter")}` : esc(L.fromDiameter);
+  const mDate = k => p["md_" + k] ? " " + mSpan(k, `(${mYear(k)})`) + mAge(k) : "";
+  const fromDiamHtml = p.md_diameter ? `${esc(L.fromDiameter.replace(/\)$/, ", "))}${mSpan("diameter", mYear("diameter"))})${mAge("diameter")}` : esc(L.fromDiameter);
   const rows = ROWS.filter(([k]) => (k === "diameter" ? p[k] && !fromDiam : p[k] || (k === "circumference" && fromDiam)) && k !== titleKey && !(k === "planted_date" && p.start_date) && !(k === "genus" && p.species && !genusIssue && !p.sp_gen) && !(k === "species" && p.sp_gen)).map(([k, label, f]) => k === "circumference" && fromDiam
     ? `<dt>${label}</dt><dd>${cardLen(String(Number((dm * Math.PI).toFixed(3))))}${fromDiamHtml}${planPick(p)}</dd>`
-    : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : k === "multi_stemmed" ? stemsHtml(p[k]) : k === "species" ? spLink(esc(p.sp_base || p[k])) : IV_WD[k] ? ivLink(k, esc(f ? f(p[k]) : p[k])) : esc(f ? f(p[k]) : p[k])}${MEAS_KEYS.includes(k) ? mDate(k) : ""}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
+    : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : k === "multi_stemmed" ? stemsHtml(p[k]) : k === "species" ? spLink(esc(p.sp_base || p[k])) : IV_WD[k] ? ivLink(k, esc(f ? f(p[k]) : p[k])) : esc(f ? f(p[k]) : p[k])}${MEAS_KEYS.includes(k) ? mDate(k) : ""}${k === "height" ? comparePick(p) : k === "circumference" || (k === "multi_stemmed" && p.circumference == null && !fromDiam) ? planPick(p) : ""}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
   const rec = recognitions(p);
   const links = [osmMenu(p, pos)];
@@ -6320,9 +6347,55 @@ function planLenticels(cx, cy, R) {
   }
   return `<path d="${d}" fill="var(--cmp-alba-bark)" opacity=".85"/>`;
 }
+// Tronchi di un albero policormico visti dall'alto (issue #75): raggi rs in metri -> { pos: [[x, y, r], …] nello
+// stesso ordine di rs, in metri dal centro del gruppo; R raggio del cerchio più piccolo che li contiene, con quel
+// centro }. La posizione dei tronchi non è mappata: sono vicini senza sovrapporsi, il più grosso per primo, il secondo
+// accanto e ogni altro appoggiato a due già messi, nel punto più vicino al baricentro (pesato sull'area) di quelli
+// messi; il gruppo è ruotato di un angolo fisso per albero (hash01, come i tronchi sulla mappa)
+function stemLayout(rs, id) {
+  const pos = [], free = (x, y, r) => pos.every(q => Math.hypot(x - q[0], y - q[1]) >= q[2] + r - 1e-9);
+  for (const i of rs.map((r, i) => i).sort((a, b) => rs[b] - rs[a])) {
+    const r = rs[i];
+    if (pos.length < 2) { pos.push([pos.length ? pos[0][2] + r : 0, 0, r, i]); continue; }
+    const A = pos.reduce((a, q) => a + q[2] ** 2, 0);
+    const gx = pos.reduce((a, q) => a + q[0] * q[2] ** 2, 0) / A, gy = pos.reduce((a, q) => a + q[1] * q[2] ** 2, 0) / A;
+    let best = null;
+    // centri dei cerchi di raggio r che toccano i tronchi a e b: intersezioni dei cerchi di raggio ra + r e rb + r
+    for (let a = 0; a < pos.length; a++) for (let b = a + 1; b < pos.length; b++) {
+      const [xa, ya, ra] = pos[a], [xb, yb, rb] = pos[b], d = Math.hypot(xb - xa, yb - ya), R1 = ra + r, R2 = rb + r;
+      const m = (d * d + R1 * R1 - R2 * R2) / (2 * d), h2 = R1 * R1 - m * m;
+      if (!(d > 0) || h2 < 0) continue;
+      const h = Math.sqrt(h2), ux = (xb - xa) / d, uy = (yb - ya) / d;
+      for (const sg of [1, -1]) {
+        const x = xa + m * ux - sg * h * uy, y = ya + m * uy + sg * h * ux, e = Math.hypot(x - gx, y - gy);
+        if (free(x, y, r) && (!best || e < best[2])) best = [x, y, e];
+      }
+    }
+    // riserva (non dovrebbe servire: tra i tronchi del bordo c'è sempre un posto libero) a destra di tutti
+    if (!best) best = [Math.max(...pos.map(q => q[0] + q[2])) + r, 0];
+    pos.push([best[0], best[1], r, i]);
+  }
+  // centro del cerchio più piccolo che contiene i tronchi: la distanza del bordo più lontano è convessa, la si riduce
+  // con passi sempre più corti nelle otto direzioni
+  const far = (x, y) => Math.max(...pos.map(q => Math.hypot(q[0] - x, q[1] - y) + q[2]));
+  let cx = 0, cy = 0, R = far(0, 0);
+  for (let st = R / 2; st > R * 1e-6;) {
+    let moved = false;
+    for (let k = 0; k < 8; k++) {
+      const x = cx + st * Math.cos(k * Math.PI / 4), y = cy + st * Math.sin(k * Math.PI / 4), v = far(x, y);
+      if (v < R) { cx = x; cy = y; R = v; moved = true; }
+    }
+    if (!moved) st /= 2;
+  }
+  const a = hash01(id, 0) * 2 * Math.PI, ca = Math.cos(a), sa = Math.sin(a), out = [];
+  for (const [x, y, r, i] of pos) out[i] = [(x - cx) * ca - (y - cy) * sa, (x - cx) * sa + (y - cy) * ca, r];
+  return { pos: out, R };
+}
 function planSvg(rings, label) {
   const W = 420, PAD = 8, TOP = 12, PLOT = 190, GAP = 24, REF_MIN = 24, LBL_MIN = 24;
-  const D = Math.max(...rings.map(r => r.d));
+  // D: anche il gruppo dei tronchi di un albero policormico (mode "stems", d = diametro del cerchio che lo contiene);
+  // Dc: solo i cerchi, per il tronco tipico
+  const D = Math.max(...rings.map(r => r.d)), Dc = Math.max(...rings.filter(r => r.mode !== "stems").map(r => r.d));
   const ref = PLAN_REFS.reduce((a, b) => Math.abs(Math.log(b.w / D)) < Math.abs(Math.log(a.w / D)) ? b : a);
   // ingombro: le punte della stella e delle fronde escono dal cerchio di pari area, quindi lo spazio si misura sulla sagoma
   const ext = r => r.mode === "crown" && r.kind ? Math.max(...crownOutline(r.kind, Number(r.id) || 0, 1).map(([x, y]) => Math.hypot(x, y))) : 1;
@@ -6338,8 +6411,10 @@ function planSvg(rings, label) {
   const slotC = Math.max(DX * s, LBL_MIN), x0 = PAD + (room - total(s)) / 2, cx = x0 + slotC / 2;
   const LY = TOP + dh + 18, H = LY + 13 * (rings.length + 1) + 16;
   let out = "";
-  // dal più grande al più piccolo, così i più piccoli restano sopra
-  const order = rings.map((r, i) => ({ ...r, i })).sort((a, b) => b.d - a.d);
+  // dal più grande al più piccolo, così i più piccoli restano sopra; i tronchi subito sopra il cerchio della
+  // circonferenza, anche se il gruppo è più largo
+  const tk = rings.find(r => r.mode === "trunk"), key = r => r.mode === "stems" && tk ? tk.d - 1e-9 : r.d;
+  const order = rings.map((r, i) => ({ ...r, i })).sort((a, b) => key(b) - key(a));
   for (const r of order) {
     const R = Math.max(r.d * s / 2, r.mode === "typ" ? 2 : 0.75), dash = r.n ? PLAN_DASH[r.n - 1] || "" : "";
     const shape = r.mode === "crown" && r.kind
@@ -6350,11 +6425,26 @@ function planSvg(rings, label) {
       out += `${shape} fill="var(--plan-crown)" fill-opacity=".28" stroke="var(--plan-crown-edge)" stroke-width="1.2"${dash ? ` stroke-dasharray="${dash}"` : ""} stroke-linejoin="round"/>`;
     // tronco tipico: più grande del tronco (sotto, sul fondo) tenue con il bordo tratteggiato scuro; più piccolo (sopra
     // il tronco) schiarito di bianco, con il bordo tratteggiato bianco su un bordo scuro, che si vede sul marrone
-    else if (r.mode === "typ") out += r.d === D
+    // (sopra i tronchi di un albero policormico solo il bordo, che non li schiarisca)
+    else if (r.mode === "typ") out += r.d === Dc
       ? `${shape} fill="${fill}" fill-opacity=".25" stroke="var(--cmp-text)" stroke-width="1" stroke-dasharray="3 2"/>`
-      : `${shape} fill="var(--cmp-bg)" fill-opacity=".45" stroke="var(--cmp-text)" stroke-width="2.6"/>${shape} fill="none" stroke="var(--cmp-bg)" stroke-width="1.6" stroke-dasharray="4 2.5"/>`;
+      : `${shape} fill="${rings.some(q => q.mode === "stems") ? "none" : "var(--cmp-bg)"}" fill-opacity=".45" stroke="var(--cmp-text)" stroke-width="2.6"/>${shape} fill="none" stroke="var(--cmp-bg)" stroke-width="1.6" stroke-dasharray="4 2.5"/>`;
+    // tronchi di un albero policormico (pos: stemLayout, in metri dal centro): pieni, del colore della corteccia della
+    // loro circonferenza, con un bordo sottile del colore di sfondo che stacca quelli che si toccano. Dove coprono il
+    // bordo del cerchio della circonferenza (tronchi più grandi del cerchio), il bordo continua sopra di loro, del
+    // colore di sfondo (clipPath sui tronchi)
+    else if (r.mode === "stems") {
+      const cs = r.pos.map(([x, y, q]) => [cx + x * s, cy + y * s, Math.max(q * s, 0.75), q]);
+      for (const [X, Y, Rq, q] of cs) { const k = cmpBark(r.s, 2 * Math.PI * q), Q = CMP_PAINT[k];
+        out += `<circle cx="${f(X)}" cy="${f(Y)}" r="${f(Rq)}" fill="${Q.top || Q.fill}" stroke="${Q.edge || "var(--cmp-bg)"}" stroke-width=".8"/>`
+          + (k === "alba" && Rq >= 8 ? planLenticels(X, Y, Rq) : ""); }
+      if (tk) out += `<clipPath id="plan-stems">${cs.map(([X, Y, Rq]) => `<circle cx="${f(X)}" cy="${f(Y)}" r="${f(Rq)}"/>`).join("")}</clipPath>`
+        + `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(Math.max(tk.d * s / 2, 0.75))}" fill="none" stroke="var(--cmp-bg)" stroke-width="1.2" clip-path="url(#plan-stems)"/>`;
+    }
     else if (r.n)                // primati: tronchi trasparenti, uno sopra l'altro, con il bordo del loro tratteggio
       out += `${shape} fill="${fill}" fill-opacity=".35" stroke="${P.edge || "var(--cmp-text)"}" stroke-width="1"${dash ? ` stroke-dasharray="${dash}"` : ""}/>`;
+    // cerchio della circonferenza di un albero policormico, sotto i tronchi: più chiaro, con il bordo pieno
+    else if (r.env) out += `${shape} fill="${fill}" fill-opacity=".3" stroke="${P.edge || fill}" stroke-width="1.2"/>`;
     else out += `${shape} fill="${fill}"${P.edge ? ` stroke="${P.edge}" stroke-width=".8"` : ""}/>`
       + (kind === "alba" && R >= 8 ? planLenticels(cx, cy, R) : "");
   }
@@ -6389,34 +6479,57 @@ function planRefLine(subj, dia, ref) {
     : P.is(subj, fr.e <= 0.1 ? T.colFrac[fr.k] : T.colPct(Math.round(q * 100)), R);
 }
 // Dalla scheda: circonferenza mappata (anche da diameter: fromD) e, se la specie ha un rapporto altezza/circonferenza
-// noto (sp_ratio) e l'albero ha un'altezza, il tronco tipico della specie alla stessa altezza. Niente per i ceppi
+// noto (sp_ratio) e l'albero ha un'altezza, il tronco tipico della specie alla stessa altezza; per un albero
+// policormico con le circonferenze dei tronchi in multi_stemmed=*, anche quelle (st) e l'id (la rotazione del gruppo,
+// stemLayout). Senza circonferenza (c = 0) solo i tronchi, se multi_stemmed=* ne ha le circonferenze. Niente per i ceppi
 function planData(p) {
   if (p.stump) return null;
-  const m = recMeasure(p);
-  if (!(m.c > 0)) return null;
+  const m = recMeasure(p), st = stemCircs(p.multi_stemmed);
+  if (!(m.c > 0)) return st ? { c: 0, fd: 0, h: 0, r0: 0, s: p.species || "", st, id: p.id } : null;
   const r0 = Number(p.sp_ratio) || 0, h = m.h > 0 ? m.h : 0;
-  return { c: m.c, fd: m.fromD ? 1 : 0, h, r0: h && r0 ? r0 : 0, s: p.species || "" };
+  return { c: m.c, fd: m.fromD ? 1 : 0, h, r0: h && r0 ? r0 : 0, s: p.species || "", ...(st ? { st, id: p.id } : {}) };
 }
 function planPick(p) {
-  const d = planData(p), t = d?.r0 ? L.cmp.plan.pick : L.cmp.plan.pickScale;
+  const d = planData(p), t = d?.r0 ? L.cmp.plan.pick : d && !d.c ? L.cmp.plan.pickStems : L.cmp.plan.pickScale;
   return d ? `<button type="button" class="plan-pick" data-plan="${esc(JSON.stringify(d))}" onclick="openPlan(this)" title="${esc(t)}" aria-label="${esc(t)}">${PLAN_ICON}</button>` : "";
 }
-const cmpSw = (fill, edge, dash) => `<tspan fill="${fill}"${edge ? ` stroke="${edge}" stroke-width=".5"` : ""}>${dash ? "◌" : "●"} </tspan>`;
+// pallino della legenda: pieno, vuoto (dash) o chiaro con il bordo (pale, come il cerchio sotto i tronchi)
+const cmpSw = (fill, edge, dash, pale) => `<tspan fill="${fill}"${pale ? ` fill-opacity=".3" stroke="${edge || fill}" stroke-width=".7"` : edge ? ` stroke="${edge}" stroke-width=".5"` : ""}>${dash ? "◌" : "●"} </tspan>`;
 function openPlan(btn) {
   const d = JSON.parse(btn.dataset.plan), T = L.cmp, P = T.plan, dlg = document.getElementById("cmp");
   const dia = d.c / Math.PI, diaT = d.r0 ? d.h / d.r0 / Math.PI : 0, B = CMP_PAINT[cmpBark(d.s, d.c)];
   const sp = d.s.length <= 24 ? d.s : d.s.replace(/^(\S)\S+ /, "$1. ");
-  const rings = [{ d: dia, mode: "trunk", s: d.s, t: cmpSw(B.top || B.fill, B.edge) + esc(T.tree) + ` <tspan class="m">⌀ ${esc(cmpD(dia))}</tspan>` }];
+  // albero policormico con le circonferenze dei tronchi (st, issue #75): resta il cerchio della circonferenza, più
+  // chiaro e con il bordo, e sopra i tronchi pieni alla stessa scala, vicini al centro (stemLayout)
+  // senza circonferenza (d.c = 0, iconcina sulla riga «Policormico») solo i tronchi: niente cerchio né tronco tipico, e
+  // il riferimento si confronta con il tronco più grande
+  const st = d.st || null, noC = !(d.c > 0);
+  const rings = noC ? [] : [{ d: dia, mode: "trunk", s: d.s, env: st ? 1 : 0, t: cmpSw(B.top || B.fill, B.edge, 0, !!st) + esc(T.tree) + ` <tspan class="m">⌀ ${esc(cmpD(dia))}</tspan>` }];
+  if (st) {
+    const lay = stemLayout(st.map(c => c / 2 / Math.PI), d.id);
+    const lo = cmpD(Math.min(...st) / Math.PI), hi = cmpD(Math.max(...st) / Math.PI), BS = CMP_PAINT[cmpBark(d.s, Math.max(...st))];
+    // in legenda il più sottile e il più spesso («⌀ 0,16–0,24 m»), nel testo sotto tutti
+    rings.push({ d: 2 * lay.R, mode: "stems", pos: lay.pos, s: d.s,
+      t: cmpSw(BS.top || BS.fill, BS.edge) + esc(P.stemsLeg(st.length)) + ` <tspan class="m">⌀ ${esc(lo === hi ? hi : lo.replace(/\s*m$/, "") + "–" + hi)}</tspan>` });
+  }
   if (diaT) rings.push({ d: diaT, mode: "typ", s: d.s,
     t: cmpSw("var(--cmp-text)", "", 1) + esc(T.typicalFor) + ` <tspan font-style="italic">${esc(sp)}</tspan> <tspan class="m">⌀ ${esc(cmpD(diaT))}</tspan>` });
-  const g = planSvg(rings, P.svg);
-  const lines = [P.desc(cmpM(d.c) + (d.fd ? L.fromDiameter : ""), cmpD(dia))];
-  if (diaT) { const k = dia / diaT;
+  const g = planSvg(rings, st ? P.svgTrunks : P.svg);
+  const lines = noC ? [] : [(st ? P.descStems : P.desc)(cmpM(d.c) + (d.fd ? L.fromDiameter : ""), cmpD(dia))];
+  // i tronchi e come la loro somma (o il più grande) sta rispetto alla circonferenza, entro mezzo centimetro
+  if (st) { const lf = new Intl.ListFormat(LANG, { type: "conjunction" }), sum = st.reduce((a, c) => a + c, 0), eq = (a, b) => Math.abs(a - b) < 0.005;
+    lines.push(P.stems(st.length, lf.format(st.map(cmpM)), lf.format(st.map(c => cmpD(c / Math.PI))))
+      + (noC ? "" : " " + (eq(sum, d.c) ? P.stemsSum : eq(Math.max(...st), d.c) ? P.stemsMax : P.stemsSumIs(cmpM(sum))))); }
+  // con i tronchi, il diametro del cerchio non è «del tronco»: le frasi lo chiamano con la misura («Il diametro di 0,58 m»);
+  // senza circonferenza il riferimento si confronta con il tronco più grande
+  const subj = noC ? P.subj.largest : st ? P.subj.circle(cmpD(dia)) : P.subj.trunk;
+  const refD = noC ? Math.max(...st) / Math.PI : dia;
+  if (diaT) { const k = dia / diaT, kt = k.toLocaleString(LOC, { maximumSignificantDigits: 2 });
     lines.push(T.typSpecies(cmpM(d.h), cmpD(diaT), d.s, Number(d.r0).toLocaleString(LOC)),
-      Math.abs(k - 1) <= 0.1 ? T.same : T.times(k.toLocaleString(LOC, { maximumSignificantDigits: 2 }))); }
-  lines.push(planRefLine(P.subj.trunk, dia, g.ref));
+      Math.abs(k - 1) <= 0.1 ? (st ? P.typSame(subj) : T.same) : st ? P.typTimes(subj, kt) : T.times(kt)); }
+  lines.push(planRefLine(subj, refD, g.ref));
   document.getElementById("cmp-body").innerHTML = g.svg + lines.map(x => `<p>${esc(x)}</p>`).join("")
-    + [P.refs(P.ref[g.ref.k].ref(cmpM(g.ref.w), cmpM(g.ref.h))) + " " + (diaT ? P.note : P.note1)].map(x => `<p class="note">${esc(x)}</p>`).join("");
+    + [P.refs(P.ref[g.ref.k].ref(cmpM(g.ref.w), cmpM(g.ref.h))) + " " + (diaT ? P.note : P.note1) + (noC ? " " + P.stemsNoteNoC : st ? " " + P.stemsNote : "")].map(x => `<p class="note">${esc(x)}</p>`).join("");
   document.getElementById("cmp-title").textContent = P.title;
   cmpOpener = btn;
   hashCmp = "top"; setHash();
