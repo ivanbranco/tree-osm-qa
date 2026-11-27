@@ -4065,7 +4065,8 @@
 "heritage": [
 [
 "monumento naturale",
-"natural monument"
+"natural monument",
+"Q23790"
 ]
 ],
 "image": "Dąb Dunin 005.jpg",
@@ -4698,11 +4699,13 @@
 "heritage": [
 [
 "site naturel classé",
-"site naturel classé"
+"site naturel classé",
+"Q3485446"
 ],
 [
 "listed in the general inventory of cultural heritage",
-"listed in the general inventory of cultural heritage"
+"listed in the general inventory of cultural heritage",
+"Q16739336"
 ]
 ],
 "image": "Chêne d'Allouville-Bellefosse 02.jpg",
@@ -5147,7 +5150,8 @@
 "heritage": [
 [
 "monumento naturale",
-"natural monument"
+"natural monument",
+"Q23790"
 ]
 ],
 "image": "Rannée (35) Chêne à la Vierge.jpg",
@@ -5198,7 +5202,7 @@
 ]
 ],
 "heritage": [],
-"image": "Topola Tekla, Chudów, Slezské vojvodství, Polsko 5.jpg",
+"image": "Topola Tekla, Chudów, Slezské vojvodství, Polsko 3.jpg",
 "mon": true,
 "taxa": [
 "Q149622"
@@ -7723,7 +7727,7 @@
 ]
 ],
 "heritage": [],
-"image": "Chudenín - památná lípa.JPG",
+"image": "Chudenínská lípa.jpg",
 "mon": true,
 "taxa": [
 "Q21384730"
@@ -10194,7 +10198,8 @@
 "heritage": [
 [
 "natural monument in Upper Austria",
-"natural monument in Upper Austria"
+"natural monument in Upper Austria",
+"Q14912864"
 ]
 ],
 "image": "Bad Leonfelden Zötllinde 03.jpg",
@@ -11582,7 +11587,8 @@
 "heritage": [
 [
 "natural monument in Upper Austria",
-"natural monument in Upper Austria"
+"natural monument in Upper Austria",
+"Q14912864"
 ]
 ],
 "image": "Edelkastanie (Kaplanhofstraße 3, Linz, Austria).JPG",
@@ -17074,7 +17080,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "Arbimäe mänd.jpg",
@@ -17095,7 +17102,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "",
@@ -17146,7 +17154,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "",
@@ -17248,7 +17257,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "",
@@ -17269,7 +17279,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "Porkuni mänd.jpg",
@@ -17290,7 +17301,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "Pühajärve sõjatamm udus.jpg",
@@ -17311,7 +17323,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "Hõlmikpuu 1.jpg",
@@ -17332,11 +17345,13 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ],
 [
 "archaeological monument",
-"archaeological monument"
+"archaeological monument",
+"Q43874039"
 ]
 ],
 "image": "Tüliveretamm.jpg",
@@ -20674,7 +20689,9 @@
 "heritage": [],
 "image": "Drevo z večjo udolbino na sredini in človekom za perspektivo.jpg",
 "mon": true,
-"taxa": [],
+"taxa": [
+"Q42292"
+],
 "taxon": false,
 "wp": {}
 },
@@ -20967,7 +20984,8 @@
 "heritage": [
 [
 "natural monument in Salzburg state",
-"natural monument in Salzburg state"
+"natural monument in Salzburg state",
+"Q111622179"
 ]
 ],
 "image": "Linde beim Pulvermacherguetl in Glasenbach -DSC04759 01.jpg",
@@ -20986,7 +21004,8 @@
 "heritage": [
 [
 "natural monument in Salzburg state",
-"natural monument in Salzburg state"
+"natural monument in Salzburg state",
+"Q111622179"
 ]
 ],
 "image": "Tofferl-Eiche - DSC04805 16.jpg",
@@ -21031,7 +21050,8 @@
 "heritage": [
 [
 "natural monument in Salzburg state",
-"natural monument in Salzburg state"
+"natural monument in Salzburg state",
+"Q111622179"
 ]
 ],
 "image": "Bergahorn beim Schartenbauern - DSC04965.jpg",
@@ -21383,7 +21403,8 @@
 "heritage": [
 [
 "natural monument in Salzburg state",
-"natural monument in Salzburg state"
+"natural monument in Salzburg state",
+"Q111622179"
 ]
 ],
 "image": "Kaiserbuche.jpg",
@@ -22949,7 +22970,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "",
@@ -22981,11 +23003,13 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ],
 [
 "archaeological monument",
-"archaeological monument"
+"archaeological monument",
+"Q43874039"
 ]
 ],
 "image": "Tärkmaa ohvritamm sügisel.jpg",
@@ -23005,7 +23029,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "Viiralti tamm.jpg",
@@ -24576,11 +24601,13 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ],
 [
 "archaeological monument",
-"archaeological monument"
+"archaeological monument",
+"Q43874039"
 ]
 ],
 "image": "Ohekatku tamm1.JPG",
@@ -24615,7 +24642,8 @@
 "heritage": [
 [
 "archaeological monument",
-"archaeological monument"
+"archaeological monument",
+"Q43874039"
 ]
 ],
 "image": "Härmä mänd ja tsässon 2013 sügis.JPG",
@@ -25146,7 +25174,8 @@
 "heritage": [
 [
 "natural monument in Styria",
-"natural monument in Styria"
+"natural monument in Styria",
+"Q111606149"
 ]
 ],
 "image": "1000-jährige Eiche Bad Blumau.JPG",
@@ -25580,7 +25609,8 @@
 "heritage": [
 [
 "area protetta",
-"protected area"
+"protected area",
+"Q473972"
 ]
 ],
 "image": "Tannenstrauch.jpg",
@@ -26819,11 +26849,13 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ],
 [
 "archaeological monument",
-"archaeological monument"
+"archaeological monument",
+"Q43874039"
 ]
 ],
 "image": "Ohvripärn13046.jpg",
@@ -26843,7 +26875,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "Laudsi pettäi.jpg",
@@ -26880,7 +26913,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "Mäe-Lehtsoo tamm.jpg",
@@ -27188,7 +27222,8 @@
 "heritage": [
 [
 "archaeological monument",
-"archaeological monument"
+"archaeological monument",
+"Q43874039"
 ]
 ],
 "image": "Hiiekünnapuu, Lääne-Nigula vald Palivere.JPG",
@@ -27811,7 +27846,8 @@
 "heritage": [
 [
 "Denkmalgeschütztes Objekt",
-"Listed objects in Austria"
+"Listed objects in Austria",
+"Q1188447"
 ]
 ],
 "image": "Oberalm Schranne 8089.jpg",
@@ -28437,7 +28473,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "",
@@ -80521,7 +80558,7 @@
 ]
 ],
 "heritage": [],
-"image": "Lípa Johany z Rožmitálu.jpg",
+"image": "Lípa Johany z Rožmitálu II.jpg",
 "mon": true,
 "taxa": [
 "Q158746"
@@ -84904,7 +84941,8 @@
 "heritage": [
 [
 "bene culturale italiano",
-"Italian national heritage"
+"Italian national heritage",
+"Q26971668"
 ]
 ],
 "image": "La statua di Giuseppe Garibaldi.jpg",
@@ -86871,7 +86909,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "Upsi tamm, 2020 03.jpg",
@@ -86970,7 +87009,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "",
@@ -87077,7 +87117,8 @@
 "heritage": [
 [
 "Notable tree of France",
-"Notable tree of France"
+"Notable tree of France",
+"Q1771174"
 ]
 ],
 "image": "Le Platane Géant De Provence à Lamanon.JPG",
@@ -87302,7 +87343,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "Tamme-Lauri tamm suvepäeval.jpg",
@@ -87414,7 +87456,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "Quercia delle streghe Gragnano.jpg",
@@ -90494,7 +90537,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "",
@@ -90515,7 +90559,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "Ruuga tamm.jpg",
@@ -90536,7 +90581,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "Kadeni mänd 2014.jpg",
@@ -90557,7 +90603,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "",
@@ -90780,7 +90827,8 @@
 "heritage": [
 [
 "Notable tree of France",
-"Notable tree of France"
+"Notable tree of France",
+"Q1771174"
 ]
 ],
 "image": "Arbre remarquable de mille ans , le chêne à Guillotin (mars 2011) - panoramio.jpg",
@@ -90801,7 +90849,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "Platano Orientale di Carpinello.jpg",
@@ -90850,7 +90899,8 @@
 "heritage": [
 [
 "individual protected natural object",
-"individual protected natural object"
+"individual protected natural object",
+"Q25499506"
 ]
 ],
 "image": "",
@@ -91299,7 +91349,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "",
@@ -91332,7 +91383,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "Bologna - Cedro dell'Atlante - 2023-09-05 13-12-13 001.jpg",
@@ -91365,7 +91417,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "Piratello di imola 1.jpg",
@@ -91386,7 +91439,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "Rivergaro - rovere - 202109191455 3.jpg",
@@ -91405,7 +91459,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "",
@@ -91424,7 +91479,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "",
@@ -91445,7 +91501,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "Il cipresso del Convento Santa Croce.jpg",
@@ -91550,7 +91607,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "Cedro dell'Himalaya, Castello di Udine.jpg",
@@ -92204,7 +92262,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "Sequoia di Via Mazzini - Campobasso.jpg",
@@ -93716,7 +93775,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "Laconi - Cedro del Libano - 2023-09-15 22-23-14 001.jpg",
@@ -94113,7 +94173,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "Donnas 7.jpg",
@@ -94132,7 +94193,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "Donnas 7.jpg",
@@ -94871,7 +94933,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "Bagolaro, parco Massari (Ferrara) 0.jpg",
@@ -94890,7 +94953,8 @@
 "heritage": [
 [
 "Dichiarazione di notevole interesse pubblico",
-"Dichiarazione di notevole interesse pubblico"
+"Dichiarazione di notevole interesse pubblico",
+"Q55713838"
 ]
 ],
 "image": "Cedro del Libano - Parco Massari (Ferrara).jpg",
@@ -95254,7 +95318,8 @@
 "heritage": [
 [
 "National historical monument of Venezuela",
-"National historical monument of Venezuela"
+"National historical monument of Venezuela",
+"Q28478883"
 ]
 ],
 "image": "",
@@ -97252,7 +97317,8 @@
 "heritage": [
 [
 "site naturel classé",
-"site naturel classé"
+"site naturel classé",
+"Q3485446"
 ]
 ],
 "image": "Chêne millénaire du Pouldu - Morbihan - 1 juin 2012 (11).JPG",
@@ -97459,7 +97525,8 @@
 "heritage": [
 [
 "monumento di importanza nazionale",
-"monument of national significance"
+"monument of national significance",
+"Q18363603"
 ]
 ],
 "image": "Vrba lipa.JPG",
@@ -97773,7 +97840,8 @@
 "heritage": [
 [
 "National historical monument of Venezuela",
-"National historical monument of Venezuela"
+"National historical monument of Venezuela",
+"Q28478883"
 ]
 ],
 "image": "Postal del Monumento Samán de Güere.jpg",
@@ -98573,7 +98641,8 @@
 "heritage": [
 [
 "bene culturale italiano",
-"Italian national heritage"
+"Italian national heritage",
+"Q26971668"
 ]
 ],
 "image": "",
@@ -101526,7 +101595,8 @@
 "heritage": [
 [
 "monumento naturale",
-"natural monument"
+"natural monument",
+"Q23790"
 ]
 ],
 "image": "Baysen-Eiche 03.jpg",
@@ -101623,6 +101693,15 @@
 ]
 ],
 "image": "",
+"taxa": [],
+"taxon": false,
+"wp": {}
+},
+"Q8262945": {
+"coords": [],
+"heritage": [],
+"image": "Carbayón de Valentín.JPG",
+"mon": true,
 "taxa": [],
 "taxon": false,
 "wp": {}
@@ -102393,7 +102472,8 @@
 "heritage": [
 [
 "monumento naturale",
-"natural monument"
+"natural monument",
+"Q23790"
 ]
 ],
 "image": "Sosna Waligóra.jpg",
