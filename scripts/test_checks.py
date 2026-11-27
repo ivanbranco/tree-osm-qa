@@ -808,6 +808,14 @@ CASES = [
      ["start_date_invalid"]),
     ("start_date_invalid: survey:date nel futuro", {"natural": "tree", "survey:date": "2999-01-01"},
      ["start_date_invalid"]),
+    # source:date (data della fonte): le stesse forme; non è una chiave scritta male
+    ("source:date AAAA-MM-GG e AAAA", {"natural": "tree", "source:date": "2014-03-24"}, []),
+    ("source:date AAAA", {"natural": "tree", "source": "survey", "source:date": "2024"}, []),
+    ("start_date_invalid: source:date AAAAMM", {"natural": "tree", "source:date": "201011"}, ["start_date_invalid"]),
+    ("start_date_invalid: source:date GG.MM.AAAA", {"natural": "tree", "source:date": "24.03.2014"},
+     ["start_date_invalid"]),
+    ("start_date_invalid: source:date nel futuro", {"natural": "tree", "source:date": "2999-01"},
+     ["start_date_invalid"]),
     ("check_date non valido, date_mismatch resta", {"natural": "tree", "start_date": "1990", "planted_date": "1992",
                                                      "check_date": "ieri"}, ["start_date_invalid", "date_mismatch"]),
     # check_date:<misura> (issue #99): le stesse forme; non è una chiave scritta male né un tag non documentato
@@ -1563,7 +1571,9 @@ def feature_failures():
                 "2012-05-01", "survey:date": "2012-06"}) == {}),
                ("md_: con check_date più vecchio o dello stesso anno", md({"height": "12", "diameter_crown": "8",
                 "check_date:height": "2019-05-01", "check_date:diameter_crown": "2012-05-01", "check_date": "2012"})
-                == {"md_height": "2019-05-01", "md_diameter_crown": "2012-05-01"})]
+                == {"md_height": "2019-05-01", "md_diameter_crown": "2012-05-01"}),
+               ("md_: source:date più recente non la toglie (non è un rilievo)", md({"height": "12",
+                "check_date:height": "2012", "source:date": "2024-03-01"}) == {"md_height": "2012"})]
     # codici MASAF confrontati tra gli alberi (masaf_code_checks, issue #95): LISTED è un albero singolo, GROUP_CODE un
     # filare singolo. Con lo stesso punto c'è anche same_point: qui conta solo masaf_*
     def masaf_build(els, groups=None):

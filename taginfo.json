@@ -148,6 +148,7 @@
     {"key": "check_date:diameter", "object_types": ["node"], "description": "Used for a QA check, hints, the info panel and statistics."},
     {"key": "check_date:diameter_crown", "object_types": ["node"], "description": "Used for a QA check, hints, the info panel and statistics."},
     {"key": "survey:date", "object_types": ["node"], "description": "Used for a QA check and hints."},
+    {"key": "source:date", "object_types": ["node"], "description": "Used for a QA check."},
     {"key": "name", "object_types": ["node"], "description": "Used for QA checks and the info panel."},
     {"key": "ref", "object_types": ["node"], "description": "Shown in the info panel."},
     {"key": "wikipedia", "object_types": ["node"], "description": "Used for QA checks; suggested by a QA check."},

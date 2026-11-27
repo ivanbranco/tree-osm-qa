@@ -3242,7 +3242,7 @@ KNOWN_KEYS = ("natural", "species", "genus", "taxon", "leaf_type", "leaf_cycle",
               "genus:wikipedia", "taxon:wikidata", "taxon:wikipedia", "ref:masaf", "masaf:criteria", "ref:rami",
               "ref:monumentaltrees", "heritage:operator", "panoramax", "website", "multi_stemmed", "sex",
               "sacred_tree", "religion", "operator", "source", "description", "check_date", "survey:date",
-              "protected", "image:fotoshi", "ref:zapis", "ref:icnf", "ref:CRFOP", "ref:gid", "ref:usop",
+              "source:date", "protected", "image:fotoshi", "ref:zapis", "ref:icnf", "ref:CRFOP", "ref:gid", "ref:usop",
               "ref:TROBI", "division:champion", "champion", "monument", "ref:baumkunde", "ref:mbreg",
               "ref:inaturalist.org")
 KNOWN_KEY_SET = set(KNOWN_KEYS)
@@ -3748,7 +3748,7 @@ def checks(t, pos, osm_id=None):
         flag("masaf_unknown", masaf_unk=";".join(unk))
     # start_date e planted_date (issue #81), con le stesse forme. sd_bad: righe "chiave|motivo" separate da ";"
     # (motivo: invalid o future, start_date_problem). Con le due date leggibili e scritte in modo diverso: date_mismatch.
-    # Nello stesso check check_date, survey:date e check_date:<misura> (survey_date_problem): non sono in KEEP, il valore
+    # Nello stesso check check_date, survey:date, source:date e check_date:<misura> (survey_date_problem): non sono in KEEP, il valore
     # va nella proprietà con il nome della chiave solo quando è segnalato (le date valide delle misure sono in md_<misura>)
     sv_bad = [(k, why) for k in SURVEY_DATE_KEYS if k in t and (why := survey_date_problem(t[k]))]
     sd_bad = [(k, why) for k in DATE_KEYS if k in t and k not in eq and (why := start_date_problem(t[k]))]
@@ -4418,10 +4418,11 @@ def start_date_problem(v, today=None):
 
 # data dell'ultimo rilievo (https://wiki.openstreetmap.org/wiki/Key:check_date e Key:survey:date): solo AAAA-MM-GG,
 # o meno precisa AAAA-MM e AAAA, senza ~, intervalli o altre forme di start_date. Check start_date_invalid, anche per
-# la data di una sola misura (check_date:height=*, issue #99; measure_dates)
+# la data di una sola misura (check_date:height=*, issue #99; measure_dates) e per source:date (data della fonte,
+# https://wiki.openstreetmap.org/wiki/Key:source:date), che non è un rilievo dell'albero: non conta in measure_dates
 MEASURE_KEYS = ("height", "circumference", "diameter", "diameter_crown")
 WHOLE_SURVEY_KEYS = ("check_date", "survey:date")
-SURVEY_DATE_KEYS = WHOLE_SURVEY_KEYS + tuple(f"check_date:{k}" for k in MEASURE_KEYS)
+SURVEY_DATE_KEYS = WHOLE_SURVEY_KEYS + ("source:date",) + tuple(f"check_date:{k}" for k in MEASURE_KEYS)
 SURVEY_DATE = re.compile(r"^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$")
 
 
@@ -4441,7 +4442,7 @@ def measure_dates(t):
 
 
 def survey_date_problem(v, today=None):
-    """Perché check_date o survey:date va segnalato: "invalid" se non è AAAA-MM-GG, AAAA-MM o AAAA, o è una data
+    """Perché check_date, survey:date o source:date va segnalato: "invalid" se non è AAAA-MM-GG, AAAA-MM o AAAA, o è una data
     che non esiste (2024-02-30, 2024-13); "future" se è dopo oggi; None se va bene. Gli spazi ai lati non contano."""
     m = SURVEY_DATE.match(str(v).strip())
     if not m:
