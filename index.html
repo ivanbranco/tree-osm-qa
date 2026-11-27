@@ -2339,7 +2339,7 @@ map.on("load", async () => {
   // martNear dà i tronchi degli altri alberi entro 15 m circa, in metri dall'albero (dx verso est, dy verso nord).
   // Il filo è un arco intorno al centro dell'albero: MART_ARC = metà dell'angolo che copre, MART_SEP = distanza
   // minima (in angolo) fra i centri di due fili dello stesso albero, perché non si sovrappongano
-  const MART_POS = 12, MART_CELL = 0.0002, MART_ARC = 0.42, MART_SEP = 1.0;
+  const MART_POS = 12, MART_CELL = 0.0002, MART_ARC = 0.52, MART_SEP = 1.2;
   let martGrid = null, martGridOf = null;
   const martNear = (lon, lat, id) => {
     if (martGridOf !== ALL) {
@@ -2454,13 +2454,13 @@ map.on("load", async () => {
         if (picked.every(([b]) => gap(s[0], b) >= MART_SEP)) picked.push(s);
       }
       for (const [a, d] of picked) {
-        // filo: arco di 2·MART_ARC a distanza d dal centro, spesso 0,045 del raggio della chioma; ai capi una nappina
-        // bianca e una rossa di raggio 0,07 della chioma. Misure in metri: crescono con lo zoom come l'albero
+        // filo: arco di 2·MART_ARC a distanza d dal centro, spesso 0,06 del raggio della chioma; ai capi una nappina
+        // bianca e una rossa di raggio 0,09 della chioma. Misure in metri: crescono con lo zoom come l'albero
         const arc = Array.from({ length: 9 }, (_, k) => { const b = a - MART_ARC + k * MART_ARC / 4;
           return [lon + d * Math.cos(b) * kx, lat + d * Math.sin(b) * ky]; });
-        out.push({ type: "Feature", properties: { ...fp, dk: "mart-cord", dr: cr * 0.045 }, geometry: { type: "LineString", coordinates: arc } });
+        out.push({ type: "Feature", properties: { ...fp, dk: "mart-cord", dr: cr * 0.06 }, geometry: { type: "LineString", coordinates: arc } });
         for (const [b, dc] of [[a - MART_ARC, "#ffffff"], [a + MART_ARC, "#d0202e"]])
-          out.push(pt(d * Math.cos(b), d * Math.sin(b), "mart-tassel", cr * 0.07, dc));
+          out.push(pt(d * Math.cos(b), d * Math.sin(b), "mart-tassel", cr * 0.09, dc));
       }
     }
     if (p.fruit && p.cr) {                        // 5, 6 o 7 frutti secondo la grandezza della chioma
