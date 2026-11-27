@@ -240,6 +240,7 @@
   .card h3 .sex.unknown svg{width:calc(.85em * 47 / 24)}
   .card h3 .sex .tip .more{display:block;margin-top:4px}
   .card h3 .ref{font-weight:400;color:#555}   /* ref=* tra parentesi dopo il titolo (issue #89) */
+  .card .mdate{color:#777}   /* check_date:<misura> dopo il valore della misura (issue #99) */
   /* pop-up con la spiegazione del check: passando il mouse sul ⚠, o toccandolo (focus) da telefono */
   .why{cursor:help;outline:none}
   .why .tip{display:none;position:absolute;left:0;right:0;top:100%;z-index:6;background:#fff;color:#222;font-weight:400;
@@ -517,9 +518,9 @@ const I18N = {
       measured: "I valori vanno rilevati sul posto o presi da una fonte, non stimati.",
       // età delle misure (issue #94): ages nell'ordine delle parti della barra (verde, giallo, arancione)
       ages: ["<5 anni", "5-10 anni", ">10 anni"],
-      ageTip: "I colori della barra dicono quando l'albero è stato modificato l'ultima volta su OSM: verde meno di 5 anni fa, giallo tra 5 e 10 anni fa, arancione più di 10 anni fa. È la data dell'albero, non della misura: una misura vecchia su un albero modificato di recente per un altro tag conta nel verde. Toccando la parte arancione, o «>10 anni» sotto la barra, si evidenziano quegli alberi.",
-      oldTitle: "Evidenzia sulla mappa gli alberi con questo dato modificati l'ultima volta più di 10 anni fa",
-      hlOld: n => `Evidenziati: ${n}, ultima modifica più di 10 anni fa`,
+      ageTip: k => `I colori della barra dicono a quando risale il dato: la data di ${k === "circumference" ? "check_date:circumference=* (check_date:diameter=* per un albero con il solo diameter)" : `check_date:${k}=*`} se c'è, altrimenti quella dell'ultima modifica dell'albero su OSM. Verde meno di 5 anni fa, giallo tra 5 e 10 anni fa, arancione più di 10 anni fa. L'ultima modifica è la data dell'albero, non della misura: senza check_date, una misura vecchia su un albero modificato di recente per un altro tag conta nel verde. Toccando la parte arancione, o «>10 anni» sotto la barra, si evidenziano quegli alberi.`,
+      oldTitle: "Evidenzia sulla mappa gli alberi con questo dato di più di 10 anni fa",
+      hlOld: n => `Evidenziati: ${n} di più di 10 anni fa`,
       masafTitle: "Elenco MASAF già su OSM", italy: "Italia", regions: "Per regione",
       masafRowTitle: "Evidenzia sulla mappa gli alberi dell'elenco MASAF non ancora su OSM",
       masafTip: "Alberi dell'elenco degli alberi monumentali d'Italia del MASAF già su OpenStreetMap: quelli con un elemento che ha il loro codice in ref:masaf, o con un albero monumentale dello stesso genere entro 25 m.",
@@ -642,8 +643,10 @@ const I18N = {
         : `image=* è una pagina web (${site}), non il file di un'immagine. Una foto si può anche caricare su Wikimedia Commons o Panoramax e collegare con wikimedia_commons=* o panoramax=*`,
       feetInchSpace: (k, v, fix) => `${k}=${v}: la wiki indica di scrivere piedi e pollici senza spazi (${fix})`,
       leadDot: (k, v, fix) => `${k}=${v}: il numero inizia con il punto; con lo zero davanti (${fix}) è più leggibile`,
-      oldMeasures: (tags, d) => `${tags.length > 1 ? "Misure invariate" : "Misura invariata"} da più di 10 anni: ${tags.join(", ")} (ultima modifica: ${d}). Dopo un nuovo rilievo sul posto, anche con gli stessi valori, si può aggiungere check_date=* con la data del rilievo`,
-      lowOld: (h, d) => `Albero alto meno di 2 m (height=${h}), con l'altezza invariata da più di 5 anni (ultima modifica: ${d}). Dopo un nuovo rilievo sul posto si può aggiornare height=*, o aggiungere check_date=* se l'altezza è la stessa`,
+      // w: da dove viene la data, «ultima modifica: …» (lastEdit) o «check_date:height=…»; list: le misure con la loro data
+      oldMeasures: (n, list) => `${n > 1 ? "Misure invariate" : "Misura invariata"} da più di 10 anni: ${list}. Dopo un nuovo rilievo sul posto, anche con gli stessi valori, si può scrivere la data del rilievo in check_date=* (tutto l'albero) o in check_date:height=*, check_date:circumference=* e simili (una sola misura)`,
+      lowOld: (h, w) => `Albero alto meno di 2 m (height=${h}), con l'altezza invariata da più di 5 anni (${w}). Dopo un nuovo rilievo sul posto si può aggiornare height=* o, se l'altezza è la stessa, scrivere la data del rilievo in check_date:height=* o check_date=*`,
+      lastEdit: d => `ultima modifica: ${d}`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,      notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
       // issue #25; seeds(t): HTML delle parole che aprono la foto dei semi (south: emisfero australe)
       ginkgoSex: (south, seeds) => `Se questo ginkgo è un esemplare femminile, si potrebbe aggiungere sex=female. ${south ? "Da ottobre a maggio" : "Da aprile a novembre"} è un buon periodo per verificarlo: le femmine portano ovuli appaiati in primavera e ${seeds("semi carnosi e maleodoranti")} che cadono in autunno, spesso a terra sotto la chioma.`,
@@ -784,6 +787,7 @@ const I18N = {
     },
     sexPhotoAlt: { "Ginkgo biloba": { female: "Semi di Ginkgo biloba", male: "Coni maschili di Ginkgo biloba" }, "Acer negundo": { female: "Fiori femminili di Acer negundo", male: "Infiorescenze maschili di Acer negundo" }, "Populus nigra": { female: "Amenti femminili di Populus nigra", male: "Amenti maschili di Populus nigra" }, "Populus alba": { female: "Amenti femminili di Populus alba", male: "Amenti maschili di Populus alba" }, "Taxus baccata": { female: "Semi di Taxus baccata con l'arillo rosso", male: "Coni maschili di Taxus baccata" } },
     fromDiameter: " (da diameter)",
+    measChecked: kv => `Data dell'ultima verifica della misura: ${kv}`,   // suggerimento sulla data dopo una misura (issue #99)
     // finestra «Tronco a confronto» (issue #14), dall'iconcina accanto all'altezza o dal tasto C
     cmp: { title: "Tronco a confronto", close: "Chiudi", pick: "Confronta con il tronco tipico (tasto C)",
       pickScale: "Vedi l'albero in scala (tasto C)",
@@ -906,7 +910,7 @@ const I18N = {
       masaf_unknown: "Il codice ref:masaf non è nell'elenco degli alberi monumentali d'Italia, né tra gli alberi iscritti né tra quelli rimossi. Lo zero iniziale del primo numero non conta (01/G114/CN/01 vale come 001/G114/CN/01). Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       masaf_shared: "L'elenco MASAF dà il codice come un albero singolo (o isolato), ma nella regione lo stesso ref:masaf è su più alberi (i ceppi non contano). Il confronto è tra gli alberi della stessa regione.",
       masaf_group_single: "L'elenco MASAF dà il codice come un gruppo, un filare, un viale o un insieme omogeneo, ma nella regione il ref:masaf è su questo solo albero e su nessuna relazione. Per la wiki (IT:Key:ref:masaf, «Gli \"insiemi omogenei\"») il gruppo si mappa con una relazione type=site con ref:masaf, natural=tree_group e denotation=natural_monument, che ha per membri gli alberi. Solo nelle regioni italiane.",
-      start_date_invalid: "Forme della wiki OSM (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 e gli intervalli 1850..1900. Valgono anche per planted_date. check_date e survey:date (data dell'ultimo rilievo) vanno scritti AAAA-MM-GG (2024-09-02), o AAAA-MM e AAAA. Sono segnalate anche le date che non esistono (2020-02-30) e quelle dopo la data dell'aggiornamento dei dati.",
+      start_date_invalid: "Forme della wiki OSM (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 e gli intervalli 1850..1900. Valgono anche per planted_date. check_date e survey:date (data dell'ultimo rilievo), anche quella di una sola misura (check_date:height, check_date:circumference, check_date:diameter, check_date:diameter_crown), vanno scritti AAAA-MM-GG (2024-09-02), o AAAA-MM e AAAA. Sono segnalate anche le date che non esistono (2020-02-30) e quelle dopo la data dell'aggiornamento dei dati.",
       date_mismatch: "L'albero ha start_date e planted_date con valori diversi (spazi in più esclusi). Per l'età nella scheda e per «Più vecchio» il sito usa start_date. Non segnalato se una delle due date non è valida («start_date o planted_date non valido o nel futuro»).",
       // wp_genus (fetch_trees.py): l'elemento della voce è di rango genere
       wikipedia_is_taxon: p => `wikipedia=* collega la voce del singolo albero; la voce ${p.wp_genus ? "del genere si collega con genus:wikipedia=*" : "della specie si collega con species:wikipedia=*"}. L'elemento Wikidata collegato alla voce è un taxon (ha un nome scientifico, P225).`,
@@ -1022,7 +1026,7 @@ const I18N = {
       masaf_shared: (code, ids) => `ref:masaf=${code} è un albero singolo nell'elenco MASAF, ma è anche ${ids.length > 1 ? `sui nodi ${ids.join(", ")}` : `sul nodo ${ids[0]}`}`,
       masaf_group_single: (code, kind) => `ref:masaf=${code} nell'elenco MASAF ha il tipo «${kind}», ma è solo su questo albero`,
       start_date_invalid: (k, v, future) => future ? `${k}=${v} è nel futuro`
-        : /^(check_date|survey:date)$/.test(k) ? `${k}=${v} non è nella forma AAAA-MM-GG (o AAAA-MM, AAAA) o non è una data che esiste`
+        : /^(check_date(:.+)?|survey:date)$/.test(k) ? `${k}=${v} non è nella forma AAAA-MM-GG (o AAAA-MM, AAAA) o non è una data che esiste`
         : `${k}=${v} non è in una delle forme della wiki`,
       date_mismatch: (sd, pd) => `start_date=${sd} e planted_date=${pd} sono diversi`,
       wikipedia_is_taxon: (v, q, g) => `wikipedia=${v} è la voce di un taxon (${q}): wikipedia indica il singolo albero, la voce ${g ? "del genere va in genus:wikipedia" : "della specie va in species:wikipedia"}`,
@@ -1178,9 +1182,9 @@ const I18N = {
       hl: n => `Highlighted: no ${n}`, hlMasaf: "Highlighted: MASAF trees not on OSM", hlOff: "Remove the highlight",
       measured: "Values should be surveyed on the ground or taken from a source, not estimated.",
       ages: ["<5 years", "5-10 years", ">10 years"],
-      ageTip: "The colours of the bar tell when the tree was last edited on OSM: green less than 5 years ago, yellow between 5 and 10 years ago, orange more than 10 years ago. It is the date of the tree, not of the measurement: an old measurement on a tree recently edited for another tag counts in the green. Tapping the orange part, or \">10 years\" below the bar, highlights those trees.",
-      oldTitle: "Highlight on the map the trees with this value last edited more than 10 years ago",
-      hlOld: n => `Highlighted: ${n}, last edited more than 10 years ago`,
+      ageTip: k => `The colours of the bar tell how old the value is: the date of ${k === "circumference" ? "check_date:circumference=* (check_date:diameter=* for a tree with only diameter)" : `check_date:${k}=*`} if present, otherwise that of the last edit of the tree on OSM. Green less than 5 years ago, yellow between 5 and 10 years ago, orange more than 10 years ago. The last edit is the date of the tree, not of the measurement: without check_date, an old measurement on a tree recently edited for another tag counts in the green. Tapping the orange part, or ">10 years" below the bar, highlights those trees.`,
+      oldTitle: "Highlight on the map the trees with this value older than 10 years",
+      hlOld: n => `Highlighted: ${n} older than 10 years`,
       masafTitle: "MASAF list already on OSM", italy: "Italy", regions: "By region",
       masafRowTitle: "Highlight on the map the trees of the MASAF list not yet on OSM",
       masafTip: "Trees of the MASAF list of monumental trees of Italy already on OpenStreetMap: those with an element carrying their code in ref:masaf, or with a monumental tree of the same genus within 25 m.",
@@ -1286,8 +1290,9 @@ const I18N = {
       imagePage: (site, mly) => site === "mapillary.com" ? `image=* contains a Mapillary photo: Mapillary has its own tag, mapillary=*${mly ? `; mapillary=${mly} could be used` : ""}`
         : `image=* is a web page (${site}), not an image file. A photo can also be uploaded to Wikimedia Commons or Panoramax and linked with wikimedia_commons=* or panoramax=*`,      feetInchSpace: (k, v, fix) => `${k}=${v}: the wiki writes feet and inches without spaces (${fix})`,
       leadDot: (k, v, fix) => `${k}=${v}: the number starts with the point; with a zero in front (${fix}) it is easier to read`,
-      oldMeasures: (tags, d) => `${tags.length > 1 ? "Measurements" : "Measurement"} unchanged for more than 10 years: ${tags.join(", ")} (last edit: ${d}). After surveying again on the ground, even with the same values, check_date=* can be added with the date of the survey`,
-      lowOld: (h, d) => `Tree less than 2 m tall (height=${h}), with the height unchanged for more than 5 years (last edit: ${d}). After surveying again on the ground, height=* can be updated, or check_date=* added if the height is the same`,
+      oldMeasures: (n, list) => `${n > 1 ? "Measurements" : "Measurement"} unchanged for more than 10 years: ${list}. After surveying again on the ground, even with the same values, the date of the survey can be written in check_date=* (whole tree) or in check_date:height=*, check_date:circumference=* and the like (one measurement)`,
+      lowOld: (h, w) => `Tree less than 2 m tall (height=${h}), with the height unchanged for more than 5 years (${w}). After surveying again on the ground, height=* can be updated or, if the height is the same, the date of the survey written in check_date:height=* or check_date=*`,
+      lastEdit: d => `last edit: ${d}`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,      notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
       ginkgoSex: (south, seeds) => `If this ginkgo is a female tree, sex=female could be added. ${south ? "October to May" : "April to November"} is a good time to check: females bear paired ovules in spring and fleshy, ${seeds("foul-smelling seeds")} that fall in autumn, often lying under the canopy.`,
       ginkgoSeedsAlt: "Ginkgo biloba seeds",
@@ -1422,6 +1427,7 @@ const I18N = {
     },
     sexPhotoAlt: { "Ginkgo biloba": { female: "Ginkgo biloba seeds", male: "Ginkgo biloba male cones" }, "Acer negundo": { female: "Acer negundo female flowers", male: "Acer negundo male inflorescences" }, "Populus nigra": { female: "Populus nigra female catkins", male: "Populus nigra male catkins" }, "Populus alba": { female: "Populus alba female catkins", male: "Populus alba male catkins" }, "Taxus baccata": { female: "Taxus baccata seeds with red arils", male: "Taxus baccata male cones" } },
     fromDiameter: " (from diameter)",
+    measChecked: kv => `Date the measurement was last checked: ${kv}`,
     cmp: { title: "Trunk comparison", close: "Close", pick: "Compare with the typical trunk (C key)",
       pickScale: "View the tree to scale (C key)",
       svg: "Scale drawing of the trunk, described below",
@@ -1538,7 +1544,7 @@ const I18N = {
       masaf_unknown: "The ref:masaf code is not in the list of monumental trees of Italy, neither among the listed trees nor among the removed ones. The leading zero of the first number does not count (01/G114/CN/01 is the same as 001/G114/CN/01). Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       masaf_shared: "The MASAF list gives the code as a single (or isolated) tree, but in the region the same ref:masaf is on several trees (tree stumps do not count). The comparison is between trees of the same region.",
       masaf_group_single: "The MASAF list gives the code as a group, a row, an avenue or a homogeneous group, but in the region the ref:masaf is only on this tree and on no relation. According to the wiki (IT:Key:ref:masaf, «Gli \"insiemi omogenei\"») the group is mapped with a type=site relation with ref:masaf, natural=tree_group and denotation=natural_monument, with the trees as members. Italian regions only.",
-      start_date_invalid: "Forms on the OSM wiki (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 and the ranges 1850..1900. They apply to planted_date too. check_date and survey:date (date of the last survey) are written YYYY-MM-DD (2024-09-02), or YYYY-MM and YYYY. Dates that do not exist (2020-02-30) and dates after the data update are reported too.",
+      start_date_invalid: "Forms on the OSM wiki (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 and the ranges 1850..1900. They apply to planted_date too. check_date and survey:date (date of the last survey), also that of a single measurement (check_date:height, check_date:circumference, check_date:diameter, check_date:diameter_crown), are written YYYY-MM-DD (2024-09-02), or YYYY-MM and YYYY. Dates that do not exist (2020-02-30) and dates after the data update are reported too.",
       date_mismatch: "The tree has start_date and planted_date with different values (extra spaces aside). For the age in the info panel and for \"Oldest\" the site uses start_date. Not reported if one of the two dates is invalid (\"Invalid or future start_date or planted_date\").",
       wikipedia_is_taxon: p => `wikipedia=* links the article about the individual tree; the ${p.wp_genus ? "genus article is linked with genus:wikipedia=*" : "species article is linked with species:wikipedia=*"}. The Wikidata item linked to the article is a taxon (it has a scientific name, P225).`,
       denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format, values with spaces around the \";\" that separates multiple values and common values with other text attached.",
@@ -1645,7 +1651,7 @@ const I18N = {
       masaf_shared: (code, ids) => `ref:masaf=${code} is a single tree in the MASAF list, but it is also on ${ids.length > 1 ? `nodes ${ids.join(", ")}` : `node ${ids[0]}`}`,
       masaf_group_single: (code, kind) => `ref:masaf=${code} has the type «${kind}» in the MASAF list, but it is only on this tree`,
       start_date_invalid: (k, v, future) => future ? `${k}=${v} is in the future`
-        : /^(check_date|survey:date)$/.test(k) ? `${k}=${v} is not in the form YYYY-MM-DD (or YYYY-MM, YYYY) or is not a date that exists`
+        : /^(check_date(:.+)?|survey:date)$/.test(k) ? `${k}=${v} is not in the form YYYY-MM-DD (or YYYY-MM, YYYY) or is not a date that exists`
         : `${k}=${v} is not in one of the wiki forms`,
       date_mismatch: (sd, pd) => `start_date=${sd} and planted_date=${pd} are different`,
       wikipedia_is_taxon: (v, q, g) => `wikipedia=${v} is the article of a taxon (${q}): wikipedia is for the individual tree, the ${g ? "genus article goes in genus:wikipedia" : "species article goes in species:wikipedia"}`,
@@ -1734,13 +1740,22 @@ document.getElementById("gh").title = L.github;
 const SIDE_BOXES = ["legend-box", "rank-box", "chart-box", "comp-box", "rec-box"].map(id => document.getElementById(id));
 let onCompToggle = () => {};   // scheda Completezza aperta o chiusa (renderComp, definita quando la mappa è pronta)
 let onRecToggle = () => {};    // scheda Alberi da record aperta o chiusa (renderRec)
-// Età delle misure (issue #94), dall'ultima modifica del nodo (ts, AAAA-MM-GG), rispetto a oggi: prima di AGE_CUT[1]
-// più di 10 anni, da AGE_CUT[1] ad AGE_CUT[0] da 5 a 10 anni, dopo (o senza data) meno di 5. È la data dell'albero, non
-// della misura. AGE_KEYS: le voci della scheda Completezza con la barra divisa per età (solo nel tool QA)
+// Età delle misure (issue #94), rispetto a oggi: prima di AGE_CUT[1] più di 10 anni, da AGE_CUT[1] ad AGE_CUT[0] da 5
+// a 10 anni, dopo (o senza data) meno di 5. La data di una misura (measDate, issue #99) è quella di check_date:<misura>
+// se c'è (md_<misura>: valida, non nel futuro e non superata da check_date o survey:date, measure_dates in
+// fetch_trees.py), altrimenti l'ultima modifica del nodo (ts), che è la data dell'albero, non della misura.
+// AGE_KEYS: le voci della scheda Completezza con la barra divisa per età (solo nel tool QA)
 const yearsAgo = y => { const d = new Date(); d.setUTCFullYear(d.getUTCFullYear() - y); return d.toISOString().slice(0, 10); };
 const AGE_CUT = [yearsAgo(5), yearsAgo(10)];
 const AGE_KEYS = ["height", "circumference", "diameter_crown"];
-const LOW_H = 2;   // m: sotto questa altezza, consiglio lowOld se l'ultima modifica è di più di 5 anni fa (hints)
+const MEAS_KEYS = ["height", "circumference", "diameter", "diameter_crown"];
+const measDate = (p, k) => p["md_" + k] || p.ts;
+// la misura del tronco: circumference o, se manca, diameter (come la riga «Circonferenza» della scheda e Completezza)
+const trunkKey = p => p.circumference == null && p.diameter != null ? "diameter" : "circumference";
+// data d (AAAA, AAAA-MM o AAAA-MM-GG) prima del giorno cut: con il solo anno o mese conta tutto il periodo (2016 non è
+// prima del 2016-11-27, 2015 sì)
+const before = (d, cut) => !!d && d < cut.slice(0, d.length);
+const LOW_H = 2;   // m: sotto questa altezza, consiglio lowOld se l'altezza è di più di 5 anni fa (measDate, hints)
 SIDE_BOXES.forEach(b => b.addEventListener("toggle", () => {
   if (b.open) SIDE_BOXES.forEach(o => { if (o !== b) o.open = false; });
   if (b.id === "comp-box") onCompToggle();
@@ -3265,12 +3280,15 @@ map.on("load", async () => {
     sex: { has: hasTag("sex"), miss: ["all", DIO_EXPR, noTag("sex")], among: isDio, hlText: L.cp.hlSex },
   };
   for (const k in COMP) COMP[k].label = k === "photo" ? L.cp.photo : k === "sex" ? L.cp.sex : k === "species" ? L.cp.taxon : L.rows[k];
-  // evidenziazione «più di 10 anni» delle voci di AGE_KEYS (hl = "old:" + chiave, issue #94): alberi con il dato e
-  // l'ultima modifica prima di AGE_CUT[1]
+  // evidenziazione «più di 10 anni» delle voci di AGE_KEYS (hl = "old:" + chiave, issue #94): alberi con il dato e la
+  // sua data (measDate, issue #99) prima di AGE_CUT[1], con le regole di before; per la circonferenza, senza
+  // circumference conta diameter (trunkKey)
   const hasT = k => ["!=", ["coalesce", ["get", k], ""], ""];
+  const oldT = k => { const d = ["coalesce", ["get", "md_" + k], ["get", "ts"], "9999"];
+    return ["all", hasT(k), ["<", d, ["slice", AGE_CUT[1], 0, ["length", d]]]]; };
   const OLD_HL = Object.fromEntries(AGE_KEYS.map(k => ["old:" + k, { label: COMP[k].label,
-    miss: ["all", k === "circumference" ? ["any", hasT("circumference"), hasT("diameter")] : hasT(k),
-      ["<", ["coalesce", ["get", "ts"], "9999"], AGE_CUT[1]]], hlText: L.cp.hlOld(COMP[k].label.toLowerCase()) }]));
+    miss: k === "circumference" ? ["any", oldT("circumference"), ["all", ["!", hasT("circumference")], oldT("diameter")]] : oldT(k),
+    hlText: L.cp.hlOld(COMP[k].label.toLowerCase()) }]));
   // gruppi di voci: nel tool QA i dati di base e, a parte, misure e foto; nella mappa dei monumentali il diametro
   // della chioma è l'unica voce facoltativa. In fondo, in entrambe, le piante dioiche (gruppo nascosto se non ce ne sono)
   const COMP_GROUPS = (WORLD ? [[L.cp.inView, "", ["species", "height", "circumference", "photo"]], [L.cp.optional, "", ["diameter_crown"]]]
@@ -3317,7 +3335,7 @@ map.on("load", async () => {
   hlChip.onclick = () => toggleHl(hl);
   // una riga della scheda: nome, ⓘ con la spiegazione, numeri e barra; un tocco (o Invio) accende e spegne l'evidenziazione.
   // Le voci di AGE_KEYS (age) hanno la barra in tre parti e sotto la riga delle età (setCompRow): un tocco sulla parte
-  // arancione o su «più di 10 anni» evidenzia gli alberi con il dato e l'ultima modifica di più di 10 anni fa
+  // arancione o su «più di 10 anni» evidenzia gli alberi con il dato di più di 10 anni fa (OLD_HL)
   const compRow = (key, label, tipHtml, title, small, age) => {
     const r = document.createElement("div");
     r.className = "cp-row" + (small ? " sm" : ""); r.tabIndex = 0; r.dataset.key = key; r.title = title;
@@ -3416,7 +3434,7 @@ map.on("load", async () => {
       if (sub) h.append(" ", el("small", "", "· " + sub));
       compRows.append(h, ...keys.map(k => { COMP[k].head = h; const age = !WORLD && AGE_KEYS.includes(k);
         return COMP[k].row = compRow(k, COMP[k].label, L.cp.tips[k](wikiKey, dioList, dioSp) + (k === "photo" ? "" : " " + esc(L.cp.measured))
-          + (age ? " " + esc(L.cp.ageTip) : ""), L.cp.rowTitle, false, age); }));
+          + (age ? " " + esc(L.cp.ageTip(k)) : ""), L.cp.rowTitle, false, age); }));
     }
     compEl.append(compMsg, compRows, compNote);
     applyHl();
@@ -3429,15 +3447,17 @@ map.on("load", async () => {
     showMasaf();
     // cnt: alberi con il dato; den: alberi a cui la voce si applica (tutti, o quelli di among, es. i dioici per il sesso)
     const z = map.getZoom(), cnt = Object.fromEntries(COMP_KEYS.map(k => [k, 0])), den = { ...cnt };
-    // ag: età dell'ultima modifica degli alberi con il dato, per le voci di AGE_KEYS (setCompRow)
+    // ag: età del dato (measDate: check_date:<misura> o l'ultima modifica) degli alberi che lo hanno, per le voci di
+    // AGE_KEYS (setCompRow); per la circonferenza, senza circumference quella di diameter
     const ag = WORLD ? {} : Object.fromEntries(AGE_KEYS.map(k => [k, [0, 0, 0, 0]]));
     let tot = 0;
     eachInView(p => { tot++;
       for (const k of COMP_KEYS) { const c = COMP[k]; if (c.among && !c.among(p)) continue; den[k]++;
         if (!c.has(p)) continue;
         cnt[k]++;
-        const a = ag[k], t = p.ts;
-        if (a) { if (t) a[3]++; a[!t || t >= AGE_CUT[0] ? 0 : t >= AGE_CUT[1] ? 1 : 2]++; } } });
+        const a = ag[k];
+        if (a) { const t = measDate(p, k === "circumference" ? trunkKey(p) : k);
+          if (t) a[3]++; a[!before(t, AGE_CUT[0]) ? 0 : !before(t, AGE_CUT[1]) ? 1 : 2]++; } } });
     // stati vuoti: nessuna regione, dati ancora in arrivo (del file della regione c'è solo la parte ridotta, o la
     // mappa dei monumentali non è ancora caricata), nessun albero nella vista
     const msg = !current ? L.cp.noRegion : !ALL.length || (partial && z >= ALL_Z) ? L.cp.loading : !tot ? L.cp.noTrees : "";
@@ -5788,9 +5808,15 @@ function card(p, pos) {
   // millimetri); se il valore non è leggibile resta la riga del diametro com'è scritto
   const dm = p.circumference == null && p.diameter ? lenM(p.diameter, 0.001) : null;
   const fromDiam = dm > 0;
+  // data propria di una misura (md_<chiave>, da check_date:<chiave>, issue #99): dopo il valore, tra parentesi e in
+  // grigio, con il tag nel suggerimento; nella riga «Circonferenza … (da diameter)» quella di diameter, dentro la
+  // stessa parentesi («(da diameter, 2018-04)»)
+  const mSpan = (k, html) => `<span class="mdate" title="${esc(L.measChecked(`check_date:${k}=${p["md_" + k]}`))}">${html}</span>`;
+  const mDate = k => p["md_" + k] ? " " + mSpan(k, `(${esc(p["md_" + k])})`) : "";
+  const fromDiamHtml = p.md_diameter ? `${esc(L.fromDiameter.replace(/\)$/, ", "))}${mSpan("diameter", esc(p.md_diameter))})` : esc(L.fromDiameter);
   const rows = ROWS.filter(([k]) => (k === "diameter" ? p[k] && !fromDiam : p[k] || (k === "circumference" && fromDiam)) && k !== titleKey && !(k === "planted_date" && p.start_date) && !(k === "genus" && p.species && !genusIssue && !p.sp_gen) && !(k === "species" && p.sp_gen)).map(([k, label, f]) => k === "circumference" && fromDiam
-    ? `<dt>${label}</dt><dd>${cardLen(String(Number((dm * Math.PI).toFixed(3))))}${esc(L.fromDiameter)}${planPick(p)}</dd>`
-    : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : k === "multi_stemmed" ? stemsHtml(p[k]) : k === "species" ? spLink(esc(p.sp_base || p[k])) : IV_WD[k] ? ivLink(k, esc(f ? f(p[k]) : p[k])) : esc(f ? f(p[k]) : p[k])}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
+    ? `<dt>${label}</dt><dd>${cardLen(String(Number((dm * Math.PI).toFixed(3))))}${fromDiamHtml}${planPick(p)}</dd>`
+    : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : k === "multi_stemmed" ? stemsHtml(p[k]) : k === "species" ? spLink(esc(p.sp_base || p[k])) : IV_WD[k] ? ivLink(k, esc(f ? f(p[k]) : p[k])) : esc(f ? f(p[k]) : p[k])}${MEAS_KEYS.includes(k) ? mDate(k) : ""}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
   const issues = p.issues.split("|").filter(Boolean).map(i => [i, issueText(i, p)]);
   const rec = recognitions(p);
   const links = [osmMenu(p, pos)];
@@ -6415,13 +6441,18 @@ function hints(p, pos) {
   // note=* (hint_nt: righe "chiave=valore", fetch_trees.py): anche sui ceppi; la scheda mostra solo il valore
   for (const kv of String(p.hint_nt || "").split("\n").filter(Boolean)) out.push(H.note(kv.slice(kv.indexOf("=") + 1)));
   if (p.stump) return out;
-  // misure su un albero non modificato da più di 10 anni (issue #94; ts: ultima modifica del nodo, AGE_CUT)
-  // albero alto meno di LOW_H m con l'ultima modifica di più di 5 anni fa (AGE_CUT[0]): un consiglio a sé, e height non si
-  // ripete tra le misure invariate da più di 10 anni
-  const hm = p.height != null ? lenM(p.height) : null, low = p.ts && p.ts < AGE_CUT[0] && hm > 0 && hm < LOW_H;
-  if (low) out.push(H.lowOld(p.height, p.ts));
-  const oldM = p.ts && p.ts < AGE_CUT[1] ? ["height", "circumference", "diameter", "diameter_crown"].filter(k => p[k] && !(low && k === "height")) : [];
-  if (oldM.length) out.push(H.oldMeasures(oldM.map(k => `${k}=${p[k]}`), p.ts));   // la data come AAAA-MM-GG
+  // misure con la data di più di 10 anni fa (issue #94, #99; measDate: check_date:<misura> o l'ultima modifica del
+  // nodo, AGE_CUT). Albero alto meno di LOW_H m con l'altezza di più di 5 anni fa (AGE_CUT[0]): un consiglio a sé, e
+  // height non si ripete tra le misure invariate da più di 10 anni. when: da dove viene la data (le date come AAAA-MM-GG)
+  const when = k => p["md_" + k] ? `check_date:${k}=${p["md_" + k]}` : H.lastEdit(p.ts);
+  const hm = p.height != null ? lenM(p.height) : null, low = hm > 0 && hm < LOW_H && before(measDate(p, "height"), AGE_CUT[0]);
+  if (low) out.push(H.lowOld(p.height, when("height")));
+  const oldM = MEAS_KEYS.filter(k => p[k] && !(low && k === "height") && before(measDate(p, k), AGE_CUT[1]));
+  if (oldM.length) {   // le misure con la stessa data insieme: «height=12, circumference=2 (ultima modifica: …); …»
+    const byWhen = new Map();
+    for (const k of oldM) byWhen.set(when(k), [...(byWhen.get(when(k)) || []), `${k}=${p[k]}`]);
+    out.push(H.oldMeasures(oldM.length, [...byWhen].map(([w, kv]) => `${kv.join(", ")} (${w})`).join("; ")));
+  }
   if (binomialHint(p.hint_sp)) out.push(H.wdSpecies(p.hint_sp));
   // l'elemento Wikidata dell'albero ha solo il genere della specie taggata (hint_wg = "QID|genere", fetch_trees.py)
   if (p.hint_wg) { const [q, g] = String(p.hint_wg).split("|"); if (q && g) out.push(H.wdGenusOnly(g)); }

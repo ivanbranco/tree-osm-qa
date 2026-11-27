@@ -810,6 +810,15 @@ CASES = [
      ["start_date_invalid"]),
     ("check_date non valido, date_mismatch resta", {"natural": "tree", "start_date": "1990", "planted_date": "1992",
                                                      "check_date": "ieri"}, ["start_date_invalid", "date_mismatch"]),
+    # check_date:<misura> (issue #99): le stesse forme; non è una chiave scritta male né un tag non documentato
+    ("check_date:height e check_date:circumference", {"natural": "tree", "height": "12", "circumference": "2.1",
+                                                      "check_date:height": "2019-05", "check_date:circumference": "2012"}, []),
+    ("start_date_invalid: check_date:circumference GG/MM/AAAA", {"natural": "tree", "circumference": "2.1",
+                                                                  "check_date:circumference": "02/09/2019"}, ["start_date_invalid"]),
+    ("start_date_invalid: check_date:diameter_crown nel futuro", {"natural": "tree", "diameter_crown": "8",
+                                                                   "check_date:diameter_crown": "2999"}, ["start_date_invalid"]),
+    ("start_date_invalid: check_date:diameter senza diameter", {"natural": "tree", "check_date:diameter": "~2020"},
+     ["start_date_invalid"]),
     ("key_typo: planted:date", {"natural": "tree", "planted:date": "2020"}, ["key_typo"]),
     # --- sinonimi di planted_date (issue #90) ---
     ("key_typo: year_planted", {"natural": "tree", "year_planted": "2020"}, ["key_typo"]),
@@ -1538,6 +1547,23 @@ def feature_failures():
                 and ft.start_date_precision("j:1918-01-31") == 0),
                ("Più vecchio: ⚠ da tag_in_value su planted_date", ft.record_warned("oldest", {
                    "planted_date": "planted_date=1850", "issues": "|tag_in_value|", "eq_keys": "planted_date"}))]
+    # data propria delle misure (md_<misura>, issue #99): solo valida, con la misura, e non superata da check_date o
+    # survey:date; un rilievo di tutto l'albero più vecchio, o dello stesso anno, non la toglie
+    md = lambda tags: {k: v for k, v in ft.to_feature(node(9017, {"natural": "tree", **tags}))["properties"].items()
+                       if k.startswith("md_")}
+    checks += [("md_: check_date:height e check_date:circumference", md({"height": "12", "circumference": "2.1",
+                "check_date:height": " 2019-05 ", "check_date:circumference": "2012"})
+                == {"md_height": "2019-05", "md_circumference": "2012"}),
+               ("md_: non senza la misura, né con una data non valida o futura", md({"height": "12",
+                "check_date:diameter": "2019", "check_date:height": "2019-02-30", "diameter_crown": "8",
+                "check_date:diameter_crown": "2999-01-01"}) == {}),
+               ("md_: non con check_date più recente", md({"height": "12", "check_date:height": "2012",
+                "check_date": "2024-03-01"}) == {}),
+               ("md_: non con survey:date più recente nello stesso anno", md({"diameter": "400", "check_date:diameter":
+                "2012-05-01", "survey:date": "2012-06"}) == {}),
+               ("md_: con check_date più vecchio o dello stesso anno", md({"height": "12", "diameter_crown": "8",
+                "check_date:height": "2019-05-01", "check_date:diameter_crown": "2012-05-01", "check_date": "2012"})
+                == {"md_height": "2019-05-01", "md_diameter_crown": "2012-05-01"})]
     # codici MASAF confrontati tra gli alberi (masaf_code_checks, issue #95): LISTED è un albero singolo, GROUP_CODE un
     # filare singolo. Con lo stesso punto c'è anche same_point: qui conta solo masaf_*
     def masaf_build(els, groups=None):

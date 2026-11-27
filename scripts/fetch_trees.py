@@ -3748,8 +3748,8 @@ def checks(t, pos, osm_id=None):
         flag("masaf_unknown", masaf_unk=";".join(unk))
     # start_date e planted_date (issue #81), con le stesse forme. sd_bad: righe "chiave|motivo" separate da ";"
     # (motivo: invalid o future, start_date_problem). Con le due date leggibili e scritte in modo diverso: date_mismatch.
-    # Nello stesso check check_date e survey:date (survey_date_problem): non sono in KEEP, il valore va nella proprietà
-    # con il nome della chiave solo quando è segnalato
+    # Nello stesso check check_date, survey:date e check_date:<misura> (survey_date_problem): non sono in KEEP, il valore
+    # va nella proprietà con il nome della chiave solo quando è segnalato (le date valide delle misure sono in md_<misura>)
     sv_bad = [(k, why) for k in SURVEY_DATE_KEYS if k in t and (why := survey_date_problem(t[k]))]
     sd_bad = [(k, why) for k in DATE_KEYS if k in t and k not in eq and (why := start_date_problem(t[k]))]
     if sd_bad or sv_bad:
@@ -3894,6 +3894,8 @@ def to_feature(el, fast=True):
     p["id"] = el["id"]
     if ts := el.get("timestamp"):   # giorno dell'ultima modifica del nodo (AAAA-MM-GG): voce «modificati di recente» del menu errori
         p["ts"] = ts[:10]
+    # md_<misura>: check_date:<misura> valida (measure_dates, issue #99), per l'età della misura (al posto di ts) e la scheda
+    p.update({f"md_{k}": v for k, v in measure_dates(t).items()})
     if (sp := t.get("species")) and (gn := GROUP_NAME.get(norm_species(sp))) and sp != gn:
         p["sp_key"] = gn   # la stessa specie con un altro nome: il sito la conta e la filtra con gli altri
     if is_sacred(t):   # contorno azzurro sulla mappa
@@ -4415,9 +4417,27 @@ def start_date_problem(v, today=None):
 
 
 # data dell'ultimo rilievo (https://wiki.openstreetmap.org/wiki/Key:check_date e Key:survey:date): solo AAAA-MM-GG,
-# o meno precisa AAAA-MM e AAAA, senza ~, intervalli o altre forme di start_date. Check start_date_invalid
-SURVEY_DATE_KEYS = ("check_date", "survey:date")
+# o meno precisa AAAA-MM e AAAA, senza ~, intervalli o altre forme di start_date. Check start_date_invalid, anche per
+# la data di una sola misura (check_date:height=*, issue #99; measure_dates)
+MEASURE_KEYS = ("height", "circumference", "diameter", "diameter_crown")
+WHOLE_SURVEY_KEYS = ("check_date", "survey:date")
+SURVEY_DATE_KEYS = WHOLE_SURVEY_KEYS + tuple(f"check_date:{k}" for k in MEASURE_KEYS)
 SURVEY_DATE = re.compile(r"^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$")
+
+
+def measure_dates(t):
+    """Data propria delle misure (issue #99): {misura: valore di check_date:<misura>} per le misure presenti con una
+    check_date:<misura> valida e non nel futuro (survey_date_problem), com'è scritta (AAAA-MM-GG, AAAA-MM o AAAA). Non
+    vale se check_date o survey:date, il rilievo di tutto l'albero, è di dopo: allora conta quella, e il sito usa
+    l'ultima modifica del nodo, che non è prima. Con le due date nello stesso anno o mese (2012 e 2012-05-01) vale la
+    data della misura."""
+    whole = [str(t[k]).strip() for k in WHOLE_SURVEY_KEYS if k in t and not survey_date_problem(t[k])]
+    out = {}
+    for k in MEASURE_KEYS:
+        v = str(t.get(f"check_date:{k}", "")).strip()
+        if k in t and v and not survey_date_problem(v) and not any(w[:len(v)] > v for w in whole):
+            out[k] = v
+    return out
 
 
 def survey_date_problem(v, today=None):
