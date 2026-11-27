@@ -254,7 +254,8 @@ SMALL_MON_HEIGHT = 1.5     # m: altezza sotto questo valore
 SMALL_MON_CIRC = 0.2       # m: circonferenza sotto questo valore (anche da diameter)
 # Limiti massimi per specie (altezza e circonferenza, in m), modificabili in species_limits.json. Sono i record
 # della pagina wiki https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/Tree_species_records, presi da
-# monumentaltrees.com; "height_source" / "circumference_source" indicano una fonte diversa (es. "MASAF")
+# monumentaltrees.com; "height_source" / "circumference_source" indicano una fonte diversa (es. "MASAF"),
+# "height_url" / "circumference_url" la pagina della fonte (solo per species/records.html, i check non le usano)
 _RAW_LIMITS = load_json(HERE / "species_limits.json")
 # rapporti medi (mediane) usati quando la specie non ne ha uno proprio
 DEFAULT_RATIOS = _RAW_LIMITS.pop("_default", {})

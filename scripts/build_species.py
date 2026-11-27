@@ -16,7 +16,9 @@ il mondo, anche fuori dalle regioni), scripts/masaf_trees.json (l'elenco MASAF),
 sull'anno di «Più vecchio», copiate nella pagina), data/regions_boundaries.geojson e data/index.json; scrive species/<slug>.html dal modello scripts/species_template.html, con i dati della specie dentro
 la pagina, e species/<slug>.mon.json con i monumentali della specie ([lon, lat, id, nome]), che la pagina scarica
 solo quando si accende la casella «Monumentali». I contorni delle regioni li carica la pagina da
-data/regions_boundaries.geojson.
+data/regions_boundaries.geojson. Alla fine riscrive species/index.json e species/records.json (write_index) con tutte le
+schede della cartella: records.json lo legge species/records.html, il confronto dei record di tutte le specie (pagina
+scritta a mano, per ora non collegata dal resto del sito).
 """
 import collections
 import gzip
@@ -459,8 +461,9 @@ def write_index():
     - "pages": {nome in minuscolo: slug}. Lo legge index.html per il link sulla specie nella scheda dell'albero; il
       nome è quello della lista wiki, come sp_key degli alberi;
     - "list": una voce per scheda, in ordine di nome, per l'elenco species/index.html (pagina scritta a mano): nome,
-      slug, nomi comuni, alberi, monumentali, tipo di foglia e ciclo, foto (quella della scheda in inglese)."""
-    pages, rows = {}, []
+      slug, nomi comuni, alberi, monumentali, tipo di foglia e ciclo, foto (quella della scheda in inglese).
+    Scrive anche species/records.json (records_index), per la pagina species/records.html."""
+    pages, rows, recs, reg_names = {}, [], [], {}
     for p in sorted(OUT_DIR.glob("*.html")):
         d = page_data(p)
         if not d or d.get("slug") != p.stem:
@@ -471,10 +474,83 @@ def write_index():
         row = {"name": d["name"], "slug": p.stem, "it": d["names"].get("it"), "en": d["names"].get("en"),
                "n": d["total"], "mon": d.get("mon_n", 0), "lt": d.get("lt"), "lc": d.get("lc"), "img": img}
         rows.append({k: v for k, v in row.items() if v is not None})
+        recs.append(records_row(d))
+        for slug, r in (d.get("regions") or {}).items():
+            reg_names[slug] = [r["name"], r.get("name_en") or r["name"]]
     rows.sort(key=lambda r: r["name"].lower())
     (OUT_DIR / "index.json").write_text(json.dumps({"pages": pages, "list": rows}, ensure_ascii=False, indent=1) + "\n",
                                         encoding="utf-8")
     print(f"species/index.json: {len(pages)} pagine")
+    records_index(recs, reg_names)
+
+
+# primati della scheda (REC di species_template.html), nello stesso ordine
+REC_KEYS = ("height", "trunk", "crown", "slender", "stocky", "oldest", "isolated")
+
+
+def _rec_slim(t):
+    """Albero di un primato della scheda senza la frase sull'anno ("ev"), che species/records.html non usa."""
+    return {k: v for k, v in t.items() if k != "ev"}
+
+
+def records_row(d):
+    """Riga di species/records.json per la scheda d (i dati dentro la pagina), con gli stessi numeri che la scheda
+    mostra:
+    - "med": {misura: [mediana o None sotto MIN_SAMPLE, alberi del campione]} (stats);
+    - "rec": {primato: {"top": il primo della classifica, segnalato o no, "ok": il primo non segnalato}}. "ok" manca
+      se "top" non è segnalato (è lui); è None se la specie non ha valori non segnalati; manca anche se i primi TOP
+      sono tutti segnalati e la scheda è stata generata prima di records_ok (la pagina dice di rigenerarla);
+    - "ref": {"height" | "trunk": {"v": record della wiki, "src": fonte, "url": pagina della fonte, se c'è}}. La
+      fonte è quella della scheda; per le schede generate prima che la scheda la salvasse, quella di
+      species_limits.json se il record è lo stesso.
+    "updated": la data dei dati della scheda."""
+    st, ok_all = d.get("stats") or {}, d.get("records_ok")
+    med = {k: [st[k].get("med"), st[k].get("n", 0)] for k in ("height", "trunk", "crown", "h_c", "cr_c") if k in st}
+    rec = {}
+    for k in REC_KEYS:
+        lst = (d.get("records") or {}).get(k) or []
+        if not lst:
+            continue
+        r = {"top": _rec_slim(lst[0])}
+        if lst[0]["w"]:
+            ok = next((t for t in lst if not t["w"]), None)
+            if ok is not None:
+                r["ok"] = _rec_slim(ok)
+            elif ok_all is not None:
+                r["ok"] = _rec_slim(ok_all[k]) if ok_all.get(k) else None
+        rec[k] = r
+    w, lim = d.get("wiki") or {}, ft._RAW_LIMITS.get(d["name"], {})
+    ref = {}
+    for k, key in (("height", "height"), ("trunk", "circumference")):
+        if not w.get(key):
+            continue
+        # scheda generata prima che salvasse la fonte (records_ok manca): fonte e link di adesso, se il record è
+        # uguale; altrimenti la fonte non si sa
+        src = w if ok_all is not None else lim if lim.get(key) == w[key] else None
+        ref[k] = {"v": w[key]}
+        if src is not None:
+            ref[k]["src"] = src.get(f"{key}_source") or "monumentaltrees.com"
+            if src.get(f"{key}_url"):
+                ref[k]["url"] = src[f"{key}_url"]
+    row = {"name": d["name"], "slug": d["slug"], "it": d["names"].get("it"), "en": d["names"].get("en"),
+           "n": d["total"], "lt": d.get("lt"), "lc": d.get("lc"), "updated": d.get("updated"),
+           "med": med, "rec": rec, "ref": ref}
+    return {k: v for k, v in row.items() if v is not None}
+
+
+def records_index(recs, reg_names):
+    """species/records.json per species/records.html (pagina scritta a mano, per ora non collegata dal resto del sito):
+    {"min_sample": alberi minimi per una mediana (MIN_SAMPLE), "regions": {slug: [nome, nome inglese]} delle regioni
+    degli alberi elencati, "list": una riga per scheda (records_row), in ordine di nome}. Ogni specie su una riga del
+    file, perché le differenze si leggano."""
+    recs.sort(key=lambda r: r["name"].lower())
+    used = sorted({t["r"] for r in recs for x in r["rec"].values() for t in (x["top"], x.get("ok")) if t and t.get("r")})
+    regions = {s: reg_names[s] for s in used if s in reg_names}
+    dump = lambda x: json.dumps(x, ensure_ascii=False, separators=(",", ":"))   # noqa: E731
+    text = (f'{{"min_sample":{MIN_SAMPLE},"regions":' + dump(regions) + ',\n"list":[\n' + ",\n".join(dump(r) for r in recs)
+            + "\n]}\n")
+    (OUT_DIR / "records.json").write_text(text, encoding="utf-8")
+    print(f"species/records.json: {len(recs)} specie, {len(text) // 1024} kB")
 
 
 def year_events(n, oldest, rinfo):
@@ -519,11 +595,16 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
                 "id": f["properties"]["id"], "name": f["properties"].get("name") or "",
                 "tags": {t: f["properties"][t] for t in ("height", "circumference", "diameter", "diameter_crown",
                                                         "start_date", "planted_date") if t in f["properties"]}}
-    # per ogni primato i primi TOP, valori segnalati compresi (⚠), come il tab «Alberi da record»
-    records = {}
+    # per ogni primato i primi TOP, valori segnalati compresi (⚠), come il tab «Alberi da record». records_ok: per i
+    # primati con i primi TOP tutti segnalati, il primo albero non segnalato della classifica (None se non ce n'è
+    # nessuno), per l'interruttore «Escludi i valori segnalati» di species/records.html; la scheda non lo mostra
+    records, records_ok = {}, {}
     for k, rows in cands.items():
         rows.sort(key=lambda r: r[0])
         records[k] = [rec_tree(k, v, slug, f) for _, v, slug, f in rows[:TOP]]
+        if all(t["w"] for t in records[k]):
+            ok = next(((v, slug, f) for _, v, slug, f in rows[TOP:] if not ft.record_warned(k, f["properties"])), None)
+            records_ok[k] = rec_tree(k, *ok) if ok else None
     year_events(n, records.get("oldest", []), rinfo)
     h_c = []                                   # rapporto altezza / circonferenza, come la colonna della wiki
     for slug, f in s["feats"]:
@@ -580,8 +661,11 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
         "total": sum(s["per_region"].values()), "issues": s["issues"],
         "n_regions": sum(1 for v in s["per_region"].values() if v),
         "mon_n": len(s["mon"]), "masaf": s["masaf"],      # i punti dei monumentali sono in <slug>.mon.json
-        "records": records,
-        "wiki": {k: lim.get(k) for k in ("height", "circumference", "height_circ_ratio", "crown_circ_ratio") if lim.get(k)},
+        "records": records, "records_ok": records_ok,
+        # record e medie della wiki; *_source e *_url: fonte del record (se non è monumentaltrees.com) e link alla sua
+        # pagina, per species/records.html
+        "wiki": {k: lim.get(k) for k in ("height", "circumference", "height_circ_ratio", "crown_circ_ratio", "height_source",
+                                         "circumference_source", "height_url", "circumference_url") if lim.get(k)},
         "stats": stats,
         "regions": regs, "nations": dict(nations),
         "grid": [[x, y, c] for (x, y), c in sorted(s["grid"].items())],

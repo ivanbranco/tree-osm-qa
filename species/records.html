@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- confronto dei primati e delle misure tipiche di tutte le specie con una scheda, una riga per specie. Pagina scritta
+     a mano: le righe le legge da species/records.json, che scripts/build_species.py riscrive a ogni generazione delle
+     schede (write_index), con gli stessi numeri delle schede. Per ora non è collegata da nessuna pagina del sito e non
+     si fa indicizzare (robots) -->
+<meta name="robots" content="noindex">
+<title>Species records · DendrOSM</title>
+<meta name="description" content="Records and typical sizes of all the tree species with a DendrOSM page, one row per species.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon.png" type="image/png" sizes="64x64">
+<style>
+  /* stessi colori e intestazione dell'elenco delle specie (species/index.html) e delle schede */
+  :root{--green:#1b6b2c;--ink:#1d2a20;--muted:#5d6b61;--line:#dfe5e0;--bg:#f6f8f6;--card:#fff;--warn:#b26a00;--grid:#e3e9e4}
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif}
+  a{color:#1a5fb4}
+  header.top{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line)}
+  header.top .brand{font-weight:700;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:6px}
+  header.top .crumb{color:var(--muted);text-decoration:none;margin-left:-4px}
+  header.top a.crumb:hover{text-decoration:underline}
+  header.top .sp{flex:1}
+  #lang{border:1px solid var(--line);background:#fff;border-radius:4px;padding:3px 8px;cursor:pointer;font:inherit;font-size:13px}
+  main{max-width:1480px;margin:0 auto;padding:20px 16px 40px}
+  h1{margin:0;font-size:28px;font-weight:650;letter-spacing:-.01em}
+  .lead{color:var(--muted);margin:4px 0 6px;font-size:14px;max-width:84ch}
+  .controls{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:10px 0}
+  .controls+.controls{margin-top:-2px}
+  #q{flex:1;min-width:200px;max-width:360px;font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
+  .seg button{border:0;background:none;padding:5px 10px;font:inherit;font-size:13px;cursor:pointer;color:var(--ink)}
+  .seg button+button{border-left:1px solid var(--line)}
+  .seg button[aria-pressed="true"]{background:var(--green);color:#fff}
+  .ctl-l{font-size:13px;color:var(--muted)}
+  label.ck{display:inline-flex;gap:6px;align-items:center;font-size:14px;cursor:pointer}
+  select{font:inherit;font-size:13px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
+  #count{font-size:13px;color:var(--muted)}
+  .none,.na{color:var(--muted)}
+  .none{font-style:italic}
+  .warn{color:var(--warn);cursor:help;font-size:.85em;font-weight:400}
+  /* ---------- tabella ---------- */
+  .tw{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:8px}
+  /* la tabella sta nella larghezza (.fit, fitTable): niente riquadro che scorre, e l'intestazione resta in cima con
+     position:sticky; altrimenti la sposta stickHead */
+  .tw.fit{overflow:visible}
+  .tw.fit .recs thead{position:sticky;top:0;z-index:4}
+  .tw.fit .recs thead tr:first-child th:first-child{border-top-left-radius:8px}
+  .tw.fit .recs thead tr:first-child th:last-child{border-top-right-radius:8px}
+  .recs{border-collapse:separate;border-spacing:0;width:100%;font-size:13.5px}
+  .recs th,.recs td{padding:5px 7px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  .recs tbody tr:last-child>*{border-bottom:0}
+  .recs thead th{font-size:12px;line-height:1.3;color:var(--muted);font-weight:600;background:#fafbfa;vertical-align:bottom;position:relative;z-index:2}
+  .recs thead th.grp{text-align:center;color:var(--ink);vertical-align:middle}
+  .recs thead.stuck th{box-shadow:0 1px 0 var(--line)}
+  .recs thead th small{display:block;font-weight:400}
+  .recs td{white-space:nowrap}
+  .recs .num{text-align:right;font-variant-numeric:tabular-nums}
+  .recs .gs{border-left:1px solid #c9d3cc}
+  /* nome della specie fisso a sinistra */
+  .recs .nm{position:sticky;left:0;z-index:1;background:#fff;border-right:1px solid var(--line);min-width:150px;font-weight:400}
+  .recs thead .nm{z-index:3;background:#fafbfa}
+  .recs tbody tr:hover>*{background:#f3f7f4}
+  .recs .nm a{overflow-wrap:break-word}
+  .recs .lb-s{display:none}
+  .sh{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;text-align:inherit;line-height:inherit}
+  .sh:hover{color:var(--green)}
+  .sh .arr{margin-left:3px;font-size:10px;color:var(--green)}
+  /* il nome comune può andare a capo, perché la tabella stia nella larghezza */
+  .recs .wr{white-space:normal}
+  .src{display:block;font-size:11px;line-height:1.3;color:var(--muted);white-space:nowrap}
+  .src a{color:inherit}
+  .rv{text-decoration:none;border-bottom:1px dotted #1a5fb4}
+  .rv:hover{border-bottom-style:solid}
+  #grpbox{display:none;gap:6px;align-items:center}
+  @media (min-width:900px){#ctl-table{display:none}}
+  /* telefono: il nome della specie e un gruppo di colonne alla volta (selettore «Colonne»), senza scorrimento; le
+     larghezze le decide il contenuto, i valori vanno a capo solo tra numero e ⚠ */
+  @media (max-width:899px){
+    #grpbox{display:inline-flex}
+    .recs{font-size:12.5px}
+    .recs .nm{min-width:0}
+    .recs th,.recs td{padding:5px}
+    .recs thead th{font-size:11px}
+    .recs td{white-space:normal;overflow-wrap:break-word}
+    .recs .src{font-size:10.5px}
+    .recs .lb-l{display:none}
+    .recs .lb-s{display:inline}
+    .recs [data-g]{display:none}
+    .recs[data-grp="sp"] [data-g="sp"],.recs[data-grp="height"] [data-g="height"],.recs[data-grp="trunk"] [data-g="trunk"],
+    .recs[data-grp="crown"] [data-g="crown"],.recs[data-grp="ratio"] [data-g="ratio"],.recs[data-grp="other"] [data-g="other"]{display:table-cell}
+    .recs .gs{border-left:0}
+  }
+  /* ---------- grafico: un righello per specie, sulla stessa scala ---------- */
+  .chart{background:#fff;border:1px solid var(--line);border-radius:8px;padding:0 12px 6px}
+  .crow{display:grid;grid-template-columns:minmax(170px,250px) 1fr 132px;gap:0 12px;align-items:center;border-bottom:1px solid #eef1ee;min-height:30px}
+  .crow:last-child{border-bottom:0}
+  .crow.axis{position:sticky;top:0;z-index:3;background:#fff;border-bottom:1px solid var(--line);font-size:11.5px;color:var(--muted);min-height:34px}
+  .cn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
+  .cn .cm{color:var(--muted);font-size:12.5px;margin-left:4px}
+  .cn .dt{color:var(--muted);font-size:11.5px;margin-left:4px}
+  .cr{display:flex;align-items:center;height:26px;min-width:0}
+  .track{position:relative;flex:1;height:100%;background-repeat:repeat-x}
+  .axis .track{height:34px}
+  .ovf{flex:none;width:0;overflow:hidden;white-space:nowrap;text-align:right;font-size:12px}
+  .chart.has-ovf .ovf{width:86px}
+  .track .bg,.track .bar{position:absolute;left:0;top:50%;height:6px;margin-top:-3px;border-radius:3px}
+  .track .bg{right:0;background:#eef1ee}
+  .track .bar{background:#a9cdb1}
+  .track .end{position:absolute;top:50%;height:12px;margin-top:-6px;width:2px;margin-left:-1px;background:#2f7d40}
+  .track .dot{position:absolute;top:50%;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;background:#1b6b2c}
+  /* tacca del record di riferimento: area di tocco più larga della linea */
+  .track .ref{position:absolute;top:50%;width:14px;height:22px;margin:-11px 0 0 -7px;cursor:help;outline-offset:1px}
+  .track .ref::after{content:"";position:absolute;left:6px;top:2px;width:2px;height:18px;background:#b5651d}
+  .track .wm{position:absolute;top:50%;transform:translate(-50%,-55%);font-size:13px;line-height:1;color:var(--warn);text-decoration:none}
+  .ovf .wo{color:var(--warn);text-decoration:none}
+  .tick{position:absolute;bottom:4px;transform:translateX(-50%);font-variant-numeric:tabular-nums}
+  .tick.first{transform:none}
+  .tick.last{transform:translateX(-100%)}
+  .cv{font-size:13px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cv .vm{color:var(--muted)}
+  .axis .cv{font-size:11.5px;white-space:normal;line-height:1.25}
+  .legend{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;font-size:12.5px;color:var(--muted);margin:8px 0}
+  .legend i{display:inline-block;vertical-align:-1px;margin-right:5px}
+  .lg-dot{width:9px;height:9px;border-radius:50%;background:#1b6b2c}
+  .lg-bar{width:22px;height:6px;border-radius:3px;background:#a9cdb1;border-right:2px solid #2f7d40}
+  .lg-ref{width:2px;height:14px;background:#b5651d;vertical-align:-3px!important}
+  @media (max-width:699px){
+    .chart{padding:0 10px 6px}
+    .crow{grid-template-columns:1fr auto;grid-template-areas:"n v" "r r";padding:4px 0 2px}
+    .crow .cn{grid-area:n}.crow .cv{grid-area:v}.crow .cr{grid-area:r}
+    .cn .cm{display:none}
+    .chart.has-ovf .ovf{width:72px}
+    .crow.axis{padding:2px 0 0}
+  }
+  /* scheda dell'albero al passaggio del mouse o al tocco */
+  #tip{position:fixed;z-index:30;width:max-content;max-width:min(320px,calc(100vw - 16px));padding:8px 10px;border-radius:6px;background:#fff;
+    border:1px solid var(--line);box-shadow:0 4px 16px #0002;font-size:13px;line-height:1.45;color:var(--ink)}
+  #tip[hidden]{display:none}
+  #tip .th{font-size:12px;color:var(--muted)}
+  #tip .tg{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--muted);overflow-wrap:anywhere;margin-top:2px}
+  #tip .wl{color:var(--warn);margin-top:2px}
+  #tip .go{margin-top:4px}
+  footer{max-width:1480px;margin:0 auto;padding:0 16px 30px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="../index.html"><img src="../favicon.svg" width="22" height="22" alt="">DendrOSM</a>
+  <span class="crumb">›</span><a class="crumb" id="crumb" href="index.html"></a>
+  <span class="sp"></span>
+  <button id="lang" type="button"></button>
+</header>
+<main>
+  <h1 id="title"></h1>
+  <p class="lead" id="lead"></p>
+  <p class="lead" id="from"></p>
+  <div class="controls">
+    <span class="seg" id="view"><button type="button" data-k="table"></button><button type="button" data-k="chart"></button></span>
+    <input id="q" type="search" autocomplete="off">
+    <span id="count"></span>
+  </div>
+  <div class="controls">
+    <span class="seg" id="lt"><button type="button" data-k=""></button><button type="button" data-k="broadleaved"></button><button type="button" data-k="needleleaved"></button></span>
+    <span class="seg" id="lc"><button type="button" data-k=""></button><button type="button" data-k="deciduous"></button><button type="button" data-k="evergreen"></button></span>
+    <label class="ck"><input type="checkbox" id="clean"> <span id="clean-l"></span></label>
+  </div>
+  <div class="controls" id="ctl-table"><span id="grpbox"><label class="ctl-l" for="grp" id="grp-l"></label><select id="grp"></select></span></div>
+  <div class="controls" id="ctl-chart">
+    <span class="ctl-l" id="m-l"></span><span class="seg" id="m"><button type="button" data-k="height"></button><button type="button" data-k="trunk"></button><button type="button" data-k="crown"></button></span>
+    <span class="ctl-l" id="cs-l"></span><span class="seg" id="cs"><button type="button" data-k="med"></button><button type="button" data-k="max"></button><button type="button" data-k="name"></button></span>
+  </div>
+  <div id="out"></div>
+</main>
+<footer id="foot"></footer>
+<div id="tip" role="tooltip" hidden></div>
+<script>
+"use strict";
+const hp = new URLSearchParams(location.hash.slice(1));
+const storedLang = () => { try { return localStorage.getItem("lang"); } catch (e) { return null; } };
+// stessa scelta della mappa, dell'elenco e delle schede: #lang=, poi la lingua salvata, poi quella del browser
+let LANG = [hp.get("lang"), storedLang(), (navigator.language || "").slice(0, 2).toLowerCase() === "it" ? "it" : "en"]
+  .find(l => l === "it" || l === "en");
+const HASH_LANG = hp.has("lang");     // la lingua resta nell'indirizzo solo se c'era
+const WIKI = "https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/Tree_species_records";
+const I18N = {
+  it: {
+    other: "English", crumb: "Specie", title: "Record delle specie", docTitle: "Record delle specie · DendrOSM",
+    lead: n => `Primati e misure tipiche di tutte le specie che hanno una scheda, una riga per specie, con gli stessi numeri delle schede. ⚠ = valore segnalato da un check: potrebbe essere sbagliato. Le mediane non contano i valori segnalati${n ? ` e si mostrano solo con almeno ${n} alberi` : ""}.`,
+    from: "I numeri vengono dagli alberi delle regioni di DendrOSM e dai monumentali di tutto il mondo, non da tutto OpenStreetMap.",
+    dateOne: d => `Dati aggiornati al ${d}.`, dateMany: "Le schede sono state generate con dati di date diverse: la data è in ogni riga.",
+    view: { table: "Tabella", chart: "Grafico" }, search: "Cerca per nome scientifico o comune",
+    count: (n, t) => n === t ? `${t} specie` : `${n} specie su ${t}`, noMatch: "Nessuna specie corrisponde alla ricerca o ai filtri.",
+    lt: { "": "Tutte", broadleaved: "Latifoglie", needleleaved: "Aghifoglie" }, ltL: "Tipo di foglia",
+    lc: { "": "Tutte", deciduous: "Caducifoglie", evergreen: "Sempreverdi" }, lcL: "Ciclo delle foglie",
+    clean: "Escludi i valori segnalati", cols: "Colonne",
+    grp: { sp: "Specie", height: "Altezza (m)", trunk: "Circonferenza (m)", crown: "Chioma (m)", ratio: "Rapporti", other: "Altri" },
+    grpShort: { sp: "Specie", height: "Altezza", trunk: "Circonferenza", crown: "Chioma", ratio: "Rapporti", other: "Altri" },
+    col: { name: "Nome scientifico", common: "Nome comune", n: "Alberi", date: "Dati del", "height-med": "Mediana", height: "Più alto",
+      "height-ref": "Record di riferimento", "trunk-med": "Mediana", trunk: "Tronco più spesso", "trunk-ref": "Record di riferimento",
+      "crown-med": "Mediana del diametro", crown: "Chioma più larga", hc: "Mediana altezza/circonferenza", crc: "Mediana chioma/circonferenza",
+      slender: "Più slanciato", stocky: "Più tozzo", oldest: "Più vecchio", isolated: "Più isolato" },
+    colUnit: { slender: "altezza/diametro", stocky: "altezza/diametro", isolated: "km" },
+    colShort: { hc: "Mediana altezza/circ.", crc: "Mediana chioma/circ." },      // sul telefono
+    rc: { height: "Più alto", trunk: "Tronco più spesso", slender: "Più slanciato", stocky: "Più tozzo", crown: "Chioma più larga", oldest: "Più vecchio", isolated: "Più isolato" },
+    unit: { height: "m", trunk: "m di circonferenza", slender: "altezza/diametro", stocky: "altezza/diametro", crown: "m di diametro", oldest: "", isolated: "km" },
+    onlyW: "solo segnalati", onlyWT: "Nessun valore non segnalato per questa specie",
+    unknown: "Scheda generata prima che salvasse il primo valore non segnalato: va rigenerata",
+    noRec: "Nessun albero con questa misura", noRef: "Nessun record sulla wiki", few: n => `Troppo pochi alberi con questa misura (${n})`,
+    on: n => `su ${n} alberi`, warned: "Valore segnalato da un check", monMap: "mappa dei monumentali", node: id => `nodo ${id}`,
+    see: "Vedi sulla mappa", ref: "Record di riferimento", srcL: "Fonte", srcNo: "non indicata",
+    isoNear: { tree: "Il più vicino: un albero", wood: "Il più vicino: un bosco", forest: "Il più vicino: una foresta", tree_row: "Il più vicino: un filare" },
+    isoCap: "Nessun albero, bosco o filare entro 50 km",
+    measure: "Misura", sortBy: "Ordina per", m: { height: "Altezza", trunk: "Circonferenza", crown: "Chioma" },
+    cs: { med: "Mediana", name: "Nome" }, csMax: { height: "Più alto", trunk: "Più spesso", crown: "Più larga" },
+    vals: { height: "mediana · più alto (m)", trunk: "mediana · più spesso (m)", crown: "mediana · più larga (m)" },
+    chartLead: "Un righello per specie, tutti sulla stessa scala, come quello sotto i grafici delle schede: il punto è la mediana, la barra arriva al più alto non segnalato, la tacca marrone è il record di riferimento. La scala dipende solo dai valori non segnalati e dai record di riferimento.",
+    chartLeadW: " Il primo posto della classifica, se segnalato, si vede comunque: ⚠ sul righello, oppure sul bordo destro con il numero quando è fuori scala.",
+    lgMed: "mediana", lgBar: "fino al più alto non segnalato", lgRef: "record di riferimento", lgW: "primo posto segnalato", lgOvf: "fuori scala",
+    error: "I record delle specie non sono disponibili.",
+    foot: `Dati OpenStreetMap (ODbL). Record di riferimento: pagina wiki <a href="${WIKI}" target="_blank" rel="noopener">«Tree species records»</a> (monumentaltrees.com e MASAF).`
+  },
+  en: {
+    other: "Italiano", crumb: "Species", title: "Species records", docTitle: "Species records · DendrOSM",
+    lead: n => `Records and typical sizes of all the species with a page, one row per species, with the same numbers as the species pages. ⚠ = value flagged by a check: it may be wrong. Medians leave out the flagged values${n ? ` and are shown only with at least ${n} trees` : ""}.`,
+    from: "The numbers come from the trees of the DendrOSM regions plus the monumental trees of the whole world, not from all of OpenStreetMap.",
+    dateOne: d => `Data updated on ${d}.`, dateMany: "The species pages were generated from data of different dates: each row has its own date.",
+    view: { table: "Table", chart: "Chart" }, search: "Search by scientific or common name",
+    count: (n, t) => n === t ? `${t} species` : `${n} of ${t} species`, noMatch: "No species matches the search or the filters.",
+    lt: { "": "All", broadleaved: "Broadleaved", needleleaved: "Needleleaved" }, ltL: "Leaf type",
+    lc: { "": "All", deciduous: "Deciduous", evergreen: "Evergreen" }, lcL: "Leaf cycle",
+    clean: "Exclude flagged values", cols: "Columns",
+    grp: { sp: "Species", height: "Height (m)", trunk: "Circumference (m)", crown: "Crown (m)", ratio: "Ratios", other: "Other" },
+    grpShort: { sp: "Species", height: "Height", trunk: "Circumference", crown: "Crown", ratio: "Ratios", other: "Other" },
+    col: { name: "Scientific name", common: "Common name", n: "Trees", date: "Data as of", "height-med": "Median", height: "Tallest",
+      "height-ref": "Reference record", "trunk-med": "Median", trunk: "Thickest trunk", "trunk-ref": "Reference record",
+      "crown-med": "Median diameter", crown: "Widest crown", hc: "Median height/circumference", crc: "Median crown/circumference",
+      slender: "Most slender", stocky: "Stockiest", oldest: "Oldest", isolated: "Most isolated" },
+    colUnit: { slender: "height/diameter", stocky: "height/diameter", isolated: "km" },
+    colShort: { hc: "Median height/circ.", crc: "Median crown/circ." },
+    rc: { height: "Tallest", trunk: "Thickest trunk", slender: "Most slender", stocky: "Stockiest", crown: "Widest crown", oldest: "Oldest", isolated: "Most isolated" },
+    unit: { height: "m", trunk: "m girth", slender: "height/diameter", stocky: "height/diameter", crown: "m across", oldest: "", isolated: "km" },
+    onlyW: "only flagged", onlyWT: "No unflagged value for this species",
+    unknown: "Page generated before it saved the first unflagged value: it needs regenerating",
+    noRec: "No tree with this measurement", noRef: "No record on the wiki", few: n => `Too few trees with this measurement (${n})`,
+    on: n => `from ${n} trees`, warned: "Value flagged by a check", monMap: "monumental map", node: id => `node ${id}`,
+    see: "See on the map", ref: "Reference record", srcL: "Source", srcNo: "not given",
+    isoNear: { tree: "Nearest: a tree", wood: "Nearest: a wood", forest: "Nearest: a forest", tree_row: "Nearest: a tree row" },
+    isoCap: "No tree, wood or tree row within 50 km",
+    measure: "Measure", sortBy: "Sort by", m: { height: "Height", trunk: "Circumference", crown: "Crown" },
+    cs: { med: "Median", name: "Name" }, csMax: { height: "Tallest", trunk: "Thickest", crown: "Widest" },
+    vals: { height: "median · tallest (m)", trunk: "median · thickest (m)", crown: "median · widest (m)" },
+    chartLead: "One ruler per species, all on the same scale, like the one under the charts of the species pages: the dot is the median, the bar reaches the largest unflagged value, the brown mark is the reference record. The scale depends only on the unflagged values and on the reference records.",
+    chartLeadW: " The first place of the ranking, when flagged, is shown anyway: ⚠ on the ruler, or on the right edge with its value when it is off the scale.",
+    lgMed: "median", lgBar: "up to the largest unflagged value", lgRef: "reference record", lgW: "flagged first place", lgOvf: "off the scale",
+    error: "The species records are not available.",
+    foot: `OpenStreetMap data (ODbL). Reference records: wiki page <a href="${WIKI}" target="_blank" rel="noopener">"Tree species records"</a> (monumentaltrees.com and MASAF).`
+  }
+};
+let T, LOC, COLL, DATA = null, FAILED = false, MANY_DATES = false;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const fmt = (v, d = 0) => v == null ? "–" : Number(v).toLocaleString(LOC, { maximumFractionDigits: d, minimumFractionDigits: 0 });
+// confronto senza maiuscole né accenti («farnia», «Érable»), come l'elenco delle specie
+const fold = s => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const common = r => (LANG === "it" ? r.it || r.en : r.en || r.it) || "";
+const dateOf = iso => iso ? new Date(iso).toLocaleDateString(LOC, { day: "numeric", month: "long", year: "numeric" }) : "";
+const regName = slug => { const r = DATA.regions[slug]; return r ? r[LANG === "it" ? 0 : 1] : slug; };
+const treeLink = t => t.r ? `../index.html#region=${t.r}&node=${t.id}` : `../monumental-trees/index.html#node=${t.id}`;
+// valore come nella scheda (recVal in scripts/species_template.html)
+const recVal = (k, t) => k === "oldest" ? esc(t.tags.start_date || t.tags.planted_date || t.v) : k === "isolated" && t.cap ? `&gt; ${fmt(t.v)}`
+  : fmt(t.v, k === "slender" || k === "stocky" ? 1 : 2);
+const DASH = '<span class="na">–</span>';
+
+// ---------- stato della vista: anche nell'indirizzo (#view=…&sort=…), perché un link riapra la stessa vista ----------
+const GROUPS = ["sp", "height", "trunk", "crown", "ratio", "other"];
+const S = { view: "table", sort: "n", dir: "desc", lt: "", lc: "", clean: false, q: "", grp: "height", m: "height", cs: "med" };
+const DEF = { ...S };
+
+// albero mostrato per il primato k (species/records.json, records_row in build_species.py): il primo della classifica,
+// anche se segnalato; con l'interruttore il primo non segnalato. null = nessun albero con questa misura
+const ONLY_W = { only: true }, UNKNOWN = { unknown: true };
+// il primo non segnalato: null se la specie non ha alberi con questa misura, ONLY_W se sono tutti segnalati, UNKNOWN se
+// la scheda è stata generata prima che lo salvasse (records_ok in build_species.py)
+function okTree(r, k) {
+  const x = r.rec[k];
+  if (!x) return null;
+  if (!x.top.w) return x.top;
+  return x.ok === undefined ? UNKNOWN : x.ok || ONLY_W;
+}
+function shownTree(r, k) { const x = r.rec[k]; return !x ? null : S.clean ? okTree(r, k) : x.top; }
+const isTree = t => t && !t.only && !t.unknown;
+const medOf = (r, m) => (r.med[m] || [])[0] ?? null;
+
+// ---------- colonne della tabella ----------
+// dir = verso del primo clic sull'intestazione: dal migliore (dal più basso per «Più tozzo» e «Più vecchio», come
+// RECORD_LOW in fetch_trees.py), in ordine alfabetico per i nomi
+let TIPS = [];
+const tipAttr = o => ` data-tip="${TIPS.push(o) - 1}"`;
+function medCell(r, m) {
+  const x = r.med[m];
+  if (!x) return DASH;
+  return x[0] == null ? `<span class="na" title="${esc(T.few(fmt(x[1])))}">–</span>` : `<span title="${esc(T.on(fmt(x[1])))}">${fmt(x[0], 2)}</span>`;
+}
+function recCell(r, k) {
+  const t = shownTree(r, k);
+  if (!t) return `<span class="na" title="${esc(T.noRec)}">–</span>`;
+  if (t.only) return `<span class="none" title="${esc(T.onlyWT)}">${T.onlyW}</span>`;
+  if (t.unknown) return `<span class="none" title="${esc(T.unknown)}">?</span>`;
+  return `<a class="rv" href="${treeLink(t)}"${tipAttr({ k, t })}>${recVal(k, t)}</a>${t.w ? ` <span class="warn" title="${esc(T.warned)}">⚠</span>` : ""}`;
+}
+const srcHtml = ref => !ref.src ? esc(T.srcNo) : ref.url ? `<a href="${esc(ref.url)}" target="_blank" rel="noopener">${esc(ref.src)}</a>` : esc(ref.src);
+function refCell(r, m) {
+  const ref = r.ref[m];
+  return ref ? `${fmt(ref.v, 2)}<span class="src">${srcHtml(ref)}</span>` : `<span class="na" title="${esc(T.noRef)}">–</span>`;
+}
+const recSort = (r, k) => { const t = shownTree(r, k); return isTree(t) ? t.v + (t.cap ? 1e-6 : 0) : null; };
+const medCol = (k, m, g) => ({ k, g, dir: "desc", num: true, val: r => medOf(r, m), cell: r => medCell(r, m) });
+const recCol = (k, g) => ({ k, g, dir: k === "stocky" || k === "oldest" ? "asc" : "desc", num: true, val: r => recSort(r, k), cell: r => recCell(r, k) });
+const refCol = (k, m, g) => ({ k, g, dir: "desc", num: true, val: r => r.ref[m]?.v ?? null, cell: r => refCell(r, m) });
+const COLS = [
+  { k: "name", g: null, dir: "asc", val: r => r.name, cell: r => `<a href="${esc(r.slug)}.html"><i>${esc(r.name)}</i></a>` },
+  { k: "common", g: "sp", dir: "asc", val: r => common(r) || null, cell: r => `<span class="wr">${esc(common(r))}</span>` },
+  { k: "n", g: "sp", dir: "desc", num: true, val: r => r.n, cell: r => fmt(r.n) },
+  { k: "date", g: "sp", dir: "desc", num: true, many: true, val: r => r.updated ? Date.parse(r.updated) : null,
+    cell: r => r.updated ? new Date(r.updated).toLocaleDateString(LOC, { day: "numeric", month: "short", year: "numeric" }) : DASH },
+  medCol("height-med", "height", "height"), recCol("height", "height"), refCol("height-ref", "height", "height"),
+  medCol("trunk-med", "trunk", "trunk"), recCol("trunk", "trunk"), refCol("trunk-ref", "trunk", "trunk"),
+  medCol("crown-med", "crown", "crown"), recCol("crown", "crown"),
+  medCol("hc", "h_c", "ratio"), medCol("crc", "cr_c", "ratio"), recCol("slender", "ratio"), recCol("stocky", "ratio"),
+  recCol("oldest", "other"), recCol("isolated", "other"),
+];
+const COL = Object.fromEntries(COLS.map(c => [c.k, c]));
+const colsShown = () => COLS.filter(c => !c.many || MANY_DATES);
+
+// celle vuote sempre in fondo, in tutti e due i versi; a parità prima la specie con più alberi
+const tie = (a, b) => b.n - a.n || a.name.localeCompare(b.name);
+function sortBy(rows, val, dir) {
+  const v = new Map(rows.map(r => [r, val(r)]));
+  return rows.sort((a, b) => {
+    const x = v.get(a), y = v.get(b), ex = x == null, ey = y == null;
+    if (ex || ey) return ex && ey ? tie(a, b) : ex ? 1 : -1;
+    const d = typeof x === "string" ? COLL.compare(x, y) : x - y;
+    return d ? (dir === "asc" ? d : -d) : tie(a, b);
+  });
+}
+
+function filtered() {
+  const q = fold(S.q.trim());
+  return DATA.list.filter(r => (!q || [r.name, r.it, r.en].some(x => fold(x).includes(q)))
+    && (!S.lt || r.lt === S.lt)
+    && (!S.lc || (S.lc === "deciduous" ? /^(semi_)?deciduous$/ : /^(semi_)?evergreen$/).test(r.lc || "")));
+}
+
+function tableHtml(rows) {
+  const cols = colsShown(), rest = cols.slice(1);
+  const c = COL[S.sort] && cols.includes(COL[S.sort]) ? COL[S.sort] : COL.n;
+  sortBy(rows, c.val, S.dir);
+  const arrow = x => S.sort === x.k ? `<span class="arr" aria-hidden="true">${S.dir === "asc" ? "▲" : "▼"}</span>` : "";
+  const aria = x => S.sort === x.k ? ` aria-sort="${S.dir === "asc" ? "ascending" : "descending"}"` : "";
+  // dopo «/» l'intestazione può andare a capo (altezza/circonferenza, altezza/diametro)
+  // con una forma corta per il telefono (colShort), le due forme e il CSS sceglie quale mostrare
+  const brk = s => s.replace(/\//g, "/<wbr>");
+  const label = x => `${T.colShort[x.k] ? `<span class="lb-l">${brk(T.col[x.k])}</span><span class="lb-s">${brk(T.colShort[x.k])}</span>`
+    : brk(T.col[x.k])}${T.colUnit[x.k] ? `<small>${brk(T.colUnit[x.k])}</small>` : ""}`;
+  const btn = x => `<button type="button" class="sh" data-k="${x.k}">${label(x)}${arrow(x)}</button>`;
+  const groups = [];
+  rest.forEach(x => { const g = groups[groups.length - 1]; if (g && g.g === x.g) g.n++; else groups.push({ g: x.g, n: 1 }); });
+  const gs = rest.map((x, i) => !i || rest[i - 1].g !== x.g);      // prima colonna di un gruppo: bordo a sinistra
+  const cls = (x, i) => `${x.num ? "num" : ""}${gs[i] ? " gs" : ""}`;
+  const head = `<tr><th rowspan="2" class="nm"${aria(cols[0])}>${btn(cols[0])}</th>${groups.map(g =>
+      `<th colspan="${g.n}" class="grp gs" data-g="${g.g}">${T.grp[g.g]}</th>`).join("")}</tr>
+    <tr>${rest.map((x, i) => `<th class="${cls(x, i)}" data-g="${x.g}"${aria(x)}>${btn(x)}</th>`).join("")}</tr>`;
+  const body = rows.map(r => `<tr><th scope="row" class="nm">${cols[0].cell(r)}</th>${rest.map((x, i) =>
+    `<td class="${cls(x, i)}" data-g="${x.g}">${x.cell(r)}</td>`).join("")}</tr>`).join("");
+  return `<div class="tw"><table class="recs" data-grp="${S.grp}"><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+}
+
+// ---------- grafico: per la misura scelta un righello per specie, tutti sulla stessa scala ----------
+// passo «tondo» (1, 2, 5 × 10^k) per avere circa n tacche fino a max (come niceStep nelle schede)
+const niceStep = (max, n = 5) => { const raw = max / n, p = 10 ** Math.floor(Math.log10(raw)); return [1, 2, 5, 10].map(m => m * p).find(s => s >= raw); };
+function chartHtml(rows) {
+  const m = S.m;
+  const items = rows.map(r => {
+    const ok = okTree(r, m), top = r.rec[m]?.top || null;
+    return { r, med: medOf(r, m), ok, max: isTree(ok) ? ok.v : null, ref: m === "crown" ? null : r.ref[m] || null,
+      w: !S.clean && top && top.w ? top : null };
+  });
+  // la scala: solo i valori non segnalati (mediana e più alto) e i record di riferimento
+  let hi = 0;
+  for (const it of items) for (const v of [it.med, it.max, it.ref && it.ref.v]) if (v != null && v > hi) hi = v;
+  // la fine della scala: il valore più grande arrotondato al mezzo passo (84,4 -> 90 con le tacche ogni 20)
+  const step = niceStep(hi || 1), end = Math.max(step / 2, Math.ceil((hi || 1) / (step / 2) - 1e-9) * (step / 2));
+  const pct = v => `${(100 * Math.min(v, end) / end).toFixed(3)}%`;
+  // per mediana o per più alto dal più grande, per nome in ordine alfabetico; senza valore in fondo
+  const of = new Map(items.map(it => [it.r, it]));
+  const val = { med: r => of.get(r).med, max: r => of.get(r).max, name: r => r.name }[S.cs];
+  sortBy(rows, val, S.cs === "name" ? "asc" : "desc");
+  items.splice(0, items.length, ...rows.map(r => of.get(r)));
+  const grid = `background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px);background-size:${(100 * step / end).toFixed(4)}% 100%`;
+  let ovf = false;
+  const lines = items.map(it => {
+    const { r, med, ok, max, ref, w } = it;
+    const inside = w && w.v <= end, out = w && !inside;
+    if (out) ovf = true;
+    const wTip = w ? tipAttr({ k: m, t: w }) : "";
+    const marks = `<div class="bg"></div>${max != null ? `<div class="bar" style="width:${pct(max)}"></div><div class="end" style="left:${pct(max)}"></div>` : ""}
+      ${ref ? `<${ref.url ? `a href="${esc(ref.url)}" target="_blank" rel="noopener"` : 'span tabindex="0"'} class="ref" style="left:${pct(ref.v)}" aria-label="${esc(`${T.ref}: ${fmt(ref.v, 2)} m`)}"${tipAttr({ ref })}></${ref.url ? "a" : "span"}>` : ""}
+      ${med != null ? `<div class="dot" style="left:${pct(med)}"></div>` : ""}
+      ${inside ? `<a class="wm" href="${treeLink(w)}" style="left:${pct(w.v)}" aria-label="${esc(`${T.warned}: ${fmt(w.v, 2)} m`)}"${wTip}>⚠</a>` : ""}`;
+    const maxTxt = isTree(ok) ? `<a class="rv" href="${treeLink(ok)}"${tipAttr({ k: m, t: ok })}>${fmt(ok.v, 2)}</a>`
+      : ok && ok.only ? `<span class="none" title="${esc(T.onlyWT)}">${T.onlyW}</span>` : ok && ok.unknown ? `<span class="none" title="${esc(T.unknown)}">?</span>` : DASH;
+    const medTxt = med != null ? `<span class="vm" title="${esc(T.on(fmt(r.med[m][1])))}">${fmt(med, 2)}</span>`
+      : `<span class="na" title="${esc(r.med[m] ? T.few(fmt(r.med[m][1])) : T.noRec)}">–</span>`;
+    const c = common(r);
+    return `<div class="crow"><div class="cn"><a href="${esc(r.slug)}.html"${c ? ` title="${esc(c)}"` : ""}><i>${esc(r.name)}</i></a>${c ? `<span class="cm">${esc(c)}</span>` : ""}${MANY_DATES && r.updated ? `<span class="dt">${esc(dateOf(r.updated))}</span>` : ""}</div>
+      <div class="cr"><div class="track" style="${grid}">${marks}</div><div class="ovf">${out ? `<a class="wo" href="${treeLink(w)}"${wTip}>⚠ ${fmt(w.v, 1)} m →</a>` : ""}</div></div>
+      <div class="cv">${medTxt} · ${maxTxt}</div></div>`;
+  });
+  const ticks = [];
+  const nTicks = Math.floor(end / step + 1e-9), atEnd = Math.abs(nTicks * step - end) < 1e-9;   // l'ultima tacca sul bordo destro: allineata a destra
+  for (let i = 0; i <= nTicks; i++) ticks.push(`<span class="tick${i ? i === nTicks && atEnd ? " last" : "" : " first"}" style="left:${pct(i * step)}">${fmt(i * step, 2)}</span>`);
+  const axis = `<div class="crow axis"><div class="cn"></div><div class="cr"><div class="track">${ticks.join("")}</div><div class="ovf"></div></div><div class="cv">${T.vals[m]}</div></div>`;
+  const legend = `<div class="legend"><span><i class="lg-dot"></i>${T.lgMed}</span><span><i class="lg-bar"></i>${T.lgBar}</span>${m !== "crown" ? `<span><i class="lg-ref"></i>${T.lgRef}</span>` : ""}${S.clean ? ""
+    : `<span><span class="warn" style="cursor:auto">⚠</span> ${T.lgW}</span><span><span class="warn" style="cursor:auto">⚠ … →</span> ${T.lgOvf}</span>`}</div>`;
+  return `<p class="lead">${T.chartLead}${S.clean ? "" : T.chartLeadW}</p>${legend}<div class="chart${ovf ? " has-ovf" : ""}">${axis}${lines.join("")}</div>`;
+}
+
+// ---------- scheda dell'albero (e del record di riferimento) al passaggio del mouse o al tocco ----------
+function tipHtml(o) {
+  if (o.ref) return `<div class="th">${T.ref}</div><b>${fmt(o.ref.v, 2)} m</b><div>${T.srcL}: ${srcHtml(o.ref)}</div>`;
+  const { k, t } = o, place = t.r ? regName(t.r) : T.monMap;
+  const tags = Object.entries(t.tags || {}).map(([a, b]) => `${esc(a)}=${esc(b)}`).join("<br>");
+  const iso = k === "isolated" ? `<div>${esc(t.cap ? T.isoCap : T.isoNear[t.nk] || "")}</div>` : "";
+  return `<div class="th">${T.rc[k]} · ${recVal(k, t)}${T.unit[k] ? " " + T.unit[k] : ""}</div><b>${esc(t.name || T.node(t.id))}</b>
+    <div>${esc(place)}</div>${tags ? `<div class="tg">${tags}</div>` : ""}${iso}${t.w ? `<div class="wl">⚠ ${T.warned}</div>` : ""}
+    <div class="go"><a href="${treeLink(t)}">${T.see}</a></div>`;
+}
+const tip = document.getElementById("tip");
+let tipFor = null, hideT = 0, lastPtr = "mouse";
+function showTip(el) {
+  clearTimeout(hideT);
+  const o = TIPS[el.dataset.tip];
+  if (!o) return;
+  tip.innerHTML = tipHtml(o);
+  tip.hidden = false;
+  tipFor = el;
+  placeTip();
+}
+// sotto il valore, o sopra se sotto non c'è posto; segue il valore quando la pagina scorre, e si chiude se esce
+function placeTip() {
+  const a = tipFor.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight, vw = document.documentElement.clientWidth;
+  if (!tipFor.isConnected || a.bottom < 0 || a.top > window.innerHeight) { hideTip(); return; }
+  const left = Math.max(8, Math.min(vw - w - 8, a.left + a.width / 2 - w / 2));
+  const top = a.bottom + 6 + h > window.innerHeight - 4 && a.top - 6 - h > 4 ? a.top - 6 - h : a.bottom + 6;
+  tip.style.left = left + "px"; tip.style.top = top + "px";
+}
+function hideTip() { clearTimeout(hideT); tip.hidden = true; tipFor = null; }
+const laterHide = () => { clearTimeout(hideT); hideT = setTimeout(hideTip, 160); };
+document.addEventListener("pointerdown", e => { lastPtr = e.pointerType || "mouse"; }, true);
+document.addEventListener("keydown", e => { if (e.key === "Tab") lastPtr = "key"; if (e.key === "Escape") hideTip(); });
+const out = document.getElementById("out");
+out.addEventListener("mouseover", e => {
+  if (lastPtr !== "mouse") return;
+  const el = e.target.closest("[data-tip]");
+  if (el && el !== tipFor) showTip(el); else if (el) clearTimeout(hideT);
+});
+out.addEventListener("mouseout", e => {
+  if (lastPtr !== "mouse") return;
+  const el = e.target.closest("[data-tip]");
+  if (el && !el.contains(e.relatedTarget) && !tip.contains(e.relatedTarget)) laterHide();
+});
+tip.addEventListener("mouseenter", () => clearTimeout(hideT));
+tip.addEventListener("mouseleave", () => { if (lastPtr === "mouse") laterHide(); });
+out.addEventListener("focusin", e => { const el = e.target.closest("[data-tip]"); if (el && lastPtr === "key") showTip(el); });
+out.addEventListener("focusout", e => { if (lastPtr === "key" && !tip.contains(e.relatedTarget)) laterHide(); });
+// al tocco il primo tocco su un valore mostra la sua scheda, il secondo apre il link (anche dal link nella scheda)
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-tip]");
+  if (el && lastPtr !== "mouse" && lastPtr !== "key" && tipFor !== el) { e.preventDefault(); showTip(el); return; }
+  if (!el && !tip.contains(e.target)) hideTip();
+});
+// anche lo scorrimento di lato della tabella (capture: gli eventi scroll non risalgono)
+document.addEventListener("scroll", () => { if (tipFor) placeTip(); stickHead(); }, { passive: true, capture: true });
+window.addEventListener("resize", () => { hideTip(); fitTable(); });
+
+// intestazione della tabella ferma in cima mentre si scorre la pagina. Se la tabella sta nella larghezza (fitTable)
+// lo fa il CSS (position:sticky); se no la tabella sta in un riquadro che scorre di lato (.tw), dove position:sticky
+// in verticale non vale, e la si sposta con transform
+function fitTable() {
+  const tw = out.querySelector(".tw");
+  if (!tw) return;
+  tw.classList.add("fit");
+  if (tw.scrollWidth > tw.clientWidth + 1) tw.classList.remove("fit");
+  tw.querySelectorAll("thead th").forEach(th => { th.style.transform = ""; });
+  stickHead();
+}
+function stickHead() {
+  const tw = out.querySelector(".tw");
+  if (!tw || tw.classList.contains("fit")) return;
+  const head = tw.querySelector("thead"), r = tw.getBoundingClientRect();
+  const off = Math.max(0, Math.min(-r.top, r.height - head.offsetHeight - 40));
+  const tr = off ? `translateY(${off}px)` : "";
+  head.classList.toggle("stuck", off > 0);
+  head.querySelectorAll("th").forEach(th => { th.style.transform = tr; });
+}
+
+// ---------- pagina ----------
+function writeHash() {
+  const h = new URLSearchParams();
+  if (HASH_LANG) h.set("lang", LANG);
+  for (const k of ["view", "lt", "lc", "q", "grp", "m", "cs"]) if (S[k] !== DEF[k]) h.set(k, S[k]);
+  if (S.sort !== DEF.sort || S.dir !== DEF.dir) { h.set("sort", S.sort); h.set("dir", S.dir); }
+  if (S.clean) h.set("clean", "1");
+  const s = h.toString();
+  history.replaceState(null, "", s ? "#" + s : location.pathname + location.search);
+}
+function readHash() {
+  const h = new URLSearchParams(location.hash.slice(1)), pick = (k, ok) => ok.includes(h.get(k)) ? h.get(k) : DEF[k];
+  S.view = pick("view", ["table", "chart"]);
+  S.sort = COL[h.get("sort")] ? h.get("sort") : DEF.sort;
+  S.dir = ["asc", "desc"].includes(h.get("dir")) ? h.get("dir") : COL[S.sort].dir;
+  S.lt = pick("lt", ["broadleaved", "needleleaved"]);
+  S.lc = pick("lc", ["deciduous", "evergreen"]);
+  S.clean = h.get("clean") === "1";
+  S.q = h.get("q") || "";
+  S.grp = pick("grp", GROUPS);
+  S.m = pick("m", ["height", "trunk", "crown"]);
+  S.cs = pick("cs", ["med", "max", "name"]);
+}
+const press = (id, cur) => { for (const b of document.getElementById(id).children) b.setAttribute("aria-pressed", b.dataset.k === cur); };
+function draw() {
+  hideTip();
+  TIPS = [];
+  press("view", S.view); press("lt", S.lt); press("lc", S.lc); press("m", S.m); press("cs", S.cs);
+  document.getElementById("clean").checked = S.clean;
+  const qi = document.getElementById("q");
+  if (qi.value !== S.q) qi.value = S.q;
+  document.getElementById("grp").value = S.grp;
+  document.getElementById("ctl-table").hidden = S.view !== "table";
+  document.getElementById("ctl-chart").hidden = S.view !== "chart";
+  const cnt = document.getElementById("count");
+  if (!DATA) { out.innerHTML = FAILED ? `<p class="none">${T.error}</p>` : ""; cnt.textContent = ""; return; }
+  const rows = filtered();
+  cnt.textContent = T.count(rows.length, DATA.list.length);
+  out.innerHTML = !rows.length ? `<p class="none">${T.noMatch}</p>` : S.view === "chart" ? chartHtml(rows) : tableHtml(rows);
+  fitTable();
+  writeHash();
+}
+function render() {
+  T = I18N[LANG]; LOC = LANG === "it" ? "it-IT" : "en-GB";
+  COLL = new Intl.Collator(LOC, { sensitivity: "base" });
+  document.documentElement.lang = LANG;
+  document.title = T.docTitle;
+  document.getElementById("lang").textContent = T.other;
+  document.getElementById("crumb").textContent = T.crumb;
+  document.getElementById("title").textContent = T.title;
+  document.getElementById("lead").textContent = T.lead(DATA && DATA.min_sample);
+  // da dove vengono i numeri e la data dei dati: una sola in cima se è la stessa per tutte le schede, se no per riga
+  const dates = DATA ? [...new Set(DATA.list.map(r => dateOf(r.updated)).filter(Boolean))] : [];
+  MANY_DATES = dates.length > 1;
+  document.getElementById("from").textContent = T.from + (dates.length === 1 ? " " + T.dateOne(dates[0]) : MANY_DATES ? " " + T.dateMany : "");
+  const q = document.getElementById("q");
+  q.placeholder = T.search; q.setAttribute("aria-label", T.search);
+  for (const b of document.getElementById("view").children) b.textContent = T.view[b.dataset.k];
+  for (const id of ["lt", "lc"]) {
+    const seg = document.getElementById(id);
+    seg.setAttribute("aria-label", T[id + "L"]);
+    for (const b of seg.children) b.textContent = T[id][b.dataset.k];
+  }
+  document.getElementById("clean-l").textContent = T.clean;
+  document.getElementById("grp-l").textContent = T.cols;
+  document.getElementById("grp").innerHTML = GROUPS.map(g => `<option value="${g}">${T.grpShort[g]}</option>`).join("");
+  document.getElementById("m-l").textContent = T.measure;
+  document.getElementById("cs-l").textContent = T.sortBy;
+  for (const b of document.getElementById("m").children) b.textContent = T.m[b.dataset.k];
+  for (const b of document.getElementById("cs").children) b.textContent = b.dataset.k === "max" ? T.csMax[S.m] : T.cs[b.dataset.k];
+  document.getElementById("foot").innerHTML = T.foot;
+  draw();
+}
+document.getElementById("lang").addEventListener("click", () => {
+  LANG = LANG === "it" ? "en" : "it";
+  try { localStorage.setItem("lang", LANG); } catch (e) {}
+  render();
+});
+const seg = (id, set) => document.getElementById(id).addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  set(b.dataset.k); render();
+});
+seg("view", k => { S.view = k; });
+seg("lt", k => { S.lt = k; });
+seg("lc", k => { S.lc = k; });
+seg("m", k => { S.m = k; });
+seg("cs", k => { S.cs = k; });
+document.getElementById("q").addEventListener("input", e => { S.q = e.target.value; draw(); });
+document.getElementById("clean").addEventListener("change", e => { S.clean = e.target.checked; draw(); });
+document.getElementById("grp").addEventListener("change", e => {
+  S.grp = e.target.value;
+  const t = out.querySelector(".recs");
+  if (t) t.dataset.grp = S.grp;
+  hideTip(); fitTable(); writeHash();
+});
+// clic sull'intestazione: ordina per quella colonna, un secondo clic inverte l'ordine
+out.addEventListener("click", e => {
+  const b = e.target.closest(".sh"); if (!b) return;
+  const k = b.dataset.k;
+  if (S.sort === k) S.dir = S.dir === "asc" ? "desc" : "asc"; else { S.sort = k; S.dir = COL[k].dir; }
+  draw();
+});
+// indirizzo cambiato a mano o link aperto nella stessa scheda: anche la lingua, se c'è
+window.addEventListener("hashchange", () => {
+  const l = new URLSearchParams(location.hash.slice(1)).get("lang");
+  if (l === "it" || l === "en") LANG = l;
+  readHash(); render();
+});
+readHash();
+render();
+fetch("records.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(d => { DATA = d; }).catch(() => { FAILED = true; }).finally(render);
+</script>
+</body>
+</html>
