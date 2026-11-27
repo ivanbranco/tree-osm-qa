@@ -883,13 +883,13 @@
    "updated": "2026-11-27T00:16:08Z"
   },
   "puglia": {
-   "count": 52937,
-   "errors": 575,
+   "count": 52933,
+   "errors": 540,
    "name": "Puglia",
-   "osm_base": "2026-11-27T10:25:42Z",
-   "sha1": "ff7b402ecb6717fd6cf05e2bd1cbda06eca4a8dc",
+   "osm_base": "2026-11-27T10:38:55Z",
+   "sha1": "19f73b80f559a15b94ebdc881fbb5f831b72a874",
    "tried": "2026-11-27",
-   "updated": "2026-11-27T10:27:53Z"
+   "updated": "2026-11-27T10:40:50Z"
   },
   "romania": {
    "count": 77834,
