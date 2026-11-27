@@ -533,8 +533,7 @@ def records_row(d):
             if src.get(f"{key}_url"):
                 ref[k]["url"] = src[f"{key}_url"]
     row = {"name": d["name"], "slug": d["slug"], "it": d["names"].get("it"), "en": d["names"].get("en"),
-           "n": d["total"], "lt": d.get("lt"), "lc": d.get("lc"), "updated": d.get("updated"),
-           "med": med, "rec": rec, "ref": ref}
+           "n": d["total"], "updated": d.get("updated"), "med": med, "rec": rec, "ref": ref}
     return {k: v for k, v in row.items() if v is not None}
 
 

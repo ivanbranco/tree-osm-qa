@@ -156,7 +156,6 @@
 </header>
 <main>
   <h1 id="title"></h1>
-  <p class="lead" id="lead"></p>
   <p class="lead" id="from"></p>
   <div class="controls">
     <span class="seg" id="view"><button type="button" data-k="table"></button><button type="button" data-k="chart"></button></span>
@@ -164,14 +163,12 @@
     <span id="count"></span>
   </div>
   <div class="controls">
-    <span class="seg" id="lt"><button type="button" data-k=""></button><button type="button" data-k="broadleaved"></button><button type="button" data-k="needleleaved"></button></span>
-    <span class="seg" id="lc"><button type="button" data-k=""></button><button type="button" data-k="deciduous"></button><button type="button" data-k="evergreen"></button></span>
     <label class="ck"><input type="checkbox" id="clean"> <span id="clean-l"></span></label>
   </div>
   <div class="controls" id="ctl-table"><span id="grpbox"><label class="ctl-l" for="grp" id="grp-l"></label><select id="grp"></select></span></div>
   <div class="controls" id="ctl-chart">
     <span class="ctl-l" id="m-l"></span><span class="seg" id="m"><button type="button" data-k="height"></button><button type="button" data-k="trunk"></button><button type="button" data-k="crown"></button></span>
-    <span class="ctl-l" id="cs-l"></span><span class="seg" id="cs"><button type="button" data-k="med"></button><button type="button" data-k="max"></button><button type="button" data-k="name"></button></span>
+    <span class="ctl-l" id="cs-l"></span><span class="seg" id="cs"><button type="button" data-k="med"></button><button type="button" data-k="max"></button></span>
   </div>
   <div id="out"></div>
 </main>
@@ -189,13 +186,11 @@ const WIKI = "https://wiki.openstreetmap.org/wiki/Tag:natural%3Dtree/Tree_specie
 const I18N = {
   it: {
     other: "English", crumb: "Specie", title: "Record delle specie", docTitle: "Record delle specie · DendrOSM",
-    lead: n => `Primati e misure tipiche di tutte le specie che hanno una scheda, una riga per specie, con gli stessi numeri delle schede. ⚠ = valore segnalato da un check: potrebbe essere sbagliato. Le mediane non contano i valori segnalati${n ? ` e si mostrano solo con almeno ${n} alberi` : ""}.`,
+    medians: n => `Le mediane non contano i valori segnalati${n ? ` e si mostrano solo con almeno ${n} alberi` : ""}.`,
     from: "I numeri vengono dagli alberi delle regioni di DendrOSM e dai monumentali di tutto il mondo, non da tutto OpenStreetMap.",
     dateOne: d => `Dati aggiornati al ${d}.`, dateMany: "Le schede sono state generate con dati di date diverse: la data è in ogni riga.",
     view: { table: "Tabella", chart: "Grafico" }, search: "Cerca per nome scientifico o comune",
-    count: (n, t) => n === t ? `${t} specie` : `${n} specie su ${t}`, noMatch: "Nessuna specie corrisponde alla ricerca o ai filtri.",
-    lt: { "": "Tutte", broadleaved: "Latifoglie", needleleaved: "Aghifoglie" }, ltL: "Tipo di foglia",
-    lc: { "": "Tutte", deciduous: "Caducifoglie", evergreen: "Sempreverdi" }, lcL: "Ciclo delle foglie",
+    count: (n, t) => n === t ? `${t} specie` : `${n} specie su ${t}`, noMatch: "Nessuna specie corrisponde alla ricerca.",
     clean: "Escludi i valori segnalati", cols: "Colonne",
     grp: { sp: "Specie", height: "Altezza (m)", trunk: "Circonferenza (m)", crown: "Chioma (m)", ratio: "Rapporti", other: "Altri" },
     grpShort: { sp: "Specie", height: "Altezza", trunk: "Circonferenza", crown: "Chioma", ratio: "Rapporti", other: "Altri" },
@@ -215,23 +210,19 @@ const I18N = {
     isoNear: { tree: "Il più vicino: un albero", wood: "Il più vicino: un bosco", forest: "Il più vicino: una foresta", tree_row: "Il più vicino: un filare" },
     isoCap: "Nessun albero, bosco o filare entro 50 km",
     measure: "Misura", sortBy: "Ordina per", m: { height: "Altezza", trunk: "Circonferenza", crown: "Chioma" },
-    cs: { med: "Mediana", name: "Nome" }, csMax: { height: "Più alto", trunk: "Più spesso", crown: "Più larga" },
+    cs: { med: "Mediana" }, csMax: { height: "Più alto", trunk: "Più spesso", crown: "Più larga" },
     vals: { height: "mediana · più alto (m)", trunk: "mediana · più spesso (m)", crown: "mediana · più larga (m)" },
-    chartLead: "Un righello per specie, tutti sulla stessa scala, come quello sotto i grafici delle schede: il punto è la mediana, la barra arriva al più alto non segnalato, la tacca marrone è il record di riferimento. La scala dipende solo dai valori non segnalati e dai record di riferimento.",
-    chartLeadW: " Il primo posto della classifica, se segnalato, si vede comunque: ⚠ sul righello, oppure sul bordo destro con il numero quando è fuori scala.",
     lgMed: "mediana", lgBar: "fino al più alto non segnalato", lgRef: "record di riferimento", lgW: "primo posto segnalato", lgOvf: "fuori scala",
     error: "I record delle specie non sono disponibili.",
     foot: `Dati OpenStreetMap (ODbL). Record di riferimento: pagina wiki <a href="${WIKI}" target="_blank" rel="noopener">«Tree species records»</a> (monumentaltrees.com e MASAF).`
   },
   en: {
     other: "Italiano", crumb: "Species", title: "Species records", docTitle: "Species records · DendrOSM",
-    lead: n => `Records and typical sizes of all the species with a page, one row per species, with the same numbers as the species pages. ⚠ = value flagged by a check: it may be wrong. Medians leave out the flagged values${n ? ` and are shown only with at least ${n} trees` : ""}.`,
+    medians: n => `Medians leave out the flagged values${n ? ` and are shown only with at least ${n} trees` : ""}.`,
     from: "The numbers come from the trees of the DendrOSM regions plus the monumental trees of the whole world, not from all of OpenStreetMap.",
     dateOne: d => `Data updated on ${d}.`, dateMany: "The species pages were generated from data of different dates: each row has its own date.",
     view: { table: "Table", chart: "Chart" }, search: "Search by scientific or common name",
-    count: (n, t) => n === t ? `${t} species` : `${n} of ${t} species`, noMatch: "No species matches the search or the filters.",
-    lt: { "": "All", broadleaved: "Broadleaved", needleleaved: "Needleleaved" }, ltL: "Leaf type",
-    lc: { "": "All", deciduous: "Deciduous", evergreen: "Evergreen" }, lcL: "Leaf cycle",
+    count: (n, t) => n === t ? `${t} species` : `${n} of ${t} species`, noMatch: "No species matches the search.",
     clean: "Exclude flagged values", cols: "Columns",
     grp: { sp: "Species", height: "Height (m)", trunk: "Circumference (m)", crown: "Crown (m)", ratio: "Ratios", other: "Other" },
     grpShort: { sp: "Species", height: "Height", trunk: "Circumference", crown: "Crown", ratio: "Ratios", other: "Other" },
@@ -251,10 +242,8 @@ const I18N = {
     isoNear: { tree: "Nearest: a tree", wood: "Nearest: a wood", forest: "Nearest: a forest", tree_row: "Nearest: a tree row" },
     isoCap: "No tree, wood or tree row within 50 km",
     measure: "Measure", sortBy: "Sort by", m: { height: "Height", trunk: "Circumference", crown: "Crown" },
-    cs: { med: "Median", name: "Name" }, csMax: { height: "Tallest", trunk: "Thickest", crown: "Widest" },
+    cs: { med: "Median" }, csMax: { height: "Tallest", trunk: "Thickest", crown: "Widest" },
     vals: { height: "median · tallest (m)", trunk: "median · thickest (m)", crown: "median · widest (m)" },
-    chartLead: "One ruler per species, all on the same scale, like the one under the charts of the species pages: the dot is the median, the bar reaches the largest unflagged value, the brown mark is the reference record. The scale depends only on the unflagged values and on the reference records.",
-    chartLeadW: " The first place of the ranking, when flagged, is shown anyway: ⚠ on the ruler, or on the right edge with its value when it is off the scale.",
     lgMed: "median", lgBar: "up to the largest unflagged value", lgRef: "reference record", lgW: "flagged first place", lgOvf: "off the scale",
     error: "The species records are not available.",
     foot: `OpenStreetMap data (ODbL). Reference records: wiki page <a href="${WIKI}" target="_blank" rel="noopener">"Tree species records"</a> (monumentaltrees.com and MASAF).`
@@ -276,7 +265,7 @@ const DASH = '<span class="na">–</span>';
 
 // ---------- stato della vista: anche nell'indirizzo (#view=…&sort=…), perché un link riapra la stessa vista ----------
 const GROUPS = ["sp", "height", "trunk", "crown", "ratio", "other"];
-const S = { view: "table", sort: "n", dir: "desc", lt: "", lc: "", clean: false, q: "", grp: "height", m: "height", cs: "med" };
+const S = { view: "table", sort: "n", dir: "desc", clean: false, q: "", grp: "height", m: "height", cs: "med" };
 const DEF = { ...S };
 
 // albero mostrato per il primato k (species/records.json, records_row in build_species.py): il primo della classifica,
@@ -349,9 +338,7 @@ function sortBy(rows, val, dir) {
 
 function filtered() {
   const q = fold(S.q.trim());
-  return DATA.list.filter(r => (!q || [r.name, r.it, r.en].some(x => fold(x).includes(q)))
-    && (!S.lt || r.lt === S.lt)
-    && (!S.lc || (S.lc === "deciduous" ? /^(semi_)?deciduous$/ : /^(semi_)?evergreen$/).test(r.lc || "")));
+  return DATA.list.filter(r => !q || [r.name, r.it, r.en].some(x => fold(x).includes(q)));
 }
 
 function tableHtml(rows) {
@@ -394,10 +381,10 @@ function chartHtml(rows) {
   // la fine della scala: il valore più grande arrotondato al mezzo passo (84,4 -> 90 con le tacche ogni 20)
   const step = niceStep(hi || 1), end = Math.max(step / 2, Math.ceil((hi || 1) / (step / 2) - 1e-9) * (step / 2));
   const pct = v => `${(100 * Math.min(v, end) / end).toFixed(3)}%`;
-  // per mediana o per più alto dal più grande, per nome in ordine alfabetico; senza valore in fondo
+  // per mediana o per più alto, dal più grande; senza valore in fondo
   const of = new Map(items.map(it => [it.r, it]));
-  const val = { med: r => of.get(r).med, max: r => of.get(r).max, name: r => r.name }[S.cs];
-  sortBy(rows, val, S.cs === "name" ? "asc" : "desc");
+  const val = { med: r => of.get(r).med, max: r => of.get(r).max }[S.cs];
+  sortBy(rows, val, "desc");
   items.splice(0, items.length, ...rows.map(r => of.get(r)));
   const grid = `background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px);background-size:${(100 * step / end).toFixed(4)}% 100%`;
   let ovf = false;
@@ -425,7 +412,7 @@ function chartHtml(rows) {
   const axis = `<div class="crow axis"><div class="cn"></div><div class="cr"><div class="track">${ticks.join("")}</div><div class="ovf"></div></div><div class="cv">${T.vals[m]}</div></div>`;
   const legend = `<div class="legend"><span><i class="lg-dot"></i>${T.lgMed}</span><span><i class="lg-bar"></i>${T.lgBar}</span>${m !== "crown" ? `<span><i class="lg-ref"></i>${T.lgRef}</span>` : ""}${S.clean ? ""
     : `<span><span class="warn" style="cursor:auto">⚠</span> ${T.lgW}</span><span><span class="warn" style="cursor:auto">⚠ … →</span> ${T.lgOvf}</span>`}</div>`;
-  return `<p class="lead">${T.chartLead}${S.clean ? "" : T.chartLeadW}</p>${legend}<div class="chart${ovf ? " has-ovf" : ""}">${axis}${lines.join("")}</div>`;
+  return `${legend}<div class="chart${ovf ? " has-ovf" : ""}">${axis}${lines.join("")}</div>`;
 }
 
 // ---------- scheda dell'albero (e del record di riferimento) al passaggio del mouse o al tocco ----------
@@ -511,7 +498,7 @@ function stickHead() {
 function writeHash() {
   const h = new URLSearchParams();
   if (HASH_LANG) h.set("lang", LANG);
-  for (const k of ["view", "lt", "lc", "q", "grp", "m", "cs"]) if (S[k] !== DEF[k]) h.set(k, S[k]);
+  for (const k of ["view", "q", "grp", "m", "cs"]) if (S[k] !== DEF[k]) h.set(k, S[k]);
   if (S.sort !== DEF.sort || S.dir !== DEF.dir) { h.set("sort", S.sort); h.set("dir", S.dir); }
   if (S.clean) h.set("clean", "1");
   const s = h.toString();
@@ -522,19 +509,17 @@ function readHash() {
   S.view = pick("view", ["table", "chart"]);
   S.sort = COL[h.get("sort")] ? h.get("sort") : DEF.sort;
   S.dir = ["asc", "desc"].includes(h.get("dir")) ? h.get("dir") : COL[S.sort].dir;
-  S.lt = pick("lt", ["broadleaved", "needleleaved"]);
-  S.lc = pick("lc", ["deciduous", "evergreen"]);
   S.clean = h.get("clean") === "1";
   S.q = h.get("q") || "";
   S.grp = pick("grp", GROUPS);
   S.m = pick("m", ["height", "trunk", "crown"]);
-  S.cs = pick("cs", ["med", "max", "name"]);
+  S.cs = pick("cs", ["med", "max"]);
 }
 const press = (id, cur) => { for (const b of document.getElementById(id).children) b.setAttribute("aria-pressed", b.dataset.k === cur); };
 function draw() {
   hideTip();
   TIPS = [];
-  press("view", S.view); press("lt", S.lt); press("lc", S.lc); press("m", S.m); press("cs", S.cs);
+  press("view", S.view); press("m", S.m); press("cs", S.cs);
   document.getElementById("clean").checked = S.clean;
   const qi = document.getElementById("q");
   if (qi.value !== S.q) qi.value = S.q;
@@ -557,19 +542,15 @@ function render() {
   document.getElementById("lang").textContent = T.other;
   document.getElementById("crumb").textContent = T.crumb;
   document.getElementById("title").textContent = T.title;
-  document.getElementById("lead").textContent = T.lead(DATA && DATA.min_sample);
-  // da dove vengono i numeri e la data dei dati: una sola in cima se è la stessa per tutte le schede, se no per riga
+  // da dove vengono i numeri, la data dei dati (una sola in cima se è la stessa per tutte le schede, se no per riga)
+  // e le mediane
   const dates = DATA ? [...new Set(DATA.list.map(r => dateOf(r.updated)).filter(Boolean))] : [];
   MANY_DATES = dates.length > 1;
-  document.getElementById("from").textContent = T.from + (dates.length === 1 ? " " + T.dateOne(dates[0]) : MANY_DATES ? " " + T.dateMany : "");
+  document.getElementById("from").textContent = T.from + (dates.length === 1 ? " " + T.dateOne(dates[0]) : MANY_DATES ? " " + T.dateMany : "")
+    + " " + T.medians(DATA && DATA.min_sample);
   const q = document.getElementById("q");
   q.placeholder = T.search; q.setAttribute("aria-label", T.search);
   for (const b of document.getElementById("view").children) b.textContent = T.view[b.dataset.k];
-  for (const id of ["lt", "lc"]) {
-    const seg = document.getElementById(id);
-    seg.setAttribute("aria-label", T[id + "L"]);
-    for (const b of seg.children) b.textContent = T[id][b.dataset.k];
-  }
   document.getElementById("clean-l").textContent = T.clean;
   document.getElementById("grp-l").textContent = T.cols;
   document.getElementById("grp").innerHTML = GROUPS.map(g => `<option value="${g}">${T.grpShort[g]}</option>`).join("");
@@ -590,8 +571,6 @@ const seg = (id, set) => document.getElementById(id).addEventListener("click", e
   set(b.dataset.k); render();
 });
 seg("view", k => { S.view = k; });
-seg("lt", k => { S.lt = k; });
-seg("lc", k => { S.lc = k; });
 seg("m", k => { S.m = k; });
 seg("cs", k => { S.cs = k; });
 document.getElementById("q").addEventListener("input", e => { S.q = e.target.value; draw(); });
