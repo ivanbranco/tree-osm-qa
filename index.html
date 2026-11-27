@@ -681,7 +681,7 @@ const I18N = {
       denotation_value: "denotation raro o non valido", masaf_criteria: "masaf:criteria non valido",
       masaf_removed: "Albero rimosso dall'elenco MASAF", masaf_unknown: "ref:masaf non presente nell'elenco MASAF",
       masaf_shared: "Codice MASAF di un albero singolo su più alberi", masaf_group_single: "Codice MASAF di un gruppo su un solo albero",
-      register_country: "Tag di un registro di un'altra nazione", start_date_invalid: "start_date o planted_date non valido o nel futuro",
+      register_country: "Tag di un registro di un'altra nazione", start_date_invalid: "Data non valida o nel futuro (start_date, planted_date, check_date, survey:date)",
       date_mismatch: "start_date e planted_date diversi",
       wikipedia_is_taxon: "wikipedia è un taxon",
       undocumented_tag: "Tag non documentato (tree, type)", key_typo: "Chiave scritta male (heigth, Species, year_planted…)", fixme: "Tag fixme",
@@ -906,7 +906,7 @@ const I18N = {
       masaf_unknown: "Il codice ref:masaf non è nell'elenco degli alberi monumentali d'Italia, né tra gli alberi iscritti né tra quelli rimossi. Lo zero iniziale del primo numero non conta (01/G114/CN/01 vale come 001/G114/CN/01). Fonte: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       masaf_shared: "L'elenco MASAF dà il codice come un albero singolo (o isolato), ma nella regione lo stesso ref:masaf è su più alberi (i ceppi non contano). Il confronto è tra gli alberi della stessa regione.",
       masaf_group_single: "L'elenco MASAF dà il codice come un gruppo, un filare, un viale o un insieme omogeneo, ma nella regione il ref:masaf è su questo solo albero e su nessuna relazione. Per la wiki (IT:Key:ref:masaf, «Gli \"insiemi omogenei\"») il gruppo si mappa con una relazione type=site con ref:masaf, natural=tree_group e denotation=natural_monument, che ha per membri gli alberi. Solo nelle regioni italiane.",
-      start_date_invalid: "Forme della wiki OSM (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 e gli intervalli 1850..1900. Valgono anche per planted_date. Sono segnalate anche le date che non esistono (2020-02-30) e quelle dopo la data dell'aggiornamento dei dati.",
+      start_date_invalid: "Forme della wiki OSM (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 e gli intervalli 1850..1900. Valgono anche per planted_date. check_date e survey:date (data dell'ultimo rilievo) vanno scritti AAAA-MM-GG (2024-09-02), o AAAA-MM e AAAA. Sono segnalate anche le date che non esistono (2020-02-30) e quelle dopo la data dell'aggiornamento dei dati.",
       date_mismatch: "L'albero ha start_date e planted_date con valori diversi (spazi in più esclusi). Per l'età nella scheda e per «Più vecchio» il sito usa start_date. Non segnalato se una delle due date non è valida («start_date o planted_date non valido o nel futuro»).",
       // wp_genus (fetch_trees.py): l'elemento della voce è di rango genere
       wikipedia_is_taxon: p => `wikipedia=* collega la voce del singolo albero; la voce ${p.wp_genus ? "del genere si collega con genus:wikipedia=*" : "della specie si collega con species:wikipedia=*"}. L'elemento Wikidata collegato alla voce è un taxon (ha un nome scientifico, P225).`,
@@ -1021,7 +1021,9 @@ const I18N = {
       masaf_unknown: code => `ref:masaf=${code} non è nell'elenco MASAF`,
       masaf_shared: (code, ids) => `ref:masaf=${code} è un albero singolo nell'elenco MASAF, ma è anche ${ids.length > 1 ? `sui nodi ${ids.join(", ")}` : `sul nodo ${ids[0]}`}`,
       masaf_group_single: (code, kind) => `ref:masaf=${code} nell'elenco MASAF ha il tipo «${kind}», ma è solo su questo albero`,
-      start_date_invalid: (k, v, future) => future ? `${k}=${v} è nel futuro` : `${k}=${v} non è in una delle forme della wiki`,
+      start_date_invalid: (k, v, future) => future ? `${k}=${v} è nel futuro`
+        : /^(check_date|survey:date)$/.test(k) ? `${k}=${v} non è nella forma AAAA-MM-GG (o AAAA-MM, AAAA) o non è una data che esiste`
+        : `${k}=${v} non è in una delle forme della wiki`,
       date_mismatch: (sd, pd) => `start_date=${sd} e planted_date=${pd} sono diversi`,
       wikipedia_is_taxon: (v, q, g) => `wikipedia=${v} è la voce di un taxon (${q}): wikipedia indica il singolo albero, la voce ${g ? "del genere va in genus:wikipedia" : "della specie va in species:wikipedia"}`,
       masafRemovedWhy: { death: "per morte naturale", felled: "per abbattimento", requirements: "per perdita dei requisiti",
@@ -1321,7 +1323,7 @@ const I18N = {
       denotation_value: "Rare or invalid denotation", masaf_criteria: "Invalid masaf:criteria",
       masaf_removed: "Tree removed from the MASAF list", masaf_unknown: "ref:masaf not in the MASAF list",
       masaf_shared: "MASAF code of a single tree on several trees", masaf_group_single: "MASAF code of a group on one tree only",
-      register_country: "Register tag from another country", start_date_invalid: "Invalid or future start_date or planted_date",
+      register_country: "Register tag from another country", start_date_invalid: "Invalid or future date (start_date, planted_date, check_date, survey:date)",
       date_mismatch: "Different start_date and planted_date",
       wikipedia_is_taxon: "wikipedia is a taxon",
       undocumented_tag: "Undocumented tag (tree, type)", key_typo: "Misspelled key (heigth, Species, year_planted…)", fixme: "fixme tag",
@@ -1536,7 +1538,7 @@ const I18N = {
       masaf_unknown: "The ref:masaf code is not in the list of monumental trees of Italy, neither among the listed trees nor among the removed ones. The leading zero of the first number does not count (01/G114/CN/01 is the same as 001/G114/CN/01). Source: Masaf - Direzione generale dell'economia montana e delle foreste - Difor4 - \"dataset AMI - Censimento alberi monumentali d'Italia vs. 11_2024\" (CC BY 4.0).",
       masaf_shared: "The MASAF list gives the code as a single (or isolated) tree, but in the region the same ref:masaf is on several trees (tree stumps do not count). The comparison is between trees of the same region.",
       masaf_group_single: "The MASAF list gives the code as a group, a row, an avenue or a homogeneous group, but in the region the ref:masaf is only on this tree and on no relation. According to the wiki (IT:Key:ref:masaf, «Gli \"insiemi omogenei\"») the group is mapped with a type=site relation with ref:masaf, natural=tree_group and denotation=natural_monument, with the trees as members. Italian regions only.",
-      start_date_invalid: "Forms on the OSM wiki (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 and the ranges 1850..1900. They apply to planted_date too. Dates that do not exist (2020-02-30) and dates after the data update are reported too.",
+      start_date_invalid: "Forms on the OSM wiki (Key:start_date): 1850, 1850-05, 1850-05-01, ~1850, 1850s, early/mid/late 1850s, C19, early/mid/late C19, before 1850, after 1850 and the ranges 1850..1900. They apply to planted_date too. check_date and survey:date (date of the last survey) are written YYYY-MM-DD (2024-09-02), or YYYY-MM and YYYY. Dates that do not exist (2020-02-30) and dates after the data update are reported too.",
       date_mismatch: "The tree has start_date and planted_date with different values (extra spaces aside). For the age in the info panel and for \"Oldest\" the site uses start_date. Not reported if one of the two dates is invalid (\"Invalid or future start_date or planted_date\").",
       wikipedia_is_taxon: p => `wikipedia=* links the article about the individual tree; the ${p.wp_genus ? "genus article is linked with genus:wikipedia=*" : "species article is linked with species:wikipedia=*"}. The Wikidata item linked to the article is a taxon (it has a scientific name, P225).`,
       denotation_value: "Compared with usage on Taginfo: reported are values used at most 10 times, values with an invalid format, values with spaces around the \";\" that separates multiple values and common values with other text attached.",
@@ -1642,7 +1644,9 @@ const I18N = {
       masaf_unknown: code => `ref:masaf=${code} is not in the MASAF list`,
       masaf_shared: (code, ids) => `ref:masaf=${code} is a single tree in the MASAF list, but it is also on ${ids.length > 1 ? `nodes ${ids.join(", ")}` : `node ${ids[0]}`}`,
       masaf_group_single: (code, kind) => `ref:masaf=${code} has the type «${kind}» in the MASAF list, but it is only on this tree`,
-      start_date_invalid: (k, v, future) => future ? `${k}=${v} is in the future` : `${k}=${v} is not in one of the wiki forms`,
+      start_date_invalid: (k, v, future) => future ? `${k}=${v} is in the future`
+        : /^(check_date|survey:date)$/.test(k) ? `${k}=${v} is not in the form YYYY-MM-DD (or YYYY-MM, YYYY) or is not a date that exists`
+        : `${k}=${v} is not in one of the wiki forms`,
       date_mismatch: (sd, pd) => `start_date=${sd} and planted_date=${pd} are different`,
       wikipedia_is_taxon: (v, q, g) => `wikipedia=${v} is the article of a taxon (${q}): wikipedia is for the individual tree, the ${g ? "genus article goes in genus:wikipedia" : "species article goes in species:wikipedia"}`,
       masafRemovedWhy: { death: "after its natural death", felled: "after being felled", requirements: "for loss of requirements",

@@ -3746,10 +3746,15 @@ def checks(t, pos, osm_id=None):
     if unk := masaf_unknown(t):         # codici separati da ";"
         flag("masaf_unknown", masaf_unk=";".join(unk))
     # start_date e planted_date (issue #81), con le stesse forme. sd_bad: righe "chiave|motivo" separate da ";"
-    # (motivo: invalid o future, start_date_problem). Con le due date leggibili e scritte in modo diverso: date_mismatch
-    if sd_bad := [(k, why) for k in DATE_KEYS if k in t and k not in eq and (why := start_date_problem(t[k]))]:
-        flag("start_date_invalid", sd_bad=";".join(f"{k}|{w}" for k, w in sd_bad))
-    elif (all(k in t and k not in eq for k in DATE_KEYS)
+    # (motivo: invalid o future, start_date_problem). Con le due date leggibili e scritte in modo diverso: date_mismatch.
+    # Nello stesso check check_date e survey:date (survey_date_problem): non sono in KEEP, il valore va nella proprietà
+    # con il nome della chiave solo quando è segnalato
+    sv_bad = [(k, why) for k in SURVEY_DATE_KEYS if k in t and (why := survey_date_problem(t[k]))]
+    sd_bad = [(k, why) for k in DATE_KEYS if k in t and k not in eq and (why := start_date_problem(t[k]))]
+    if sd_bad or sv_bad:
+        flag("start_date_invalid", sd_bad=";".join(f"{k}|{w}" for k, w in sd_bad + sv_bad),
+             **{k: t[k] for k, _ in sv_bad})
+    if (not sd_bad and all(k in t and k not in eq for k in DATE_KEYS)
           and " ".join(t["start_date"].split()) != " ".join(t["planted_date"].split())):
         flag("date_mismatch")
     # voce di wikipedia=* (wp_v) il cui elemento Wikidata (wp_tx) è un taxon; wp_genus: è di rango genere (Q34740), la
@@ -4406,6 +4411,28 @@ def start_date_problem(v, today=None):
     if keys[0] > today.year * 10000 + today.month * 100 + today.day:
         return "future"
     return None
+
+
+# data dell'ultimo rilievo (https://wiki.openstreetmap.org/wiki/Key:check_date e Key:survey:date): solo AAAA-MM-GG,
+# o meno precisa AAAA-MM e AAAA, senza ~, intervalli o altre forme di start_date. Check start_date_invalid
+SURVEY_DATE_KEYS = ("check_date", "survey:date")
+SURVEY_DATE = re.compile(r"^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$")
+
+
+def survey_date_problem(v, today=None):
+    """Perché check_date o survey:date va segnalato: "invalid" se non è AAAA-MM-GG, AAAA-MM o AAAA, o è una data
+    che non esiste (2024-02-30, 2024-13); "future" se è dopo oggi; None se va bene. Gli spazi ai lati non contano."""
+    m = SURVEY_DATE.match(str(v).strip())
+    if not m:
+        return "invalid"
+    y, mo, d = int(m.group(1)), int(m.group(2) or 1), int(m.group(3) or 1)
+    try:
+        datetime.date(y, mo, d)
+    except ValueError:
+        return "invalid"
+    today = today or datetime.date.today()
+    # la data più vecchia che indica (2030 = 2030-01-01) non può essere dopo oggi
+    return "future" if (y, mo, d) > (today.year, today.month, today.day) else None
 
 
 def _sd_parts(v):
