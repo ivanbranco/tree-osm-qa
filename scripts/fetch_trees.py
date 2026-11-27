@@ -2760,16 +2760,21 @@ def genus_typo(word):
 # famiglia o ordine scritti in genus (genus_family, voce 3.14): le famiglie finiscono in -aceae (anche i nomi
 # alternativi ammessi dal codice di nomenclatura, Palmae, Leguminosae…), gli ordini in -ales
 FAMILY_ALT = {"compositae", "cruciferae", "gramineae", "guttiferae", "labiatae", "leguminosae", "palmae", "umbelliferae"}
+# desinenze di una famiglia scritta male (Pinacae) o nella forma di un'altra lingua (Pinacee, Pinacées, Pináceas): il
+# nome proposto è la radice con -aceae (Pinaceae)
+FAMILY_ENDS = re.compile(r"^([a-z]{2,}?)(?:acae|acaea|aceea|acee|acees|acées|acée|aceas|áceas|aceæ)$")
 
 
 def genus_rank(word):
     """("family", nome con l'iniziale maiuscola) se word è il nome di una famiglia, ("order", nome) se è il nome di un
-    ordine, altrimenti None."""
+    ordine, altrimenti None. Una famiglia scritta male o in un'altra lingua (FAMILY_ENDS) ha il nome con -aceae."""
     w = word.casefold()
     if not w.isalpha() or w in KNOWN_GENERA:
         return None
     if w.endswith("aceae") or w in FAMILY_ALT:
         return "family", w[:1].upper() + w[1:]
+    if m := FAMILY_ENDS.match(w):
+        return "family", m[1][:1].upper() + m[1][1:] + "aceae"
     if w.endswith("ales") and len(w) > 6:
         return "order", w[:1].upper() + w[1:]
     return None
@@ -3402,8 +3407,11 @@ def checks(t, pos, osm_id=None):
         if bn:
             props.update(species_lang_extras(t, bn, "sp_bin_"))
         # con un genus diverso (genus=Quercus, species=Ilex) non si sa quale dei due sia sbagliato: niente sp_as_genus,
-        # che direbbe di usare genus=Ilex; i due generi diversi li segnala genus_mismatch
-        if gr and genus_words(g0) and genus_words(g0)[0].casefold() != gr[0].lstrip("× ").casefold():
+        # che direbbe di usare genus=Ilex; i due generi diversi li segnala genus_mismatch. Con una famiglia o un ordine in
+        # genus (genus=Pinaceae, species=Cedrus) sp_as_genus resta: il genere di species prende il posto della famiglia
+        g0w = genus_words(g0)
+        if (gr and g0w and g0w[0].casefold() != gr[0].lstrip("× ").casefold()
+                and not (len(g0w) == 1 and ";" not in g0 and genus_rank(g0w[0]))):
             gr = None
         flag("species", **({"sp_as_genus": gr[0]} if gr else {"sp_binom": bn} if bn else
                            {"sp_common_genus": cg} if cg else {}),
@@ -3554,13 +3562,17 @@ def checks(t, pos, osm_id=None):
     # genus di una parola che è il nome di una famiglia (genus=Cupressaceae) o di un ordine (genus=Arecales): la famiglia
     # va in taxon:family. g_rank: "family" o "order"; g_fam: il nome con l'iniziale maiuscola; g_fam_kv: "taxon:family=…"
     # se taxon:family manca, g_fam_same: 1 se c'è già con lo stesso nome (la correzione con JOSM toglie solo genus).
-    # Al posto degli altri errori sulla forma di genus e del confronto con species
+    # Al posto degli altri errori sulla forma di genus e del confronto con species.
+    # g_fam_sp: 1 se species comincia con un genere noto (species=Cedrus, Cedrus deodara): c'è già un taxon più preciso,
+    # la famiglia o l'ordine si tolgono senza passare in taxon:family (con species di una parola, la correzione con JOSM
+    # mette il genere di species in genus)
     grk = genus_rank(gw[0]) if gw and len(gw) == 1 else None
     if grk:
         tf = str(t.get("taxon:family") or "").strip()
+        fam_sp = bool(spf) and ";" not in spf and genus_of_species(spf).lstrip("×").casefold() in KNOWN_GENERA
         flag("genus_family", g_rank=grk[0], g_fam=grk[1],
-             **({} if grk[0] != "family" else {"g_fam_kv": f"taxon:family={grk[1]}"} if not tf
-                else {"g_fam_same": 1} if tf.casefold() == grk[1].casefold() else {}))
+             **({"g_fam_sp": 1} if fam_sp else {} if grk[0] != "family" else {"g_fam_kv": f"taxon:family={grk[1]}"}
+                if not tf else {"g_fam_same": 1} if tf.casefold() == grk[1].casefold() else {}))
     # genus di una parola che non è un genere noto ma il nome comune di un genere (genus=wierzba -> Salix, in polacco):
     # al posto di genus_lowercase, che proporrebbe la maiuscola di un nome che non va bene comunque
     gcn, gcn_lang = (common_name_genus_lang(gw[0]) if gw and len(gw) == 1 and gw[0].casefold() not in KNOWN_GENERA

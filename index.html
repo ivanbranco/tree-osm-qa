@@ -877,7 +877,7 @@ const I18N = {
       taxon_lang_only: "taxon:xx è il nome di taxon=* in una lingua: lo affianca, non lo sostituisce.",
       genus_common_name: "genus=* contiene il nome scientifico del genere (es. Salix), lo stesso in tutte le lingue. Il nome comune va in genus:xx (es. genus:pl).",
       genus_typo: "Il genere non è nelle liste della wiki OSM, ma differisce di una lettera da un genere che c'è (di due per i nomi di almeno 9 lettere). Non segnalati i nomi sotto le 4 lettere e i nomi con più di un genere ugualmente vicino.",
-      genus_family: "genus=* contiene il nome di un genere. I nomi delle famiglie finiscono in -aceae (Cupressaceae) e vanno in taxon:family=*; quelli degli ordini finiscono in -ales.",
+      genus_family: "genus=* contiene il nome di un genere. I nomi delle famiglie finiscono in -aceae (Cupressaceae) e vanno in taxon:family=*; quelli degli ordini finiscono in -ales. Conta anche una famiglia scritta male o in un'altra lingua (Pinacae, Pinacee: Pinaceae). Se species indica già il genere, la famiglia o l'ordine si possono togliere.",
       placeholder_value: "species=* e genus=* contengono il nome scientifico. Un valore senza lettere (-, .) o che significa «sconosciuto» (Unknown, Desconocido, Inconnu…) non indica una specie o un genere: se non si conosce, il tag si omette.",
       species_truncated: "Il valore ha esattamente 30 caratteri e finisce con le virgolette di una cultivar aperte e non chiuse, o con una lettera sola dopo una parola: il valore di alcuni import è tagliato a 30 caratteri.",
       stump_crown: "natural=tree_stump è il ceppo di un albero tagliato, che non ha chioma: diameter_crown=* su un ceppo è segnalato. L'altezza no: un albero tagliato in alto resta un ceppo.",
@@ -967,8 +967,9 @@ const I18N = {
         + (s ? `; ${n} ha una sola specie: aggiungere species=${s}` : ""),
       genus_typo: (g, s) => `genus=${g} non è nelle liste dei generi: forse ${s}?`,
       // rank: "family" o "order" (g_rank, fetch_trees.py); kv: "taxon:family=…" se taxon:family manca; same: c'è già
-      genus_family: (g, rank, kv, same) => `genus=${g} è il nome di ${rank === "order" ? "un ordine" : "una famiglia"}, non di un genere`
-        + (kv ? `: usare ${kv} senza genus` : same ? ": taxon:family c'è già, genus si può togliere" : ""),
+      genus_family: (g, rank, kv, same, sp) => `genus=${g} è il nome di ${rank === "order" ? "un ordine" : "una famiglia"}, non di un genere`
+        + (sp ? `: species indica già un taxon più preciso, ${rank === "order" ? "l'ordine" : "la famiglia"} si può togliere`
+          : kv ? `: usare ${kv} senza genus` : same ? ": taxon:family c'è già, genus si può togliere" : ""),
       placeholder_value: kv => `${kv} non indica una specie o un genere`,
       species_truncated: sp => `species=${sp} si interrompe dopo 30 caratteri`,
       stump_crown: v => `diameter_crown=${v} su un ceppo`,
@@ -1506,7 +1507,7 @@ const I18N = {
       taxon_lang_only: "taxon:xx is the name of taxon=* in a language: it goes alongside it, not instead of it.",
       genus_common_name: "genus=* holds the scientific name of the genus (e.g. Salix), the same in every language. The common name goes in genus:xx (e.g. genus:pl).",
       genus_typo: "The genus is not in the OSM wiki lists, but differs by one letter from a genus that is (by two for names of at least 9 letters). Names shorter than 4 letters and names with more than one equally close genus are not reported.",
-      genus_family: "genus=* holds the name of a genus. Family names end in -aceae (Cupressaceae) and go in taxon:family=*; order names end in -ales.",
+      genus_family: "genus=* holds the name of a genus. Family names end in -aceae (Cupressaceae) and go in taxon:family=*; order names end in -ales. A family name misspelled or in another language also counts (Pinacae, Pinacee: Pinaceae). If species already gives the genus, the family or order can be removed.",
       placeholder_value: "species=* and genus=* hold the scientific name. A value without letters (-, .) or meaning \"unknown\" (Unknown, Desconocido, Inconnu…) does not indicate a species or a genus: when it is not known, the tag is left out.",
       species_truncated: "The value is exactly 30 characters long and ends with the quotes of a cultivar opened and not closed, or with a single letter after a word: some imports cut the value at 30 characters.",
       stump_crown: "natural=tree_stump is the stump of a felled tree, which has no crown: diameter_crown=* on a stump is reported. Height is not: a tree felled high up is still a stump.",
@@ -1590,8 +1591,9 @@ const I18N = {
       genus_common_name: (g, n, lang, kv, s) => `genus=${g} is the${lang ? ` ${langName(lang)}` : ""} common name of the genus ${n}: use genus=${n}` + (kv ? ` and ${kv}` : "")
         + (s ? `; ${n} has a single species: add species=${s}` : ""),
       genus_typo: (g, s) => `genus=${g} is not in the lists of genera: perhaps ${s}?`,
-      genus_family: (g, rank, kv, same) => `genus=${g} is the name of ${rank === "order" ? "an order" : "a family"}, not of a genus`
-        + (kv ? `: use ${kv} without genus` : same ? ": taxon:family is already there, genus can be removed" : ""),
+      genus_family: (g, rank, kv, same, sp) => `genus=${g} is the name of ${rank === "order" ? "an order" : "a family"}, not of a genus`
+        + (sp ? `: species already gives a more precise taxon, the ${rank === "order" ? "order" : "family"} can be removed`
+          : kv ? `: use ${kv} without genus` : same ? ": taxon:family is already there, genus can be removed" : ""),
       placeholder_value: kv => `${kv} does not indicate a species or a genus`,
       species_truncated: sp => `species=${sp} stops after 30 characters`,
       stump_crown: v => `diameter_crown=${v} on a stump`,
@@ -4896,7 +4898,7 @@ const issueBase = (i, p) => {
     case "placeholder_value": return String(p.ph_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // ph_keys: fetch_trees.py
     case "species_truncated": return T[i](p.species);
     case "genus_typo": return T[i](p.genus, p.g_typo);                     // g_typo: fetch_trees.py
-    case "genus_family": return T[i](p.genus, p.g_rank, p.g_fam_kv, p.g_fam_same);   // g_rank, g_fam_kv, g_fam_same: fetch_trees.py
+    case "genus_family": return T[i](p.genus, p.g_rank, p.g_fam_kv, p.g_fam_same, p.g_fam_sp);   // g_rank, g_fam_kv, g_fam_same, g_fam_sp: fetch_trees.py
     case "stump_crown": return T[i](p.diameter_crown);
     // sp_lang: righe "species:xx=valore"; sp_lang_genus: righe "species:fr=Tilleul|Tilia", nomi di un genere (lista
     // wiki e whitelist.json), con l'unica specie del genere se c'è ("species:fr=Cognassier|Cydonia|Cydonia oblonga",
@@ -5503,9 +5505,11 @@ const FIXES = {
     if (p.sp_binom) return [["species", p.sp_binom, "genus and epithet in species"],
       ["species:wikidata", p.sp_bin_wd, "add species:wikidata", true], ["leaf_type", p.sp_bin_lt, "add leaf_type", true],
       ["leaf_cycle", p.sp_bin_lc, "add leaf_cycle", true]];
+    // con una famiglia o un ordine in genus (genus_family) il genere di species prende il suo posto
     const g = p.sp_as_genus || p.sp_common_genus, norm = v => String(v || "").replace(/^\s*×\s*/, "").trim().toLowerCase();
-    if (!g || (norm(p.genus) && norm(p.genus) !== norm(g))) return [];
-    return [["species", REMOVE], ...norm(p.genus) ? [] : [["genus", g, undefined, true]], ...kvFix(p.sp_common_kv)];
+    const fam = p.sp_as_genus && p.issues.includes("|genus_family|");
+    if (!g || (norm(p.genus) && norm(p.genus) !== norm(g) && !fam)) return [];
+    return [["species", REMOVE], ...norm(p.genus) && !fam ? [] : [["genus", g, undefined, true]], ...kvFix(p.sp_common_kv)];
   }, "genus instead of single-word species"],
   // natural non è tra le proprietà della feature: il vecchio valore (quinto elemento) è tree, l'unico per cui scatta.
   // nt_nat (fetch_trees.py): plant o shrub (un arbusto); i dati di prima non lo hanno e valgono plant
@@ -5559,8 +5563,11 @@ const FIXES = {
   genus_typo: [p => [["genus", p.g_typo]], "fix the spelling of genus"],
   // famiglia in genus (g_fam_kv: "taxon:family=…" se manca; g_fam_same: c'è già con lo stesso nome): genus si toglie e la
   // famiglia passa in taxon:family (taxon:family non è tra le proprietà: fetch_trees.py controlla che manchi). Per un
-  // ordine, o con un taxon:family diverso, nessuna correzione
-  genus_family: [p => p.g_fam_kv ? [["genus", REMOVE], ...kvFix(p.g_fam_kv, "family in taxon:family instead of genus")]
+  // ordine, o con un taxon:family diverso, nessuna correzione. Con species che comincia con un genere (g_fam_sp) la
+  // famiglia o l'ordine si tolgono e basta; con species di una parola che è un genere (sp_as_genus) quel genere prende il
+  // posto di genus (FIXES.species), e qui non si toglie niente perché le due correzioni non si contraddicano
+  genus_family: [p => p.g_fam_sp ? (p.sp_as_genus ? [] : [["genus", REMOVE, "remove the family or order already implied by species"]])
+    : p.g_fam_kv ? [["genus", REMOVE], ...kvFix(p.g_fam_kv, "family in taxon:family instead of genus")]
     : p.g_fam_same ? [["genus", REMOVE]] : [], "family in taxon:family instead of genus"],
   // species o genus che non indicano un taxon (ph_keys, fetch_trees.py): si tolgono
   placeholder_value: [p => String(p.ph_keys || "").split(";").filter(k => p[k] != null).map(k => [k, REMOVE]),
