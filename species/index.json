@@ -28,6 +28,7 @@
   "liquidambar styraciflua": "liquidambar-styraciflua",
   "liriodendron tulipifera": "liriodendron-tulipifera",
   "magnolia grandiflora": "magnolia-grandiflora",
+  "malus domestica": "malus-domestica",
   "morus alba": "morus-alba",
   "olea europaea": "olea-europaea",
   "picea abies": "picea-abies",
@@ -358,6 +359,17 @@
    "lt": "broadleaved",
    "lc": "evergreen",
    "img": "Magnòlia_a_Verbania.JPG"
+  },
+  {
+   "name": "Malus domestica",
+   "slug": "malus-domestica",
+   "it": "Melo",
+   "en": "Apple tree",
+   "n": 1970,
+   "mon": 9,
+   "lt": "broadleaved",
+   "lc": "deciduous",
+   "img": "Apfelbaum_Winterrambour_Hochstamm.jpg"
   },
   {
    "name": "Morus alba",

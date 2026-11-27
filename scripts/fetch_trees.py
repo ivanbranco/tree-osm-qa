@@ -2934,9 +2934,18 @@ def botanical_value(t):
 
 def botanical_precise(t):
     """Tag per il valore di name:botanical=*, come taxon_precise per taxon=*: ("species", nome), ("genus", genere) o
-    ("species", valore, "b"). «sp.» e «spp.» in fondo non contano (name:botanical=Betula sp. -> genus=Betula)."""
+    ("species", valore, "b"). «sp.» e «spp.» in fondo non contano (name:botanical=Betula sp. -> genus=Betula), e
+    nemmeno l'autore del nome (Quercus robur L. -> species=Quercus robur, Tilia L. -> genus=Tilia), se tolto l'autore
+    resta solo il nome (split_author)."""
     nb = botanical_value(t)
-    return taxon_precise(t, SP_END.sub("", nb)) if nb else None
+    if not nb:
+        return None
+    v = SP_END.sub("", nb)
+    if (na := species_without_author(v)) and not species_author_uncertain(v):
+        v = na
+    elif len(w := v.split()) == 2 and AUTHOR.match(w[1]):   # genere seguito dal solo autore
+        v = w[0]
+    return taxon_precise(t, v)
 
 
 def taxon_conflict(t):
