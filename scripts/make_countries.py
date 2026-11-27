@@ -9,7 +9,8 @@ nazioni e territori con un proprio codice ISO 3166-1 (Guyana francese, Sahara Oc
   ( relation["type"="boundary"]["ISO3166-1"];
     relation["boundary"="administrative"]["admin_level"="4"]["ISO3166-2"~"^US-"](area.us); );
   out tags;
-Le relation con ISO3166-1 diventano nazioni, quelle con solo ISO3166-2 suddivisioni (parent: le prime due lettere).
+Le relation con ISO3166-1 diventano nazioni, quelle con solo ISO3166-2 suddivisioni (parent: le prime due lettere);
+un territorio con entrambi i codici (PR e US-PR) è una nazione con parent la nazione del codice ISO3166-2.
 Uso: python scripts/make_countries.py nazioni.json [stati.json ...]"""
 import json
 import sys
@@ -32,8 +33,13 @@ def main():
                 continue
             u = {"iso": iso, "rel": e["id"], "name": t.get("name:it") or t.get("name:en") or t.get("name", iso),
                  "name_en": t.get("name:en") or t.get("name", iso)}
+            # parent: la nazione di una suddivisione, o di un territorio che ha anche un codice ISO3166-2 (Porto Rico
+            # PR ha US-PR): se quella nazione è coperta in parte, il territorio si vede solo aprendola, come gli stati
+            iso2 = (t.get("ISO3166-2") or "").upper()
             if "-" in iso:
                 u["parent"] = iso[:2]
+            elif "-" in iso2 and iso2[:2] != iso:
+                u["parent"] = iso2[:2]
             # più relation con lo stesso codice: vale quella di admin_level più basso (la nazione, non una sua parte)
             u["_lvl"] = int(t["admin_level"]) if str(t.get("admin_level", "")).isdigit() else 99
             if iso in units and units[iso]["rel"] != e["id"]:

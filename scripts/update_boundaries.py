@@ -256,11 +256,13 @@ def uncovered_units(regions):
     units = []
     for c in countries:
         props = {"key": "u:" + c["iso"], "name": c["name"], "name_en": c["name_en"]}
-        if c.get("parent"):
-            if c["parent"] not in partial or c["iso"] in sub_iso or c["rel"] in rels:
+        # suddivisioni e territori (Porto Rico) di una nazione coperta in parte: si vedono solo aprendo la nazione,
+        # perché il suo confine in OSM di solito li comprende già
+        if c.get("parent") in partial:
+            if c["iso"] in sub_iso or c["rel"] in rels:
                 continue
             props["group"] = partial[c["parent"]]
-        elif c["iso"] in covered or c["iso"] in partial or c["rel"] in rels:
+        elif "-" in c["iso"] or c["iso"] in covered or c["iso"] in partial or c["rel"] in rels:
             continue
         units.append((c["rel"], props))
     return units

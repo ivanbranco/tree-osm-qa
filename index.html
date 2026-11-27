@@ -2845,6 +2845,14 @@ map.on("load", async () => {
   const bboxOf = coords => { let w = 180, s = 90, e = -180, n = -90;
     for (const [x, y] of coords) { if (x < w) w = x; if (x > e) e = x; if (y < s) s = y; if (y > n) n = y; }
     return [[w, s], [e, n]]; };
+  // riquadro di un confine; se attraversa mezzo mondo (Stati Uniti: Aleutine oltre l'antimeridiano, Guam, Samoa)
+  // si inquadra solo il poligono più grande (gli stati contigui), altrimenti la vista diventa tutto il mondo
+  const ringArea = r => Math.abs(r.reduce((a, [x, y], i) => { const [x2, y2] = r[(i + 1) % r.length];
+    return a + x * y2 - x2 * y; }, 0)) / 2;
+  const geomBox = g => { const box = bboxOf(coordsOf(g.coordinates));
+    if (g.type !== "MultiPolygon" || box[1][0] - box[0][0] <= 180) return box;
+    const big = g.coordinates.reduce((a, p) => ringArea(p[0]) > ringArea(a[0]) ? p : a);
+    return bboxOf(coordsOf(big)); };
   const groupOf = slug => (metaBy[slug] || {}).group || null;
   const groupName = g => { const m = meta.find(x => x.group === g) || {}; return m["group_" + LANG] || g; };
   let allBounds = null, openGroup = null;
@@ -2855,7 +2863,7 @@ map.on("load", async () => {
       p.key = p.key || p.slug;                       // file dei confini scritti prima delle nazioni: solo slug
       if (!p.country) p.group = p.group || groupOf(p.key);
       if (p.country) hasCountry.add(p.group);
-      unitBox[p.key] = bboxOf(coordsOf(f.geometry.coordinates));
+      unitBox[p.key] = geomBox(f.geometry);
     }
     // vista d'insieme: il gruppo più numeroso di regioni vicine (l'Europa). Le regioni separate da più di 40° di
     // longitudine (es. il Giappone) restano fuori, altrimenti tutto il resto diventerebbe minuscolo
