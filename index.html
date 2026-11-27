@@ -437,6 +437,8 @@ const I18N = {
     osmAttribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
     grayBg: "Sfondo in scala di grigi (tasto B)",
     colorBg: "Sfondo a colori (tasto B)",
+    locate: "Vai alla mia posizione", locateOff: "Posizione non disponibile",
+    locateError: "posizione non disponibile",
     editMenu: "Modifica", osmPage: "Pagina su OpenStreetMap", editId: "Modifica con iD", editJosm: "Apri in JOSM", editMapComplete: "Apri in MapComplete",
     fixJosm: "Sistema con JOSM", fixRemoved: "(da togliere)", gphotos: "Google Foto",
     josmMulti: {
@@ -1129,6 +1131,8 @@ const I18N = {
     osmAttribution: "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
     grayBg: "Grayscale background (B key)",
     colorBg: "Colour background (B key)",
+    locate: "Go to my location", locateOff: "Location not available",
+    locateError: "location not available",
     editMenu: "Edit", osmPage: "OpenStreetMap page", editId: "Edit with iD", editJosm: "Open in JOSM", editMapComplete: "Open in MapComplete",
     fixJosm: "Fix with JOSM", fixRemoved: "(removed)", gphotos: "Google Photos",
     josmMulti: {
@@ -2166,6 +2170,8 @@ const isDio = p => { const sp = String(p.species || "");
 const map = new maplibregl.Map({
   // zoom massimo 19: le tessere di openstreetmap.org arrivano a 19, oltre lo sfondo è solo ingrandito e sfocato
   container: "map", center: [12.5, 42.0], zoom: 5, maxZoom: 19,
+  // testi del pulsante della posizione (GeolocateControl), nella lingua della pagina
+  locale: { "GeolocateControl.FindMyLocation": L.locate, "GeolocateControl.LocationNotAvailable": L.locateOff },
   // sfondo: tessere standard di openstreetmap.org. Quelle di Wikimedia Italia (tile.osmit.it) non si possono usare:
   // il server non invia Access-Control-Allow-Origin e il browser le blocca (MapLibre le legge con WebGL)
   style: { version: 8, sources: { osm: { type: "raster", tileSize: 256, maxzoom: 19,
@@ -2175,6 +2181,14 @@ const map = new maplibregl.Map({
 });
 // solo + e −: niente bussola, e la mappa non si ruota (senza bussola non si potrebbe raddrizzare)
 map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
+// Posizione dell'utente (issue #66), subito sotto + e −: un clic chiede la posizione al browser (il permesso lo chiede
+// lui, solo la prima volta), la mappa la inquadra e ci lascia un pallino blu con il cerchio della precisione. Non la
+// segue mentre ci si sposta (trackUserLocation: false): spostando la mappa a mano non torna indietro. La posizione
+// resta nella pagina; il cambio di regione, se serve, lo fa il gestore "geolocate" dentro map.on("load").
+// Permesso negato: MapLibre disattiva il pulsante (testo LocationNotAvailable).
+const geoCtl = new maplibregl.GeolocateControl({ trackUserLocation: false,
+  positionOptions: { enableHighAccuracy: true, timeout: 15000 }, fitBoundsOptions: { maxZoom: 17 } });
+map.addControl(geoCtl, "top-right");
 // zoom minimo: quello a cui il mondo (512 px a zoom 0) è largo quanto la mappa; più indietro si vedrebbero più copie
 // affiancate degli stessi continenti. Si ricalcola quando la finestra cambia dimensione e a fine caricamento (con la
 // pagina in una scheda nascosta la mappa può partire larga 0: allora non si tocca)
@@ -2233,7 +2247,7 @@ async function toggleGray() {
   grayBtn.setAttribute("aria-pressed", grayOn);
   grayBtn.title = grayOn ? L.colorBg : L.grayBg;
 }
-// lo stesso cambio con un pulsante piccolo come + e −, subito sotto (per chi non ha la tastiera): due fogli sovrapposti,
+// lo stesso cambio con un pulsante piccolo come + e −, sotto quello della posizione (per chi non ha la tastiera): due fogli sovrapposti,
 // pieni di grigio quando lo sfondo grigio è attivo
 const grayBtn = document.createElement("button");
 grayBtn.type = "button"; grayBtn.className = "gray-bg"; grayBtn.title = L.grayBg;
@@ -4484,6 +4498,39 @@ map.on("load", async () => {
     if (country === null) return;      // nessun paese (mare aperto)
     showRequest(e.lngLat, country);
   });
+
+  // Pulsante della posizione (geoCtl, vedi sotto NavigationControl): se il punto è fuori dalla regione caricata si
+  // carica quella che lo contiene, senza cambiare la vista che MapLibre ha già impostato. Regioni candidate come in
+  // openNodeAlone: il punto, poi spostato di 0,01° nelle 8 direzioni (confini semplificati; sulla costa il punto può
+  // cadere appena fuori). Nessuna regione con dati: l'invito a chiedere la zona, se il punto è in una regione senza
+  // dati o in una zona non coperta; in mare aperto niente.
+  let geoSeq = 0;
+  geoCtl.on("geolocate", async pos => {
+    if (WORLD || !boundaries) return;
+    const pt = [pos.coords.longitude, pos.coords.latitude], seq = ++geoSeq;
+    const inside = f => inGeometry(pt, f.geometry);
+    const open = current && boundaries.features.find(f => f.properties.key === current);
+    if (open && inside(open)) return;
+    const feats = boundaries.features.filter(f => idx[f.properties.key]);   // senza le nazioni (g:…) e le zone senza dati
+    const D = 0.01;
+    let slug = null;
+    for (const [dx, dy] of [[0, 0], [D, 0], [-D, 0], [0, D], [0, -D], [D, D], [D, -D], [-D, D], [-D, -D]]) {
+      const f = feats.find(x => inGeometry([pt[0] + dx, pt[1] + dy], x.geometry));
+      if (f) { slug = f.properties.key; break; }
+    }
+    if (slug) {
+      if (slug === current) return;
+      closeCard(); hashSlug = slug;
+      await loadRegion(slug, false);
+      if (seq === geoSeq && current === slug) setHash();
+      return;
+    }
+    // le zone non coperte (u) sono in testa all'elenco ma, dove si sovrappongono, vale la regione (come per il clic)
+    const zones = boundaries.features.filter(f => !f.properties.country && inside(f));
+    const other = zones.find(f => !f.properties.u) || zones[0];
+    if (other) showRequest(pt, unitName(other.properties));
+  });
+  geoCtl.on("error", err => { if (err.code !== 1) addNote(esc(L.locateError)); });   // 1 = permesso negato: pulsante disattivato
 
   // avviso sul nodo dell'indirizzo, in coda alla riga dell'aggiornamento (sotto il conteggio)
   const nodeLink = id => `<a href="https://www.openstreetmap.org/node/${id}" target="_blank" rel="noopener">${id}</a>`;
