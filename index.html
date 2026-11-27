@@ -963,7 +963,8 @@ const I18N = {
       taxon_lang_mv: (kv, kind, n, nkv, add) => `c'è ${kv} ma manca taxon=*: ${kind === "g" ? `è il nome del genere ${n}`
         : `è il nome della specie ${n}`}, usare ${nkv}` + (add ? ` e ${add}` : ""),
       // lang: codice della lingua del nome (g_common_lang, fetch_trees.py), "" se è lo stesso in più lingue
-      genus_common_name: (g, n, lang, kv) => `genus=${g} è il nome comune${lang ? ` in ${langName(lang)}` : ""} del genere ${n}: usare genus=${n}` + (kv ? ` e ${kv}` : ""),
+      genus_common_name: (g, n, lang, kv, s) => `genus=${g} è il nome comune${lang ? ` in ${langName(lang)}` : ""} del genere ${n}: usare genus=${n}` + (kv ? ` e ${kv}` : "")
+        + (s ? `; ${n} ha una sola specie: aggiungere species=${s}` : ""),
       genus_typo: (g, s) => `genus=${g} non è nelle liste dei generi: forse ${s}?`,
       // rank: "family" o "order" (g_rank, fetch_trees.py); kv: "taxon:family=…" se taxon:family manca; same: c'è già
       genus_family: (g, rank, kv, same) => `genus=${g} è il nome di ${rank === "order" ? "un ordine" : "una famiglia"}, non di un genere`
@@ -1583,7 +1584,8 @@ const I18N = {
       taxon_lang_only: kv => `${kv} is present but taxon=* is missing`,
       taxon_lang_mv: (kv, kind, n, nkv, add) => `${kv} is present but taxon=* is missing: ${kind === "g" ? `it is the name of the genus ${n}`
         : `it is the name of the species ${n}`}, use ${nkv}` + (add ? ` and ${add}` : ""),
-      genus_common_name: (g, n, lang, kv) => `genus=${g} is the${lang ? ` ${langName(lang)}` : ""} common name of the genus ${n}: use genus=${n}` + (kv ? ` and ${kv}` : ""),
+      genus_common_name: (g, n, lang, kv, s) => `genus=${g} is the${lang ? ` ${langName(lang)}` : ""} common name of the genus ${n}: use genus=${n}` + (kv ? ` and ${kv}` : "")
+        + (s ? `; ${n} has a single species: add species=${s}` : ""),
       genus_typo: (g, s) => `genus=${g} is not in the lists of genera: perhaps ${s}?`,
       genus_family: (g, rank, kv, same) => `genus=${g} is the name of ${rank === "order" ? "an order" : "a family"}, not of a genus`
         + (kv ? `: use ${kv} without genus` : same ? ": taxon:family is already there, genus can be removed" : ""),
@@ -5001,8 +5003,9 @@ const issueBase = (i, p) => {
       return String(p.tx_lang || "").split("\n").filter(Boolean).map(kv => { const m = mv.get(kv);
         return m ? T.taxon_lang_mv(kv, m[0], m[1], m[2], m[0] === addKind ? add : "") : T[i](kv); }).join("\n");
     }
-    // g_common, g_common_lang, g_common_kv (genus:xx con il nome comune, se manca): fetch_trees.py
-    case "genus_common_name": return T[i](p.genus, p.g_common, p.g_common_lang || "", p.g_common_kv);
+    // g_common, g_common_lang, g_common_kv (genus:xx con il nome comune, se manca): fetch_trees.py; senza species, la
+    // specie di un genere con una sola specie (MONOTYPIC)
+    case "genus_common_name": return T[i](p.genus, p.g_common, p.g_common_lang || "", p.g_common_kv, gcSingle(p));
     case "register_country":     // reg_out: "tag|codice ISO della nazione;…" (fetch_trees.py)
       return String(p.reg_out || "").split(";").filter(Boolean).map(x => { const [t, cc] = x.split("|");
         return T[i](t, countryName(cc)); }).join("\n");
@@ -5503,8 +5506,10 @@ const FIXES = {
   genus_lowercase: [p => p.issues.includes("|genus|") ? [] : [["genus", capFirst(p.genus)]], "capitalise genus"],
   // nome comune di un genere (g_common) e genere di species scritto male (gm_fix): fetch_trees.py
   // con g_common_kv anche il nome comune in genus:xx (genus:xx non è tra le proprietà: fetch_trees.py controlla che manchi)
-  genus_common_name: [p => { const kv = String(p.g_common_kv || ""), j = kv.indexOf("=");
-    return [["genus", p.g_common], ...j > 0 ? [[kv.slice(0, j), kv.slice(j + 1), "common name of the genus in genus:xx", true]] : []]; },
+  // e, senza species, la specie di un genere con una sola specie (gcSingle: genus=Oleandro -> species=Nerium oleander)
+  genus_common_name: [p => { const kv = String(p.g_common_kv || ""), j = kv.indexOf("="), s = gcSingle(p);
+    return [["genus", p.g_common], ...j > 0 ? [[kv.slice(0, j), kv.slice(j + 1), "common name of the genus in genus:xx", true]] : [],
+      ...s ? [["species", s, "add the species of the single-species genus", true]] : []]; },
     "scientific name in genus instead of the common name"],
   // species nome comune di una specie della lista (sp_cn_sp, fetch_trees.py): species diventa quella specie (genus resta
   // com'è: fetch_trees.py controlla che sia lo stesso genere), con species:wikidata, leaf_type e leaf_cycle che mancano.
@@ -6342,8 +6347,12 @@ const MONOTYPIC = {
   Pseudolarix: "Pseudolarix amabilis", Wollemia: "Wollemia nobilis", Fitzroya: "Fitzroya cupressoides",
   Davidia: "Davidia involucrata", Idesia: "Idesia polycarpa", Eucommia: "Eucommia ulmoides",
   Tetracentron: "Tetracentron sinense", Trochodendron: "Trochodendron aralioides", Oxydendrum: "Oxydendrum arboreum",
-  Franklinia: "Franklinia alatamaha", Umbellularia: "Umbellularia californica",
+  Franklinia: "Franklinia alatamaha", Umbellularia: "Umbellularia californica", Nerium: "Nerium oleander",
+  Cydonia: "Cydonia oblonga",
 };
+// genus=* nome comune di un genere con una sola specie (g_common, check genus_common_name), senza species=*: la specie
+// (genus=Oleandro -> Nerium oleander), altrimenti ""
+const gcSingle = p => (!p.species && p.g_common && MONOTYPIC[String(p.g_common).trim()]) || "";
 const ELEV_HINT = 1800;   // m: da qui in su, consiglio sugli alberi senza species=* (highNoSpecies)
 const SEQUOIA_NOTE = new Set(["IT", "FR", "BE", "LU", "CH", "MC", "GB", "IE", "US", "CA", "AU", "NZ"]);
 function hints(p, pos) {

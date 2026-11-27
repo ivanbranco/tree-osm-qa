@@ -2379,6 +2379,8 @@ def species_common_name(sp):
         return None
     if second == "X" and (len(words) == 2 or words[2][:1].islower()):
         return None                              # segno di ibrido scritto maiuscolo ("Crataegus X prunifolia", "Tilia X")
+    if ABBR_GENUS.match(words[0]) and abbr_epithet(second):
+        return None                              # genere abbreviato ed epiteto maiuscolo ("C. Siliqua"): species_genus_abbr
     m = re.search(r"\(([^)]*)\)", sp)
     return m.group(1).strip() if m and SCI_NAME.match(m.group(1).strip()) else ""
 
@@ -2595,15 +2597,25 @@ def expand_genus(initial, epithet, genus):
     return next(iter(found)) if len(found) == 1 else None
 
 
+def abbr_epithet(w):
+    """Epiteto dopo un genere abbreviato: la parola com'è se è minuscola ("baccata"), minuscola se ha le maiuscole ma
+    in minuscolo è l'epiteto di una specie della lista ("C. Siliqua" -> "siliqua"; non "Q. Grande"); None altrimenti."""
+    if re.fullmatch(r"[a-zë-]+", w):
+        return w
+    low = w.lower()
+    return low if w[:1].isupper() and re.fullmatch(r"[a-zë-]+", low) and low in LIST_EPITHETS else None
+
+
 def genus_abbreviated(sp, genus=""):
     """(iniziale, species con il genere per esteso) se species comincia con il genere abbreviato all'iniziale e
-    seguito da un epiteto minuscolo ("P. avium" -> ("P", "Prunus avium"); "T. baccata 'Fastigiata'" con genus=Taxus ->
-    ("T", "Taxus baccata 'Fastigiata'")); il secondo è "" se il genere non si può dire (expand_genus). None altrimenti."""
+    seguito da un epiteto (abbr_epithet: "P. avium" -> ("P", "Prunus avium"); "C. Siliqua" -> ("C", "Ceratonia
+    siliqua"); "T. baccata 'Fastigiata'" con genus=Taxus -> ("T", "Taxus baccata 'Fastigiata'")); il secondo è "" se
+    il genere non si può dire (expand_genus). None altrimenti."""
     w = sp.split()
-    if len(w) < 2 or not ABBR_GENUS.match(w[0]) or not re.fullmatch(r"[a-zë-]+", w[1]) or w[1] in HYBRID_SIGNS:
+    if len(w) < 2 or not ABBR_GENUS.match(w[0]) or w[1] in HYBRID_SIGNS or not (ep := abbr_epithet(w[1])):
         return None
-    g = expand_genus(w[0][0], w[1], genus)
-    return w[0][0], " ".join([g] + w[1:]) if g else ""
+    g = expand_genus(w[0][0], ep, genus)
+    return w[0][0], " ".join([g, ep] + w[2:]) if g else ""
 
 
 _VARIETY_NAMES = {}   # WD_TAXA (l'oggetto) -> nomi normalizzati dei taxon di rango varietà; riempito alla prima chiamata
@@ -2657,10 +2669,10 @@ def species_infra(sp, genus=""):
         return None
     words, abbr = sp.split(), False
     if ABBR_GENUS.match(words[0]):
-        if (len(words) < 2 or not re.fullmatch(r"[a-zë-]+", words[1])
-                or not (g := expand_genus(words[0][0], words[1], genus))):
+        if (len(words) < 2 or not (ep := abbr_epithet(words[1]))
+                or not (g := expand_genus(words[0][0], ep, genus))):
             return None
-        sp, abbr = " ".join([g] + words[1:]), True
+        sp, abbr = " ".join([g, ep] + words[2:]), True
     vr, cv, ss = VAR_EPITHET.findall(sp), CV_QUOTED.findall(sp), SSP_EPITHET.findall(sp)
     if len(vr) > 1 or len(cv) > 1 or len(ss) > 1:
         return None

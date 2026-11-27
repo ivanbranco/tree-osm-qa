@@ -4,7 +4,7 @@
   "small_monument": {},
   "not_trees": {"Agave americana": "Q161115"},
   "not_tree_genera": ["Agave"],
-  "single_species_genera": {"Cydonia": "Cydonia oblonga"},
+  "single_species_genera": {"Cydonia": "Cydonia oblonga", "Nerium": "Nerium oleander"},
   "genera": ["Adenocarpus", "Chimonanthus", "Evodia", "Micromeles", "Sciadopitys"],
   "genus_names": {
     "en": {"Alder": "Alnus", "Beech": "Fagus", "Birch": "Betula", "Elm": "Ulmus", "Fir": "Abies", "Hazel": "Corylus",
