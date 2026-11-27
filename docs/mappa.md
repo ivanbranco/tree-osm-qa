@@ -67,7 +67,7 @@ The tabs of the panel (Legend, Error ranking, Trends, Completeness, Record trees
 | **C** | with a card open | opens the [trunk comparison](scheda.md#trunk-comparison) window, if the tree has it |
 | **B** | always | switches between the OpenStreetMap background and the grayscale one (same as the button with two sheets at the top right) |
 | **D** | always (not on the monumental trees map) | opens the card of a random tree with errors, as the die button at the top right |
-| **J** | with a region open, from zoom 17 (10 in expert mode) | passes to JOSM the fixes of the trees in view, up to 25 (100 in expert mode; see [All the trees in view](scheda.md#all-the-trees-in-view)); if no tree in view has a fix, it offers to download the area in view in JOSM anyway |
+| **J** | with a region open, from zoom 17 (10 in expert mode) | passes to JOSM the fixes of the trees in view, up to 25 (100 in expert mode; see [All the trees in view](scheda.md#all-the-trees-in-view)); if no tree in view has a fix, it offers to download the area in view in JOSM anyway (from zoom 17) |
 | **E** (expert) | with a region open, from zoom 10 | shows or hides a dashed red ring around the trees in view that have at least one hint (ⓘ in the card) and no errors, up to 5,000 (the nearest to the centre); it follows the genus/species filter. While expert mode is on, the name DendrOSM at the top of the panel is red and the **J** key works from zoom 10 with up to 100 trees. Not shown in the page |
 
 They do nothing while typing in a field; C, B, D and J also do nothing with a window open.

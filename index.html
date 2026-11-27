@@ -448,6 +448,7 @@ const I18N = {
     josmMulti: {
       zoom: z => `Per sistemare con JOSM gli alberi in vista serve uno zoom di almeno ${z}.`,
       none: "Nessun albero in vista ha una correzione da passare a JOSM. Scaricare comunque in JOSM la zona in vista?",
+      noneWide: "Nessun albero in vista ha una correzione da passare a JOSM.",
       ask: (n, all, max) => `Mandare a JOSM le correzioni di ${n} alberi${all > n ? ` (i primi ${max} di ${all} in vista)` : ""}? JOSM le mostra una alla volta prima di applicarle.`,
       fail: "JOSM non risponde: controllare che sia aperto con il controllo remoto attivo e che il browser possa accedere alla rete locale." },
     allRegions: "← Tutte le nazioni", chooseRegion: "Scegli una regione…",
@@ -1143,6 +1144,7 @@ const I18N = {
     josmMulti: {
       zoom: z => `Fixing the trees in view with JOSM needs zoom ${z} or more.`,
       none: "No tree in view has a fix to pass to JOSM. Download the area in view in JOSM anyway?",
+      noneWide: "No tree in view has a fix to pass to JOSM.",
       ask: (n, all, max) => `Send the fixes of ${n} trees to JOSM${all > n ? ` (the first ${max} of ${all} in view)` : ""}? JOSM shows them one at a time before applying them.`,
       fail: "JOSM does not respond: check that it is open with remote control enabled and that the browser may access the local network." },
     allRegions: "← All countries", chooseRegion: "Choose a region…",
@@ -3840,7 +3842,7 @@ map.on("load", async () => {
   // tasto J (issue #77, per ora solo da tastiera): le correzioni di «Sistema con JOSM» per tutti gli alberi in vista
   // (con i filtri scelti), al più JOSM_MULTI_MAX e solo da zoom JOSM_MULTI_Z; in modalità Expert (tasto E, hintsOn) al
   // più JOSM_EXPERT_MAX e da zoom JOSM_EXPERT_Z. Una richiesta load_and_zoom scarica la
-  // zona (JOSM risponde a download finito), poi una richiesta zoom per albero con select e addtags: JOSM mette in coda
+  // zona (JOSM risponde a download finito; sotto JOSM_MULTI_Z load_object scarica solo i nodi da correggere), poi una richiesta zoom per albero con select e addtags: JOSM mette in coda
   // le conferme e le mostra una alla volta. Il commento del changeset unisce i motivi di tutte le correzioni
   const JOSM_MULTI_MAX = 25, JOSM_MULTI_Z = 17, JOSM_EXPERT_MAX = 100, JOSM_EXPERT_Z = 10;
   let josmBusy = false;
@@ -3852,11 +3854,16 @@ map.on("load", async () => {
     const all = [];
     eachInView((p, ft) => { const [fixes, why] = fixList(p); if (fixes.length) all.push({ p, pos: ft.geometry.coordinates, fixes, why }); });
     const b = map.getBounds();
+    // sotto zoom JOSM_MULTI_Z (solo in Expert) la zona in vista è troppo grande per scaricarla tutta (le API di OSM
+    // rifiutano le aree oltre 0,25 gradi quadrati o 50.000 nodi): si scaricano solo i nodi da correggere (load_object).
+    // JOSM esegue le richieste in coda, quindi le richieste zoom per albero arrivano dopo il download
+    const wide = map.getZoom() < JOSM_MULTI_Z;
     const area = `http://127.0.0.1:8111/load_and_zoom?left=${b.getWest().toFixed(6)}&right=${b.getEast().toFixed(6)}`
       + `&bottom=${b.getSouth().toFixed(6)}&top=${b.getNorth().toFixed(6)}`;
     const send = u => fetch(u, { mode: "no-cors" });
-    // nessuna correzione: si può scaricare comunque la zona in vista, con hashtag e fonte del changeset
+    // nessuna correzione: si può scaricare comunque la zona in vista, con hashtag e fonte del changeset (non se è troppo grande)
     if (!all.length) {
+      if (wide) { alert(L.josmMulti.noneWide); return; }
       if (!confirm(L.josmMulti.none)) return;
       josmBusy = true;
       try { await send(area + `&changeset_hashtags=${CHANGESET_HASHTAG}&changeset_source=${encodeURIComponent(changesetSource())}`); }
@@ -3871,7 +3878,7 @@ map.on("load", async () => {
     const comment = encodeURIComponent([...new Set(ts.flatMap(t => t.why))].join("; ").replace(/^./, c => c.toUpperCase()));
     josmBusy = true;
     try {
-      await send(area);
+      await send(wide ? `http://127.0.0.1:8111/load_object?objects=${ts.map(t => `n${t.p.id}`).join(",")}` : area);
       for (const t of ts) await send(josmUrl(t.p, t.pos,
         `&addtags=${encodeURIComponent(t.fixes.map(([k, , n]) => `${k}=${n}`).join("|"))}&changeset_comment=${comment}`)
         .replace("/load_and_zoom?", "/zoom?"));
