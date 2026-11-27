@@ -7,7 +7,7 @@ Le regioni (nome, codice ISO, bbox) sono in scripts/regions.json.
 """
 import calendar, collections, concurrent.futures, datetime, functools, gzip, hashlib, json, math, os, re, sys, time, unicodedata
 from pathlib import Path
-from urllib.parse import unquote, urlparse
+from urllib.parse import quote, unquote, urlparse
 
 import requests
 
@@ -670,9 +670,27 @@ def wp_key(v):
     return f"{m.group(1)}:{title[:1].upper() + title[1:]}"
 
 
+TITLES_MAX_BYTES = 5000   # titoli per richiesta all'API di MediaWiki: con l'URL oltre ~8 KB risponde 414 (URI Too Long)
+
+
+def title_batches(titles, size=50):
+    """Blocchi di al massimo `size` titoli (il limite dell'API di MediaWiki) e TITLES_MAX_BYTES di parametro codificato
+    nell'URL: in cirillico, greco, ecc. ogni lettera diventa 6 caratteri (%D0%93) e 50 titoli superano il limite."""
+    batch, n = [], 0
+    for t in titles:
+        b = len(quote(t)) + 3   # + il separatore | codificato (%7C)
+        if batch and (len(batch) >= size or n + b > TITLES_MAX_BYTES):
+            yield batch
+            batch, n = [], 0
+        batch.append(t)
+        n += b
+    if batch:
+        yield batch
+
+
 def resolve_wikipedia(tags):
     """QID degli elementi Wikidata delle voci di species:wikipedia e wikipedia, dall'API della Wikipedia di ogni lingua
-    (pageprops wikibase_item, a blocchi di 50 titoli; si seguono normalizzazioni e redirect). Si rileggono a ogni
+    (pageprops wikibase_item, a blocchi di title_batches; si seguono normalizzazioni e redirect). Si rileggono a ogni
     aggiornamento, come i QID, ma una volta sola per esecuzione (WP_ASKED); se Wikipedia non risponde resta la
     cache. Restituisce i QID trovati, da aggiungere alle specie da chiedere a Wikidata."""
     keys = sorted({k for t in tags for key in ("species:wikipedia", "wikipedia") if (k := wp_key(t.get(key)))})
@@ -682,8 +700,8 @@ def resolve_wikipedia(tags):
         lang, title = k.split(":", 1)
         by_lang.setdefault(lang, []).append(title)
     for lang, titles in by_lang.items():
-        for i in range(0, len(titles), 50):
-            batch = titles[i:i + 50]
+        i = 0   # titoli già chiesti
+        for batch in title_batches(titles):
             try:
                 r = requests.get(f"https://{lang}.wikipedia.org/w/api.php", timeout=60, headers=HEADERS, params={
                     "action": "query", "prop": "pageprops", "ppprop": "wikibase_item", "redirects": 1,
@@ -702,6 +720,7 @@ def resolve_wikipedia(tags):
                     final = moved.get(final, final)
                 WP_QIDS[f"{lang}:{title}"] = qid.get(final)
                 WP_ASKED.add(f"{lang}:{title}")
+            i += len(batch)
             time.sleep(1)
     if todo:
         WP_QIDS_FILE.write_text(json.dumps(WP_QIDS, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -766,6 +785,73 @@ def update_wikidata_cache(elements):
     for todo, path, cache in ((todo_items, WD_ITEMS_FILE, WD_ITEMS), (todo_taxa or todo_alias, WD_TAXA_FILE, WD_TAXA)):
         if todo:
             path.write_text(json.dumps(cache, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+    update_redirects(tags)
+
+
+# data/wikidata_redirects.json: QID dei tag wikidata e *:wikidata degli alberi che su Wikidata sono un redirect
+# (unione di due elementi) o un elemento cancellato: {"Q…": QID di destinazione, o null se cancellato}. Solo questi:
+# gli altri QID non ci sono. Si rileggono a ogni aggiornamento, una volta per esecuzione (WD_REDIR_ASKED)
+WD_REDIR_FILE = DATA / "wikidata_redirects.json"
+WD_REDIR = load_json(WD_REDIR_FILE)
+WD_REDIR_ASKED = set()
+
+
+def wd_keys(t):
+    """Chiavi dei tag che indicano elementi Wikidata: wikidata e quelle che finiscono con :wikidata."""
+    return [k for k in t if k == "wikidata" or k.endswith(":wikidata")]
+
+
+def update_redirects(tags):
+    """Cerca i QID reindirizzati o cancellati tra quelli di wd_keys. Su WDQS un redirect ha owl:sameAs e un elemento
+    cancellato non ha schema:version: questi candidati si verificano con l'API di Wikidata (wbgetentities), che è
+    sempre aggiornata (WDQS può essere indietro: un elemento appena creato non c'è ancora). Se Wikidata non risponde
+    i QID rimasti restano come nella cache."""
+    todo = sorted({q for t in tags for k in wd_keys(t) for q in qids(t, k)} - WD_REDIR_ASKED)
+    found = {}
+
+    def store(batch, rows):
+        cand = sorted({qid_of(b, "item") for b in rows if "to" in b or "v" not in b})
+        for i in range(0, len(cand), 50):
+            r = requests.get("https://www.wikidata.org/w/api.php", timeout=60, headers=HEADERS, params={
+                "action": "wbgetentities", "ids": "|".join(cand[i:i + 50]), "props": "info", "format": "json"})
+            r.raise_for_status()
+            for e in r.json().get("entities", {}).values():
+                if "redirects" in e:
+                    found[e["redirects"]["from"]] = e["redirects"]["to"]
+                elif "missing" in e and "id" in e:
+                    found[e["id"]] = None
+        for q in batch:   # il blocco è verificato: i QID che non sono più redirect o cancellati si tolgono
+            WD_REDIR.pop(q, None)
+        WD_REDIR.update({q: found[q] for q in batch if q in found})
+
+    ask_wikidata(todo, lambda v: "SELECT ?item ?v ?to WHERE { VALUES ?item { " + v + " } "
+                 "OPTIONAL { ?item schema:version ?v } OPTIONAL { ?item owl:sameAs ?to } }", store, "redirect",
+                 WD_REDIR_ASKED)
+    if todo:
+        WD_REDIR_FILE.write_text(json.dumps(WD_REDIR, indent=0, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def wikidata_redirects(t):
+    """[(chiave, QID, QID di destinazione)] dei QID reindirizzati nei tag di wd_keys."""
+    return [(k, q, WD_REDIR[q]) for k in wd_keys(t) for q in qids(t, k) if WD_REDIR.get(q)]
+
+
+def redirect_fixes(t):
+    """[(chiave, valore, valore nuovo)] con i QID reindirizzati sostituiti da quelli di destinazione (una volta sola, se
+    la destinazione c'è già), per la correzione con JOSM."""
+    out = []
+    for k in wd_keys(t):
+        old = str(t[k])
+        vals = [WD_REDIR.get(x.strip()) or x.strip() for x in old.split(";")]
+        new = ";".join(dict.fromkeys(vals))
+        if any(WD_REDIR.get(q) for q in qids(t, k)) and new != old:
+            out.append((k, old, new))
+    return out
+
+
+def wikidata_deleted(t):
+    """[(chiave, QID)] dei QID cancellati su Wikidata nei tag di wd_keys."""
+    return [(k, q) for k in wd_keys(t) for q in qids(t, k) if q in WD_REDIR and WD_REDIR[q] is None]
 
 
 def taxon_names(q):
@@ -1240,8 +1326,8 @@ def update_url_cache(elements):
     with concurrent.futures.ThreadPoolExecutor(URL_WORKERS) as ex:
         for res in ex.map(check_host, by_host.values()):
             URL_STATUS.update({u: {"s": s, "d": today.isoformat()} for u, s in res.items()})
-    for i in range(0, len(files), 50):   # file di Commons: 50 titoli per richiesta all'API
-        batch = files[i:i + 50]
+    i = 0   # file già chiesti
+    for batch in title_batches(files):   # file di Commons: fino a 50 titoli per richiesta all'API
         try:
             r = requests.get(COMMONS_API, headers=HEADERS, timeout=60, params={
                 "action": "query", "titles": "|".join(batch), "format": "json", "formatversion": 2})
@@ -1254,12 +1340,13 @@ def update_url_cache(elements):
         except Exception as e:
             warn(f"Commons non risponde ({str(e)[:150]}): {len(files) - i} file restano da verificare")
             break
+        i += len(batch)
     # coordinate dei file di Commons collegati (check commons_far): "geo:File:…" → {"c": [lat, lon, tipo] o
     # [], "d": data}; tipo "object" (posizione del soggetto, se c'è) o "camera" (posizione di scatto)
     # anche le foto (P18) degli elementi di wikidata=* senza coordinate proprie (check wikidata_photo_far)
     geo = sorted({f for t in tags for f in commons_photo_files(t) + [f for _, f in wikidata_photos(t)] if stale("geo:" + f)})
-    for i in range(0, len(geo), 50):
-        batch = geo[i:i + 50]
+    i = 0   # file già chiesti
+    for batch in title_batches(geo):
         try:
             r = requests.get(COMMONS_API, headers=HEADERS, timeout=60, params={
                 "action": "query", "titles": "|".join(batch), "prop": "coordinates", "coprimary": "all",
@@ -1278,6 +1365,7 @@ def update_url_cache(elements):
         except Exception as e:
             warn(f"Commons non risponde ({str(e)[:150]}): coordinate di {len(geo) - i} file restano da leggere")
             break
+        i += len(batch)
         time.sleep(URL_PAUSE)
     if geo:
         print(f" coordinate lette per {len(geo)} file di Commons")
@@ -1426,8 +1514,10 @@ def wikidata_photo_far(t, pos):
 
 
 def not_taxon_tags(t):
-    """species:wikidata e genus:wikidata che puntano a un elemento che non è un taxon: [(chiave, QID)]."""
-    return [(k, q) for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k) if taxon_status(q) is False]
+    """species:wikidata e genus:wikidata che puntano a un elemento che non è un taxon: [(chiave, QID)]. Non gli elementi
+    cancellati (wikidata_deleted)."""
+    return [(k, q) for k in ("species:wikidata", "genus:wikidata") for q in qids(t, k)
+            if taxon_status(q) is False and not (q in WD_REDIR and WD_REDIR[q] is None)]
 
 
 def taxon_wikidata(t):
@@ -2763,8 +2853,9 @@ def taxon_lang_moves(t, tl):
     """Nomi di taxon_lang_only (tl) che si possono scrivere in genus:xx o species:xx: (righe, tag).
     righe = [(chiave, valore, tipo, nome, "chiave nuova=valore nuovo")], tipo "g" se il valore è il nome comune di un
     genere (GENUS_NAMES, nome = il genere; va in genus:xx con l'iniziale maiuscola e senza «sp.»), "s" se è il nome di
-    una specie (SPECIES_NAMES, nome = la specie; va in species:xx, scritto come nella lista), "p" se non è un nome noto
-    ma species=* c'è già (va in species:xx com'è). tag = "species=…" o "genus=…" da aggiungere perché manca, o "".
+    una specie (SPECIES_NAMES, nome = la specie; va in species:xx, scritto come nella lista). Un nome che non è nelle
+    liste non ha righe, anche con species=*: può essere il nome di un cultivar (taxon:it=Runsè su Malus domestica).
+    tag = "species=…" o "genus=…" da aggiungere perché manca, o "".
     Una riga non c'è se il tag nuovo ha già un altro valore; nessuna riga se i nomi indicano generi o specie diversi
     tra loro o da genus e species."""
     sp, g = str(t.get("species") or "").strip(), str(t.get("genus") or "").strip()
@@ -2782,8 +2873,6 @@ def taxon_lang_moves(t, tl):
             row = (k, v, "s", s, f"species:{lang}", SPECIES_NAME_FORM.get((code, v.casefold())) or v)
             genera.add(genus_key(s))
             specs.add(binomial(s))
-        elif sp:
-            row = (k, v, "p", "", f"species:{lang}", v)
         else:
             continue
         if (cur := str(t.get(row[4]) or "").strip()) and cur.casefold() != row[5].casefold():
@@ -3357,7 +3446,7 @@ def checks(t, pos, osm_id=None):
              **({"sp_lang_gkx": "\n".join(f"{k}={v}|{g}|{x}" for k, v, g, x in gkx)} if gkx else {}))
     if tl := taxon_lang_only(t):        # "taxon:en=Oak" separati da "\n" (i valori possono contenere ";")
         # tx_lang_mv: righe "taxon:it=pino|g|Pinus|genus:it=Pino" per i nomi che si possono scrivere in genus:xx o
-        # species:xx (taxon_lang_moves; tipo g, s o p); tx_lang_add: "species=…" o "genus=…" da aggiungere con loro.
+        # species:xx (taxon_lang_moves; tipo g o s); tx_lang_add: "species=…" o "genus=…" da aggiungere con loro.
         # tx_lang_wd, tx_lang_lt, tx_lang_lc: species:wikidata, leaf_type e leaf_cycle che mancano per quella species
         mv, add = taxon_lang_moves(t, tl)
         if add.startswith("species="):
@@ -3459,8 +3548,10 @@ def checks(t, pos, osm_id=None):
         flag("name_botanical", nb=nb, **({"nb_tx": "|".join(bp)} if bp else {}))
     list_issues, list_props = species_list_mismatches(t)
     nt = not_taxon_tags(t)
-    if any(k == "species:wikidata" for k, _ in nt) and "wikidata_mismatch" in list_issues:
-        list_issues.remove("wikidata_mismatch")   # stesso tag: basta l'errore più preciso (non è un taxon)
+    wdel = wikidata_deleted(t)
+    if (any(k == "species:wikidata" for k, _ in nt + wdel) and "wikidata_mismatch" in list_issues):
+        # stesso tag: basta l'errore più preciso (non è un taxon, elemento cancellato)
+        list_issues.remove("wikidata_mismatch")
         for k in ("sp_wd", "exp_wd", "exp_sp"):
             list_props.pop(k, None)
     issues.extend(list_issues)
@@ -3469,6 +3560,14 @@ def checks(t, pos, osm_id=None):
         flag("wikidata_not_taxon", nt_tags=";".join(f"{k}={q}" for k, q in nt))
     if tx := taxon_wikidata(t):
         flag("wikidata_is_taxon", tx_wd=";".join(tx))
+    # QID reindirizzati (wd_redir: "chiave=QID:destinazione;…"; wd_redir_fix: righe "chiave|valore|valore nuovo"
+    # separate da "\n", per la correzione con JOSM: molte di queste chiavi non sono tra le proprietà) e cancellati
+    # (wd_del: "chiave=QID;…"). Gli altri check su questi tag usano già i dati dell'elemento di destinazione
+    if rd := wikidata_redirects(t):
+        flag("wikidata_redirect", wd_redir=";".join(f"{k}={q}:{to}" for k, q, to in rd),
+             wd_redir_fix="\n".join("|".join(x) for x in redirect_fixes(t)))
+    if wdel:
+        flag("wikidata_deleted", wd_del=";".join(f"{k}={q}" for k, q in wdel))
     # dati di Wikidata (cache di update_wikidata_cache): valori "chiave=QID:valore" separati da ";"
     if rk := wikidata_rank_problems(t):
         # wd_rank_g: con un solo species:wikidata di rango genere, genus:wikidata assente e genus assente o lo stesso,

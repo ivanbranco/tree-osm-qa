@@ -672,6 +672,7 @@ const I18N = {
       website_wikipedia: "Voce di Wikipedia in website",
       commons_far: "Foto di Commons a più di 500 m", wikidata_mismatch: "species:wikidata incoerente con la species",
       wikidata_not_taxon: "species/genus:wikidata non è un taxon", wikidata_is_taxon: "wikidata è un taxon",
+      wikidata_redirect: "Elemento Wikidata reindirizzato", wikidata_deleted: "Elemento Wikidata cancellato",
       wikidata_far: "Elemento wikidata a più di 1 km", wikidata_photo_far: "Foto dell'elemento wikidata a più di 500 m",
       wikidata_rank: "species/genus:wikidata con il rango sbagliato", wikidata_name_mismatch: "Nome su Wikidata diverso da species/genus",
       wikidata_tree_species: "Specie diversa da quella su Wikidata",
@@ -914,7 +915,9 @@ const I18N = {
       key_typo: "La chiave non è tra quelle usate per gli alberi, ma differisce da una di esse solo per le maiuscole, per una lettera (due nelle chiavi di almeno 12 lettere) o per due lettere vicine scambiate. Sono segnalati anche i sinonimi di planted_date: year_planted, date:planted, date_planted, planted:date e planted (tranne planted=yes e planted=no), e le chiavi diverse dei registri degli alberi monumentali: ref:mipaaf (ref:masaf), ref:drusop e ref:drusop:tree (ref:usop). Le chiavi in OSM sono minuscole. Il valore non è usato per disegnare l'albero.",
       fixme: "fixme=* (o FIXME=*) descrive qualcosa da verificare o correggere nei dati dell'albero (wiki OSM, Key:fixme). Una volta risolto, il tag va tolto.",
       wikidata_mismatch: "Confronto con il QID che la lista delle specie della wiki OSM associa a species=*.",
-      wikidata_not_taxon: "Un taxon su Wikidata ha un nome scientifico (P225): questo elemento non ce l'ha, oppure non esiste.",
+      wikidata_not_taxon: "Un taxon su Wikidata ha un nome scientifico (P225): questo elemento non ce l'ha.",
+      wikidata_redirect: "Su Wikidata l'elemento è stato unito a un altro e il suo QID rimanda a quello (redirect). Vale per wikidata=* e per tutte le chiavi *:wikidata (species:wikidata, genus:wikidata, taxon:cultivar:wikidata…). «Sistema con JOSM» scrive il QID di destinazione.",
+      wikidata_deleted: "L'elemento con questo QID è stato cancellato da Wikidata. Vale per wikidata=* e per tutte le chiavi *:wikidata.",
       wikidata_is_taxon: "wikidata=* collega l'elemento del singolo albero; la specie si collega con species:wikidata=*.",
       wikidata_far: "Le coordinate dell'elemento su Wikidata (P625) distano più di 1 km dall'albero.",
       wikidata_photo_far: "L'elemento su Wikidata non ha coordinate, ma la sua immagine (P18) ha coordinate su Commons, e distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
@@ -956,9 +959,9 @@ const I18N = {
       not_latin: kv => `${kv} non è in alfabeto latino, come i nomi scientifici: il nome nella lingua locale va in species:xx (es. species:bg)`,
       species_lang_only: kv => `c'è ${kv} ma manca species=* (il nome scientifico)`,
       taxon_lang_only: kv => `c'è ${kv} ma manca taxon=*`,
-      // kind: g = nome di un genere, s = nome di una specie, p = c'è già species (tx_lang_mv, fetch_trees.py)
+      // kind: g = nome di un genere, s = nome di una specie (tx_lang_mv, fetch_trees.py)
       taxon_lang_mv: (kv, kind, n, nkv, add) => `c'è ${kv} ma manca taxon=*: ${kind === "g" ? `è il nome del genere ${n}`
-        : kind === "s" ? `è il nome della specie ${n}` : "species=* c'è già"}, usare ${nkv}` + (add ? ` e ${add}` : ""),
+        : `è il nome della specie ${n}`}, usare ${nkv}` + (add ? ` e ${add}` : ""),
       // lang: codice della lingua del nome (g_common_lang, fetch_trees.py), "" se è lo stesso in più lingue
       genus_common_name: (g, n, lang, kv) => `genus=${g} è il nome comune${lang ? ` in ${langName(lang)}` : ""} del genere ${n}: usare genus=${n}` + (kv ? ` e ${kv}` : ""),
       genus_typo: (g, s) => `genus=${g} non è nelle liste dei generi: forse ${s}?`,
@@ -976,7 +979,9 @@ const I18N = {
       species_lang_sp: (k, v, s, g2, ssp) => `${k}=${v} è il nome della ${ssp ? "sottospecie " + ssp : "specie " + s}`
         + (g2 ? `, ma c'è genus=${g2}` : `: aggiungere species=${s}` + (ssp ? ` e taxon:subspecies=${ssp}` : "")),
       species_lang_single: (k, v, g, s) => `${k}=${v} è il nome del genere ${g}; ${g} ha una sola specie: aggiungere species=${s}`,
-      wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata (o l'elemento non esiste)`,
+      wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata`,
+      wikidata_redirect: (kv, to) => `${kv} su Wikidata rimanda a ${to}`,
+      wikidata_deleted: kv => `${kv}: l'elemento è stato cancellato da Wikidata`,
       wikidata_is_taxon: q => `wikidata=${q} è un taxon: wikidata indica il singolo albero, la specie va in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: le coordinate dell'elemento su Wikidata sono a ${km} km da questo albero`,
       wikidata_photo_far: (q, f, m, obj) => `wikidata=${q}: l'immagine dell'elemento (${f}) ha la ${obj ? "posizione del soggetto" : "posizione di scatto"} a ${m} m da questo albero`,
@@ -1302,6 +1307,7 @@ const I18N = {
       website_wikipedia: "Wikipedia article in website",
       commons_far: "Commons photo more than 500 m away", wikidata_mismatch: "species:wikidata inconsistent with species",
       wikidata_not_taxon: "species/genus:wikidata is not a taxon", wikidata_is_taxon: "wikidata is a taxon",
+      wikidata_redirect: "Wikidata item is a redirect", wikidata_deleted: "Wikidata item deleted",
       wikidata_far: "wikidata item more than 1 km away", wikidata_photo_far: "wikidata item photo more than 500 m away",
       wikidata_rank: "species/genus:wikidata with the wrong rank", wikidata_name_mismatch: "Name on Wikidata differs from species/genus",
       wikidata_tree_species: "Species differs from Wikidata",
@@ -1533,7 +1539,9 @@ const I18N = {
       key_typo: "The key is not one of those used for trees, but differs from one of them only in capitalisation, by one letter (two in keys of at least 12 letters) or by two adjacent letters swapped. Synonyms of planted_date are reported too: year_planted, date:planted, date_planted, planted:date and planted (except planted=yes and planted=no), and other keys of the registers of monumental trees: ref:mipaaf (ref:masaf), ref:drusop and ref:drusop:tree (ref:usop). OSM keys are lowercase. The value is not used to draw the tree.",
       fixme: "fixme=* (or FIXME=*) describes something to check or correct in the tree's data (OSM wiki, Key:fixme). Once it is resolved, the tag should be removed.",
       wikidata_mismatch: "Compared with the QID that the OSM wiki species list gives for species=*.",
-      wikidata_not_taxon: "A taxon on Wikidata has a scientific name (P225): this item does not, or does not exist.",
+      wikidata_not_taxon: "A taxon on Wikidata has a scientific name (P225): this item does not.",
+      wikidata_redirect: "On Wikidata the item was merged into another one and its QID now points to it (redirect). Applies to wikidata=* and to every *:wikidata key (species:wikidata, genus:wikidata, taxon:cultivar:wikidata…). \"Fix with JOSM\" writes the target QID.",
+      wikidata_deleted: "The item with this QID was deleted from Wikidata. Applies to wikidata=* and to every *:wikidata key.",
       wikidata_is_taxon: "wikidata=* links the item of the individual tree; the species is linked with species:wikidata=*.",
       wikidata_far: "The coordinates of the Wikidata item (P625) are more than 1 km from the tree.",
       wikidata_photo_far: "The Wikidata item has no coordinates, but its image (P18) has coordinates on Commons, more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
@@ -1574,7 +1582,7 @@ const I18N = {
       species_lang_only: kv => `${kv} is present but species=* (the scientific name) is missing`,
       taxon_lang_only: kv => `${kv} is present but taxon=* is missing`,
       taxon_lang_mv: (kv, kind, n, nkv, add) => `${kv} is present but taxon=* is missing: ${kind === "g" ? `it is the name of the genus ${n}`
-        : kind === "s" ? `it is the name of the species ${n}` : "species=* is already present"}, use ${nkv}` + (add ? ` and ${add}` : ""),
+        : `it is the name of the species ${n}`}, use ${nkv}` + (add ? ` and ${add}` : ""),
       genus_common_name: (g, n, lang, kv) => `genus=${g} is the${lang ? ` ${langName(lang)}` : ""} common name of the genus ${n}: use genus=${n}` + (kv ? ` and ${kv}` : ""),
       genus_typo: (g, s) => `genus=${g} is not in the lists of genera: perhaps ${s}?`,
       genus_family: (g, rank, kv, same) => `genus=${g} is the name of ${rank === "order" ? "an order" : "a family"}, not of a genus`
@@ -1590,7 +1598,9 @@ const I18N = {
       species_lang_sp: (k, v, s, g2, ssp) => `${k}=${v} is the name of the ${ssp ? "subspecies " + ssp : "species " + s}`
         + (g2 ? `, but genus=${g2} is present` : `: add species=${s}` + (ssp ? ` and taxon:subspecies=${ssp}` : "")),
       species_lang_single: (k, v, g, s) => `${k}=${v} is the name of the genus ${g}; ${g} has a single species: add species=${s}`,
-      wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata (or the item does not exist)`,
+      wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata`,
+      wikidata_redirect: (kv, to) => `${kv} redirects to ${to} on Wikidata`,
+      wikidata_deleted: kv => `${kv}: the item was deleted from Wikidata`,
       wikidata_is_taxon: q => `wikidata=${q} is a taxon: wikidata is for the individual tree, the species goes in species:wikidata`,
       wikidata_far: (q, km) => `wikidata=${q}: the coordinates of the Wikidata item are ${km} km from this tree`,
       wikidata_photo_far: (q, f, m, obj) => `wikidata=${q}: the ${obj ? "object location" : "camera location"} of the item's image (${f}) is ${m} m from this tree`,
@@ -3019,7 +3029,7 @@ map.on("load", async () => {
       "species_unidentified", "species_truncated", "species_author", "species_parentheses", "species_genus_abbr", "species_lang_only", "taxon_lang_only", "not_a_tree", "underscore", "multiple_values", "tag_in_value",
       "not_latin", "placeholder_value", "genus", "genus_lowercase", "genus_typo", "genus_family", "genus_common_name", "genus_mismatch", "name_taxon_missing", "name_taxon_mismatch", "taxon_mismatch", "name_botanical"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
-      "wikidata_is_taxon", "wikipedia_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
+      "wikidata_redirect", "wikidata_deleted", "wikidata_is_taxon", "wikipedia_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
     ["links", ["link_format", "broken_link", "website_wikipedia", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed", "masaf_unknown",
       "masaf_shared", "masaf_group_single", "register_country"]],
   ];
@@ -4913,6 +4923,9 @@ const issueBase = (i, p) => {
     }
     case "wikidata_not_taxon": return String(p.nt_tags || "").split(";").map(kv => T[i](kv)).join("\n");   // nt_tags, tx_wd: fetch_trees.py
     case "wikidata_is_taxon": return String(p.tx_wd || "").split(";").map(q => T[i](q)).join("\n");
+    // wd_redir: "chiave=QID:destinazione;…"; wd_del: "chiave=QID;…" (fetch_trees.py)
+    case "wikidata_redirect": return wdParts(p.wd_redir).map(([k, q, to]) => T[i](`${k}=${q}`, to)).join("\n");
+    case "wikidata_deleted": return String(p.wd_del || "").split(";").filter(Boolean).map(kv => T[i](kv)).join("\n");
     // wd_rank, wd_name: "chiave=QID:valore;…" (la chiave contiene già ":"); wd_tree_sp: "QID:nome;…" (fetch_trees.py)
     // wd_rank_g: genere di species:wikidata di rango genere, da spostare in genus:wikidata (fetch_trees.py); genus si
     // aggiunge solo se mancano genus e species (con species il genere è già implicito)
@@ -4975,8 +4988,7 @@ const issueBase = (i, p) => {
     // tx_lang: righe "taxon:xx=valore"; tx_lang_mv: righe "taxon:it=pino|g|Pinus|genus:it=Pino" per i nomi che si
     // possono scrivere in genus:xx o species:xx; tx_lang_add: "genus=…" o "species=…" da aggiungere (fetch_trees.py)
     case "taxon_lang_only": {
-      const mv = new Map(String(p.tx_lang_mv || "").split("\n").map(x => x.split("|")).filter(r => r.length === 4)
-        .map(([kv, kind, n, nkv]) => [kv, [kind, n, nkv]]));
+      const mv = new Map(txLangRows(p).map(([kv, kind, n, nkv]) => [kv, [kind, n, nkv]]));
       const add = String(p.tx_lang_add || ""), addKind = add.startsWith("species=") ? "s" : add ? "g" : "";
       return String(p.tx_lang || "").split("\n").filter(Boolean).map(kv => { const m = mv.get(kv);
         return m ? T.taxon_lang_mv(kv, m[0], m[1], m[2], m[0] === addKind ? add : "") : T[i](kv); }).join("\n");
@@ -5507,6 +5519,10 @@ const FIXES = {
     return [["species:wikidata", REMOVE, undefined, false, q], ["genus:wikidata", q, undefined, true],
       ...!p.genus && !p.species ? [["genus", p.wd_rank_g, "add genus", true]] : []];
   }, "genus item in genus:wikidata instead of species:wikidata"],
+  // QID reindirizzati (wd_redir_fix: righe "chiave|valore|valore nuovo", fetch_trees.py): il QID di destinazione. Molte
+  // chiavi *:wikidata non sono tra le proprietà: il vecchio valore (quinto elemento) viene dalla riga
+  wikidata_redirect: [p => String(p.wd_redir_fix || "").split("\n").map(x => x.split("|")).filter(r => r.length === 3)
+    .map(([k, o, n]) => [k, n, undefined, false, o]), "replace redirected Wikidata QID with its target"],
   genus_mismatch: [p => p.gm_fix ? [["genus", p.gm_fix]] : [], "fix the spelling of genus"],
   // genus scritto male (g_typo, fetch_trees.py): il genere proposto
   genus_typo: [p => [["genus", p.g_typo]], "fix the spelling of genus"],
@@ -5594,8 +5610,7 @@ const FIXES = {
   // (quinto elemento) viene dalla riga
   taxon_lang_only: [p => {
     const w = "name in genus:xx or species:xx instead of taxon:xx";
-    const out = String(p.tx_lang_mv || "").split("\n").map(x => x.split("|")).filter(r => r.length === 4)
-      .flatMap(([kv, , , nkv]) => { const i = kv.indexOf("="), j = nkv.indexOf("=");
+    const out = txLangRows(p).flatMap(([kv, , , nkv]) => { const i = kv.indexOf("="), j = nkv.indexOf("=");
         return [[kv.slice(0, i), REMOVE, w, false, kv.slice(i + 1)], [nkv.slice(0, j), nkv.slice(j + 1), w, true]]; });
     const add = String(p.tx_lang_add || ""), j = add.indexOf("=");
     if (out.length && j > 0) {
@@ -5606,6 +5621,11 @@ const FIXES = {
     return out;
   }, ""]
 };
+// righe di tx_lang_mv (fetch_trees.py): [taxon:xx=valore, tipo, nome, tag nuovo]. Le righe di tipo "p" (nome non nelle
+// liste, con species=*) vengono dai dati delle regioni non ancora aggiornate: non si usano, il nome può essere un cultivar
+function txLangRows(p) {
+  return String(p.tx_lang_mv || "").split("\n").map(x => x.split("|")).filter(r => r.length === 4 && r[1] !== "p");
+}
 // valore delle correzioni che toglie un tag (in addtags di JOSM un valore vuoto toglie il tag)
 const REMOVE = Symbol("remove");
 // name:botanical (nb_tx, fetch_trees.py): il tag che dice già quel nome ("species" o "genus"), "" se manca. fetch_trees.py

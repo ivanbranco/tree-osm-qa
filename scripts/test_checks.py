@@ -130,7 +130,12 @@ FIXTURES = {
         "Q920006": {"taxon": True, "names": ["Acer campestre"], "ranks": ["Q7432"]},   # specie non in lista
         "Q920007": {"taxon": True, "names": ["Agave americana"], "ranks": ["Q7432"]},  # non è un albero (NOT_TREES)
         "Q920010": {"taxon": True, "names": ["Pinus pinea var. fragilis"], "ranks": ["Q767728"]},   # varietà (sp_var_ok)
+        # redirect a Quercus robur: le query seguono il redirect, i dati sono quelli della destinazione
+        "Q920015": {"taxon": True, "names": ["Quercus robur"], "ranks": ["Q7432"]},
+        "Q920016": {"taxon": False},                                  # elemento cancellato (WD_REDIR)
     },
+    # QID reindirizzati (-> destinazione) e cancellati (None)
+    "WD_REDIR": {"Q920015": "Q920001", "Q910011": "Q910001", "Q930001": "Q930002", "Q920016": None, "Q910012": None},
     # voci di Wikipedia -> QID (wikipedia=* e species:wikipedia)
     "WP_QIDS": {"it:Quercus robur": "Q920001", "it:Quercia delle streghe": "Q910001", "it:Quercus": "Q920003"},
     "URL_STATUS": {
@@ -545,6 +550,16 @@ CASES = [
     ("wikidata_not_taxon", {**OAK, "species:wikidata": "Q920004"},
      ["wikidata_not_taxon"]),  # dipendenza: niente wikidata_mismatch per lo stesso tag
     ("wikidata_is_taxon", {"natural": "tree", "wikidata": "Q920001"}, ["wikidata_is_taxon"]),
+    ("wikidata_redirect: species:wikidata", {**OAK, "species:wikidata": "Q920015"},
+     ["wikidata_redirect"]),   # né wikidata_mismatch: la destinazione è la specie giusta
+    ("wikidata_redirect: wikidata", {"natural": "tree", "wikidata": "Q910011"}, ["wikidata_redirect"]),
+    ("wikidata_redirect: taxon:cultivar:wikidata", {**OAK, "taxon:cultivar:wikidata": "Q930001"},
+     ["wikidata_redirect"]),
+    ("wikidata_redirect: un'altra chiave *:wikidata", {"natural": "tree", "name:etymology:wikidata": "Q930001"},
+     ["wikidata_redirect"]),
+    ("wikidata_deleted: species:wikidata", {**OAK, "species:wikidata": "Q920016"},
+     ["wikidata_deleted"]),    # dipendenza: niente wikidata_not_taxon né wikidata_mismatch per lo stesso tag
+    ("wikidata_deleted: wikidata", {"natural": "tree", "wikidata": "Q910012"}, ["wikidata_deleted"]),
     ("wikidata_rank: genus:wikidata è una specie",
      {"natural": "tree", "genus": "Quercus", "genus:wikidata": "Q920001"},
      ["wikidata_rank"]),       # dipendenza: niente wikidata_name_mismatch per lo stesso tag
@@ -1145,6 +1160,14 @@ SP_FIX_CASES = [
      {"wd_rank_g": "Quercus"}),
     ("species:wikidata di rango genere con un altro genus: nessuna proposta",
      {"natural": "tree", "species:wikidata": "Q920003", "genus": "Pinus"}, {"wd_rank_g": None}),
+    ("wikidata_redirect: il QID e la destinazione, la correzione", {**OAK, "species:wikidata": "Q920015"},
+     {"wd_redir": "species:wikidata=Q920015:Q920001", "wd_redir_fix": "species:wikidata|Q920015|Q920001"}),
+    ("wikidata_redirect: più valori, la destinazione c'è già", {**OAK, "species:wikidata": "Q920015;Q920001"},
+     {"wd_redir_fix": "species:wikidata|Q920015;Q920001|Q920001"}),
+    ("wikidata_redirect: più valori, gli altri restano", {"natural": "tree", "taxon:cultivar:wikidata": "Q930001; Q920002"},
+     {"wd_redir_fix": "taxon:cultivar:wikidata|Q930001; Q920002|Q930002;Q920002"}),
+    ("wikidata_deleted: la chiave e il QID", {"natural": "tree", "wikidata": "Q910012", "genus:wikidata": "Q920016"},
+     {"wd_del": "wikidata=Q910012;genus:wikidata=Q920016"}),
     ("species:wikidata di rango genere con genus:wikidata: nessuna proposta",
      {"natural": "tree", "species:wikidata": "Q920003", "genus:wikidata": "Q920005"}, {"wd_rank_g": None}),
     ("wikidata_tree_species: la specie dei tag per il messaggio", {"natural": "tree", "taxon": "Quercus robur",
@@ -1241,8 +1264,10 @@ SP_FIX_CASES = [
      {"tx_lang_mv": None, "tx_lang_add": None}),
     ("taxon:it nome di una specie: species:it, species e i tag che mancano", {"natural": "tree", "taxon:it": "bagolaro"},
      {"tx_lang_mv": "taxon:it=bagolaro|s|Celtis australis|species:it=Bagolaro", "tx_lang_add": "species=Celtis australis"}),
-    ("taxon:en con species già taggata: species:en", {**OAK, "taxon:en": "Pedunculate oak"},
-     {"tx_lang_mv": "taxon:en=Pedunculate oak|p||species:en=Pedunculate oak", "tx_lang_add": None}),
+    ("taxon:en nome sconosciuto con species: niente (può essere un cultivar)", {**OAK, "taxon:en": "Pedunculate oak"},
+     {"tx_lang_mv": None, "tx_lang_add": None}),
+    ("taxon:it nome di un cultivar con species: niente", {"natural": "tree", "species": "Malus domestica",
+                                                         "taxon:it": "Runsè"}, {"tx_lang_mv": None, "tx_lang_add": None}),
     ("taxon:en con species e species:en diverso: niente", {**OAK, "taxon:en": "Oak", "species:en": "Pedunculate oak"},
      {"tx_lang_mv": None}),
     ("taxon:en nome sconosciuto senza species: niente", {"natural": "tree", "taxon:en": "Oak"}, {"tx_lang_mv": None}),
