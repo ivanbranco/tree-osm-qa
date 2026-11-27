@@ -2109,6 +2109,14 @@ const map = new maplibregl.Map({
 });
 // solo + e −: niente bussola, e la mappa non si ruota (senza bussola non si potrebbe raddrizzare)
 map.addControl(new maplibregl.NavigationControl({ showCompass: false }));
+// zoom minimo: quello a cui il mondo (512 px a zoom 0) è largo quanto la mappa; più indietro si vedrebbero più copie
+// affiancate degli stessi continenti. Si ricalcola quando la finestra cambia dimensione e a fine caricamento (con la
+// pagina in una scheda nascosta la mappa può partire larga 0: allora non si tocca)
+const fitMinZoom = () => { const w = map.getContainer().clientWidth;
+  if (w > 0) map.setMinZoom(Math.max(0, Math.log2(w / 512))); };
+fitMinZoom();
+map.on("resize", fitMinZoom);
+map.once("load", fitMinZoom);
 // rotellina sopra una scheda (popup): la scheda è un elemento sopra la mappa e si "mangerebbe" lo zoom; la si passa
 // alla mappa, così si continua a zoomare anche quando il cursore finisce sopra la scheda
 map.getContainer().addEventListener("wheel", e => {
