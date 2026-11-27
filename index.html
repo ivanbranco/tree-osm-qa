@@ -693,7 +693,7 @@ const I18N = {
       underscore: "Trattino basso (_) in species o genus", multiple_values: "Più valori (;) in species o genus", tag_in_value: "Tag scritto nel valore (=)",
       not_latin: "Species o genus in alfabeto non latino",
       species_lang_only: "species:xx senza species", taxon_lang_only: "taxon:xx senza taxon",
-      not_a_tree: "Pianta che non è un albero (Agave)",
+      not_a_tree: "Pianta che non è un albero (Agave, Rosa)",
       too_slender: "Albero troppo slanciato (altezza > 100 × circonferenza)",
       too_slender_species: "Albero troppo slanciato per la specie", too_stocky: "Albero troppo tozzo (circonferenza > 3 × altezza)",
       small_monument: "Albero monumentale molto piccolo", stump_crown: "Ceppo con la chioma",
@@ -881,7 +881,7 @@ const I18N = {
       placeholder_value: "species=* e genus=* contengono il nome scientifico. Un valore senza lettere (-, .) o che significa «sconosciuto» (Unknown, Desconocido, Inconnu…) non indica una specie o un genere: se non si conosce, il tag si omette.",
       species_truncated: "Il valore ha esattamente 30 caratteri e finisce con le virgolette di una cultivar aperte e non chiuse, o con una lettera sola dopo una parola: il valore di alcuni import è tagliato a 30 caratteri.",
       stump_crown: "natural=tree_stump è il ceppo di un albero tagliato, che non ha chioma: diameter_crown=* su un ceppo è segnalato. L'altezza no: un albero tagliato in alto resta un ceppo.",
-      not_a_tree: "species=*, species:wikidata=* o genus=* indicano una pianta che non è un albero, come l'agave americana (Agave americana, species:wikidata=Q161115) o un'altra specie di un genere senza alberi (Agave). Le piante che non sono alberi si mappano con natural=plant.",
+      not_a_tree: "species=*, species:wikidata=* o genus=* (o, senza questi, il nome in species:xx) indicano una pianta che non è un albero, come l'agave americana (Agave americana, species:wikidata=Q161115) o un'altra specie di un genere senza alberi (Agave, Arundo, Musa), oppure un arbusto (Juniperus horizontalis, i generi Rosa, Forsythia, Ribes…). Le piante che non sono alberi si mappano con natural=plant, gli arbusti con natural=shrub.",
       underscore: "Nei nomi scientifici le parole sono separate da spazi.",
       multiple_values: "Un nodo natural=tree è un solo albero, con un solo genere e una sola specie.",
       tag_in_value: "Questi tag non contengono «=»: il valore ha la forma di un tag (chiave=valore).",
@@ -972,7 +972,8 @@ const I18N = {
       placeholder_value: kv => `${kv} non indica una specie o un genere`,
       species_truncated: sp => `species=${sp} si interrompe dopo 30 caratteri`,
       stump_crown: v => `diameter_crown=${v} su un ceppo`,
-      not_a_tree: sp => `${sp} non è un albero: usare natural=plant al posto di natural=tree`,
+      not_a_tree: (sp, nat) => nat === "shrub" ? `${sp} è un arbusto, non un albero: usare natural=shrub al posto di natural=tree`
+        : `${sp} non è un albero: usare natural=plant al posto di natural=tree`,
       species_lang_genus: (k, v, g, add) => `${k}=${v} è il nome del genere ${g}: usare ${k.replace("species:", "genus:")}=${genName(v)}` + (add ? ` e genus=${g}` : ""),
       species_lang_gx: (k, v, g, g2) => `${k}=${v} è il nome del genere ${g}, ma c'è genus=${g2}`,
       species_lang_gdup: (k, v, g, gk, add) => `${k}=${v} è il nome del genere ${g}, che è già in ${gk}: togliere ${k}` + (add ? ` e aggiungere genus=${g}` : ""),
@@ -980,6 +981,8 @@ const I18N = {
       species_lang_sp: (k, v, s, g2, ssp) => `${k}=${v} è il nome della ${ssp ? "sottospecie " + ssp : "specie " + s}`
         + (g2 ? `, ma c'è genus=${g2}` : `: aggiungere species=${s}` + (ssp ? ` e taxon:subspecies=${ssp}` : "")),
       species_lang_single: (k, v, g, s) => `${k}=${v} è il nome del genere ${g}; ${g} ha una sola specie: aggiungere species=${s}`,
+      species_lang_sci: (k, v, s, g2) => `${k}=${v} è il nome scientifico ${s}` + (g2 ? `, ma c'è genus=${g2}` : `: aggiungere species=${s}`),
+      species_lang_gof: (k, v, g) => `${k}=${v} indica una specie del genere ${g}, ma non quale: aggiungere genus=${g}`,
       wikidata_not_taxon: kv => `${kv} non è un taxon su Wikidata`,
       wikidata_redirect: (kv, to) => `${kv} su Wikidata rimanda a ${to}`,
       wikidata_deleted: kv => `${kv}: l'elemento è stato cancellato da Wikidata`,
@@ -1329,7 +1332,7 @@ const I18N = {
       underscore: "Underscore (_) in species or genus", multiple_values: "Multiple values (;) in species or genus", tag_in_value: "Tag written in the value (=)",
       not_latin: "Species or genus in a non-Latin script",
       species_lang_only: "species:xx without species", taxon_lang_only: "taxon:xx without taxon",
-      not_a_tree: "Plant that is not a tree (Agave)",
+      not_a_tree: "Plant that is not a tree (Agave, Rosa)",
       too_slender: "Tree too slender (height > 100 × circumference)",
       too_slender_species: "Tree too slender for its species", too_stocky: "Tree too stocky (circumference > 3 × height)",
       small_monument: "Very small monumental tree", stump_crown: "Stump with a crown",
@@ -1507,7 +1510,7 @@ const I18N = {
       placeholder_value: "species=* and genus=* hold the scientific name. A value without letters (-, .) or meaning \"unknown\" (Unknown, Desconocido, Inconnu…) does not indicate a species or a genus: when it is not known, the tag is left out.",
       species_truncated: "The value is exactly 30 characters long and ends with the quotes of a cultivar opened and not closed, or with a single letter after a word: some imports cut the value at 30 characters.",
       stump_crown: "natural=tree_stump is the stump of a felled tree, which has no crown: diameter_crown=* on a stump is reported. Height is not: a tree felled high up is still a stump.",
-      not_a_tree: "species=*, species:wikidata=* or genus=* indicate a plant that is not a tree, such as the century plant (Agave americana, species:wikidata=Q161115) or another species of a genus without trees (Agave). Plants that are not trees are mapped with natural=plant.",
+      not_a_tree: "species=*, species:wikidata=* or genus=* (or, without them, the name in species:xx) indicate a plant that is not a tree, such as the century plant (Agave americana, species:wikidata=Q161115) or another species of a genus without trees (Agave, Arundo, Musa), or a shrub (Juniperus horizontalis, the genera Rosa, Forsythia, Ribes…). Plants that are not trees are mapped with natural=plant, shrubs with natural=shrub.",
       underscore: "In scientific names words are separated by spaces.",
       multiple_values: "A natural=tree node is a single tree, with a single genus and a single species.",
       tag_in_value: "These tags never contain \"=\": the value has the form of a tag (key=value).",
@@ -1592,7 +1595,8 @@ const I18N = {
       placeholder_value: kv => `${kv} does not indicate a species or a genus`,
       species_truncated: sp => `species=${sp} stops after 30 characters`,
       stump_crown: v => `diameter_crown=${v} on a stump`,
-      not_a_tree: sp => `${sp} is not a tree: use natural=plant instead of natural=tree`,
+      not_a_tree: (sp, nat) => nat === "shrub" ? `${sp} is a shrub, not a tree: use natural=shrub instead of natural=tree`
+        : `${sp} is not a tree: use natural=plant instead of natural=tree`,
       species_lang_genus: (k, v, g, add) => `${k}=${v} is the name of the genus ${g}: use ${k.replace("species:", "genus:")}=${genName(v)}` + (add ? ` and genus=${g}` : ""),
       species_lang_gx: (k, v, g, g2) => `${k}=${v} is the name of the genus ${g}, but genus=${g2} is present`,
       species_lang_gdup: (k, v, g, gk, add) => `${k}=${v} is the name of the genus ${g}, already in ${gk}: remove ${k}` + (add ? ` and add genus=${g}` : ""),
@@ -1600,6 +1604,8 @@ const I18N = {
       species_lang_sp: (k, v, s, g2, ssp) => `${k}=${v} is the name of the ${ssp ? "subspecies " + ssp : "species " + s}`
         + (g2 ? `, but genus=${g2} is present` : `: add species=${s}` + (ssp ? ` and taxon:subspecies=${ssp}` : "")),
       species_lang_single: (k, v, g, s) => `${k}=${v} is the name of the genus ${g}; ${g} has a single species: add species=${s}`,
+      species_lang_sci: (k, v, s, g2) => `${k}=${v} is the scientific name ${s}` + (g2 ? `, but genus=${g2} is present` : `: add species=${s}`),
+      species_lang_gof: (k, v, g) => `${k}=${v} refers to a species of the genus ${g}, but not which one: add genus=${g}`,
       wikidata_not_taxon: kv => `${kv} is not a taxon on Wikidata`,
       wikidata_redirect: (kv, to) => `${kv} redirects to ${to} on Wikidata`,
       wikidata_deleted: kv => `${kv}: the item was deleted from Wikidata`,
@@ -4882,7 +4888,7 @@ const issueBase = (i, p) => {
     case "species_parentheses": return T[i](p.species);
     case "species_genus_abbr": return T[i](p.species, p.sp_full);           // sp_full: fetch_trees.py
     case "species_hybrid_end": return T[i](p.species, p.sp_hyb);            // sp_hyb: fetch_trees.py
-    case "not_a_tree": return T[i](p.nt_sp);                                  // nt_sp: fetch_trees.py
+    case "not_a_tree": return T[i](p.nt_sp, p.nt_nat);                        // nt_sp, nt_nat: fetch_trees.py
     case "underscore": return String(p.und_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");
     case "multiple_values": return String(p.mv_keys || "").split(";").map(k => T[i](`${k}=${p[k]}`)).join("\n");   // mv_keys: fetch_trees.py
     case "tag_in_value": return String(p.eq_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // eq_keys: fetch_trees.py
@@ -4911,8 +4917,13 @@ const issueBase = (i, p) => {
       const gk = new Set(String(p.sp_lang_gk || "").split("\n").filter(Boolean));
       const gkx = new Map(String(p.sp_lang_gkx || "").split("\n").map(x => /^(.*)\|([^|\s]+)\|(genus:[^=]+=.*)$/.exec(x))
         .filter(Boolean).map(m => [m[1], [m[2], m[3]]]));
+      // sp_lang_sci: "species:it=Prunus Pensylvanica|Prunus pensylvanica", nomi scientifici di una specie; sp_lang_gof:
+      // "species:it=Pino bianco|Pinus", nomi con un genere certo che non dicono la specie (fetch_trees.py)
+      const rows = key => new Map(String(p[key] || "").split("\n").map(x => /^(.*)\|([^|]+)$/.exec(x))
+        .filter(Boolean).map(m => [m[1], m[2]]));
+      const sci = rows("sp_lang_sci"), gof = rows("sp_lang_gof");
       const rest = String(p.sp_lang || "").split("\n")
-        .filter(kv => kv && !gen.has(kv) && !gx.has(kv) && !gkx.has(kv) && !sp.has(kv));
+        .filter(kv => kv && !gen.has(kv) && !gx.has(kv) && !gkx.has(kv) && !sp.has(kv) && !sci.has(kv) && !gof.has(kv));
       const out = [...gen].map(([kv, [g, s]]) => { const j = kv.indexOf("="), k = kv.slice(0, j);
         return s ? T.species_lang_single(k, kv.slice(j + 1), g, s)
              : gk.has(k) ? T.species_lang_gdup(k, kv.slice(j + 1), g, k.replace("species:", "genus:"), !p.genus)
@@ -4928,6 +4939,11 @@ const issueBase = (i, p) => {
       out.push(...[...sp].map(([kv, s]) => { const j = kv.indexOf("=");
         const other = g0 && g0.toLowerCase() !== s.split(" ")[0].toLowerCase();
         return T.species_lang_sp(kv.slice(0, j), kv.slice(j + 1), s, other ? g0 : "", ssp.get(kv)); }));
+      out.push(...[...sci].map(([kv, s]) => { const j = kv.indexOf("=");
+        const other = g0 && g0.toLowerCase() !== s.split(" ")[0].toLowerCase();
+        return T.species_lang_sci(kv.slice(0, j), kv.slice(j + 1), s, other ? g0 : ""); }));
+      out.push(...[...gof].map(([kv, g]) => { const j = kv.indexOf("=");
+        return T.species_lang_gof(kv.slice(0, j), kv.slice(j + 1), g); }));
       if (rest.length) out.push(T[i](rest.join(", ")));
       return out.join("\n");
     }
@@ -5491,8 +5507,10 @@ const FIXES = {
     if (!g || (norm(p.genus) && norm(p.genus) !== norm(g))) return [];
     return [["species", REMOVE], ...norm(p.genus) ? [] : [["genus", g, undefined, true]], ...kvFix(p.sp_common_kv)];
   }, "genus instead of single-word species"],
-  // natural non è tra le proprietà della feature: il vecchio valore (quinto elemento) è tree, l'unico per cui scatta
-  not_a_tree: [p => [["natural", "plant", undefined, false, "tree"]], "plant that is not a tree: natural=plant"],
+  // natural non è tra le proprietà della feature: il vecchio valore (quinto elemento) è tree, l'unico per cui scatta.
+  // nt_nat (fetch_trees.py): plant o shrub (un arbusto); i dati di prima non lo hanno e valgono plant
+  not_a_tree: [p => [p.nt_nat === "shrub" ? ["natural", "shrub", "shrub that is not a tree: natural=shrub", false, "tree"]
+    : ["natural", "plant", undefined, false, "tree"]], "plant that is not a tree: natural=plant"],
   species_epithet_case: [p => [["species", p.sp_sci]], "fix capitalisation in species"],
   // segno di ibrido in fondo a species: il nome della lista (sp_hyb, fetch_trees.py), solo se nella lista è un ibrido
   species_hybrid_end: [p => [["species", p.sp_hyb]], "hybrid sign between genus and epithet in species"],
@@ -5607,6 +5625,16 @@ const FIXES = {
       .filter(Boolean).filter(m => !g0 || g0 === m[3].split(" ")[0].toLowerCase())
       .forEach(m => { added.add(m[3]); out.push(["species", m[3], "add species", true],
         ...m[4] ? [[m[1], m[4], "fix capitalization of species:xx", false, m[2]]] : []); });
+    // nome scientifico in species:xx (sp_lang_sci, senza un genus diverso): species=<la specie>; species:xx resta,
+    // perché il nome comune può coincidere con quello scientifico (species:it=Magnolia grandiflora)
+    String(p.sp_lang_sci || "").split("\n").map(x => /^(species:[^=]+)=(.*)\|([^|]+)$/.exec(x)).filter(Boolean)
+      .filter(m => !g0 || g0 === m[3].split(" ")[0].toLowerCase())
+      .forEach(m => { if (!added.has(m[3])) out.push(["species", m[3], "add species", true]); added.add(m[3]); });
+    // nome con un genere certo che non dice la specie (sp_lang_gof, c'è solo se genus manca): genus=<il genere>, se
+    // nessun'altra riga propone una specie o un genere e i nomi indicano tutti lo stesso genere
+    const gof = new Set(String(p.sp_lang_gof || "").split("\n").map(x => x.split("|")[1]).filter(Boolean));
+    if (gof.size === 1 && !added.size && !out.some(o => o[0] === "genus"))
+      out.push(["genus", [...gof][0], "add genus", true]);
     // con una sola specie proposta, anche i tag che ne derivano e che mancano (sp_lang_wd, sp_lang_lt, sp_lang_lc:
     // fetch_trees.py li calcola per quella specie). Non genus: è già implicito in species (se c'è resta, se manca non
     // si aggiunge)

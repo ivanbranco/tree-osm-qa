@@ -428,10 +428,15 @@ for _d in _WL.get("genus_of_names", {}).values():
         GENUS_OF_NAMES.setdefault(_n.casefold(), set()).add(_g)
 # generi con una sola specie (whitelist.json): per i loro nomi si propone species=<la specie> (Cognassier -> Cydonia oblonga)
 SINGLE_SPECIES = _WL.get("single_species_genera", {})
-# piante che non sono alberi (whitelist.json): {"Agave americana": "Q161115"}, species -> QID (check not_a_tree)
-NOT_TREES = _WL.get("not_trees", {})
-# generi senza nessuna specie che sia un albero (whitelist.json, "not_tree_genera"): genere minuscolo -> nome
-NOT_TREE_GENERA = {g.casefold(): g for g in _WL.get("not_tree_genera", [])}
+# piante che non sono alberi (whitelist.json, check not_a_tree): species -> (QID di species:wikidata, valore di natural
+# da usare), natural=plant per not_trees ({"Agave americana": ("Q161115", "plant")}), natural=shrub per shrubs
+# (gli arbusti: {"Juniperus horizontalis": ("Q121427", "shrub")})
+NOT_TREES = {**{s: (q, "plant") for s, q in _WL.get("not_trees", {}).items()},
+             **{s: (q, "shrub") for s, q in _WL.get("shrubs", {}).items()}}
+# generi senza nessuna specie che sia un albero: genere minuscolo -> (nome, natural); natural=plant per
+# not_tree_genera di whitelist.json (Agave), natural=shrub per shrub_genera (generi di soli arbusti: Rosa)
+NOT_TREE_GENERA = {**{g.casefold(): (g, "plant") for g in _WL.get("not_tree_genera", [])},
+                   **{g.casefold(): (g, "shrub") for g in _WL.get("shrub_genera", [])}}
 # generi per cui leaf_type_mismatch accetta più leaf_type (whitelist.json, "leaf_types"): genere minuscolo -> valori
 LEAF_TYPE_GENERA = {k.casefold(): set(v) for k, v in _WL.get("leaf_types", {}).items()}
 # alberi monumentali piccoli davvero (id dei nodi), da non segnalare con small_monument
@@ -1679,6 +1684,12 @@ SPECIES_REF_BIN = {binomial(_name): (_name, _v) for _name, _v in _LIST.items()
 # epiteti delle specie della lista, di qualunque genere (species_epithet_case); non le cultivar ("Ulmus 'New Horizon'")
 LIST_EPITHETS = {b.split()[1] for b, _name in SPECIES_BIN.items()
                  if len(b.split()) > 1 and name_words(_name)[1][:1].islower()}
+# nomi scientifici delle specie che si riconoscono in species:xx (species_lang_scientific), per genere ed epiteto: le
+# voci della lista di genere ed epiteto e basta, i sinonimi e le specie vere di species_typo di whitelist.json, scritti
+# come lì ({"prunus pensylvanica": "Prunus pensylvanica"})
+SCI_SPECIES = {b: n for b, (n, _v) in SPECIES_REF_BIN.items()}
+for _name in [*_WL.get("synonyms", {}), *_WL.get("species_typo", [])]:
+    SCI_SPECIES.setdefault(binomial(_name), _name)
 
 
 def levenshtein(a, b, limit):
@@ -2814,7 +2825,8 @@ def species_common_lower(sp):
         return False
     if words[0].lstrip("×").casefold() in KNOWN_GENERA or species_unidentified(sp):
         return False
-    if common_name_species(sp)[0]:
+    # non i nomi comuni uguali al nome scientifico (Rosa canina in italiano)
+    if (cn := common_name_species(sp)[0]) and norm_species(cn) != norm_species(sp):
         return True
     rest = words[1:]
     plain = "".join(c for c in unicodedata.normalize("NFD", rest[0]) if not unicodedata.combining(c)).casefold()
@@ -3077,6 +3089,46 @@ def species_lang_species(t, lang):
     return out
 
 
+def two_words(sp):
+    """Vero se sp è fatto di due parole, senza contare il segno di ibrido ("Platanus × hispanica")."""
+    return len([w for w in norm_species(sp).split() if w != "×"]) == 2
+
+
+def species_lang_scientific(t, lang):
+    """Nomi di species_lang_only che sono il nome scientifico di una specie, genere ed epiteto e basta (species:it=
+    Prunus Pensylvanica -> Prunus pensylvanica): [(chiave, valore, specie)]. La specie è scritta come in SCI_SPECIES
+    (lista wiki, sinonimi e species_typo di whitelist.json) o, per le altre, come il nome scientifico dell'unico
+    elemento di rango specie con quel nome nella cache di Wikidata. Non i nomi di SPECIES_NAMES (species:it=Rosa canina
+    è anche il nome italiano: lo propone species_lang_species), né i valori con altro dopo l'epiteto (cultivar, autore):
+    una parola in più può essere un nome comune che comincia come un genere."""
+    out = []
+    for k, v in lang:
+        v = v.strip()
+        if ";" in v or not two_words(v) or (re.split(r"[-_]", k[8:])[0], v.casefold()) in SPECIES_NAMES:
+            continue
+        b = binomial(v)
+        s = SCI_SPECIES.get(b)
+        if not s and (q := cached_species_qid(v)):
+            s = next((n for n in WD_TAXA[q].get("names", []) if binomial(n) == b and two_words(n)), None)
+        if s:
+            out.append((k, v, s))
+    return out
+
+
+def species_lang_genus_of(t, lang):
+    """Nomi di species_lang_only con un genere certo che indicano una specie del genere senza dire quale
+    (GENUS_OF_NAMES di whitelist.json: species:it=Pino bianco -> Pinus): [(chiave, valore, genere)], solo se genus
+    manca. Il nome resta in species:xx: non è il nome del genere."""
+    if (t.get("genus") or "").strip():
+        return []
+    out = []
+    for k, v in lang:
+        gs = GENUS_OF_NAMES.get(v.strip().casefold(), set())
+        if len(gs) == 1:
+            out.append((k, v, next(iter(gs))))
+    return out
+
+
 def cached_species_qid(species):
     """QID di una specie che non è nella lista wiki (species:it=Pino d'Aleppo -> Pinus halepensis), dalla cache di
     Wikidata: l'unico elemento taxon di rango specie con quel nome scientifico (P225), altrimenti None."""
@@ -3109,14 +3161,14 @@ def species_lang_extras(t, species, prefix="sp_lang_"):
 
 def not_a_tree(t):
     """Pianta di NOT_TREES (non un albero, es. Agave americana) indicata da species=* (genere ed epiteto, anche con
-    autore o cultivar) o da species:wikidata=*, su un natural=tree: il nome della specie; oppure un genere di
-    NOT_TREE_GENERA (nessuna specie è un albero, es. Agave) indicato da genus=* o dalla prima parola di species=*: il
-    nome del genere; altrimenti None."""
+    autore o cultivar) o da species:wikidata=*, su un natural=tree: (nome della specie, natural da usare); oppure un
+    genere di NOT_TREE_GENERA (nessuna specie è un albero, es. Agave) indicato da genus=* o dalla prima parola di
+    species=*: (nome del genere, natural); altrimenti None. natural è "plant" o "shrub" (un arbusto)."""
     if t.get("natural") != "tree":
         return None
     b, qs = binomial(t.get("species") or ""), qids(t, "species:wikidata")
-    if s := next((s for s, q in NOT_TREES.items() if (b and binomial(s) == b) or q in qs), None):
-        return s
+    if s := next((s for s, (q, _n) in NOT_TREES.items() if (b and binomial(s) == b) or q in qs), None):
+        return s, NOT_TREES[s][1]
     for v in (t.get("genus"), b.split()[0] if b else None):
         if v and ";" not in v and (gk := genus_key(v.strip().lstrip("× "))) in NOT_TREE_GENERA:
             return NOT_TREE_GENERA[gk]
@@ -3437,6 +3489,7 @@ def checks(t, pos, osm_id=None):
         props["sp_fix"] = typo
     if fixed := props.get("sp_fix") or props.get("sp_clean"):
         props.update(species_lang_extras(t, fixed, "sp_fix_"))
+    lang_tx = {}
     if lang := species_lang_only(t):    # "species:it=Leccio" separati da "\n" (i valori possono contenere ";")
         # sp_lang_genus: righe "species:fr=Tilleul|Tilia" per i nomi di un genere della lista (issue #35), con l'unica
         # specie del genere se c'è: "species:fr=Cognassier|Cydonia|Cydonia oblonga". sp_lang_gx: le stesse righe
@@ -3446,11 +3499,22 @@ def checks(t, pos, osm_id=None):
         # sp_lang_gk: chiavi species:xx (righe) il cui nome è già in genus:xx; c'è sempre insieme a sp_lang_genus, anche
         # vuoto, così index.html riconosce i dati che hanno il confronto con genus:xx (la correzione con JOSM lo richiede).
         # sp_lang_gkx: righe "species:pl=Dąb|Quercus|genus:pl=Buk" quando genus:xx ha un altro nome
+        # sp_lang_sci: righe "species:it=Prunus Pensylvanica|Prunus pensylvanica" per i nomi scientifici di una specie
+        # (species_lang_scientific). sp_lang_gof: righe "species:it=Pino bianco|Pinus" per i nomi con un genere certo
+        # che non dicono la specie (genus_of_names), se genus manca
         gl, gx, gk, gkx = species_lang_genus(t, lang)
         sl = species_lang_species(t, lang)
+        sc = species_lang_scientific(t, lang)
+        go = species_lang_genus_of(t, lang)
         # sp_lang_wd, sp_lang_lt, sp_lang_lc: species:wikidata, leaf_type e leaf_cycle che mancano, per la specie
         # proposta (se è una sola): la correzione con JOSM li aggiunge insieme a species
-        cand = {s for _, _, s, _ in sl} | {s for _, _, _, s in gl if s}
+        cand = {s for _, _, s, _ in sl} | {s for _, _, _, s in gl if s} | {s for _, _, s in sc}
+        # la specie o il genere che i nomi indicano, se è uno solo e l'albero non ha né species né genus: serve a
+        # not_a_tree (species:it=Rosa canina è un arbusto)
+        gens = {g for _, _, g, s in gl if not s} | {g for _, _, g in go}
+        if not t.get("genus"):
+            lang_tx = ({"species": next(iter(cand))} if len(cand) == 1
+                       else {"genus": next(iter(gens))} if not cand and len(gens) == 1 else {})
         if len(cand) == 1:
             props.update(species_lang_extras(t, next(iter(cand))))
             # sp_lang_ssp: righe "species:fr=Mirabellier|Prunus domestica subsp. syriaca" per i nomi di una sottospecie
@@ -3461,6 +3525,8 @@ def checks(t, pos, osm_id=None):
                 props["sp_lang_ssp"] = "\n".join(f"{k}={v}|{s}" for k, v, s in ssp)
         flag("species_lang_only", sp_lang="\n".join(f"{k}={v}" for k, v in lang),
              **({"sp_lang_sp": "\n".join(f"{k}={v}|{s}" + (f"|{n}" if n else "") for k, v, s, n in sl)} if sl else {}),
+             **({"sp_lang_sci": "\n".join(f"{k}={v}|{s}" for k, v, s in sc)} if sc else {}),
+             **({"sp_lang_gof": "\n".join(f"{k}={v}|{g}" for k, v, g in go)} if go else {}),
              **({"sp_lang_genus": "\n".join(f"{k}={v}|{g}" + (f"|{s}" if s else "") for k, v, g, s in gl),
                  "sp_lang_gk": "\n".join(gk)} if gl else {}),
              **({"sp_lang_gx": "\n".join(f"{k}={v}|{g}" for k, v, g in gx)} if gx else {}),
@@ -3475,8 +3541,11 @@ def checks(t, pos, osm_id=None):
         flag("taxon_lang_only", tx_lang="\n".join(f"{k}={v}" for k, v in tl),
              **({"tx_lang_mv": "\n".join(f"{k}={v}|{kind}|{n}|{nkv}" for k, v, kind, n, nkv in mv)} if mv else {}),
              **({"tx_lang_add": add} if add else {}))
-    if nt_sp := not_a_tree(t):          # una pianta che non è un albero: natural=plant (nt_sp: il nome della specie)
-        flag("not_a_tree", nt_sp=nt_sp)
+    # una pianta che non è un albero, da species, genus o species:wikidata o, senza questi, dalla specie o dal genere
+    # indicati da species:xx (lang_tx): nt_sp = il nome della specie o del genere, nt_nat = natural da usare (plant o
+    # shrub)
+    if nt := not_a_tree(t) or (not_a_tree({"natural": t.get("natural"), **lang_tx}) if lang_tx else None):
+        flag("not_a_tree", nt_sp=nt[0], nt_nat=nt[1])
     g = t.get("genus")
     gf = None if "genus" in eq or "genus" in nl or "genus" in ph else g   # genus per i check sulla forma del nome
     gw = genus_words(gf) if gf is not None else None    # senza il segno di ibrido (× Sycoparrotia)
