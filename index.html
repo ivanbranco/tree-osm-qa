@@ -649,6 +649,10 @@ const I18N = {
       // w: da dove viene la data, «ultima modifica: …» (lastEdit) o «check_date:height=…»; list: le misure con la loro data
       oldMeasures: (n, list) => `${n > 1 ? "Misure invariate" : "Misura invariata"} da più di 10 anni: ${list}. Dopo un nuovo rilievo sul posto, anche con gli stessi valori, si può scrivere la data del rilievo in check_date=* (tutto l'albero) o in check_date:height=*, check_date:circumference=* e simili (una sola misura)`,
       lowOld: (h, w) => `Albero alto meno di 2 m (height=${h}), con l'altezza invariata da più di 5 anni (${w}). Dopo un nuovo rilievo sul posto si può aggiornare height=* o, se l'altezza è la stessa, scrivere la data del rilievo in check_date:height=* o check_date=*`,
+      // chioma e tronco (d: diametro del tronco già formattato, trunk: "circumference=…" o "diameter=…"); chioma e altezza
+      crownTrunkSame: (cd, trunk, d) => `La chioma (diameter_crown=${cd}) è larga quanto il diametro del tronco (${d}, da ${trunk}): le due misure si potrebbero controllare sul posto`,
+      crownNarrow: (cd, trunk, d) => `La chioma (diameter_crown=${cd}) è più stretta del diametro del tronco (${d}, da ${trunk}): le due misure si potrebbero controllare sul posto`,
+      crownWide: (cd, h, k) => `La chioma (diameter_crown=${cd}) è larga più di ${k} volte l'altezza (height=${h}): le due misure si potrebbero controllare sul posto`,
       lastEdit: d => `ultima modifica: ${d}`,
       leaf: (n, tags) => `Per ${n} si ${tags.length > 1 ? "potrebbero" : "potrebbe"} aggiungere ${tags.join(" e ")}`,      notable: "Questo albero ha un elemento Wikidata, quindi è notevole: potrebbe avere denotation=natural_monument o denotation=landmark",
       // issue #25; seeds(t): HTML delle parole che aprono la foto dei semi (south: emisfero australe)
@@ -1296,6 +1300,9 @@ const I18N = {
       leadDot: (k, v, fix) => `${k}=${v}: the number starts with the point; with a zero in front (${fix}) it is easier to read`,
       oldMeasures: (n, list) => `${n > 1 ? "Measurements" : "Measurement"} unchanged for more than 10 years: ${list}. After surveying again on the ground, even with the same values, the date of the survey can be written in check_date=* (whole tree) or in check_date:height=*, check_date:circumference=* and the like (one measurement)`,
       lowOld: (h, w) => `Tree less than 2 m tall (height=${h}), with the height unchanged for more than 5 years (${w}). After surveying again on the ground, height=* can be updated or, if the height is the same, the date of the survey written in check_date:height=* or check_date=*`,
+      crownTrunkSame: (cd, trunk, d) => `The crown (diameter_crown=${cd}) is as wide as the trunk diameter (${d}, from ${trunk}): the two measurements could be checked on the ground`,
+      crownNarrow: (cd, trunk, d) => `The crown (diameter_crown=${cd}) is narrower than the trunk diameter (${d}, from ${trunk}): the two measurements could be checked on the ground`,
+      crownWide: (cd, h, k) => `The crown (diameter_crown=${cd}) is more than ${k} times as wide as the tree is tall (height=${h}): the two measurements could be checked on the ground`,
       lastEdit: d => `last edit: ${d}`,
       leaf: (n, tags) => `For ${n}, ${tags.join(" and ")} could be added`,      notable: "This tree has a Wikidata item, so it is notable: it could have denotation=natural_monument or denotation=landmark",
       ginkgoSex: (south, seeds) => `If this ginkgo is a female tree, sex=female could be added. ${south ? "October to May" : "April to November"} is a good time to check: females bear paired ovules in spring and fleshy, ${seeds("foul-smelling seeds")} that fall in autumn, often lying under the canopy.`,
@@ -1761,6 +1768,7 @@ const trunkKey = p => p.circumference == null && p.diameter != null ? "diameter"
 // prima del 2016-11-27, 2015 sì)
 const before = (d, cut) => !!d && d < cut.slice(0, d.length);
 const LOW_H = 2;   // m: sotto questa altezza, consiglio lowOld se l'altezza è di più di 5 anni fa (measDate, hints)
+const CROWN_WIDE = 3;   // consiglio crownWide: chioma (diameter_crown) larga più di tante volte l'altezza (hints)
 SIDE_BOXES.forEach(b => b.addEventListener("toggle", () => {
   if (b.open) SIDE_BOXES.forEach(o => { if (o !== b) o.open = false; });
   if (b.id === "comp-box") onCompToggle();
@@ -6465,6 +6473,16 @@ function hints(p, pos) {
     for (const k of oldM) byWhen.set(when(k), [...(byWhen.get(when(k)) || []), `${k}=${p[k]}`]);
     out.push(H.oldMeasures(oldM.length, [...byWhen].map(([w, kv]) => `${kv.join(", ")} (${w})`).join("; ")));
   }
+  // chioma (diameter_crown) larga quanto il diametro del tronco (uguali al centimetro), più stretta, o larga più di
+  // CROWN_WIDE volte l'altezza: consigli e non errori, perché ci sono alberi veri con queste misure. Non con un errore
+  // che segnala già una delle misure confrontate. Il tronco è quello di recMeasure (circumference o, se manca, diameter)
+  const meas = recMeasure(p);
+  if (meas.cd > 0 && meas.d > 0 && !/\|(circumference|circumference_species|too_stocky|circ_diam_mismatch|diameter_unit|crown)\|/.test(codes)) {
+    const same = Math.round(meas.cd * 100) === Math.round(meas.d * 100), tk = trunkKey(p);
+    if (same || meas.cd < meas.d) out.push((same ? H.crownTrunkSame : H.crownNarrow)(p.diameter_crown, `${tk}=${p[tk]}`, fmtM(Math.round(meas.d * 100) / 100)));
+  }
+  if (meas.cd > 0 && meas.h > 0 && meas.cd > CROWN_WIDE * meas.h && !/\|(crown|height|height_species)\|/.test(codes))
+    out.push(H.crownWide(p.diameter_crown, p.height, CROWN_WIDE));
   if (binomialHint(p.hint_sp)) out.push(H.wdSpecies(p.hint_sp));
   // l'elemento Wikidata dell'albero ha solo il genere della specie taggata (hint_wg = "QID|genere", fetch_trees.py)
   if (p.hint_wg) { const [q, g] = String(p.hint_wg).split("|"); if (q && g) out.push(H.wdGenusOnly(g)); }
