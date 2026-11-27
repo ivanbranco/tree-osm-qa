@@ -241,6 +241,9 @@
   .card h3 .sex .tip .more{display:block;margin-top:4px}
   .card h3 .ref{font-weight:400;color:#555}   /* ref=* tra parentesi dopo il titolo (issue #89) */
   .card .mdate{color:#777}   /* check_date:<misura> dopo il valore della misura (issue #99) */
+  /* pallino dell'età di check_date:<misura>, con i colori della barra di Completezza (.cp-bar i.y, i.o) */
+  .card .mage{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:1px;cursor:help}
+  .card .mage.y{background:#e3b505}  .card .mage.o{background:#e8730c}
   /* pop-up con la spiegazione del check: passando il mouse sul ⚠, o toccandolo (focus) da telefono */
   .why{cursor:help;outline:none}
   .why .tip{display:none;position:absolute;left:0;right:0;top:100%;z-index:6;background:#fff;color:#222;font-weight:400;
@@ -788,6 +791,7 @@ const I18N = {
     sexPhotoAlt: { "Ginkgo biloba": { female: "Semi di Ginkgo biloba", male: "Coni maschili di Ginkgo biloba" }, "Acer negundo": { female: "Fiori femminili di Acer negundo", male: "Infiorescenze maschili di Acer negundo" }, "Populus nigra": { female: "Amenti femminili di Populus nigra", male: "Amenti maschili di Populus nigra" }, "Populus alba": { female: "Amenti femminili di Populus alba", male: "Amenti maschili di Populus alba" }, "Taxus baccata": { female: "Semi di Taxus baccata con l'arillo rosso", male: "Coni maschili di Taxus baccata" } },
     fromDiameter: " (da diameter)",
     measChecked: kv => `Data dell'ultima verifica della misura: ${kv}`,   // suggerimento sulla data dopo una misura (issue #99)
+    measAge: [kv => `Misura verificata da 5 a 10 anni fa (${kv})`, kv => `Misura verificata più di 10 anni fa (${kv})`],   // pallino giallo, arancione
     // finestra «Tronco a confronto» (issue #14), dall'iconcina accanto all'altezza o dal tasto C
     cmp: { title: "Tronco a confronto", close: "Chiudi", pick: "Confronta con il tronco tipico (tasto C)",
       pickScale: "Vedi l'albero in scala (tasto C)",
@@ -1428,6 +1432,7 @@ const I18N = {
     sexPhotoAlt: { "Ginkgo biloba": { female: "Ginkgo biloba seeds", male: "Ginkgo biloba male cones" }, "Acer negundo": { female: "Acer negundo female flowers", male: "Acer negundo male inflorescences" }, "Populus nigra": { female: "Populus nigra female catkins", male: "Populus nigra male catkins" }, "Populus alba": { female: "Populus alba female catkins", male: "Populus alba male catkins" }, "Taxus baccata": { female: "Taxus baccata seeds with red arils", male: "Taxus baccata male cones" } },
     fromDiameter: " (from diameter)",
     measChecked: kv => `Date the measurement was last checked: ${kv}`,
+    measAge: [kv => `Measurement checked 5 to 10 years ago (${kv})`, kv => `Measurement checked more than 10 years ago (${kv})`],
     cmp: { title: "Trunk comparison", close: "Close", pick: "Compare with the typical trunk (C key)",
       pickScale: "View the tree to scale (C key)",
       svg: "Scale drawing of the trunk, described below",
@@ -5812,8 +5817,15 @@ function card(p, pos) {
   // grigio, con il tag nel suggerimento; nella riga «Circonferenza … (da diameter)» quella di diameter, dentro la
   // stessa parentesi («(da diameter, 2018-04)»)
   const mSpan = (k, html) => `<span class="mdate" title="${esc(L.measChecked(`check_date:${k}=${p["md_" + k]}`))}">${html}</span>`;
-  const mDate = k => p["md_" + k] ? " " + mSpan(k, `(${esc(p["md_" + k])})`) : "";
-  const fromDiamHtml = p.md_diameter ? `${esc(L.fromDiameter.replace(/\)$/, ", "))}${mSpan("diameter", esc(p.md_diameter))})` : esc(L.fromDiameter);
+  // dopo la data, un pallino giallo (da 5 a 10 anni fa) o arancione (più di 10), con i colori della barra di
+  // Completezza (AGE_CUT, before). Solo nel tool QA e solo per la data di check_date:<misura>: non per check_date=* né
+  // per l'ultima modifica, che sono date dell'albero
+  const mAge = k => { const d = p["md_" + k], i = WORLD || !d ? -1 : before(d, AGE_CUT[1]) ? 1 : before(d, AGE_CUT[0]) ? 0 : -1;
+    if (i < 0) return "";
+    const t = esc(L.measAge[i](`check_date:${k}=${d}`));
+    return ` <span class="mage ${i ? "o" : "y"}" role="img" title="${t}" aria-label="${t}"></span>`; };
+  const mDate = k => p["md_" + k] ? " " + mSpan(k, `(${esc(p["md_" + k])})`) + mAge(k) : "";
+  const fromDiamHtml = p.md_diameter ? `${esc(L.fromDiameter.replace(/\)$/, ", "))}${mSpan("diameter", esc(p.md_diameter))})${mAge("diameter")}` : esc(L.fromDiameter);
   const rows = ROWS.filter(([k]) => (k === "diameter" ? p[k] && !fromDiam : p[k] || (k === "circumference" && fromDiam)) && k !== titleKey && !(k === "planted_date" && p.start_date) && !(k === "genus" && p.species && !genusIssue && !p.sp_gen) && !(k === "species" && p.sp_gen)).map(([k, label, f]) => k === "circumference" && fromDiam
     ? `<dt>${label}</dt><dd>${cardLen(String(Number((dm * Math.PI).toFixed(3))))}${fromDiamHtml}${planPick(p)}</dd>`
     : `<dt>${label}</dt><dd>${IMP_ROWS.has(k) ? cardLen(p[k]) : k === "multi_stemmed" ? stemsHtml(p[k]) : k === "species" ? spLink(esc(p.sp_base || p[k])) : IV_WD[k] ? ivLink(k, esc(f ? f(p[k]) : p[k])) : esc(f ? f(p[k]) : p[k])}${MEAS_KEYS.includes(k) ? mDate(k) : ""}${k === "height" ? comparePick(p) : k === "circumference" ? planPick(p) : ""}</dd>`).join("");
