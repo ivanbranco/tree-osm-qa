@@ -19,6 +19,9 @@
   .gray-bg{display:flex;align-items:center;justify-content:center}
   .gray-bg svg{stroke:#333;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round;fill:none}
   .gray-bg[aria-pressed="true"] svg path:first-child{fill:#999}
+  .dice svg rect{stroke:#333;stroke-width:1.8;fill:none}
+  .dice svg circle{fill:#333}
+  .dice[aria-busy="true"] svg{opacity:.4}
   /* pannello a sinistra: se con legenda e classifica aperte è più alto della finestra, scorre lui (non la pagina, che
      sotto la mappa mostrerebbe una zona bianca). Il margine interno di 6 px lascia vedere le ombre dei riquadri. */
   #side{position:absolute;top:4px;left:4px;z-index:2;display:flex;flex-direction:column;gap:8px;width:230px;padding:6px;
@@ -437,6 +440,7 @@ const I18N = {
     osmAttribution: "© contributori <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>",
     grayBg: "Sfondo in scala di grigi (tasto B)",
     colorBg: "Sfondo a colori (tasto B)",
+    dice: "Un errore a caso (tasto D)",
     locate: "Vai alla mia posizione", locateOff: "Posizione non disponibile",
     locateError: "posizione non disponibile",
     editMenu: "Modifica", osmPage: "Pagina su OpenStreetMap", editId: "Modifica con iD", editJosm: "Apri in JOSM", editMapComplete: "Apri in MapComplete",
@@ -1131,6 +1135,7 @@ const I18N = {
     osmAttribution: "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
     grayBg: "Grayscale background (B key)",
     colorBg: "Colour background (B key)",
+    dice: "A random error (D key)",
     locate: "Go to my location", locateOff: "Location not available",
     locateError: "location not available",
     editMenu: "Edit", osmPage: "OpenStreetMap page", editId: "Edit with iD", editJosm: "Open in JOSM", editMapComplete: "Open in MapComplete",
@@ -2257,6 +2262,23 @@ grayBtn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden
 grayBtn.onclick = () => toggleGray();
 map.addControl({ onAdd() { const d = document.createElement("div"); d.className = "maplibregl-ctrl maplibregl-ctrl-group"; d.append(grayBtn); return d; },
   onRemove() {} }, "top-right");
+// Dado (tasto D): la scheda di un albero con errori preso a caso, sotto il pulsante dello sfondo. Cosa sceglie lo dice
+// rollDice dentro map.on("load"); fino ad allora il clic non fa niente. Non c'è sulla mappa dei monumentali (niente errori).
+let rollDice = () => {};
+const diceBtn = document.createElement("button");
+diceBtn.type = "button"; diceBtn.className = "gray-bg dice"; diceBtn.title = L.dice; diceBtn.setAttribute("aria-label", L.dice);
+diceBtn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5"/>`
+  + [[8.3, 8.3], [15.7, 8.3], [12, 12], [8.3, 15.7], [15.7, 15.7]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.6"/>`).join("") + `</svg>`;
+diceBtn.onclick = () => rollDice();
+if (!WORLD) {
+  map.addControl({ onAdd() { const d = document.createElement("div"); d.className = "maplibregl-ctrl maplibregl-ctrl-group"; d.append(diceBtn); return d; },
+    onRemove() {} }, "top-right");
+  addEventListener("keydown", e => {
+    if (e.key.toLowerCase() !== "d" || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target.closest?.("input, select, textarea, [contenteditable], dialog") || document.querySelector("dialog[open]")) return;
+    rollDice();
+  });
+}
 addEventListener("keydown", e => {
   if (e.key.toLowerCase() !== "b" || e.ctrlKey || e.metaKey || e.altKey) return;
   if (e.target.closest?.("input, select, textarea, [contenteditable], dialog") || document.querySelector("dialog[open]")) return;
@@ -4451,6 +4473,9 @@ map.on("load", async () => {
       else showRequest(e.lngLat, unitName(p));   // regione senza dati o zona non coperta: invito a chiederla
     };
     for (const id of FILLS) { map.on("mousemove", id, onMove); map.on("mouseleave", id, onLeave); map.on("click", id, onClick); }
+    // cursore fuori dalla mappa (anche sopra i pulsanti in alto a destra, che stanno sopra la mappa ma fuori dal suo
+    // canvas): il mouseleave dei livelli non arriva, e il riquadro della regione resterebbe aperto
+    map.on("mouseout", () => { hover(null); tip.style.display = "none"; map.getCanvas().style.cursor = ""; });
   }
 
   // Vista d'insieme: un clic fuori dalle regioni coperte chiede il nome del paese a Nominatim e propone di chiederne
@@ -4632,6 +4657,34 @@ map.on("load", async () => {
     else if (!WORLD && !h.get("region")) openNodeAlone(node, view);   // nodo fuori dalla regione caricata
     else if (!WORLD) addNote(L.nodeNotInData(nodeLink(node)));
   });
+
+  // Dado: con una regione caricata, un albero con errori di quella regione (con i filtri dei menu, se ne è scelto uno e
+  // lascia qualche albero), diverso da quello della scheda aperta; senza regione, prima una regione a caso tra quelle
+  // della nazione aperta o, senza nazione aperta, tra tutte, con probabilità proporzionale agli alberi con errori
+  // ("errors" di data/index.json), così ogni albero con errori del sito ha la stessa probabilità. Poi si carica la regione
+  // (come dal menu) e si apre la scheda centrata, come per #node= dell'indirizzo; i lanci dopo restano in quella regione.
+  let diceBusy = false;
+  const pickOne = list => list[Math.floor(Math.random() * list.length)];
+  rollDice = async () => {
+    if (diceBusy || WORLD) return;
+    diceBusy = true; diceBtn.setAttribute("aria-busy", "true");
+    try {
+      if (!current) {
+        const slugs = Object.keys(idx).filter(s => idx[s].errors > 0 && (!openGroup || groupOf(s) === openGroup));
+        let r = Math.random() * slugs.reduce((a, s) => a + idx[s].errors, 0), slug = slugs[slugs.length - 1];
+        for (const s of slugs) { r -= idx[s].errors; if (r < 0) { slug = s; break; } }
+        if (!slug) return;
+        closeCard(); setHash(slug);
+        await loadRegion(slug, false);
+        if (current !== slug) return;                 // nel frattempo è stata scelta un'altra regione
+      }
+      const open = cardPopup ? hashNode : null, is = issSel.value, tx = taxSel.value;
+      const errs = ALL.filter(f => f.properties.issues !== "|" && f.properties.id !== open);
+      const filtered = is || tx ? errs.filter(f => matchIssue(is, f.properties) && matchTaxon(tx, f.properties)) : errs;
+      const f = pickOne(filtered.length ? filtered : errs);
+      if (f) openCardCentered(f.properties, f.geometry.coordinates);
+    } finally { diceBusy = false; diceBtn.removeAttribute("aria-busy"); }
+  };
 });
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
