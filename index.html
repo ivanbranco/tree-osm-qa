@@ -706,12 +706,13 @@ const I18N = {
       not_a_tree: "Pianta che non è un albero (Agave, Rosa)",
       too_slender: "Albero troppo slanciato (altezza > 100 × circonferenza)",
       too_slender_species: "Albero troppo slanciato per la specie", too_stocky: "Albero troppo tozzo (circonferenza > 3 × altezza)",
+      date_too_recent: "Misure troppo grandi per la data (start_date, planted_date)",
       small_monument: "Albero monumentale molto piccolo", stump_crown: "Ceppo con la chioma",
       species: "Species di una sola parola", genus: "Genus non valido",
       species_lowercase: "Species con iniziale minuscola", genus_lowercase: "Genus con iniziale minuscola",
       genus_common_name: "Genus non scientifico (nome comune)", genus_typo: "Genus forse scritto male",
       genus_family: "Famiglia o ordine in genus", placeholder_value: "Species o genus senza un nome (-, ., Unknown)",
-      species_truncated: "Species interrotta a 30 caratteri",
+      stump_taxon: "Ceppo in species o genus (Souche)", species_truncated: "Species interrotta a 30 caratteri",
       leaf_type: "leaf_type non valido", leaf_cycle: "leaf_cycle non valido" },
     denotation: { natural_monument: "Albero monumentale", landmark: "Punto di riferimento", avenue: "Albero di viale",
       urban: "Albero urbano", cluster: "Gruppo di alberi", agricultural: "Albero agricolo" },
@@ -865,6 +866,7 @@ const I18N = {
       too_slender: "Soglia: altezza più di 100 volte la circonferenza. È larga di proposito, per evitare falsi positivi.",
       too_slender_species: p => `Il rapporto tipico di questa specie è ${Number(p.sp_ratio).toLocaleString(LOC)} (mediana dei dati OSM, pagina wiki «Tree species records»). Segnalato oltre 4 volte quel valore (e comunque oltre 40), solo per alberi alti almeno 10 m: gli alberelli appena piantati sono sottili.`,
       too_stocky: "Soglia: circonferenza più di 3 volte l'altezza. Gli alberi reali più tozzi, come gli olivi monumentali, hanno un rapporto altezza/circonferenza intorno a 0,5.",
+      date_too_recent: "Soglie: circonferenza oltre 4 m più 0,3 m per ogni anno dalla data, altezza oltre 20 m più 2,5 m per anno. Le basi lasciano passare i trapianti di alberi grandi, le crescite sono quelle delle specie più rapide: le soglie sono larghe di proposito, per evitare falsi positivi. Conta la data più vecchia tra start_date e planted_date. Non vale per le date con ~ o before, per le palme, per i ceppi e per la circonferenza degli olivi, né per le misure già segnalate da un altro errore.",
       small_monument: "L'albero ha denotation=natural_monument (o monument=tree) o una fonte monumentale (ref:masaf, ref:rami, monumentaltrees.com…), o è membro di una relazione con ref:masaf, ma è alto meno di 1,5 m o ha una circonferenza sotto 20 cm, le misure di una piccola pianta o di una canna di bambù. Le soglie sono basse di proposito, per evitare falsi positivi.",
       comma: "In OSM il separatore decimale è il punto (2.9, non 2,9).",
       diameter_unit: "Senza unità, diameter è in millimetri (wiki OSM, Key:diameter): questo valore sarebbe un tronco di meno di 1 cm. Se è in metri, va scritta l'unità (es. diameter=0.5 m); meglio ancora usare circumference, in metri. Il valore non è usato per disegnare il tronco.",
@@ -890,7 +892,8 @@ const I18N = {
       genus_common_name: "genus=* contiene il nome scientifico del genere (es. Salix), lo stesso in tutte le lingue. Il nome comune va in genus:xx (es. genus:pl).",
       genus_typo: "Il genere non è nelle liste della wiki OSM, ma differisce di una lettera da un genere che c'è (di due per i nomi di almeno 9 lettere). Non segnalati i nomi sotto le 4 lettere e i nomi con più di un genere ugualmente vicino.",
       genus_family: "genus=* contiene il nome di un genere. I nomi delle famiglie finiscono in -aceae (Cupressaceae) e vanno in taxon:family=*; quelli degli ordini finiscono in -ales. Conta anche una famiglia scritta male o in un'altra lingua (Pinacae, Pinacee: Pinaceae). Se species indica già il genere, la famiglia o l'ordine si possono togliere.",
-      placeholder_value: "species=* e genus=* contengono il nome scientifico. Un valore senza lettere (-, .) o che significa «sconosciuto» (Unknown, Desconocido, Inconnu…) non indica una specie o un genere: se non si conosce, il tag si omette.",
+      placeholder_value: "species=* e genus=* contengono il nome scientifico. Un valore senza lettere (-, .), che significa «sconosciuto» (Unknown, Desconocido, Inconnu…) o che descrive altro (New Tree Pit, Mixed Species) non indica una specie o un genere: se non si conosce, il tag si omette.",
+      stump_taxon: "species=* e genus=* contengono il nome scientifico. Un valore che significa «ceppo» (Souche, Stump, Ceppo…) non indica una specie o un genere; il ceppo di un albero tagliato si mappa con natural=tree_stump.",
       species_truncated: "Il valore ha esattamente 30 caratteri e finisce con le virgolette di una cultivar aperte e non chiuse, o con una lettera sola dopo una parola: il valore di alcuni import è tagliato a 30 caratteri.",
       stump_crown: "natural=tree_stump è il ceppo di un albero tagliato, che non ha chioma: diameter_crown=* su un ceppo è segnalato. L'altezza no: un albero tagliato in alto resta un ceppo.",
       not_a_tree: "species=*, species:wikidata=* o genus=* (o, senza questi, il nome in species:xx) indicano una pianta che non è un albero, come l'agave americana (Agave americana, species:wikidata=Q161115) o un'altra specie di un genere senza alberi (Agave, Arundo, Musa), oppure un arbusto (Juniperus horizontalis, i generi Rosa, Forsythia, Ribes…). Le piante che non sono alberi si mappano con natural=plant, gli arbusti con natural=shrub.",
@@ -983,6 +986,8 @@ const I18N = {
         + (sp ? `: species indica già un taxon più preciso, ${rank === "order" ? "l'ordine" : "la famiglia"} si può togliere`
           : kv ? `: usare ${kv} senza genus` : same ? ": taxon:family c'è già, genus si può togliere" : ""),
       placeholder_value: kv => `${kv} non indica una specie o un genere`,
+      stump_taxon: (kv, stump) => stump ? `${kv} significa «ceppo», non indica una specie o un genere`
+        : `${kv} significa «ceppo»: un ceppo si mappa con natural=tree_stump al posto di natural=tree`,
       species_truncated: sp => `species=${sp} si interrompe dopo 30 caratteri`,
       stump_crown: v => `diameter_crown=${v} su un ceppo`,
       not_a_tree: (sp, nat) => nat === "shrub" ? `${sp} è un arbusto, non un albero: usare natural=shrub al posto di natural=tree`
@@ -1025,6 +1030,8 @@ const I18N = {
       too_slender: (h, c, r) => `albero troppo slanciato: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
       too_slender_species: (h, c, r, sp, r0) => `albero troppo slanciato per ${sp}: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}, tipico ${r0})`,
       too_stocky: (h, c, r) => `albero troppo tozzo: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
+      date_too_recent: (k, v, age, m) => `secondo ${k}=${v} l'albero ha ${age === 0 ? "meno di un anno" : age === 1 ? "1 anno" : `${age} anni`}, ma ha ${m}`,
+      drC: (v, lim) => `circonferenza ${v} (limite a quell'età: ${lim})`, drH: (v, lim) => `altezza ${v} (limite a quell'età: ${lim})`,
       small_monument: m => `albero monumentale molto piccolo: ${m}`,
       smH: v => `altezza ${v}`, smC: v => `circonferenza ${v}`,
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "codici non validi" : "codice non valido"} ${bad.join(", ")} (ammessi a–g, a1, a2, a2.1–a2.3, separati da virgole senza spazi)`,
@@ -1354,11 +1361,13 @@ const I18N = {
       not_a_tree: "Plant that is not a tree (Agave, Rosa)",
       too_slender: "Tree too slender (height > 100 × circumference)",
       too_slender_species: "Tree too slender for its species", too_stocky: "Tree too stocky (circumference > 3 × height)",
+      date_too_recent: "Measurements too large for the date (start_date, planted_date)",
       small_monument: "Very small monumental tree", stump_crown: "Stump with a crown",
       species: "Single-word species", genus: "Invalid genus",
       species_lowercase: "Species starting lowercase", genus_lowercase: "Genus starting lowercase",
       genus_common_name: "Non-scientific genus (common name)", genus_typo: "Genus possibly misspelled",
       genus_family: "Family or order in genus", placeholder_value: "Species or genus without a name (-, ., Unknown)",
+      stump_taxon: "Stump in species or genus (Souche)",
       species_truncated: "Species cut off at 30 characters",
       leaf_type: "Invalid leaf_type", leaf_cycle: "Invalid leaf_cycle" },
     denotation: { natural_monument: "Monumental tree", landmark: "Landmark", avenue: "Avenue tree",
@@ -1503,6 +1512,7 @@ const I18N = {
       too_slender: "Threshold: height more than 100 times the circumference. It is deliberately loose, to avoid false positives.",
       too_slender_species: p => `The typical ratio for this species is ${Number(p.sp_ratio).toLocaleString(LOC)} (median of OSM data, OSM wiki page "Tree species records"). Reported above 4 times that value (and anyway above 40), only for trees at least 10 m tall: newly planted saplings are thin.`,
       too_stocky: "Threshold: circumference more than 3 times the height. The stockiest real trees, like monumental olive trees, have a height/circumference ratio around 0.5.",
+      date_too_recent: "Thresholds: circumference over 4 m plus 0.3 m for each year since the date, height over 20 m plus 2.5 m per year. The bases allow for large transplanted trees, the growth rates are those of the fastest species: the thresholds are deliberately loose, to avoid false positives. The older of start_date and planted_date counts. It does not apply to dates with ~ or before, to palms, to stumps or to the circumference of olive trees, nor to measurements already reported by another error.",
       small_monument: "The tree has denotation=natural_monument (or monument=tree) or a monumental source (ref:masaf, ref:rami, monumentaltrees.com…), or is a member of a relation with ref:masaf, but it is less than 1.5 m tall or has a circumference under 20 cm, the size of a small plant or a bamboo cane. The thresholds are deliberately low, to avoid false positives.",
       comma: "In OSM the decimal separator is the point (2.9, not 2,9).",
       diameter_unit: "Without a unit, diameter is in millimetres (OSM wiki, Key:diameter): this value would be a trunk under 1 cm. If it is in metres, the unit must be written (e.g. diameter=0.5 m); better still, use circumference, in metres. The value is not used to draw the trunk.",
@@ -1528,7 +1538,8 @@ const I18N = {
       genus_common_name: "genus=* holds the scientific name of the genus (e.g. Salix), the same in every language. The common name goes in genus:xx (e.g. genus:pl).",
       genus_typo: "The genus is not in the OSM wiki lists, but differs by one letter from a genus that is (by two for names of at least 9 letters). Names shorter than 4 letters and names with more than one equally close genus are not reported.",
       genus_family: "genus=* holds the name of a genus. Family names end in -aceae (Cupressaceae) and go in taxon:family=*; order names end in -ales. A family name misspelled or in another language also counts (Pinacae, Pinacee: Pinaceae). If species already gives the genus, the family or order can be removed.",
-      placeholder_value: "species=* and genus=* hold the scientific name. A value without letters (-, .) or meaning \"unknown\" (Unknown, Desconocido, Inconnu…) does not indicate a species or a genus: when it is not known, the tag is left out.",
+      placeholder_value: "species=* and genus=* hold the scientific name. A value without letters (-, .), meaning \"unknown\" (Unknown, Desconocido, Inconnu…) or describing something else (New Tree Pit, Mixed Species) does not indicate a species or a genus: when it is not known, the tag is left out.",
+      stump_taxon: "species=* and genus=* hold the scientific name. A value meaning \"stump\" (Souche, Stump, Ceppo…) does not indicate a species or a genus; the stump of a felled tree is mapped with natural=tree_stump.",
       species_truncated: "The value is exactly 30 characters long and ends with the quotes of a cultivar opened and not closed, or with a single letter after a word: some imports cut the value at 30 characters.",
       stump_crown: "natural=tree_stump is the stump of a felled tree, which has no crown: diameter_crown=* on a stump is reported. Height is not: a tree felled high up is still a stump.",
       not_a_tree: "species=*, species:wikidata=* or genus=* (or, without them, the name in species:xx) indicate a plant that is not a tree, such as the century plant (Agave americana, species:wikidata=Q161115) or another species of a genus without trees (Agave, Arundo, Musa), or a shrub (Juniperus horizontalis, the genera Rosa, Forsythia, Ribes…). Plants that are not trees are mapped with natural=plant, shrubs with natural=shrub.",
@@ -1615,6 +1626,8 @@ const I18N = {
         + (sp ? `: species already gives a more precise taxon, the ${rank === "order" ? "order" : "family"} can be removed`
           : kv ? `: use ${kv} without genus` : same ? ": taxon:family is already there, genus can be removed" : ""),
       placeholder_value: kv => `${kv} does not indicate a species or a genus`,
+      stump_taxon: (kv, stump) => stump ? `${kv} means "stump", it does not indicate a species or a genus`
+        : `${kv} means "stump": a stump is mapped with natural=tree_stump instead of natural=tree`,
       species_truncated: sp => `species=${sp} stops after 30 characters`,
       stump_crown: v => `diameter_crown=${v} on a stump`,
       not_a_tree: (sp, nat) => nat === "shrub" ? `${sp} is a shrub, not a tree: use natural=shrub instead of natural=tree`
@@ -1655,6 +1668,8 @@ const I18N = {
       too_slender: (h, c, r) => `tree too slender: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
       too_slender_species: (h, c, r, sp, r0) => `tree too slender for ${sp}: height ${h}, circumference ${c} (height/circumference = ${r}, typical ${r0})`,
       too_stocky: (h, c, r) => `tree too stocky: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
+      date_too_recent: (k, v, age, m) => `according to ${k}=${v} the tree is ${age === 0 ? "less than a year" : age === 1 ? "1 year" : `${age} years`} old, but it has ${m}`,
+      drC: (v, lim) => `circumference ${v} (limit at that age: ${lim})`, drH: (v, lim) => `height ${v} (limit at that age: ${lim})`,
       small_monument: m => `very small monumental tree: ${m}`,
       smH: v => `height ${v}`, smC: v => `circumference ${v}`,
       masaf_criteria: (v, bad) => `masaf:criteria=${v}: ${bad.length > 1 ? "invalid codes" : "invalid code"} ${bad.join(", ")} (allowed a–g, a1, a2, a2.1–a2.3, comma-separated without spaces)`,
@@ -3079,10 +3094,10 @@ map.on("load", async () => {
   // gruppi del menu errori: i codici non elencati finiscono in "Altri tag"
   const ISSUE_GROUPS = [
     ["size", ["circumference", "height", "crown", "comma", "diameter_unit", "unit_format", "circ_diam_mismatch", "trunk_overlap", "number_invalid", "circumference_species", "height_species",
-      "too_slender", "too_slender_species", "too_stocky", "small_monument", "stump_crown"]],
+      "too_slender", "too_slender_species", "too_stocky", "date_too_recent", "small_monument", "stump_crown"]],
     ["name", ["species", "species_lowercase", "species_typo", "species_epithet_case", "species_hybrid_end", "species_common_name",
       "species_unidentified", "species_truncated", "species_author", "species_parentheses", "species_genus_abbr", "species_lang_only", "taxon_lang_only", "not_a_tree", "underscore", "multiple_values", "tag_in_value",
-      "not_latin", "placeholder_value", "genus", "genus_lowercase", "genus_typo", "genus_family", "genus_common_name", "genus_mismatch", "name_taxon_missing", "name_taxon_mismatch", "taxon_mismatch", "name_botanical"]],
+      "not_latin", "placeholder_value", "stump_taxon", "genus", "genus_lowercase", "genus_typo", "genus_family", "genus_common_name", "genus_mismatch", "name_taxon_missing", "name_taxon_mismatch", "taxon_mismatch", "name_botanical"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
       "wikidata_redirect", "wikidata_deleted", "wikidata_is_taxon", "wikipedia_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
     ["links", ["link_format", "broken_link", "website_wikipedia", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed", "masaf_unknown",
@@ -4938,6 +4953,7 @@ const issueBase = (i, p) => {
     case "tag_in_value": return String(p.eq_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // eq_keys: fetch_trees.py
     case "not_latin": return String(p.nl_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // nl_keys: fetch_trees.py
     case "placeholder_value": return String(p.ph_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`)).join("\n");   // ph_keys: fetch_trees.py
+    case "stump_taxon": return String(p.st_keys || "").split(";").map(k => T[i](`${k}=${p[k] ?? ""}`, p.stump)).join("\n");   // st_keys: fetch_trees.py
     case "species_truncated": return T[i](p.species);
     case "genus_typo": return T[i](p.genus, p.g_typo);                     // g_typo: fetch_trees.py
     case "genus_family": return T[i](p.genus, p.g_rank, p.g_fam_kv, p.g_fam_same, p.g_fam_sp);   // g_rank, g_fam_kv, g_fam_same, g_fam_sp: fetch_trees.py
@@ -5054,6 +5070,10 @@ const issueBase = (i, p) => {
     case "start_date_invalid": return (p.sd_bad ? String(p.sd_bad).split(";").filter(Boolean).map(x => x.split("|"))
       : [["start_date", p.sd_future ? "future" : "invalid"]]).map(([k, w]) => T[i](k, p[k] ?? "", w === "future")).join("\n");
     case "date_mismatch": return T[i](p.start_date ?? "", p.planted_date ?? "");
+    // dr_key, dr_age; dr_c e dr_lc (circonferenza usata e limite), dr_lh (limite dell'altezza): fetch_trees.py
+    case "date_too_recent": return T[i](p.dr_key, p[p.dr_key] ?? "", p.dr_age,
+      [p.dr_lc != null ? T.drC(fmtM(p.dr_c) + (p.diam_used ? L.fromDiameter : ""), fmtM(p.dr_lc)) : "",
+       p.dr_lh != null ? T.drH(fmtM(p.height), fmtM(p.dr_lh)) : ""].filter(Boolean).join(L.cmp.and));
     case "wikipedia_is_taxon": return T[i](p.wp_v ?? "", p.wp_tx, !!p.wp_genus);   // wp_v, wp_tx, wp_genus: fetch_trees.py
     // tx_lang: righe "taxon:xx=valore"; tx_lang_mv: righe "taxon:it=pino|g|Pinus|genus:it=Pino" per i nomi che si
     // possono scrivere in genus:xx o species:xx; tx_lang_add: "genus=…" o "species=…" da aggiungere (fetch_trees.py)
@@ -5432,8 +5452,8 @@ const commonsOfImage = p => {
 // tashkentensis", "Platanus x hispanica"): [[chiave, valore con ×]] per species e genus. Non con più valori (";") né
 // con un errore sulla forma del nome, che propone già una sua correzione
 const HYBRID_X = /(^|\s)[xX](?=\s+\S)/g;
-const HYBRID_SKIP = { species: /\|(species|species_\w+|tag_in_value|not_latin|placeholder_value|underscore|multiple_values)\|/,
-  genus: /\|(genus|genus_lowercase|genus_common_name|genus_typo|genus_family|tag_in_value|not_latin|placeholder_value|underscore|multiple_values)\|/ };
+const HYBRID_SKIP = { species: /\|(species|species_\w+|tag_in_value|not_latin|placeholder_value|stump_taxon|underscore|multiple_values)\|/,
+  genus: /\|(genus|genus_lowercase|genus_common_name|genus_typo|genus_family|tag_in_value|not_latin|placeholder_value|stump_taxon|underscore|multiple_values)\|/ };
 const hybridX = p => ["species", "genus"].filter(k => p[k] && !String(p[k]).includes(";")
     && !HYBRID_SKIP[k].test(String(p.issues || "")) && String(p[k]).replace(HYBRID_X, "$1×") !== p[k])
   .map(k => [k, String(p[k]).replace(HYBRID_X, "$1×")]);
@@ -5614,6 +5634,13 @@ const FIXES = {
   // species o genus che non indicano un taxon (ph_keys, fetch_trees.py): si tolgono
   placeholder_value: [p => String(p.ph_keys || "").split(";").filter(k => p[k] != null).map(k => [k, REMOVE]),
     "remove species or genus without a name"],
+  // species o genus che significano «ceppo» (st_keys, fetch_trees.py): si tolgono e, su un albero, natural diventa
+  // tree_stump (natural non è tra le proprietà: il vecchio valore, quinto elemento, è tree), senza diameter_crown, che un
+  // ceppo non ha
+  stump_taxon: [p => [...String(p.st_keys || "").split(";").filter(k => p[k] != null).map(k => [k, REMOVE]),
+    ...p.stump ? [] : [["natural", "tree_stump", "stump: natural=tree_stump", false, "tree"],
+      ...p.diameter_crown != null ? [["diameter_crown", REMOVE, "remove diameter_crown from a stump"]] : []]],
+    "remove species or genus meaning stump"],
   // un ceppo non ha chioma: diameter_crown si toglie
   stump_crown: [p => p.diameter_crown != null ? [["diameter_crown", REMOVE]] : [], "remove diameter_crown from a stump"],
   // name=* nome comune di una specie o di un genere, senza tag del taxon (nm_tx, fetch_trees.py): si aggiunge species

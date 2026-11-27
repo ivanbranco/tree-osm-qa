@@ -18,6 +18,7 @@ HINT_CASES prova i consigli di hint_props (hint_ms, hint_mf, hint_wg, hint_hx, h
 Quando si aggiunge o si cambia un check: aggiornare CASES. Un codice che checks() può segnalare e che nessun caso
 si aspetta fa fallire il test.
 """
+import datetime
 import inspect
 import re
 import sys
@@ -33,6 +34,7 @@ REMOVED = "001/A001/RM/01"  # codice MASAF finto, rimosso dall'elenco
 LISTED = "002/A002/RM/02"   # codice MASAF finto, iscritto (albero singolo)
 GROUP_CODE = "004/A004/RM/04"   # codice MASAF finto, iscritto come filare singolo
 MEMBER = 9001               # id di un nodo membro di un insieme omogeneo MASAF (FIXTURES["MASAF_GROUPS"])
+YEAR = datetime.date.today().year   # date_too_recent conta gli anni da oggi: le date dei casi sono relative a questo
 
 _SPECIES = {
     "Quercus robur": {"wikidata": "Q920001", "leaf_type": "broadleaved", "leaf_cycle": "deciduous"},
@@ -466,6 +468,20 @@ CASES = [
     ("placeholder_value: species, niente species né genus_mismatch", {"natural": "tree", "genus": "Quercus", "species": "."},
      ["placeholder_value"]),
     ("placeholder_value: species=sp", {"natural": "tree", "genus": "Quercus", "species": "sp"}, ["placeholder_value"]),
+    # frasi dei dati di Londra (voce 3.15): al posto di species_common_name
+    ("placeholder_value: New Tree Pit", {"natural": "tree", "species": "New Tree Pit"}, ["placeholder_value"]),
+    ("placeholder_value: Mixed Species", {"natural": "tree", "species": "Mixed Species"}, ["placeholder_value"]),
+    ("placeholder_value: niente per una parte della frase", {"natural": "tree", "species": "Quercus robur", "genus": "Pit"},
+     ["genus_mismatch"]),
+    # species o genus che vogliono dire «ceppo» (voce 3.15)
+    ("stump_taxon: genus=Souche su un albero", {"natural": "tree", "genus": "Souche"}, ["stump_taxon"]),
+    ("stump_taxon: genus=souche su un ceppo, niente genus_lowercase", {"natural": "tree_stump", "genus": "souche"},
+     ["stump_taxon"]),
+    ("stump_taxon: niente genus_mismatch", {"natural": "tree", "genus": "Souche", "species": "Quercus robur"},
+     ["stump_taxon"]),
+    ("stump_taxon: species=Stump, niente species", {"natural": "tree", "species": "Stump"}, ["stump_taxon"]),
+    ("stump_taxon: niente per un nome più lungo", {"natural": "tree", "species": "Souche de Quercus robur"},
+     ["species_common_name"]),
     # ceppo con la chioma (voce 3.9)
     ("stump_crown", {"natural": "tree_stump", "diameter_crown": "5"}, ["stump_crown"]),
     ("stump_crown: niente per un albero", {"natural": "tree", "diameter_crown": "5"}, []),
@@ -797,6 +813,39 @@ CASES = [
                                                                      "planted_date": "1992"}, ["start_date_invalid"]),
     ("dipendenza: con tag_in_value niente date_mismatch", {"natural": "tree", "start_date": "1990",
                                                             "planted_date": "planted_date=1992"}, ["tag_in_value"]),
+    # --- date_too_recent: circonferenza > 4 m + 0,3 m/anno, altezza > 20 m + 2,5 m/anno dalla data ---
+    ("date_too_recent: circonferenza", {"natural": "tree", "start_date": str(YEAR - 3), "circumference": "7.8"},
+     ["date_too_recent"]),
+    ("date_too_recent: altezza", {"natural": "tree", "start_date": f"{YEAR - 3}-05", "height": "30"}, ["date_too_recent"]),
+    ("date_too_recent: circonferenza da diameter", {"natural": "tree", "start_date": str(YEAR - 1), "diameter": "2 m"},
+     ["date_too_recent"]),
+    ("date_too_recent: planted_date", {"natural": "tree", "planted_date": str(YEAR - 2), "circumference": "6"},
+     ["date_too_recent"]),
+    ("date_too_recent: decennio, conta il primo anno", {"natural": "tree", "start_date": f"{YEAR // 10 * 10 - 10}s",
+                                                         "circumference": "20"}, ["date_too_recent"]),
+    ("date_too_recent: sotto il limite", {"natural": "tree", "start_date": str(YEAR - 10), "circumference": "6.9",
+                                          "height": "44"}, []),
+    ("date_too_recent: albero vecchio", {"natural": "tree", "start_date": "1990", "circumference": "8", "height": "30"}, []),
+    ("date_too_recent: conta la data più vecchia", {"natural": "tree", "start_date": str(YEAR - 2), "planted_date": "1950",
+                                                     "circumference": "6"}, ["date_mismatch"]),
+    ("date_too_recent: data approssimativa", {"natural": "tree", "start_date": f"~{YEAR - 2}", "circumference": "8"}, []),
+    ("date_too_recent: data con before", {"natural": "tree", "start_date": f"before {YEAR - 2}", "circumference": "8"}, []),
+    ("date_too_recent: palma", {"natural": "tree", "genus": "Phoenix", "start_date": str(YEAR - 2), "circumference": "6",
+                                "height": "26"}, []),
+    ("date_too_recent: circonferenza di un olivo", {"natural": "tree", "species": "Olea europaea",
+                                                    "start_date": str(YEAR - 2), "circumference": "6", "height": "8"}, []),
+    ("date_too_recent: altezza di un olivo", {"natural": "tree", "genus": "Olea", "start_date": str(YEAR - 1),
+                                              "circumference": "2", "height": "23"}, ["date_too_recent"]),
+    ("date_too_recent: ceppo", {"natural": "tree_stump", "start_date": str(YEAR - 2), "circumference": "6"}, []),
+    ("dipendenza: circonferenza oltre il limite, niente date_too_recent", {"natural": "tree", "start_date": str(YEAR - 2),
+                                                                            "circumference": "50"}, ["circumference"]),
+    ("dipendenza: circonferenza oltre il limite, l'altezza conta", {"natural": "tree", "start_date": str(YEAR - 2),
+                                                                    "circumference": "90", "height": "26"},
+     ["circumference", "date_too_recent"]),
+    ("dipendenza: circonferenza con la virgola, niente date_too_recent", {"natural": "tree", "start_date": str(YEAR - 2),
+                                                                           "circumference": "6,5"}, ["comma"]),
+    ("dipendenza: start_date non valido, niente date_too_recent", {"natural": "tree", "start_date": f"{YEAR - 2}-13",
+                                                                    "circumference": "8"}, ["start_date_invalid"]),
     # --- check_date e survey:date: AAAA-MM-GG, AAAA-MM o AAAA ---
     ("check_date AAAA-MM-GG", {"natural": "tree", "check_date": "2024-09-02"}, []),
     ("survey:date AAAA-MM e AAAA", {"natural": "tree", "survey:date": "2024-09", "check_date": "2024"}, []),

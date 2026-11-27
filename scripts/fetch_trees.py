@@ -242,6 +242,16 @@ STOCKY_MIN = 1 / 3         # sotto: albero troppo tozzo (circonferenza più di 3
 SLENDER_SP_FACTOR = 4      # oltre 4 volte il rapporto tipico della specie
 SLENDER_SP_MIN = 40        # ma mai sotto 40 (specie con rapporto basso, come l'olivo: i giovani sono più slanciati)
 SLENDER_SP_MIN_H = 10      # m: solo alberi alti almeno 10 m
+# Misure troppo grandi per la data (check date_too_recent): circonferenza oltre YOUNG_CIRC_BASE + YOUNG_CIRC_RATE × anni
+# o altezza oltre YOUNG_HEIGHT_BASE + YOUNG_HEIGHT_RATE × anni, con anni = anno corrente − anno di start_date (o
+# planted_date). Le basi lasciano passare i trapianti di alberi grandi, le crescite sono quelle delle specie più rapide
+# (0,3 m di circonferenza all'anno sono circa 9,5 cm di diametro): soglie larghe di proposito, per evitare falsi
+# positivi. Provato il 27/11/2026 su 108.143 alberi con una data e una misura: ne segnalava 12, quasi tutti monumentali
+YOUNG_CIRC_BASE, YOUNG_CIRC_RATE = 4.0, 0.3        # m, m all'anno
+YOUNG_HEIGHT_BASE, YOUNG_HEIGHT_RATE = 20.0, 2.5   # m, m all'anno
+# errori che rendono dubbia la misura: con uno di questi la misura non si confronta con la data
+YOUNG_C_SKIP = {"circumference", "circumference_species", "too_stocky", "circ_diam_mismatch", "comma", "unit_format"}
+YOUNG_H_SKIP = {"height", "height_species", "too_slender", "too_slender_species", "comma", "unit_format"}
 # con questi niente consiglio hint_ms: rapporto altezza/circonferenza o circonferenza oltre il limite (generico o della
 # specie) già segnalati
 NO_MASAF_HINT = {"too_slender", "too_slender_species", "too_stocky", "circumference", "circumference_species"}
@@ -2782,16 +2792,27 @@ def genus_rank(word):
 
 
 # valori che non indicano un taxon (placeholder_value, voce 3.14): senza lettere ("-", ".", "42"), o una parola che vuol
-# dire «sconosciuto», «specie» o «nessuno» (casefold)
+# dire «sconosciuto», «specie» o «nessuno», o una frase che descrive la buca o il gruppo e non un taxon (New Tree Pit,
+# Mixed Species: dati di Londra, voce 3.15) (casefold, sul valore intero)
 PLACEHOLDER_WORDS = {"unknown", "unidentified", "none", "null", "n/a", "desconocido", "desconocida", "sconosciuto",
                      "sconosciuta", "inconnu", "inconnue", "indéterminé", "indéterminée", "unbekannt", "nieznany",
-                     "neznámý", "essence", "sp", "sp.", "spp", "spp."}
+                     "neznámý", "essence", "sp", "sp.", "spp", "spp.",
+                     "new tree pit", "mistaken tree pit", "unplantable tree pit", "mixed species"}
 
 
 def placeholder(v):
     """Vero se il valore (di species o genus) non contiene lettere o è una parola di PLACEHOLDER_WORDS."""
     s = str(v or "").strip()
     return bool(s) and (not any(c.isalpha() for c in s) or s.casefold() in PLACEHOLDER_WORDS)
+
+
+# species o genus che vogliono dire «ceppo» (stump_taxon, voce 3.15: genus=Souche), casefold sul valore intero
+STUMP_WORDS = {"souche", "stump", "tree stump", "ceppo", "tocón", "tocon", "baumstumpf"}
+
+
+def stump_word(v):
+    """Vero se il valore (di species o genus) è una parola di STUMP_WORDS."""
+    return str(v or "").strip().casefold() in STUMP_WORDS
 
 
 # species troncato (species_truncated, voce 3.15): esattamente TRUNC_LEN caratteri, con le virgolette della cultivar
@@ -3383,6 +3404,11 @@ def checks(t, pos, osm_id=None):
     # questo errore non si ripetono i check sulla forma del nome, né il confronto tra genus e species
     if ph := [k for k in ("species", "genus") if k not in eq and k not in nl and placeholder(t.get(k))]:
         flag("placeholder_value", ph_keys=";".join(ph))
+    # species o genus che vogliono dire «ceppo» (genus=Souche): la scheda propone natural=tree_stump su un albero. Per gli
+    # altri check il tag vale come un valore senza nome (ph): niente check sulla forma, niente confronto genus/species
+    if st := [k for k in ("species", "genus") if k not in eq and k not in nl and k not in ph and stump_word(t.get(k))]:
+        flag("stump_taxon", st_keys=";".join(st))
+        ph = ph + st
     sp = t.get("species")
     spf = None if "species" in eq or "species" in nl or "species" in ph else sp   # species per i check sulla forma del nome
     # parole di species senza il segno di ibrido scritto a sé (× o x): "x carnea" è una parola sola
@@ -3758,6 +3784,9 @@ def checks(t, pos, osm_id=None):
     if (not sd_bad and all(k in t and k not in eq for k in DATE_KEYS)
           and " ".join(t["start_date"].split()) != " ".join(t["planted_date"].split())):
         flag("date_mismatch")
+    # misure troppo grandi per la data (dopo i check sulle misure, che decidono quali misure confrontare)
+    if not sd_bad and (ys := young_size(t, issues)):
+        flag("date_too_recent", **ys)
     # voce di wikipedia=* (wp_v) il cui elemento Wikidata (wp_tx) è un taxon; wp_genus: è di rango genere (Q34740), la
     # voce va in genus:wikipedia e non in species:wikipedia
     if wpt := wikipedia_taxon(t):
@@ -4414,6 +4443,41 @@ def start_date_problem(v, today=None):
     if keys[0] > today.year * 10000 + today.month * 100 + today.day:
         return "future"
     return None
+
+
+def young_size(t, issues, today=None):
+    """Circonferenza o altezza troppo grandi per la data dell'albero (check date_too_recent, soglie YOUNG_*): dict con
+    dr_key (la chiave della data), dr_age (anni) e, per ogni misura oltre il limite, il limite: dr_lc con dr_c
+    (circonferenza usata, anche da diameter) o dr_lh (l'altezza è in height); None se va bene. La data è la più vecchia tra start_date e planted_date; niente se una
+    delle due è approssimativa (~) o con before, o non si legge. Esclusi i ceppi (la data può essere quella del
+    taglio), palme e piante simili (si trapiantano già grandi, e il loro tronco non si allarga), la circonferenza degli
+    olivi (si trapiantano anche con tronchi molto grossi) e le misure già segnalate da un altro check (YOUNG_*_SKIP)."""
+    if t.get("natural") == "tree_stump" or palm_like(t):
+        return None
+    dates = []
+    for k in DATE_KEYS:
+        if (v := t.get(k)) is None:
+            continue
+        s = " ".join(str(v).split()).casefold()
+        if s.startswith(("~", "before")) or (key := start_date_key(v)) is None:
+            return None
+        dates.append((key, k))
+    if not dates:
+        return None
+    key, k = min(dates)
+    age = (today or datetime.date.today()).year - key // 10000
+    if age < 0:
+        return None
+    out = {}
+    c = circ_value(t)[0]
+    if c and not YOUNG_C_SKIP & set(issues) and tree_genus(t) != "olea":
+        if c > (lim := YOUNG_CIRC_BASE + YOUNG_CIRC_RATE * age):
+            out.update(dr_c=round(c, 2), dr_lc=round(lim, 2))
+    h = num(t.get("height"))
+    if h and not YOUNG_H_SKIP & set(issues):
+        if h > (lim := YOUNG_HEIGHT_BASE + YOUNG_HEIGHT_RATE * age):
+            out["dr_lh"] = round(lim, 2)
+    return {"dr_key": k, "dr_age": age, **out} if out else None
 
 
 # data dell'ultimo rilievo (https://wiki.openstreetmap.org/wiki/Key:check_date e Key:survey:date): solo AAAA-MM-GG,
