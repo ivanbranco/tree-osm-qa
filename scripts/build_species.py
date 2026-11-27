@@ -1,5 +1,5 @@
 """Schede delle specie (issue #79): una pagina HTML per ogni specie della pagina wiki «Tree species records», con
-primati, misure tipiche, distribuzione nelle regioni del sito, monumentali e aspetto sulla mappa; per le specie dioiche
+primati, misure tipiche, altitudine, distribuzione nelle regioni del sito, monumentali e aspetto sulla mappa; per le specie dioiche
 anche i tratti che distinguono maschi e femmine (sex_info, dai testi di index.html).
 
 Nelle schede degli alberi delle mappe la specie è un link alla sua pagina, per le specie elencate in
@@ -88,6 +88,29 @@ def histogram(vals, step, cap_q=0.99):
         if v <= top:
             bins[min(n - 1, int(v // step))] += 1
     return {"step": step, "bins": bins, "over": sum(1 for v in vs if v > top)}
+
+
+def elevation_stats(vals):
+    """Quota degli alberi ("elev" dei file delle regioni, fetch_trees.add_elevation) per il riquadro «Altitudine»:
+    mediana, fascia del 90% centrale (dal 5° al 95° percentile) e istogramma dallo 0,5° al 99,5° percentile (le code
+    sono tagliate da entrambe le parti: in mare il modello dà la profondità, quindi valori negativi), con classi di
+    10, 20, 50, 100, 200 o 500 m, le più strette che stanno in 30 colonne. start = quota della prima classe; under e
+    over = alberi fuori dal grafico. In metri interi; None con meno di MIN_SAMPLE alberi."""
+    if len(vals) < MIN_SAMPLE:
+        return None
+    vs = sorted(vals)
+    q = lambda p: vs[min(len(vs) - 1, int(len(vs) * p))]   # noqa: E731
+    lo, hi = q(0.005), q(0.995)
+    step = next((s for s in (10, 20, 50, 100, 200) if (hi - lo) / s <= 30), 500)
+    start = math.floor(lo / step) * step
+    n = max(1, math.ceil((hi - start) / step))
+    bins = [0] * n
+    for v in vs:
+        if lo <= v <= hi:
+            bins[min(n - 1, int((v - start) // step))] += 1
+    return {"n": len(vs), "med": round(statistics.median(vs)), "p5": round(q(0.05)), "p95": round(q(0.95)),
+            "hist": {"step": step, "start": start, "bins": bins, "under": sum(1 for v in vs if v < lo),
+                     "over": sum(1 for v in vs if v > hi)}}
 
 
 def scatter(pairs, nx=120, ny=80, cap_q=0.99):
@@ -623,6 +646,11 @@ def build_data(n, s, rinfo, index, sp_trees, group_of, area, updated):
         "h_c": {"med": median(h_c), "n": len(h_c), "sc": scatter(h_c_pts)},
         "cr_c": {"med": median(meas["crown_circ"]), "n": len(meas["crown_circ"]), "sc": scatter(cr_c_pts)},
         "oldest_n": len(meas["oldest"]),
+        # quota: gli alberi delle regioni che ce l'hanno (ceppi esclusi); "of" = alberi delle regioni nel conto, per
+        # dire se ne manca una parte (regioni non ancora aggiornate con le quote)
+        "elev": elevation_stats([f["properties"]["elev"] for slug, f in s["feats"]
+                                 if slug and f["properties"].get("elev") is not None]),
+        "elev_of": sum(1 for slug, _ in s["feats"] if slug),
     }
     # distribuzione: per regione e per nazione (contorno "g:<gruppo>" o la regione stessa se è una nazione)
     regs, nations = {}, collections.defaultdict(lambda: {"n": 0, "sp": 0, "all": 0, "regions": 0})

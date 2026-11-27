@@ -83,6 +83,9 @@
   .tipbox{display:none;position:absolute;top:28px;right:0;z-index:5;width:min(300px,80vw);padding:8px 10px;border-radius:6px;
     background:#fff;border:1px solid var(--line);box-shadow:0 4px 16px #0002;color:var(--ink);font:400 13px/1.45 system-ui,sans-serif;text-align:left;cursor:auto}
   .tip:hover .tipbox,.tip:focus .tipbox{display:block}
+  /* (?) accanto a un titolo (h2 «Altitudine»): nel testo invece che nell'angolo, e il riquadro si apre verso destra */
+  .tip.inl{position:relative;top:auto;right:auto;display:inline-block;vertical-align:3px;margin-left:8px}
+  .tip.inl .tipbox{right:auto;left:0}
   #map{height:480px;border-radius:8px;border:1px solid var(--line);overflow:hidden}
   .controls{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0 0 10px;font-size:14px}
   .seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
@@ -172,13 +175,14 @@ const I18N = {
     lt: { broadleaved: "latifoglia", needleleaved: "aghifoglia", palm: "palma" },
     lc: { deciduous: "caducifoglia", semi_deciduous: "semi-caducifoglia", evergreen: "sempreverde", semi_evergreen: "semi-sempreverde" },
     fruitTag: "frutti sulla mappa", wikidata: "Wikidata", wikiRec: "Wiki: Tree species records",
-    recTitle: "Alberi da record", recLead: "Gli alberi di questa specie con le misure più grandi e il più isolato, tra tutte le regioni del sito e la mappa dei monumentali. ⚠ = valore segnalato da un check: potrebbe essere sbagliato.",
+    recTitle: "Alberi da record", recLead: "Gli alberi di questa specie con le misure più grandi, la quota più alta e il più isolato, tra tutte le regioni del sito e la mappa dei monumentali. ⚠ = valore segnalato da un check: potrebbe essere sbagliato.",
     nWarn: n => `${n} segnalat${n === 1 ? "o" : "i"} ⚠`,
-    rc: { height: "Più alto", trunk: "Tronco più spesso", slender: "Più slanciato", stocky: "Più tozzo", crown: "Chioma più larga", oldest: "Più vecchio", isolated: "Più isolato" },
-    unit: { height: "m", trunk: "m di circonferenza", slender: "altezza/diametro", stocky: "altezza/diametro", crown: "m di diametro", oldest: "", isolated: "km" },
+    rc: { height: "Più alto", trunk: "Tronco più spesso", slender: "Più slanciato", stocky: "Più tozzo", crown: "Chioma più larga", oldest: "Più vecchio", elevation: "Quota più alta", isolated: "Più isolato" },
+    unit: { height: "m", trunk: "m di circonferenza", slender: "altezza/diametro", stocky: "altezza/diametro", crown: "m di diametro", oldest: "", elevation: "m s.l.m.", isolated: "km" },
+    elevHow: "Solo gli alberi delle regioni, dal modello Copernicus GLO-30 (la superficie, chiome ed edifici compresi; in Svizzera il terreno, da swissALTI3D).",
     isoNear: { tree: "Il più vicino: un albero", wood: "Il più vicino: un bosco", forest: "Il più vicino: una foresta", tree_row: "Il più vicino: un filare" },
     isoCap: "Nessun albero, bosco o filare entro 50 km",
-    isoHow: "Distanza dalla cosa più vicina tra gli altri alberi (di qualsiasi specie), i boschi e i filari di OpenStreetMap.",
+    isoHow: "Distanza dall'albero (di qualsiasi specie), dal bosco o dal filare più vicino su OpenStreetMap.",
     others: n => `i primi ${n}`, noRec: "Nessun albero con questa misura.", warned: "Valore segnalato da un check",
     wikiVal: v => `Record sulla wiki: ${v}`, monMap: "mappa dei monumentali", node: id => `nodo ${id}`,
     evBtn: "Che cosa successe quell'anno", evSrc: "Fonte: Wikipedia",
@@ -186,6 +190,10 @@ const I18N = {
     rulMax: "massimo su OSM", rulRec: "record wiki",
     height: "Altezza", trunkM: "Circonferenza del tronco", crownM: "Diametro della chioma", median: "mediana",
     on: n => `su ${n} alberi`, few: "Troppo pochi alberi con questa misura.",
+    elevTitle: "Altitudine",
+    elevLead: "Quota sul livello del mare degli alberi mappati nelle regioni di DendrOSM. Fuori dalla Svizzera viene dal modello Copernicus GLO-30, che misura la superficie in celle di 30 m, chiome ed edifici compresi; in Svizzera dal modello del terreno swissALTI3D. Il grafico mostra quanti alberi ci sono per ogni fascia di quota (dallo 0,5° al 99,5° percentile): le barre scure sono il 90% centrale, la linea tratteggiata è la mediana.",
+    elevBand: (a, b) => `Il 90% degli alberi mappati si trova tra circa ${a} e ${b} m di altitudine.`,
+    elevMissing: n => `${n} ${n === "1" ? "albero" : "alberi"} di regioni ancora senza quota non sono contati.`,
     hc: "Altezza / circonferenza", crc: "Chioma / circonferenza",
     hcInfo: "Quanti metri di altezza per ogni metro di circonferenza: più è alto, più l'albero è slanciato.",
     crcInfo: "Quanti metri di chioma per ogni metro di circonferenza.",
@@ -229,10 +237,11 @@ const I18N = {
     lt: { broadleaved: "broadleaved", needleleaved: "needleleaved", palm: "palm" },
     lc: { deciduous: "deciduous", semi_deciduous: "semi-deciduous", evergreen: "evergreen", semi_evergreen: "semi-evergreen" },
     fruitTag: "fruits on the map", wikidata: "Wikidata", wikiRec: "Wiki: Tree species records",
-    recTitle: "Record trees", recLead: "The trees of this species with the largest measurements and the most isolated one, across all the regions of the site and the monumental map. ⚠ = value reported by a check: it may be wrong.",
+    recTitle: "Record trees", recLead: "The trees of this species with the largest measurements, the highest elevation and the most isolated one, across all the regions of the site and the monumental map. ⚠ = value reported by a check: it may be wrong.",
     nWarn: n => `${n} reported ⚠`,
-    rc: { height: "Tallest", trunk: "Thickest trunk", slender: "Most slender", stocky: "Stockiest", crown: "Widest crown", oldest: "Oldest", isolated: "Most isolated" },
-    unit: { height: "m", trunk: "m girth", slender: "height/diameter", stocky: "height/diameter", crown: "m across", oldest: "", isolated: "km" },
+    rc: { height: "Tallest", trunk: "Thickest trunk", slender: "Most slender", stocky: "Stockiest", crown: "Widest crown", oldest: "Oldest", elevation: "Highest elevation", isolated: "Most isolated" },
+    unit: { height: "m", trunk: "m girth", slender: "height/diameter", stocky: "height/diameter", crown: "m across", oldest: "", elevation: "m a.s.l.", isolated: "km" },
+    elevHow: "Only the trees of the regions, from the Copernicus GLO-30 model (the surface, crowns and buildings included; in Switzerland the ground, from swissALTI3D).",
     isoNear: { tree: "Nearest: a tree", wood: "Nearest: a wood", forest: "Nearest: a forest", tree_row: "Nearest: a tree row" },
     isoCap: "No tree, wood or tree row within 50 km",
     isoHow: "Distance from the nearest of the other trees (of any species), woods and tree rows on OpenStreetMap.",
@@ -243,6 +252,10 @@ const I18N = {
     rulMax: "largest on OSM", rulRec: "wiki record",
     height: "Height", trunkM: "Trunk circumference", crownM: "Crown diameter", median: "median",
     on: n => `from ${n} trees`, few: "Too few trees with this measurement.",
+    elevTitle: "Elevation",
+    elevLead: "Height above sea level of the trees mapped in the DendrOSM regions. Outside Switzerland it comes from the Copernicus GLO-30 model, which measures the surface in 30 m cells, crowns and buildings included; in Switzerland from the swissALTI3D terrain model. The chart shows how many trees there are in each elevation band (from the 0.5th to the 99.5th percentile): the dark bars are the middle 90%, the dashed line is the median.",
+    elevBand: (a, b) => `90% of the mapped trees are between about ${a} and ${b} m above sea level.`,
+    elevMissing: n => `${n} ${n === "1" ? "tree" : "trees"} from regions without elevations yet are not counted.`,
     hc: "Height / circumference", crc: "Crown / circumference",
     hcInfo: "Metres of height for each metre of circumference: the higher, the more slender the tree.",
     crcInfo: "Metres of crown for each metre of circumference.",
@@ -342,9 +355,10 @@ async function fillCap(cap) {
 
 // ---------- primati ----------
 // isolated: calcolato con QLever da build_species.py (species_isolated); "cap" = niente entro 50 km («> 50»)
-const REC = ["height", "trunk", "crown", "slender", "stocky", "oldest", "isolated"];
+// elevation: «Quota più alta», i primi TOP per "elev" (build_species.py, come il tab della mappa); al metro
+const REC = ["height", "trunk", "crown", "slender", "stocky", "oldest", "elevation", "isolated"];
 const recVal = (k, t) => k === "oldest" ? esc(t.tags.start_date || t.tags.planted_date || t.v) : k === "isolated" && t.cap ? `&gt; ${fmt(t.v)}`
-  : fmt(t.v, k === "slender" || k === "stocky" ? 1 : 2);
+  : fmt(t.v, k === "elevation" ? 0 : k === "slender" || k === "stocky" ? 1 : 2);
 const isoNear = t => t.cap ? T.isoCap : T.isoNear[t.nk] || "";
 function recRow(k, t, warn = true) {   // warn = false: il ⚠ è già accanto al valore in grande
   const place = regName(t.r) || T.monMap;
@@ -383,6 +397,7 @@ function records() {
       <div class="val">${recVal(k, t)}${t.w ? ` <span class="warn" title="${T.warned}">⚠</span>` : ""} <small>${T.unit[k]}</small></div>
       <div class="who">${recRow(k, t, false)}${evBtn(t)}</div>${evText(t)}
       ${iso ? `<div class="wiki">${esc(isoNear(t))}</div><div class="wiki">${esc(T.isoHow)}</div>` : ""}
+      ${k === "elevation" ? `<div class="wiki">${esc(T.elevHow)}</div>` : ""}
       ${wiki[k] ? `<div class="wiki">${T.wikiVal(fmt(wiki[k], 2) + " m")}</div>` : ""}
       ${rest.length ? `<details><summary>${T.others(list.length)}${nWarn ? ` · ${T.nWarn(nWarn)}` : ""}</summary><ol>${rest.join("")}</ol></details>` : ""}</div>`;
   }).join("");
@@ -390,13 +405,16 @@ function records() {
 }
 
 // ---------- misure tipiche ----------
-function histSvg(h, med, unit) {
-  const W = 320, H = 110, P = 18, n = h.bins.length, max = Math.max(...h.bins), bw = (W - 8) / n;
-  const bars = h.bins.map((c, i) => `<rect x="${4 + i * bw + 0.5}" y="${H - P - (H - P - 6) * c / max}" width="${Math.max(1, bw - 1)}" height="${(H - P - 6) * c / max}" fill="#7fb38a"/>`).join("");
+// h.start: valore della prima classe (0 se manca; l'altitudine parte dalla sua quota più bassa). band = [da, a]: le
+// classi dentro la fascia più scure, le altre chiare (il 90% centrale dell'altitudine); senza band tutte uguali
+function histSvg(h, med, unit, band) {
+  const W = 320, H = 110, P = 18, n = h.bins.length, max = Math.max(...h.bins), bw = (W - 8) / n, s0 = h.start || 0;
+  const col = i => !band ? "#7fb38a" : s0 + (i + 0.5) * h.step >= band[0] && s0 + (i + 0.5) * h.step <= band[1] ? "#5a9e68" : "#c3dcc8";
+  const bars = h.bins.map((c, i) => `<rect x="${4 + i * bw + 0.5}" y="${H - P - (H - P - 6) * c / max}" width="${Math.max(1, bw - 1)}" height="${(H - P - 6) * c / max}" fill="${col(i)}"/>`).join("");
   const step = h.step, ticks = [];
   const every = Math.ceil(n / 6);
-  for (let i = 0; i <= n; i += every) ticks.push(`<text x="${4 + i * bw}" y="${H - 4}" font-size="10" fill="#5d6b61" text-anchor="middle">${fmt(i * step, 2)}</text>`);
-  const mx = med != null ? 4 + med / step * bw : null;
+  for (let i = 0; i <= n; i += every) ticks.push(`<text x="${4 + i * bw}" y="${H - 4}" font-size="10" fill="#5d6b61" text-anchor="middle">${fmt(s0 + i * step, 2)}</text>`);
+  const mx = med != null ? 4 + (med - s0) / step * bw : null;
   return `<svg viewBox="0 0 ${W} ${H}" role="img">${bars}
     <line x1="4" x2="${W - 4}" y1="${H - P}" y2="${H - P}" stroke="#c9d1cb"/>${ticks.join("")}
     ${mx != null ? `<line x1="${mx}" x2="${mx}" y1="4" y2="${H - P}" stroke="#1b6b2c" stroke-width="1.5" stroke-dasharray="3 2"/>` : ""}</svg>`;
@@ -461,6 +479,24 @@ function sizes() {
   return `<section><h2>${T.sizeTitle}</h2><p class="lead">${T.sizeLead}</p>
     <div class="grid3">${box(T.height, S.height, "m", D.wiki.height)}${box(T.trunkM, S.trunk, "m", D.wiki.circumference)}${box(T.crownM, S.crown, "m")}</div>
     <div class="ratios">${ratio(T.hc, S.h_c, T.hcInfo, D.wiki.height_circ_ratio, T.axH)}${ratio(T.crc, S.cr_c, T.crcInfo, D.wiki.crown_circ_ratio, T.axCr)}</div></section>`;
+}
+
+// ---------- altitudine ----------
+// D.stats.elev (build_species.py, elevation_stats): fascia del 90% centrale arrotondata ai 10 m, mediana e istogramma;
+// elev_of = alberi delle regioni nel conto, per dire quanti sono senza quota. Senza dati la sezione non c'è
+function elevation() {
+  const e = D.stats.elev;
+  if (!e) return "";
+  const r10 = v => fmt(Math.round(v / 10) * 10);
+  const missing = (D.stats.elev_of || 0) - e.n;
+  // la spiegazione (fonte delle quote, come leggere il grafico) nel (?) accanto al titolo, aperto al passaggio del mouse o toccandolo
+  const tip = `<span class="tip inl" tabindex="0" role="button" aria-label="${esc(T.scHelp)}">?<span class="tipbox" role="tooltip">${T.elevLead}</span></span>`;
+  return `<section><h2>${T.elevTitle}${tip}</h2>
+    <div class="card stat" style="max-width:560px;margin-top:8px"><div><span class="big">${r10(e.p5)}–${r10(e.p95)} m</span>
+    <span class="n">${T.median} ${r10(e.med)} m, ${T.on(fmt(e.n))}</span></div>
+    <div style="font-size:14px;margin-top:2px">${T.elevBand(r10(e.p5), r10(e.p95))}</div>
+    ${histSvg(e.hist, e.med, "m", [e.p5, e.p95])}
+    ${missing > 0 ? `<div class="n">${T.elevMissing(fmt(missing))}</div>` : ""}</div></section>`;
 }
 
 // ---------- distribuzione ----------
@@ -704,7 +740,7 @@ function render() {
   if (FROM) { const b = document.querySelector("header.top .brand"); b.href = treeLink(FROM); b.title = T.back; }
   const view = map ? { c: map.getCenter(), z: map.getZoom() } : null;
   if (map) { map.remove(); map = null; BOUNDS = null; }
-  document.getElementById("main").innerHTML = hero() + looks() + sexes() + records() + sizes() + mapSection();
+  document.getElementById("main").innerHTML = hero() + looks() + sexes() + records() + sizes() + elevation() + mapSection();
   document.getElementById("foot").innerHTML = T.foot(new Date(D.updated).toLocaleDateString(LOC, { day: "numeric", month: "long", year: "numeric" }));
   initMap(); bindMap(); bindLooks(); bindEvents(); fillCredit();
   if (view) map.once("load", () => map.jumpTo({ center: view.c, zoom: view.z }));
