@@ -334,8 +334,8 @@
       <li><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1b6b2c" stroke-width="1"/><circle cx="7" cy="8" r="1.8" fill="#d63a2f"/><circle cx="15" cy="7" r="1.8" fill="#f5d90a"/><circle cx="16" cy="14" r="1.8" fill="#f28a00"/><circle cx="8" cy="15" r="1.8" fill="#b8d63a" stroke="#2f4a0c" stroke-width="0.6"/></svg> <span data-i18n="legFruit">Frutti (stagionali)</span></li>
       <!-- solo dall'8 dicembre al 6 gennaio (XMAS nello script): chioma aghifoglia con lucine e stella -->
       <li id="leg-xmas" hidden><svg width="22" height="22" viewBox="0 0 22 22"><polygon points="11.0,1.4 12.6,4.1 15.2,2.4 15.4,5.4 18.5,5.0 17.4,7.9 20.4,8.9 18.1,11.0 20.4,13.1 17.4,14.1 18.5,17.0 15.4,16.6 15.2,19.6 12.6,17.9 11.0,20.6 9.4,17.9 6.8,19.6 6.6,16.6 3.5,17.0 4.6,14.1 1.6,13.1 3.9,11.0 1.6,8.9 4.6,7.9 3.5,5.0 6.6,5.4 6.8,2.4 9.4,4.1" stroke-linejoin="round" fill="#1f6b35" fill-opacity=".75" stroke="#1b6b2c" stroke-width="1"/><g stroke="#fff" stroke-width=".5"><circle cx="6.5" cy="8" r="1.6" fill="#e8322b"/><circle cx="15.5" cy="7" r="1.6" fill="#f6c21b"/><circle cx="16" cy="14.5" r="1.6" fill="#2f7de1"/><circle cx="7" cy="15" r="1.6" fill="#2fae4a"/></g><path d="M11 7.2L12 9.7L14.6 9.8L12.6 11.4L13.3 14L11 12.5L8.7 14L9.4 11.4L7.4 9.8L10 9.7Z" fill="#ffd21f" stroke="#9a6a00" stroke-width=".5" stroke-linejoin="round"/></svg> <span data-i18n="legXmas">Albero di Natale</span></li>
-      <!-- martenitsa (#88): solo in marzo e fino al 15 aprile (MART nello script) e solo nei paesi di MART_ISO: filo bianco-rosso con una nappina bianca e una rossa -->
-      <li id="leg-mart" hidden><svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 2.5V6.5M11 6.5L7 10.5M11 6.5L15 10.5" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/><path d="M11 2.5V6.5M11 6.5L7 10.5M11 6.5L15 10.5" fill="none" stroke="#d0202e" stroke-width="2" stroke-dasharray="1.4 1.4"/><circle cx="11" cy="6.5" r="1.4" fill="#d0202e"/><path d="M5.6 10.5H8.4L9.6 19.5H4.4Z" fill="#ffffff" stroke="#8a8a8a" stroke-width=".7" stroke-linejoin="round"/><path d="M13.6 10.5H16.4L17.6 19.5H12.4Z" fill="#d0202e" stroke="#8a1018" stroke-width=".7" stroke-linejoin="round"/><path d="M4.6 12.5H9.4M12.6 12.5H17.4" stroke-width=".8" stroke="#8a8a8a"/></svg> <span data-i18n="legMart">Martenitsa</span></li>
+      <!-- martenitsa (#88): solo in marzo e fino al 15 aprile (MART nello script) e solo nei paesi di MART_ISO: filo bianco-rosso sulla chioma con una nappina bianca e una rossa ai capi -->
+      <li id="leg-mart" hidden><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="none" stroke="#1b6b2c" stroke-width="1"/><path d="M5.5 13.5Q11 7 16.5 13.5" fill="none" stroke="#8a8a8a" stroke-width="2.6"/><path d="M5.5 13.5Q11 7 16.5 13.5" fill="none" stroke="#ffffff" stroke-width="1.6"/><path d="M5.5 13.5Q11 7 16.5 13.5" fill="none" stroke="#d0202e" stroke-width="1.6" stroke-dasharray="1.6 1.6"/><circle cx="5.5" cy="13.5" r="1.8" fill="#ffffff" stroke="#8a8a8a" stroke-width=".6"/><circle cx="16.5" cy="13.5" r="1.8" fill="#d0202e" stroke="#8a1018" stroke-width=".6"/></svg> <span data-i18n="legMart">Martenitsa</span></li>
       <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><path d="M5 5L17 17M17 5L5 17" stroke="#5a3a1a" stroke-width="3" stroke-linecap="round"/></svg> <span data-i18n="legStump">Ceppo</span></li>
       <!-- filare senza alberi mappati (#56): alberi finti chiari con il contorno tratteggiato, come row-crown e row-line -->
       <li class="qa-only"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8" fill="#5fa36f" fill-opacity=".3" stroke="#1b6b2c" stroke-opacity=".6" stroke-width="1" stroke-dasharray="2 2"/><circle cx="11" cy="11" r="1.5" fill="#7b4a1e" fill-opacity=".35"/></svg> <span data-i18n="legRow">Filare</span></li>
@@ -1806,8 +1806,8 @@ const XMAS = (() => { const d = new Date(), m = d.getMonth() + 1, g = d.getDate(
   return hashParams().get("xmas") === "1" || (m === 12 && g >= 8) || (m === 1 && g <= 6); })();
 const isXmas = p => XMAS && !!p.xmas;
 { const li = document.getElementById("leg-xmas"); if (li) li.hidden = !XMAS; }
-// Martenitsa (#88): fili bianco-rossi con due nappine appesi agli alberi, come si fa in Bulgaria e Macedonia del Nord
-// in primavera. Non dipende dai tag: circa un albero su cinque, scelto dall'id (più spesso i generi che fioriscono
+// Martenitsa (#88): fili bianco-rossi con due nappine sulle chiome, come quelli che in Bulgaria e Macedonia del Nord
+// si legano agli alberi in primavera. Non dipende dai tag: circa un albero su cinque, scelto dall'id (più spesso i generi che fioriscono
 // presto, MART_GENERA; mai aghifoglie, palme e ceppi). Ogni albero la riceve in un giorno di marzo, dall'id, e la tiene
 // fino al 15 aprile, nella data di chi guarda. Solo nella mappa delle regioni e nelle regioni dei paesi di MART_ISO;
 // la voce di legenda si vede solo lì (setCurrent). #martenitsa=1 nell'indirizzo le mostra tutte, anche fuori periodo.
@@ -2316,8 +2316,10 @@ map.on("load", async () => {
   const XMAS_COLORS = ["#e8322b", "#f6c21b", "#2f7de1", "#2fae4a", "#f07a1a"], XMAS_SLOTS = 24;
   const inSeason = (fm, lat) => !fm || String(fm).split(",").map(Number).includes(lat < 0 ? (MONTH + 5) % 12 + 1 : MONTH);
   // martenitsa: alberi della regione divisi in celle di MART_CELL gradi, rifatte quando cambiano i dati (ALL);
-  // martNear dà i tronchi degli altri alberi entro 15 m circa, in metri dall'albero (dx verso est, dy verso nord)
-  const MART_POS = 12, MART_CELL = 0.0002;
+  // martNear dà i tronchi degli altri alberi entro 15 m circa, in metri dall'albero (dx verso est, dy verso nord).
+  // Il filo è un arco intorno al centro dell'albero: MART_ARC = metà dell'angolo che copre, MART_SEP = distanza
+  // minima (in angolo) fra i centri di due fili dello stesso albero, perché non si sovrappongano
+  const MART_POS = 12, MART_CELL = 0.0002, MART_ARC = 0.42, MART_SEP = 1.0;
   let martGrid = null, martGridOf = null;
   const martNear = (lon, lat, id) => {
     if (martGridOf !== ALL) {
@@ -2410,26 +2412,35 @@ map.on("load", async () => {
     }
     if (isMart(p)) {                              // martenitsa: 1, 2 o 3 secondo la chioma, verso il bordo
       const cr = p.cr, nm = cr < 3 ? 1 : cr < 5 ? 2 : 3, rot = hash01(id, 302) * 2 * Math.PI;
-      // tronchi vicini (martGrid): una martenitsa sta solo dove il tronco più vicino è quello del suo albero, perché
-      // con le chiome sovrapposte non sembri appesa all'albero accanto. Si prova a MART_POS direzioni, a 0,6 della
-      // chioma e poi a 0,35; tra quelle buone se ne prendono nm, il più possibile distanti fra loro
+      // tronchi vicini (martGrid): una martenitsa sta solo dove il tronco più vicino è quello del suo albero (al centro
+      // e ai due capi del filo), perché con le chiome sovrapposte non sembri appesa all'albero accanto. Si prova a
+      // MART_POS direzioni, a 0,6 della chioma e poi a 0,35; tra quelle buone se ne prendono nm, il più possibile
+      // distanti fra loro e mai con i fili sovrapposti (MART_SEP)
       const near = martNear(lon, lat, id);
       const ok = (dx, dy) => near.every(([nx, ny]) => Math.hypot(dx - nx, dy - ny) > Math.hypot(dx, dy) + 0.3);
+      const okArc = (a, d) => [a - MART_ARC, a, a + MART_ARC].every(b => ok(d * Math.cos(b), d * Math.sin(b)));
       let spots = [];
       for (const fr of [0.6, 0.35]) {
         const d = cr * fr;
         spots = Array.from({ length: MART_POS }, (_, k) => rot + k * 2 * Math.PI / MART_POS)
-          .map(a => [a, d]).filter(([a]) => ok(d * Math.cos(a), d * Math.sin(a)));
+          .map(a => [a, d]).filter(([a]) => okArc(a, d));
         if (spots.length) break;
       }
       if (!spots.length) spots = [[rot, cr * 0.2]];   // tronco accanto quasi sovrapposto: una sola, vicina al tronco (la scheda la cita)
-      const picked = nm >= spots.length ? spots : Array.from({ length: nm }, (_, j) => spots[Math.floor(j * spots.length / nm)]);
+      const n = Math.min(nm, spots.length), picked = [];
+      const gap = (x, y) => Math.abs(((x - y) % (2 * Math.PI) + 3 * Math.PI) % (2 * Math.PI) - Math.PI);   // angolo fra due direzioni
+      for (let j = 0; j < n; j++) {
+        const s = spots[Math.floor(j * spots.length / n)];
+        if (picked.every(([b]) => gap(s[0], b) >= MART_SEP)) picked.push(s);
+      }
       for (const [a, d] of picked) {
-        // grandezza in metri, metà del raggio della chioma: cresce con lo zoom come l'albero
-        const f = pt(d * Math.cos(a), d * Math.sin(a), "mart", cr * 0.5);
-        // rotazione (gradi in senso orario dal nord) che porta il nodo, in cima all'immagine, verso il centro dell'albero
-        f.properties.dro = (270 - a * 180 / Math.PI + 360) % 360;
-        out.push(f);
+        // filo: arco di 2·MART_ARC a distanza d dal centro, spesso 0,045 del raggio della chioma; ai capi una nappina
+        // bianca e una rossa di raggio 0,07 della chioma. Misure in metri: crescono con lo zoom come l'albero
+        const arc = Array.from({ length: 9 }, (_, k) => { const b = a - MART_ARC + k * MART_ARC / 4;
+          return [lon + d * Math.cos(b) * kx, lat + d * Math.sin(b) * ky]; });
+        out.push({ type: "Feature", properties: { ...fp, dk: "mart-cord", dr: cr * 0.045 }, geometry: { type: "LineString", coordinates: arc } });
+        for (const [b, dc] of [[a - MART_ARC, "#ffffff"], [a + MART_ARC, "#d0202e"]])
+          out.push(pt(d * Math.cos(b), d * Math.sin(b), "mart-tassel", cr * 0.07, dc));
       }
     }
     if (p.fruit && p.cr) {                        // 5, 6 o 7 frutti secondo la grandezza della chioma
@@ -2611,29 +2622,10 @@ map.on("load", async () => {
     g.lineJoin = "round"; g.lineWidth = 4; g.strokeStyle = "#9a6a00"; g.stroke();
     map.addImage("xmas-star", g.getImageData(0, 0, 128, 128), { pixelRatio: 2 });
   }
-  if (MART) {                                     // martenitsa: filo bianco-rosso ritorto con nappina bianca e rossa (raggio 32)
-    const c = document.createElement("canvas"); c.width = c.height = 128;
-    const g = c.getContext("2d");
-    const cord = (x0, y0, x1, y1) => {            // filo: bianco sotto, tratti rossi sopra (l'intreccio)
-      g.lineCap = "round"; g.lineWidth = 9; g.strokeStyle = "#ffffff"; g.setLineDash([]);
-      g.beginPath(); g.moveTo(x0, y0); g.lineTo(x1, y1); g.stroke();
-      g.lineCap = "butt"; g.lineWidth = 9; g.strokeStyle = "#d0202e"; g.setLineDash([7, 7]);
-      g.beginPath(); g.moveTo(x0, y0); g.lineTo(x1, y1); g.stroke();
-    };
-    cord(64, 6, 64, 34); cord(64, 34, 38, 58); cord(64, 34, 90, 58);
-    g.setLineDash([]);
-    g.beginPath(); g.arc(64, 34, 8, 0, 2 * Math.PI); g.fillStyle = "#d0202e"; g.fill();
-    const tassel = (cx, fill, line) => {          // nappina: testa stretta e frange che si allargano verso il basso
-      g.beginPath(); g.moveTo(cx - 9, 58); g.lineTo(cx + 9, 58); g.lineTo(cx + 16, 122); g.lineTo(cx - 16, 122); g.closePath();
-      g.fillStyle = fill; g.fill(); g.lineJoin = "round"; g.lineWidth = 3; g.strokeStyle = line; g.stroke();
-      g.lineWidth = 3; g.beginPath(); g.moveTo(cx - 10, 70); g.lineTo(cx + 10, 70); g.stroke();   // legatura
-      g.lineWidth = 1.5; g.beginPath();
-      for (const t of [-0.5, 0, 0.5]) { g.moveTo(cx + t * 14, 78); g.lineTo(cx + t * 24, 118); }
-      g.stroke();
-    };
-    tassel(38, "#ffffff", "#8a8a8a"); tassel(90, "#d0202e", "#8a1018");
-    map.addImage("martenitsa", g.getImageData(0, 0, 128, 128), { pixelRatio: 2 });
-  }
+  // martenitsa: spessore del filo in pixel dai metri di dr (almeno 1,6 px), più extra px per il bordo grigio
+  const martWidth = extra => ["interpolate", ["exponential", 2], ["zoom"],
+    ...Array.from({ length: 23 }, (_, z) => [z, extra ? ["+", px("dr", 1.6, z), extra] : px("dr", 1.6, z)]).flat()];
+  const MART_CORD = ["==", ["get", "dk"], "mart-cord"];
   // tronco più grande della chioma su un albero con errori (di solito una misura sbagliata): il tronco, disegnato
   // della sua grandezza reale, coprirebbe la chioma e il suo contorno rosso; il contorno rosso va allora sul tronco
   const BIG_TRUNK_ISSUE = ["all", HAS_ISSUE, [">", ["coalesce", ["get", "tr"], 0], ["coalesce", ["get", "cr"], 0]]];
@@ -2691,11 +2683,16 @@ map.on("load", async () => {
       "circle-radius": radius("dr", 1.5), "circle-color": ["get", "dc"], "circle-pitch-alignment": "map",
       // noci (verde chiaro come il mallo): un bordo verde scuro le stacca dalla chioma, anch'essa verde
       "circle-stroke-color": "#2f4a0c", "circle-stroke-width": ["case", ["==", ["get", "dc"], "#b8d63a"], 0.8, 0] } }) },
-    // martenitsa (isMart): ferme, con il nodo verso il centro dell'albero e le nappine verso l'esterno (dro)
-    ...(MART ? [{ id: "mart", base: ["==", ["get", "dk"], "mart"], spec: () => ({ type: "symbol", source: "deco", minzoom: SHAPE_Z,
-      layout: { "icon-image": "martenitsa", "icon-size": radius("dr", 3, 32), "icon-allow-overlap": true,
-        "icon-ignore-placement": true, "icon-rotate": ["get", "dro"], "icon-pitch-alignment": "map",
-        "icon-rotation-alignment": "map" } }) }] : []),
+    // martenitsa (isMart): filo bianco a tratti rossi (l'intreccio) posato sulla chioma, con un sottile bordo grigio
+    // perché si veda anche sulle chiome spoglie e chiare, come il tronco della betulla; ai capi una nappina bianca e
+    // una rossa, cerchi come i frutti e le lucine
+    ...(MART ? [
+      ...[["mart-case", "#8a8a8a", 1.2], ["mart-cord", "#ffffff", 0], ["mart-dash", "#d0202e", 0, [1.3, 1.3]]].map(([id, color, extra, dash]) => ({
+        id, base: MART_CORD, spec: () => ({ type: "line", source: "deco", minzoom: SHAPE_Z, layout: { "line-join": "round" },
+          paint: { "line-color": color, "line-width": martWidth(extra), ...(dash ? { "line-dasharray": dash } : {}) } }) })),
+      { id: "mart-tassel", base: ["==", ["get", "dk"], "mart-tassel"], spec: () => ({ type: "circle", source: "deco", minzoom: SHAPE_Z,
+        paint: { "circle-radius": radius("dr", 2), "circle-color": ["get", "dc"], "circle-pitch-alignment": "map",
+          "circle-stroke-color": ["case", ["==", ["get", "dc"], "#ffffff"], "#8a8a8a", "#8a1018"], "circle-stroke-width": 0.8 } }) }] : []),
     // albero di Natale: lucine (opacità cambiata da blinkLights) con un bordo bianco che le stacca dalla chioma, e stella
     { id: "light", base: ["==", ["get", "dk"], "light"], spec: () => ({ type: "circle", source: "deco", minzoom: SHAPE_Z, paint: {
       "circle-radius": radius("dr", 1.5), "circle-color": ["get", "dc"], "circle-pitch-alignment": "map",
