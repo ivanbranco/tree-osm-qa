@@ -12280,6 +12280,23 @@
 "ranks": [],
 "taxon": false
 },
+"Q1571895": {
+"alias": {
+"en": [
+"Hall crabapple"
+],
+"it": []
+},
+"en": "Malus halliana",
+"it": "Malus halliana",
+"names": [
+"Malus halliana"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q157214": {
 "en": "Araucaria",
 "it": "Araucaria",
@@ -17554,6 +17571,21 @@
 "en": "Aesculus glabra",
 "names": [
 "Aesculus glabra"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q1817587": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Nothofagus pumilio",
+"it": "Nothofagus pumilio",
+"names": [
+"Nothofagus pumilio"
 ],
 "ranks": [
 "Q7432"
@@ -25534,6 +25566,21 @@
 ],
 "taxon": true
 },
+"Q3410269": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Pterocarya × rehderiana",
+"it": "Pterocarya ×rehderiana",
+"names": [
+"Pterocarya × rehderiana"
+],
+"ranks": [
+"Q1306176"
+],
+"taxon": true
+},
 "Q3414210": {
 "alias": {
 "en": [
@@ -27012,6 +27059,21 @@
 "it": "Quercus nigra",
 "names": [
 "Quercus nigra"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q4115345": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Platanus wrightii",
+"it": "Platanus wrightii",
+"names": [
+"Platanus wrightii"
 ],
 "ranks": [
 "Q7432"
@@ -31948,6 +32010,21 @@
 "it": "Ravenala madagascariensis",
 "names": [
 "Ravenala madagascariensis"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
+"Q6744981": {
+"alias": {
+"en": [],
+"it": []
+},
+"en": "Malus × brevipes",
+"it": "Malus brevipes",
+"names": [
+"Malus × brevipes"
 ],
 "ranks": [
 "Q7432"
