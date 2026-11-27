@@ -37,13 +37,13 @@
    "updated": "2026-11-27T00:10:27Z"
   },
   "alvernia-rodano-alpi": {
-   "count": 385138,
-   "errors": 1794,
+   "count": 385180,
+   "errors": 1804,
    "name": "Alvernia-Rodano-Alpi",
-   "osm_base": "2026-11-27T00:03:57Z",
-   "sha1": "ce24bc4c1f791e58b5b3c73ad5ec10e2e35c9afb",
+   "osm_base": "2026-11-27T20:07:22Z",
+   "sha1": "0a619fdaa0f6dfcebda8265b90757af28d76811c",
    "tried": "2026-11-27",
-   "updated": "2026-11-27T00:06:39Z"
+   "updated": "2026-11-27T20:09:52Z"
   },
   "andalusia": {
    "count": 190268,
