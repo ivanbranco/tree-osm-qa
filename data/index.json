@@ -46,13 +46,13 @@
    "updated": "2026-11-27T20:09:52Z"
   },
   "andalusia": {
-   "count": 190268,
-   "errors": 2668,
+   "count": 190269,
+   "errors": 2822,
    "name": "Andalusia",
-   "osm_base": "2026-11-27T00:30:20Z",
-   "sha1": "97189e2ba32408deb6990bc12b7eda3f41e9bbe1",
-   "tried": "2026-11-27",
-   "updated": "2026-11-27T00:32:14Z"
+   "osm_base": "2026-11-28T11:57:06Z",
+   "sha1": "5d3ad1cab61e647541ce703a973368995fb17c6d",
+   "tried": "2026-11-28",
+   "updated": "2026-11-28T11:59:19Z"
   },
   "andorra": {
    "count": 849,
@@ -181,13 +181,13 @@
    "updated": "2026-11-27T00:50:13Z"
   },
   "canarie": {
-   "count": 65857,
-   "errors": 1037,
+   "count": 65859,
+   "errors": 1038,
    "name": "Canarie",
-   "osm_base": "2026-11-27T00:32:21Z",
-   "sha1": "50b19e44dbd9531dd0734ec38f6151792ea5024f",
-   "tried": "2026-11-27",
-   "updated": "2026-11-27T00:34:22Z"
+   "osm_base": "2026-11-28T11:55:06Z",
+   "sha1": "fb8a7f71c5c77f455f5d64fe96c4ce03d228fa68",
+   "tried": "2026-11-28",
+   "updated": "2026-11-28T11:58:26Z"
   },
   "cantabria": {
    "count": 51352,
