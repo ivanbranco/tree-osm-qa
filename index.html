@@ -3888,7 +3888,8 @@ map.on("load", async () => {
   // tasto E («Expert», non scritto nella pagina): attorno agli alberi in vista con almeno un consiglio (ⓘ della scheda, hints) e
   // nessun errore, un anello rosso tratteggiato, per distinguerli dagli errori (cerchio rosso pieno). Da zoom ALL_Z,
   // dove ci sono tutti gli alberi; gli anelli si rifanno a ogni spostamento, grandi quanto la chioma (almeno 4 px) più
-  // 3 px, al più HINT_CAP (i più vicini al centro). Segue il filtro di genus/specie, non quello degli errori.
+  // 3 px, al più HINT_CAP (i più vicini al centro). Segue il filtro di genus/specie; con un errore scelto nel menu
+  // degli errori gli alberi senza errori sono nascosti, e con loro gli anelli.
   const HINT_CAP = 5000, HINT_SEG = 32;
   let hintsOn = false;
   map.addSource("hint-marks", { type: "geojson", data: EMPTY });
@@ -3902,7 +3903,7 @@ map.on("load", async () => {
     return p._hn; };
   const updateHintMarks = () => {
     const src = map.getSource("hint-marks");
-    if (!hintsOn || WORLD || map.getZoom() < ALL_Z) { src.setData(EMPTY); return; }
+    if (!hintsOn || WORLD || map.getZoom() < ALL_Z || issSel.value) { src.setData(EMPTY); return; }
     const b = map.getBounds(), w = b.getWest(), e = b.getEast(), s = b.getSouth(), n = b.getNorth();
     const tx = taxSel.value, z = map.getZoom();
     let list = ALL.filter(ft => { const [x, y] = ft.geometry.coordinates, p = ft.properties;
@@ -3924,7 +3925,7 @@ map.on("load", async () => {
   };
   let hintTimer;
   map.on("moveend", () => { if (hintsOn) { clearTimeout(hintTimer); hintTimer = setTimeout(updateHintMarks, 100); } });
-  taxSel.addEventListener("change", () => { if (hintsOn) updateHintMarks(); });
+  for (const sel of [taxSel, issSel]) sel.addEventListener("change", () => { if (hintsOn) updateHintMarks(); });
   addEventListener("keydown", e => {
     if (e.key.toLowerCase() !== "e" || e.ctrlKey || e.metaKey || e.altKey || WORLD) return;
     if (e.target.closest?.("input, select, textarea, [contenteditable], dialog") || document.querySelector("dialog[open]")) return;
