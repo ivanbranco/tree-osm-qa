@@ -708,7 +708,8 @@ const I18N = {
       taxon_mismatch: "Taxon indica un'altra specie o genere", name_botanical: "name:botanical (deprecato)",
       link_format: "Link con formato non valido", broken_link: "Link non raggiungibile",
       website_wikipedia: "Voce di Wikipedia in website",
-      commons_far: "Foto di Commons a più di 500 m", wikidata_mismatch: "species:wikidata incoerente con la species",
+      commons_far: "Foto di Commons a più di 500 m", photo_shared: "Stessa foto di un albero a più di 500 m",
+      ref_shared: "Stesso wikidata o ref:inaturalist.org di un albero a più di 500 m", wikidata_mismatch: "species:wikidata incoerente con la species",
       wikidata_not_taxon: "species/genus:wikidata non è un taxon", wikidata_is_taxon: "wikidata è un taxon",
       wikidata_redirect: "Elemento Wikidata reindirizzato", wikidata_deleted: "Elemento Wikidata cancellato",
       wikidata_far: "Elemento wikidata a più di 1 km", wikidata_photo_far: "Foto dell'elemento wikidata a più di 500 m",
@@ -954,6 +955,8 @@ const I18N = {
       website_wikipedia: "website=* o url=* con l'indirizzo di una voce di Wikipedia: per le voci c'è il tag wikipedia=*, che indica la voce del singolo albero.",
       broken_link: "Segnalati: pagine 404 o 410, siti che non esistono più e file assenti su Commons. Non sono segnalati 403, 429, errori del server e timeout, che spesso sono blocchi verso i programmi automatici.",
       commons_far: "Le coordinate del file di Commons collegato (wikimedia_commons o image) distano più di 500 m dall'albero. Si usa la posizione del soggetto se il file la indica, altrimenti la posizione di scatto.",
+      photo_shared: "La stessa foto (file di Commons in wikimedia_commons o image, indirizzo in image, mapillary, panoramax o image:fotoshi) è anche su un altro albero o ceppo della regione, a più di 500 m da questo. Una foto può mostrare più alberi vicini, come un filare: sotto i 500 m non è segnalata.",
+      ref_shared: "Lo stesso elemento di wikidata=* (che indica il singolo albero) o la stessa osservazione di ref:inaturalist.org è anche su un altro albero o ceppo della regione, a più di 500 m da questo. Gli elementi che sono un taxon hanno già il loro errore e non sono confrontati.",
       monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, ref:usop, heritage:operator=icnf o anf, le schede di monumentaltrees.com e gli elementi Wikidata con l'id di monumentaltrees.com (P9704) o istanza di pianta monumentale (Q811534) o con una tutela (P1435) indicano un albero monumentale, che in OSM ha denotation=natural_monument. È segnalato anche monument=tree senza denotation=natural_monument, da solo o con un'altra fonte. Sui ceppi ref:CRFOP e ref:gid non sono segnalati.",
       register_country: "Tag dei registri nazionali degli alberi monumentali: ref:masaf, masaf:criteria e ref:rami (Italia), ref:icnf e heritage:operator=icnf (Portogallo), heritage:operator=anf (Lussemburgo), ref:CRFOP e ref:gid (Polonia), ref:usop (Cechia). Segnalati sugli alberi delle regioni di altre nazioni.",
       masaf_criteria: "Codici ammessi: a–g, a1, a2, a2.1, a2.2, a2.3, separati da virgole senza spazi.",
@@ -1056,6 +1059,9 @@ const I18N = {
         : wp ? `${k}=* è una voce di Wikipedia (${v}) diversa da wikipedia=${wp}`
         : `${k}=* è una voce di Wikipedia: se la voce è di questo albero si scrive wikipedia=${v}; una voce su un luogo o su un elenco di alberi non va in wikipedia=*`,
       commons_far: (f, m, obj) => `${f}: la ${obj ? "posizione del soggetto" : "posizione di scatto"} indicata su Commons è a ${m} m da questo albero`,
+      // tag della foto, nodi lontani con la distanza già scritta ("123 (1,2 km)"), altri nodi non elencati (phs, fetch_trees.py)
+      photo_shared: (tag, nodes, more) => `${tag}: la stessa foto è anche ${nodes.length + more > 1 ? "sui nodi" : "sul nodo"} ${nodes.join(", ")}${more ? ` e su altri ${more}` : ""}`,
+      ref_shared: (tag, nodes, more) => `${tag} è anche ${nodes.length + more > 1 ? "sui nodi" : "sul nodo"} ${nodes.join(", ")}${more ? ` e su altri ${more}` : ""}`,
       linkWhy: { "404": "pagina inesistente (404)", "410": "pagina rimossa (410)", dns: "il sito non esiste più",
         missing: "file inesistente su Commons" },
       wikidata_name_mismatch: (kq, name, val) => `${kq} su Wikidata è ${name}, non ${val}`,
@@ -1380,7 +1386,8 @@ const I18N = {
       taxon_mismatch: "Taxon points to another species or genus", name_botanical: "name:botanical (deprecated)",
       link_format: "Link with invalid format", broken_link: "Broken link",
       website_wikipedia: "Wikipedia article in website",
-      commons_far: "Commons photo more than 500 m away", wikidata_mismatch: "species:wikidata inconsistent with species",
+      commons_far: "Commons photo more than 500 m away", photo_shared: "Same photo as a tree more than 500 m away",
+      ref_shared: "Same wikidata or ref:inaturalist.org as a tree more than 500 m away", wikidata_mismatch: "species:wikidata inconsistent with species",
       wikidata_not_taxon: "species/genus:wikidata is not a taxon", wikidata_is_taxon: "wikidata is a taxon",
       wikidata_redirect: "Wikidata item is a redirect", wikidata_deleted: "Wikidata item deleted",
       wikidata_far: "wikidata item more than 1 km away", wikidata_photo_far: "wikidata item photo more than 500 m away",
@@ -1616,6 +1623,8 @@ const I18N = {
       website_wikipedia: "website=* or url=* with the address of a Wikipedia article: articles have their own tag, wikipedia=*, which gives the article about the single tree.",
       broken_link: "Reported: 404 or 410 pages, sites that no longer exist and files missing on Commons. 403, 429, server errors and timeouts are not reported, as they are often blocks against automated tools.",
       commons_far: "The coordinates of the linked Commons file (wikimedia_commons or image) are more than 500 m from the tree. The object location is used if the file gives one, otherwise the camera location.",
+      photo_shared: "The same photo (Commons file in wikimedia_commons or image, address in image, mapillary, panoramax or image:fotoshi) is also on another tree or tree stump of the region, more than 500 m from this one. A photo can show several nearby trees, such as a row: under 500 m it is not reported.",
+      ref_shared: "The same item of wikidata=* (which indicates the single tree) or the same observation of ref:inaturalist.org is also on another tree or tree stump of the region, more than 500 m from this one. Items that are a taxon already have their own error and are not compared.",
       monument_denotation: "ref:masaf, ref:rami, ref:monumentaltrees, ref:CRFOP, ref:gid, ref:usop, heritage:operator=icnf or anf, monumentaltrees.com pages and Wikidata items with a monumentaltrees.com ID (P9704) or instance of monumental tree (Q811534) or with a heritage designation (P1435) indicate a monumental tree, which in OSM has denotation=natural_monument. monument=tree without denotation=natural_monument is reported too, alone or with another source. On tree stumps ref:CRFOP and ref:gid are not reported.",
       register_country: "Tags of the national registers of monumental trees: ref:masaf, masaf:criteria and ref:rami (Italy), ref:icnf and heritage:operator=icnf (Portugal), heritage:operator=anf (Luxembourg), ref:CRFOP and ref:gid (Poland), ref:usop (Czechia). Reported on trees of regions in other countries.",
       masaf_criteria: "Allowed codes: a–g, a1, a2, a2.1, a2.2, a2.3, separated by commas without spaces.",
@@ -1710,6 +1719,8 @@ const I18N = {
         : wp ? `${k}=* is a Wikipedia article (${v}) different from wikipedia=${wp}`
         : `${k}=* is a Wikipedia article: if the article is about this tree, it is written wikipedia=${v}; an article about a place or a list of trees does not go in wikipedia=*`,
       commons_far: (f, m, obj) => `${f}: the ${obj ? "object location" : "camera location"} given on Commons is ${m} m from this tree`,
+      photo_shared: (tag, nodes, more) => `${tag}: the same photo is also on ${nodes.length + more > 1 ? "nodes" : "node"} ${nodes.join(", ")}${more ? ` and ${more} more` : ""}`,
+      ref_shared: (tag, nodes, more) => `${tag} is also on ${nodes.length + more > 1 ? "nodes" : "node"} ${nodes.join(", ")}${more ? ` and ${more} more` : ""}`,
       linkWhy: { "404": "page not found (404)", "410": "page removed (410)", dns: "the website no longer exists",
         missing: "file not found on Commons" },
       wikidata_name_mismatch: (kq, name, val) => `${kq} is ${name} on Wikidata, not ${val}`,
@@ -3202,7 +3213,7 @@ map.on("load", async () => {
       "not_latin", "placeholder_value", "stump_taxon", "genus", "genus_lowercase", "genus_typo", "genus_family", "genus_common_name", "genus_mismatch", "name_taxon_missing", "name_taxon_mismatch", "taxon_mismatch", "name_botanical"]],
     ["wikidata", ["wikidata_mismatch", "wikidata_name_mismatch", "wikidata_rank", "wikidata_not_taxon",
       "wikidata_redirect", "wikidata_deleted", "wikidata_is_taxon", "wikipedia_is_taxon", "wikidata_tree_species", "wikidata_far", "wikidata_photo_far"]],
-    ["links", ["link_format", "broken_link", "website_wikipedia", "commons_far", "monument_denotation", "masaf_criteria", "masaf_removed", "masaf_unknown",
+    ["links", ["link_format", "broken_link", "website_wikipedia", "commons_far", "photo_shared", "ref_shared", "monument_denotation", "masaf_criteria", "masaf_removed", "masaf_unknown",
       "masaf_shared", "masaf_group_single", "register_country"]],
   ];
   const issueGroupOf = code => (ISSUE_GROUPS.find(([, codes]) => codes.includes(code)) || ["other"])[0];
@@ -5211,6 +5222,12 @@ const issueBase = (i, p) => {
     case "commons_far":          // cm_far: righe "metri|tipo|File:…" (fetch_trees.py)
       return String(p.cm_far || "").split("\n").filter(Boolean).map(x => { const [m, k, ...f] = x.split("|");
         return T[i](f.join("|"), Number(m).toLocaleString(LOC), k === "object"); }).join("\n");
+    // phs, rsh: righe "n|id:metri;…|tag" (shared_far_checks, fetch_trees.py)
+    case "photo_shared": case "ref_shared":
+      return String((i === "photo_shared" ? p.phs : p.rsh) || "").split("\n").filter(Boolean).map(r => { const [n, ids, ...tag] = r.split("|");
+        const nodes = ids.split(";").filter(Boolean).map(x => { const [id, m] = x.split(":");
+          return `${id} (${Number(m).toLocaleString(LOC)} m)`; });
+        return T[i](tag.join("|"), nodes, Number(n) - nodes.length); }).join("\n");
     case "wikidata_far":         // wd_far: "QID:km;…" (fetch_trees.py)
       return String(p.wd_far || "").split(";").map(x => { const [q, km] = x.split(":"); return T[i](q, Number(km).toLocaleString(LOC)); }).join("\n");
     case "wikidata_photo_far":   // wd_ph_far: righe "QID|metri|tipo|File:…" (fetch_trees.py)

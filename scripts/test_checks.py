@@ -1675,10 +1675,60 @@ def feature_failures():
                ("masaf_group_single: non su due alberi", not any(has(p, "masaf_group_single") for p in fb2.values())),
                ("masaf_group_single: non con una relazione con il codice", not has(fb_rel[9104], "masaf_group_single")),
                ("masaf_group_single: non fuori dall'Italia", not has(fb_out[9104], "masaf_group_single")),
+               *photo_shared_cases(masaf_build, has),
                ("monument=tree nel file ridotto", b'"id":8' in ft.minimal({"features": [{"properties": {
                    "id": 8, "issues": "|", "monument": "tree"}}]}))]
     out += [f"FALLITO: {n}" for n, ok in checks if not ok]
     return out
+
+
+def photo_shared_cases(build, has):
+    """Stessa foto (photo_shared), stesso wikidata o ref:inaturalist.org (ref_shared) su alberi lontani
+    (shared_far_checks): 0,01° di latitudine = 1112 m, 0,003° = 334 m.
+    Con PHOTO_SHARED_LIST = 1, 9209 ha due alberi lontani (9210 a 1112 m, 9211 a 2780 m) e ne scrive uno."""
+    at = lambda i, dlat, tags: {"type": "node", "id": i, "lat": POS[1] + dlat, "lon": POS[0], "tags": tags}
+    tree = lambda **kw: {"natural": "tree", **{k.replace("__", ":"): v for k, v in kw.items()}}
+    pano = "0f0e0d0c-0b0a-4909-8807-060504030201"
+    fb = build([at(9201, 0, tree(image="https://example.org/p.jpg")),
+                at(9202, 0.01, tree(image="http://www.example.org/p.jpg/")),
+                at(9203, 0, tree(wikimedia_commons="File:Shared_tree.jpg")),
+                at(9204, 0.01, tree(image="https://commons.wikimedia.org/wiki/File:shared tree.jpg")),
+                at(9205, 0, tree(mapillary="123456")),
+                at(9206, 0.01, tree(image="https://www.mapillary.com/app/?pKey=123456")),
+                at(9207, 0, {"natural": "tree_stump", "panoramax": pano}),
+                at(9208, 0.01, tree(panoramax=pano.upper())),
+                at(9212, 0, tree(image="https://example.org/row.jpg")),
+                at(9213, 0.003, tree(image="https://example.org/row.jpg"))])
+    # stesso elemento Wikidata (Q920001 è un taxon nelle tabelle finte) e stessa osservazione di iNaturalist
+    fr = build([at(9221, 0, tree(wikidata="Q999901")), at(9222, 0.01, {"natural": "tree_stump", "wikidata": "Q999901"}),
+                at(9223, 0, tree(wikidata="Q920001")), at(9224, 0.01, tree(wikidata="Q920001")),
+                at(9225, 0, tree(**{"ref:inaturalist.org": "12345"})),
+                at(9226, 0.01, tree(**{"ref:inaturalist.org": "777;12345"})),
+                at(9227, 0, tree(wikidata="Q999902")), at(9228, 0.003, tree(wikidata="Q999902"))])
+    saved, ft.PHOTO_SHARED_LIST = ft.PHOTO_SHARED_LIST, 1
+    try:
+        fb_cap = build([at(9209, 0, tree(image__fotoshi="abc")), at(9210, 0.01, tree(image__fotoshi="abc")),
+                        at(9211, 0.025, tree(image__fotoshi="abc"))])
+    finally:
+        ft.PHOTO_SHARED_LIST = saved
+    return [("photo_shared: stesso indirizzo in image (senza https, www e / finale)",
+             fb[9201].get("phs") == "1|9202:1112|image=https://example.org/p.jpg"
+             and fb[9202].get("phs") == "1|9201:1112|image=http://www.example.org/p.jpg/"),
+            ("photo_shared: file di Commons in wikimedia_commons e nella pagina di image (prima lettera minuscola)",
+             fb[9203].get("phs") == "1|9204:1112|wikimedia_commons=File:Shared_tree.jpg"
+             and fb[9204].get("phs") == "1|9203:1112|image=https://commons.wikimedia.org/wiki/File:shared tree.jpg"),
+            ("photo_shared: mapillary=* e la pagina della stessa foto in image",
+             has(fb[9205], "photo_shared") and fb[9206].get("phs") == "1|9205:1112|image=https://www.mapillary.com/app/?pKey=123456"),
+            ("photo_shared: panoramax, anche su un ceppo", has(fb[9207], "photo_shared") and has(fb[9208], "photo_shared")),
+            ("photo_shared: non entro 500 m (filare)", not has(fb[9212], "photo_shared") and not has(fb[9213], "photo_shared")),
+            ("photo_shared: elenco limitato ai più lontani, gli altri contati",
+             fb_cap[9209].get("phs") == "2|9211:2780|image:fotoshi=abc" and fb_cap[9210].get("phs") == "2|9211:1668|image:fotoshi=abc"),
+            ("ref_shared: stesso wikidata, anche su un ceppo", fr[9221].get("rsh") == "1|9222:1112|wikidata=Q999901"
+             and fr[9222].get("rsh") == "1|9221:1112|wikidata=Q999901" and not has(fr[9221], "photo_shared")),
+            ("ref_shared: non per un elemento che è un taxon", not has(fr[9223], "ref_shared") and not has(fr[9224], "ref_shared")),
+            ("ref_shared: stessa osservazione di iNaturalist tra più valori",
+             fr[9226].get("rsh") == "1|9225:1112|ref:inaturalist.org=12345"),
+            ("ref_shared: non entro 500 m", not has(fr[9227], "ref_shared") and not has(fr[9228], "ref_shared"))]
 
 
 def known_codes():

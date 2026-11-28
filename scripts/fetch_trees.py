@@ -4268,6 +4268,80 @@ def masaf_code_checks(feats):
             p["issues"] = "|" + "|".join([*p["issues"].strip("|").split("|"), *extra]).lstrip("|") + "|"
 
 
+# Stessa foto su alberi lontani (photo_shared): una foto può mostrare più alberi vicini (un filare, una foto a 360° di
+# Panoramax), quindi si segnala solo oltre PHOTO_SHARED_DIST. Nei dati quasi tutte le foto condivise restano entro
+# 100 m; la soglia è la stessa di COMMONS_MAX_DIST. Vale anche per wikidata e ref:inaturalist.org (ref_shared): un
+# albero mappato con due nodi vicini, o un ceppo con l'elemento dell'albero, resta sotto la soglia
+PHOTO_SHARED_DIST = COMMONS_MAX_DIST
+PHOTO_SHARED_LIST = 10   # altri alberi scritti nella scheda per ogni foto (i più lontani); gli altri si contano soltanto
+
+
+def photo_keys(t):
+    """[(chiave di confronto, tag dell'albero)] delle foto collegate: file di Commons (gli stessi di
+    commons_photo_files; trattini bassi e prima lettera del nome non contano), altri indirizzi in image=* (senza http(s)://, www. e la / finale), foto di Mapillary
+    (mapillary=*, o la pagina della foto in image=*), Panoramax (panoramax_ids) e Fotoshi (image:fotoshi=*)."""
+    if not ({"image", "wikimedia_commons", "mapillary", "panoramax", "image:fotoshi"} & t.keys()):
+        return []
+    cm = lambda name: "c:" + (n := name.replace("_", " ").strip())[:1].upper() + n[1:]   # come in commons_photo_files
+    out = [(cm(f[5:]), "wikimedia_commons=" + f) for f in commons_files(t)]
+    if m := COMMONS_IMAGE_NAME.match(str(t.get("image", ""))):
+        out.append((cm(m.group(1)), "image=" + t["image"].strip()))
+    for u in (x.strip() for x in str(t.get("image", "")).split(";")):
+        if m := COMMONS_FILE_URL.match(u) or COMMONS_UPLOAD_URL.match(u):
+            out.append((cm(unquote(m.group(1))), "image=" + u))
+        elif not URL.match(u):
+            continue
+        elif m := MAPILLARY_PAGE.match(u):
+            out.append(("m:" + (m.group(1) or m.group(2)), "image=" + u))
+        else:
+            out.append(("u:" + re.sub(r"^https?://(?:www\.)?", "", u, flags=re.I).rstrip("/"), "image=" + u))
+    for v in (x.strip() for x in str(t.get("mapillary", "")).split(";")):
+        if v:
+            m = MAPILLARY_PAGE.match(v)
+            out.append(("m:" + ((m.group(1) or m.group(2)) if m else v), "mapillary=" + v))
+    out += [("p:" + i, "panoramax=" + i) for i in panoramax_ids(t)]
+    if fs := str(t.get("image:fotoshi", "")).strip():
+        out.append(("f:" + fs, "image:fotoshi=" + fs))
+    seen = set()   # una riga per foto: vale il primo tag che la collega
+    return [(k, tag) for k, tag in out if not (k in seen or seen.add(k))]
+
+
+def ref_keys(t):
+    """[(chiave di confronto, tag dell'albero)] dei valori che indicano un solo albero: elementi di wikidata=* che
+    non sono un taxon (quelli li segnala wikidata_is_taxon) e osservazioni di ref:inaturalist.org (inat_ids)."""
+    return ([("w:" + q, "wikidata=" + q) for q in dict.fromkeys(qids(t, "wikidata")) if taxon_status(q) is not True]
+            + [("i:" + n, "ref:inaturalist.org=" + n) for n in dict.fromkeys(inat_ids(t))])
+
+
+def shared_far_checks(feats, tags, keys, code, prop):
+    """Check code: un valore di keys(tag) (photo_keys, ref_keys) è anche su un altro albero o ceppo della regione a
+    più di PHOTO_SHARED_DIST. tags: {id: tag del nodo}. prop: righe "n|id:metri;id:metri…|tag dell'albero"
+    separate da "\n", con n = alberi lontani con lo stesso valore e al massimo PHOTO_SHARED_LIST di loro, dal più
+    lontano."""
+    by_key = collections.defaultdict(list)
+    pos = {f["properties"]["id"]: f["geometry"]["coordinates"] for f in feats}
+    own = {}
+    for f in feats:
+        i = f["properties"]["id"]
+        if ks := keys(tags.get(i, {})):
+            own[i] = ks
+            for k, _ in ks:
+                by_key[k].append(i)
+    for f in feats:
+        p = f["properties"]
+        rows = []
+        for k, tag in own.get(p["id"], ()):
+            if len(by_key[k]) < 2:
+                continue
+            far = sorted(((round(d), j) for j in by_key[k] if j != p["id"]
+                          and (d := distance_m(pos[p["id"]], pos[j])) > PHOTO_SHARED_DIST), reverse=True)
+            if far:
+                rows.append(f"{len(far)}|{';'.join(f'{j}:{d}' for d, j in far[:PHOTO_SHARED_LIST])}|{tag}")
+        if rows:
+            p[prop] = "\n".join(rows)
+            p["issues"] = "|" + "|".join([*p["issues"].strip("|").split("|"), code]).lstrip("|") + "|"
+
+
 def xmas_feature(el):
     """Albero di Natale (xmas:feature=tree) che non è natural=tree né tree_stump, spesso un albero tagliato o finto in
     una piazza: solo per il disegno dall'8 dicembre al 6 gennaio (#7), senza check. Chioma da diameter_crown o raggio
@@ -4321,6 +4395,11 @@ def build(data):
     feats.sort(key=lambda f: f["properties"]["id"])  # ordine stabile: se i dati non cambiano, il file resta identico
     neighbour_checks(feats)
     masaf_code_checks(feats)
+    # stessa foto (photo_shared, phs) o stesso elemento Wikidata o osservazione di iNaturalist (ref_shared, rsh) su
+    # alberi lontani
+    tags = {e["id"]: e.get("tags", {}) for e in nodes if is_tree(e)}
+    shared_far_checks(feats, tags, photo_keys, "photo_shared", "phs")
+    shared_far_checks(feats, tags, ref_keys, "ref_shared", "rsh")
     fc ={"type": "FeatureCollection", "features": feats}
     # filari senza alberi mappati tra i nodi: membro aggiuntivo "rows", come "xmas" fuori da conteggi, errori e storico
     if rows := tree_rows(data["elements"]):
