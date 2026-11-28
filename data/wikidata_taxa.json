@@ -22655,6 +22655,28 @@
 ],
 "taxon": true
 },
+"Q2717846": {
+"alias": {
+"en": [
+"Sirisa",
+"Siris",
+"Labakh"
+],
+"it": []
+},
+"basionyms": [
+"Mimosa lebbeck"
+],
+"en": "Albizia lebbeck",
+"it": "Albizia lebbeck",
+"names": [
+"Albizia lebbeck"
+],
+"ranks": [
+"Q7432"
+],
+"taxon": true
+},
 "Q27179241": {
 "names": [],
 "ranks": [],
