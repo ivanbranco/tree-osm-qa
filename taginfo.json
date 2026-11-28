@@ -116,7 +116,7 @@
     {"key": "monument", "value": "tree", "object_types": ["node"], "description": "Used for rendering, QA checks and the map of monumental trees."},
     {"key": "ref:baumkunde", "object_types": ["node"], "description": "Shown in the info panel."},
     {"key": "ref:mbreg", "object_types": ["node"], "description": "Shown in the info panel."},
-    {"key": "ref:inaturalist.org", "object_types": ["node"], "description": "Shown in the info panel."},
+    {"key": "ref:inaturalist.org", "object_types": ["node"], "description": "Shown in the info panel, with a photo of the observation."},
     {"key": "ref:mipaaf", "object_types": ["node"], "description": "Reported by a QA check: ref:masaf is suggested."},
     {"key": "ref:drusop", "object_types": ["node"], "description": "Reported by a QA check: ref:usop is suggested."},
     {"key": "ref:drusop:tree", "object_types": ["node"], "description": "Reported by a QA check: ref:usop is suggested."},

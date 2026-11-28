@@ -68,9 +68,11 @@ BAD_HEIGHT = {"height", "height_species", "number_invalid", "comma", "too_slende
 def has_photo(p):
     """Vero se la scheda dell'albero mostra una foto: le stesse fonti di imageInfo in index.html (wikimedia_commons,
     panoramax, image:fotoshi, image con un indirizzo o con un file di Commons (File:…), immagine dell'elemento
-    Wikidata)."""
+    Wikidata), più la foto di iNaturalist solo con una licenza aperta (inat_lic in INAT_OPEN), come «Foto» in
+    Completezza."""
     return bool(p.get("wikimedia_commons") or ft.panoramax_ids(p) or p.get("image:fotoshi")
-                or str(p.get("image", "")).startswith(("http://", "https://", "File:")) or p.get("wd_img"))
+                or str(p.get("image", "")).startswith(("http://", "https://", "File:")) or p.get("wd_img")
+                or p.get("inat_lic") in ft.INAT_OPEN)
 
 
 def rank(p):
@@ -402,6 +404,7 @@ def update_map(key, index):
     ft.update_wikidata_cache(data["elements"])   # check su Wikidata, foto e voci di Wikipedia nella scheda
     ft.update_fotoshi_cache(data["elements"])
     ft.update_gphotos_cache(data["elements"])   # foto di Google Foto in image=*, per la scheda
+    ft.update_inat_cache(data["elements"])      # osservazioni e foto di iNaturalist, per la scheda
     fc = ft.build(data)
     regions = qa_regions()
     for f in fc["features"]:

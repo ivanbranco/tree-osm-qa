@@ -545,7 +545,7 @@ const I18N = {
         height: k => `${k("height")}: in metri, dal suolo al punto più alto della chioma (es. height=12). Si misura con un ipsometro, un clinometro o un telemetro laser.`,
         circumference: k => `${k("circumference")}: circonferenza del tronco in metri, misurata a 1,30 m da terra con un metro a nastro (es. circumference=2.4). Conta anche un albero con ${k("diameter")}.`,
         diameter_crown: k => `${k("diameter_crown")}: diametro della chioma in metri (es. diameter_crown=8). Si misura a terra, da un bordo all'altro della chioma passando per il tronco.`,
-        photo: k => `Una foto dell'albero: ${k("wikimedia_commons")} (File:… o Category:…), ${k("panoramax")}, image:fotoshi=* o ${k("image")}. Conta anche la foto (P18) dell'elemento Wikidata di ${k("wikidata")}.` } },
+        photo: k => `Una foto dell'albero: ${k("wikimedia_commons")} (File:… o Category:…), ${k("panoramax")}, image:fotoshi=* o ${k("image")}. Conta anche la foto (P18) dell'elemento Wikidata di ${k("wikidata")}, e una foto di iNaturalist con licenza aperta (CC0, CC BY o CC BY-SA) di un'osservazione in ref:inaturalist.org=* o collegata all'albero su iNaturalist.` } },
     // scheda Alberi da record (issue #15). how: come si calcola ogni primato (al passaggio del mouse sul nome)
     rec: "Alberi da record",
     rc: { names: { height: "Più alto", trunk: "Tronco più spesso", slender: "Più slanciato", stocky: "Più tozzo", crown: "Chioma più larga", oldest: "Più vecchio", elevation: "Quota più alta", isolated: "Più isolato" },
@@ -1129,6 +1129,7 @@ const I18N = {
       e: "architettura vegetale", f: "pregio/valore paesaggistico", g: "valore storico-culturale o religioso" },
     recMt: l => `Censito su ${l}`,
     recInat: (l, n) => `${n > 1 ? "Osservazioni" : "Osservazione"} su ${l}`,
+    recInatAll: (n, l) => `${l(`${n} osservazioni`)} su iNaturalist`,
     stump: "Ceppo", stumpOf: b => `${b} (ceppo)`, unknownSpecies: "Specie sconosciuta",
   },
   en: {
@@ -1237,7 +1238,7 @@ const I18N = {
         height: k => `${k("height")}: in metres, from the ground to the highest point of the crown (e.g. height=12). It is measured with a hypsometer, a clinometer or a laser rangefinder.`,
         circumference: k => `${k("circumference")}: trunk circumference in metres, measured 1.30 m above the ground with a tape measure (e.g. circumference=2.4). A tree with ${k("diameter")} counts too.`,
         diameter_crown: k => `${k("diameter_crown")}: crown diameter in metres (e.g. diameter_crown=8). It is measured on the ground, from one edge of the crown to the other through the trunk.`,
-        photo: k => `A photo of the tree: ${k("wikimedia_commons")} (File:… or Category:…), ${k("panoramax")}, image:fotoshi=* or ${k("image")}. The photo (P18) of the Wikidata item of ${k("wikidata")} counts too.` } },
+        photo: k => `A photo of the tree: ${k("wikimedia_commons")} (File:… or Category:…), ${k("panoramax")}, image:fotoshi=* or ${k("image")}. The photo (P18) of the Wikidata item of ${k("wikidata")} counts too, and an iNaturalist photo with an open licence (CC0, CC BY or CC BY-SA) of an observation in ref:inaturalist.org=* or linked to the tree on iNaturalist.` } },
     rec: "Record trees",
     rc: { names: { height: "Tallest", trunk: "Thickest trunk", slender: "Most slender", stocky: "Stockiest", crown: "Widest crown", oldest: "Oldest", elevation: "Highest elevation", isolated: "Most isolated" },
       how: { height: "The highest value of height=*.",
@@ -1767,6 +1768,7 @@ const I18N = {
       e: "plant architecture", f: "landscape value", g: "historical-cultural or religious value" },
     recMt: l => `Recorded on ${l}`,
     recInat: (l, n) => `${n > 1 ? "Observations" : "Observation"} on ${l}`,
+    recInatAll: (n, l) => `${l(`${n} observations`)} on iNaturalist`,
     stump: "Stump", stumpOf: b => `${b} (stump)`, unknownSpecies: "Unknown species",
   },
 };
@@ -1809,6 +1811,10 @@ let onRecToggle = () => {};    // scheda Alberi da record aperta o chiusa (rende
 const yearsAgo = y => { const d = new Date(); d.setUTCFullYear(d.getUTCFullYear() - y); return d.toISOString().slice(0, 10); };
 const AGE_CUT = [yearsAgo(5), yearsAgo(10)];
 const AGE_KEYS = ["height", "circumference", "diameter_crown"];
+// Foto di iNaturalist (issue #104): licenze aperte, le sole che contano per «Foto» in Completezza (INAT_OPEN in
+// fetch_trees.py), e quante osservazioni la scheda elenca una per una (oltre, un solo link a tutte)
+const INAT_OPEN = ["cc0", "cc-by", "cc-by-sa"];
+const INAT_LIST = 3;
 const MEAS_KEYS = ["height", "circumference", "diameter", "diameter_crown"];
 const measDate = (p, k) => p["md_" + k] || p.ts;
 // la misura del tronco: circumference o, se manca, diameter (come la riga «Circonferenza» della scheda e Completezza)
@@ -3334,7 +3340,8 @@ map.on("load", async () => {
   // eachInView, lo stesso del conteggio «Alberi in vista» (zoom e filtri dei menu). Per ogni voce: has(p) dice se
   // l'albero ha il dato, miss è il filtro di MapLibre degli alberi a cui manca (per evidenziarli sulla mappa).
   // La circonferenza conta anche con diameter=*, da cui la mappa ricava il tronco. La foto: le stesse fonti di
-  // has_photo in fetch_world.py (wikimedia_commons, panoramax, image:fotoshi, image con un indirizzo o File:…, wd_img).
+  // has_photo in fetch_world.py (wikimedia_commons, panoramax, image:fotoshi, image con un indirizzo o File:…, wd_img,
+  // la foto di iNaturalist solo con una licenza aperta: inat_lic in INAT_OPEN).
   // punto dentro un Polygon o MultiPolygon GeoJSON (ray casting; i buchi interni escludono)
   const inRing = ([x, y], ring) => {
     let inside = false;
@@ -3362,8 +3369,10 @@ map.on("load", async () => {
     height: { has: hasTag("height"), miss: noTag("height") },
     circumference: { has: p => hasTag("circumference")(p) || hasTag("diameter")(p), miss: ["all", noTag("circumference"), noTag("diameter")] },
     diameter_crown: { has: hasTag("diameter_crown"), miss: noTag("diameter_crown") },
-    photo: { has: p => !!(p.wikimedia_commons || p.panoramax || p["image:fotoshi"] || p.wd_img || /^(https?:\/\/|File:)/.test(p.image || "")),
+    photo: { has: p => !!(p.wikimedia_commons || p.panoramax || p["image:fotoshi"] || p.wd_img || INAT_OPEN.includes(p.inat_lic)
+        || /^(https?:\/\/|File:)/.test(p.image || "")),
       miss: ["all", noTag("wikimedia_commons"), noTag("panoramax"), noTag("image:fotoshi"), noTag("wd_img"),
+        ["!", ["in", ["to-string", ["coalesce", ["get", "inat_lic"], ""]], ["literal", INAT_OPEN]]],
         ["!=", ["slice", ["to-string", ["coalesce", ["get", "image"], ""]], 0, 4], "http"],
         ["!=", ["slice", ["to-string", ["coalesce", ["get", "image"], ""]], 0, 5], "File:"]] },
     sex: { has: hasTag("sex"), miss: ["all", DIO_EXPR, noTag("sex")], among: isDio, hlText: L.cp.hlSex },
@@ -5384,9 +5393,13 @@ function recognitions(p) {
       } catch (e) {}
     }
   }
-  // osservazioni di iNaturalist (ref:inaturalist.org): numeri separati da ";", ognuno con il link all'osservazione
-  const inat = String(p["ref:inaturalist.org"] || "").split(";").map(x => x.trim()).filter(x => /^\d+$/.test(x));
-  if (inat.length) r.push(["", `${L.recInat(link("https://www.inaturalist.org/", "iNaturalist"), inat.length)}: `
+  // osservazioni di iNaturalist: quelle di ref:inaturalist.org (numeri separati da ";") e quelle collegate al nodo con
+  // il campo «OpenStreetMap (OSM)» di iNaturalist (inat_x, fetch_trees.py), ognuna con il link all'osservazione; più di
+  // INAT_LIST: un solo link alla ricerca con tutte (verifiable=any: anche quelle «casual»)
+  const inat = [...new Set([p["ref:inaturalist.org"], p.inat_x].flatMap(v => String(v || "").split(";")).map(x => x.trim()).filter(x => /^\d+$/.test(x)))];
+  if (inat.length > INAT_LIST)
+    r.push(["", L.recInatAll(inat.length, t => link(`https://www.inaturalist.org/observations?verifiable=any&place_id=any&id=${inat.join(",")}`, t))]);
+  else if (inat.length) r.push(["", `${L.recInat(link("https://www.inaturalist.org/", "iNaturalist"), inat.length)}: `
     + inat.map(x => link(`https://www.inaturalist.org/observations/${x}`, x)).join(", ")]);
   return r;
 }
@@ -5443,8 +5456,15 @@ function imageInfo(p, pos) {
     return { src: p.image };
   }
   if (p.wd_img) { const w = p.wd_img_w && pos && isWinter(+pos[1]) ? p.wd_img_w : p.wd_img; return { src: commonsFile(w), commons: w }; }
+  // foto di un'osservazione di iNaturalist (inat_img = "<id della foto>.<estensione>", scelta da fetch_trees.py tra
+  // ref:inaturalist.org e le osservazioni collegate al nodo), con autore e licenza; il credito porta all'osservazione
+  const im = /^(\d+)\.(\w+)$/.exec(p.inat_img || "");
+  if (im) return { src: `https://inaturalist-open-data.s3.amazonaws.com/photos/${im[1]}/medium.${im[2]}`,
+    href: `https://www.inaturalist.org/observations/${p.inat_obs}`, author: p.inat_by || "iNaturalist", lic: inatLicense(p.inat_lic) };
   return null;
 }
+// licenza di una foto di iNaturalist come la scrive Commons: cc-by-nc -> CC BY-NC, cc0 -> CC0
+const inatLicense = l => l === "cc0" ? "CC0" : String(l || "").toUpperCase().replace(/^CC-/, "CC ");
 
 // Credito di una foto, "Autore (licenza)": autore e licenza in due parti, perché se lo spazio non basta si accorcia
 // solo l'autore e la licenza resta visibile (CSS di .credit). creditText: il testo intero, per il title

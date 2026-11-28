@@ -1462,6 +1462,136 @@ def update_gphotos_cache(elements):
         GPHOTOS_FILE.write_text(json.dumps(GPHOTOS, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+# Osservazioni di iNaturalist (issue #104), per la foto della scheda e per «Foto» in Completezza. Vengono da
+# ref:inaturalist.org e dal campo «OpenStreetMap (OSM)» di iNaturalist (INAT_FIELD: l'indirizzo del nodo, messo da chi
+# ha fatto l'osservazione), che si cerca tutto una volta per esecuzione. Restano in data/inaturalist.json:
+# {"obs": {"<id>": {"k": regno, "o": foto, "n": foto, "d": "AAAA-MM-GG"}}, "osm": {"<nodo>": [id, …]}, "d": data
+# dell'ultima ricerca sul campo}. "o" = la prima foto dell'osservazione con una licenza aperta (INAT_OPEN), "n" = la
+# prima con un'altra licenza Creative Commons; foto = ["<id della foto>.<estensione>", licenza, autore] (le foto sono
+# su inaturalist-open-data, la dimensione la sceglie index.html). Le osservazioni trovate con il campo non hanno "d"
+# (si rileggono a ogni ricerca); quelle del solo tag si rileggono dopo URL_RECHECK_DAYS giorni. Si usa l'API v2 con i
+# soli campi che servono: la risposta completa pesa circa 50 KB per osservazione
+INAT_FILE = DATA / "inaturalist.json"
+INAT = load_json(INAT_FILE)
+INAT_API = "https://api.inaturalist.org/v2/observations"
+INAT_FIELD, INAT_FIELD_ID = "OpenStreetMap (OSM)", 17260
+INAT_OPEN = ("cc0", "cc-by", "cc-by-sa")   # licenze aperte: solo queste foto contano per «Foto» in Completezza
+INAT_FIELDS = ("(id:!t,taxon:(iconic_taxon_name:!t),ofvs:(field_id:!t,value:!t),user:(login:!t,name:!t),"
+               "observation_photos:(position:!t,photo:(url:!t,license_code:!t,attribution:!t)))")
+INAT_PER_PAGE = 200    # il massimo dell'API
+INAT_PAUSE = 1.0       # s tra due richieste: iNaturalist chiede di non superare circa una richiesta al secondo
+INAT_PHOTO = re.compile(r"/photos/(\d+)/[a-z]+\.(\w+)$")
+INAT_NODE = re.compile(r"(?:openstreetmap|osm)\.org/node/(\d+)")
+INAT_RIGHTS = re.compile(r"\s*,?\s*(?:(?:some|all|no) rights reserved|no known copyright restrictions).*$", re.I)
+INAT_SEARCHED = []     # non vuota dopo la ricerca sul campo di questa esecuzione
+
+
+def inat_ids(t):
+    """Numeri delle osservazioni in ref:inaturalist.org (separati da ";"), come nella scheda (index.html)."""
+    return [x for x in (s.strip() for s in str(t.get("ref:inaturalist.org") or "").split(";")) if x.isascii() and x.isdigit()]
+
+
+def inat_author(attribution):
+    """Autore dall'attribuzione di iNaturalist: "(c) Nome, some rights reserved (CC BY-NC)" -> "Nome"."""
+    return INAT_RIGHTS.sub("", re.sub(r"^\s*\(c\)\s*", "", attribution, flags=re.I)).strip()
+
+
+def inat_record(o):
+    """Voce di data/inaturalist.json per un'osservazione dell'API (senza "d"). Autore: dall'attribuzione della foto;
+    se non lo indica (le foto CC0 hanno solo "no rights reserved"), il nome o il login di chi ha fatto l'osservazione."""
+    rec = {"k": (o.get("taxon") or {}).get("iconic_taxon_name") or ""}
+    user = o.get("user") or {}
+    who = (user.get("name") or "").strip() or user.get("login") or ""
+    for op in sorted(o.get("observation_photos") or [], key=lambda x: x.get("position") or 0):
+        ph = op.get("photo") or {}
+        lic, m = ph.get("license_code") or "", INAT_PHOTO.search(ph.get("url") or "")
+        slot = "o" if lic in INAT_OPEN else "n" if lic.startswith("cc") else None
+        if m and slot and slot not in rec:
+            rec[slot] = [f"{m.group(1)}.{m.group(2)}", lic, inat_author(ph.get("attribution") or "") or who]
+    return rec
+
+
+def inat_get(params):
+    """Una pagina di osservazioni dell'API v2 (con i campi di INAT_FIELDS)."""
+    r = requests.get(INAT_API, headers=HEADERS, timeout=60,
+                     params={**params, "per_page": INAT_PER_PAGE, "fields": INAT_FIELDS})
+    time.sleep(INAT_PAUSE)
+    r.raise_for_status()
+    return r.json().get("results") or []
+
+
+def inat_field_search():
+    """Tutte le osservazioni con il campo INAT_FIELD che indica un nodo: ({nodo: [id]}, {id: voce})."""
+    osm, found, above = {}, {}, 0
+    while True:
+        res = inat_get({f"field:{INAT_FIELD}": "", "order_by": "id", "order": "asc", "id_above": above})
+        for o in res:
+            nodes = {m.group(1) for v in o.get("ofvs") or [] if v.get("field_id") == INAT_FIELD_ID
+                     for m in [INAT_NODE.search(str(v.get("value") or ""))] if m}
+            for n in nodes:
+                osm.setdefault(n, []).append(o["id"])
+            if nodes:
+                found[str(o["id"])] = inat_record(o)
+        if len(res) < INAT_PER_PAGE or res[-1]["id"] <= above:
+            return {n: sorted(ids) for n, ids in osm.items()}, found
+        above = res[-1]["id"]
+
+
+def update_inat_cache(elements):
+    """Cerca le osservazioni collegate con il campo (una volta per esecuzione) e legge quelle di ref:inaturalist.org
+    non ancora in cache o lette da più di URL_RECHECK_DAYS giorni; aggiorna e salva data/inaturalist.json."""
+    today = datetime.date.today()
+    obs, changed = INAT.setdefault("obs", {}), False
+    if not INAT_SEARCHED:
+        INAT_SEARCHED.append(1)
+        try:
+            osm, found = inat_field_search()
+            # le voci senza "d" vengono dalla ricerca precedente: tolte se l'osservazione non ha più il campo
+            for i in [i for i, v in obs.items() if "d" not in v and i not in found]:
+                del obs[i]
+            obs.update(found)
+            INAT["osm"], INAT["d"], changed = osm, today.isoformat(), True
+            print(f" iNaturalist: {len(found)} osservazioni collegate a {len(osm)} nodi con il campo «{INAT_FIELD}»")
+        except Exception as e:
+            warn(f"iNaturalist non risponde ({str(e)[:150]}): restano le osservazioni collegate della ricerca del "
+                 f"{INAT.get('d', '(mai fatta)')}")
+    stale = lambda i: i not in obs or ("d" in obs[i] and (today - datetime.date.fromisoformat(obs[i]["d"])).days >= URL_RECHECK_DAYS)
+    ids = sorted({i for el in elements for i in inat_ids(el.get("tags", {})) if stale(i)}, key=int)
+    done = 0
+    for k in range(0, len(ids), INAT_PER_PAGE):
+        batch = ids[k:k + INAT_PER_PAGE]
+        try:
+            got = {str(o["id"]): inat_record(o) for o in inat_get({"id": ",".join(batch)})}
+        except Exception as e:
+            warn(f"iNaturalist non risponde ({str(e)[:150]}): {len(ids) - k} osservazioni di ref:inaturalist.org restano da leggere")
+            break
+        for i in batch:   # un'osservazione che non c'è più (o è privata) resta senza foto
+            obs[i] = {**got.get(i, {}), "d": today.isoformat()}
+        done += len(batch)
+        changed = True
+    if done:
+        print(f" iNaturalist: lette {done} osservazioni di ref:inaturalist.org")
+    if changed:
+        INAT_FILE.write_text(json.dumps(INAT, indent=0, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def inat_props(t, osm_id):
+    """Proprietà per la scheda: inat_x = le osservazioni collegate al nodo con il campo e non in ref:inaturalist.org
+    (";"); inat_img, inat_lic, inat_by, inat_obs = la foto da mostrare. Si sceglie prima per licenza (aperta, poi
+    un'altra Creative Commons), poi per osservazione (quelle del tag nel loro ordine, poi quelle collegate, solo
+    piante: con il campo si collegano anche licheni, insetti o uccelli visti sull'albero), poi la prima foto."""
+    tag = inat_ids(t)
+    linked = [str(i) for i in INAT.get("osm", {}).get(str(osm_id), []) if str(i) not in tag]
+    out = {"inat_x": ";".join(linked)} if linked else {}
+    obs = INAT.get("obs", {})
+    cands = [(i, obs.get(i, {})) for i in tag] + [(i, o) for i in linked if (o := obs.get(i, {})).get("k") == "Plantae"]
+    for slot in ("o", "n"):
+        if found := next(((i, o[slot]) for i, o in cands if o.get(slot)), None):
+            out.update(inat_img=found[1][0], inat_lic=found[1][1], inat_by=found[1][2], inat_obs=int(found[0]))
+            break
+    return out
+
+
 def broken_links(t):
     """[(chiave, valore, stato)] dei link sicuramente rotti dell'albero."""
     out = [(k, u, URL_STATUS[u]["s"]) for k, u in link_urls(t) if URL_STATUS.get(u, {}).get("s") in URL_BROKEN]
@@ -4000,6 +4130,7 @@ def to_feature(el, fast=True):
         p["gp_img"] = gi
     if (fs := FOTOSHI.get(t.get("image:fotoshi", "").strip())) and fs.get("author"):   # crediti della foto
         p["fs_author"], p["fs_license"] = fs["author"], fs.get("license", "")
+    p.update(inat_props(t, el["id"]))   # osservazioni e foto di iNaturalist (inaturalist.json)
     iss, props = checks(t, [el["lon"], el["lat"]], el["id"])
     # nome comune della specie e voci di Wikipedia, per la scheda; se species:wikidata è sbagliato il nome comune
     # viene dalla lista wiki
@@ -4977,6 +5108,7 @@ def update_region(region, regions_index):
     update_url_cache(els)        # e al check sui link rotti
     update_fotoshi_cache(els)    # autore e licenza delle foto di Fotoshi, per la scheda
     update_gphotos_cache(els)    # indirizzo delle foto di Google Foto, per la scheda
+    update_inat_cache(els)       # osservazioni e foto di iNaturalist, per la scheda e Completezza
     MASAF_GROUPS = load_masaf_groups(region, path) if IN_ITALY else {}   # insiemi omogenei MASAF, solo in Italia
     fc = build(data)
     add_elevation(region, fc, path)   # quota degli alberi (spunta "Download elevations" dell'Action)

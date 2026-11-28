@@ -113,6 +113,13 @@ FIXTURES = {
     # soglie MASAF di circonferenza (cm) per il consiglio hint_ms (HINT_CASES)
     "MASAF_MIN_CIRC": {ft.binomial("Quercus robur"): 400},
     # elementi di wikidata=* (i singoli alberi)
+    # osservazioni di iNaturalist (inaturalist.json): 11 solo NC, 12 aperta; collegate al nodo 9021: 13 (fungo, foto
+    # aperta: non si usa) e 14 (pianta, NC); 15 del tag senza foto
+    "INAT": {"obs": {"11": {"k": "Plantae", "n": ["101.jpg", "cc-by-nc", "A"], "d": "2026-11-28"},
+                     "12": {"k": "Plantae", "o": ["102.jpg", "cc-by", "B"], "d": "2026-11-28"},
+                     "13": {"k": "Fungi", "o": ["103.jpg", "cc0", "C"]}, "14": {"k": "Plantae", "n": ["104.png", "cc-by-nc", "D"]},
+                     "15": {"k": "Plantae", "d": "2026-11-28"}},
+             "osm": {"9021": [13, 14, 15]}},
     "WD_ITEMS": {
         "Q910001": {"taxon": False, "coords": [POS]},                 # vicino
         "Q910002": {"taxon": False, "coords": [FAR]},                 # lontano
@@ -1565,6 +1572,24 @@ def feature_failures():
               ("Google Foto: og:image senza la dimensione", ft.GPHOTOS_OG.search(
                   '<meta property="og:image" content="https://lh3.googleusercontent.com/pw/AP1G-x_y=w600-h315-p-k">').group(1)
                == "https://lh3.googleusercontent.com/pw/AP1G-x_y"),
+              # iNaturalist (cache inaturalist.json finta, FIXTURES["INAT"]): prima la licenza aperta, anche se è
+              # della seconda osservazione del tag; le collegate con il campo solo se sono piante, in inat_x
+              ("iNaturalist: foto aperta prima di quella NC", {k: v for k, v in ft.to_feature(node(9020, {**tags,
+                  "ref:inaturalist.org": "11; 12"}))["properties"].items() if k.startswith("inat_")}
+               == {"inat_img": "102.jpg", "inat_lic": "cc-by", "inat_by": "B", "inat_obs": 12}),
+              ("iNaturalist: collegate in inat_x, foto solo da una pianta", {k: v for k, v in ft.to_feature(node(9021, {**tags,
+                  "ref:inaturalist.org": "15"}))["properties"].items() if k.startswith("inat_")}
+               == {"inat_x": "13;14", "inat_img": "104.png", "inat_lic": "cc-by-nc", "inat_by": "D", "inat_obs": 14}),
+              ("iNaturalist: niente proprietà senza osservazioni", not any(k.startswith("inat_") for k in
+                  ft.to_feature(node(9022, {**tags, "ref:inaturalist.org": "abc"}))["properties"])),
+              ("iNaturalist: autore dall'attribuzione", ft.inat_author("(c) Vera Ferreira, some rights reserved (CC BY-NC)")
+               == "Vera Ferreira" and ft.inat_author("(c) X, all rights reserved") == "X" and ft.inat_author("no rights reserved") == ""),
+              ("iNaturalist: voce dell'API (ordine, licenze, CC0 senza autore)", ft.inat_record({
+                  "taxon": {"iconic_taxon_name": "Plantae"}, "user": {"login": "u1", "name": ""}, "observation_photos": [
+                      {"position": 2, "photo": {"url": "https://x/photos/3/square.jpg", "license_code": "cc0", "attribution": "no rights reserved"}},
+                      {"position": 0, "photo": {"url": "https://x/photos/1/square.jpeg", "license_code": None, "attribution": "(c) A, all rights reserved"}},
+                      {"position": 1, "photo": {"url": "https://x/photos/2/square.JPG", "license_code": "cc-by-nc-nd", "attribution": "(c) A, some rights reserved (CC BY-NC-ND)"}}]})
+               == {"k": "Plantae", "n": ["2.JPG", "cc-by-nc-nd", "A"], "o": ["3.jpg", "cc0", "u1"]}),
               ("non membro: niente mg, hint_ms", "mg" not in other and "hint_ms" in other),
               # circonferenza oltre il limite della specie (o generico, anche da diameter): solo l'errore, niente hint_ms
               ("circumference_species: niente hint_ms", all("hint_ms" not in ft.to_feature(node(9012, {**OAK, **m}))["properties"]
