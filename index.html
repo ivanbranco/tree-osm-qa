@@ -724,6 +724,7 @@ const I18N = {
       date_mismatch: "start_date e planted_date diversi",
       wikipedia_is_taxon: "wikipedia è un taxon",
       undocumented_tag: "Tag non documentato (tree, type)", key_typo: "Chiave scritta male (heigth, Species, year_planted…)", fixme: "Tag fixme",
+      in_building: "Dentro un edificio, senza covered, indoor o location",
       circumference_species: "Circonferenza > limite della specie",
       height_species: "Altezza > limite della specie", species_typo: "Species forse scritta male",
       species_epithet_case: "Species con maiuscole sbagliate", species_common_name: "Species non scientifica (nome comune?)",
@@ -972,6 +973,7 @@ const I18N = {
       undocumented_tag: "tree=* e type=* non sono documentati per gli alberi nella wiki OSM.",
       key_typo: "La chiave non è tra quelle usate per gli alberi, ma differisce da una di esse solo per le maiuscole, per una lettera (due nelle chiavi di almeno 12 lettere) o per due lettere vicine scambiate. Sono segnalati anche i sinonimi di planted_date: year_planted, date:planted, date_planted, planted:date e planted (tranne planted=yes e planted=no), e le chiavi diverse dei registri degli alberi monumentali: ref:mipaaf (ref:masaf), ref:drusop e ref:drusop:tree (ref:usop). Le chiavi in OSM sono minuscole. Il valore non è usato per disegnare l'albero.",
       fixme: "fixme=* (o FIXME=*) descrive qualcosa da verificare o correggere nei dati dell'albero (wiki OSM, Key:fixme). Una volta risolto, il tag va tolto.",
+      in_building: "Il nodo è dentro un edificio (una way o una relazione con building=*), ad almeno 1 m dal muro, e l'albero non ha covered=*, indoor=* o location=*. Un albero sotto una copertura ha covered=yes, uno all'interno (una serra, un atrio) indoor=yes, uno su un tetto location=roof. Non contano building=no e gli edifici mappati come nodi. Il confronto con gli edifici si calcola a parte e può essere indietro di qualche settimana: un albero spostato da allora non è segnalato.",
       wikidata_mismatch: "Confronto con il QID che la lista delle specie della wiki OSM associa a species=*.",
       wikidata_not_taxon: "Un taxon su Wikidata ha un nome scientifico (P225): questo elemento non ce l'ha.",
       wikidata_redirect: "Su Wikidata l'elemento è stato unito a un altro e il suo QID rimanda a quello (redirect). Vale per wikidata=* e per tutte le chiavi *:wikidata (species:wikidata, genus:wikidata, taxon:cultivar:wikidata…). «Sistema con JOSM» scrive il QID di destinazione.",
@@ -1073,6 +1075,7 @@ const I18N = {
       undocumented_tag: kv => `tag non documentato ${kv}: verificare se può essere sostituito con un altro tag`,
       key_typo: (k, kn, v) => `${k}=${v}: chiave non usata per gli alberi, forse ${kn}=${v}?`,
       fixme: v => `da verificare o correggere: ${v}`,
+      in_building: (el, bt, m) => `dentro l'edificio ${el} (building=${bt}), a ${m} dal muro`,
       too_slender: (h, c, r) => `albero troppo slanciato: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
       too_slender_species: (h, c, r, sp, r0) => `albero troppo slanciato per ${sp}: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}, tipico ${r0})`,
       too_stocky: (h, c, r) => `albero troppo tozzo: altezza ${h}, circonferenza ${c} (altezza/circonferenza = ${r}); una delle due misure è probabilmente sbagliata`,
@@ -1402,6 +1405,7 @@ const I18N = {
       date_mismatch: "Different start_date and planted_date",
       wikipedia_is_taxon: "wikipedia is a taxon",
       undocumented_tag: "Undocumented tag (tree, type)", key_typo: "Misspelled key (heigth, Species, year_planted…)", fixme: "fixme tag",
+      in_building: "Inside a building, without covered, indoor or location",
       circumference_species: "Circumference > species limit",
       height_species: "Height > species limit", species_typo: "Possibly misspelled species",
       species_epithet_case: "Species with wrong capitalisation", species_common_name: "Non-scientific species (common name?)",
@@ -1639,6 +1643,7 @@ const I18N = {
       undocumented_tag: "tree=* and type=* are not documented for trees on the OSM wiki.",
       key_typo: "The key is not one of those used for trees, but differs from one of them only in capitalisation, by one letter (two in keys of at least 12 letters) or by two adjacent letters swapped. Synonyms of planted_date are reported too: year_planted, date:planted, date_planted, planted:date and planted (except planted=yes and planted=no), and other keys of the registers of monumental trees: ref:mipaaf (ref:masaf), ref:drusop and ref:drusop:tree (ref:usop). OSM keys are lowercase. The value is not used to draw the tree.",
       fixme: "fixme=* (or FIXME=*) describes something to check or correct in the tree's data (OSM wiki, Key:fixme). Once it is resolved, the tag should be removed.",
+      in_building: "The node is inside a building (a way or relation with building=*), at least 1 m from the wall, and the tree has no covered=*, indoor=* or location=*. A tree under a roof has covered=yes, one inside (a greenhouse, an atrium) indoor=yes, one on a roof location=roof. building=no and buildings mapped as nodes do not count. The comparison with buildings is computed separately and can be a few weeks behind: a tree moved since then is not flagged.",
       wikidata_mismatch: "Compared with the QID that the OSM wiki species list gives for species=*.",
       wikidata_not_taxon: "A taxon on Wikidata has a scientific name (P225): this item does not.",
       wikidata_redirect: "On Wikidata the item was merged into another one and its QID now points to it (redirect). Applies to wikidata=* and to every *:wikidata key (species:wikidata, genus:wikidata, taxon:cultivar:wikidata…). \"Fix with JOSM\" writes the target QID.",
@@ -1732,6 +1737,7 @@ const I18N = {
       undocumented_tag: kv => `undocumented tag ${kv}: check whether it can be replaced with another tag`,
       key_typo: (k, kn, v) => `${k}=${v}: key not used for trees, maybe ${kn}=${v}?`,
       fixme: v => `to check or correct: ${v}`,
+      in_building: (el, bt, m) => `inside building ${el} (building=${bt}), ${m} from the wall`,
       too_slender: (h, c, r) => `tree too slender: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
       too_slender_species: (h, c, r, sp, r0) => `tree too slender for ${sp}: height ${h}, circumference ${c} (height/circumference = ${r}, typical ${r0})`,
       too_stocky: (h, c, r) => `tree too stocky: height ${h}, circumference ${c} (height/circumference = ${r}); one of the two values is probably wrong`,
@@ -5238,6 +5244,7 @@ const issueBase = (i, p) => {
     case "key_typo":             // kt_keys: righe "chiave|chiave nota|valore" (fetch_trees.py)
       return String(p.kt_keys || "").split("\n").filter(Boolean).map(x => { const [k, kn, ...v] = x.split("|");
         return T[i](k, kn, v.join("|")); }).join("\n");
+    case "in_building": return T[i](p.ib_el, p.ib_bt, fmtM(p.ib_m));   // ib_el, ib_bt, ib_m: fetch_trees.py
     case "fixme":                // fixme_kv: righe "chiave=valore" (fixme, FIXME; fetch_trees.py)
       return String(p.fixme_kv || "").split("\n").filter(Boolean).map(kv => T[i](kv.slice(kv.indexOf("=") + 1))).join("\n");
     case "too_slender_species":   // sp_ratio: rapporto tipico della specie (fetch_trees.py)

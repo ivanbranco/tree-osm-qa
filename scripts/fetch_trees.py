@@ -3930,6 +3930,11 @@ def checks(t, pos, osm_id=None):
         flag("key_typo", kt_keys="\n".join(f"{k}|{kn}|{v}" for k, kn, v in kt))
     if fx := keys_named(t, "fixme"):    # fixme=* (anche FIXME): righe "chiave=valore" separate da "\n" (issue #85)
         flag("fixme", fixme_kv="\n".join(f"{k}={v}" for k, v in fx))
+    # nodo dentro un edificio, lontano dal muro (in_building, «Dentro un edificio»), senza covered=*, indoor=* o
+    # location=*. ib_el: l'edificio ("way/…" o "relation/…"), ib_bt: il suo building=*, ib_m: metri dal muro
+    if (t.get("natural") == "tree" and not {"covered", "indoor", "location"} & t.keys()
+            and (ib := in_building(osm_id, pos))):
+        flag("in_building", ib_el=ib[0], ib_bt=ib[1], ib_m=ib[2])
     return issues, props
 
 
@@ -5070,27 +5075,9 @@ def isolated_main(names):
     (data/regions), scritto in RECORDS_FILE senza toccare gli altri primati. Serve perché QLever rifiuta le richieste
     delle Action (vedi QLEVER_OFF): si lancia dal proprio PC e si pubblica il file. Regioni come per main: nomi,
     gruppi, "all"; "oldest" = la regione con «Più isolato» calcolato meno di recente (prima quelle che non l'hanno)."""
-    have = [r for r in REGIONS if (OUT_DIR / f"{r['slug']}.geojson.gz").exists()]
     rec = load_json(RECORDS_FILE)
-    when = lambda r: ((rec.get(r["slug"]) or {}).get("isolated") or {}).get("d", "")
-    groups = collections.defaultdict(list)
-    for r in have:
-        if r.get("group"):
-            groups[r["group"].lower().replace(" ", "-")].append(r)
-    by_slug = {r["slug"]: r for r in have}
-    todo = []
-    for x in names or ["oldest"]:
-        if x == "all":
-            todo += have
-        elif x == "oldest":
-            r = min(have, key=when)
-            print(f"oldest: {r['slug']} («Più isolato» calcolato: {when(r) or 'mai'})")
-            todo.append(r)
-        elif x in groups or x in by_slug:
-            todo += groups.get(x) or [by_slug[x]]
-        else:
-            sys.exit(f"Regione sconosciuta o non ancora scaricata: {x}")
-    todo = list({r["slug"]: r for r in todo}.values())
+    todo = local_regions(names, lambda r: ((rec.get(r["slug"]) or {}).get("isolated") or {}).get("d", ""),
+                         "«Più isolato»")
     for i, region in enumerate(todo, 1):
         feats = json.loads(gzip.decompress((OUT_DIR / f"{region['slug']}.geojson.gz").read_bytes()))["features"]
         t = time.time()
@@ -5105,10 +5092,137 @@ def isolated_main(names):
               + (f", il primo a {iso['t'][0]['iso']} km" if iso else ""), flush=True)
 
 
-def write_records(rec):
-    RECORDS_FILE.write_text("{\n" + ",\n".join(
+def local_regions(names, when, label):
+    """Regioni dei comandi locali con QLever (--isolated, --buildings), tra quelle già scaricate (data/regions): nomi,
+    gruppi, "all"; "oldest" (anche senza nomi) = la regione con la data when(regione) più vecchia, "" = mai calcolata.
+    label: cosa si calcola, per il messaggio di "oldest"."""
+    have = [r for r in REGIONS if (OUT_DIR / f"{r['slug']}.geojson.gz").exists()]
+    groups = collections.defaultdict(list)
+    for r in have:
+        if r.get("group"):
+            groups[r["group"].lower().replace(" ", "-")].append(r)
+    by_slug = {r["slug"]: r for r in have}
+    todo = []
+    for x in names or ["oldest"]:
+        if x == "all":
+            todo += have
+        elif x == "oldest":
+            r = min(have, key=when)
+            print(f"oldest: {r['slug']} ({label} calcolato: {when(r) or 'mai'})")
+            todo.append(r)
+        elif x in groups or x in by_slug:
+            todo += groups.get(x) or [by_slug[x]]
+        else:
+            sys.exit(f"Regione sconosciuta o non ancora scaricata: {x}")
+    return list({r["slug"]: r for r in todo}.values())
+
+
+def write_records(rec, path=None):
+    """Scrive rec in RECORDS_FILE (o in path), una regione per riga."""
+    (path or RECORDS_FILE).write_text("{\n" + ",\n".join(
         f"{json.dumps(k)}: {json.dumps(v, separators=(',', ':'), ensure_ascii=False, sort_keys=True)}"
         for k, v in sorted(rec.items())) + "\n}\n", encoding="utf-8")
+
+
+# «Dentro un edificio» (check in_building): alberi (natural=tree) il cui nodo è dentro un edificio, cioè una way o una
+# relazione con building=* (non building=no; gli edifici mappati come nodi non contano). Come «Più isolato» si calcola
+# con QLever, che le Action non possono usare (QLEVER_OFF): in locale con
+# «python scripts/fetch_trees.py --buildings <regioni>» (buildings_main), che scrive BUILDINGS_FILE:
+# {"<regione>": {"d": giorno del calcolo, "t": {"<id del nodo>": [lon, lat, "way/…", valore di building, metri dal
+# muro]}}}. I metri dal muro sono la distanza dal bordo più vicino dell'edificio (anelli interni compresi); con più
+# edifici vale quello in cui il nodo è più lontano dal muro. L'aggiornamento della regione legge il file
+# (IN_BUILDING) e checks() segnala gli alberi ad almeno IN_BUILDING_MIN_M dal muro senza covered=*, indoor=* o
+# location=*, con i tag del momento: chi aggiunge uno dei tre toglie l'errore al prossimo aggiornamento. Un albero
+# spostato di più di IN_BUILDING_MOVED dal calcolo non si segnala più finché non si ricalcola.
+# Soglia: nel test su Vienna (28/11/2026) 287 alberi dentro un edificio, 76 a meno di 1 m dal muro (nodi appoggiati
+# al muro), 211 oltre.
+BUILDINGS_FILE = DATA / "buildings.json"
+IN_BUILDING_MIN_M = 1.0
+IN_BUILDING_MOVED = 0.5   # m
+IN_BUILDING = {}          # id del nodo -> riga di BUILDINGS_FILE, per la regione che si sta aggiornando (update_region)
+
+
+def in_building(osm_id, pos):
+    """(edificio "way/…", valore di building, metri dal muro) se il nodo è dentro un edificio (IN_BUILDING) ad almeno
+    IN_BUILDING_MIN_M dal muro ed è ancora dove era al calcolo; altrimenti None."""
+    row = IN_BUILDING.get(osm_id)
+    if not row or row[4] < IN_BUILDING_MIN_M or (pos and distance_m(pos, row[:2]) > IN_BUILDING_MOVED):
+        return None
+    return row[2], row[3], round(row[4], 1)
+
+
+def wkt_rings(wkt):
+    """Anelli [(lon, lat), …] di un POLYGON o MULTIPOLYGON in WKT, esterni e interni."""
+    return [[tuple(map(float, p.split())) for p in ring.split(",")] for ring in re.findall(r"\(([^()]+)\)", wkt)]
+
+
+def wall_distance(pos, wkt):
+    """Metri tra il punto pos ([lon, lat]) e il bordo più vicino del poligono wkt (piano locale intorno al punto)."""
+    kx, ky = 111320 * math.cos(math.radians(pos[1])), 110540
+    best = math.inf
+    for ring in wkt_rings(wkt):
+        for (x1, y1), (x2, y2) in zip(ring, ring[1:]):
+            ax, ay, bx, by = (x1 - pos[0]) * kx, (y1 - pos[1]) * ky, (x2 - pos[0]) * kx, (y2 - pos[1]) * ky
+            dx, dy = bx - ax, by - ay
+            s = max(0.0, min(1.0, -(ax * dx + ay * dy) / ((dx * dx + dy * dy) or 1)))
+            best = min(best, math.hypot(ax + s * dx, ay + s * dy))
+    return best
+
+
+def region_buildings(region):
+    """{"d": oggi, "t": {id del nodo: [lon, lat, edificio, building, metri dal muro]}} della regione (vedi «Dentro un
+    edificio»); None se QLever non risponde. Una query: gli alberi della relazione della regione a distanza 0 dagli
+    edifici della stessa relazione (gli edifici a cavallo del confine restano fuori)."""
+    rel = region["rel"]
+    try:
+        rows = qlever(f"""SELECT ?tree ?gt ?b ?bt ?gb WHERE {{
+  osmrel:{rel} ogc:sfContains ?tree .
+  ?tree osmkey:natural "tree" ; geo:hasGeometry/geo:asWKT ?gt .
+  SERVICE qlss: {{
+    _:j qlss:algorithm qlss:libspatialjoin ; qlss:left ?gt ; qlss:right ?gb ;
+        qlss:joinType qlss:within-dist ; qlss:maxDistance 0 ; qlss:payload ?b, ?bt .
+    {{ osmrel:{rel} ogc:sfContains ?b .
+      ?b osmkey:building ?bt ; geo:hasGeometry/geo:asWKT ?gb . }}
+  }}
+  FILTER (?bt != "no" && !CONTAINS(STR(?b), "/node/"))
+}}""")
+    except Exception as e:
+        print(f"{region['slug']}: «Dentro un edificio» non calcolato ({e})")
+        return None
+    out = {}
+    for r in rows:
+        if "/node/" not in r["tree"]:
+            continue
+        m = re.search(r"POINT\(\s*([-0-9.eE]+)\s+([-0-9.eE]+)", r["gt"])
+        if not m:
+            continue
+        pos = [float(m.group(1)), float(m.group(2))]
+        d = wall_distance(pos, r["gb"])
+        tid = osm_ref(r["tree"]).split("/")[1]
+        if tid not in out or d > out[tid][4]:
+            out[tid] = [round(pos[0], 7), round(pos[1], 7), osm_ref(r["b"]), r["bt"], round(d, 2)]
+    return {"d": time.strftime("%Y-%m-%d", time.gmtime()), "t": out}
+
+
+def buildings_main(names):
+    """«python scripts/fetch_trees.py --buildings <regioni>»: solo «Dentro un edificio», scritto in BUILDINGS_FILE
+    (vedi sopra). Regioni come per --isolated: nomi, gruppi, "all"; "oldest" = la regione calcolata meno di recente
+    (prima quelle mai calcolate). Gli errori arrivano sul sito con il prossimo aggiornamento della regione."""
+    rec = load_json(BUILDINGS_FILE)
+    todo = local_regions(names, lambda r: (rec.get(r["slug"]) or {}).get("d", ""), "«Dentro un edificio»")
+    for i, region in enumerate(todo, 1):
+        t = time.time()
+        res = region_buildings(region)
+        if QLEVER_OFF:
+            sys.exit(f"QLever rifiuta le richieste: {QLEVER_OFF}")
+        if res is not None:
+            rec = load_json(BUILDINGS_FILE)
+            rec[region["slug"]] = res
+            write_records(rec, BUILDINGS_FILE)
+        n = sum(1 for v in (res or {}).get("t", {}).values() if v[4] >= IN_BUILDING_MIN_M)
+        print(f"{region['slug']} ({i}/{len(todo)}): " + (f"{len(res['t'])} alberi dentro un edificio, {n} ad almeno "
+              f"{IN_BUILDING_MIN_M:g} m dal muro" if res is not None else "non calcolato")
+              + f", {time.time() - t:.0f} s", flush=True)
 
 
 def missing_year_events():
@@ -5145,8 +5259,10 @@ def report_year_events():
 
 
 def update_region(region, regions_index):
-    global IN_ITALY, COUNTRY, REGION_ISO, MASAF_GROUPS
+    global IN_ITALY, COUNTRY, REGION_ISO, MASAF_GROUPS, IN_BUILDING
     slug = region["slug"]
+    # alberi dentro un edificio (check in_building), dal calcolo locale con --buildings
+    IN_BUILDING = {int(k): v for k, v in ((load_json(BUILDINGS_FILE).get(slug) or {}).get("t") or {}).items()}
     IN_ITALY = region.get("iso", "").startswith("IT")   # consiglio hint_ms (soglie MASAF)
     COUNTRY = region.get("iso", "")[:2]                 # check register_country
     REGION_ISO = region.get("iso", "")                  # nomi dei generi esclusi in una regione (genus_name_here)
@@ -5322,7 +5438,8 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    if sys.argv[1:2] == ["--isolated"]:
-        isolated_main([x.lower() for a in sys.argv[2:] for x in re.split(r"[\s,]+", a) if x])
+    if sys.argv[1:2] in (["--isolated"], ["--buildings"]):
+        (isolated_main if sys.argv[1] == "--isolated" else buildings_main)(
+            [x.lower() for a in sys.argv[2:] for x in re.split(r"[\s,]+", a) if x])
     else:
         main(sys.argv[1:])

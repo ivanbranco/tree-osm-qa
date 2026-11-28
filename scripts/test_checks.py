@@ -85,6 +85,10 @@ FIXTURES = {
     "GROUP_NAME": {"quercus pedunculata": "Quercus robur", "quercus robur": "Quercus robur",
                    "platanus × acerifolia": "Platanus × acerifolia", "platanus acerifolia": "Platanus × acerifolia"},
     "SMALL_MON_WHITELIST": {4242},
+    # alberi dentro un edificio (buildings.json, check in_building): 9031 a 5,4 m dal muro, 9032 a 0,6 m, 9033 calcolato
+    # in un altro punto (il nodo è stato spostato)
+    "IN_BUILDING": {9031: [*POS, "way/1", "school", 5.4], 9032: [*POS, "way/2", "yes", 0.6],
+                    9033: [*FAR, "way/3", "yes", 5.0]},
     "GENUS_NAMES": {("fr", "tilleul"): "Tilia", ("it", "quercia"): "Quercus", ("en", "plane"): "Platanus",
                     ("pl", "świerk"): "Picea"},
     "GENUS_OF_NAMES": {"horse chestnut": {"Aesculus"}, "pino bianco": {"Pinus"}},
@@ -925,6 +929,15 @@ CASES = [
     ("fixme: anche su un ceppo", {"natural": "tree_stump", "fixme": "survey"}, ["fixme"]),
     ("fixme: non con il valore vuoto", {"natural": "tree", "fixme": " "}, []),
     ("fixme: non per note", {"natural": "tree", "note": "planted 2010"}, []),
+    # in_building: FIXTURES["IN_BUILDING"]
+    ("in_building", {"natural": "tree"}, ["in_building"], 9031),
+    ("in_building: non con covered", {"natural": "tree", "covered": "yes"}, [], 9031),
+    ("in_building: non con indoor", {"natural": "tree", "indoor": "yes"}, [], 9031),
+    ("in_building: non con location", {"natural": "tree", "location": "roof"}, [], 9031),
+    ("in_building: non a meno di 1 m dal muro", {"natural": "tree"}, [], 9032),
+    ("in_building: non se il nodo è stato spostato", {"natural": "tree"}, [], 9033),
+    ("in_building: non su un ceppo", {"natural": "tree_stump"}, [], 9031),
+    ("in_building: non per gli altri alberi", {"natural": "tree"}, [], 9034),
     ("chiave numerata e sottochiave", {"natural": "tree", "image2": "https://example.org/ok.jpg",
                                        "circumference:note": "a 1,30 m"}, []),
 
