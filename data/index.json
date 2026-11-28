@@ -4,7 +4,7 @@
    "count": 689466,
    "errors": 1697,
    "name": "Abruzzo",
-   "osm_base": "2026-11-28T14:32:23Z",
+   "osm_base": "2026-11-28T14:50:50Z",
    "sha1": "9ab2cecd9189e15bac3ac76cff6e30a408e9f46b",
    "tried": "2026-11-28",
    "updated": "2026-11-28T14:35:05Z"
@@ -418,7 +418,7 @@
    "count": 406702,
    "errors": 13817,
    "name": "Île-de-France",
-   "osm_base": "2026-11-28T14:33:27Z",
+   "osm_base": "2026-11-28T14:51:51Z",
    "sha1": "56c92b4f82d7f9030ecd7acf0943d8d6fbf0904d",
    "tried": "2026-11-28",
    "updated": "2026-11-28T14:36:14Z"
@@ -508,7 +508,7 @@
    "count": 602884,
    "errors": 6523,
    "name": "Leinster",
-   "osm_base": "2026-11-28T14:35:35Z",
+   "osm_base": "2026-11-28T14:53:51Z",
    "sha1": "5b2e4d11fffb3512bfb29b169f24c05660bb7fa7",
    "tried": "2026-11-28",
    "updated": "2026-11-28T14:38:37Z"
@@ -560,12 +560,12 @@
   },
   "lombardia": {
    "count": 388375,
-   "errors": 1220,
+   "errors": 1221,
    "name": "Lombardia",
-   "osm_base": "2026-11-28T14:34:33Z",
-   "sha1": "7223b6ca41a2ffa86a540a507590768bf39f4394",
+   "osm_base": "2026-11-28T14:52:51Z",
+   "sha1": "ba5bb287748765d77ac45fef30dd904bbacfa434",
    "tried": "2026-11-28",
-   "updated": "2026-11-28T14:37:20Z"
+   "updated": "2026-11-28T14:55:36Z"
   },
   "londra": {
    "count": 213557,
@@ -1111,7 +1111,7 @@
    "count": 173305,
    "errors": 7169,
    "name": "Vienna",
-   "osm_base": "2026-11-28T14:31:20Z",
+   "osm_base": "2026-11-28T14:49:50Z",
    "sha1": "644bfc34172848a5198bf9d682ae89412c0363a8",
    "tried": "2026-11-28",
    "updated": "2026-11-27T23:59:55Z"
