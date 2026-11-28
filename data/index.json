@@ -936,6 +936,15 @@
    "tried": "2026-11-28",
    "updated": "2026-11-28T00:09:12Z"
   },
+  "senegal": {
+   "count": 44235,
+   "errors": 166,
+   "name": "Senegal",
+   "osm_base": "2026-11-28T11:10:19Z",
+   "sha1": "cbd9c1472906f07a37a637a19f0e2b5a9fa349fa",
+   "tried": "2026-11-28",
+   "updated": "2026-11-28T11:12:08Z"
+  },
   "serbia": {
    "count": 40233,
    "errors": 516,
