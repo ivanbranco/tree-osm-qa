@@ -159,6 +159,7 @@ Median error of the estimate (same measure as for the general bands), with the s
 * `.github/workflows/update-world.yml` – "Update monumental map" Action (manual only)
 * `everydoor/build_plugin.py` – builds the [Every Door plugin](everydoor.md) `everydoor/dendrosm.edp` from the reference lists; `everydoor/fetch_names.py` downloads the common names of the species from Wikidata into `everydoor/names.json`; `everydoor/version.json` holds the plugin version, raised by the build when the content changes
 * `index.html` – the site
+* `i18n/<code>.js` – the texts of the languages translated by volunteers (`i18n/fr.js`), loaded only for that language; `i18n/<code>-missing.md` – the texts still to translate, written by `scripts/i18n_missing.py` ([Translating DendrOSM](translating.md))
 * `monumental-trees/index.html` – the world map of monumental trees (loads `index.html`); `monumental-trees/favicon.svg` and `favicon.png` are its icon, the same as the tool's but golden
 * `taginfo.json` – the OSM tags used by the project, in the [Taginfo format](https://wiki.openstreetmap.org/wiki/Taginfo/Projects); if a tag is added or removed in `fetch_trees.py`, it must be updated here too
 

@@ -22,7 +22,7 @@ Map of OpenStreetMap trees (`natural=tree`, and stumps `natural=tree_stump`), di
 * **Finds the record trees**: the Record trees tab shows the tallest tree, the thickest trunk, the most slender and the stockiest tree, the widest crown and the oldest tree, for all the loaded regions, for a country, for a region or for a species, each with its top ten; the three tallest can be compared to scale, and the oldest come with what happened in the world that year
 * **World map of monumental trees**: all the monumental trees in the world, without the QA part, to share; it also counts how many trees of the Italian MASAF list are already on OpenStreetMap, by region
 * **Every Door plugin**: tree species as shortcuts and the crown legend of the map, for mapping trees on the ground with [Every Door](https://every-door.app/)
-* In Italian and English
+* In Italian and English; other languages can be added by volunteers ([Translating DendrOSM](docs/translating.md))
 
 ## Regions
 
@@ -38,6 +38,7 @@ A new region can be requested from the menu ("+ Request a new region…") or by 
 * [The panel tabs](docs/pannello.md): completeness, record trees, error ranking and trends
 * [Data and updates](docs/dati.md): data files, the update Action, the world map and the repository structure
 * [Every Door plugin](docs/everydoor.md): installing it, tree types and icons, species and genus shortcuts
+* [Translating DendrOSM](docs/translating.md): how to translate the site into another language and send the translation
 
 The site is static (GitHub Pages, MapLibre GL JS); data is downloaded from Overpass by GitHub Actions, which are started manually. The checks have automatic tests (`python scripts/test_checks.py`), run at every push that changes `scripts/` and before every data update.
 

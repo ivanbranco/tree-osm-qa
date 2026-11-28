@@ -303,7 +303,7 @@
 <body>
 <div id="side">
 <div id="panel" class="box">
-  <h1><span data-i18n="title">DendrOSM</span><span class="hdr"><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a><span id="units" hidden> | <a href="#" data-units="m">m</a> · <a href="#" data-units="ft">ft</a></span></span><a id="gh" href="https://github.com/ivanbranco/tree-osm-qa" target="_blank" rel="noopener"><svg width="16" height="14" viewBox="0 0 18 16" aria-hidden="true"><path d="M5.5 3.5L1.5 8l4 4.5M12.5 3.5l4 4.5-4 4.5M10.5 2L7.5 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></span></h1>
+  <h1><span data-i18n="title">DendrOSM</span><span class="hdr"><span id="lang"><a href="#" data-lang="it">IT</a> · <a href="#" data-lang="en">EN</a> · <a href="#" data-lang="fr">FR</a><span id="units" hidden> | <a href="#" data-units="m">m</a> · <a href="#" data-units="ft">ft</a></span></span><a id="gh" href="https://github.com/ivanbranco/tree-osm-qa" target="_blank" rel="noopener"><svg width="16" height="14" viewBox="0 0 18 16" aria-hidden="true"><path d="M5.5 3.5L1.5 8l4 4.5M12.5 3.5l4 4.5-4 4.5M10.5 2L7.5 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></span></h1>
   <div id="subtitle" data-i18n="subtitle">Controllo qualità degli alberi di OpenStreetMap</div>
   <button id="back-qa" class="world-only" type="button" data-i18n="backToQa">← Torna al tool QA</button>
   <select id="region" autocomplete="off"></select>
@@ -387,19 +387,39 @@
 </div></dialog>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
-// ---- Lingua: #lang=it|en nell'indirizzo, poi la scelta salvata, poi la lingua del browser (it → italiano, altro → inglese)
+// ---- Lingua: #lang=it|en|fr nell'indirizzo, poi la scelta salvata, poi la lingua del browser (fra LANGS_READY; altrimenti
+// inglese). Italiano e inglese sono in I18N qui sotto; le lingue della comunità (issue #103) stanno in i18n/<lingua>.js,
+// caricato solo per quella lingua, e le frasi che mancano lì restano in inglese (withFallback).
 // ---- Modalità: "qa" (il tool, questa pagina) o la mappa mondiale "monumental". La mappa mondiale
 // (monumental-trees/) carica questa pagina impostando window.DENDROSM_MODE: tutti gli alberi monumentali del mondo
 // (data/world/), senza regioni né parte QA. BASE: dalla sottocartella i file stanno una cartella più su.
 const MODE = window.DENDROSM_MODE || "qa", WORLD = MODE !== "qa", BASE = WORLD ? "../" : "";
 if (WORLD) document.body.classList.add("world");
-const LANGS = ["it", "en"];
+// LANG_DONE: % di frasi tradotte di ogni lingua della comunità, la riga la riscrive scripts/i18n_missing.py (non a mano).
+// LANGS_READY: le lingue con il link in alto, scelte dalla lingua del browser o dalla scelta salvata: italiano, inglese e
+// quelle con almeno LANG_MIN % di frasi tradotte, tranne LANGS_HIDDEN (es. in attesa di rilettura). Le altre si
+// vedono solo con #lang=fr nell'indirizzo, per chi traduce.
+const LANG_DONE = { fr: 99 };
+const LANG_MIN = 70, LANGS_HIDDEN = ["fr"];
+const LANGS = ["it", "en", ...Object.keys(LANG_DONE)];
+const LANGS_READY = ["it", "en", ...Object.keys(LANG_DONE).filter(l => LANG_DONE[l] >= LANG_MIN && !LANGS_HIDDEN.includes(l))];
+const LOCALES = { it: "it-IT", en: "en-GB", fr: "fr-FR" };
 const hashParams = () => new URLSearchParams(location.hash.slice(1));
 const storedLang = () => { try { return localStorage.getItem("lang"); } catch (e) { return null; } };
 const storedUnits = () => { try { const u = localStorage.getItem("units"); return u === "m" || u === "ft" ? u : null; } catch (e) { return null; } };
-const LANG = [hashParams().get("lang"), storedLang(), (navigator.language || "").slice(0, 2).toLowerCase() === "it" ? "it" : "en"]
-  .find(l => LANGS.includes(l));
-const LOC = LANG === "it" ? "it-IT" : "en-GB";
+const browserLang = (navigator.language || "").slice(0, 2).toLowerCase();
+// la scelta salvata vale solo per una lingua ancora pronta: se una traduzione scende sotto la soglia si torna alla lingua
+// del browser
+const LANG = [hashParams().get("lang"), LANGS_READY.includes(storedLang()) ? storedLang() : null,
+  LANGS_READY.includes(browserLang) ? browserLang : "en"].find(l => LANGS.includes(l));
+const LOC = LOCALES[LANG] || LANG;
+// il file della lingua va letto prima del resto dello script: document.write lo fa eseguire subito dopo questo blocco
+if (!(LANG in { it: 1, en: 1 })) document.write(`<script src="${BASE}i18n/${LANG}.js"><\/script>`);
+</script>
+<script>
+// campo di un dato in più lingue (regions.json, countries.json): "name" è in italiano, "name_en" in inglese, "name_fr"...
+// Senza la lingua del sito si usa l'inglese, poi l'italiano.
+const pickLang = (o, k) => (LANG !== "it" && (o[k + "_" + LANG] || o[k + "_en"])) || o[k];
 const fmtN = n => Number(n).toLocaleString(LOC);
 const fmtDay = d => new Date(d + "T00:00:00").toLocaleDateString(LOC, { day: "numeric", month: "short" });   // "9 nov"
 // quota di alberi con errori: "1,6%", "<0,1%", "0%"
@@ -432,7 +452,8 @@ const parseMapHash = v => {
   return m ? { zoom: +m[1], center: [+m[3], +m[2]] } : null;
 };
 
-// Testi dell'interfaccia. Per una nuova lingua: aggiungerla a LANGS e copiare uno dei due blocchi.
+// Testi dell'interfaccia in italiano e inglese. Le altre lingue sono in i18n/<lingua>.js (docs/translating.md):
+// una frase nuova si scrive qui in tutte e due, e scripts/i18n_missing.py la elenca fra quelle da tradurre.
 // I valori possono essere funzioni (testi con parti variabili).
 const I18N = {
   it: {
@@ -1772,7 +1793,19 @@ const I18N = {
     stump: "Stump", stumpOf: b => `${b} (stump)`, unknownSpecies: "Unknown species",
   },
 };
-const L = I18N[LANG];
+// testi di una lingua della comunità sopra quelli inglesi: { "josmMulti/zoom": … } (o un gruppo annidato) sostituisce
+// solo quella frase, tutto il resto resta inglese. Si copiano solo i gruppi toccati, I18N.en non cambia.
+const withFallback = (base, tr) => {
+  const out = { ...base }, plain = v => v && typeof v === "object" && !Array.isArray(v);
+  for (const [name, v] of Object.entries(tr || {})) {
+    const ks = name.split("/"), last = ks.pop();
+    let o = out;
+    for (const k of ks) { o[k] = plain(o[k]) ? { ...o[k] } : {}; o = o[k]; }
+    o[last] = plain(v) && plain(o[last]) ? withFallback(o[last], v) : v;
+  }
+  return out;
+};
+const L = LANG in I18N ? I18N[LANG] : withFallback(I18N.en, window.DENDROSM_I18N);
 document.documentElement.lang = LANG;
 document.title = L.pageTitle;
 document.querySelectorAll("[data-i18n]").forEach(e => { e.textContent = L[e.dataset.i18n]; });
@@ -1856,6 +1889,8 @@ if (WORLD) {
 }
 document.querySelectorAll("#lang a[data-lang]").forEach(a => {
   a.classList.toggle("on", a.dataset.lang === LANG);
+  // una lingua in preparazione ha il link solo quando è quella aperta (con #lang=fr), per chi traduce
+  if (!LANGS_READY.includes(a.dataset.lang) && a.dataset.lang !== LANG) { a.previousSibling.remove(); a.remove(); return; }   // anche il " · "
   a.onclick = ev => {          // cambia lingua: la ricorda e ricarica la pagina (la regione resta nell'indirizzo)
     ev.preventDefault();
     try { localStorage.setItem("lang", a.dataset.lang); } catch (e) {}
@@ -2303,8 +2338,8 @@ map.on("load", async () => {
   const boundaries = await boundsP;
   const metaBy = Object.fromEntries(meta.map(m => [m.slug, m]));
   // nome e gruppo di una regione nella lingua scelta (name_en, group_en in regions.json), altrimenti in italiano
-  const regionName = slug => { const m = metaBy[slug] || {}; return m["name_" + LANG] || m.name || (idx[slug] || {}).name || slug; };
-  const regionGroup = slug => { const m = metaBy[slug] || {}; return m["group_" + LANG] || m.group; };
+  const regionName = slug => { const m = metaBy[slug] || {}; return pickLang(m, "name") || (idx[slug] || {}).name || slug; };
+  const regionGroup = slug => pickLang(metaBy[slug] || {}, "group");
   let ALL = [], SHAPED = [], current = null;       // current = regione caricata (nessuna all'avvio)
   let onContextChange = () => {};                  // cambio di regione o nazione aperta (andamento errori)
   let partial = false;                              // true finché del file della regione c'è solo la parte ridotta
@@ -2983,7 +3018,7 @@ map.on("load", async () => {
     const big = g.coordinates.reduce((a, p) => ringArea(p[0]) > ringArea(a[0]) ? p : a);
     return bboxOf(coordsOf(big)); };
   const groupOf = slug => (metaBy[slug] || {}).group || null;
-  const groupName = g => { const m = meta.find(x => x.group === g) || {}; return m["group_" + LANG] || g; };
+  const groupName = g => { const m = meta.find(x => x.group === g) || {}; return pickLang(m, "group") || g; };
   let allBounds = null, openGroup = null;
   const unitBox = {}, hasCountry = new Set();
   if (boundaries) {
@@ -3510,7 +3545,7 @@ map.on("load", async () => {
           };
           fill({});
           // nomi delle regioni nella lingua del sito, da regions.json (la mappa dei monumentali non lo carica)
-          getJSON(BASE + "scripts/regions.json").then(list => fill(Object.fromEntries(list.map(x => [x.slug, x["name_" + LANG] || x.name])))).catch(() => {});
+          getJSON(BASE + "scripts/regions.json").then(list => fill(Object.fromEntries(list.map(x => [x.slug, pickLang(x, "name")])))).catch(() => {});
           d.addEventListener("toggle", fitSideLists);
           box.append(d);
         }
@@ -4449,7 +4484,7 @@ map.on("load", async () => {
   renderChart();
 
   // nome di una regione (regions.json) o di una zona non coperta (name / name_en del file dei confini)
-  const unitName = p => metaBy[p.key] ? regionName(p.key) : p["name_" + LANG] || p.name;
+  const unitName = p => metaBy[p.key] ? regionName(p.key) : pickLang(p, "name");
   if (boundaries) {
     let hovered = null;
     const hover = id => {

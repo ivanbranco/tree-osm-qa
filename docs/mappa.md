@@ -89,7 +89,7 @@ Parameters go after `#` in the address, joined by `&` (for example `#region=lomb
 | `node=<id>` | opens the card of that OSM node; without `map`, zooms to the tree and centres the card together with its tree (re-centred when the card's photo finishes loading, unless the map has been moved; if the card is taller than the map, its top edge is at the top) ([The tree card](scheda.md)). Also works without `region` | while the card is open |
 | `compare=side` / `compare=top` | with `node`, also opens the "Trunk comparison" (`side`) or "Trunk from above" (`top`) window of that tree, if the tree has it ([The tree card](scheda.md#trunk-comparison), [issue #83](https://github.com/ivanbranco/tree-osm-qa/issues/83)) | while the window is open |
 | `map=<zoom>/<lat>/<lon>` | map position, e.g. `map=17.00/45.46420/9.18990` | yes (updated) |
-| `lang=it` / `lang=en` | forces the language ([Language](#language)) | yes |
+| `lang=it` / `lang=en` / `lang=fr` | forces the language, also one not yet shown among the choices ([Language](#language)) | yes |
 | `season=leaves` / `autumn` / `bare` | forces that seasonal phase for all the trees that can have it, whatever the date; `bare` also shows the winter view of the Wikidata photo on the card ([Rendering](#rendering)) | yes |
 | `colors=1` | shows the seasonal species colours outside their months ([Rendering](#rendering)) | no |
 | `xmas=1` | shows the Christmas trees outside 8 December – 6 January ([Rendering](#rendering)) | no |
@@ -107,9 +107,9 @@ An address that does not match any page of the site (for example `/tree-osm-qa/f
 
 ## Language
 
-The site is in Italian if the browser language is Italian, otherwise in English. It is changed with IT · EN at the top of the panel: the choice is saved in the browser. It can also be forced from the address, for example `#lang=en` or `#region=lombardia&lang=en`.
+The site is in the browser language if it is among the choices at the top of the panel (IT · EN, plus the languages translated by volunteers once they reach 70% of the texts), otherwise in English. The choice made there is saved in the browser. It can also be forced from the address, for example `#lang=en` or `#region=lombardia&lang=en`; `#lang=fr` opens French even while it is not among the choices.
 
-All texts are in the `I18N` object at the start of the script in `index.html`: to add a language, copy one of the two blocks, translate it and add the code to `LANGS`. Region names, OSM tags and values are not translated.
+Italian and English are in the `I18N` object at the start of the script in `index.html`. The other languages are in `i18n/<code>.js`, kept up to date by volunteers: texts not translated there appear in English. How to translate, the threshold and the list of missing texts are described in [Translating DendrOSM](translating.md). Region names, OSM tags and values are not translated.
 
 ## Units
 
