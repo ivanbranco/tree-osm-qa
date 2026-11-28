@@ -1,13 +1,13 @@
 {
  "regions": {
   "abruzzo": {
-   "count": 688883,
+   "count": 689466,
    "errors": 1697,
    "name": "Abruzzo",
-   "osm_base": "2026-11-27T00:46:35Z",
-   "sha1": "49eb499c079bd86fa2eef9b86e1da4b457b709df",
-   "tried": "2026-11-27",
-   "updated": "2026-11-27T00:49:23Z"
+   "osm_base": "2026-11-28T14:32:23Z",
+   "sha1": "9ab2cecd9189e15bac3ac76cff6e30a408e9f46b",
+   "tried": "2026-11-28",
+   "updated": "2026-11-28T14:35:05Z"
   },
   "albania": {
    "count": 18013,
@@ -415,13 +415,13 @@
    "updated": "2026-11-26T23:48:24Z"
   },
   "ile-de-france": {
-   "count": 406687,
-   "errors": 13807,
+   "count": 406702,
+   "errors": 13817,
    "name": "Île-de-France",
-   "osm_base": "2026-11-27T00:09:02Z",
-   "sha1": "6e73b4135ad9db7fccca9429112ad0973ffc1e68",
-   "tried": "2026-11-27",
-   "updated": "2026-11-27T00:11:39Z"
+   "osm_base": "2026-11-28T14:33:27Z",
+   "sha1": "56c92b4f82d7f9030ecd7acf0943d8d6fbf0904d",
+   "tried": "2026-11-28",
+   "updated": "2026-11-28T14:36:14Z"
   },
   "irlanda-del-nord": {
    "count": 45614,
@@ -505,13 +505,13 @@
    "updated": "2026-11-27T00:47:59Z"
   },
   "leinster": {
-   "count": 602774,
+   "count": 602884,
    "errors": 6523,
    "name": "Leinster",
-   "osm_base": "2026-11-28T00:02:50Z",
-   "sha1": "888f8c51fa117d0f345f11918ef4c7ab20e7518d",
+   "osm_base": "2026-11-28T14:35:35Z",
+   "sha1": "5b2e4d11fffb3512bfb29b169f24c05660bb7fa7",
    "tried": "2026-11-28",
-   "updated": "2026-11-28T00:04:56Z"
+   "updated": "2026-11-28T14:38:37Z"
   },
   "lettonia": {
    "count": 104992,
@@ -559,13 +559,13 @@
    "updated": "2026-11-27T00:20:57Z"
   },
   "lombardia": {
-   "count": 388357,
-   "errors": 1184,
+   "count": 388375,
+   "errors": 1220,
    "name": "Lombardia",
-   "osm_base": "2026-11-27T00:40:21Z",
-   "sha1": "df8d1c285b4205c518ee2aaa48c75d56900137ad",
-   "tried": "2026-11-27",
-   "updated": "2026-11-27T00:42:56Z"
+   "osm_base": "2026-11-28T14:34:33Z",
+   "sha1": "7223b6ca41a2ffa86a540a507590768bf39f4394",
+   "tried": "2026-11-28",
+   "updated": "2026-11-28T14:37:20Z"
   },
   "londra": {
    "count": 213557,
@@ -1111,9 +1111,9 @@
    "count": 173305,
    "errors": 7169,
    "name": "Vienna",
-   "osm_base": "2026-11-27T23:57:43Z",
+   "osm_base": "2026-11-28T14:31:20Z",
    "sha1": "644bfc34172848a5198bf9d682ae89412c0363a8",
-   "tried": "2026-11-27",
+   "tried": "2026-11-28",
    "updated": "2026-11-27T23:59:55Z"
   },
   "vorarlberg": {
