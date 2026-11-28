@@ -47,12 +47,12 @@
   },
   "andalusia": {
    "count": 190269,
-   "errors": 2822,
+   "errors": 2823,
    "name": "Andalusia",
-   "osm_base": "2026-11-28T11:57:06Z",
-   "sha1": "5d3ad1cab61e647541ce703a973368995fb17c6d",
+   "osm_base": "2026-11-28T13:35:33Z",
+   "sha1": "fb2980c78459ca4d2318fe391395c9735ed5a3e6",
    "tried": "2026-11-28",
-   "updated": "2026-11-28T11:59:19Z"
+   "updated": "2026-11-28T13:37:40Z"
   },
   "andorra": {
    "count": 849,
@@ -262,13 +262,13 @@
    "updated": "2026-11-27T00:37:16Z"
   },
   "cile": {
-   "count": 231919,
-   "errors": 4846,
+   "count": 231998,
+   "errors": 4873,
    "name": "Cile",
-   "osm_base": "2026-11-26T23:40:34Z",
-   "sha1": "ec853c42b1d466ec5bf47ff5b6c3f581f20fcacf",
-   "tried": "2026-11-26",
-   "updated": "2026-11-26T23:42:22Z"
+   "osm_base": "2026-11-28T13:34:32Z",
+   "sha1": "1bc0e68790f8f0e64cba5c6d2722fad87fefc736",
+   "tried": "2026-11-28",
+   "updated": "2026-11-28T13:36:51Z"
   },
   "comunita-di-madrid": {
    "count": 149040,
@@ -316,13 +316,13 @@
    "updated": "2026-11-26T23:33:30Z"
   },
   "dolnoslaskie": {
-   "count": 128142,
-   "errors": 297,
+   "count": 128170,
+   "errors": 299,
    "name": "Bassa Slesia",
-   "osm_base": "2026-11-27T00:16:05Z",
-   "sha1": "46aa4a16b255c1801af232da00a55b15739554af",
-   "tried": "2026-11-27",
-   "updated": "2026-11-27T00:17:59Z"
+   "osm_base": "2026-11-28T13:37:34Z",
+   "sha1": "d04cd0ec3976b74290cd4dca0cfea62a998f30b0",
+   "tried": "2026-11-28",
+   "updated": "2026-11-28T13:39:29Z"
   },
   "emilia-romagna": {
    "count": 240807,
@@ -659,12 +659,12 @@
   },
   "midlands-occidentali": {
    "count": 207237,
-   "errors": 873,
+   "errors": 874,
    "name": "Midlands Occidentali",
-   "osm_base": "2026-11-28T00:10:48Z",
-   "sha1": "c3b87b3171ec49c8b85a1a800662ba7d3d033fd1",
+   "osm_base": "2026-11-28T13:36:35Z",
+   "sha1": "ccd7d175942e55c4cb65375c7078d19dd8eaf9e2",
    "tried": "2026-11-28",
-   "updated": "2026-11-28T00:13:23Z"
+   "updated": "2026-11-28T13:38:42Z"
   },
   "midlands-orientali": {
    "count": 201258,
@@ -794,12 +794,12 @@
   },
   "opolskie": {
    "count": 26306,
-   "errors": 180,
+   "errors": 181,
    "name": "Opole",
-   "osm_base": "2026-11-27T00:22:04Z",
-   "sha1": "87bcbe501f9a729370ba305a0026283b0ff7ddc9",
-   "tried": "2026-11-27",
-   "updated": "2026-11-27T00:24:12Z"
+   "osm_base": "2026-11-28T13:38:35Z",
+   "sha1": "049771f7f00d8c633334ee5090c1a5e7f8647fe7",
+   "tried": "2026-11-28",
+   "updated": "2026-11-28T13:39:43Z"
   },
   "paesi-baschi": {
    "count": 102914,
@@ -983,12 +983,12 @@
   },
   "stiria": {
    "count": 42158,
-   "errors": 575,
+   "errors": 579,
    "name": "Stiria",
-   "osm_base": "2026-11-28T00:00:48Z",
-   "sha1": "1fe8dc800823b50c7d35e7f56ead491fc42c440b",
+   "osm_base": "2026-11-28T13:38:35Z",
+   "sha1": "cec077fa6dfa8daaf608258217e8846e1e362476",
    "tried": "2026-11-28",
-   "updated": "2026-11-28T00:02:25Z"
+   "updated": "2026-11-28T13:40:25Z"
   },
   "sud-est-inghilterra": {
    "count": 454620,
@@ -1099,13 +1099,13 @@
    "updated": "2026-11-27T00:44:30Z"
   },
   "venezuela": {
-   "count": 62900,
-   "errors": 1465,
+   "count": 62902,
+   "errors": 1512,
    "name": "Venezuela",
-   "osm_base": "2026-11-26T23:39:36Z",
-   "sha1": "f2faccbae27376e7070310dded0fb45c03c34fac",
-   "tried": "2026-11-26",
-   "updated": "2026-11-26T23:41:21Z"
+   "osm_base": "2026-11-28T13:33:33Z",
+   "sha1": "ce421c0af063a36570bf5d7048c54bbc1c08c3d7",
+   "tried": "2026-11-28",
+   "updated": "2026-11-28T13:35:49Z"
   },
   "vienna": {
    "count": 173305,
@@ -1162,13 +1162,13 @@
    "updated": "2026-11-28T00:11:16Z"
   },
   "zachodniopomorskie": {
-   "count": 224314,
-   "errors": 198,
+   "count": 224358,
+   "errors": 221,
    "name": "Pomerania Occidentale",
-   "osm_base": "2026-11-27T00:29:19Z",
-   "sha1": "4a1fc044376fa5f80dad96dd1b6e66f43f0ae235",
-   "tried": "2026-11-27",
-   "updated": "2026-11-27T00:31:20Z"
+   "osm_base": "2026-11-28T13:38:35Z",
+   "sha1": "cd635f85ad920f5be733efcd490aa38d78e3f1a0",
+   "tried": "2026-11-28",
+   "updated": "2026-11-28T13:41:12Z"
   }
  }
 }
